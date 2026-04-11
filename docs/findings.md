@@ -527,6 +527,36 @@ These are genuine compositional programs with the correct structure: higher-orde
 
 The transition chain takes roughly 120 generations from first S3 to first S5, consistent with the transition probabilities measured in experiment 1.0 (S3→S4: 0.32%/mutation, S4→S5: 26.6%).
 
+### Scaffold Protection Without Drift (Experiment 1.11)
+
+Tested whether Pareto selection on (fitness, scaffold_stage) can recover the drift benefit without turning off selection. Three conditions, same motifs, same seeds. Pop=100, len=100, 300 gens, 20 seeds.
+
+| Condition | S3 | S4 | S5 | Filter programs | S1 lifetime | S2 lifetime |
+|---|---|---|---|---|---|---|
+| A. Continuous selection | 3/20 | 0/20 | 0/20 | 0/20 | 21 | 5 |
+| B. Drift 10/20 | 19/20 | 13/20 | 8/20 | 5/20 | 52 | 34 |
+| **C. Pareto(fitness, scaffold)** | **20/20** | **19/20** | **18/20** | **14/20** | **305** | **302** |
+
+**Pareto surpasses drift on every metric.** S5 rises from 8/20 (drift) to 18/20 (Pareto). Filter programs from 5/20 to 14/20. Carrier lifetimes increase from 34 gens (drift) to 302 gens (Pareto) — carriers essentially never die under scaffold protection.
+
+**The stage trace is the most striking result.** Under Pareto, scaffolds monotonically accumulate without the oscillations seen in drift:
+- Gen 25: S3+=7.5, S5+=1.4 (already present)
+- Gen 100: S5+=31.2 — 31% of the population carrying S5 scaffolds
+- Gen 200: S5+=51.6
+- Gen 299: S5+=55.9 — 56% of the population
+
+Under drift, S5 never exceeds 0.3 average occupancy and oscillates with each drift/selection cycle. Pareto provides continuous, directional scaffold accumulation.
+
+**This answers the mechanistic question definitively:** drift worked because it preserved scaffold carriers, not because of random exploration or diversification. Pareto provides targeted preservation while maintaining fitness selection at all times — no wasted generations. The result is both stronger (90% vs 40% S5 rate) and more biologically plausible (analogous to gene duplication or niche structure protecting developmental intermediates).
+
+**Minor tradeoff:** Pareto avg fitness is 0.757 vs 0.769 for continuous selection and drift. The scaffold protection slightly dilutes fitness pressure. But the tradeoff is massively favorable — a 1.5% fitness cost for 90% S5 rates vs 0%.
+
+**Implications:**
+
+1. The preservation mechanism is specifically about protecting scaffold-bearing lineages, not about the broader effects of neutral drift. This makes the mechanistic claim from 1.8 more precise.
+2. Pareto selection is a practical approach — no need for artificial drift windows, no wasted generations, continuous adaptive improvement.
+3. The monotonic scaffold accumulation under Pareto suggests that once the preservation constraint is properly addressed, the fold/chemistry's compositional assembly is reliable and directional, not stochastic.
+
 ## 7. Coevolution Findings (Elixir)
 
 ### Single-Context Collusion
@@ -569,7 +599,9 @@ See Section 6 for the full diagnostic series. The framing evolved through multip
 
 **Revision 6 (after drift phases):** Both constraints resolved. Drift phases transform S4 from 0/20 to 15/20, S5 from 0/20 to 11/20. Weak selection does not work — pure drift required.
 
-**Current (after consolidation at scale):** Confirmed at 50 seeds, pop=200, 500 gens. S3: 100%, S4: 92%, S5: 78%, filter programs: 72% of seeds. Genuine compositional programs evolve endogenously: `(count (filter (fn x (< (get x :price) 600)) data/products))`. The complexity ceiling is broken. The claim: folding generates endogenous building blocks, but immediate fitness selection suppresses developmental intermediates required for compositional elaboration; periodic neutral phases restore that pathway and reliably break the ceiling.
+**Revision 7 (after consolidation):** Confirmed at 50 seeds, pop=200, 500 gens. S3: 100%, S4: 92%, S5: 78%, filter programs: 72%. Ceiling broken and robust.
+
+**Current (after scaffold protection):** Pareto selection on (fitness, scaffold_stage) surpasses drift: S5 90% vs 40%, filter programs 70% vs 25%. Carrier lifetimes reach 302 gens (vs 34 under drift). Scaffolds accumulate monotonically to 56% of population. This confirms the mechanism is specifically about preserving scaffold carriers, not about neutral drift's broader effects. The full system: chemistry screening (endogenous motif discovery) + Pareto selection (targeted intermediate preservation) = reliable compositional innovation without artificial drift windows.
 
 ## 9. Eval Performance
 

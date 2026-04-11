@@ -36,18 +36,7 @@ With both constraints addressed (motif discovery + drift preservation), the ceil
 
 With the ceiling broken and confirmed, the next experiments shift from "can we break through?" to "what does the breakthrough enable and how can the mechanism be refined?"
 
-**1.11: Scaffold protection without full drift (NEXT)**
-
-Test whether explicit scaffold protection (Pareto selection on fitness × scaffold stage) can recover the drift benefit without turning off selection entirely. This is both a mechanistic test (is it preservation specifically, or the broader effects of drift?) and a practical improvement (avoid wasting 50% of generations on random wandering).
-
-Three conditions (same motifs, same seeds):
-- (a) Continuous selection (baseline — ceiling blocked)
-- (b) Drift 10/20 (positive control — ceiling broken)
-- (c) Pareto(fitness, scaffold_stage): non-dominated sorting, scaffold carriers survive alongside fit individuals even when their fitness is low
-
-If Pareto works: the mechanism is specifically about preserving scaffold carriers, not about drift's other effects (exploration, diversification). This would be a cleaner and faster approach.
-
-If Pareto fails: drift provides something beyond preservation — possibly the random exploration that occasionally assembles novel spatial arrangements. Scaffold protection alone cannot substitute for the full neutral phase.
+**1.11: Scaffold protection** — DONE. **Pareto surpasses drift.** Pareto(fitness, scaffold_stage) achieves S5 18/20 (90%) vs drift 8/20 (40%) vs baseline 0/20. Carrier lifetimes reach 302 gens (vs 34 drift, 5 baseline). Scaffolds accumulate monotonically to 56% of population at gen 299. Confirms the mechanism is specifically about preserving scaffold carriers. See `exp_scaffold_protection.py`.
 
 **1.10: Endogenous motif screening during evolution**
 
