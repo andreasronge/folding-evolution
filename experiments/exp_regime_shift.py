@@ -21,14 +21,15 @@ from folding_evolution.visualization import plot_regime_shift, plot_regime_shift
 
 
 def main():
+    # Parameters matching Elixir implementation
     config = EvolutionConfig(
-        population_size=50,
-        genotype_length=30,
-        generations=40,
+        population_size=40,
+        genotype_length=50,   # sweet spot from findings (more folding opportunities)
+        generations=60,
         tournament_size=3,
-        elite_count=2,
-        mutation_rate=0.3,
-        crossover_rate=0.7,
+        elite_count=3,
+        crossover_rate=0.3,
+        mutation_rate=1.0,  # always mutate when not crossing over
         seed=42,
     )
 
@@ -47,8 +48,8 @@ def main():
         lambda ctx: len(ctx["employees"][1:]),     # count of rest(employees)
     ]
 
-    regime_a_gens = 20
-    regime_b_gens = 20
+    regime_a_gens = 30
+    regime_b_gens = 30
     n_seeds = 5
 
     print("=" * 60)

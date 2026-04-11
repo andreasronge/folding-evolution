@@ -11,7 +11,7 @@ from .direct import develop_direct
 from .individual import Individual
 from .operators import crossover, mutate
 from .phenotype import Program, develop
-from .selection import select_next_generation
+from .selection import select_next_generation, tournament_select
 from .stats import StatsCollector
 
 
@@ -89,28 +89,26 @@ def _evolve_phase(
 
         stats.record(gen_offset + gen, population)
 
-        selected = select_next_generation(
-            population, config.elite_count, config.tournament_size, rng
-        )
-
-        next_pop: list[Individual] = []
-        for i in range(config.population_size):
-            if i < config.elite_count:
-                next_pop.append(Individual(genotype=selected[i].genotype))
+        # Produce children: crossover OR mutation (not both), matching Elixir
+        children: list[Individual] = []
+        for _ in range(config.population_size):
+            if rng.random() < config.crossover_rate:
+                a = tournament_select(population, config.tournament_size, rng)
+                b = tournament_select(population, config.tournament_size, rng)
+                child_geno = crossover(a.genotype, b.genotype, rng)
             else:
-                parent = selected[i]
-                if rng.random() < config.crossover_rate:
-                    partner = selected[rng.randrange(len(selected))]
-                    child_geno = crossover(parent.genotype, partner.genotype, rng)
-                else:
-                    child_geno = parent.genotype
+                parent = tournament_select(population, config.tournament_size, rng)
+                child_geno = mutate(parent.genotype, rng)
+            children.append(Individual(genotype=child_geno))
 
-                if rng.random() < config.mutation_rate:
-                    child_geno = mutate(child_geno, rng)
+        # (mu+lambda) selection: evaluate children, combine with parents, keep best
+        for ind in children:
+            ind.program = develop_fn(ind.genotype)
+            ind.fitness = evaluate_multi_target(ind, targets, contexts)
 
-                next_pop.append(Individual(genotype=child_geno))
-
-        population = next_pop
+        combined = population + children
+        combined.sort(key=lambda ind: ind.fitness, reverse=True)
+        population = [Individual(genotype=ind.genotype) for ind in combined[:config.population_size]]
 
     # Final evaluation
     for ind in population:
