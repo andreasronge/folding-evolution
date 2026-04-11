@@ -15,6 +15,12 @@ from .chemistry import assemble
 from .evaluator import evaluate
 from .fold import fold
 
+try:
+    from _folding_rust import rust_develop as _rust_develop
+    _USE_RUST = True
+except ImportError:
+    _USE_RUST = False
+
 
 @dataclass(frozen=True)
 class Program:
@@ -27,6 +33,31 @@ class Program:
 @functools.lru_cache(maxsize=4096)
 def develop(genotype: str) -> Program:
     """Full pipeline: genotype -> fold -> chemistry -> evaluator wrapper."""
+    if _USE_RUST:
+        return _develop_rust(genotype)
+    return _develop_python(genotype)
+
+
+def _develop_rust(genotype: str) -> Program:
+    """Rust-accelerated develop path."""
+    result = _rust_develop(genotype)
+    if result is None:
+        return Program(ast=None, source=None, bond_count=0, evaluate=lambda ctx: None)
+
+    ast_tuple, source, bond_count = result
+    ast = _from_rust_ast(ast_tuple)
+
+    def eval_fn(ctx: dict[str, Any]) -> Any:
+        try:
+            return evaluate(ast, ctx)
+        except Exception:
+            return None
+
+    return Program(ast=ast, source=source, bond_count=bond_count, evaluate=eval_fn)
+
+
+def _develop_python(genotype: str) -> Program:
+    """Pure Python develop path (fallback)."""
     grid, _placements = fold(genotype)
     fragments = assemble(grid)
 
@@ -55,6 +86,22 @@ def develop(genotype: str) -> Program:
         bond_count=bond_count,
         evaluate=eval_fn,
     )
+
+
+def _from_rust_ast(t: tuple) -> ASTNode:
+    """Reconstruct Python ASTNode from Rust tagged tuple."""
+    tag = t[0]
+    if tag == "Lit":
+        return Literal(t[1])
+    if tag == "Sym":
+        return Symbol(t[1])
+    if tag == "Kw":
+        return Keyword(t[1])
+    if tag == "Ns":
+        return NsSymbol(t[1], t[2])
+    if tag == "Expr":
+        return ListExpr(tuple(_from_rust_ast(item) for item in t[1]))
+    raise ValueError(f"Unknown AST tag: {tag}")
 
 
 def _count_bonds(node: ASTNode) -> int:

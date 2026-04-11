@@ -73,14 +73,10 @@ def _bond(fmap, adj, consumed, parent_pos, child_positions, assembled):
         if neighbor not in consumed and neighbor != parent_pos:
             neighbor_adj = adj.get(neighbor)
             if neighbor_adj is not None:
-                if isinstance(neighbor_adj, set):
-                    neighbor_adj.add(parent_pos)
-                    neighbor_adj -= child_positions
-                else:
-                    neighbor_adj = set(neighbor_adj)
-                    neighbor_adj.add(parent_pos)
-                    neighbor_adj -= child_positions
-                    adj[neighbor] = neighbor_adj
+                neighbor_adj = set(neighbor_adj)
+                neighbor_adj.add(parent_pos)
+                neighbor_adj -= child_positions
+                adj[neighbor] = neighbor_adj
 
     return fmap, consumed, adj
 
@@ -585,10 +581,9 @@ def _build_adjacency(grid: Grid) -> dict[Position, set[Position]]:
     for pos in positions:
         x, y = pos
         neighbors = set()
-        neighbors_add = neighbors.add
         for dx, dy in _NEIGHBORS:
             npos = (x + dx, y + dy)
             if npos in positions:
-                neighbors_add(npos)
+                neighbors.add(npos)
         result[pos] = neighbors
     return result

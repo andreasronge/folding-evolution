@@ -1,0 +1,14 @@
+/Users/andreasronge/projects/folding-evolution/rust/target/release/deps/libpyo3_build_config-3139a9bfbfb1de2b.rmeta: /Users/andreasronge/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.6/src/lib.rs /Users/andreasronge/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.6/src/errors.rs /Users/andreasronge/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.6/src/impl_.rs /Users/andreasronge/projects/folding-evolution/rust/target/release/build/pyo3-build-config-cd44b3b315f2fdb9/out/pyo3-build-config-file.txt /Users/andreasronge/projects/folding-evolution/rust/target/release/build/pyo3-build-config-cd44b3b315f2fdb9/out/pyo3-build-config.txt
+
+/Users/andreasronge/projects/folding-evolution/rust/target/release/deps/libpyo3_build_config-3139a9bfbfb1de2b.rlib: /Users/andreasronge/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.6/src/lib.rs /Users/andreasronge/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.6/src/errors.rs /Users/andreasronge/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.6/src/impl_.rs /Users/andreasronge/projects/folding-evolution/rust/target/release/build/pyo3-build-config-cd44b3b315f2fdb9/out/pyo3-build-config-file.txt /Users/andreasronge/projects/folding-evolution/rust/target/release/build/pyo3-build-config-cd44b3b315f2fdb9/out/pyo3-build-config.txt
+
+/Users/andreasronge/projects/folding-evolution/rust/target/release/deps/pyo3_build_config-3139a9bfbfb1de2b.d: /Users/andreasronge/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.6/src/lib.rs /Users/andreasronge/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.6/src/errors.rs /Users/andreasronge/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.6/src/impl_.rs /Users/andreasronge/projects/folding-evolution/rust/target/release/build/pyo3-build-config-cd44b3b315f2fdb9/out/pyo3-build-config-file.txt /Users/andreasronge/projects/folding-evolution/rust/target/release/build/pyo3-build-config-cd44b3b315f2fdb9/out/pyo3-build-config.txt
+
+/Users/andreasronge/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.6/src/lib.rs:
+/Users/andreasronge/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.6/src/errors.rs:
+/Users/andreasronge/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.6/src/impl_.rs:
+/Users/andreasronge/projects/folding-evolution/rust/target/release/build/pyo3-build-config-cd44b3b315f2fdb9/out/pyo3-build-config-file.txt:
+/Users/andreasronge/projects/folding-evolution/rust/target/release/build/pyo3-build-config-cd44b3b315f2fdb9/out/pyo3-build-config.txt:
+
+# env-dep:CARGO_PKG_VERSION=0.22.6
+# env-dep:OUT_DIR=/Users/andreasronge/projects/folding-evolution/rust/target/release/build/pyo3-build-config-cd44b3b315f2fdb9/out

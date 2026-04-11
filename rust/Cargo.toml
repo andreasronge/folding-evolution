@@ -1,0 +1,13 @@
+[package]
+name = "folding-rust"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "_folding_rust"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["extension-module"] }
+rustc-hash = "1.1"
+indexmap = ">=2.2, <2.7"
