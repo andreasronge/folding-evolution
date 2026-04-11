@@ -9,5 +9,6 @@ crate-type = ["cdylib"]
 
 [dependencies]
 pyo3 = { version = "0.22", features = ["extension-module"] }
+rayon = "1.10"
 rustc-hash = "1.1"
 indexmap = ">=2.2, <2.7"

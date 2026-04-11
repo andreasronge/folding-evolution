@@ -10,7 +10,7 @@ from .config import EvolutionConfig
 from .fitness import evaluate_fitness
 from .individual import Individual
 from .operators import crossover, mutate
-from .phenotype import Program, develop
+from .phenotype import Program, develop, develop_batch
 from .selection import select_next_generation
 from .stats import StatsCollector
 
@@ -28,6 +28,8 @@ def run_evolution(
     if develop_fn is None:
         develop_fn = develop
 
+    use_batch = develop_fn is develop
+
     # Clear LRU cache to avoid cross-contamination between runs
     develop.cache_clear()
 
@@ -42,8 +44,15 @@ def run_evolution(
 
     for gen in range(config.generations):
         # Develop and evaluate
+        if use_batch:
+            genotypes = [ind.genotype for ind in population]
+            programs = develop_batch(genotypes)
+            for ind, prog in zip(population, programs):
+                ind.program = prog
+        else:
+            for ind in population:
+                ind.program = develop_fn(ind.genotype)
         for ind in population:
-            ind.program = develop_fn(ind.genotype)
             ind.fitness = evaluate_fitness(ind, target_fn, contexts)
 
         # Record stats

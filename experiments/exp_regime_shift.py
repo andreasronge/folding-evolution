@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from folding_evolution.config import EvolutionConfig
 from folding_evolution.data_contexts import make_contexts
-from folding_evolution.dynamics import run_regime_shift_comparison
+from folding_evolution.dynamics import run_regime_shift_comparison, run_regime_shift_comparison_parallel
 from folding_evolution.visualization import plot_regime_shift, plot_regime_shift_comparison
 
 
@@ -63,7 +63,7 @@ def main():
     print(f"Seeds: {n_seeds}")
     print()
 
-    result = run_regime_shift_comparison(
+    result = run_regime_shift_comparison_parallel(
         config, targets_a, targets_b,
         regime_a_gens, regime_b_gens, contexts,
         n_seeds=n_seeds,

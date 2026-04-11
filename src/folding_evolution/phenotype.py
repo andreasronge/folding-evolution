@@ -15,7 +15,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, Callable
 
 from .ast_nodes import ASTNode, Keyword, ListExpr, Literal, NsSymbol, Symbol
-from .chemistry import assemble
+from .chemistry import assemble, assemble_with_consumed
 from .evaluator import evaluate
 from .fold import fold
 
@@ -27,6 +27,11 @@ try:
     _USE_RUST = True
 except ImportError:
     _USE_RUST = False
+
+try:
+    from _folding_rust import rust_develop_batch as _rust_develop_batch
+except ImportError:
+    _rust_develop_batch = None
 
 
 @dataclass(frozen=True)
@@ -43,6 +48,37 @@ def develop(genotype: str) -> Program:
     if _USE_RUST:
         return _develop_rust(genotype)
     return _develop_python(genotype)
+
+
+def develop_batch(genotypes: list[str]) -> list[Program]:
+    """Batch develop: process all genotypes in one FFI call using Rayon.
+
+    Bypasses the LRU cache. Faster than per-individual develop when
+    most genotypes are unique (after mutation/crossover).
+    """
+    if _rust_develop_batch is not None:
+        return _develop_batch_rust(genotypes)
+    return [develop(g) for g in genotypes]
+
+
+def _develop_batch_rust(genotypes: list[str]) -> list[Program]:
+    results = _rust_develop_batch(genotypes)
+    programs = []
+    for result in results:
+        if result is None:
+            programs.append(Program(ast=None, source=None, bond_count=0, evaluate=lambda ctx: None))
+        else:
+            ast_tuple, source, bond_count = result
+            ast = _from_rust_ast(ast_tuple)
+
+            def eval_fn(ctx: dict[str, Any], _ast=ast) -> Any:
+                try:
+                    return evaluate(_ast, ctx)
+                except Exception:
+                    return None
+
+            programs.append(Program(ast=ast, source=source, bond_count=bond_count, evaluate=eval_fn))
+    return programs
 
 
 def _develop_rust(genotype: str) -> Program:
@@ -152,6 +188,25 @@ def _count_bonds(node: ASTNode) -> int:
     if isinstance(node, ListExpr):
         return 1 + sum(_count_bonds(item) for item in node.items)
     return 0
+
+
+def get_bonded_indices(genotype: str) -> set[int]:
+    """Return genotype indices that participated in bonds.
+
+    Folds the genotype onto a grid, runs chemistry, and maps consumed
+    grid positions back to genotype character indices. Used by
+    chemistry-aware operators that need to know which parts of the
+    genotype are "active" (formed bonds during assembly).
+    """
+    grid, placements = fold(genotype)
+    _, bonded_positions = assemble_with_consumed(grid)
+
+    # Map grid positions back to genotype indices
+    pos_to_index: dict[tuple[int, int], int] = {}
+    for i, (pos, _char) in enumerate(placements):
+        pos_to_index[pos] = i
+
+    return {pos_to_index[pos] for pos in bonded_positions if pos in pos_to_index}
 
 
 def ast_to_string(node: ASTNode) -> str:

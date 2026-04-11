@@ -85,6 +85,51 @@ def assemble(grid: Grid, dev_genome: DevGenome | None = None) -> list[ASTNode]:
     return result
 
 
+def assemble_with_consumed(
+    grid: Grid, dev_genome: DevGenome | None = None,
+) -> tuple[list[ASTNode], set[Position]]:
+    """Like assemble(), but also returns the set of grid positions that
+    participated in bonds (were consumed during assembly).
+
+    Returns (fragments, consumed_positions).
+    """
+    if dev_genome is not None:
+        adjacency = _build_adjacency_dev(grid, dev_genome)
+    else:
+        adjacency = _build_adjacency(grid)
+
+    fragment_map: dict[Position, Fragment] = {}
+    for pos, char in grid.items():
+        frag = to_fragment(char)
+        if frag != "spacer":
+            fragment_map[pos] = frag
+
+    wildcard_positions = {pos for pos, frag in fragment_map.items() if frag == "wildcard"}
+    consumed: set[Position] = set()
+
+    fragment_map, consumed, adjacency = _pass_leaf_bonds(fragment_map, adjacency, consumed)
+    fragment_map, consumed, adjacency = _pass_predicate_bonds(fragment_map, adjacency, consumed)
+    fragment_map, consumed, adjacency = _pass_structural_bonds(fragment_map, adjacency, consumed)
+    fragment_map, consumed, adjacency = _pass_composition_bonds(fragment_map, adjacency, consumed)
+    fragment_map, consumed, adjacency = _pass_conditional_bonds(
+        fragment_map, adjacency, consumed, wildcard_positions
+    )
+
+    result = []
+    # Include parent positions (bond roots) in the consumed set for callers
+    bonded_positions = set(consumed)
+    for pos, frag in fragment_map.items():
+        if pos not in consumed:
+            ast = _fragment_to_ast(frag)
+            if ast is not None:
+                result.append(ast)
+            # Parent positions that hold assembled fragments are also bonded
+            if isinstance(frag, tuple) and frag[0] == "assembled":
+                bonded_positions.add(pos)
+
+    return result, bonded_positions
+
+
 def _bond(fmap, adj, consumed, parent_pos, child_positions, assembled):
     """Execute a bond: place assembled at parent, consume children, extend adjacency."""
     fmap[parent_pos] = assembled
