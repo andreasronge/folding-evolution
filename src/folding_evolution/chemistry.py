@@ -11,12 +11,22 @@ and assembles them into AST nodes through 5 sequential passes:
 When a position is consumed into a bond, its parent inherits the consumed
 position's adjacencies. This allows assembly to chain through multiple hops
 (e.g., K sees (get x :price) through consumed field_key position).
+
+Optional DevGenome parameter enables evolvable chemistry: distance-2 bonds,
+affinity-weighted neighbor scoring, subassembly stability, and occupancy
+penalties. When dev_genome is None, behavior is identical to the original
+hard-coded chemistry.
 """
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from .alphabet import to_fragment
 from .ast_nodes import ASTNode, Keyword, ListExpr, Literal, NsSymbol, Symbol
+
+if TYPE_CHECKING:
+    from .dev_genome import DevGenome
 
 Position = tuple[int, int]
 Grid = dict[Position, str]
@@ -24,10 +34,30 @@ Grid = dict[Position, str]
 Fragment = tuple | str
 _NEIGHBORS = [(-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1)]
 
+# Distance-2 neighbor offsets (Chebyshev distance 2, excluding distance 1)
+_NEIGHBORS_D2 = [
+    (-2, -2), (-1, -2), (0, -2), (1, -2), (2, -2),
+    (-2, -1),                                (2, -1),
+    (-2,  0),                                (2,  0),
+    (-2,  1),                                (2,  1),
+    (-2,  2), (-1,  2), (0,  2), (1,  2), (2,  2),
+]
 
-def assemble(grid: Grid) -> list[ASTNode]:
-    """Assemble a folded grid into AST nodes."""
-    adjacency = _build_adjacency(grid)
+
+def assemble(grid: Grid, dev_genome: DevGenome | None = None) -> list[ASTNode]:
+    """Assemble a folded grid into AST nodes.
+
+    Args:
+        grid: 2D grid mapping positions to characters (from fold()).
+        dev_genome: Optional evolvable chemistry parameters. When None,
+            uses the original hard-coded chemistry (backward compatible).
+            When provided, enables distance-2 bonds and other evolvable
+            chemistry features.
+    """
+    if dev_genome is not None:
+        adjacency = _build_adjacency_dev(grid, dev_genome)
+    else:
+        adjacency = _build_adjacency(grid)
 
     fragment_map: dict[Position, Fragment] = {}
     for pos, char in grid.items():
@@ -587,4 +617,41 @@ def _build_adjacency(grid: Grid) -> dict[Position, list[Position]]:
             if npos in positions:
                 neighbors.append(npos)
         result[pos] = neighbors
+    return result
+
+
+def _build_adjacency_dev(grid: Grid, dev_genome: DevGenome) -> dict[Position, list[Position]]:
+    """Build adjacency graph with DevGenome-controlled distance-2 bonds.
+
+    Distance-1 neighbors are always included (weight from dev_genome.distance_weights[0]).
+    Distance-2 neighbors are included when dev_genome.distance_weights[1] > 0.
+
+    Neighbor order: distance-1 first (in scan order), then distance-2 (in scan order).
+    This preserves determinism and gives distance-1 priority in first-match passes.
+    """
+    from .dev_genome import DevGenome  # runtime import to avoid circular
+
+    positions = grid.keys()
+    d2_weight = dev_genome.distance_weights[1]
+    result: dict[Position, list[Position]] = {}
+
+    for pos in positions:
+        x, y = pos
+        neighbors: list[Position] = []
+
+        # Distance-1 neighbors (always included)
+        for dx, dy in _NEIGHBORS:
+            npos = (x + dx, y + dy)
+            if npos in positions:
+                neighbors.append(npos)
+
+        # Distance-2 neighbors (only if weight > 0)
+        if d2_weight > 0:
+            for dx, dy in _NEIGHBORS_D2:
+                npos = (x + dx, y + dy)
+                if npos in positions:
+                    neighbors.append(npos)
+
+        result[pos] = neighbors
+
     return result

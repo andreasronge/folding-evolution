@@ -4,46 +4,45 @@ Ordered by expected impact. Each experiment has a clear hypothesis and measurabl
 
 ## Priority 1: Break the Complexity Ceiling
 
-The single most important problem. Most complex evolved program is 3 bonds. 4+ bond programs never emerge.
+The single most important problem. Most complex evolved program is 3 bonds. 4+ bond programs never emerge through evolution despite being abundant in random genotypes.
 
-### Experiment 1.1: Scale Up
+### Status: Extensively Diagnosed
 
-**Hypothesis**: Longer genotypes + larger populations + more generations produce 4+ bond programs.
+A series of diagnostic experiments (see findings Section 6) established:
 
-**Setup**:
-- Genotype length: 80, 100, 150
-- Population: 100 per role (300 total for separated coevolution)
-- Generations: 500, 1000
-- 3 context variations
-- Data-dependence gate on
+1. **C1 survey**: 4+ bond programs are NOT rare (23-74% of random genotypes depending on length). The ceiling is not a representation expressivity problem.
+2. **C2 reverse-engineering**: Known 4-bond genotypes are robust under mutation (44% maintain bonds). Extensions produce up to 32 bonds.
+3. **Task verification**: Filter tasks are verified hard under exact match — no random genotype achieves >62.5% exact match, confirming they genuinely need 5-bond programs.
+4. **Distance-2 diagnostic**: Longer-range bonds increase avg bond count by ~70% but produce structural noise, not useful programs.
+5. **Evolvable chemistry**: d2 weight evolves upward under selection. But on easy tasks, extra bonds don't improve fitness.
+6. **Staged curriculum**: With hard tasks, evolution still finds rest-chain shortcuts that accidentally correlate with filter outputs.
+7. **Structural staircase + lexicase**: Neither structural fitness scoring nor lexicase selection guides evolution past shortcuts. The fitness landscape has a structural gap between rest-chains and filter programs.
 
-**Measure**: Max bond count, average bond count, distribution of bond counts over generations. Target: first 4+ bond program observed, generation of first appearance.
+### Revised Assessment
 
-**Rationale**: Length 50 already showed max 11 bonds in random genotypes (avg 3.2). Evolution at length 50 achieved max 4.2 avg. Longer genotypes should provide more bonding opportunities, and larger populations + more generations should find them.
+**The ceiling is a reachability problem in the developmental map.** Rest-chain programs and filter programs occupy disconnected regions of genotype space. There is no smooth mutational path between them. Selection-side interventions (task design, fitness functions, selection methods) cannot bridge a gap that doesn't exist in the genotype-to-phenotype mapping.
 
-**This is the experiment the Elixir implementation couldn't run** due to eval speed (10,900 evals/sec). At 300 individuals x 10 samples x 3 contexts x 1000 gens = 9M evals. PTC-Lisp: ~14 minutes. Python with NumPy batch eval should be seconds-to-minutes.
+### Remaining Experiments (Priority 1)
 
-### Experiment 1.2: Seeded Complexity
+**1.1: Chemistry quality (Stage 2 affinity scoring)**
 
-**Hypothesis**: Seeding populations with known 4-bond genotypes allows evolution to maintain and improve complex programs.
+The most promising direction. Replace binary type-checking in the chemistry with affinity-weighted bonding within typed compatibility families. The DevGenome infrastructure is built (dev_genome.py). The hypothesis: if bonds between semantically compatible fragments (e.g., comparator+assembled, fn+expression) form preferentially over junk bonds, the ratio of useful to useless 4+ bond programs increases, creating intermediates that selection can act on.
 
-**Setup**:
-- Find/construct genotypes that fold into 4+ bond programs (e.g., filter+fn+predicate+data)
-- Seed 10% of each population with these genotypes
-- Run separated coevolution, measure whether complexity is maintained or decays
+**1.2: Softer chemistry / provisional bonds**
 
-**Measure**: Average bond count over generations. Does it stay at 4+ or decay to 2-3?
+Allow graded bond formation. Instead of all-or-nothing assembly, fragments form provisional bonds that later passes can refine or replace. This creates approximate programs that might bridge the gap between rest-chains and filter expressions.
 
-### Experiment 1.3: Complexity-Biased Selection
+**1.3: Hierarchical subassembly stability**
 
-**Hypothesis**: Adding a complexity bonus to fitness rewards more complex programs without destroying coevolution dynamics.
+Once `(get x :price)` forms, treat it as a stable module that resists disruption. Let higher passes preferentially reuse stable subassemblies. This is analogous to protein domain stability and could create reliable building blocks for compositional programs.
 
-**Setup**:
-```python
-fitness = base_fitness + lambda_complexity * bond_count
-```
+### Superseded Experiments
 
-**Measure**: Average bond count vs lambda_complexity. Find the sweet spot where complexity increases without selection pressure collapsing to "build the longest program regardless of correctness."
+The following experiments from the original plan are superseded by the diagnostic results:
+
+- **Scale Up (old 1.1)**: C1 showed 4+ bonds are already abundant at length 50+. Scaling up produces more bonds but not better programs.
+- **Seeded Complexity (old 1.2)**: Still potentially informative but lower priority since the problem is incremental reachability, not initial discovery.
+- **Complexity-Biased Selection (old 1.3)**: The staged curriculum and staircase experiments showed that selection pressure for complexity produces junk bonds, not useful structure.
 
 ## Priority 2: The Central Experiment — Representation x Selection Regime
 
@@ -77,7 +76,18 @@ This priority has three phases: calibrate, then the 2x2 experiment, then mechani
 
 ### Phase 2: The 2x2 Experiment
 
-**Hypothesis**: Representation x selection regime interaction — direct/canalized encoding wins under stable targets; folding wins under shifting targets.
+**Status**: Partially completed in Python. The original crossover hypothesis was not supported by the first large sweep.
+
+**Updated finding**:
+- Folding beats direct under both stable and shifting conditions on the current task family.
+- The dynamic advantage is still real, but it appears as higher mean fitness over time, more fitness jumps, and better recovery under repeated shifts, not as a clean stable-vs-shifting crossover.
+- The clearest separation so far is at genotype length 80 with shifts every 20 generations.
+
+**Current best result**:
+- Stable, length 50: folding `0.588`, direct `0.547`
+- Stable, length 80: folding `0.588`, direct `0.469`
+- Shift every 20, length 80: folding final `0.531`, direct `0.397`
+- Shift every 50, length 80: folding final `0.515`, direct `0.436`
 
 **Design**:
 ```
@@ -89,15 +99,15 @@ Baseline*     (B+S)            (B+Sh)
   (direct encoding, tree GP, or stack-based assembly)
 ```
 
-**Setup**:
-- Genotype length: 50 (and 30 as secondary, to show result is not scale-dependent)
-- Population: 50
-- Generations: 200
-- Seeds: 30 minimum per condition (120 total runs)
-- Task pool: structurally related targets (count products, count employees, count orders, count expenses) calibrated from Phase 1
+**Updated setup to prioritize next**:
+- Genotype length: 80 primary, 50 as control
+- Population: 100 now; 300 next if wall-clock allows
+- Generations: 200 now; extend to 500 only after 50-seed confirmation
+- Seeds: 50 for the next confirmatory run
+- Task pool: products-focused and employees-focused multi-target fitness
 - Stable condition: one target fixed for 200 gens
-- Shifting condition: cycle through task pool every N gens
-- Shift frequency sweep: N = 5, 10, 20, 50 (find where the crossover happens)
+- Shifting condition: repeated alternation every N gens
+- Shift frequency sweep: prioritize `N = 20` and `N = 50`
 
 **Matched controls**:
 - Same alphabet, same mutation/crossover operators, same population size, same evaluation budget
@@ -105,11 +115,11 @@ Baseline*     (B+S)            (B+Sh)
 - Task difficulty matched to what both representations can solve (from Phase 1)
 
 **Primary measures**:
-- Best fitness over time (the main 4-curve figure)
-- Mean recovery speed after each shift (aggregated across all shifts)
-- Time to first correct solution
+- Mean fitness over time
+- Final fitness
+- Mean drop and recovery after each shift
 - Number of fitness jumps (>0.1 improvement in one generation)
-- Final success rate across seeds
+- Bond-count distribution at termination
 
 **Statistical analysis**:
 - Two-way ANOVA: representation x regime, testing for interaction effect
@@ -117,9 +127,9 @@ Baseline*     (B+S)            (B+Sh)
 - Effect sizes and 95% confidence intervals
 - The shift frequency sweep is reported as a curve: folding advantage vs shift frequency
 
-**The figure**: One plot with four curves (F+S, F+Sh, B+S, B+Sh). A second plot showing mean post-shift recovery aggregated over all shifts. If the interaction exists, it will be visually obvious.
+**The figure**: One plot with stable controls and periodic-shift conditions for both encodings. A second plot showing mean post-shift recovery aggregated over all shifts. The main expected pattern now is not a crossover but a widening dynamic gap as shift frequency increases and genotype length grows.
 
-**Convergence check**: Run both representations for 500 gens on stable target (10 seeds) to confirm fitness has plateaued. If the baseline is still improving at 200 gens, extend the main experiment or report that the 200-gen result is a lower bound.
+**Convergence check**: Run both representations for 500 gens on stable target (10 seeds) to confirm whether direct is still improving at 200 gens. If so, report the current 200-gen results as a lower bound on the stable baseline.
 
 ### Phase 3: Mechanism (explains the 2x2)
 

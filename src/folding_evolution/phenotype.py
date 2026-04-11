@@ -2,18 +2,25 @@
 
 Connects fold -> chemistry -> evaluator into a single develop() function
 that maps a genotype string to an executable Program.
+
+Two entry points:
+- develop(genotype): cached, uses hard-coded or Rust chemistry (fast path)
+- develop_with_dev(genotype, dev_genome): uncached, uses evolvable chemistry
 """
 
 from __future__ import annotations
 
 import functools
 from dataclasses import dataclass
-from typing import Any, Callable
+from typing import TYPE_CHECKING, Any, Callable
 
 from .ast_nodes import ASTNode, Keyword, ListExpr, Literal, NsSymbol, Symbol
 from .chemistry import assemble
 from .evaluator import evaluate
 from .fold import fold
+
+if TYPE_CHECKING:
+    from .dev_genome import DevGenome
 
 try:
     from _folding_rust import rust_develop as _rust_develop
@@ -70,6 +77,42 @@ def _develop_python(genotype: str) -> Program:
         )
 
     # Pick the most complex AST (highest bond count)
+    best = max(fragments, key=_count_bonds)
+    bond_count = _count_bonds(best)
+    source = ast_to_string(best)
+
+    def eval_fn(ctx: dict[str, Any]) -> Any:
+        try:
+            return evaluate(best, ctx)
+        except Exception:
+            return None
+
+    return Program(
+        ast=best,
+        source=source,
+        bond_count=bond_count,
+        evaluate=eval_fn,
+    )
+
+
+def develop_with_dev(genotype: str, dev_genome: DevGenome) -> Program:
+    """Develop with evolvable chemistry. Not cached (dev_genome varies).
+
+    Uses the Python chemistry path with DevGenome parameters.
+    The Rust backend does not support DevGenome (it implements the
+    fixed hard-coded chemistry only).
+    """
+    grid, _placements = fold(genotype)
+    fragments = assemble(grid, dev_genome=dev_genome)
+
+    if not fragments:
+        return Program(
+            ast=None,
+            source=None,
+            bond_count=0,
+            evaluate=lambda ctx: None,
+        )
+
     best = max(fragments, key=_count_bonds)
     bond_count = _count_bonds(best)
     source = ast_to_string(best)
