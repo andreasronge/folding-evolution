@@ -498,6 +498,35 @@ This connects directly to Altenberg's constructional selection framework: the GP
 
 This is probably the strongest result in the project because it connects representation, evolutionary regime, and mechanism in one experiment. The natural next move: test whether explicit scaffold protection or motif ecology can recover the same benefit without full drift, which would make the result both more biologically plausible and more generally useful.
 
+### Consolidation at Scale (Experiment 1.9)
+
+Confirmed the 1.8 result at 50 seeds, pop=200, 500 generations. Two conditions: continuous selection vs drift 10/20.
+
+| Condition | S3 | S4 | S5 | Filter programs |
+|---|---|---|---|---|
+| A. Continuous selection | 13/50 (26%) | 2/50 (4%) | 1/50 (2%) | 0/50 (0%) |
+| **B. Drift 10/20** | **50/50 (100%)** | **46/50 (92%)** | **39/50 (78%)** | **36/50 (72%)** |
+
+The result is robust. Every seed finds S3 under drift. S5 appears in 78% of seeds. 72% of seeds evolve actual filter programs containing `(get x :price)`.
+
+**Stage accumulation at pop=200:** S1+ carriers rise from 4.6 at gen 0 to 101.0 at gen 499 — half the population carrying S1+ scaffolds. S2+ reaches 37.6, S3+ reaches 2.2. The drift-selection cycle ratchets scaffold density upward over 500 generations.
+
+**Evolved filter programs** (endogenous, no seeding):
+- `(count (filter (fn x (< (get x :price) 600)) data/products))` — fitness 0.633
+- `(count (filter (fn x (< (get x :price) 700)) data/products))` — fitness 0.616
+- `(filter (fn x (> (get x :price) 700)) data/products)` — fitness 0.644 (wrapped with count)
+
+These are genuine compositional programs with the correct structure: higher-order function + anonymous predicate + field accessor + comparator + data source. They use different thresholds and comparison operators than the hand-designed target, but are structurally correct filter expressions assembled endogenously by the fold/chemistry. None reached the exact target `count(filter(fn x (> (get x :price) 200)) data/products)` at fitness 0.832 — the evolved programs use thresholds (600, 700) that are close but not optimal.
+
+**Timing:** Continuous selection: 471s (9.4s/seed). Drift: 1479s (29.6s/seed). Drift is ~3x slower due to population diversity reducing cache hits and more unique genotypes to develop.
+
+**Average time to first appearance** (drift condition, among seeds where found):
+- S3: gen 36 (avg)
+- S4: gen 123
+- S5: gen 153
+
+The transition chain takes roughly 120 generations from first S3 to first S5, consistent with the transition probabilities measured in experiment 1.0 (S3→S4: 0.32%/mutation, S4→S5: 26.6%).
+
 ## 7. Coevolution Findings (Elixir)
 
 ### Single-Context Collusion
@@ -538,7 +567,9 @@ See Section 6 for the full diagnostic series. The framing evolved through multip
 
 **Revision 5 (after endogenous motif experiments):** The complexity ceiling decomposes into two separate constraints: motif discovery (solved via chemistry screening) and intermediate preservation (unsolved — selection destroys S1/S2 carriers by gen 25).
 
-**Current (after drift phases):** The complexity ceiling is a two-constraint problem, both now addressed. Chemistry screening provides endogenous motif discovery (Da/QDa/DaK in top 0.08% of 242K). Neutral drift phases provide intermediate preservation (S1 lifetime 17→49 gens, S2 co-occurrence 2→166 gens). Combined effect: 0/20 → 15/20 S4, 0/20 → 11/20 S5. Weak selection does not work — pure drift is required (threshold phenomenon, not smooth tradeoff). The claim: folding generates endogenous building blocks, but immediate fitness selection suppresses developmental intermediates required for compositional elaboration; periodic neutral phases restore that pathway and reliably break the ceiling.
+**Revision 6 (after drift phases):** Both constraints resolved. Drift phases transform S4 from 0/20 to 15/20, S5 from 0/20 to 11/20. Weak selection does not work — pure drift required.
+
+**Current (after consolidation at scale):** Confirmed at 50 seeds, pop=200, 500 gens. S3: 100%, S4: 92%, S5: 78%, filter programs: 72% of seeds. Genuine compositional programs evolve endogenously: `(count (filter (fn x (< (get x :price) 600)) data/products))`. The complexity ceiling is broken. The claim: folding generates endogenous building blocks, but immediate fitness selection suppresses developmental intermediates required for compositional elaboration; periodic neutral phases restore that pathway and reliably break the ceiling.
 
 ## 9. Eval Performance
 

@@ -32,21 +32,38 @@ Even with the right motifs (screened or hand-coded), selection destroys S1/S2 ca
 
 With both constraints addressed (motif discovery + drift preservation), the ceiling is broken. Next experiments should consolidate the result and explore what it enables.
 
-**1.9: Consolidation — drift + screened motifs at scale (NEXT)**
+**1.9: Consolidation** — DONE. 50 seeds, pop=200, 500 gens. S3: 100%, S4: 92%, S5: 78%, filter programs: 72% of seeds. Result is robust. Genuine filter programs with `(get x :price)` evolve endogenously. See `exp_consolidation.py`.
 
-Confirm the 1.8 result is robust: 50 seeds, pop=200, 500 gens, best drift schedule (10/20). Measure whether the correct filter program `count(filter(fn x (> (get x :price) 200)) data/products)` appears and what fitness it achieves. Report the first complete end-to-end result: endogenous motif discovery + drift preservation → correct target program.
+With the ceiling broken and confirmed, the next experiments shift from "can we break through?" to "what does the breakthrough enable and how can the mechanism be refined?"
+
+**1.11: Scaffold protection without full drift (NEXT)**
+
+Test whether explicit scaffold protection (Pareto selection on fitness × scaffold stage) can recover the drift benefit without turning off selection entirely. This is both a mechanistic test (is it preservation specifically, or the broader effects of drift?) and a practical improvement (avoid wasting 50% of generations on random wandering).
+
+Three conditions (same motifs, same seeds):
+- (a) Continuous selection (baseline — ceiling blocked)
+- (b) Drift 10/20 (positive control — ceiling broken)
+- (c) Pareto(fitness, scaffold_stage): non-dominated sorting, scaffold carriers survive alongside fit individuals even when their fitness is low
+
+If Pareto works: the mechanism is specifically about preserving scaffold carriers, not about drift's other effects (exploration, diversification). This would be a cleaner and faster approach.
+
+If Pareto fails: drift provides something beyond preservation — possibly the random exploration that occasionally assembles novel spatial arrangements. Scaffold protection alone cannot substitute for the full neutral phase.
 
 **1.10: Endogenous motif screening during evolution**
 
-Replace the offline chemistry screening with online motif scoring: every N generations, screen the most common 2-3 char substrings in the population, promote high-scoring ones to the motif insertion operator. This closes the loop — no pre-computed motif library needed.
+Replace the offline chemistry screening with online motif scoring: every N generations, screen the most common 2-3 char substrings in the population, promote high-scoring ones to the motif insertion operator. This closes the loop — no pre-computed motif library needed. Combine with drift for the full endogenous pipeline.
+
+**1.12: Generalization to different target programs**
+
+Does drift+motifs break through on a DIFFERENT hard task (not just the filter chain)? Test with `(reduce (fn x (+ x ...)) 0 data)`, `(map (fn x (assoc x :key value)) data)`, or nested structures. If yes, the mechanism is general. If no, the chemistry screening is task-specific.
 
 **1.6: Population-level motif ecology**
 
-Keep a global motif pool updated from evolved populations. Now unblocked by 1.8 — drift provides the preservation layer. Motifs gain or lose frequency based on downstream assembly success.
+Keep a global motif pool updated from evolved populations. Now unblocked — drift provides the preservation layer.
 
 **1.7: Hierarchical evolution**
 
-Easy tasks evolve motifs, hard tasks consume and elaborate them. Now unblocked — drift provides preservation during the hard-task phase.
+Easy tasks evolve motifs, hard tasks consume and elaborate them. Now unblocked.
 
 ### Superseded/Completed Experiments
 
