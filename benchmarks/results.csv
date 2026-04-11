@@ -1,0 +1,2 @@
+timestamp,git_hash,backend,develops_sec,fitness_calls_sec,cache_hit_rate,equiv_rate,equiv_total,fn_closures_skipped
+2026-04-11T11:50:41,c04cb65,rust,23442,62546,0.5594,1.0000,2000,68

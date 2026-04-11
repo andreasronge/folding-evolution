@@ -36,3 +36,4 @@ This project continues research started in Elixir/PTC-Lisp (`~/projects/ptc_runn
 - Visualization of every experiment (fitness curves, population diversity, bond count distributions)
 - The fold/chemistry pipeline should be decoupled from the evaluation language
 - Compare against standard GP baselines (DEAP tree GP)
+- When documenting findings in `docs/findings.md` or `docs/python-rewrite-results.md`, include the git commit hash that produced the results (e.g. `Results from commit abc1234`). This anchors data to a specific code state for reproducibility.
