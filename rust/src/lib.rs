@@ -21,9 +21,17 @@ fn rust_develop(py: Python<'_>, genotype: &str) -> PyResult<Option<(PyObject, St
         if fragments.is_empty() {
             return None;
         }
-        let best = fragments.into_iter()
-            .max_by_key(|f| ast::count_bonds(f))
-            .unwrap();
+        // Pick first fragment with max bond count (matching Python's max() tie-breaking)
+        let mut best_idx = 0;
+        let mut best_bonds = ast::count_bonds(&fragments[0]);
+        for (i, f) in fragments.iter().enumerate().skip(1) {
+            let bonds = ast::count_bonds(f);
+            if bonds > best_bonds {
+                best_bonds = bonds;
+                best_idx = i;
+            }
+        }
+        let best = fragments.into_iter().nth(best_idx).unwrap();
         let bond_count = ast::count_bonds(&best);
         let source = ast::to_string(&best);
         Some((best, source, bond_count))
@@ -38,8 +46,40 @@ fn rust_develop(py: Python<'_>, genotype: &str) -> PyResult<Option<(PyObject, St
     }
 }
 
+/// Debug: return grid positions in insertion order.
+#[pyfunction]
+fn rust_fold_grid(genotype: &str) -> Vec<((i32, i32), u8)> {
+    let grid = fold::fold(genotype.as_bytes());
+    grid.into_iter().collect()
+}
+
+/// Debug: return all unconsumed fragments after assembly.
+#[pyfunction]
+fn rust_assemble_debug(genotype: &str) -> Vec<(String, usize)> {
+    let grid = fold::fold(genotype.as_bytes());
+    let fragments = chemistry::assemble(&grid);
+    fragments.iter().map(|f| {
+        (ast::to_string(f), ast::count_bonds(f))
+    }).collect()
+}
+
+/// Debug: return adjacency lists.
+#[pyfunction]
+fn rust_adjacency(genotype: &str) -> Vec<((i32, i32), Vec<(i32, i32)>)> {
+    let grid = fold::fold(genotype.as_bytes());
+    let adj = engine::build_adjacency(&grid);
+    // Return in grid insertion order
+    grid.keys().map(|&pos| {
+        let neighbors = adj.get(&pos).cloned().unwrap_or_default();
+        (pos, neighbors)
+    }).collect()
+}
+
 #[pymodule]
 fn _folding_rust(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(rust_develop, m)?)?;
+    m.add_function(wrap_pyfunction!(rust_fold_grid, m)?)?;
+    m.add_function(wrap_pyfunction!(rust_adjacency, m)?)?;
+    m.add_function(wrap_pyfunction!(rust_assemble_debug, m)?)?;
     Ok(())
 }

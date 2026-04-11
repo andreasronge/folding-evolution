@@ -61,11 +61,11 @@ def _bond(fmap, adj, consumed, parent_pos, child_positions, assembled):
     consumed |= child_positions
 
     # Parent inherits adjacencies from consumed children
-    parent_neighbors = set(adj.get(parent_pos, ()))
+    parent_neighbors = list(adj.get(parent_pos, ()))
     for cp in child_positions:
         for neighbor in adj.get(cp, ()):
-            if neighbor != parent_pos and neighbor not in child_positions:
-                parent_neighbors.add(neighbor)
+            if neighbor != parent_pos and neighbor not in child_positions and neighbor not in parent_neighbors:
+                parent_neighbors.append(neighbor)
     adj[parent_pos] = parent_neighbors
 
     # Also make new neighbors point back to parent
@@ -73,10 +73,10 @@ def _bond(fmap, adj, consumed, parent_pos, child_positions, assembled):
         if neighbor not in consumed and neighbor != parent_pos:
             neighbor_adj = adj.get(neighbor)
             if neighbor_adj is not None:
-                neighbor_adj = set(neighbor_adj)
-                neighbor_adj.add(parent_pos)
-                neighbor_adj -= child_positions
-                adj[neighbor] = neighbor_adj
+                new_adj = [p for p in neighbor_adj if p not in child_positions]
+                if parent_pos not in new_adj:
+                    new_adj.append(parent_pos)
+                adj[neighbor] = new_adj
 
     return fmap, consumed, adj
 
@@ -575,15 +575,16 @@ def _format_pattern_ast(ast: ASTNode | None) -> str:
 # === Adjacency Helpers ===
 
 
-def _build_adjacency(grid: Grid) -> dict[Position, set[Position]]:
+def _build_adjacency(grid: Grid) -> dict[Position, list[Position]]:
+    """Build adjacency graph. Neighbors are in NEIGHBORS scan order (deterministic)."""
     positions = grid.keys()
-    result: dict[Position, set[Position]] = {}
+    result: dict[Position, list[Position]] = {}
     for pos in positions:
         x, y = pos
-        neighbors = set()
+        neighbors = []
         for dx, dy in _NEIGHBORS:
             npos = (x + dx, y + dy)
             if npos in positions:
-                neighbors.add(npos)
+                neighbors.append(npos)
         result[pos] = neighbors
     return result

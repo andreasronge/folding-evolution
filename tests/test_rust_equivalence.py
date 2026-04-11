@@ -1,8 +1,8 @@
-"""Backend equivalence tests: Rust vs Python produce valid results.
+"""Backend equivalence tests: Rust must produce identical results to Python.
 
-Both backends produce valid programs, but may differ in assembly order due to
-hash-dependent adjacency iteration. Tests verify structural validity rather
-than exact match.
+Exact phenotype equivalence: same source, same bond_count, same evaluation
+result on fixed contexts. Any divergence means the Rust backend is a new
+representation variant, not an implementation optimization.
 """
 
 import random
@@ -27,7 +27,7 @@ CTX = {
 
 
 def _develop_both(genotype):
-    """Develop with both backends and return (python_prog, rust_prog)."""
+    """Develop with both backends."""
     p._USE_RUST = False
     p.develop.cache_clear()
     py_prog = p.develop(genotype)
@@ -47,67 +47,89 @@ def restore_rust_backend():
 
 
 class TestGoldenGenotype:
-    """The golden genotype must produce exact same results on both backends."""
-
-    def test_golden_exact_match(self):
+    def test_exact_match(self):
         py, rs = _develop_both("QDaK5XASBw")
         assert py.source == rs.source
         assert py.bond_count == rs.bond_count
         assert py.evaluate(CTX) == rs.evaluate(CTX)
 
 
-class TestStructuralValidity:
-    """Both backends produce structurally valid programs."""
+class TestExactEquivalence:
+    """Exact phenotype equivalence over random genotypes."""
 
-    def test_1000_random_both_valid(self):
-        """Both backends produce programs that don't crash on evaluate."""
+    def test_1000_random_length30_source_and_bonds(self):
         rng = random.Random(42)
-        for _ in range(1000):
+        mismatches = []
+        for i in range(1000):
+            genotype = "".join(
+                rng.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
+                for _ in range(30)
+            )
+            py, rs = _develop_both(genotype)
+            if py.source != rs.source or py.bond_count != rs.bond_count:
+                mismatches.append((i, genotype, py.source, rs.source, py.bond_count, rs.bond_count))
+
+        if mismatches:
+            msg = f"{len(mismatches)} mismatches out of 1000:\n"
+            for idx, g, ps, rs_src, pb, rb in mismatches[:10]:
+                msg += f"  [{idx}] {g}: py=({ps}, {pb}) rust=({rs_src}, {rb})\n"
+            pytest.fail(msg)
+
+    def test_1000_random_length50_source_and_bonds(self):
+        rng = random.Random(99)
+        mismatches = []
+        for i in range(1000):
             genotype = "".join(
                 rng.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
                 for _ in range(50)
             )
             py, rs = _develop_both(genotype)
-            # Both should not raise on evaluate
-            py.evaluate(CTX)
-            rs.evaluate(CTX)
-            # Bond counts should be non-negative
-            assert py.bond_count >= 0
-            assert rs.bond_count >= 0
+            if py.source != rs.source or py.bond_count != rs.bond_count:
+                mismatches.append((i, genotype, py.source, rs.source, py.bond_count, rs.bond_count))
+
+        if mismatches:
+            msg = f"{len(mismatches)} mismatches out of 1000:\n"
+            for idx, g, ps, rs_src, pb, rb in mismatches[:10]:
+                msg += f"  [{idx}] {g}: py=({ps}, {pb}) rust=({rs_src}, {rb})\n"
+            pytest.fail(msg)
+
+    def test_500_random_eval_equivalence(self):
+        """Identical evaluate() results on fixed context."""
+        rng = random.Random(777)
+        mismatches = []
+        for i in range(500):
+            genotype = "".join(
+                rng.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
+                for _ in range(50)
+            )
+            py, rs = _develop_both(genotype)
+            py_result = py.evaluate(CTX)
+            rs_result = rs.evaluate(CTX)
+            # Skip callable results (fn expressions return closures, not comparable by repr)
+            if callable(py_result) or callable(rs_result):
+                continue
+            if repr(py_result) != repr(rs_result):
+                mismatches.append((i, genotype, py_result, rs_result, py.source, rs.source))
+
+        if mismatches:
+            msg = f"{len(mismatches)} eval mismatches out of 500:\n"
+            for idx, g, pr, rr, ps, rs_src in mismatches[:10]:
+                msg += f"  [{idx}] {g}: py_eval={pr} rust_eval={rr}\n"
+                msg += f"         py_src={ps} rust_src={rs_src}\n"
+            pytest.fail(msg)
 
     def test_rust_deterministic(self):
         """Same genotype always produces same result from Rust backend."""
-        rng = random.Random(99)
-        genotypes = [
-            "".join(rng.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
-                    for _ in range(50))
-            for _ in range(200)
-        ]
-
+        rng = random.Random(123)
         p._USE_RUST = True
-        for g in genotypes:
-            p.develop.cache_clear()
-            r1 = p.develop(g)
-            p.develop.cache_clear()
-            r2 = p.develop(g)
-            assert r1.source == r2.source, f"Non-deterministic Rust result for {g}"
-            assert r1.bond_count == r2.bond_count
-
-    def test_null_programs_agree(self):
-        """When Python produces None program, Rust should too (and vice versa)."""
-        rng = random.Random(42)
-        disagreements = 0
-        total = 0
-        for _ in range(1000):
+        for _ in range(500):
             genotype = "".join(
                 rng.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
                 for _ in range(50)
             )
-            py, rs = _develop_both(genotype)
-            total += 1
-            if (py.ast is None) != (rs.ast is None):
-                disagreements += 1
-        # Allow some disagreement due to different assembly, but flag if massive
-        assert disagreements < total * 0.1, (
-            f"{disagreements}/{total} null/non-null disagreements"
-        )
+            p.develop.cache_clear()
+            r1 = p.develop(genotype)
+            p.develop.cache_clear()
+            r2 = p.develop(genotype)
+            assert r1.source == r2.source, f"Non-deterministic for {genotype}"
+            assert r1.bond_count == r2.bond_count
