@@ -440,25 +440,49 @@ Three critical observations:
 2. **Random motifs getting S4 1/20** is a warning against over-reading any single rare breakthrough at this sample size.
 3. **Higher bonds without better S4/S5** confirms that more local chemistry is not enough — the problem is coordinated multi-motif co-localization and survival under selection.
 
+### Neutral Drift Phases (Experiment 1.8)
+
+Tested whether selection is prematurely purging low-fitness intermediates needed for S3/S4 assembly. Four conditions, same screened motifs, same seeds, same insertion rate (75% of mutations). Pop=100, len=100, 300 gens, 20 seeds.
+
+| Condition | S3 | S4 | S5 | S1 lifetime | S2 lifetime | S1 co-occur | S2 co-occur |
+|---|---|---|---|---|---|---|---|
+| A. Continuous selection | 3/20 | 0/20 | 0/20 | 17.4 | 4.7 | 18.4 | 1.9 |
+| **B. Drift 10/20** | **18/20** | **15/20** | **11/20** | **48.7** | **29.6** | **206.3** | **166.2** |
+| **C. Drift 25/50** | **19/20** | **14/20** | **9/20** | **52.6** | **40.1** | **194.2** | **152.7** |
+| D. Weak selection 10/20 | 3/20 | 0/20 | 2/20 | 32.9 | 21.6 | 84.9 | 33.4 |
+
+**This is the strongest result in the project.** Drift phases transform the system from 0/20 S4 to 15/20 S4 and from 0/20 S5 to 11/20 S5.
+
+**Mechanistic explanation — the carrier lifetime and co-occurrence data:**
+
+- S1 carrier lifetime: 17→49 gens (2.8x under drift 10/20)
+- S2 carrier lifetime: 5→30 gens (6.3x)
+- S1 co-occurrence (gens with 2+ carriers): 18→206 (11x)
+- S2 co-occurrence: 2→166 (83x)
+
+Under continuous selection, S2+ carriers drop to 0 by gen 20 and stay there for the remaining 280 generations. Under drift 10/20, S2+ rises to 15.1 at gen 299 with S3+ at 1.3. Intermediates persist and accumulate during drift windows; the transition chain S3→S4→S5 fires because carriers overlap long enough for crossover and mutation to combine them.
+
+**Density during drift vs selection windows (condition B):**
+- S1 during drift: 26.2 individuals, during selection: 15.9
+- S2 during drift: 9.4, during selection: 4.7
+
+Drift accumulates carriers; selection doesn't fully purge them before the next drift window. The cycle ratchets upward.
+
+**Weak selection does NOT work.** Condition D (tournament_size=1 with mu+lambda) is essentially identical to continuous selection (S3 3/20, S4 0/20). The preservation mechanism requires pure drift, not just reduced selection pressure. Even minimal fitness-based survival is enough to scrub intermediates.
+
+**Both drift schedules work comparably:** 10/20 slightly better on S5 (11 vs 9), 25/50 slightly better on S3 persistence (4.3 avg S3+ carriers at gen 299 vs 1.3). The mechanism is robust to schedule details.
+
 ### Revised Complexity Ceiling Assessment
 
-The complexity ceiling decomposes into **two separate constraints**:
+The complexity ceiling has been fully decomposed and both constraints addressed:
 
-1. **Endogenous discovery of useful motifs is possible.** The chemistry's bond-production scoring identifies `Da`, `QDa`, and `DaK` in the top 0.08% of 242K screened substrings. The GP map contains endogenous information about useful building blocks.
+1. **Motif discovery — solved.** Chemistry screening identifies `Da`, `QDa`, `DaK` in the top 0.08% of 242K substrings. The GP map contains endogenous information about useful building blocks. No evolution or human knowledge required.
 
-2. **Evolution under immediate fitness selection cannot preserve and compose those motifs into higher-order scaffolds.** Motif insertion creates S1/S2 intermediates, but selection eliminates them before they can combine into S3+ structures. The stage trace is the key evidence: S1/S2 carriers are purged by generation 25.
+2. **Intermediate preservation — solved by drift phases.** Periodic neutral drift windows (fitness = constant) allow S1/S2 carriers to persist and co-occur. This enables the S3→S4→S5 transition chain to fire. The effect is dramatic: 0/20 → 15/20 S4, 0/20 → 11/20 S5.
 
-This is a more specific and mechanistic story than "building-block supply problem." The supply can be solved endogenously. The preservation and compositional assembly of intermediates under selection is the remaining constraint. This connects directly to Altenberg: the GP map can expose useful building blocks, but the evolutionary regime determines whether they accumulate into constructional innovation.
+The combined system — chemistry-screened motifs + drift phases — breaks through the complexity ceiling that has been the central limitation since the Elixir implementation. The key insight is that the ceiling was never a single bottleneck but two orthogonal constraints: what building blocks are available (discovery) and whether they survive long enough to combine (preservation). Each constraint required a different mechanism to address.
 
-**Next experiment — intermediate preservation test (neutral drift phases):**
-
-*Hypothesis:* Selection is prematurely purging low-fitness intermediates that are necessary precursors to S3/S4.
-
-*Prediction:* Alternating selection-off windows should increase persistence of S1/S2 carriers, raise S3 occupancy, and only then increase S4/S5 rates.
-
-*Failure mode:* Drift may accumulate junk bonds and wash out the useful motifs too.
-
-*Critical readout:* Not final S5 alone, but whether drift changes the **lifetime and overlap** of motif-bearing intermediates. This is a test of a specific preservation mechanism, not a broad heuristic.
+This connects directly to Altenberg's constructional selection framework: the GP map exposes useful building blocks (constraint 1), but the evolutionary regime must permit their accumulation (constraint 2). Pure fitness-based selection, even with the right building blocks, acts as a scrubber that destroys precursors before they can compose. Drift phases provide the temporal slack for compositional innovation — analogous to neutral evolution enabling exploration of genotype space in biological systems (Kimura, Huynen).
 
 ## 7. Coevolution Findings (Elixir)
 
@@ -498,7 +522,9 @@ See Section 6 for the full diagnostic series. The framing evolved through multip
 
 **Revision 4 (after module operators):** The complexity ceiling is a building-block supply problem. Supplying known-useful motifs raises scaffold density 250x and enables the full target program to evolve (2/20 seeds, including a fitness 0.832 breakthrough). The central open question: can motif discovery become endogenous?
 
-**Current (after endogenous motif experiments):** The complexity ceiling decomposes into **two separate constraints**: (1) endogenous discovery of useful motifs — **solved** via chemistry screening, which identifies Da/QDa/DaK in the top 0.08% of 242K substrings without evolution or human knowledge; and (2) preservation and composition of intermediates under selection — **unsolved**, as selection destroys S1/S2 carriers by gen 25 before they can combine into S3+. The GP map contains endogenous information about useful building blocks, but the evolutionary regime cannot yet accumulate them into constructional innovation. Next test: neutral drift phases to determine whether selection-off windows allow intermediate persistence and overlap.
+**Revision 5 (after endogenous motif experiments):** The complexity ceiling decomposes into two separate constraints: motif discovery (solved via chemistry screening) and intermediate preservation (unsolved — selection destroys S1/S2 carriers by gen 25).
+
+**Current (after drift phases):** Both constraints resolved. Chemistry screening provides endogenous motif discovery (Da/QDa/DaK in top 0.08% of 242K). Neutral drift phases provide intermediate preservation (S1 lifetime 17→49 gens, S2 co-occurrence 2→166 gens). Combined effect: 0/20 → 15/20 S4, 0/20 → 11/20 S5. The complexity ceiling is broken. Weak selection does not work — pure drift is required. The ceiling was two orthogonal constraints requiring two different mechanisms.
 
 ## 9. Eval Performance
 

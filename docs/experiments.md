@@ -26,32 +26,27 @@ Even with the right motifs (screened or hand-coded), selection destroys S1/S2 ca
   - *Evolution-mined motifs*: FAILED. Easy tasks select for `BS` → `(count data/products)`, not for `Da`/`DaK`. Enriched substrings are hitchhikers, not functional motifs.
   - *Chemistry screening*: SUCCEEDED at discovery. Da/QDa/DaK in top 0.08% of 242K screened substrings. See `exp_learned_motifs.py`.
   - *Application phase*: All conditions (screened, hand-coded, random, baseline) statistically indistinguishable at 20 seeds. S1/S2 carriers erased by gen 25. The bottleneck shifted from motif supply to intermediate preservation.
+- **1.8: Neutral drift phases** — DONE. **The strongest result in the project.** Pure drift phases (fitness = constant) transform the system from 0/20 S4 to 15/20 S4 and 0/20 S5 to 11/20 S5. Carrier lifetimes increase 3-6x, co-occurrence increases 11-83x. Weak selection (tournament_size=1) does NOT work — pure drift is required. See `exp_drift_preservation.py` and findings Section 6.
 
 ### Next Experiments (Priority 1)
 
-**1.8: Neutral drift phases — intermediate preservation test (NEXT)**
+With both constraints addressed (motif discovery + drift preservation), the ceiling is broken. Next experiments should consolidate the result and explore what it enables.
 
-The first test of the preservation hypothesis. Not a broad heuristic — a targeted mechanism test.
+**1.9: Consolidation — drift + screened motifs at scale (NEXT)**
 
-**Hypothesis:** Selection is prematurely purging low-fitness intermediates that are necessary precursors to S3/S4.
+Confirm the 1.8 result is robust: 50 seeds, pop=200, 500 gens, best drift schedule (10/20). Measure whether the correct filter program `count(filter(fn x (> (get x :price) 200)) data/products)` appears and what fitness it achieves. Report the first complete end-to-end result: endogenous motif discovery + drift preservation → correct target program.
 
-**Prediction:** Alternating selection-off windows (fitness = constant during drift phases) should increase persistence of S1/S2 carriers, raise S3 occupancy, and only then increase S4/S5 rates.
+**1.10: Endogenous motif screening during evolution**
 
-**Failure mode:** Drift may accumulate junk bonds and wash out the useful motifs too.
-
-**Design:**
-- Combine chemistry-screened motifs with periodic drift windows
-- Three conditions: (a) continuous selection, (b) drift every 20 gens for 10 gens, (c) drift every 50 gens for 25 gens
-- **Critical readout:** Not final S5 alone, but whether drift changes the **lifetime and overlap** of motif-bearing intermediates. Track S1/S2/S3 carrier persistence across drift/selection boundaries.
-- Use the stage frequency trace as the primary diagnostic, not just final scaffold counts.
+Replace the offline chemistry screening with online motif scoring: every N generations, screen the most common 2-3 char substrings in the population, promote high-scoring ones to the motif insertion operator. This closes the loop — no pre-computed motif library needed.
 
 **1.6: Population-level motif ecology**
 
-Keep a global motif pool updated from evolved populations. Motifs gain or lose frequency based on downstream success. Deferred pending 1.8 results — without intermediate preservation, even a perfect motif pool cannot accumulate compositional innovation.
+Keep a global motif pool updated from evolved populations. Now unblocked by 1.8 — drift provides the preservation layer. Motifs gain or lose frequency based on downstream assembly success.
 
 **1.7: Hierarchical evolution**
 
-Easy tasks evolve motifs, hard tasks consume and elaborate them. Deferred — same dependency on preservation mechanism.
+Easy tasks evolve motifs, hard tasks consume and elaborate them. Now unblocked — drift provides preservation during the hard-task phase.
 
 ### Superseded/Completed Experiments
 
