@@ -6,51 +6,52 @@ Ordered by expected impact. Each experiment has a clear hypothesis and measurabl
 
 The single most important problem. Most complex evolved program is 3 bonds. 4+ bond programs never emerge through evolution despite being abundant in random genotypes.
 
-### Status: Building-Block Supply Problem — Motif Insertion Breakthrough
+### Status: Two-Constraint Decomposition
 
-A comprehensive diagnostic series (see findings Section 6) progressively narrowed the bottleneck:
+The complexity ceiling has been decomposed into two separate constraints through a comprehensive diagnostic series (see findings Section 6):
 
-**What is NOT the bottleneck:**
-- Representation expressivity (C1: 4+ bonds in 23-74% of random genotypes)
-- Selection maintenance (seeded S4 swept to fixation at 0.832)
-- Task design (filter tasks verified hard; staircase, lexicase, compositional credit all failed)
-- Generic structural variation (substring duplication/transposition: no improvement)
-- Archive preservation (nothing to archive — S3 too rare at 0.04%)
+**Constraint 1 — Motif discovery: SOLVED.**
+Chemistry screening (exhaustive bond-production scoring of all 242K length-2+3 substrings) identifies the critical building blocks endogenously: `QDa` rank #42, `Da` rank #135, `DaK` rank #186 — all in the top 0.08%. No evolution, no human domain knowledge needed. The fold/chemistry contains endogenous information about useful building blocks.
 
-**What IS the bottleneck: building-block supply.**
-- S3 carriers (fn+comparator+get_price) exist at only 0.04% of random genotypes
-- The combination pipeline narrows exponentially: 42% → 12% → 0.8% → 0.04%
-- Standard variation operators cannot generate useful motifs at sufficient frequency
-- The S3→S4 transition IS achievable (0.32% per mutation) but fires too rarely because S3 is too rare
-
-**The breakthrough: known-motif insertion raises S3 density 250x (0.04% → 10.3%)** and enables the full target program to evolve without direct seeding. Seed 13 produced `count(filter(fn x (> (get x :price) 200)) data/products)` at fitness 0.832 — the first unseeded discovery of the correct filter program. Generic substring operators (duplication, transposition) did not help.
+**Constraint 2 — Intermediate preservation: UNSOLVED.**
+Even with the right motifs (screened or hand-coded), selection destroys S1/S2 carriers by generation 25 before they can combine into S3+ structures. Motif insertion creates raw material, but selection acts as a scrubber, not a ratchet. Higher average bonds (2.4 vs 1.4 baseline) without better S4/S5 confirms that more local chemistry is not enough — the problem is coordinated multi-motif co-localization and survival under selection.
 
 ### Completed Experiments
 
 - **1.0: S3→S4 Transition Analysis** — DONE. S3→S4: 0.32%/mutation, S4→S5: 26.6%. Crossover: S3×random→S4 at 6.9%. The transitions are possible; S3 rarity is the bottleneck.
-- **1.1: Module operators** — DONE. Motif insertion works (S3 5/20 seeds, S5 2/20 seeds). Generic dup/transpose doesn't help.
-- **1.3: Archive reinjection** — DONE. Failed because S3 is too rare (0.04%) to archive. The mechanism is sound but needs motif supply upstream.
+- **1.1: Module operators** — DONE. Motif insertion works (S3 5/20 seeds, S5 2/20 seeds). Generic dup/transpose doesn't help. Note: the S5 2/20 result was likely a rare-event regime, not a robust operator effect — later runs with identical hand-coded motifs yielded S5 0-1/20.
+- **1.3: Archive reinjection** — DONE. Failed because S3 is too rare (0.04%) to archive.
+- **1.4: Chemistry-aware duplication** — DONE. Failed. Bonded runs lack critical motifs (Da at 0.096% of runs, DaK at 0.001%). Cross-individual transfer also failed. Bonding is context-dependent — duplicating bonded substrings to new positions changes the fold context. See `exp_chemistry_aware_dup.py`.
+- **1.5: Endogenous motif discovery** — DONE. Three approaches tested:
+  - *Evolution-mined motifs*: FAILED. Easy tasks select for `BS` → `(count data/products)`, not for `Da`/`DaK`. Enriched substrings are hitchhikers, not functional motifs.
+  - *Chemistry screening*: SUCCEEDED at discovery. Da/QDa/DaK in top 0.08% of 242K screened substrings. See `exp_learned_motifs.py`.
+  - *Application phase*: All conditions (screened, hand-coded, random, baseline) statistically indistinguishable at 20 seeds. S1/S2 carriers erased by gen 25. The bottleneck shifted from motif supply to intermediate preservation.
 
 ### Next Experiments (Priority 1)
 
-**1.5: Learned motif library (NEXT)**
+**1.8: Neutral drift phases — intermediate preservation test (NEXT)**
 
-The central open question: can the system discover and accumulate useful motifs endogenously rather than having them hand-coded?
+The first test of the preservation hypothesis. Not a broad heuristic — a targeted mechanism test.
+
+**Hypothesis:** Selection is prematurely purging low-fitness intermediates that are necessary precursors to S3/S4.
+
+**Prediction:** Alternating selection-off windows (fitness = constant during drift phases) should increase persistence of S1/S2 carriers, raise S3 occupancy, and only then increase S4/S5 rates.
+
+**Failure mode:** Drift may accumulate junk bonds and wash out the useful motifs too.
 
 **Design:**
-1. Discovery phase: run 50 short evolution runs on easy tasks. For each 2-4 char substring in evolved genotypes, test in 100 random fold contexts. Score by how often it produces S1/S2/S3 assemblies.
-2. Application phase: run evolution on hard tasks with motif insertion drawing from the learned library.
-3. Compare: no motifs, hand-coded motifs, learned motifs, random motifs (control).
-
-**Hypothesis:** Motifs enriched by evolution on easy tasks produce useful building blocks for harder tasks. This is constructional selection: evolution shapes the GP map by enriching functional subsequences.
+- Combine chemistry-screened motifs with periodic drift windows
+- Three conditions: (a) continuous selection, (b) drift every 20 gens for 10 gens, (c) drift every 50 gens for 25 gens
+- **Critical readout:** Not final S5 alone, but whether drift changes the **lifetime and overlap** of motif-bearing intermediates. Track S1/S2/S3 carrier persistence across drift/selection boundaries.
+- Use the stage frequency trace as the primary diagnostic, not just final scaffold counts.
 
 **1.6: Population-level motif ecology**
 
-Keep a global motif pool updated from evolved populations. Motifs gain or lose frequency based on downstream success. This is a step toward open-ended motif accumulation.
+Keep a global motif pool updated from evolved populations. Motifs gain or lose frequency based on downstream success. Deferred pending 1.8 results — without intermediate preservation, even a perfect motif pool cannot accumulate compositional innovation.
 
 **1.7: Hierarchical evolution**
 
-Easy tasks evolve motifs, hard tasks consume and elaborate them. Two-level evolutionary process: outer loop evolves the motif library, inner loop evolves programs using it.
+Easy tasks evolve motifs, hard tasks consume and elaborate them. Deferred — same dependency on preservation mechanism.
 
 ### Superseded/Completed Experiments
 

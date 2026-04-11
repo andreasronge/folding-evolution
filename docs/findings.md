@@ -399,12 +399,66 @@ The complexity ceiling is a **building-block supply problem**:
 
 The analogy to biology: innovations arise from reuse of conserved, historically selected building blocks (domains, motifs, regulatory elements), not from random sequence variation. Generic duplication doesn't help; biased, functional duplication does.
 
-**The central open question:** Can the system discover and accumulate these motifs endogenously, rather than having them hand-coded? This is the constructional selection question (Altenberg): does evolution shape the genotype-phenotype map itself by enriching functional building blocks?
+### Endogenous Motif Discovery (Experiment 1.5)
 
-**Next directions:**
-1. Learned motif library: extract chemistry-aware motifs from evolution on easy tasks, apply to hard tasks
-2. Population-level motif ecology: motif pool updated from evolved populations, competing for inclusion
-3. Hierarchical evolution: easy tasks evolve motifs, hard tasks consume and elaborate them
+Three approaches were tested to make motif supply endogenous rather than hand-coded.
+
+**Chemistry-aware duplication (option D): FAILED.** Bonded runs in random genotypes are abundant (6.5 per genotype, avg length 3.0) but lack the critical motifs: `Da` appears in only 0.096% of bonded runs, `DaK` in 0.001%. Even the refined approach (duplicating contiguous bonded runs rather than arbitrary substrings) showed no improvement over baseline. Cross-individual bonded-run transfer also failed. The fundamental issue: bonding is context-dependent — a substring bonds at position X because of the fold topology at X. Copying it elsewhere changes the fold context entirely. The motif insertion approach works because sequences like `Da` encode fold instructions that CREATE the needed adjacency regardless of position.
+
+**Evolution-mined motifs (option A): FAILED.** Short evolution runs on easy tasks (count, first, rest) produced genotypes dominated by `BS` → `(count data/products)`. All enriched substrings were hitchhikers from the dominant genotype, not functional motifs. Zero overlap with hand-coded motifs. Root cause: easy tasks don't require `Da`, `DaK`, or comparator building blocks, so those motifs are never selected for. The critical building blocks for the filter program are compositionally useful but individually invisible to selection — `(get x :price)` fails the data-dependence gate unless wrapped in `(filter (fn [x] ...) data)`.
+
+**Chemistry screening (option B): SUCCEEDED at discovery.** Exhaustive screening of all 242,172 substrings of length 2-3 by bond production in random fold contexts. Each substring was placed in 50-200 random genotype backgrounds and scored by scaffold stage frequency (S1+ rate).
+
+Results — the hand-coded motifs rank in the **top 0.08%** endogenously:
+
+| Motif | Rank | out of | S1+ rate | S2+ rate | Program |
+|---|---|---|---|---|---|
+| `QDa` | #42 | 242K | 24.0% | 4.0% | `(fn x (get x :price))` |
+| `Da` | #135 | 242K | 16.0% | 8.0% | `(get x :price)` |
+| `DaK` | #186 | 242K | 14.0% | 10.0% | `(get x :price)` |
+
+The top screened motifs are `Da`/`aD` variants with flanking characters that improve fold topology: `aDl` at 40% S1+, `KaD` at 20% S2+, `DaL` at 22% S2+.
+
+This is a clean positive finding: the chemistry's own bonding rules, when systematically screened, identify the same building blocks that were hand-coded — plus superior variants. No evolution, no human domain knowledge. The fold/chemistry IS the motif discovery mechanism.
+
+### Application Phase: Intermediate Preservation Bottleneck
+
+Screened motifs were tested on the hard task (filter programs) alongside hand-coded and random motif controls. Pop=100, len=100, 300 gens, 20 seeds.
+
+| Condition | Avg bonds | S3 | S4 | S5 |
+|---|---|---|---|---|
+| No motifs (baseline) | 1.4 | 2/20 | 0/20 | 1/20 |
+| Chemistry-screened | 2.4 | 3/20 | 0/20 | 0/20 |
+| Hand-coded motifs | 2.1 | 3/20 | 1/20 | 1/20 |
+| Random motifs | 2.2 | 2/20 | 1/20 | 0/20 |
+
+**All conditions are statistically indistinguishable at 20 seeds.** The screened motifs raise average bond count (2.4 vs 1.4 baseline) and sustain S2 carriers early (4.6% at gen 10), but S1/S2 carriers are erased by gen 25. The motifs create raw material, but selection acts as a scrubber, not a ratchet.
+
+Three critical observations:
+
+1. **Hand-coded motifs underperforming the original module-operator result** (S5 1/20 vs 2/20) means the earlier breakthrough was a rare-event regime, not a robust operator effect.
+2. **Random motifs getting S4 1/20** is a warning against over-reading any single rare breakthrough at this sample size.
+3. **Higher bonds without better S4/S5** confirms that more local chemistry is not enough — the problem is coordinated multi-motif co-localization and survival under selection.
+
+### Revised Complexity Ceiling Assessment
+
+The complexity ceiling decomposes into **two separate constraints**:
+
+1. **Endogenous discovery of useful motifs is possible.** The chemistry's bond-production scoring identifies `Da`, `QDa`, and `DaK` in the top 0.08% of 242K screened substrings. The GP map contains endogenous information about useful building blocks.
+
+2. **Evolution under immediate fitness selection cannot preserve and compose those motifs into higher-order scaffolds.** Motif insertion creates S1/S2 intermediates, but selection eliminates them before they can combine into S3+ structures. The stage trace is the key evidence: S1/S2 carriers are purged by generation 25.
+
+This is a more specific and mechanistic story than "building-block supply problem." The supply can be solved endogenously. The preservation and compositional assembly of intermediates under selection is the remaining constraint. This connects directly to Altenberg: the GP map can expose useful building blocks, but the evolutionary regime determines whether they accumulate into constructional innovation.
+
+**Next experiment — intermediate preservation test (neutral drift phases):**
+
+*Hypothesis:* Selection is prematurely purging low-fitness intermediates that are necessary precursors to S3/S4.
+
+*Prediction:* Alternating selection-off windows should increase persistence of S1/S2 carriers, raise S3 occupancy, and only then increase S4/S5 rates.
+
+*Failure mode:* Drift may accumulate junk bonds and wash out the useful motifs too.
+
+*Critical readout:* Not final S5 alone, but whether drift changes the **lifetime and overlap** of motif-bearing intermediates. This is a test of a specific preservation mechanism, not a broad heuristic.
 
 ## 7. Coevolution Findings (Elixir)
 
@@ -442,7 +496,9 @@ See Section 6 for the full diagnostic series. The framing evolved through multip
 
 **Revision 3 (after transition analysis):** The S3→S4 transition IS achievable (0.32% per mutation) but S3 carriers are too rare (0.04% of random genotypes) for the transition to fire. Not structural impossibility, but structural accessibility under selection.
 
-**Current (after module operators):** The complexity ceiling is a **building-block supply problem**. Standard variation operators do not generate useful motifs at sufficient frequency. Supplying known-useful motifs raises scaffold density 250x and enables the full target program to evolve (2/20 seeds, including a fitness 0.832 breakthrough — the first unseeded discovery of the correct filter program). Generic substring operators don't help; only specific, functionally useful motifs create the spatial density needed for compositional assembly. The central open question is whether motif discovery can become endogenous rather than hand-coded — a direct test of constructional selection.
+**Revision 4 (after module operators):** The complexity ceiling is a building-block supply problem. Supplying known-useful motifs raises scaffold density 250x and enables the full target program to evolve (2/20 seeds, including a fitness 0.832 breakthrough). The central open question: can motif discovery become endogenous?
+
+**Current (after endogenous motif experiments):** The complexity ceiling decomposes into **two separate constraints**: (1) endogenous discovery of useful motifs — **solved** via chemistry screening, which identifies Da/QDa/DaK in the top 0.08% of 242K substrings without evolution or human knowledge; and (2) preservation and composition of intermediates under selection — **unsolved**, as selection destroys S1/S2 carriers by gen 25 before they can combine into S3+. The GP map contains endogenous information about useful building blocks, but the evolutionary regime cannot yet accumulate them into constructional innovation. Next test: neutral drift phases to determine whether selection-off windows allow intermediate persistence and overlap.
 
 ## 9. Eval Performance
 

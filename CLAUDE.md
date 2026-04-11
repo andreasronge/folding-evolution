@@ -24,9 +24,9 @@ This project continues research started in Elixir/PTC-Lisp (`~/projects/ptc_runn
 
 ## Tech Stack
 
-- **Language**: Python 3.12+
-- **GP Framework**: DEAP (or custom, TBD)
-- **Numerics**: NumPy for batch evaluation
+- **Language**: Python 3.12+ with Rust backend (PyO3)
+- **Rust acceleration**: `_folding_rust` module provides `rust_develop`, `rust_develop_batch` (Rayon parallel), and `rust_develop_and_score_batch` (full VM scoring). The Python `develop()` function auto-detects and uses the Rust path.
+- **Performance**: When writing experiment loops, use `develop_batch(genotypes)` for population evaluation (2-3x faster than per-individual `develop()`). The `dynamics.py` engine already uses batch and VM paths — prefer reusing it over writing custom eval loops.
 - **Visualization**: matplotlib/seaborn
 - **Notebooks**: Jupyter for experiments
 
