@@ -5,6 +5,7 @@ mod ast;
 mod engine;
 mod chemistry;
 mod vm;
+mod dataflow;
 
 use pyo3::prelude::*;
 use pyo3::types::{PyDict, PyList};
@@ -180,6 +181,53 @@ fn rust_vm_evaluate(
     results.iter().map(|v| value_to_py(py, v)).collect()
 }
 
+// ---------- dataflow (alternative representation) ----------------------------
+
+/// Dataflow develop + score batch: fold onto fixed grid, K rounds of broadcast
+/// message passing, fitness scoring. An alternative to the chemistry pipeline.
+/// Returns: [(fitness, source_or_none, depth), ...] per genotype.
+#[pyfunction]
+fn rust_dataflow_develop_and_score_batch(
+    py: Python<'_>,
+    genotypes: Vec<String>,
+    contexts: &RustContexts,
+    targets: &RustTargetOutputs,
+) -> PyResult<Vec<(f64, Option<String>, usize)>> {
+    let ctx_slice = &contexts.contexts;
+    let target_slice = &targets.outputs;
+
+    let results = py.allow_threads(|| {
+        // Build neighbor table once (shared across all individuals)
+        let ntable = dataflow::grid::NeighborTable::new();
+
+        genotypes.par_iter().map(|g| {
+            dataflow::evaluate::develop_and_score_dataflow(
+                g.as_bytes(), ctx_slice, target_slice, &ntable,
+            )
+        }).collect::<Vec<_>>()
+    });
+
+    Ok(results)
+}
+
+/// Evaluate a single genotype using dataflow on all contexts.
+/// Returns list of Python objects (one per context). For testing equivalence.
+#[pyfunction]
+fn rust_dataflow_evaluate(
+    py: Python<'_>,
+    genotype: &str,
+    contexts: &RustContexts,
+) -> PyResult<Vec<PyObject>> {
+    let ntable = dataflow::grid::NeighborTable::new();
+    let grid = dataflow::grid::fold_fixed(genotype.as_bytes());
+
+    let results: Vec<Value> = contexts.contexts.iter()
+        .map(|ctx| dataflow::evaluate::evaluate_dataflow(&grid, ctx, &ntable))
+        .collect();
+
+    results.iter().map(|v| value_to_py(py, v)).collect()
+}
+
 // ---------- debug functions --------------------------------------------------
 
 #[pyfunction]
@@ -215,6 +263,8 @@ fn _folding_rust(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(rust_develop_batch, m)?)?;
     m.add_function(wrap_pyfunction!(rust_develop_and_score_batch, m)?)?;
     m.add_function(wrap_pyfunction!(rust_vm_evaluate, m)?)?;
+    m.add_function(wrap_pyfunction!(rust_dataflow_develop_and_score_batch, m)?)?;
+    m.add_function(wrap_pyfunction!(rust_dataflow_evaluate, m)?)?;
     m.add_function(wrap_pyfunction!(rust_fold_grid, m)?)?;
     m.add_function(wrap_pyfunction!(rust_adjacency, m)?)?;
     m.add_function(wrap_pyfunction!(rust_assemble_debug, m)?)?;
