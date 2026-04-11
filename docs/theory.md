@@ -55,21 +55,64 @@ The system is inspired by protein folding:
 
 The analogy is structural, not chemical. We're not modeling physics — we're borrowing the key insight that **linear sequence -> spatial arrangement -> function** creates interesting evolutionary properties.
 
-## Relevant Literature
+## Related Work
 
-### Direct References
-- **Altenberg, L. (1995/2023)**. "Genome Growth and the Evolution of the Genotype-Phenotype Map." In *Evolution and Biocomputation*, Springer LNCS vol. 899, pp. 205-259. — The theoretical backbone.
-- **Hillis, W.D. (1990)**. "Co-evolving parasites improve simulated evolution as an optimization procedure." — Parasitic coevolution for sorting networks.
-- **Bonner, J.T. (1974)**. *On Development*. — Low pleiotropy principle.
-- **Wagner, G.P. (1989)**. "The origin of morphological characters and the biological basis of homology." — Linear G-P map model.
+This project sits at the intersection of five research threads. The specific combination — string → spatial fold → local chemistry → executable symbolic program → coevolution — appears to be a novel recombination of several older ideas rather than a direct reimplementation of any one prior model.
+
+### 1. Theory: GP-Map Evolution and Constructional Selection
+
+- **Altenberg, L. (1995/2023)**. "Genome Growth and the Evolution of the Genotype-Phenotype Map." In *Evolution and Biocomputation*, Springer LNCS vol. 899, pp. 205-259. — The theoretical backbone. His "constructional selection" view is explicitly about evolution acting on the genotype-phenotype map itself and on the kinds of variation a representation makes available. Closest theoretical match for our shift from "evolve better programs" to "what developmental map produces better evolvability under different regimes?"
+- **Wagner, G.P. (1989)**. "The origin of morphological characters and the biological basis of homology." — Linear G-P map model. Three-layer model (genotype → phenotype → fitness) predicts low pleiotropy wins under stabilizing selection — confirmed by our static metrics. The right G-P map depends on environmental stability.
+- **Bonner, J.T. (1974)**. *On Development*. — Low pleiotropy principle. Our static metrics confirmed Bonner's prediction; our dynamic results show it fails under directional selection.
+- **Manrubia et al., Nichol et al.** — Reviews on GP-map structure emphasizing that neutrality, phenotypic bias, robustness, and accessibility of variation shape evolutionary dynamics. Supports measuring these as properties of the map, not just of individual programs.
+
+### 2. GP-Map Structure: RNA and Neutral Networks
+
+The strongest biological analogue to our folding layer. In RNA, a linear sequence maps to a folded secondary structure, and the structure of that map produces neutrality, robustness, phenotypic bias, and constrained innovation.
+
+- **Dingle, Louis et al.** — RNA GP-map structure strongly constrains evolution. Phenotypic bias and accessibility properties of the map shape evolutionary outcomes. Most relevant for interpreting our neutrality, pleiotropy, and regime-shift findings.
+- **Wagner, A.** — Robustness and evolvability via neutral networks. Uses RNA as a core example of how neutral networks coexist with innovation. Our static-vs-dynamic discrepancy (high neutrality looks good statically but is inertia dynamically) maps directly to this framework.
+- **Kimura, Huynen** — Neutral evolution theory and how neutral mutations enable exploration of genotype space.
+
+### 3. GP Precedents: Indirect Encodings and Dynamic Environments
+
+- **O'Neill & Ryan** — Grammatical Evolution. Closest GP precedent on the "linear genome indirectly yields executable program" axis. GE uses a grammar-based mapping with neutrality via redundant codons. Our system differs because indirection is spatial and chemistry-like rather than grammatical.
+- **Miller** — Cartesian Genetic Programming. Close match on neutrality, inactive genetic material, and many-to-one mappings. Our "spacers / junk-DNA-like regions" are in the same family of ideas, though our phenotype is assembled by spatial adjacency rather than indexed graph decoding.
+- **Stanley** — Artificial embryogeny / developmental encodings. Taxonomy of indirect encodings where the genome drives a developmental process. Conceptually close to our fold-and-bond pipeline, though most of that literature grows graphs, circuits, or neural networks rather than symbolic programs.
+- **O'Neill et al. (GECCO 2011)** — "Dynamic Environments Can Speed Up Evolution with Genetic Programming." Explicitly tested the Kashtan & Alon hypothesis inside GP using "structurally varying goals" (SVG) where tasks share subproblems. Key comparison point: they tested environmental variation as a property of the task; we test it as an interaction with the representation. Their result was about convergence speed; our result is about representational accessibility (direct encoding never discovers the solution, not just slowly).
+
+### 4. Evolutionary Dynamics: Coevolution and Changing Environments
+
+- **Hillis, W.D. (1990)**. "Co-evolving parasites improve simulated evolution as an optimization procedure." — Foundational reference for coevolution as a way to escape local optima. Direct precedent for our solver/tester/oracle ecology.
+- **Zaman et al. (2014)** — "Coevolution Drives the Emergence of Complex Traits and Promotes Evolvability." Host-parasite coevolution in Avida leads to more complex digital organisms vs static environments. Our bond count trajectory is analogous to their instruction count / logic depth metric. Our complexity ceiling at 3 bonds mirrors the early plateau pattern in Avida experiments before scaffolding emerges. Key difference: Avida does not vary the genotype-phenotype map.
+- **Lenski et al.** — "The Evolutionary Origin of Complex Features." Complex traits evolve through incremental scaffolding of simpler ones (NOT → NAND → AND → EQU). Our chemistry has a similar scaffolding structure (get+key → comparator → fn predicate → filter) but evolution currently stalls at count+rest. This suggests the complexity ceiling is a property of the developmental map, not just insufficient search time.
+- **Kashtan & Alon** — Modularly varying goals. Varying environments speed evolution and promote modular structure. Natural comparison for our regime shift result. Previous work showed that modularly varying environments accelerate evolution in neural networks, logic circuits, and some GP systems — but those studies treated the genotype-phenotype mapping as fixed. Our result shows that the choice of developmental encoding fundamentally alters the system's ability to respond to environmental shifts.
+- **Clune, Mouret, Lipson** — "The Evolutionary Origins of Modularity." Changing environments cause evolution to produce modular structures. Complements Kashtan & Alon.
+- **Gupta et al.** — Coevolution deforming fitness landscapes to open new innovations. Precedent for our coevolution designs, though our "single shared representation with fluid roles" is a more representation-centric twist.
 - **Kauffman, S.A. (1989)**. "Adaptation on rugged fitness landscapes." — NK adaptive landscape model.
 
-### Related Work (for context)
-- **Developmental GP**: Genotype-phenotype mappings in GP (e.g., Banzhaf's linear GP, grammatical evolution). How does folding compare?
-- **Cartesian GP (Miller)**: Another spatial encoding — genes have grid positions and connection rules. Shares the spatial adjacency idea.
-- **Neutral networks (Kimura, Huynen)**: Theory of neutral evolution and how neutral mutations enable exploration of genotype space.
-- **Punctuated equilibrium (Gould & Eldredge)**: Our fitness jumps in folding resemble punctuated dynamics — long stasis interrupted by rapid change.
-- **Red Queen hypothesis**: Arms race dynamics in coevolution. Our coevolution designs are testing whether folding enables sustained Red Queen dynamics.
+### 5. Mechanism: Fold-Dependent Assembly of Executable Structure
+
+- **Morris, H. — Typogenetics** (from Hofstadter's *Gödel, Escher, Bach*). Closest historical precursor. A strand encodes operations on itself, and the strand's derived "enzyme" has a 2D tertiary structure with left/right/straight folding inclinations; that folded structure determines binding preference and where operations act. Overlaps on: linear symbolic sequence, folding-derived structure, local binding/adjacency effects, executable consequences, ALife framing. Key difference: Typogenetics is about self-transforming/self-reproducing strands; our system uses a folded string to assemble a *separate* executable symbolic phenotype via local chemistry rules. Self-modification vs program synthesis.
+- **Fontana & Buss — Algorithmic Chemistry (AlChemy)**. Molecules are computational objects whose interactions generate new computational objects. Strong precedent for our "chemistry yields computation" framing, but not spatial in the same way and does not use folding-derived geometry to assemble programs.
+- **Buliga — chemlambda / molecular computers**. Molecules as graphs of atoms and bonds, computation via local graph rewrites interpreted as chemical reactions. Close to our "chemistry rules assemble behavior" intuition, but the executable structure is already graph-like, whereas our system starts from a 1D sequence that must first acquire geometry through folding.
+
+### Novelty Assessment
+
+The general idea is not unprecedented; the nearest ancestor is Typogenetics. But the specific use of protein-like folding as a genotype-phenotype map that assembles runnable symbolic programs appears to be a novel combination. No prior system we found implements the full chain: string genome → fold into space → adjacency/bond rules → assembled executable symbolic program. The literature has pieces in separate traditions: folding and binding in artificial genetics (Typogenetics), chemistry as computation (AlChemy), local graph rewrites (chemlambda), digital organism dynamics (Avida).
+
+### Positioning Summary
+
+This project is closest to RNA-style genotype-phenotype map research and indirect/developmental encodings in evolutionary computation, with coevolutionary pressure borrowed from Hillis/Avida-style adversarial evolution. Its main novelty is replacing grammar or graph decoding with a protein-inspired fold-and-bond developmental process that assembles symbolic programs from local spatial interactions. The strongest comparison axes are:
+
+| Result | Compare against |
+|--------|----------------|
+| Static metrics vs dynamic adaptation | RNA GP-map, robustness/evolvability theory |
+| Direct vs indirect encoding | GE, CGP, developmental encoding surveys |
+| Regime shift response | O'Neill GECCO 2011, Kashtan & Alon |
+| Coevolution for escaping plateaus | Hillis, Zaman/Avida, Gupta |
+| Complexity ceiling as map property | Lenski/Avida scaffolding, Zaman complexity trajectories |
+| Fold-dependent program assembly | Typogenetics, AlChemy, chemlambda |
 
 ## Open Theoretical Questions
 
