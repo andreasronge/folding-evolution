@@ -45,43 +45,103 @@ fitness = base_fitness + lambda_complexity * bond_count
 
 **Measure**: Average bond count vs lambda_complexity. Find the sweet spot where complexity increases without selection pressure collapsing to "build the longest program regardless of correctness."
 
-## Priority 2: Validate Dynamic Findings at Scale
+## Priority 2: The Central Experiment — Representation x Selection Regime
 
-The regime shift result (folding wins on dynamics) was measured at small scale (pop=50, len=30, 3 runs). Need statistical confidence.
+The strongest claim this project can make: **the usefulness of a GP map depends on the selection regime**. Canalized maps favor stability; pleiotropic developmental maps favor adaptation under environmental change. This is Altenberg's prediction, tested directly.
 
-### Experiment 2.1: Regime Shift with Statistical Power
+The existing regime shift data (pop=50, len=30, 3 runs) is preliminary. Direct encoding scored 0.10 even before the shift — it may never solve these tasks at all. If direct encoding can't compete under stable conditions, there is no crossover interaction to measure and the comparison is invalid.
 
-**Hypothesis**: Folding's dynamic advantage holds across many seeds and larger populations.
+This priority has three phases: calibrate, then the 2x2 experiment, then mechanism.
 
-**Setup**:
-- 30 independent runs per encoding (folding vs direct)
-- pop=100, genotype_length=50
-- Regime A: 30 gens, Regime B: 50 gens
-- Measure: pre-shift fitness, post-shift drop, recovery rate, final fitness, fitness jumps
+### Phase 1: Calibration (run first)
 
-**Analysis**: Wilcoxon rank-sum test on final fitness. Report effect size and confidence intervals.
-
-### Experiment 2.2: Continuous Regime Shifts (Red Queen)
-
-**Hypothesis**: Folding's advantage grows under repeated environmental changes.
+**Goal**: Determine whether direct encoding can solve any tasks in this system, and at what difficulty level.
 
 **Setup**:
-- Shift target problems every N generations (N = 5, 10, 20, 50)
-- 500 total generations
-- Compare folding vs direct encoding: average fitness, adaptation lag after each shift
+- Direct encoding, stable target, 500 gens, pop=50, 10 seeds
+- Task sweep across complexity levels:
+  - 1-bond: single data source (trivial baseline)
+  - 2-bond: `count(data)`, `first(data)`
+  - 3-bond: `count(filter(fn [...] data))`
+- Also run DEAP tree GP (same function/terminal set) as reference
+- Genotype length: 30 and 50
 
-**Measure**: Time to recover 80% of pre-shift fitness after each shift. Does adaptation lag decrease over time (learning to adapt)?
+**Measure**: Generation of first solution, final fitness, convergence curve. Find the task complexity where direct encoding reliably reaches >0.5 fitness.
 
-### Experiment 2.3: Stabilizing vs Directional Selection
+**Decision gate**:
+- If direct encoding succeeds on some tasks: use those tasks for the 2x2
+- If direct encoding never succeeds: replace it with tree GP baseline (Option A) or redesign the direct encoding as stack-based assembly (Option B)
+- Option B (stack-and-bond): read left-to-right, maintain a stack, push fragments, pop and bond when a valid combination appears. Same alphabet and operators as folding. Cleaner isolation of the spatial-topology variable.
 
-**Hypothesis**: Direct encoding wins under stable targets; folding wins under shifting targets. (Altenberg's prediction.)
+**Why this phase matters**: The 2x2 is only as strong as its weaker arm. Skip calibration and you risk 30-seed runs that produce "folding wins everything" — a result that looks like a rigged comparison.
+
+### Phase 2: The 2x2 Experiment
+
+**Hypothesis**: Representation x selection regime interaction — direct/canalized encoding wins under stable targets; folding wins under shifting targets.
+
+**Design**:
+```
+              Stable target    Shifting target
+Folding       (F+S)            (F+Sh)
+Baseline*     (B+S)            (B+Sh)
+
+* Baseline = whichever canalized encoding survived Phase 1
+  (direct encoding, tree GP, or stack-based assembly)
+```
 
 **Setup**:
-- Condition A: Fixed target for 200 gens (stabilizing)
-- Condition B: Target shifts every 10 gens (directional)
-- 20 runs per condition per encoding
+- Genotype length: 50 (and 30 as secondary, to show result is not scale-dependent)
+- Population: 50
+- Generations: 200
+- Seeds: 30 minimum per condition (120 total runs)
+- Task pool: structurally related targets (count products, count employees, count orders, count expenses) calibrated from Phase 1
+- Stable condition: one target fixed for 200 gens
+- Shifting condition: cycle through task pool every N gens
+- Shift frequency sweep: N = 5, 10, 20, 50 (find where the crossover happens)
 
-**Measure**: Final fitness in both conditions. Interaction effect (encoding x condition).
+**Matched controls**:
+- Same alphabet, same mutation/crossover operators, same population size, same evaluation budget
+- Stable and shifting use the same task pool — stable just fixes one target from the pool
+- Task difficulty matched to what both representations can solve (from Phase 1)
+
+**Primary measures**:
+- Best fitness over time (the main 4-curve figure)
+- Mean recovery speed after each shift (aggregated across all shifts)
+- Time to first correct solution
+- Number of fitness jumps (>0.1 improvement in one generation)
+- Final success rate across seeds
+
+**Statistical analysis**:
+- Two-way ANOVA: representation x regime, testing for interaction effect
+- Wilcoxon rank-sum on final fitness per condition
+- Effect sizes and 95% confidence intervals
+- The shift frequency sweep is reported as a curve: folding advantage vs shift frequency
+
+**The figure**: One plot with four curves (F+S, F+Sh, B+S, B+Sh). A second plot showing mean post-shift recovery aggregated over all shifts. If the interaction exists, it will be visually obvious.
+
+**Convergence check**: Run both representations for 500 gens on stable target (10 seeds) to confirm fitness has plateaued. If the baseline is still improving at 200 gens, extend the main experiment or report that the 200-gen result is a lower bound.
+
+### Phase 3: Mechanism (explains the 2x2)
+
+Run after Phase 2 confirms the interaction effect. These explain *why* the interaction exists.
+
+**3a. Pleiotropy per mutation on evolved populations**
+
+For each individual (evolved and random), apply 100 point mutations. Count phenotypic traits changed per mutation (bonds, program output, active sites). Compare distributions between representations and between stable-evolved vs shift-evolved populations.
+
+Altenberg predicts: evolved < random. We additionally predict: shift-evolved folding populations may show *higher* pleiotropy than stable-evolved folding populations (selection maintained exploratory capacity).
+
+**3b. Phenotype frequency distribution**
+
+Generate 100,000 random genotypes per length (30, 50, 80). Map each through folding and direct encoding. Plot the phenotype frequency distribution.
+
+Prediction: folding produces a more skewed distribution (few high-frequency simple phenotypes, many rare complex phenotypes). This reframes the complexity ceiling as a phenotype accessibility problem, connecting to Dingle et al.'s RNA GP-map work.
+
+**3c. Motif enrichment in evolved genotypes**
+
+Extract all 3-character and 4-character subsequences from evolved genotypes (post-experiment). Compare frequencies to random genotypes. Compute enrichment ratios.
+
+If enriched motifs correspond to functional fold patterns (e.g., "DaK" = get+price+>), this is evidence of constructional selection — evolution shaping the GP map, not just the programs the map produces.
 
 ## Priority 3: Altenberg-Inspired Measurements
 
