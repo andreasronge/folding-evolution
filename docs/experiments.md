@@ -6,74 +6,59 @@ Ordered by expected impact. Each experiment has a clear hypothesis and measurabl
 
 The single most important problem. Most complex evolved program is 3 bonds. 4+ bond programs never emerge through evolution despite being abundant in random genotypes.
 
-### Status: Diagnosed — Developmental Accessibility Bottleneck
+### Status: Building-Block Supply Problem — Motif Insertion Breakthrough
 
-A comprehensive diagnostic series (see findings Section 6) established the ceiling is a **developmental accessibility bottleneck**, not a representation, selection, or task problem:
+A comprehensive diagnostic series (see findings Section 6) progressively narrowed the bottleneck:
 
-**Representation is not the bottleneck:**
-- C1 survey: 4+ bond programs in 23-74% of random genotypes
-- C2: known 4-bond genotypes are robust (44% survive mutation)
-- Distance-2 bonds increase avg bonds by 70%
+**What is NOT the bottleneck:**
+- Representation expressivity (C1: 4+ bonds in 23-74% of random genotypes)
+- Selection maintenance (seeded S4 swept to fixation at 0.832)
+- Task design (filter tasks verified hard; staircase, lexicase, compositional credit all failed)
+- Generic structural variation (substring duplication/transposition: no improvement)
+- Archive preservation (nothing to archive — S3 too rare at 0.04%)
 
-**Selection is not the bottleneck:**
-- Seeded S4 filter program swept to fixation (100/100 individuals, fitness 0.832)
-- Selection maintains complex programs enthusiastically once they exist
+**What IS the bottleneck: building-block supply.**
+- S3 carriers (fn+comparator+get_price) exist at only 0.04% of random genotypes
+- The combination pipeline narrows exponentially: 42% → 12% → 0.8% → 0.04%
+- Standard variation operators cannot generate useful motifs at sufficient frequency
+- The S3→S4 transition IS achievable (0.32% per mutation) but fires too rarely because S3 is too rare
 
-**Task design is not the bottleneck:**
-- Filter tasks are verified hard (max 62.5% accidental match)
-- Staged curriculum, staircase fitness, lexicase selection all failed to bridge the gap
-- Aligned compositional fitness created new deceptive attractors without breaking through
+**The breakthrough: known-motif insertion raises S3 density 250x (0.04% → 10.3%)** and enables the full target program to evolve without direct seeding. Seed 13 produced `count(filter(fn x (> (get x :price) 200)) data/products)` at fitness 0.832 — the first unseeded discovery of the correct filter program. Generic substring operators (duplication, transposition) did not help.
 
-**The bottleneck is the S3→S4 structural transition:**
-- Individual building blocks are common: `(get x :price)` at 42%, `(fn x ...)` at 50%, `(filter (fn ...) data)` at 7%
-- But their combination is exponentially rare: full chain at 0.1%
-- Selection actively eliminates useful predicates (fn+comparator drops 8.2%→0.2%)
-- Seeded modules degrade within 10-25 generations
-- S3 (fn+predicate) NEVER elaborates into S4 (filter+fn+data)
-- The spatial conjunction required for filter+fn+data on the 2D grid cannot be reached by incremental point mutation or crossover
+### Completed Experiments
 
-**The biological analogy:** innovations requiring combination of pre-existing modules via rare recombination, not smooth incremental improvement.
+- **1.0: S3→S4 Transition Analysis** — DONE. S3→S4: 0.32%/mutation, S4→S5: 26.6%. Crossover: S3×random→S4 at 6.9%. The transitions are possible; S3 rarity is the bottleneck.
+- **1.1: Module operators** — DONE. Motif insertion works (S3 5/20 seeds, S5 2/20 seeds). Generic dup/transpose doesn't help.
+- **1.3: Archive reinjection** — DONE. Failed because S3 is too rare (0.04%) to archive. The mechanism is sound but needs motif supply upstream.
 
 ### Next Experiments (Priority 1)
 
-**1.0: S3→S4 Transition Analysis (NEXT)**
+**1.5: Learned motif library (NEXT)**
 
-Before changing any mechanism, map the exact failure boundary. Starting from S3 and S4 genotypes, systematically apply every single-character mutation and crossover at every position. Measure:
-- How often does mutation of an S3 genotype produce S4-like assembly?
-- How often does mutation of S4 produce count(S4)?
-- Which character positions and substitutions create successful transitions?
-- Does crossover between partial-module genotypes ever combine them?
+The central open question: can the system discover and accumulate useful motifs endogenously rather than having them hand-coded?
 
-This tells us whether the problem is mutation scale, crossover destructiveness, chemistry greediness, or fold-context fragility — and directly informs which operator to fix.
+**Design:**
+1. Discovery phase: run 50 short evolution runs on easy tasks. For each 2-4 char substring in evolved genotypes, test in 100 random fold contexts. Score by how often it produces S1/S2/S3 assemblies.
+2. Application phase: run evolution on hard tasks with motif insertion drawing from the learned library.
+3. Compare: no motifs, hand-coded motifs, learned motifs, random motifs (control).
 
-**1.1: Module-preserving/combining operators**
+**Hypothesis:** Motifs enriched by evolution on easy tasks produce useful building blocks for harder tasks. This is constructional selection: evolution shapes the GP map by enriching functional subsequences.
 
-Motivated by the seeded elaboration results. The current operators act at the wrong scale (single characters) for the innovations needed (multi-character spatial conjunctions).
+**1.6: Population-level motif ecology**
 
-Options:
-- Motif-aware mutation: duplicate or transpose discovered subassemblies
-- Module-preserving crossover: cut at module boundaries, not arbitrary positions
-- Gene duplication: copy useful subsequences within the genotype
-- Spacer-aware recombination: respect fold-context boundaries
+Keep a global motif pool updated from evolved populations. Motifs gain or lose frequency based on downstream success. This is a step toward open-ended motif accumulation.
 
-**1.2: Chemistry affinity bias for compositional closure**
+**1.7: Hierarchical evolution**
 
-Make the chemistry preferentially form the useful higher-order bonds (filter+fn+data) over junk bonds. The DevGenome infrastructure is built. Now motivated by the finding that trivially-true filters are selected FOR while useful predicates are selected AGAINST — the chemistry should bias toward meaningful assembly.
+Easy tasks evolve motifs, hard tasks consume and elaborate them. Two-level evolutionary process: outer loop evolves the motif library, inner loop evolves programs using it.
 
-**1.3: Archive/replay of useful partial modules**
+### Superseded/Completed Experiments
 
-Preserve rare useful substructures in an archive (MAP-Elites over bond count × structural motif presence). Periodically reinsert archived modules into the evolving population. This addresses the discovery problem: useful building blocks appear at ~0.1-8% frequency in random genotypes but are eliminated by selection.
-
-**1.4: Multi-gene architecture**
-
-If composition of semi-independently discoverable parts is the bottleneck, try genotypes with separate gene segments for predicate, wrapper, and aggregation. Each segment folds locally, then composition occurs at the AST level or via constrained joint folding.
-
-### Superseded Experiments
-
-- **Scale Up (old 1.1)**: C1 showed 4+ bonds are already abundant. More length/pop/gens doesn't help.
-- **Complexity-Biased Selection (old 1.3)**: Produces junk bonds, not useful structure.
-- **Generic fitness shaping**: Staircase, lexicase, compositional credit all failed — the problem is not selection but structural reachability.
-- **Evolvable chemistry alone**: d2 increases bond counts but not useful structure. Chemistry variation is necessary but not sufficient without operator/architecture changes.
+- **Scale Up**: C1 showed scaling doesn't help — more bonds but not better programs.
+- **Complexity-Biased Selection**: Produces junk bonds, not useful structure.
+- **Generic fitness shaping**: Staircase, lexicase, compositional credit all failed.
+- **Evolvable chemistry alone**: d2 increases bond counts but not useful structure.
+- **Generic substring operators**: Duplication/transposition don't increase scaffold frequency.
 
 ## Priority 2: The Central Experiment — Representation x Selection Regime
 
