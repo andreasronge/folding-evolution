@@ -261,22 +261,82 @@ Tested whether a structurally informed fitness function (rewarding numeric type,
 
 **The gap between rest-chains and filter programs is structural, not selective.** No smooth path exists in the current representation from `count(rest(rest(products)))` to `count(filter(fn [x] (> (get x :price) 200)) data/products)`. These are qualitatively different program structures requiring different spatial arrangements on the 2D grid. No amount of selection refinement bridges this gap — it requires a qualitative structural leap in the genotype.
 
+### Substructure Frequency Analysis
+
+Scanned random genotypes and evolved populations for components of the target filter program. Individual building blocks are common in random genotypes at length 100:
+
+| Substructure | Random freq | Description |
+|---|---|---|
+| `(get x :KEY)` | 41.5% | Accessor + field bond |
+| `(> EXPR VALUE)` | 71.9% | Comparator expression |
+| `(> (get x :KEY) VALUE)` | 11.9% | Comparator with get operand |
+| `(fn x EXPR)` | 50.5% | Fn wrapper |
+| `(fn x (> (get x :KEY) VALUE))` | 0.8% | Full predicate |
+| `(filter (fn ...) DATA)` | 6.7% | Higher-order with fn |
+| `filter(fn(comparator(get)))` | 0.1% | Complete filter chain minus count |
+
+**The pipeline narrows exponentially at each combination step**: 42% → 12% → 0.8% → 0.1%.
+
+**Selection destroys the useful intermediates.** In evolved populations, comparator-based predicates (`fn(comparator)`) drop from 8.2% to 0.2% over 200 generations. Meanwhile, trivially-true filters (`filter(fn x 400)`) are selected FOR (1.8% → 29.4%). Selection replaces useful predicates with trivial constants because trivial filters produce the same output as `count(products)`.
+
+The full chain `filter(fn(>(get x :price) VALUE))` was **never observed** in any evolved individual across any seed at any generation.
+
+### Seeded Module Elaboration
+
+Tested whether evolution can grow partial filter substructures into complete programs when seeded into 20% of the population. Four progressive stages:
+
+| Stage | Core genotype | Program | Bonds |
+|---|---|---|---|
+| S1 | `Da` | `(get x :price)` | 1 |
+| S2 | `DaK5` | `(> (get x :price) 500)` | 2 |
+| S3 | `QDaK5` | `(fn x (> (get x :price) 500))` | 3 |
+| S4 | `QDaK5XAS` | `(filter (fn x (> (get x :price) 500)) data/products)` | 4 |
+
+**Results: seeded modules degrade.** Every substructure was eliminated within 10-25 generations. Even the complete S4 filter program was replaced by `count(products)` in all but one seed. The seeded `(get x :price)` dropped from 5.0 to 0.0 individuals. `(fn x (> (get x :KEY) VALUE))` dropped from 1.0 to 0.0.
+
+### Breakthrough: Seeded S4 Can Sweep Under Right Conditions
+
+One critical exception: **Original fitness, S4 seeded, seed 7** — the complete `count(filter(fn x (> (get x :price) 200)) data/products)` program evolved from the seeded S4 genotype and swept the entire population (100/100 individuals by gen 16). Best fitness 0.832, the highest ever observed.
+
+What happened: the seeded S4 genotype `QDaK5XAS` (threshold 500) mutated to threshold 200, producing the exact target program. This scored 0.832 as a numeric output, beating all rest-chain shortcuts (0.769), and swept via selection.
+
+**Key comparisons:**
+
+| Condition | Full filter chain ever found? | Peak count |
+|---|---|---|
+| Original fitness, S4 seeded | YES — seed 7 gen 16 | 100/100 individuals |
+| Aligned fitness, S4 seeded | YES — seed 6 gen 8 | 44/100 individuals |
+| Aligned fitness, S3 seeded | NEVER | 0 |
+| Aligned fitness, no seeding | NEVER | 0 |
+| Any unseeded condition ever | NEVER | 0 |
+
+**The S3→S4 gap is the critical structural bottleneck.** S3 (fn+predicate) never elaborates into S4 (filter+fn+data) because the filter character must appear adjacent to both the fn-expression and a data source on the 2D grid — a spatial conjunction that requires coordinated multi-character changes, not incremental mutation.
+
+**Once the complete filter program exists and produces the correct numeric output, selection maintains it enthusiastically.** The problem is not maintenance but discovery of the required spatial arrangement.
+
+### Aligned Compositional Fitness
+
+Tested whether rewarding list-valued filter intermediates (via `count(output)` fallback when output is list and target is numeric) would prevent anti-selection of filter programs.
+
+The filter program `(filter (fn x (> (get x :price) 500)) data/products)` scored 0.050 under original fitness (wrong-type floor for list output vs numeric target) but 0.428 under aligned fitness. However, this also rewarded trivially-true filters at high scores, creating a new deceptive attractor. The aligned fitness did not break through on its own — the critical factor was having the correctly-thresholded `count(filter(...))` which already returns a number.
+
 ### Revised Complexity Ceiling Assessment
 
-The original framing ("representation/search issue, potential fixes: scale up, seed, complexity-biased selection") was wrong. The diagnostics show:
+The complexity ceiling is a **developmental accessibility bottleneck**:
 
-1. **The representation can produce 4+ bond programs** — they're abundant in random genotypes.
-2. **The tasks can require 4+ bonds** — filter tasks are verified hard under exact match.
-3. **The chemistry can be evolved** — d2 weights move upward under selection.
-4. **But there is no incremental path from simple to complex programs.** The fitness landscape has a structural gap. Rest-chain programs and filter programs occupy disconnected regions of genotype space. Selection pressure, curriculum design, and chemistry variation all fail to bridge this gap.
+1. **The representation can express complex programs** — 4+ bond programs are abundant in random genotypes (23-74%).
+2. **Selection maintains them once found** — the S4 filter program swept to fixation in seed 7.
+3. **Individual building blocks are discoverable** — `(get x :price)` at 42%, `(fn x ...)` at 50%, `(filter (fn ...) data)` at 7%.
+4. **But the search operators almost never create the required spatial conjunction.** The S3→S4 transition (fn-predicate → filter+fn+data) requires a specific multi-character spatial arrangement that point mutation and crossover cannot bridge incrementally.
 
-The ceiling is a **reachability problem within the developmental map**, not a search problem or a selection problem. The chemistry produces either simple programs (count, rest chains) or syntactically complex but semantically useless programs (deeply nested contains?, match). It does not produce the intermediate forms that would serve as stepping stones toward useful complex programs like filter expressions.
+The analogy to biology: many innovations require pre-existing modules to be combined by rare recombination events, not reached by smooth scalar improvement. The breakthrough seed (S4→count(filter(...)→sweep) follows this pattern exactly: a latent scaffold, one critical mutation, then rapid selective amplification.
 
-Potential directions:
-- Chemistry quality: affinity-based bonding that preferentially forms useful bonds (Stage 2)
-- Softer chemistry: graded/probabilistic bonds, provisional assemblies
-- Hierarchical assembly: stable submodules that compose into larger programs
-- Alternative developmental processes: codon tables, stack machines
+**Next directions** (in priority order):
+1. Transition analysis: map the exact failure boundary between S3 and S4 genotypes under mutation and crossover
+2. Module-preserving/combining operators: motif-aware mutation, module-preserving crossover, duplication
+3. Chemistry affinity bias: preferential bonding for compositional closure (filter+fn+data)
+4. Archive/replay of useful partial modules
+5. Multi-gene architecture: semi-independent gene segments for predicate, wrapper, aggregation
 
 ## 7. Coevolution Findings (Elixir)
 
@@ -308,7 +368,9 @@ See Section 6 for the full diagnostic series. The original framing is superseded
 
 **Original claim:** "representation/search issue — scale up, seed, or bias selection."
 
-**Revised:** The ceiling is a **reachability problem in the developmental map**. The representation can express 4+ bond programs (C1 diagnostic: 23-74% of random genotypes). The tasks can require them (verified hard under exact match). Selection can be refined (staircase, lexicase). Chemistry can evolve (d2 moves upward). But evolution cannot incrementally reach filter programs from rest-chain programs because they occupy disconnected regions of genotype space. No intervention on the selection or task side alone bridges this structural gap.
+**Revised (after staircase+lexicase experiments):** The ceiling is a reachability problem — selection-side interventions cannot bridge the structural gap.
+
+**Further revised (after seeded elaboration):** The ceiling is a **developmental accessibility bottleneck**. The representation can express complex programs, and selection maintains them enthusiastically once found. The problem is specifically the S3→S4 transition: creating the spatial conjunction where filter, fn-expression, and data source are all adjacent on the 2D grid. Individual building blocks are common; their combination is astronomically rare under point mutation and crossover. This is analogous to biological innovations that require rare recombination of pre-existing modules rather than smooth incremental improvement.
 
 ## 9. Eval Performance
 

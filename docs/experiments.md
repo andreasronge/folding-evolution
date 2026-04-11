@@ -6,43 +6,74 @@ Ordered by expected impact. Each experiment has a clear hypothesis and measurabl
 
 The single most important problem. Most complex evolved program is 3 bonds. 4+ bond programs never emerge through evolution despite being abundant in random genotypes.
 
-### Status: Extensively Diagnosed
+### Status: Diagnosed — Developmental Accessibility Bottleneck
 
-A series of diagnostic experiments (see findings Section 6) established:
+A comprehensive diagnostic series (see findings Section 6) established the ceiling is a **developmental accessibility bottleneck**, not a representation, selection, or task problem:
 
-1. **C1 survey**: 4+ bond programs are NOT rare (23-74% of random genotypes depending on length). The ceiling is not a representation expressivity problem.
-2. **C2 reverse-engineering**: Known 4-bond genotypes are robust under mutation (44% maintain bonds). Extensions produce up to 32 bonds.
-3. **Task verification**: Filter tasks are verified hard under exact match — no random genotype achieves >62.5% exact match, confirming they genuinely need 5-bond programs.
-4. **Distance-2 diagnostic**: Longer-range bonds increase avg bond count by ~70% but produce structural noise, not useful programs.
-5. **Evolvable chemistry**: d2 weight evolves upward under selection. But on easy tasks, extra bonds don't improve fitness.
-6. **Staged curriculum**: With hard tasks, evolution still finds rest-chain shortcuts that accidentally correlate with filter outputs.
-7. **Structural staircase + lexicase**: Neither structural fitness scoring nor lexicase selection guides evolution past shortcuts. The fitness landscape has a structural gap between rest-chains and filter programs.
+**Representation is not the bottleneck:**
+- C1 survey: 4+ bond programs in 23-74% of random genotypes
+- C2: known 4-bond genotypes are robust (44% survive mutation)
+- Distance-2 bonds increase avg bonds by 70%
 
-### Revised Assessment
+**Selection is not the bottleneck:**
+- Seeded S4 filter program swept to fixation (100/100 individuals, fitness 0.832)
+- Selection maintains complex programs enthusiastically once they exist
 
-**The ceiling is a reachability problem in the developmental map.** Rest-chain programs and filter programs occupy disconnected regions of genotype space. There is no smooth mutational path between them. Selection-side interventions (task design, fitness functions, selection methods) cannot bridge a gap that doesn't exist in the genotype-to-phenotype mapping.
+**Task design is not the bottleneck:**
+- Filter tasks are verified hard (max 62.5% accidental match)
+- Staged curriculum, staircase fitness, lexicase selection all failed to bridge the gap
+- Aligned compositional fitness created new deceptive attractors without breaking through
 
-### Remaining Experiments (Priority 1)
+**The bottleneck is the S3→S4 structural transition:**
+- Individual building blocks are common: `(get x :price)` at 42%, `(fn x ...)` at 50%, `(filter (fn ...) data)` at 7%
+- But their combination is exponentially rare: full chain at 0.1%
+- Selection actively eliminates useful predicates (fn+comparator drops 8.2%→0.2%)
+- Seeded modules degrade within 10-25 generations
+- S3 (fn+predicate) NEVER elaborates into S4 (filter+fn+data)
+- The spatial conjunction required for filter+fn+data on the 2D grid cannot be reached by incremental point mutation or crossover
 
-**1.1: Chemistry quality (Stage 2 affinity scoring)**
+**The biological analogy:** innovations requiring combination of pre-existing modules via rare recombination, not smooth incremental improvement.
 
-The most promising direction. Replace binary type-checking in the chemistry with affinity-weighted bonding within typed compatibility families. The DevGenome infrastructure is built (dev_genome.py). The hypothesis: if bonds between semantically compatible fragments (e.g., comparator+assembled, fn+expression) form preferentially over junk bonds, the ratio of useful to useless 4+ bond programs increases, creating intermediates that selection can act on.
+### Next Experiments (Priority 1)
 
-**1.2: Softer chemistry / provisional bonds**
+**1.0: S3→S4 Transition Analysis (NEXT)**
 
-Allow graded bond formation. Instead of all-or-nothing assembly, fragments form provisional bonds that later passes can refine or replace. This creates approximate programs that might bridge the gap between rest-chains and filter expressions.
+Before changing any mechanism, map the exact failure boundary. Starting from S3 and S4 genotypes, systematically apply every single-character mutation and crossover at every position. Measure:
+- How often does mutation of an S3 genotype produce S4-like assembly?
+- How often does mutation of S4 produce count(S4)?
+- Which character positions and substitutions create successful transitions?
+- Does crossover between partial-module genotypes ever combine them?
 
-**1.3: Hierarchical subassembly stability**
+This tells us whether the problem is mutation scale, crossover destructiveness, chemistry greediness, or fold-context fragility — and directly informs which operator to fix.
 
-Once `(get x :price)` forms, treat it as a stable module that resists disruption. Let higher passes preferentially reuse stable subassemblies. This is analogous to protein domain stability and could create reliable building blocks for compositional programs.
+**1.1: Module-preserving/combining operators**
+
+Motivated by the seeded elaboration results. The current operators act at the wrong scale (single characters) for the innovations needed (multi-character spatial conjunctions).
+
+Options:
+- Motif-aware mutation: duplicate or transpose discovered subassemblies
+- Module-preserving crossover: cut at module boundaries, not arbitrary positions
+- Gene duplication: copy useful subsequences within the genotype
+- Spacer-aware recombination: respect fold-context boundaries
+
+**1.2: Chemistry affinity bias for compositional closure**
+
+Make the chemistry preferentially form the useful higher-order bonds (filter+fn+data) over junk bonds. The DevGenome infrastructure is built. Now motivated by the finding that trivially-true filters are selected FOR while useful predicates are selected AGAINST — the chemistry should bias toward meaningful assembly.
+
+**1.3: Archive/replay of useful partial modules**
+
+Preserve rare useful substructures in an archive (MAP-Elites over bond count × structural motif presence). Periodically reinsert archived modules into the evolving population. This addresses the discovery problem: useful building blocks appear at ~0.1-8% frequency in random genotypes but are eliminated by selection.
+
+**1.4: Multi-gene architecture**
+
+If composition of semi-independently discoverable parts is the bottleneck, try genotypes with separate gene segments for predicate, wrapper, and aggregation. Each segment folds locally, then composition occurs at the AST level or via constrained joint folding.
 
 ### Superseded Experiments
 
-The following experiments from the original plan are superseded by the diagnostic results:
-
-- **Scale Up (old 1.1)**: C1 showed 4+ bonds are already abundant at length 50+. Scaling up produces more bonds but not better programs.
-- **Seeded Complexity (old 1.2)**: Still potentially informative but lower priority since the problem is incremental reachability, not initial discovery.
-- **Complexity-Biased Selection (old 1.3)**: The staged curriculum and staircase experiments showed that selection pressure for complexity produces junk bonds, not useful structure.
+- **Scale Up (old 1.1)**: C1 showed 4+ bonds are already abundant. More length/pop/gens doesn't help.
+- **Complexity-Biased Selection (old 1.3)**: Produces junk bonds, not useful structure.
+- **Generic fitness shaping**: Staircase, lexicase, compositional credit all failed — the problem is not selection but structural reachability.
+- **Evolvable chemistry alone**: d2 increases bond counts but not useful structure. Chemistry variation is necessary but not sufficient without operator/architecture changes.
 
 ## Priority 2: The Central Experiment — Representation x Selection Regime
 
