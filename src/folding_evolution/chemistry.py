@@ -57,25 +57,30 @@ def assemble(grid: Grid) -> list[ASTNode]:
 
 def _bond(fmap, adj, consumed, parent_pos, child_positions, assembled):
     """Execute a bond: place assembled at parent, consume children, extend adjacency."""
-    fmap = {**fmap, parent_pos: assembled}
-    consumed = consumed | child_positions
+    fmap[parent_pos] = assembled
+    consumed |= child_positions
 
     # Parent inherits adjacencies from consumed children
-    parent_neighbors = set(adj.get(parent_pos, []))
+    parent_neighbors = set(adj.get(parent_pos, ()))
     for cp in child_positions:
-        for neighbor in adj.get(cp, []):
+        for neighbor in adj.get(cp, ()):
             if neighbor != parent_pos and neighbor not in child_positions:
                 parent_neighbors.add(neighbor)
-    adj = {**adj, parent_pos: list(parent_neighbors)}
+    adj[parent_pos] = parent_neighbors
 
     # Also make new neighbors point back to parent
     for neighbor in parent_neighbors:
         if neighbor not in consumed and neighbor != parent_pos:
-            neighbor_adj = set(adj.get(neighbor, []))
-            neighbor_adj.add(parent_pos)
-            # Remove consumed children from neighbor's adjacency
-            neighbor_adj -= child_positions
-            adj = {**adj, neighbor: list(neighbor_adj)}
+            neighbor_adj = adj.get(neighbor)
+            if neighbor_adj is not None:
+                if isinstance(neighbor_adj, set):
+                    neighbor_adj.add(parent_pos)
+                    neighbor_adj -= child_positions
+                else:
+                    neighbor_adj = set(neighbor_adj)
+                    neighbor_adj.add(parent_pos)
+                    neighbor_adj -= child_positions
+                    adj[neighbor] = neighbor_adj
 
     return fmap, consumed, adj
 
@@ -83,7 +88,7 @@ def _bond(fmap, adj, consumed, parent_pos, child_positions, assembled):
 def _get_unconsumed_neighbors(pos, adj, consumed, fmap):
     """Return adjacent unconsumed positions with their fragments."""
     result = []
-    for npos in adj.get(pos, []):
+    for npos in adj.get(pos, ()):
         if npos not in consumed:
             frag = fmap.get(npos)
             if frag is not None:
@@ -98,12 +103,16 @@ def _pass_leaf_bonds(fmap, adj, consumed):
     for pos in list(fmap.keys()):
         if pos in consumed:
             continue
-        fmap, consumed, adj = _try_get_bond(pos, fmap, adj, consumed)
+        frag = fmap.get(pos)
+        if frag == ("fn_fragment", "get"):
+            fmap, consumed, adj = _try_get_bond(pos, fmap, adj, consumed)
 
     for pos in list(fmap.keys()):
         if pos in consumed:
             continue
-        fmap, consumed, adj = _try_assoc_bond(pos, fmap, adj, consumed)
+        frag = fmap.get(pos)
+        if frag == ("fn_fragment", "assoc"):
+            fmap, consumed, adj = _try_assoc_bond(pos, fmap, adj, consumed)
 
     return fmap, consumed, adj
 
@@ -155,12 +164,16 @@ def _pass_predicate_bonds(fmap, adj, consumed):
     for pos in list(fmap.keys()):
         if pos in consumed:
             continue
-        fmap, consumed, adj = _try_comparator_bond(pos, fmap, adj, consumed)
+        frag = fmap.get(pos)
+        if isinstance(frag, tuple) and len(frag) == 2 and frag[0] == "comparator":
+            fmap, consumed, adj = _try_comparator_bond(pos, fmap, adj, consumed)
 
     for pos in list(fmap.keys()):
         if pos in consumed:
             continue
-        fmap, consumed, adj = _try_fn_bond(pos, fmap, adj, consumed)
+        frag = fmap.get(pos)
+        if frag == ("fn_fragment", "fn"):
+            fmap, consumed, adj = _try_fn_bond(pos, fmap, adj, consumed)
 
     return fmap, consumed, adj
 
@@ -212,16 +225,23 @@ def _try_fn_bond(pos, fmap, adj, consumed):
 # === Pass 3: Structural Bonds ===
 
 
+_HIGHER_ORDER_OPS = frozenset(("filter", "map", "reduce", "group_by"))
+_WRAPPER_OPS = frozenset(("count", "first", "reverse", "sort", "rest", "last"))
+
 def _pass_structural_bonds(fmap, adj, consumed):
     for pos in list(fmap.keys()):
         if pos in consumed:
             continue
-        fmap, consumed, adj = _try_higher_order_bond(pos, fmap, adj, consumed)
+        frag = fmap.get(pos)
+        if isinstance(frag, tuple) and frag[0] == "fn_fragment" and frag[1] in _HIGHER_ORDER_OPS:
+            fmap, consumed, adj = _try_higher_order_bond(pos, fmap, adj, consumed)
 
     for pos in list(fmap.keys()):
         if pos in consumed:
             continue
-        fmap, consumed, adj = _try_wrapper_bond(pos, fmap, adj, consumed)
+        frag = fmap.get(pos)
+        if isinstance(frag, tuple) and frag[0] == "fn_fragment" and frag[1] in _WRAPPER_OPS:
+            fmap, consumed, adj = _try_wrapper_bond(pos, fmap, adj, consumed)
 
     return fmap, consumed, adj
 
@@ -273,22 +293,30 @@ def _pass_composition_bonds(fmap, adj, consumed):
     for pos in list(fmap.keys()):
         if pos in consumed:
             continue
-        fmap, consumed, adj = _try_logical_bond(pos, fmap, adj, consumed)
+        frag = fmap.get(pos)
+        if isinstance(frag, tuple) and frag[0] == "connective" and frag[1] in ("and", "or"):
+            fmap, consumed, adj = _try_logical_bond(pos, fmap, adj, consumed)
 
     for pos in list(fmap.keys()):
         if pos in consumed:
             continue
-        fmap, consumed, adj = _try_not_bond(pos, fmap, adj, consumed)
+        frag = fmap.get(pos)
+        if frag == ("connective", "not"):
+            fmap, consumed, adj = _try_not_bond(pos, fmap, adj, consumed)
 
     for pos in list(fmap.keys()):
         if pos in consumed:
             continue
-        fmap, consumed, adj = _try_set_bond(pos, fmap, adj, consumed)
+        frag = fmap.get(pos)
+        if frag == ("fn_fragment", "set"):
+            fmap, consumed, adj = _try_set_bond(pos, fmap, adj, consumed)
 
     for pos in list(fmap.keys()):
         if pos in consumed:
             continue
-        fmap, consumed, adj = _try_contains_bond(pos, fmap, adj, consumed)
+        frag = fmap.get(pos)
+        if frag == ("fn_fragment", "contains?"):
+            fmap, consumed, adj = _try_contains_bond(pos, fmap, adj, consumed)
 
     return fmap, consumed, adj
 
@@ -551,14 +579,16 @@ def _format_pattern_ast(ast: ASTNode | None) -> str:
 # === Adjacency Helpers ===
 
 
-def _build_adjacency(grid: Grid) -> dict[Position, list[Position]]:
-    positions = set(grid.keys())
-    result: dict[Position, list[Position]] = {}
-    for x, y in positions:
-        neighbors = []
+def _build_adjacency(grid: Grid) -> dict[Position, set[Position]]:
+    positions = grid.keys()
+    result: dict[Position, set[Position]] = {}
+    for pos in positions:
+        x, y = pos
+        neighbors = set()
+        neighbors_add = neighbors.add
         for dx, dy in _NEIGHBORS:
             npos = (x + dx, y + dy)
             if npos in positions:
-                neighbors.append(npos)
-        result[(x, y)] = neighbors
+                neighbors_add(npos)
+        result[pos] = neighbors
     return result

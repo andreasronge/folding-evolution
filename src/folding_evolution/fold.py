@@ -25,9 +25,8 @@ def fold(genotype: str) -> tuple[Grid, list[tuple[Position, str]]]:
     direction: Direction = "right"
 
     for char in genotype:
-        result = _place_with_avoidance(grid, pos, direction, char)
-        if result is not None:
-            placed_pos, grid = result
+        placed_pos = _place_with_avoidance(grid, pos, direction, char)
+        if placed_pos is not None:
             placements.append((placed_pos, char))
             direction = _next_direction(direction, char)
             pos = _advance(placed_pos, direction)
@@ -40,25 +39,26 @@ def fold(genotype: str) -> tuple[Grid, list[tuple[Position, str]]]:
 
 def _place_with_avoidance(
     grid: Grid, pos: Position, direction: Direction, char: str
-) -> tuple[Position, Grid] | None:
-    """Try to place char at pos; if occupied try left, right, then skip."""
+) -> Position | None:
+    """Try to place char at pos; if occupied try left, right, then skip.
+    Mutates grid in place."""
     if pos not in grid:
-        new_grid = {**grid, pos: char}
-        return pos, new_grid
+        grid[pos] = char
+        return pos
 
     # Try left
     left_dir = _turn_left(direction)
     left_pos = _advance(pos, left_dir)
     if left_pos not in grid:
-        new_grid = {**grid, left_pos: char}
-        return left_pos, new_grid
+        grid[left_pos] = char
+        return left_pos
 
     # Try right
     right_dir = _turn_right(direction)
     right_pos = _advance(pos, right_dir)
     if right_pos not in grid:
-        new_grid = {**grid, right_pos: char}
-        return right_pos, new_grid
+        grid[right_pos] = char
+        return right_pos
 
     return None
 
@@ -89,13 +89,18 @@ def _advance(pos: Position, direction: Direction) -> Position:
     return pos
 
 
+_LEFT = {"right": "up", "up": "left", "left": "down", "down": "right"}
+_RIGHT = {"right": "down", "down": "left", "left": "up", "up": "right"}
+_REVERSE = {"right": "left", "left": "right", "up": "down", "down": "up"}
+
+
 def _turn_left(direction: Direction) -> Direction:
-    return {"right": "up", "up": "left", "left": "down", "down": "right"}[direction]
+    return _LEFT[direction]
 
 
 def _turn_right(direction: Direction) -> Direction:
-    return {"right": "down", "down": "left", "left": "up", "up": "right"}[direction]
+    return _RIGHT[direction]
 
 
 def _reverse(direction: Direction) -> Direction:
-    return {"right": "left", "left": "right", "up": "down", "down": "up"}[direction]
+    return _REVERSE[direction]
