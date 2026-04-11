@@ -1,6 +1,8 @@
 # Coevolution Designs
 
-Four coevolution frameworks were tested in the Elixir implementation. Each addressed limitations of the previous.
+Four coevolution frameworks were tested in the Elixir implementation. Each addressed limitations of the previous. The final design (Separated Coevolution) is the recommended approach for future work.
+
+**Current status**: No coevolution has been ported to the Python/Rust implementation. All current experiments use single-population evolution via `dynamics.py`. The designs below document findings from the Elixir era and serve as the blueprint for a future Python port.
 
 ## 1. Single-Population Coevolution
 
@@ -79,27 +81,55 @@ fitness = w_solve * solve_score
 
 **Result (pop=50, len=30, 30 gens)**: Solver and oracle roles activate immediately. Test role has gradient (0.02) but testers haven't produced list-of-maps. The fundamental problem is **role conflict**: a tester-specialist (test=1.0, solve=0.0, oracle=0.0) gets fitness 0.3 while a solver-specialist (solve=0.9) gets 0.36. Testers can never compete on overall fitness.
 
-**Conclusion**: Role conflict is fundamental in single-population multi-role design. Per-role elitism keeps one tester alive but can't create a lineage.
+**Conclusion**: Role conflict is fundamental in single-population multi-role designs. Per-role elitism keeps one tester alive but can't create a lineage.
 
 ## 4. Separated Coevolution (Best Design)
 
-**Design**: Three independent populations, each with unambiguous selection pressure.
+**Design**: Three independent populations, each with unambiguous selection pressure. This eliminates the role-conflict problem that killed the Triad design.
 
-**Solvers** (pop=30):
-- Fitness = fraction of (tester, oracle) pairs where solver matches oracle
-- Gate: must be data-dependent (different output on different contexts)
+### The Three Populations
 
-**Testers** (pop=30):
-- Phenotype output becomes modified context (via OutputInterpreter)
-- Fitness = frontier_score(solver_fail_rate under my modification)
-- Gate: must produce valid data transformation (list of maps)
+**Solvers** (pop ~30) — The "students." Each solver is a program that takes a data context and produces an answer. Goal: produce the correct answer for as many (tester, oracle) challenges as possible.
 
-**Oracles** (pop=30):
-- Phenotype output is the expected answer
-- Fitness = frontier_score(solver_match_rate)
-- Gate: must produce non-nil output and be data-dependent
+**Testers** (pop ~30) — The "exam writers." Each tester is a program whose output modifies the data context, creating a problem variation. Testers are rewarded for creating challenges at the difficulty frontier — where roughly half of solvers fail.
 
-**Key parameters**:
+**Oracles** (pop ~30) — The "answer keys." Each oracle runs on the modified context and produces what it considers the correct answer. The oracle defines truth for that particular test.
+
+### The Interaction Loop
+
+Each generation, individuals are matched in random triples (S, T, O):
+
+```
+1. Tester T runs on base_context -> T_output
+2. T_output is interpreted as a data transformation
+   (e.g., T produces a modified list-of-maps that replaces the data source)
+3. Oracle O runs on modified_context -> expected_answer
+4. Solver S runs on modified_context -> solver_answer
+5. Compare: does solver_answer == expected_answer?
+```
+
+This happens ~10 times per individual per generation (random matchups).
+
+### Fitness — Each Population Has One Job
+
+| Population | Fitness | Selection pressure |
+|---|---|---|
+| **Solver** | Fraction of (T, O) pairs where S matches O | Be correct on diverse challenges |
+| **Tester** | `frontier_score(solver_fail_rate)` — peaks at 50% | Create challenges at the difficulty frontier |
+| **Oracle** | `frontier_score(solver_match_rate)` — peaks at 50% | Define "correct" in a way that's neither trivial nor impossible |
+
+**Gate**: All populations must be data-dependent (different output on different contexts). Fitness = 0 for constant-expression programs.
+
+### Why This Creates an Arms Race
+
+The coupled pressure drives continuous adaptation:
+
+- If solvers get too good -> testers that create harder problems get higher fitness -> testers evolve harder tests
+- If testers get too hard -> oracles that define easier "correct" answers thrive -> difficulty drops -> solvers catch up
+- If everyone collapses to constant expressions -> the data-dependence gate kills their fitness
+
+### Key Parameters
+
 ```
 generations: 20-200
 solver_pop/tester_pop/oracle_pop: 20-30
@@ -145,10 +175,10 @@ This is the key innovation over hash-based challenge decoders: small genotype mu
 
 ## Lessons Learned
 
-1. **Role conflict kills single-population multi-role designs.** Even with per-role elitism.
-2. **Separate populations with focused selection pressure work best.** No compromise fitness functions.
-3. **Constants are the degenerate attractor.** Block them structurally (data-dependence gate).
-4. **Multi-context evaluation is essential.** 3+ contexts prevent collusion.
-5. **Frontier scoring at 50% works well** for tester/oracle selection pressure.
-6. **Direct output interpretation > hash-based challenge decoding.** Smooth gradient matters.
-7. **The complexity ceiling is the fundamental limitation**, not the coevolution design.
+1. **Role conflict kills single-population multi-role designs.** Even with per-role elitism, tester-specialists can never compete on overall fitness. Separate populations are essential.
+2. **Separate populations with focused selection pressure work best.** No compromise fitness functions. Each population competes only with its own kind.
+3. **Constants are the degenerate attractor.** Block them structurally (data-dependence gate). One line of logic prevents collapse.
+4. **Multi-context evaluation is essential.** 3+ contexts prevent collusion between populations.
+5. **Frontier scoring at 50% works well** for tester/oracle selection pressure. It naturally maintains difficulty balance.
+6. **Direct output interpretation > hash-based challenge decoding.** Smooth gradient matters — small genotype changes should produce small phenotype changes.
+7. **The complexity ceiling is the fundamental limitation**, not the coevolution design. The Elixir implementation plateaued at 3-bond programs.
