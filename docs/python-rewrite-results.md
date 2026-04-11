@@ -130,3 +130,29 @@ Despite being slower per-eval, the Python rewrite was successful for its actual 
 5. **Regime-shift comparison** — same-genotype fairness control, (mu+lambda) selection matching Elixir, 5-seed comparison in ~20 seconds
 
 The bottleneck for research is not evals/sec — it's experiment design, parameter tuning, and analysis. The Python rewrite optimized for the right thing.
+
+## Performance Optimization: In-Place Mutation
+
+After the initial rewrite, in-place mutation of dicts in `chemistry.py` and `fold.py` eliminated O(N) dict copying per bond/placement. The original code used functional-style `{**dict, key: val}` patterns that created full copies on every operation.
+
+### Changes
+
+1. `chemistry.py` `_bond()`: mutate `fmap`, `adj`, `consumed` in place instead of `{**dict}` copies
+2. `chemistry.py` `_build_adjacency()`: return sets instead of lists
+3. `chemistry.py` pass loops: inline fragment type checks to skip ~80K unnecessary function calls per 1000 genotypes
+4. `fold.py` `_place_with_avoidance()`: mutate grid in place instead of copying
+5. `fold.py` direction tables: promote to module-level constants
+
+### Results
+
+| Metric | Before | After | Speedup |
+|--------|--------|-------|---------|
+| develop() 1000x | 0.245s | 0.191s | 1.28x |
+| Evolution evals/sec | ~5,000 | ~10,800 | 2.16x |
+| Regime shift wall-clock | 6s | 3.5s | 1.7x |
+
+Now matches the Elixir implementation's 10,900 evals/sec.
+
+## 2x2 Experiment Performance
+
+The 2x2 experiment (300 total runs: 30 seeds x 2 encodings x 5 conditions) completed in 7.5 minutes at the optimized speed. Folding runs dominate wall-clock time (~65s per 30-seed batch) vs direct (~9s) due to the chemistry pipeline overhead.
