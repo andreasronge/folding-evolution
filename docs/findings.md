@@ -664,7 +664,7 @@ Tested whether Pareto-preserved populations adapt faster to novel but related ta
 
 1. **Ceiling access is the cleanest signal.** Continuous selection reached fitness ≥0.8 in 0/30 seed-task combinations at snap 300; Pareto conditions reached ≥0.8 in 4/60. Preservation unlocks fitness regions that re-evolution from unstructured populations cannot reach in 80 assay generations.
 
-2. **B_scaffold early-adaptation speed on T_far is clean.** Time-to-≥0.6 sequence: B_scaffold `[1, 1, 4, 6, 14, 15, 18, 33]`, A_continuous `[4, 10, 19, 24, 26, 30, 49]`. Roughly 2x faster, with distinct distributions.
+2. **B_scaffold reaches ≥0.6 at earlier gens on T_far.** Time-to-≥0.6 sequence: B_scaffold `[1, 1, 4, 6, 14, 15, 18, 33]`, A_continuous `[4, 10, 19, 24, 26, 30, 49]`. This looked like a ~2x speed advantage in the original summary. The trajectory reanalysis (below) showed this is confounded by elevated Pareto starting fitness: B_scaffold populations begin the assay already close to 0.6 because their inherited scaffolds score partial credit. Keep this metric descriptive but do not read it as "faster adaptation."
 
 3. **Endpoint fitness distributions are bimodal/modal.** A_continuous on T_far clusters at `0.55, 0.713, 0.731` — discrete partial-credit modes matching specific program shapes. Pareto conditions add tail outliers at `0.825–0.844`. The "higher ceiling access" claim is a tail-distribution claim, not a mean-shift claim.
 
@@ -684,16 +684,17 @@ At snapshot 300, A_continuous starts the assay with S5+=0 / G5+=0; B_scaffold wi
 
 The bimodal endpoint distributions and plateau dynamics together argue that this mechanism is **not** Wagner/Kimura-style continuous standing variation that becomes visible under selection. Continuous latent variation would produce smooth fitness improvement distributions and sustained adaptive search. What the data shows instead is **discrete inventory transfer of compositional scaffolds**: preserved populations either inherit a scaffold that solves the novel target or they don't, and when they do, they converge quickly and plateau. This is closer to constructional selection (Altenberg) than to standing-variation population genetics.
 
-**Honest claim for paper writeup:**
+**Honest claim for paper writeup (superseded — see Revised Headline after trajectory analysis, below):**
 
-> *Populations evolved under Pareto preservation carry a transferable inventory of discrete compositional scaffolds. When exposed to novel but related targets under continuous selection with no preservation machinery, they reach fitness ceilings that continuous-selection controls do not reach within the assay window (≥0.8 in 4/60 Pareto seed-trials vs 0/30 controls) and adapt ~2x faster to mid-range thresholds. This is consistent with cryptic variation in a structural-inventory sense, but mechanistically distinct from continuous standing variation: the modal endpoint distributions and plateau dynamics indicate that scaffolds function as discrete adaptive assets rather than as a gradient of hidden diversity.*
+> *Populations evolved under Pareto preservation carry a transferable inventory of discrete compositional scaffolds. When exposed to novel but related targets under continuous selection with no preservation machinery, they reach fitness ceilings that continuous-selection controls do not reach within the assay window (≥0.8 in 4/60 Pareto seed-trials vs 0/30 controls). Time-to-threshold metrics initially looked like faster adaptation; the trajectory reanalysis below shows the effect is dominated by inherited elevated starting fitness, not steeper climb. The surviving mechanism claim: scaffolds function as discrete adaptive assets, not as a gradient of hidden diversity.*
 
 **Caveats and limitations:**
 
 - n=15 per condition; should scale to 30+ for statistical claims
-- 80-gen assay allows continuous selection to partially catch up; shorter checkpoints (10/20/40) would emphasize early-adaptation advantage
+- 80-gen assay long enough that controls partially catch up on T_far (not on T_near); shorter checkpoints (10/20/40) are sufficient for the surviving claims
 - T_far is still within the filter compositional family; a true far-transfer (reduce, nested filter) would stress-test the structural-reuse claim
 - No motif insertion in assay is the cleanest mechanism test but understates production-setting transfer
+- **Starting fitness is elevated for Pareto conditions** (partial credit from inherited scaffolds). Matched-starting-fitness subpopulation analysis is required before any claim that the transfer effect is structural rather than baseline-inherited.
 
 **Trajectory analysis (post-hoc, same data):**
 
