@@ -352,6 +352,33 @@ Plots: `output/majority_full_train/heatmap_n_bits_vs_n_states.png` is the cleane
 
 ---
 
+## 10-b. CA-dynamic budget scaling (killed early)
+
+**Sweep:** `sweeps/ca_dynamic_budget.yaml` — paired `(grid_n, steps) ∈ {(16,32), (32,32), (32,64)}` × 5 seeds on 8-bit parity full-space. Intended as a brute-force probe of "is the ceiling compute-bound or structure-bound?" by scaling time alone, space + matched time, and both together relative to the (16, 16) baseline.
+
+**Killed at 10/15 runs.** Partial-data signal was already conclusive and this framing was superseded by the §11 plan before the sweep finished.
+
+### Partial result
+
+| (N, T)       | n | median | max   | vs (16,16) baseline 0.703 |
+|--------------|---|--------|-------|---------------------------|
+| (16, 16) ref | 10 | 0.703 | 0.816 | —                         |
+| (16, 32)     | 4 | 0.699 | 0.707 | null                      |
+| (32, 32)     | 3 | 0.742 | 0.801 | +0.04 median              |
+| (32, 64)     | 3 | 0.680 | 0.715 | null / slightly worse     |
+
+**Three observations, all consistent with §8-b's diagnosis:**
+
+1. **More time alone does nothing.** Doubling `steps` at fixed `grid_n` produces a null. The CA is not time-starved — it is state-starved.
+2. **More space + matched time gives a modest, inconsistent lift.** (32, 32) lifts median by +0.04 and max by nothing — the best seed there (0.80) is within the range the baseline already produced. Not a ceiling break.
+3. **More time AND space does not compound.** (32, 64) is at or slightly below baseline. If compute budget were the bottleneck the gain would scale with total cells × steps; it does not.
+
+**Interpretation.** Raw CA compute budget is not the missing ingredient. Scaling (N, T) moves the ceiling by at most ~0.04, consistent with having a little more lattice for the same dynamic to spread into rather than unlocking new computational modes. This matches the §8-b reframing: partial structures that could carry parity information are not failing to be *selected* (§5, §8-b) or to be *aggregated* (§8-b readouts), and now also not failing to have *enough spacetime* — they are failing to *exist* in the CA's state dynamics at all, regardless of grid size. Round-2 experiments (§11) target the state-carrying machinery directly.
+
+Plot: `output/ca_dynamic_budget/heatmap_grid_n_vs_steps.png` — visibly flat across the grid with a mild warm spot at (32, 32).
+
+---
+
 ## 11. Next experiments (round 2) — constructional expressivity
 
 §3–§10 bound the current rule family's ceiling on 8-bit parity at ~0.70 full-space. Four distinct mechanisms have been ruled out: rule-table expressiveness (§3), search pressure (§4, §5), rule-family symmetry (§8), readout geometry (§8-b). The remaining move is to change *what kind of thing the CA is* — add structure that lets partial solutions persist and combine, or lets information propagate further per step, rather than enlarge the flat rule table. The four sweeps below are ordered by predicted information-per-cost. All use 8-bit parity full-space training (`n_examples=256`) as the primary task; 7-bit majority full-space is cheap to re-run as a cross-task control under each variant.

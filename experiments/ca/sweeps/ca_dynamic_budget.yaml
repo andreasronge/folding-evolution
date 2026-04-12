@@ -1,0 +1,24 @@
+sweep_name: ca_dynamic_budget
+# Tests whether the 0.70 8-bit parity ceiling moves with more CA compute budget.
+# Baseline (N=16, T=16) already in parity_full_train.yaml at 0.70 median.
+# Here we scale time (T) and space (N) independently then together.
+base:
+  n_states: 4
+  rule_family: outer_totalistic
+  task: parity
+  n_bits: 8
+  n_examples: 256
+  pop_size: 256
+  generations: 200
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 10
+paired:
+  - {grid_n: 16, steps: 32}   # more time alone
+  - {grid_n: 32, steps: 32}   # more space + matched time
+  - {grid_n: 32, steps: 64}   # more time and space
+grid:
+  seed: [0, 1, 2, 3, 4]
