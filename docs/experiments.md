@@ -42,65 +42,110 @@ With the ceiling broken and confirmed, the next experiments shift from "can we b
 
 **1.12: Generalization test** — DONE. Mixed result that sharpens the claim. Pareto(bond_count) generic metric helps (4/20 S5 vs 0/20 baseline) but much weaker than Pareto(scaffold_stage) (20/20 S5). On different target family (filter-amount), generic metric mostly inflates bonds without useful structure. The preservation mechanism needs a targeted objective — generic complexity alone is not a substitute. See `exp_generalization.py`.
 
+### Priority Order for Next Experiments
+
+After 1.13, the story is: discovery solved (chemistry screening), preservation solved semigenerically (structural_pattern Pareto). The remaining questions are (a) does preservation buy stored evolvability, and (b) can the preservation objective itself be learned from data? The recommended sequence:
+
+1. **1.15 (running)** — cryptic variation assay. Does preservation buy evolvability?
+2. **1.14 (next after 1.15)** — lineage analysis. Mechanistic confirmation at individual level; also produces the dataset needed for 1.19.
+3. **1.19** — learned preservation objective. Closes the last hand-coding loop.
+4. **1.16 / 1.17** — epistasis and modularity assays to sharpen existing findings.
+
+---
+
+**1.15: Cryptic variation assay — IN PROGRESS**
+
+The natural next measurement after 1.13. Directly tests whether Pareto-preserved populations carry hidden useful variation that becomes expressible under novel selection. This ties the preservation story to stored evolvability.
+
+**Hypothesis**: Populations evolved under Pareto scaffold protection adapt faster to a *novel* target than continuous-selection populations of the same final fitness. The preservation mechanism accumulates cryptic variation that selection can later exploit.
+
+**Setup**:
+- Take populations from three conditions at gen 100, 200, 300 on filter-price-200:
+  - Continuous selection
+  - Pareto(scaffold_stage) — task-specific preservation
+  - Pareto(structural_pattern) — semigeneric preservation (1.13 winner)
+- Switch target to a novel but related task: filter-price-800, filter-amount-300, or a reducer like `(reduce (fn x (+ x ...)) 0 data/products)`
+- Resume **continuous selection only** (no Pareto in the assay phase) for 100 gens
+- Measure generations to first solution, final fitness, number of S1–S5 carriers transferred
+
+**Measure**: Time-to-adaptation on the novel target; fitness trajectory in the first 50 gens after the switch; fraction of solutions that reuse scaffolds from the preserved state vs re-evolved from scratch.
+
+**Why this matters**: Direct test of *what preservation buys you*. If preserved populations adapt faster, the mechanism accumulates reusable variation, not just current-task scaffolds. Connects 1.8 / 1.11 / 1.13 to the evolvability literature.
+
+**1.14: Lineage analysis of preservation breakthroughs**
+
+Reconstruct the ancestry of successful S5 / filter-program individuals from 1.9, 1.11, and 1.13 runs. Also produces the training data for 1.19.
+
+**Hypothesis**: Under Pareto preservation, breakthrough individuals have ancestors carrying S1 / S2 / S3 scaffolds for many generations before S4 / S5 appears. Under continuous selection, scaffold ancestors are absent or short-lived.
+
+**Setup**:
+- Add parent-pointer tracking to the evolution engine (one ID per individual, parent ID per child)
+- Rerun selected conditions from 1.11 / 1.13 with lineage tracking enabled
+- For each breakthrough individual at termination, trace parent pointers back to gen 0
+- For each ancestor, classify scaffold stage
+- Compute: generation of first S1/S2/S3 ancestor, dwell time per stage, number of independent S1 lineages feeding into the final genotype
+
+**Measure**: Lineage depth of each scaffold stage, dwell time distributions, whether multiple independent S1/S2 lineages converge via crossover into the breakthrough individual.
+
+**Why this matters**: Mechanistic confirmation at the individual / lineage level, not just population statistics. Also produces the dataset for 1.19 (substructure extraction from ancestry).
+
+**1.19: Learned preservation objective (fully endogenous pipeline)**
+
+The final endogenous step. The `structural_pattern` objective in 1.13 was a human-engineered hypothesis about what "compositional form" means. This experiment *learns* the preservation objective from lineage data, closing the last hand-coding loop.
+
+**Hypothesis**: AST substructures that repeatedly appear in ancestors of breakthrough individuals across *multiple* target families can be extracted and clustered into a preservation template that matches or exceeds hand-coded `structural_pattern` on a *held-out* target family.
+
+**Setup**:
+
+1. **Discovery runs** (uses 1.14 lineage data):
+   - Pareto(structural_pattern) on three training target families: filter-price, filter-amount, filter-department
+   - For each seed with a breakthrough, trace ancestors of the breakthrough individual
+
+2. **Substructure extraction**:
+   - Extract all AST subtrees of depth 2–3 from ancestor programs
+   - Normalize: replace specific symbols with type placeholders (`:price` → `:FIELD`, `data/products` → `data/ANY`, specific literals → `NUM`)
+
+3. **Precedence scoring**:
+   - For each normalized substructure S: score = P(S appears in ancestor | breakthrough) vs P(S appears in random ancestor from same run)
+   - High precedence = S is predictive of future breakthrough
+   - **Critical**: hold out at least one target family entirely during discovery to prevent circularity
+
+4. **Cross-family filtering**:
+   - Keep templates that score high in multiple target families (cross-generalizing)
+   - Drop templates that only appear in one family (task-specific artifacts)
+
+5. **Application on held-out target** (e.g., filter-category, reducer, or map variant):
+   - A. Continuous selection (baseline)
+   - B. Pareto(structural_pattern) — 1.13 hand-coded baseline
+   - C. Pareto(learned_templates) — fully endogenous
+
+**Measure**: Filter programs / S5-equivalent rate per condition on held-out target. If C matches or exceeds B, the pipeline is fully endogenous end-to-end.
+
+**Why this matters**: Closes the last piece of human scaffold engineering. Chemistry screening is endogenous; motif insertion is endogenous; this makes the preservation objective endogenous. Also tests whether "higher-order + predicate + data" is the only template that matters, or whether learning surfaces additional compositional patterns that hand-coding missed.
+
+**Failure modes to watch**:
+- *Circularity*: if "precedence" is measured against current-task success, we re-encode target knowledge. Mitigation: held-out target family is not in discovery set.
+- *Granularity*: depth-2 substructures may be too specific (many near-duplicates), depth-4 too sparse. Normalize aggressively and evaluate both.
+- *Too few breakthroughs*: if training data is insufficient, relax "breakthrough" threshold from "full filter program" to "S3+ emergence."
+- *Scale mismatch in Pareto sort*: learned templates might produce a wider objective range than structural_pattern (5 levels). Normalize to comparable ranges.
+
+**What this might reveal** beyond matching structural_pattern: unexpected templates like "predicate with two accessors," "nested higher-order," or "fn-wrapped constant" that matter for some tasks but weren't in the hand-coded hypothesis.
+
 **1.10: Endogenous motif screening during evolution**
 
-Replace the offline chemistry screening with online motif scoring: every N generations, screen the most common 2-3 char substrings in the population, promote high-scoring ones to the motif insertion operator. This closes the loop — no pre-computed motif library needed. Combine with drift for the full endogenous pipeline.
+Replace the offline chemistry screening with online motif scoring: every N generations, screen the most common 2-3 char substrings in the population, promote high-scoring ones to the motif insertion operator. This closes the loop — no pre-computed motif library needed. Combine with preservation for the full endogenous pipeline.
 
-**1.12: Generalization to different target programs**
+**1.20: Generalization to different target program families**
 
-Does drift+motifs break through on a DIFFERENT hard task (not just the filter chain)? Test with `(reduce (fn x (+ x ...)) 0 data)`, `(map (fn x (assoc x :key value)) data)`, or nested structures. If yes, the mechanism is general. If no, the chemistry screening is task-specific.
+(Separate from 1.12, which tested filter-amount within the filter family.) Does Pareto preservation break through on structurally different target programs — `(reduce (fn x (+ x ...)) 0 data)`, `(map (fn x (assoc x :key value)) data)`, or nested structures? If yes, the mechanism is general. If no, the chemistry screening and/or structural_pattern template is specific to the filter family.
 
 **1.6: Population-level motif ecology**
 
-Keep a global motif pool updated from evolved populations. Now unblocked — drift provides the preservation layer.
+Keep a global motif pool updated from evolved populations. Now unblocked — preservation provides the persistence layer.
 
 **1.7: Hierarchical evolution**
 
 Easy tasks evolve motifs, hard tasks consume and elaborate them. Now unblocked.
-
-**1.14: Lineage analysis of drift and Pareto breakthroughs**
-
-Reconstruct the ancestry of successful S5 / filter-program individuals from 1.9 and 1.11 runs. Data should already exist in population snapshots — this is primarily a data-mining exercise on existing logs.
-
-**Hypothesis**: Under drift and Pareto preservation, breakthrough individuals have ancestors carrying S1 / S2 / S3 scaffolds for many generations before S4 / S5 appears. Under continuous selection, scaffold ancestors are absent or short-lived.
-
-**Setup**:
-- Reload saved populations from 1.9 (pop=200, 500 gens, drift 10/20) and 1.11 (Pareto(scaffold_stage))
-- For each S5 / filter-program individual at termination, trace parent pointers back to gen 0
-- For each ancestor, classify scaffold stage (S0 / S1 / S2 / S3 / S4 / S5)
-- Compute: generation of first S1 ancestor, first S2, first S3, dwell time per stage, number of independent S1 lineages that fed into the final genotype
-
-**Measure**: Lineage depth of each scaffold stage, dwell time distributions, whether multiple independent S1/S2 lineages converge into the breakthrough individual (evidence of compositional assembly across lineages via crossover).
-
-**Why this matters**: Confirms the preservation mechanism at the individual / lineage level, not just population statistics. Cheap relative to a new sweep. Strong evidence that drift / Pareto is doing what the aggregate metrics suggest.
-
-**1.15: Cryptic variation assay (NEXT)**
-
-The natural next measurement after 1.13. Directly test whether Pareto-preserved populations carry hidden useful variation that becomes expressible under novel selection. This ties the preservation story to stored evolvability.
-
-Three conditions at gen 100, 200, 300 (from the filter-price runs):
-- Continuous selection on filter-price-200
-- Pareto(scaffold_stage) — task-specific preservation
-- Pareto(structural_pattern) — semigeneric preservation (the 1.13 winner)
-
-Switch target to a novel but related task (filter-price-800, filter-amount-300, or a map variant). Resume **continuous selection only** (no Pareto in the assay phase) for 100 gens. Measure time-to-adaptation on the novel target.
-
-If Pareto-preserved populations adapt faster, the preservation mechanism accumulates reusable variation — stored evolvability — not just current-task scaffolds. That is the direct evolvability claim.
-
-**Hypothesis**: Populations evolved under drift or Pareto scaffold protection adapt faster to a *novel* target than continuous-selection populations of the same final fitness. The preservation mechanism accumulates cryptic variation that selection can later exploit.
-
-**Setup**:
-- Take populations from three conditions at gen 100, 200, 300:
-  - Continuous selection on filter-price-200
-  - Drift 10/20 on filter-price-200
-  - Pareto(scaffold_stage) on filter-price-200
-- Switch target to a novel but related task: filter-price-800, filter-amount-300, or a reducer like `(reduce (fn x (+ x ...)) 0 data/products)`
-- Resume selection (continuous, no drift / Pareto in the assay phase) for 100 gens
-- Measure generations to first solution, final fitness, number of S1–S5 carriers transferred from the preserved state
-
-**Measure**: Time-to-adaptation on the novel target; fitness trajectory in the first 50 gens after the switch; fraction of solutions that reuse scaffolds from the preserved state vs re-evolved from scratch.
-
-**Why this matters**: This is the direct test of *what preservation buys you*. If preserved populations adapt faster, the drift / Pareto mechanism is accumulating reusable variation, not just inflating a specific scaffold count. Connects the strongest result (1.8 / 1.11) to the evolvability literature tightly.
 
 **1.16: Motif-pair and motif-triple epistasis**
 
