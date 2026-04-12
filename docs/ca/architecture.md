@@ -22,6 +22,96 @@ State -> predicted bit
 Fitness = fraction correct
 ```
 
+## A concrete run, end to end
+
+Everything below is grounded in one real run: `experiments/ca/output/mvp/117db496acd2` — seed 5 of the MVP sweep, 4-bit parity at `K=4, N=16, T=16`, final fitness `1.000`. Numbers and grid states are copied verbatim from replaying the evolved rule.
+
+### The grid, drawn
+
+A `16×16` board. Each cell holds a single integer in `{0, 1, 2, 3}` — that's what `K=4` means: every cell is in one of 4 discrete states at every timestep. You can read the states as "colors" or "cell types"; they carry no intrinsic meaning, evolution decides what each state does.
+
+For 4-bit parity, the 4 input bits go into the **center of row 0** (columns 6–9). State `0` encodes bit 0; state `1` encodes bit 1. States `2` and `3` never appear on row 0 at `t=0` — they're workspace the rule is free to use internally.
+
+Initial grid for input bits `[1, 0, 0, 0]`:
+
+```
+col:    0         1
+        0123456789012345
+row 0:  0000001000000000   <- clamped input: bits at cols 6..9
+row 1:  0000000000000000
+row 2:  0000000000000000
+  ...   (all zero)
+row 15: 0000000000000000   <- row 15, col 8 is the readout cell
+```
+
+Row 0 is **clamped** — re-asserted at every step, so it stays `0000001000000000` for the entire run. The CA can't overwrite its own input. Everything below row 0 evolves.
+
+### One update step, worked by hand
+
+The rule for this run is a `(K, 8·(K-1)+1) = (4, 25)` table. Seed 5's evolved table starts:
+
+```
+         neighbor_sum: 0  1  2  3  4  5  6  7  8  ...  24
+self=0:                1  3  0  2  1  1  2  1  3  ...   0
+self=1:                0  3  3  2  1  1  2  2  0  ...   1
+self=2:                0  0  1  3  1  0  2  3  3  ...   0
+self=3:                3  2  3  0  0  3  2  3  3  ...   3
+```
+
+A cell's next state = `table[self_state, sum_of_its_8_Moore_neighbors]`. Two worked examples from row 1 at `t=0 → t=1`:
+
+- **Cell (1, 0)** — far from the input. `self=0`, all 8 neighbors are 0, `neighbor_sum=0`. Look up `table[0, 0] = 1`. Next state: `1`.
+- **Cell (1, 6)** — directly under the lone input bit. `self=0`. Neighbors: row 0 cols 5,6,7 = `0,1,0` and row 1 cols 5,7 = `0,0` and row 2 cols 5,6,7 = `0,0,0`. `neighbor_sum=1`. Look up `table[0, 1] = 3`. Next state: `3`.
+
+So at `t=1` the whole of row 1 becomes `1`s, except a small `333` bump under the active input bit. Evolution has discovered: *use state 3 to mark "an input bit was 1 in my neighborhood."* That marker is what propagates down the grid.
+
+### Four snapshots of a successful run
+
+Input `[1, 0, 0, 0]` → true parity `1`. The readout cell is `(15, 8)`; the prediction rule is `state > K/2`, i.e., state `3` → predicted bit `1`, states `0/1/2` → predicted bit `0`.
+
+```
+t=0 (initial, only row 0 set):        t=1 (after one step, row 0 re-clamped):
+0000001000000000                      0000001000000000
+0000000000000000                      1111133311111111   <- "333" marks the active bit
+0000000000000000                      1111111111111111
+... (all zero) ...                    1111111111111111
+                                      ... (rows 3..15 all 1s) ...
+
+t=4 (structure has reached row 12):   t=16 (final):
+0000001000000000                      0000001000000000
+1032302032322301                      2303200332323323
+0000333330133100                      3021220302233033
+3132321232222313                      1330310023030003
+2320303030000232                      1132212130333300
+2320000000000232                      2030320333101002
+... 2320000000000232 ...              ... mixed 0/1/2/3 ...
+3132222222222313                      3102003022023212
+0013333333333100                      0110222300101123
+1032222222222301                      3033131333101332   <- row 15
+                                                ^ col 8 = state 3
+```
+
+At `t=16` the readout cell `(15, 8)` is in state `3` → `3 > 2` → prediction `1`. Correct.
+
+Running the same evolved rule on input `[0, 0, 0, 0]` (parity `0`) ends with cell `(15, 8)` in state `2` → `2 > 2` is false → prediction `0`. Also correct. The rule generalizes across all 16 inputs in this run's training set — that's what "fitness = 1.000" means here.
+
+### What the evolved rule is actually doing
+
+From the snapshots, informally:
+
+1. **Amplify: a fast fill.** In one step the 0-background promotes itself to state 1 everywhere (`table[0,0]=1`), except where an input bit sat above it. So `t=1` is a near-uniform sea of 1s with a thin trace of 3s marking input-1 positions.
+2. **Propagate: state 3 as a carrier.** Column regions under input-1 bits stay 3-dominated in rows 2–4; the rule routes this pattern downward and outward.
+3. **Mix: interference at depth.** By `t=8` the grid is a jumble of all four states. But it's not random — replaying with a *different* input (e.g. flipping one bit) produces a visibly different jumble, and the evolved rule arranges for the readout cell specifically to carry the parity answer.
+4. **Readout: one cell, one threshold.** Only cell `(15, 8)`'s final state matters. Everything else is scratch space the rule uses to get the right bit to that one location.
+
+This is what "evolving a CA to compute parity" looks like concretely — not a clean circuit, not an interpretable algorithm. Just a rule table of 100 numbers that pushes the grid into states whose readout cell happens to carry the parity bit after 16 steps. Whether this counts as "computing" parity or "memorizing" parity on a specific training set is exactly the question sweep §9 in [experiments.md](experiments.md) runs into at 8 bits.
+
+You can reproduce the snapshots above with:
+
+```
+python experiments/ca/inspect_best.py experiments/ca/output/mvp/117db496acd2 --show-grid
+```
+
 ## Layer 1: Rule family
 
 **Outer-totalistic, K-state, 8-neighbor (Moore).**
