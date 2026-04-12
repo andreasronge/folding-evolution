@@ -30,6 +30,7 @@ import yaml
 AXES_OF_INTEREST = [
     "n_bits", "grid_n", "steps", "n_states", "pop_size",
     "generations", "mutation_rate", "rule_family", "task",
+    "output_mode", "n_examples",
 ]
 
 

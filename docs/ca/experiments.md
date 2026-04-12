@@ -194,14 +194,37 @@ The original framing was that OT is "strictly more symmetric" and DT is "strictl
 
 Plots: `output/rule_family_compare/heatmap_rule_family_vs_task.png` is the clearest single figure — DT is the darker row in both task columns.
 
-### 8-b. I/O geometry (queued, not yet run)
+### 8-b. I/O geometry — readout variants
 
-**Next cheap probe:** vary the readout. Candidates:
-- Read from multiple cells + vote (reduce readout noise).
-- Read at a different position (top-right, bottom-right, opposite side from input).
-- Multi-row output band (read full bottom row, majority-vote for the bit).
+**Sweep:** `sweeps/readout_geometry.yaml` — `output_mode ∈ {center_cell, horizontal_3, row_full}` × 10 seeds on 8-bit parity full-space training (`n_examples=256`). `center_cell` reproduces the §9 baseline (one cell at (N-1, N/2)); `horizontal_3` majority-votes bits over 3 cells on the bottom row; `row_full` majority-votes over the full 16-cell bottom row.
 
-If any of these breaks the 8-bit parity ceiling under OT, the ceiling was a readout-geometry artifact. If none do, the 8-bit ceiling is fundamentally tied to the CA dynamic at this grid size — a stronger, more negative result about this representation.
+**Hypothesis:** if the 0.70 ceiling was a readout-geometry artifact, pooling more cells before voting should reduce noise and lift fitness. If it's the CA dynamic itself that can't compute parity, pooling the same inadequate information over more cells shouldn't help.
+
+### Status: complete. Null result — readout geometry does not matter.
+
+| output_mode  | n  | median | min   | max   | mean  |
+|--------------|----|--------|-------|-------|-------|
+| center_cell  | 10 | 0.693  | 0.621 | 0.816 | 0.711 |
+| horizontal_3 | 10 | 0.693  | 0.637 | 0.820 | 0.703 |
+| row_full     | 9  | 0.703  | 0.637 | 0.805 | 0.710 |
+
+Medians and means agree within 0.01 across modes. Max across all modes is ~0.82 — the same seed-lucky ceiling the center-cell baseline produces. Pooling the full bottom row (16 cells majority-voted) gives the same result as reading a single cell.
+
+(One `row_full` run crashed on MLX mid-sweep — `n=9`. Result is already unambiguous; no re-run needed.)
+
+**Interpretation.** The 0.70 ceiling is not a readout-noise or readout-position artifact. Aggregating bit-decisions over 16× as many cells doesn't recover information that the CA state doesn't carry. At N=16 / T=16 under K=4 outer-totalistic, the CA cannot encode the parity bit reliably in any contiguous portion of the bottom row.
+
+### What's now ruled out for the 8-bit parity ceiling
+
+Four independent mechanisms, each tested:
+1. Rule-table expressiveness — K=4 equals K=8 everywhere (§3, §10).
+2. Search pressure — mutation rate 0.01…0.8 (§4) and pop size 256…4096 (§5) both null.
+3. Rule-family symmetry — decision tree at matched budget is *worse* than outer-totalistic (§8).
+4. Readout geometry — single cell, 3-cell pool, and full-row majority vote all 0.70 (§8-b above).
+
+The ceiling is a property of the CA dynamic itself. With this input encoding (row-0 clamp, 8 input bits laid out over the row) under this time budget (16 steps), the CA cannot reliably bring 8 bits' worth of parity information to the bottom of a 16×16 grid. Remaining candidates, from cheapest to most radical: more time steps (T); larger grid (N); different input encoding (e.g., unary or spread input); different developmental process (not CA at all).
+
+Plot: `output/readout_geometry/box_output_mode.png` — three near-identical boxplots, visually confirming the null.
 
 ---
 

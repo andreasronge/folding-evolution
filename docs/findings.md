@@ -939,6 +939,8 @@ Six sweeps (178 runs total) on outer-totalistic rules over a 3×3 Moore neighbor
   | 6 / 5            | 0.875  | 0.938    | +0.06  |
   | 8 / 7            | 0.703  | 0.898    | +0.20  |
 
-The majority-vs-parity gap widens with n_bits — classical Mitchell/Crutchfield result confirmed without any memorization confound. K=2 cliff holds a third time (0.500 on all n_bits on both tasks). K=4 / K=8 remain indistinguishable on clean data. **Total runs this track: 318.**
+The majority-vs-parity gap widens with n_bits — classical Mitchell/Crutchfield result confirmed without any memorization confound. K=2 cliff holds a third time (0.500 on all n_bits on both tasks). K=4 / K=8 remain indistinguishable on clean data.
+
+**i) Readout geometry does not matter — 0.70 ceiling is the CA dynamic itself.** `readout_geometry.yaml` (30 runs) varied `output_mode` on the clean 8-bit parity setup: single cell (baseline), 3-cell horizontal pool with bit-majority-voting, full 16-cell bottom-row vote. All three medians agree within 0.01 (0.69 / 0.69 / 0.70). Pooling 16× more output cells does not lift the 0.70 ceiling. Four independent mechanisms for the 8-bit parity ceiling are now ruled out: rule expressiveness (K=4 = K=8), search pressure (mutation and pop sweeps null), rule-family symmetry (DT < OT), and readout geometry (all three modes equal). The remaining diagnosis: the CA at N=16 / T=16 genuinely cannot bring 8-bit parity information to the readout — a property of the dynamic, not of rule flexibility, search, or aggregation. **Total runs across CA track: 348.**
 
 Sweeps reproducible from `experiments/ca/sweeps/*.yaml`; per-run history under `experiments/ca/output/<sweep>/<config_hash>/`.

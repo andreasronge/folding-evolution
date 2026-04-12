@@ -45,13 +45,48 @@ def evaluate_population(
         input_clamp=clamp_pe,
     )                                                                     # (P*E, N, N)
 
-    out_row = cfg.resolved_output_row()
-    out_col = cfg.resolved_output_col()
-    out_states = final[:, out_row, out_col].reshape(P, E)                # (P, E)
-
-    predictions = np.stack(
-        [task.decode(out_states[p], cfg) for p in range(P)], axis=0
-    )
+    predictions = _read_predictions(final, cfg, task, P, E)              # (P, E) int8
     labels = task.labels
     fitnesses = (predictions == labels[None, :]).mean(axis=1).astype(np.float64)
     return fitnesses, predictions
+
+
+def _read_predictions(
+    final: np.ndarray,
+    cfg: CAConfig,
+    task: Task,
+    P: int,
+    E: int,
+) -> np.ndarray:
+    """Apply cfg.output_mode to a (P*E, N, N) final grid and return (P, E) int8 labels.
+
+    For multi-cell modes, decode each cell to a bit via task.decode and
+    majority-vote across bits. Keeps task-specific decode logic intact.
+    """
+    N = cfg.grid_n
+    out_row = cfg.resolved_output_row()
+    out_col = cfg.resolved_output_col()
+    mode = cfg.output_mode
+
+    if mode == "center_cell":
+        out_states = final[:, out_row, out_col].reshape(P, E)            # (P, E)
+        return np.stack(
+            [task.decode(out_states[p], cfg) for p in range(P)], axis=0
+        )
+
+    if mode == "horizontal_3":
+        lo = max(0, out_col - 1)
+        hi = min(N, out_col + 2)
+        cells = final[:, out_row, lo:hi].reshape(P, E, hi - lo)          # (P, E, k)
+    elif mode == "row_full":
+        cells = final[:, out_row, :].reshape(P, E, N)                    # (P, E, N)
+    else:
+        raise ValueError(f"Unknown output_mode {mode!r}")
+
+    k = cells.shape[-1]
+    bits = np.stack(
+        [task.decode(cells[p].reshape(-1), cfg).reshape(E, k) for p in range(P)],
+        axis=0,
+    ).astype(np.int8)                                                     # (P, E, k)
+    votes = bits.sum(axis=-1)                                             # (P, E)
+    return (votes * 2 > k).astype(np.int8)

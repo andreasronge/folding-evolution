@@ -24,6 +24,11 @@ class CAConfig:
     input_row: int = 0
     output_row: int = -1
     output_col: int = -1  # -1 → center column
+    output_mode: str = "center_cell"
+    # "center_cell"   — read one cell at (output_row, output_col). Original behaviour.
+    # "horizontal_3"  — read 3 cells at output_row, cols [output_col-1, output_col, output_col+1];
+    #                   decode each to a bit, majority-vote.
+    # "row_full"      — read the whole output_row (N cells), decode each, majority-vote.
 
     # Evolution
     pop_size: int = 256
