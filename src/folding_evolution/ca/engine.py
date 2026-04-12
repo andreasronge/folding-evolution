@@ -25,15 +25,18 @@ def _run_outer_totalistic(
     B = initial_grid.shape[0]
     P = len(genotypes)
     E = B // P
+    r = cfg.neighborhood_radius
     # Stack per-rule tables, broadcast across examples.
-    tables = np.stack([rule_mod.decode(g, cfg.n_states) for g in genotypes], axis=0)
+    tables = np.stack(
+        [rule_mod.decode(g, cfg.n_states, radius=r) for g in genotypes], axis=0
+    )
     tables_be = np.broadcast_to(tables[:, None, :, :], (P, E, *tables.shape[1:]))
     tables_be = np.ascontiguousarray(tables_be).reshape(P * E, *tables.shape[1:])
 
     if cfg.backend == "numpy":
-        return engine_numpy.run(initial_grid, tables_be, input_clamp, cfg.steps)
+        return engine_numpy.run(initial_grid, tables_be, input_clamp, cfg.steps, radius=r)
     if cfg.backend == "mlx":
-        return engine_mlx.run(initial_grid, tables_be, input_clamp, cfg.steps)
+        return engine_mlx.run(initial_grid, tables_be, input_clamp, cfg.steps, radius=r)
     raise ValueError(f"Unknown backend {cfg.backend!r}")
 
 

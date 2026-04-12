@@ -13,50 +13,48 @@ from __future__ import annotations
 import numpy as np
 
 
+def _neighbor_sum_r(grid: np.ndarray, radius: int) -> np.ndarray:
+    """Moore-neighborhood sum at arbitrary radius, zero-padded at the boundary.
+
+    grid: (B, N, N) uint8.  Returns (B, N, N) int16.
+    int16 is safe: max sum = ((2r+1)^2 - 1)*(K-1). For r=3, K=4: 48*3=144, fits.
+    """
+    B, N, _ = grid.shape
+    padded = np.zeros((B, N + 2 * radius, N + 2 * radius), dtype=np.int16)
+    padded[:, radius:radius + N, radius:radius + N] = grid.astype(np.int16)
+    acc = np.zeros((B, N, N), dtype=np.int16)
+    side = 2 * radius + 1
+    for dy in range(side):
+        for dx in range(side):
+            if dy == radius and dx == radius:
+                continue  # skip the center (self)
+            acc = acc + padded[:, dy:dy + N, dx:dx + N]
+    return acc
+
+
 def step(
     grid: np.ndarray,
     rule_table: np.ndarray,
     input_clamp: np.ndarray,
+    radius: int = 1,
 ) -> np.ndarray:
-    """Apply one CA step.
+    """Apply one outer-totalistic CA step at Moore-neighborhood `radius`.
 
     Args:
         grid: (B, N, N) uint8
-        rule_table: (B, K, max_sum+1) uint8
-        input_clamp: (B, N) uint8 — values to pin on row 0 AFTER the step
-
-    Returns:
-        new_grid: (B, N, N) uint8
+        rule_table: (B, K, max_sum+1) uint8 — max_sum = (side^2 - 1)*(K-1)
+        input_clamp: (B, N) uint8
+        radius: Moore radius (1 = 3x3, 2 = 5x5, 3 = 7x7)
     """
     assert grid.dtype == np.uint8
     assert rule_table.dtype == np.uint8
     assert input_clamp.dtype == np.uint8
     B, N, _ = grid.shape
-    K = rule_table.shape[1]
 
-    # Zero-padded neighborhood sum. Shift in all 8 directions.
-    padded = np.zeros((B, N + 2, N + 2), dtype=np.int16)
-    padded[:, 1:-1, 1:-1] = grid.astype(np.int16)
-
-    nbr_sum = (
-        padded[:, :-2, :-2]   # NW
-        + padded[:, :-2, 1:-1]  # N
-        + padded[:, :-2, 2:]   # NE
-        + padded[:, 1:-1, :-2]  # W
-        + padded[:, 1:-1, 2:]   # E
-        + padded[:, 2:, :-2]    # SW
-        + padded[:, 2:, 1:-1]   # S
-        + padded[:, 2:, 2:]     # SE
-    ).astype(np.int16)
-
-    self_idx = grid.astype(np.int64)                              # (B, N, N)
-    sum_idx = nbr_sum.astype(np.int64)                            # (B, N, N)
-
-    # Gather: new[b, y, x] = rule_table[b, self_idx[b,y,x], sum_idx[b,y,x]]
-    b_idx = np.arange(B).reshape(B, 1, 1)                         # broadcast
-    new_grid = rule_table[b_idx, self_idx, sum_idx].astype(np.uint8)
-
-    # Clamp input row.
+    nbr_sum = _neighbor_sum_r(grid, radius).astype(np.int64)
+    self_idx = grid.astype(np.int64)
+    b_idx = np.arange(B).reshape(B, 1, 1)
+    new_grid = rule_table[b_idx, self_idx, nbr_sum].astype(np.uint8)
     new_grid[:, 0, :] = input_clamp
     return new_grid
 
@@ -66,13 +64,13 @@ def run(
     rule_table: np.ndarray,
     input_clamp: np.ndarray,
     steps: int,
+    radius: int = 1,
 ) -> np.ndarray:
     """Run `steps` iterations of the CA, returning the final grid."""
     grid = initial_grid.copy()
-    # Clamp row 0 on the initial grid too, so step 0 starts consistent.
     grid[:, 0, :] = input_clamp
     for _ in range(steps):
-        grid = step(grid, rule_table, input_clamp)
+        grid = step(grid, rule_table, input_clamp, radius=radius)
     return grid
 
 

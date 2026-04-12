@@ -479,13 +479,43 @@ Plot: `output/per_row/box_task.png` — per_row parity is a visibly tight cluste
 
 ### 11.c Neighborhood radius — information propagation speed
 
-**Sweep:** `sweeps/radius.yaml` — `radius ∈ {1, 2, 3}` × 10 seeds on 8-bit parity full-space. Rule table scales with neighborhood count: r=1 → 3×3 = 9 neighbors (current baseline), r=2 → 5×5 = 25, r=3 → 7×7 = 49. At K=4 outer-totalistic the tables are 36 / 100 / 196 bytes respectively. Matched-byte control for r=1: K=4 with a wider sum range or additional state bit, sized to r=2's 100-byte budget.
+**Sweep:** `sweeps/radius.yaml` — `radius ∈ {1, 2, 3}` × 10 seeds × 2 tasks (8-bit parity full-space, 7-bit majority full-space) = 60 runs. 59/60 complete; one 7-bit/r=3 MLX crash. Rule table scales with neighborhood count at K=4 outer-totalistic: r=1 → 100 bytes, r=2 → 292, r=3 → 580. **Mutation rate length-normalized** (per §11.a-b lesson): 0.030 / 0.010 / 0.005 respectively, holding expected flips per genome ≈ 3 per generation across radii.
 
-**Hypothesis:** Betel-Oliveira-Flocchini (2012) proved radius-2 1D CA cannot solve parity and radius-4 can — a sharp theoretical transition in information propagation. In 2D at N=16 / T=16, the ceiling identified in §8-b is precisely "information does not reach the bottom fast enough." Propagation speed per step equals the radius, so doubling it doubles the causal cone reaching the readout. Expected direction: r=2 > r=1 by ≥ 0.05 on 8-bit parity, with a possible further step at r=3.
+**Hypothesis:** Betel-Oliveira-Flocchini (2012) proved radius-2 1D CA cannot solve parity and radius-4 can — a sharp theoretical transition in information propagation. In 2D at N=16 / T=16, the §8-b ceiling is "information does not reach the bottom of the grid fast enough under uniform dynamics." Propagation speed per step equals the radius, so doubling it doubles the causal cone reaching the readout. Expected: r=2 > r=1 by ≥ 0.05 on 8-bit parity, possibly further at r=3.
 
-**Why third (but arguably first — see sequencing note):** strongest theoretical grounding on the list. Betel/Oliveira/Flocchini is a proof, not an empirical trend. The mechanism (propagation speed) maps most directly onto the §8-b diagnosis that state at the bottom of the grid doesn't carry enough input information. The sweep is placed third rather than first only because the kernel delta is largest (rule-table size scales quadratically with radius) and there is some risk of confounding "more propagation" with "more rule capacity" — hence the matched-byte control.
+### Status: complete. Massive task-differential result — radius fully solves majority but does nothing for parity.
 
-**Sequencing note:** if §11.a and §11.b both null, escalate §11.c (radius) ahead of §11.d (memory) — radius has a theoretical prediction of effect *direction and location*, memory only predicts direction.
+| task           | radius | bytes | n  | median | max   | solved | med_gens |
+|----------------|--------|-------|----|--------|-------|--------|----------|
+| 7-bit majority | 1      | 100   | 10 | 0.898  | 0.930 | 0/10   | —        |
+| 7-bit majority | 2      | 292   | 10 | 0.910  | 0.922 | 0/10   | —        |
+| 7-bit majority | 3      | 580   | 9  | **1.000** | **1.000** | **9/9** ✓ | **111** |
+| 8-bit parity   | 1      | 100   | 10 | 0.693  | 0.816 | 0/10   | —        |
+| 8-bit parity   | 2      | 292   | 10 | 0.662  | 0.738 | 0/10   | —        |
+| 8-bit parity   | 3      | 580   | 10 | 0.662  | 0.680 | 0/10   | —        |
+
+**Majority at r=3: fully solved, 9/9 runs at exactly 1.000, median 111 generations to solve.** First 100%-solved non-trivial task in the entire CA-GP track. Doubling radius from 1 to 2 already gives a modest lift (+0.012 median); tripling to 3 closes the last 0.10 gap cleanly.
+
+**Parity at every radius: null or slightly negative.** r=2 and r=3 both sit at 0.66 median, vs r=1's 0.69. Within seed noise but trending the wrong way — extra neighborhood capacity adds evolvability overhead without unlocking parity-relevant computation.
+
+**Reframing the §8-b diagnosis.** At r=3 with T=16 steps, the per-step causal cone extends 3 cells — so in T=16 steps, a readout cell can see any input cell within distance 48, far exceeding the grid's 16-cell extent. **Information-reach is not the parity bottleneck.** The CA literally sees the entire input from every cell; it still can't XOR it. Betel-Oliveira-Flocchini's propagation-speed argument does not transfer from 1D proof to this 2D row-0-clamp geometry.
+
+**What actually moves parity across all 12 completed sweeps:**
+
+| intervention                               | parity median | notes                              |
+|--------------------------------------------|---------------|------------------------------------|
+| **banded_3 (§11.a spatial specialization)** | **0.805**   | +0.11 over baseline — only real mover |
+| uniform OT (baseline)                      | 0.693         | —                                  |
+| radius (§11.c this sweep, r=2 or r=3)      | 0.662         | null / slightly negative           |
+| per_row (§11.a-b over-parameterized)       | 0.641         | worse — evolvability collapse      |
+| decision tree (§8 symmetry break)          | 0.719         | overfit-inflated, actual lower     |
+| readout geometry, pop size, mut rate, λ    | 0.69–0.70     | all null                           |
+
+**Only spatial role-specialization moves parity.** Bigger windows, richer rules, more search budget, varied readouts, richer families, edge-of-chaos regimes — all null or negative. What lifts the parity ceiling is **different rules in different rows**, not more per-cell capacity.
+
+**Mitchell/Crutchfield strengthened.** The canonical result ("CAs are good at density tasks, bad at parity") now has a stronger form in this setup: majority fully solves with sufficient local neighborhood, parity doesn't — and the parity bottleneck is structural/computational, not a matter of "information doesn't arrive."
+
+Plots: `output/radius/heatmap_mutation_rate_vs_task.png` shows the task asymmetry cleanly. Solved-in-111-gens majority curves at `output/radius/fitness_curves.png`.
 
 ### 11.d Second-order CA — cell memory depth
 

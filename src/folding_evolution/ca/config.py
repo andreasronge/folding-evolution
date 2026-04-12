@@ -16,6 +16,9 @@ class CAConfig:
     rule_family: str = "outer_totalistic"
     # rule_family ∈ {"outer_totalistic", "decision_tree", "banded_ot"}
     n_bands: int = 3   # only used when rule_family == "banded_ot"
+    neighborhood_radius: int = 1
+    # Moore-neighborhood radius for outer_totalistic / banded_ot. r=1 is the
+    # classical 3x3 (8 neighbors); r=2 is 5x5 (24 neighbors); r=3 is 7x7 (48).
 
     # Task
     task: str = "parity"

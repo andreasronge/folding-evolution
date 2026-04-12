@@ -1,0 +1,38 @@
+sweep_name: radius
+# §11.c — Moore neighborhood radius sweep for outer-totalistic rules.
+# Hypothesis: Betel/Oliveira/Flocchini — propagation speed per step equals
+# the radius, so doubling r doubles the causal cone reaching the readout.
+# The §8-b diagnosis was "state does not carry enough input information" —
+# radius is the most direct test of that mechanism.
+#
+# Genotype lengths at K=4 OT:
+#   r=1: K * (8*(K-1)+1)  = 4 * 25  = 100 bytes  (baseline)
+#   r=2: K * (24*(K-1)+1) = 4 * 73  = 292 bytes
+#   r=3: K * (48*(K-1)+1) = 4 * 145 = 580 bytes
+#
+# Mutation rate is normalized so expected flips per generation is ~3 across
+# all radii (per the §11.a-b lesson that per-byte rate × long genome =
+# over-mutation that kills evolvability).
+base:
+  grid_n: 16
+  steps: 16
+  n_states: 4
+  rule_family: outer_totalistic
+  pop_size: 256
+  generations: 200
+  tournament_size: 3
+  elite_count: 2
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 10
+paired:
+  # 8-bit parity full-space — primary task
+  - {neighborhood_radius: 1, mutation_rate: 0.030, task: parity, n_bits: 8, n_examples: 256}
+  - {neighborhood_radius: 2, mutation_rate: 0.010, task: parity, n_bits: 8, n_examples: 256}
+  - {neighborhood_radius: 3, mutation_rate: 0.005, task: parity, n_bits: 8, n_examples: 256}
+  # 7-bit majority full-space — cross-task control
+  - {neighborhood_radius: 1, mutation_rate: 0.030, task: majority, n_bits: 7, n_examples: 128}
+  - {neighborhood_radius: 2, mutation_rate: 0.010, task: majority, n_bits: 7, n_examples: 128}
+  - {neighborhood_radius: 3, mutation_rate: 0.005, task: majority, n_bits: 7, n_examples: 128}
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]

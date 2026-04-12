@@ -16,32 +16,31 @@ def _to_mx(a: np.ndarray) -> mx.array:
     return mx.array(a)
 
 
-def _neighbor_sum(grid: mx.array) -> mx.array:
-    """8-connected Moore neighbor sum with zero padding.
+def _neighbor_sum(grid: mx.array, radius: int = 1) -> mx.array:
+    """Moore-neighborhood sum at arbitrary radius with zero padding.
 
     grid: (B, N, N) uint8. Returns (B, N, N) int16.
 
-    int16 is safe when ((2r+1)^2 - 1) * (K-1) <= 32767, i.e. every r/K combo
-    we plausibly run. At r=1 the max sum is 8*(K-1) — int16 holds up to K≈4095.
+    int16 is safe when ((2r+1)^2 - 1) * (K-1) <= 32767. For r=3, K=4: 48*3=144.
     """
     B, N, _ = grid.shape
-    padded = mx.pad(grid.astype(mx.int16), [(0, 0), (1, 1), (1, 1)])
-    return (
-        padded[:, :-2, :-2]
-        + padded[:, :-2, 1:-1]
-        + padded[:, :-2, 2:]
-        + padded[:, 1:-1, :-2]
-        + padded[:, 1:-1, 2:]
-        + padded[:, 2:, :-2]
-        + padded[:, 2:, 1:-1]
-        + padded[:, 2:, 2:]
-    )
+    padded = mx.pad(grid.astype(mx.int16),
+                    [(0, 0), (radius, radius), (radius, radius)])
+    acc = mx.zeros((B, N, N), dtype=mx.int16)
+    side = 2 * radius + 1
+    for dy in range(side):
+        for dx in range(side):
+            if dy == radius and dx == radius:
+                continue
+            acc = acc + padded[:, dy:dy + N, dx:dx + N]
+    return acc
 
 
 def step(
     grid: mx.array,
     rule_table: mx.array,
     input_clamp: mx.array,
+    radius: int = 1,
 ) -> mx.array:
     """One CA step, same semantics as engine_numpy.step.
 
@@ -55,11 +54,10 @@ def step(
     B, N, _ = grid.shape
     K, max_sum_plus_1 = rule_table.shape[1], rule_table.shape[2]
 
-    nbr_sum = _neighbor_sum(grid)                 # (B, N, N) int16
+    nbr_sum = _neighbor_sum(grid, radius=radius)  # (B, N, N) int16
     self_idx = grid.astype(mx.int16)              # (B, N, N)
 
     # Linear index into flattened rule table per batch: self * (max_sum+1) + sum.
-    # int16 range covers K*(max_sum+1) for all sensible K/r; asserting at engine entry.
     flat_idx = self_idx * max_sum_plus_1 + nbr_sum
     flat_table = rule_table.reshape(B, K * max_sum_plus_1)
 
@@ -79,6 +77,7 @@ def run(
     rule_table: np.ndarray,
     input_clamp: np.ndarray,
     steps: int,
+    radius: int = 1,
 ) -> np.ndarray:
     """Run `steps` iterations on MLX, return the final grid as a NumPy uint8 array."""
     grid = _to_mx(initial_grid)
@@ -91,7 +90,7 @@ def run(
     grid = mx.concatenate([clamped_row0, grid[:, 1:, :]], axis=1)
 
     for _ in range(steps):
-        grid = step(grid, table, clamp)
+        grid = step(grid, table, clamp, radius=radius)
     mx.eval(grid)
     return np.array(grid, dtype=np.uint8)
 

@@ -25,32 +25,39 @@ from . import rule_banded as _banded
 
 # ---------------- Outer-totalistic helpers ----------------
 
-def rule_shape(n_states: int) -> tuple[int, int]:
-    return (n_states, 8 * (n_states - 1) + 1)
+def neighbor_count(radius: int = 1) -> int:
+    """Moore-neighborhood size at given radius, excluding the center cell."""
+    return (2 * radius + 1) ** 2 - 1
 
 
-def rule_len(n_states: int) -> int:
-    r, c = rule_shape(n_states)
+def rule_shape(n_states: int, radius: int = 1) -> tuple[int, int]:
+    """Outer-totalistic rule-table shape: (self_state, neighbor_sum + 1)."""
+    nbrs = neighbor_count(radius)
+    return (n_states, nbrs * (n_states - 1) + 1)
+
+
+def rule_len(n_states: int, radius: int = 1) -> int:
+    r, c = rule_shape(n_states, radius)
     return r * c
 
 
-def random_genotype(n_states: int, rng: random.Random) -> np.ndarray:
+def random_genotype(n_states: int, rng: random.Random, radius: int = 1) -> np.ndarray:
     """Sample a uniform-random outer-totalistic rule table as a flat uint8 genotype."""
-    length = rule_len(n_states)
+    length = rule_len(n_states, radius)
     return np.array(
         [rng.randrange(n_states) for _ in range(length)],
         dtype=np.uint8,
     )
 
 
-def decode(genotype: np.ndarray, n_states: int) -> np.ndarray:
+def decode(genotype: np.ndarray, n_states: int, radius: int = 1) -> np.ndarray:
     """Reshape a flat outer-totalistic genotype into a (K, max_sum+1) table."""
-    shape = rule_shape(n_states)
+    shape = rule_shape(n_states, radius)
     expected = shape[0] * shape[1]
     if genotype.size != expected:
         raise ValueError(
-            f"Genotype length {genotype.size} does not match K={n_states} "
-            f"(expected {expected})"
+            f"Genotype length {genotype.size} does not match K={n_states}, "
+            f"radius={radius} (expected {expected})"
         )
     return genotype.reshape(shape).astype(np.uint8)
 
@@ -91,7 +98,7 @@ def crossover(
 def random_genotype_for(cfg: CAConfig, rng: random.Random) -> np.ndarray:
     fam = cfg.rule_family
     if fam == "outer_totalistic":
-        return random_genotype(cfg.n_states, rng)
+        return random_genotype(cfg.n_states, rng, radius=cfg.neighborhood_radius)
     if fam == "decision_tree":
         return _dt.random_genotype(cfg.n_states, rng)
     if fam == "banded_ot":
@@ -127,7 +134,7 @@ def crossover_for(
 def genotype_len(cfg: CAConfig) -> int:
     fam = cfg.rule_family
     if fam == "outer_totalistic":
-        return rule_len(cfg.n_states)
+        return rule_len(cfg.n_states, radius=cfg.neighborhood_radius)
     if fam == "decision_tree":
         return _dt.genotype_len()
     if fam == "banded_ot":
