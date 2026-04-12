@@ -764,9 +764,90 @@ All 1500 A_continuous individuals score exactly 0.213 on T_far — the partial-c
 **Follow-up priorities (updated after 1.15b):**
 
 1. **Pooled-genotype AST analysis** — confirm A_continuous pool is essentially all `count(products)` while B/C pools contain diverse compositional forms. Lightweight supporting measurement for the "specialist basin" claim.
-2. **30-seed rerun with true far-transfer** (reduce / nested filter / map+count) — tests whether structural generalization extends across compositional families, not just within the filter family. If a Pareto population trained on filter still shows elevated starting fitness on a reduce target, the generality claim broadens significantly.
+2. **Far-transfer scale-up** — see reachability check below; in practice blocked for cross-family targets.
 3. **A2 ablation** (folding × preservation × motifs on hard problems) — now ready to run; answers "what is the paper about" with a clean separation of contributions.
 4. **Multi-target continuous-selection control.** The matched-fitness failure motivates this: train A_continuous on a diverse 3-target set that exposes it to filter structure, then compare transfer. Tests whether continuous selection *can* produce structural breadth given the right pressure, or whether pure fitness always collapses to specialism.
+
+### Cross-Family Far-Transfer Reachability (Representation Scope Statement)
+
+Before scaling the 1.15 series to a genuinely cross-family far-transfer (reduce-sum or first-of-filter-equals-string), we checked whether the targets are reachable in the natural phenotype distribution of the current alphabet/chemistry. 10,000 random length-100 genotypes were developed and scanned for the full target signatures.
+
+| Target | Full signature | Partial: top-level op | Partial: load-bearing substructure |
+|---|---|---|---|
+| `(reduce (fn a b (+ a (get b :price))) 0 data/products)` | **0 / 10,000** | reduce present: 110 (1.10%) | reduce + 2-arg fn: **0** |
+| `(first (filter (fn x (= (get x :KEY) STR)) data/DS))` | **0 / 10,000** | first: 2268 (22.68%); filter: 103 (1.03%) | first+filter+=: **0** |
+
+**What is blocked:**
+
+- `reduce` occurs as a top-level operator at ~1% of random genotypes, but `reduce` combined with a 2-argument lambda appears zero times in 10,000 samples. The fn-bonding chemistry produces 1-argument predicate lambdas by default; 2-argument lambdas require an adjacency pattern that random genotypes almost never hit.
+- `first`, `filter`, and `=` are each individually abundant (22%, 1%, 16%), but the conjunction `first(filter(fn x (= (get x :K) "str")))` with a string literal is zero. Even within the filter family, specific predicate shapes outside `(CMP (get x :K) NUM)` are unreachable.
+
+**Scope statement for the paper:**
+
+*The current folding alphabet and chemistry naturally generate one compositional family: 1-argument predicate/accessor lambdas wrapped in higher-order operators over data sources. Cross-family transfer (reduce with accumulator, filter with string equality, nested compound predicates) cannot be tested fairly because those targets lie outside the natural phenotype distribution of the representation. The 1.15 structural-generalization claim therefore applies **within the representation's natural compositional family**, not across arbitrary compositional families. Extending to other families would require alphabet or chemistry extension — a separate research step, not a test of the current mechanism.*
+
+This is not a disaster; it is a precise boundary. It reframes the 1.15 / 1.15b claim as: *Pareto preservation produces structurally general programs within the representation's natural family (1-arg predicate/data pipelines). Pure fitness optimization collapses even within that family to a single specialist point.*
+
+**Decision:** skip the 30-seed cross-family rerun. Run one cheap within-family robustness check (1.15c, comparator and wrapper variations) to confirm the within-family claim is not resting on a single transfer pair, then move to A2 ablation.
+
+### Within-Family Robustness (Experiment 1.15c)
+
+Cheap sanity check (10 seeds) testing two additional within-family transfer targets — comparator swap and wrapper swap — under the 1.15b design. Same Phase 1 training (filter-price-200, 300 gens, pop=100), snapshot at gen 300, 40-gen assay with continuous selection only, no motif insertion, single-target novel assays.
+
+**T_comp (comparator swap, `>` → `<`):**
+
+`(count (filter (fn x (< (get x :price) 500)) data/products))`
+
+| Cond | T_comp starting-fitness pool (1000 indiv.) | endpoint ≥0.7 |
+|---|---|---|
+| A_continuous | 1000 / 1000 at 0.413 (single value) | 8/10 |
+| B_scaffold | 896 at 0.413, **101 at 0.594** | 7/10 |
+| C_structural | 896 at 0.413, **102 at 0.594** | 10/10 |
+
+Non-overlap persists at the tail: Pareto conditions carry ~10% of the pool at 0.594, A carries 0. The *bulk* distribution is now overlapping (both A and Pareto at 0.413), not separate as in 1.15b. After 40 assay gens, A matches B on ≥0.7 hits (8/10 vs 7/10). C_structural is the cleanest with 10/10 at ≥0.7, no variance. Ceiling access (≥0.8) is absent for all conditions on this target — `count(rest(products))` and similar shortcuts get to 0.731 easily, so there's no tail only Pareto can reach.
+
+**T_wrap (wrapper swap, `count` → `first`):**
+
+`(first (filter (fn x (> (get x :price) 300)) data/products))`
+
+| Cond | T_wrap starting-fitness pool | endpoint ≥0.6 |
+|---|---|---|
+| A_continuous | 1000 / 1000 at 0.050 | 0/10 |
+| B_scaffold | 998 at 0.050, 2 at 0 | 0/10 |
+| C_structural | 1000 / 1000 at 0.050 | 0/10 |
+
+**All three conditions collapse to the same floor.** No non-overlap. Evolution also fails for all conditions — no seed reaches ≥0.6 in 40 gens. The reason is mechanistic: `first(filter(...))` returns a product *object*, not a number. Partial-credit scoring cannot credit numerical outputs from any condition when the target expects an object. **The elevated-baseline mechanism that drove the 1.15b non-overlap disappears when output type changes.**
+
+**The three-way interaction — what actually makes transfer work:**
+
+The 1.15 series, interpreted together, shows that transfer benefit from Pareto preservation depends on an interaction of three factors, not one:
+
+1. **Reachable compositional structure in the representation.** The reachability check showed cross-family targets (reduce with accumulator, first-filter-equals-string) are outside the natural phenotype distribution. Transfer can only be tested within the family the representation naturally generates.
+
+2. **Preserved scaffold inventory from Pareto.** The matched-fitness non-overlap (1.15b) and the T_comp tail (1.15c) show Pareto populations carry structurally distinct individuals that continuous selection does not. Continuous selection collapses to a single specialist basin; Pareto does not.
+
+3. **Scoring function's partial-credit geometry.** T_wrap's null result shows that even when preserved structure is present, transfer advantage disappears if the scoring function cannot partially reward inherited outputs against the new target. Partial credit on numeric outputs vs numeric targets works; partial credit on numeric outputs vs object targets does not.
+
+**Bounded claim for the paper (final version):**
+
+> *Pareto preservation biases evolution toward scaffold-rich numeric programs whose outputs remain partially aligned with related targets. This creates an inherited baseline advantage and occasional access to higher-fitness regions under related target changes. The effect is bounded by the representation's reachable compositional family and by the scoring function's type compatibility. Continuous selection, by contrast, converges to narrower specialist solutions with less transferable structure.*
+
+**What is safe to claim:**
+- Pareto preservation yields inherited structural inventory that transfers to related numeric targets when that inventory lands in a compatible scoring basin.
+- Continuous selection converges to narrower specialist solutions with less transferable structure.
+- The transfer effect is real but highly conditional on representation reachability and scoring-function compatibility.
+
+**What is NOT safe to claim:**
+- Broad within-family structural generalization (T_wrap disproves this).
+- Generic transfer across related program variants (bounded by output-type compatibility).
+- Stored cryptic variation in the Wagner/Kimura sense (matched-fitness non-overlap rules this out).
+- Faster adaptation dynamics (trajectory reanalysis rules this out — Pareto slopes are lower, not higher).
+
+**Why the narrowing improves the paper:**
+
+The result is now mechanistically specific rather than vaguely general. The three-way interaction decomposition makes each claim independently falsifiable. The T_wrap null is not a weakness — it is evidence that the mechanism is not a general "stored capacity" phenomenon, and it isolates *which* factor (scoring geometry) is necessary for the effect. Reviewers cannot puncture an overbroad generalization because we have not made one.
+
+The headline becomes about **what preservation changes in the phenotype distribution** (reusable scoring-compatible structures) rather than about **where preserved variation can go** (which turns out to be bounded in two orthogonal ways).
 
 ## 7. Coevolution Findings (Elixir)
 
@@ -822,7 +903,9 @@ See Section 6 for the full diagnostic series. The framing evolved through multip
 
 **Revision 12 (after trajectory-analysis reanalysis of 1.15):** The initial "2x faster adaptation" framing was wrong. Post-hoc trajectory analysis showed Pareto populations have *lower* early slopes than continuous-selection — they inherit higher starting fitness (partial credit from inherited scaffolds), which looks like fast adaptation in time-to-threshold metrics but is actually an initial-condition advantage. Intermediate framing: "preserved populations inherit an elevated baseline plus occasional access to high-fitness regions unreachable to controls in the assay window."
 
-**Current (after matched-fitness follow-up, 1.15b):** The two optimization regimes produce qualitatively different phenotype distributions on related tasks, not just different means. A_continuous collapses to a single specialist basin — all 1500 pooled individuals score exactly 0.213 on T_far in the unadapted state (`count(products)` converges in 15/15 seeds with no structural variation). Pareto populations span 0.213–0.613 with 100–200 individuals per condition in the [0.55, 0.65) band, reflecting preserved compositional scaffolds that generalize to the novel target by construction. The starting-fitness distributions do not overlap above the A floor; matched comparison is undefined. The 1.15 transfer effect is *fully consistent with structural generalization alone* and does not support an additional cryptic-variation claim. The ceiling-access hits (≥0.8, 4/60 Pareto vs 0/30 control) reframe as second-stage elaboration from a structurally advantaged start, not as evidence of latent adaptive capacity. Final claim for paper: *Pareto preservation changes what evolution stores. Instead of converging on narrow shortcuts, it maintains compositional scaffolds that generalize by construction to related targets. Pure fitness optimization selects brittle specialists; preservation selects reusable compositional structure.* This is the constructional-selection claim (Altenberg), tested directly and cleanly.
+**Revision 13 (after matched-fitness follow-up, 1.15b):** The two optimization regimes produce qualitatively different phenotype distributions on related tasks. A_continuous collapses to a single specialist basin (all 1500 pooled individuals at 0.213 on T_far); Pareto populations span 0.213–0.613 with elevated tails. Starting-fitness distributions do not overlap; matched comparison is undefined. Intermediate framing: "Pareto preservation maintains compositional scaffolds that generalize by construction to related targets."
+
+**Current (after reachability check and within-family robustness, 1.15c):** The "structural generalization" framing was directionally right but too broad. Reachability check showed cross-family targets (reduce, first-filter-equals) are outside the natural phenotype distribution — the representation generates one compositional family, not arbitrary programs. Within-family check showed the non-overlap effect is target-dependent: strong on T_far (field+data shift), weak-and-tail-only on T_comp (comparator swap), and absent on T_wrap (wrapper swap). T_wrap's null is mechanistically informative: `first(filter(...))` returns an object, not a number, so partial-credit scoring cannot credit inherited numerical outputs. The actual mechanism is a three-way interaction: (1) reachable compositional structure, (2) preserved scaffold inventory from Pareto, (3) scoring function's partial-credit geometry. Final bounded claim for the paper: *Pareto preservation biases evolution toward scaffold-rich numeric programs whose outputs remain partially aligned with related targets. This creates an inherited baseline advantage and occasional access to higher-fitness regions under related target changes. The effect is bounded by the representation's reachable compositional family and by the scoring function's type compatibility.* Continuous selection, by contrast, converges to narrower specialist solutions with less transferable structure. What the result is NOT: broad within-family generalization, generic transfer, stored cryptic variation, or faster adaptation dynamics.
 
 ## 9. Eval Performance
 

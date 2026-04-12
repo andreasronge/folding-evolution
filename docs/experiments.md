@@ -68,9 +68,11 @@ First-pass result (15 seeds, snapshots at gens 200 and 300, 80-gen assay on T_ne
 **Final claim from 1.15 series:** *Pareto preservation changes what evolution stores. Instead of converging on narrow shortcuts, it maintains compositional scaffolds that generalize by construction to related targets. Pure fitness optimization selects brittle specialists.* This is the constructional-selection claim (Altenberg), tested directly.
 
 **Remaining open questions for scale-up runs:**
-- Does structural generalization extend across compositional families (reduce, nested filter, map+count), not just within filter? — addresses via a true far-transfer rerun.
-- Does continuous selection on diverse multi-target training *ever* produce structural breadth, or does pure fitness always collapse to specialism? — multi-target control.
-- AST analysis of pooled genotypes to confirm A = all `count(products)` while B/C maintain compositional diversity.
+- Does structural generalization extend across compositional families (reduce, nested filter, map+count), not just within filter? — **ANSWERED**: cannot be tested with current alphabet. Reachability check (10k random length-100 genotypes) showed full signatures of reduce-sum (0/10k) and first-filter-equals-string (0/10k) are outside the natural phenotype distribution. Cross-family transfer requires alphabet/chemistry extension, not a new evolution experiment. Scope statement recorded in findings Section 6.
+- Does continuous selection on diverse multi-target training *ever* produce structural breadth, or does pure fitness always collapse to specialism? — multi-target control. Deferred; not load-bearing for current paper framing.
+- AST analysis of pooled genotypes to confirm A = all `count(products)` while B/C maintain compositional diversity. Still worth doing as a supporting measurement.
+
+**1.15c (within-family robustness) — DONE.** Tested comparator swap (> → <) and wrapper swap (count → first) on 10 seeds. Three-way interaction revealed: transfer benefit depends on (1) reachable compositional structure, (2) preserved Pareto inventory, AND (3) scoring function's partial-credit geometry. T_comp shows weak tail non-overlap (Pareto ~10% elevated); T_wrap null — all three conditions collapse to same floor because first-of-filter returns object not number, defeating partial-credit mechanism. **Final bounded claim: Pareto preservation biases evolution toward scaffold-rich numeric programs whose outputs remain partially aligned with related targets. Effect is bounded by representation reachability AND scoring-function type compatibility.** See findings Section 6 "Within-Family Robustness" and `exp_within_family_check.py`.
 
 **1.14: Lineage analysis of preservation breakthroughs**
 
