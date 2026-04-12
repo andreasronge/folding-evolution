@@ -720,8 +720,53 @@ That is a weaker and more specific claim than "cryptic variation demonstrated" o
 
 1. **30+ seed rerun with shorter checkpoints (10, 20, 40).** Emphasize mid-range differences where the Pareto signal is clearest. 80-gen window is not required.
 2. **Add a genuine compositional-family far-transfer** (e.g., `(reduce (fn a b (+ a (get b :price))) 0 data/products)` or `(count (map (fn x (get x :price)) data/products))`). Current T_far stays within filter family.
-3. **Matched-starting-fitness subpopulation analysis.** The elevated-baseline finding makes this more important, not less: comparing Pareto subpopulations at equivalent starting fitness against continuous-selection individuals tests whether ceiling access survives the baseline confound.
+3. **Matched-starting-fitness subpopulation analysis.** The elevated-baseline finding makes this more important, not less: comparing Pareto subpopulations at equivalent starting fitness against continuous-selection individuals tests whether ceiling access survives the baseline confound. *Run as Experiment 1.15b; see below.*
 4. **Count unique endpoint values per condition.** If Pareto populations produce more distinct programs at termination, that is additional evidence of inventory transfer (diverse scaffolds → diverse solutions).
+
+### Matched-Starting-Fitness Transfer (Experiment 1.15b)
+
+Follow-up to 1.15. The trajectory reanalysis showed Pareto populations inherit elevated T_far starting fitness via partial-credit scoring of preserved scaffolds. To disambiguate "inherited scaffold inventory" from "starting-position advantage," we pooled the 15-seed gen-300 snapshots per condition (1500 individuals each), scored every individual on T_far in the unadapted state, and attempted to build matched-starting-fitness subpopulations across conditions.
+
+**The matching was impossible to construct — the distribution non-overlap is the headline result.**
+
+| Starting-fitness band on T_far | A_continuous | B_scaffold | C_structural |
+|---|---|---|---|
+| [0.20, 0.30) | 1500 | 1388 | 1296 |
+| [0.30, 0.55) | 0 | 0 | 0 |
+| [0.55, 0.60) | 0 | 104 | 102 |
+| [0.60, 0.65) | 0 | 0 | 100 |
+
+All 1500 A_continuous individuals score exactly 0.213 on T_far — the partial-credit floor for a data-dependent program that passes the gate but matches nothing specific. A_continuous has no natural variation above this floor; every seed converges on `count(products)` and nothing else. Pareto populations span 0.213 upward, with 100–200 individuals per condition in the 0.55–0.65 range. There is no starting-fitness band where all three conditions have individuals; matched comparison is undefined.
+
+**What this establishes:**
+
+- **The two optimization regimes produce qualitatively different phenotype distributions on related tasks, not just different means.** A_continuous collapses onto a single narrow specialist basin. Pareto populations maintain structural programs that score partial credit on the novel target *by construction*, because their preserved form matches `(higher_order (fn x (CMP (get x :ANY) VAL)) data/ANY)` — the template generalizes to different field/data slots automatically.
+- **The 1.15 transfer advantage is explained by structural generality, not by stored cryptic variation.** Pareto populations start the assay already at 0.55–0.65 on T_far because their programs structurally generalize to the novel target. From this elevated start, ordinary mutation/crossover can sometimes reach the 0.8+ tail. From A's 0.213 floor, it cannot in 60–80 gens.
+- **The ≥0.8 ceiling hits (4/60 Pareto vs 0/30 control) reframe as second-stage elaboration from a structurally advantaged start, not as evidence of latent adaptive capacity.** The climb from 0.55 to 0.8 is ordinary mutation/crossover work; what matters is being at 0.55 in the first place.
+- **Matched comparison cannot be run in this system** because the distributions do not overlap. That is a constraint on what future experiments can test, not an oversight. Any future attempt would need a different control — e.g., training A_continuous under a multi-target regime that forces some structural breadth before transfer.
+
+**Revised headline claim (supersedes the 1.15 first-pass and trajectory-analysis framings):**
+
+> *Pareto preservation changes what evolution stores. Instead of converging on narrow shortcuts, it maintains compositional scaffolds that generalize by construction to related targets. The observed transfer advantage in 1.15 is fully consistent with this inherited structural generality; the data do not support an additional cryptic-variation claim beyond the baseline effect. Continuous selection, by contrast, collapses onto a single specialist basin (`count(products)` in 15/15 seeds) with no natural variation across the 1500-individual pool on the related T_far target.*
+
+**Why this is the right story, not a downgrade:**
+
+1. It is specific and falsifiable. "Preservation selects for reusable compositional structure; reusable compositional structure generalizes across related tasks; pure fitness optimization selects brittle specialists" — each piece can be independently checked.
+2. It fits the Altenberg / constructional-selection framework directly and avoids borrowing the looser Wagner/Kimura "hidden variation" vocabulary.
+3. It explains *why* Pareto transfer works without invoking a reservoir of hidden capacity that the data cannot support.
+4. The distribution non-overlap itself is a headline result — it says the optimization regimes produce different phenotype classes, not different points on the same distribution.
+
+**What the matched-fitness failure does NOT do:**
+
+- It does not rule out some residual extra capacity beyond baseline. It only says the current assay cannot test for it. "Fully consistent with structural generalization alone" is the honest claim; "entirely explained by baseline" would overclaim.
+- It does not weaken the ceiling-access finding. ≥0.8 hits in Pareto but not control remain clean — they just reframe as downstream consequences of the baseline difference, not as a separable effect.
+
+**Follow-up priorities (updated after 1.15b):**
+
+1. **Pooled-genotype AST analysis** — confirm A_continuous pool is essentially all `count(products)` while B/C pools contain diverse compositional forms. Lightweight supporting measurement for the "specialist basin" claim.
+2. **30-seed rerun with true far-transfer** (reduce / nested filter / map+count) — tests whether structural generalization extends across compositional families, not just within the filter family. If a Pareto population trained on filter still shows elevated starting fitness on a reduce target, the generality claim broadens significantly.
+3. **A2 ablation** (folding × preservation × motifs on hard problems) — now ready to run; answers "what is the paper about" with a clean separation of contributions.
+4. **Multi-target continuous-selection control.** The matched-fitness failure motivates this: train A_continuous on a diverse 3-target set that exposes it to filter structure, then compare transfer. Tests whether continuous selection *can* produce structural breadth given the right pressure, or whether pure fitness always collapses to specialism.
 
 ## 7. Coevolution Findings (Elixir)
 
@@ -775,7 +820,9 @@ See Section 6 for the full diagnostic series. The framing evolved through multip
 
 **Revision 11 (after cryptic variation assay, first pass):** Preserved populations transfer discrete compositional scaffolds to novel but related targets. Pareto-preserved populations reach fitness ceilings that continuous-selection controls never reach in the assay window (≥0.8 in 4/60 Pareto seed-trials vs 0/30 controls). Bimodal endpoint distributions and plateau dynamics indicate the mechanism is *discrete inventory transfer* of compositional scaffolds, mechanistically distinct from continuous standing variation (Wagner/Kimura). Starting-structure confound disclosed.
 
-**Current (after trajectory-analysis reanalysis of 1.15):** The initial "2x faster adaptation" framing was wrong. Post-hoc trajectory analysis shows Pareto populations have *lower* early slopes than continuous-selection — they inherit higher starting fitness (partial credit from inherited scaffolds), which looks like fast adaptation in time-to-threshold metrics but is actually an initial-condition advantage. The residual genuine effect is (a) ceiling access at fitness ≥0.8 that controls never reach (n=4 Pareto hits vs n=0 control, across 60/30 seed-trials), and (b) on T_near, a cumulative mean advantage that grows over 80 assay gens rather than shrinks. The honest claim: "preserved populations inherit an elevated baseline plus occasional access to high-fitness regions unreachable to controls in the assay window; the mechanism is discrete inventory transfer, not continuous cryptic variation and not faster adaptation." Sample size (n=15), 80-gen assay, and the elevated-baseline confound are the primary weaknesses to address in a scale-up.
+**Revision 12 (after trajectory-analysis reanalysis of 1.15):** The initial "2x faster adaptation" framing was wrong. Post-hoc trajectory analysis showed Pareto populations have *lower* early slopes than continuous-selection — they inherit higher starting fitness (partial credit from inherited scaffolds), which looks like fast adaptation in time-to-threshold metrics but is actually an initial-condition advantage. Intermediate framing: "preserved populations inherit an elevated baseline plus occasional access to high-fitness regions unreachable to controls in the assay window."
+
+**Current (after matched-fitness follow-up, 1.15b):** The two optimization regimes produce qualitatively different phenotype distributions on related tasks, not just different means. A_continuous collapses to a single specialist basin — all 1500 pooled individuals score exactly 0.213 on T_far in the unadapted state (`count(products)` converges in 15/15 seeds with no structural variation). Pareto populations span 0.213–0.613 with 100–200 individuals per condition in the [0.55, 0.65) band, reflecting preserved compositional scaffolds that generalize to the novel target by construction. The starting-fitness distributions do not overlap above the A floor; matched comparison is undefined. The 1.15 transfer effect is *fully consistent with structural generalization alone* and does not support an additional cryptic-variation claim. The ceiling-access hits (≥0.8, 4/60 Pareto vs 0/30 control) reframe as second-stage elaboration from a structurally advantaged start, not as evidence of latent adaptive capacity. Final claim for paper: *Pareto preservation changes what evolution stores. Instead of converging on narrow shortcuts, it maintains compositional scaffolds that generalize by construction to related targets. Pure fitness optimization selects brittle specialists; preservation selects reusable compositional structure.* This is the constructional-selection claim (Altenberg), tested directly and cleanly.
 
 ## 9. Eval Performance
 

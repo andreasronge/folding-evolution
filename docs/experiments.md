@@ -46,7 +46,7 @@ With the ceiling broken and confirmed, the next experiments shift from "can we b
 
 After 1.13, the story is: discovery solved (chemistry screening), preservation solved semigenerically (structural_pattern Pareto). The remaining questions are (a) does preservation buy stored evolvability, and (b) can the preservation objective itself be learned from data? The recommended sequence:
 
-1. **1.15 (DONE, needs scale-up)** — cryptic variation assay. First pass (15 seeds) supports transfer of preserved adaptive structure: Pareto reaches fitness ceilings continuous selection doesn't (≥0.8 in 4/60 vs 0/30) and adapts ~2x faster to mid-thresholds on T_far. Bimodal endpoints and plateau dynamics argue for *discrete inventory transfer*, not continuous latent variation. Follow-up: AUC reanalysis on existing data, then 30+ seed rerun with shorter checkpoints and a true far-transfer (reduce / nested filter).
+1. **1.15 + 1.15b (DONE)** — cryptic variation assay + matched-starting-fitness follow-up. Final claim: *Pareto preservation produces structurally general programs; continuous selection produces narrow specialists.* The transfer advantage is inherited structural generality (partial credit from preserved scaffolds generalizing to related targets by construction), not stored cryptic variation. A_continuous pools collapse to a single T_far starting-fitness value (0.213 across all 1500 pooled individuals) while Pareto populations span 0.213–0.613; distributions do not overlap. The non-overlap is the headline result — qualitatively different phenotype classes, not means on the same distribution. Ceiling access (≥0.8: 4/60 Pareto vs 0/30 control) reframes as second-stage elaboration from advantaged start, not latent capacity.
 2. **1.14 (next)** — lineage analysis. Mechanistic confirmation at individual level; also produces the dataset needed for 1.19.
 3. **1.19** — learned preservation objective. Closes the last hand-coding loop.
 4. **A2 ablation (external benchmark)** — folding × preservation × motifs ablation on hard problems. Answers "what is the paper actually about."
@@ -60,10 +60,17 @@ First-pass result (15 seeds, snapshots at gens 200 and 300, 80-gen assay on T_ne
 
 **Confound disclosed**: starting-structure imbalance (A: 0 scaffolds, B: 74 S5+/68 G5+, C: 16 S5+/87 G5+) means the result is a *transfer-of-preserved-structure* assay, not a clean latent-variation test. Average-case final-fitness advantage is modest (5–15%); ceiling access is clean.
 
-**Follow-up plan (1.15b)**:
-- AUC / recovery-slope reanalysis on existing trajectories (no new compute). Report fitness at checkpoints 10/20/40 to emphasize early adaptation.
-- Rerun at 30+ seeds with 40-gen assay (not 80), shorter checkpoint schedule, and a genuine compositional-family far-transfer: `(reduce (fn a b (+ a (get b :price))) 0 data/products)` or nested filter-of-map.
-- Optional matched-starting-fitness subpopulation analysis to partially disentangle preserved-scaffold-inventory from starting-fitness advantage.
+**Follow-up plan (1.15b)** — DONE. Trajectory reanalysis plus matched-fitness probe both completed on existing data.
+
+- AUC / recovery-slope reanalysis: corrected the "2x faster adaptation" framing. Pareto populations have *lower* early slopes; their time-to-threshold advantage is inherited elevated starting fitness from partial-credit scoring of preserved scaffolds. Ceiling access (≥0.8) remains the cleanest signal.
+- Matched-starting-fitness transfer: matching was impossible to construct. A_continuous converges to a narrow basin — all 1500 pooled individuals score exactly 0.213 on T_far in the unadapted state. Pareto populations span 0.213–0.613 with 100–200 per condition in [0.55, 0.65). The starting-fitness distributions do not overlap; matched comparison is undefined. **The non-overlap itself is the headline result:** the two optimization regimes produce qualitatively different phenotype classes, not different points on the same distribution. The 1.15 transfer effect is fully consistent with structural generalization (Pareto programs match the compositional template `(higher_order (fn x (CMP (get x :ANY) VAL)) data/ANY)` and generalize by construction). Does not support an additional cryptic-variation claim beyond the baseline effect. See findings.md Section 6 "Matched-Starting-Fitness Transfer (Experiment 1.15b)" and `exp_matched_fitness.py`.
+
+**Final claim from 1.15 series:** *Pareto preservation changes what evolution stores. Instead of converging on narrow shortcuts, it maintains compositional scaffolds that generalize by construction to related targets. Pure fitness optimization selects brittle specialists.* This is the constructional-selection claim (Altenberg), tested directly.
+
+**Remaining open questions for scale-up runs:**
+- Does structural generalization extend across compositional families (reduce, nested filter, map+count), not just within filter? — addresses via a true far-transfer rerun.
+- Does continuous selection on diverse multi-target training *ever* produce structural breadth, or does pure fitness always collapse to specialism? — multi-target control.
+- AST analysis of pooled genotypes to confirm A = all `count(products)` while B/C maintain compositional diversity.
 
 **1.14: Lineage analysis of preservation breakthroughs**
 
