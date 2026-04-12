@@ -205,6 +205,99 @@ If any of these breaks the 8-bit parity ceiling under OT, the ceiling was a read
 
 ---
 
+## 9. Mechanistic error inspection — the 8-bit "ceiling" was an overfitting artifact
+
+**Motivation.** Six sweeps converged on an ~0.80 training-fitness plateau for 8-bit parity under K=4 outer-totalistic. Before running a seventh sweep, reload the best-of-all-runs rule (`popsize_8bit/7ea2b8d7974c`, training fitness 0.922) and evaluate it on the **full 256-input space**, not just its 64 trained examples.
+
+### Finding: the rule overfits hard.
+
+| cut of the input space | accuracy | n correct / n total |
+|------------------------|----------|---------------------|
+| trained 64 examples    | 0.922    | 59 / 64             |
+| holdout 192 examples   | 0.568    | 109 / 192           |
+| full 256-input space   | 0.656    | 168 / 256           |
+
+Error rate by bit-count (how many 1s in the input) is far from random:
+
+| bit-count | should output | err rate | notes                           |
+|-----------|---------------|----------|---------------------------------|
+| 0         | 0             | 0.00     | trivially correct               |
+| 1         | 1             | **0.75** | mostly predicts 0               |
+| 2         | 0             | 0.07     | well-fit                        |
+| 3         | 1             | 0.41     |                                 |
+| 4         | 0             | 0.20     |                                 |
+| 5         | 1             | 0.52     | worse than random               |
+| 6         | 0             | 0.21     |                                 |
+| 7         | 1             | **1.00** | predicts 0 for every input      |
+| 8         | 0             | 0.00     |                                 |
+
+The rule is biased toward emitting 0, with additional structure that makes it 93% correct at bit-count=2 but 100% wrong at bit-count=7. It has not learned parity — it has learned a local heuristic that happens to match parity on 59 of the 64 specific bit patterns in its training subset.
+
+### What this retrospectively invalidates
+
+The "cliff from 6-bit to 8-bit" reported in §3 was an artifact of holding `n_examples=64` fixed while `2^n_bits` grew:
+
+| n_bits | n_examples | trained-on-full-space? | previous reading                | correct reading                 |
+|--------|------------|------------------------|---------------------------------|---------------------------------|
+| 4      | 16         | yes (all 16)           | 1.00 = true parity              | **true parity learned**         |
+| 6      | 64         | yes (all 64)           | 0.88 median, 0.98 best          | **near-true parity (0.98)**     |
+| 8      | 64         | **no** (25% of 256)    | 0.80 median = representation ceiling | **fitness on training subset; generalization ~0.57** |
+
+The 8-bit conclusions from sweeps 3–5 (difficulty, capacity, popsize_8bit) and the §8 OT-vs-DT comparison are all affected: "fitness" meant "training accuracy on 64 examples," and at 8 bits that's a memorization score, not a parity score.
+
+**What remains valid:**
+- The K=2 cliff (§3, §4, §6) — K=2 runs were stuck at exactly 0.50 even on tasks where `n_examples` covered the full input space (3-bit majority, 4-bit parity). Representational cliff intact.
+- The 6-bit parity and 3-bit/5-bit majority results — those trained on full input spaces already.
+- The decision-tree vs outer-totalistic ordering at matched conditions — DT is worse even on 7-bit majority (which at `n_examples=64` covers half the space) and on 6-bit parity-like regimes.
+
+### §9-b. Confirmatory sweep — retrain with full input space
+
+**Sweep:** `sweeps/parity_full_train.yaml` — `(n_bits, n_examples)` paired at `(4, 16), (6, 64), (8, 256)` × 10 seeds. All configs train on every possible input; fitness IS generalization accuracy.
+
+**Hypotheses:**
+- If 8-bit climbs near 1.0 (like 6-bit did): the CA can compute 8-bit parity; prior sweeps measured memorization. The "8-bit ceiling" disappears.
+- If 8-bit still plateaus near 0.80: there's a real expressive / geometric ceiling around 7–8 input bits for K=4/N=16/T=16. Reinstate §8-b as the next probe.
+
+Either outcome is high-information. Running now.
+
+### Status: complete. Both things are true — ceiling is real, and was previously overestimated.
+
+With full-space training (fitness = true accuracy, memorization impossible):
+
+| n_bits | n_examples | median | min   | max   | mean  | solved | prior (overfit-reading) |
+|--------|-----------|--------|-------|-------|-------|--------|-------------------------|
+| 4      | 16         | 1.000  | 1.000 | 1.000 | 1.000 | 10/10  | 1.00 (matches)          |
+| 6      | 64         | 0.875  | 0.734 | 0.984 | 0.869 | 0/10   | 0.88–0.98 (matches)     |
+| 8      | 256        | **0.703** | 0.621 | 0.816 | 0.716 | 0/9    | 0.80 (inflated by ~0.10) |
+
+(One 8-bit run crashed on MLX under the 4× batch size — `n=9` not 10. Re-running on NumPy in the background; it won't move the median meaningfully. Pattern is already unambiguous.)
+
+**Headline:** the CA at K=4, N=16, T=16 genuinely *cannot* compute 8-bit parity — its true full-space accuracy maxes out around 0.82 (best seed), medians at 0.70. The earlier "0.80 ceiling" result overstated the CA's competence by ~10 percentage points, because training on 64 of 256 inputs let evolution discover rules that memorize the training subset while generalizing poorly.
+
+**What survives with only numeric adjustments:**
+- 8-bit parity under OT K=4 has a real expressive ceiling — neither mutation rate, pop size, nor rule family fixed it (§4, §5, §8). The ceiling is just ~0.70 full-space, not ~0.80 training.
+- The qualitative gap between parity and majority (§6) still holds: 7-bit majority at 64/128 coverage reached ~0.94, suggesting majority at full coverage should do similar or better. Worth running `majority_full_train` for confirmation, but the ordering (parity >> majority difficulty for this CA) does not depend on overfitting.
+
+**What changes interpretation:**
+- The rule-family comparison (§8) was run with `n_examples=64` on 8-bit parity — so both DT and OT were measuring overfit training accuracy, not true parity. The *relative* ordering (DT < OT) is preserved because both families had the same opportunity to overfit, but the absolute numbers should not be cited as "parity-solving ability." Re-running under `n_examples=256` would give the clean comparison.
+
+### Recommended next sweep
+
+**`majority_full_train.yaml`** — same structure as this one but for majority: `(n_bits, n_examples) ∈ {(3,8), (5,32), (7,128)}` × seeds. Confirms the majority-vs-parity gap on clean data. Cheap (all input spaces are ≤ 128). If 7-bit majority is still ~0.94 at full training, then the cross-task gap (parity 0.70 vs majority 0.94 at comparable bit-widths) is unambiguous and the paper-worthy claim stands.
+
+---
+
+## Methodological correction (applies to all future CA sweeps)
+
+The `n_examples` field in CAConfig historically defaulted to 64. For tasks whose input space is ≤ 64 (e.g., 6-bit parity), that trains on the full space. For larger spaces (8-bit parity has 256 inputs) it silently becomes a train/holdout split without a holdout evaluation — allowing memorization to register as fitness.
+
+**Going forward:**
+- Prefer `n_examples = 2^n_bits` when feasible (full-space training — fitness = generalization).
+- When `n_examples < 2^n_bits` is necessary (e.g., larger n_bits), report both training and held-out accuracy. Add `holdout_fitness` as a secondary metric in CAGenerationStats.
+- Re-run any 8-bit (or larger) conclusions from §3–§8 under the new convention before citing them.
+
+---
+
 ## What these experiments do not address
 
 - **Comparison against folding** — that is a separate study (see `docs/future-directions.md` Direction 3.1). CA-GP must first stand up on its own.
