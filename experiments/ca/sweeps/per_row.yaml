@@ -1,0 +1,29 @@
+sweep_name: per_row
+# §11.a follow-up: does spatial-specialization granularity keep paying off?
+# banded_ot with n_bands=16 gives every row its own K=4 OT rule (Sipper's
+# original non-uniform CA). Genotype = 1600 bytes (vs 300 for banded_3,
+# 100 for uniform K=4).
+#
+# Compare against:
+#  - uniform OT        (100 bytes)  → parity_full_train.yaml 8-bit cell, majority_full_train.yaml 7-bit cell
+#  - banded_ot (3)     (300 bytes)  → nonuniform_bands.yaml
+#  - banded_ot (16)    (1600 bytes) → THIS SWEEP
+base:
+  grid_n: 16
+  steps: 16
+  n_states: 4
+  rule_family: banded_ot
+  n_bands: 16
+  pop_size: 256
+  generations: 200
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 10
+paired:
+  - {task: parity,   n_bits: 8, n_examples: 256}
+  - {task: majority, n_bits: 7, n_examples: 128}
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]

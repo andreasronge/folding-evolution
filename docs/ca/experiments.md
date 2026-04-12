@@ -428,6 +428,47 @@ Plot: `output/ca_dynamic_budget/heatmap_grid_n_vs_steps.png` — visibly flat ac
 
 Plot: `output/nonuniform_bands/heatmap_n_bits_vs_rule_family.png`; error map of best run at `nonuniform_bands/8ae27e2c29a7/error_analysis.png`.
 
+### 11.a-b Per-row specialization ablation — over-parameterization
+
+**Sweep:** `sweeps/per_row.yaml` — `rule_family=banded_ot, n_bands=16` (every row gets its own rule table), × `(task, n_bits, n_examples) ∈ {(parity, 8, 256), (majority, 7, 128)}` × 10 seeds = 20 runs (one majority run crashed on MLX; n=9 for that cell). Genotype length = 1600 bytes at K=4.
+
+**Hypothesis (pre-sweep):** if specialization granularity keeps paying off, per_row (16 bands) should push 8-bit parity above banded_3's 0.80 median, possibly past 0.95. If 3 bands was a sweet spot, per_row matches or modestly exceeds banded_3.
+
+### Status: complete. Per_row is *worse* than uniform — sweet spot is not monotone.
+
+Cross-family comparison (8-bit parity full-space, 7-bit majority full-space):
+
+| task           | family       | bytes | n  | median | min   | max   | mean  |
+|----------------|--------------|-------|----|--------|-------|-------|-------|
+| 8-bit parity   | uniform OT   | 100   | 10 | 0.693  | 0.621 | 0.816 | 0.711 |
+| 8-bit parity   | banded_3     | 300   | 10 | **0.805** | 0.637 | **0.969** | **0.794** |
+| 8-bit parity   | per_row (16) | 1600  | 10 | 0.641  | 0.621 | 0.656 | 0.639 |
+| 7-bit majority | uniform OT   | 100   | 10 | 0.898  | 0.875 | 0.930 | 0.904 |
+| 7-bit majority | banded_3     | 300   | 9  | **0.930** | 0.797 | **0.938** | 0.913 |
+| 7-bit majority | per_row (16) | 1600  | 9  | 0.797  | 0.789 | 0.852 | 0.817 |
+
+**Per_row is worse than plain uniform OT** on both tasks — counterintuitive but clean: −0.05 median vs uniform on parity, −0.10 on majority. The parity per_row runs cluster tightly at 0.621–0.656 (Δmax−Δmin = 0.035 across 10 seeds) — evolution has essentially no traction.
+
+**Diagnosis — over-parameterization by mutation-rate schedule.** At `mutation_rate=0.03` per byte, expected flips per genome per generation scale linearly with length:
+
+| family       | bytes | expected flips / gen |
+|--------------|-------|-----------------------|
+| uniform OT   | 100   | 3.0                   |
+| banded_3     | 300   | 9.0                   |
+| per_row (16) | 1600  | 48.0                  |
+
+Per_row at 48 flips per generation is re-initializing a substantial fraction of the rule table every step. Evolution's effective step size is far too large relative to the fitness landscape's useful features. The narrow 0.621–0.656 band is what you get when search is stuck in the "random with high churn" regime — never consolidating gains, always bouncing around roughly similar-fitness random-ish rules.
+
+**Two implications, both important:**
+
+1. **§11.a's banded_3 win is NOT a "more bytes = better" story.** Per_row has 5× the bytes of banded_3 and does 0.16 worse. Whatever makes banded_3 work is specifically a 3-band structural advantage at a search-space size evolution can still navigate with this mutation schedule. The matched-byte worry from §11.a is partially resolved — more capacity alone hurts, not helps.
+
+2. **Matched-byte controls for §11.b, §11.c, §11.d must normalize mutation rate to genome length.** Otherwise longer genomes are inherently disadvantaged under the current schedule. A clean normalization: hold expected flips per genome fixed (e.g., 3 for everyone) by setting `mutation_rate = 3 / genotype_len`. Flag this upstream in the §11 methodology.
+
+**Follow-up worth flagging.** Per_row at `mutation_rate = 3/1600 ≈ 0.002` would test whether per_row has fundamental expressive *value* once evolvability is fixed. Prediction: it'll land between uniform (100 bytes, 0.69 median) and banded_3 (300 bytes, 0.80 median) — having more capacity than banded_3 but also a much larger search space to navigate in the same 200 generations. But the direction of that comparison is scientifically interesting either way.
+
+Plot: `output/per_row/box_task.png` — per_row parity is a visibly tight cluster just above 0.5 random baseline.
+
 ### 11.b Rule schedules — multi-phase CA
 
 **Sweep:** `sweeps/phase_schedule.yaml` — `n_phases ∈ {1, 2, 3}` × 10 seeds on 8-bit parity full-space. Genotype: `n_phases` separate rule tables plus a 16-entry schedule vector assigning each time step to a phase. `n_phases=1` reproduces the current baseline. Matched-byte uniform control as in §11.a.
