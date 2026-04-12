@@ -19,10 +19,13 @@ def _to_mx(a: np.ndarray) -> mx.array:
 def _neighbor_sum(grid: mx.array) -> mx.array:
     """8-connected Moore neighbor sum with zero padding.
 
-    grid: (B, N, N) uint8. Returns (B, N, N) int32.
+    grid: (B, N, N) uint8. Returns (B, N, N) int16.
+
+    int16 is safe when ((2r+1)^2 - 1) * (K-1) <= 32767, i.e. every r/K combo
+    we plausibly run. At r=1 the max sum is 8*(K-1) — int16 holds up to K≈4095.
     """
     B, N, _ = grid.shape
-    padded = mx.pad(grid.astype(mx.int32), [(0, 0), (1, 1), (1, 1)])
+    padded = mx.pad(grid.astype(mx.int16), [(0, 0), (1, 1), (1, 1)])
     return (
         padded[:, :-2, :-2]
         + padded[:, :-2, 1:-1]
@@ -52,16 +55,17 @@ def step(
     B, N, _ = grid.shape
     K, max_sum_plus_1 = rule_table.shape[1], rule_table.shape[2]
 
-    nbr_sum = _neighbor_sum(grid)                 # (B, N, N) int32
-    self_idx = grid.astype(mx.int32)              # (B, N, N)
+    nbr_sum = _neighbor_sum(grid)                 # (B, N, N) int16
+    self_idx = grid.astype(mx.int16)              # (B, N, N)
 
     # Linear index into flattened rule table per batch: self * (max_sum+1) + sum.
+    # int16 range covers K*(max_sum+1) for all sensible K/r; asserting at engine entry.
     flat_idx = self_idx * max_sum_plus_1 + nbr_sum
     flat_table = rule_table.reshape(B, K * max_sum_plus_1)
 
     # Gather: mx.take_along_axis over axis=1 of flat_table using flat_idx flattened per batch.
     flat_idx_2d = flat_idx.reshape(B, N * N)
-    gathered = mx.take_along_axis(flat_table.astype(mx.int32), flat_idx_2d, axis=1)
+    gathered = mx.take_along_axis(flat_table, flat_idx_2d, axis=1)
     new_grid = gathered.reshape(B, N, N).astype(mx.uint8)
 
     # Clamp row 0 via slice-concat (MLX arrays are immutable).
@@ -204,32 +208,27 @@ def step_banded(
     B, N, _ = grid.shape
     n_bands, K, max_sum_plus_1 = tables.shape[1], tables.shape[2], tables.shape[3]
 
-    nbr_sum = _neighbor_sum(grid)                      # (B, N, N) int32
-    self_idx = grid.astype(mx.int32)                   # (B, N, N)
+    nbr_sum = _neighbor_sum(grid)                      # (B, N, N) int16
+    self_idx = grid.astype(mx.int16)                   # (B, N, N)
 
-    # Flatten (K, max_sum+1) into a single 1-D index:
-    # For each cell we look up tables[b, band(y), self, sum].
-    # Linearize table indexing per band: flat_within_band = self * max_sum+1 + nbr_sum
-    flat_within = self_idx * max_sum_plus_1 + nbr_sum              # (B, N, N) int32
+    # Linearize table indexing per band: flat_within = self * (max_sum+1) + sum.
+    flat_within = self_idx * max_sum_plus_1 + nbr_sum              # (B, N, N) int16
 
     # Collapse per-batch tables to shape (B, n_bands, K*max_sum+1).
     tables_flat = tables.reshape(B, n_bands, K * max_sum_plus_1)
 
     # Pick each cell's band table via row_band (broadcast across x).
     row_band_bcast = mx.broadcast_to(row_band.reshape(1, N, 1), (B, N, N))  # (B,N,N) int32
-    # For each (b, y, x), gather tables_flat[b, row_band_bcast[b,y,x], flat_within[b,y,x]]
-    # Flatten (y, x) to a single axis for take_along_axis.
     band_idx_flat = row_band_bcast.reshape(B, N * N)
     within_flat = flat_within.reshape(B, N * N)
 
-    # Step 1: gather the table row per cell — shape (B, N*N, K*max_sum+1).
-    # This would be expensive if done naively; do it via a combined linear index.
-    # global_idx = band * (K*max_sum+1) + within
-    global_idx = band_idx_flat * (K * max_sum_plus_1) + within_flat      # (B, N*N)
+    # Combined linear index into tables_flat_B = tables_flat.reshape(B, n_bands*K*(max_sum+1)):
+    # global_idx = band * K*(max_sum+1) + within.
+    # Promote to int32 for the multiply — n_bands*K*(max_sum+1) can exceed int16 range for
+    # large n_bands × K × r even though each factor fits.
+    global_idx = band_idx_flat.astype(mx.int32) * (K * max_sum_plus_1) + within_flat.astype(mx.int32)  # (B, N*N)
     tables_flat_B = tables_flat.reshape(B, n_bands * K * max_sum_plus_1)
-    gathered = mx.take_along_axis(
-        tables_flat_B.astype(mx.int32), global_idx, axis=1
-    )                                                                    # (B, N*N)
+    gathered = mx.take_along_axis(tables_flat_B, global_idx, axis=1)     # (B, N*N)
     new_grid = gathered.reshape(B, N, N).astype(mx.uint8)
 
     clamped_row0 = input_clamp.reshape(B, 1, N)
