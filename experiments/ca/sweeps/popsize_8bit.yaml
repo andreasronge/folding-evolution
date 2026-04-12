@@ -1,0 +1,19 @@
+sweep_name: popsize_8bit
+base:
+  grid_n: 16
+  steps: 16
+  n_states: 4
+  rule_family: outer_totalistic
+  task: parity
+  n_bits: 8
+  n_examples: 64
+  generations: 150
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 10
+grid:
+  pop_size: [256, 1024, 4096]
+  seed: [0, 1, 2, 3, 4]

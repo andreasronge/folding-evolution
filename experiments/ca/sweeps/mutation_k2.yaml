@@ -1,0 +1,19 @@
+sweep_name: mutation_k2
+base:
+  grid_n: 16
+  steps: 16
+  n_states: 2
+  rule_family: outer_totalistic
+  task: parity
+  n_bits: 4
+  n_examples: 16
+  pop_size: 256
+  generations: 300
+  tournament_size: 3
+  elite_count: 2
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 10
+grid:
+  mutation_rate: [0.01, 0.03, 0.1, 0.3, 0.5, 0.8]
+  seed: [0, 1, 2, 3, 4]

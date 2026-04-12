@@ -910,3 +910,23 @@ See Section 6 for the full diagnostic series. The framing evolved through multip
 ## 9. Eval Performance
 
 PTC-Lisp: **10,900 evals/sec**. Scaling to pop=300x3, len=100, 1000 gens is hours. This is the primary motivation for the Python rewrite — NumPy batch evaluation, no IPC overhead.
+
+## 10. CA-Development GP (parallel research track)
+
+A second genotype-phenotype mapping where the CA rule **is** the program: inputs clamped on row 0 of an N×N grid, rule iterated T steps, output read from a designated cell. MLX-backed (M1 Metal) batch evaluation; NumPy reference backend is bitwise-identical on fixed seeds. Full details in `docs/ca/architecture.md` and `docs/ca/experiments.md`.
+
+Six sweeps (178 runs total) on outer-totalistic rules over a 3×3 Moore neighborhood; `K` state counts ∈ {2, 4, 8}; `N ∈ {8, 16, 32}`.
+
+**a) K=2 is a representational cliff, task-invariant.** Every K=2 run on every tested n_bits, on both parity AND majority, is stuck at exactly 0.50 (random). Rules out mutation-pressure artifact (30-run sweep with `mutation_rate ∈ {0.01 … 0.8}`, K=2 stays flat at 0.50). K=2 outer-totalistic rules with the row-0-clamp / center-readout geometry cannot produce non-constant output at the readout cell.
+
+**b) K=4 saturates expressiveness for these tasks.** K=4 and K=8 are indistinguishable on parity and on majority, across all tested n_bits. Doubling state count buys nothing measurable. Claim is task-conditional — richer tasks may still benefit.
+
+**c) Spatial budget is not the bottleneck.** Grid size N ∈ {8, 16, 32} with step count scaled to match produces similar results at every K ≥ 4. At N=8 the CA has room; at N=32 it doesn't use the extra.
+
+**d) Difficulty is task-structural, not representation-structural.** Parity degrades steeply with n_bits (1.00 at 4-bit → 0.80 at 8-bit); majority degrades gently (1.00 at 3-bit → ~0.95 at 7-bit). Matches the classical Mitchell/Crutchfield result — CAs are naturally good at density/majority tasks and bad at parity. The 8-bit parity 0.80 ceiling survived both mutation-rate (0.01-0.8) and population-size (256→4096) sweeps without climbing, so the ceiling is not search-bound.
+
+**e) Pipeline reproducibility.** Same config + seed twice produces bitwise-identical genotypes and fitness histories on both backends; sweeps are resumable; all 178 runs logged with config hash + history for post-hoc analysis.
+
+**Open question driving next work:** is the 8-bit parity ceiling specific to *outer-totalistic* CAs (maximally symmetric: rotation- AND permutation-invariant over neighbors), or to CA development in general? A richer, less-symmetric rule family (decision tree over 3×3 neighborhood; register-VM symbolic rule) is the discriminator.
+
+Sweeps reproducible from `experiments/ca/sweeps/*.yaml`; per-run history under `experiments/ca/output/<sweep>/<config_hash>/`.

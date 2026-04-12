@@ -5,6 +5,8 @@ requires-python = ">=3.12"
 dependencies = [
     "numpy>=1.26,<3.0",
     "matplotlib>=3.8,<4.0",
+    "mlx>=0.18",
+    "pyyaml>=6.0",
 ]
 
 [project.optional-dependencies]

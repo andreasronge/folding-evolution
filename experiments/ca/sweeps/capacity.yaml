@@ -1,0 +1,21 @@
+sweep_name: capacity
+base:
+  rule_family: outer_totalistic
+  task: parity
+  n_examples: 64
+  pop_size: 256
+  generations: 150
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 10
+paired:
+  - {grid_n: 8, steps: 8}
+  - {grid_n: 16, steps: 16}
+  - {grid_n: 32, steps: 32}
+grid:
+  n_bits: [4, 6, 8]
+  n_states: [2, 4, 8]
+  seed: [0, 1, 2]

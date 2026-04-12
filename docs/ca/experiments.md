@@ -1,0 +1,176 @@
+# CA-Development GP — Experiments
+
+Ordered by the question each one answers. Every experiment is a YAML sweep under `experiments/ca/sweeps/`; results live under `experiments/ca/output/<sweep>/`.
+
+See [architecture.md](architecture.md) for the representation itself.
+
+## The overall question
+
+Can a 2D cellular automaton rule be *evolved* to compute a non-trivial function? The CA is a candidate developmental representation — if evolution can find rules that compute parity (a notoriously GP-hard function under most encodings), the module earns its place as an alternative to folding for the cross-representation study in `docs/future-directions.md`.
+
+The sweeps below are ordered from *does it work at all* → *where does it break* → *what axes matter*.
+
+---
+
+## Methodology notes
+
+- **Reproducibility.** Every sweep cell is a pure function of a frozen `CAConfig` + seed. Re-running a config produces bitwise-identical genotypes and fitness histories on both backends (covered by `tests/test_ca_reproducibility.py`).
+- **Backend equivalence.** NumPy and MLX kernels are bitwise identical on fixed seeds (`tests/test_ca_engine_parity.py`). Backend choice is a performance knob, not a semantic one.
+- **Resumable sweeps.** Output directories are keyed by `CAConfig.hash()`; re-running a sweep skips any hash that already has `result.json`.
+- **Secondary metric.** `analyze_sweep.py` reports `solved` (count of seeds reaching fitness 1.0) and `med_gens` (median generation at first 1.0) alongside best-fitness stats. Keeps the easy region (where final fitness saturates) informative.
+
+---
+
+## 1. MVP: does evolution beat random?
+
+**Sweep:** `sweeps/mvp.yaml` — one `CAConfig` × 10 seeds.
+**Hypothesis:** With `K=4`, `N=16`, `T=16`, `pop=256`, `gens=200`, on 4-bit parity, median final best-fitness is ≥ 0.65 across seeds (random baseline = 0.5).
+**Purpose:** Pipeline validation, not a representation claim. A weak bar — we're checking that mutation / crossover / selection / evaluation all line up correctly, not that the representation is good.
+
+### Status: PASS
+
+Sweep complete. All 10 seeds solve 4-bit parity well above the 0.65 threshold; the task is easy at this size. The pipeline is sound — batched MLX evaluation, tournament selection, byte-array operators, and config-hash output layout all behave as intended. Fitness curves in `output/mvp/fitness_curves.png`.
+
+The MVP gate being easy is informative: it means 4-bit parity at `N=16, K=4` is near the floor of the task's difficulty envelope. The next sweeps push on that envelope deliberately.
+
+---
+
+## 2. Difficulty: where does the task become hard?
+
+**Sweep:** `sweeps/difficulty.yaml` — `n_bits ∈ {4, 6, 8}` × 10 seeds, holding `K=4, N=16, T=16`.
+**Hypothesis:** Final best-fitness decreases monotonically with `n_bits`. 4-bit is solvable; 6-bit is partial; 8-bit may be at or near the representation's limit for this grid size.
+**Purpose:** Locate the difficulty cliff along one axis, so later sweeps can place their probes around it rather than on either side of a trivial/impossible boundary.
+
+### Status: complete, feeds into sweep 3.
+
+The difficulty axis was folded into the capacity sweep (below) with a richer cross, so its findings are reported there.
+
+---
+
+## 3. Capacity: rule expressiveness vs spatial budget vs task difficulty
+
+**Sweep:** `sweeps/capacity.yaml` — 3 × 3 × 3 × 3 = 81 configs.
+
+- Paired: `(grid_n, steps) ∈ {(8,8), (16,16), (32,32)}` — grid and step count scale together.
+- Grid: `n_bits ∈ {4, 6, 8}` × `n_states ∈ {2, 4, 8}` × `seed ∈ {0, 1, 2}`.
+
+**Hypothesis (pre-sweep):** Larger grids and more states both buy capacity. Expectation was a smooth gradient — bigger/wider rules should solve harder parity tasks, with some diminishing return.
+
+**Purpose:** Separate two capacity sources: *rule-table expressiveness* (`K`) from *spatial-temporal budget* (`N`, `T`). If they traded off, we'd see a diagonal; if one dominated, a cliff along one axis.
+
+### Status: 81/81 complete. Clean three-way boundary.
+
+Final best-fitness, median across 3 seeds, pooled over `grid_n ∈ {8, 16, 32}` (grid size barely moves results — see below):
+
+| n_bits \ n_states | 2    | 4    | 8    |
+|-------------------|------|------|------|
+| **4**             | 0.50 | 1.00 | 1.00 |
+| **6**             | 0.50 | 0.89 | 0.88 |
+| **8**             | 0.50 | 0.80 | 0.81 |
+
+Three findings, all sharper than the pre-sweep hypothesis predicted:
+
+1. **K=2 is stuck at 0.50 — cause not yet isolated.** For every `n_bits` and every grid size, K=2 runs never depart from random-chance fitness. Flat curves, zero improvement across 150 generations. Two causes are confounded in this sweep and must be separated before the cliff can be called *representational*:
+   - The 18-byte rule table may genuinely lack the capacity to express parity via 16-step propagation.
+   - At `mutation_rate=0.03` per byte, expected flips/genome scale as `length × rate`: K=2 → 0.54/gen, K=4 → 3.0, K=8 → 13.7. K=2 is simultaneously the smallest rule table *and* the most mutation-starved. A rate sweep at fixed K=2 is the cleanest test (see §4 below).
+2. **K=4 is sufficient for parity; K=8 is indistinguishable on this task.** Doubling to K=8 buys nothing measurable (+0.01 on 8-bit, within seed noise). Claim is task-specific — whether K>4 is ever useful is a task-diversity question, not settled by parity alone. Richer output structures (symbolic regression, majority-with-ties) may still benefit from more states.
+3. **Grid size is not the bottleneck in the tested range.** `N ∈ {8, 16, 32}` with step counts scaled to match produce similar results at every `K ≥ 4` and every `n_bits`. At N=8 the CA still has room; at N=32 it's not using the extra budget. Whether N>32 unlocks anything — or N<8 breaks things — is untested.
+
+**Reframing:** the two hypothesized capacity sources are not symmetric. Rule expressiveness is a sharp gate (K=2 impossible, K=4 sufficient, K=8 redundant); spatial budget is a near-flat axis in this regime. Any future experiments that vary `N` in isolation should treat it as a secondary axis, not a primary one.
+
+**Difficulty cliff holds across all grids:** 4-bit solved everywhere with K≥4; 6-bit drops to ~0.88 median; 8-bit to ~0.80. The cliff is in the task, not the representation — same shape whether N=8 or N=32.
+
+Plots: `output/capacity/{fitness_curves.png, box_*.png, heatmap_*.png}`. The clearest single figure is `heatmap_n_bits_vs_n_states.png` — the K=2 row is uniformly flat-at-0.5; the K=4 and K=8 columns are indistinguishable; the difficulty gradient runs top-to-bottom.
+
+---
+
+## Next experiments (queued)
+
+The capacity sweep settles the "how much representation do you need" question for parity, but leaves two load-bearing hyperparameter questions open. Order below reflects information-per-unit-cost, not just thematic grouping.
+
+### 4. Mutation rate on K=2 — cliff or artifact?
+
+**Sweep:** `sweeps/mutation_k2.yaml` — `mutation_rate ∈ {0.01, 0.03, 0.1, 0.3, 0.5, 0.8}` × 5 seeds, fixed at `K=2, n_bits=4, N=16, T=16, pop=256, gens=300`.
+**Hypothesis:** If the K=2 flat-0.50 result is a mutation-pressure artifact (0.54 expected flips/genome), higher rates (0.3–0.8) should climb above 0.5. If it's a representational limit, all rates stay flat.
+
+### Status: complete. K=2 cliff is representational, not mutation-bound.
+
+All 30 runs finished at exactly 0.500 — stronger than expected:
+
+| mutation_rate | 0.01 | 0.03 | 0.10 | 0.30 | 0.50 | 0.80 |
+|---------------|------|------|------|------|------|------|
+| median best   | 0.500 | 0.500 | 0.500 | 0.500 | 0.500 | 0.500 |
+| min / max     | 0.500 / 0.500 | same | same | same | same | same |
+
+Every seed at every rate is a flat line at 0.5. Even at `mutation_rate=0.8` — effectively resetting the 18-byte genome every generation (~14 flips/gen) — no run ever exceeds 0.5. More telling: the *population mean* fitness is also exactly 0.500 everywhere. **Every individual in every generation of every run is behaviorally identical at the readout cell** — they all produce a constant prediction (8/16 correct on balanced 4-bit parity gives exactly 0.5).
+
+This rules out mutation pressure as an explanation and sharpens the §3 finding: K=2 outer-totalistic rules with the row-0-clamp I/O convention cannot produce a non-constant output at the central readout cell after 16 steps. The 18-entry rule table is genuinely too small to represent a non-trivial input-to-output mapping at this grid/step/readout geometry.
+
+**Residual question for future work:** is the bottleneck rule-table size (2×9=18 entries) or state count (K=2)? A follow-up with K=2 but a larger neighborhood (e.g., 5×5 = 24 neighbors → rule table 2×25=50 entries) would separate these.
+
+### 5. Population size on the 8-bit ceiling
+
+**Sweep:** `sweeps/popsize_8bit.yaml` — `pop_size ∈ {256, 1024, 4096}` × 5 seeds, fixed at `K=4, n_bits=8, N=16, T=16, gens=150`.
+**Hypothesis:** 16× more population should push through the 8-bit 0.80 ceiling if the plateau is premature-convergence bound.
+
+### Status: complete. 8-bit ceiling is not search-size bound either.
+
+| pop_size | median best | min   | max   | mean  | solved |
+|----------|-------------|-------|-------|-------|--------|
+| 256      | 0.812       | 0.719 | 0.906 | 0.819 | 0/5    |
+| 1024     | 0.844       | 0.766 | 0.906 | 0.831 | 0/5    |
+| 4096     | 0.812       | 0.812 | 0.922 | 0.840 | 0/5    |
+
+Median moves within 0.03 across a 16× population increase; the best seed at pop=4096 (0.922) is only marginally better than the best at pop=256 (0.906). No run at any pop_size reaches fitness 1.0. The upward drift in mean (+0.02) is real but inside seed noise.
+
+Combined with §4, this narrows the diagnosis: the 8-bit parity plateau at K=4 is representational, not search-bound by either mutation or population size. Outer-totalistic K=4 on N=16/T=16 appears to lack the expressive headroom to fully compute 8-bit parity — the same structural story as the K=2 cliff, one layer up.
+
+**Known crash:** pop=4096/seed=4 OOMed on MLX; re-run on NumPy backend (identical semantics). Does not affect the conclusion — the other 4 seeds at pop=4096 are already distributed in the same 0.81–0.92 range as the smaller pops.
+
+Plots: `output/popsize_8bit/box_pop_size.png`, `fitness_curves.png`.
+
+### 6. Task beyond parity — majority
+
+**Sweep:** `sweeps/majority.yaml` — `n_bits ∈ {3, 5, 7}` × `n_states ∈ {2, 4, 8}` × 3 seeds = 27 runs. Fixed `N=16, T=16, pop=256, gens=150`. Odd `n_bits` chosen so strict-majority labels are balanced 50/50 (even `n_bits` with ties→0 gives an imbalanced task, which would break the random=0.5 baseline).
+**Hypothesis:** Parity is classically hard for spatial computers — every input bit must be integrated. Majority is classically easy — partial local counts already approximate it. If the K=2 cliff is parity-specific, K=2 should break through on majority; if it survives, K=2 is representationally dead.
+
+### Status: complete. K=2 cliff is task-invariant; parity is specifically hard.
+
+| n_bits \ n_states | 2    | 4    | 8    |
+|-------------------|------|------|------|
+| **3**             | 0.50 | 1.00 | 1.00 |
+| **5**             | 0.50 | 0.94 | 0.94 |
+| **7**             | 0.48 | 0.94 | 0.95 |
+
+Two findings:
+
+1. **K=2 cliff generalizes.** Every K=2 run on every n_bits is stuck at 0.50 (the 7-bit K=2 median is 0.484, a single pathological rule doing slightly *worse* than random — still inside the no-signal regime). The K=2 outer-totalistic representation is structurally incapable of expressing non-constant output at the readout cell, regardless of task. This confirms the §3/§4 conclusion was not parity-specific.
+2. **Majority is much easier than parity at matched difficulty.** Compare the same table shape across tasks:
+
+   | task     | n_bits=small | n_bits=mid   | n_bits=large |
+   |----------|--------------|--------------|--------------|
+   | parity   | 1.00 (4-bit) | 0.89 (6-bit) | 0.80 (8-bit) |
+   | majority | 1.00 (3-bit) | 0.94 (5-bit) | 0.95 (7-bit) |
+
+   Majority degrades gently with n_bits (plateau ~0.94-0.95); parity degrades steeply (0.80 at 8-bit, below the majority 7-bit score). This matches the classical Mitchell/Crutchfield result that CAs are naturally good at density-class tasks and naturally bad at parity — the CA's local-propagation dynamic integrates well with "how many" but badly with "how many mod 2."
+
+**Taken together (§3, §4, §5, §6):** the ceilings we measured on parity at K=4 are not about the CA being expressively weak in general — majority at the same K=4/N=16 hits 0.94+ on tasks of comparable bit-width. The ceiling is the interaction of *this rule family* with *this task structure*. Parity remains a useful hard task for future rule-family experiments; majority now serves as the "can this at least do something easy" baseline for any new representation variant.
+
+Plots: `output/majority/heatmap_n_bits_vs_n_states.png` is the cleanest companion to the parity heatmap — same row structure, same K=2 cliff, much warmer K≥4 cells.
+
+### 7. Selection regime
+
+**Hypothesis:** Higher tournament sizes will collapse diversity faster on easy tasks but may help on 8-bit parity. Current sweeps use `tournament_size=3, elite_count=2`.
+**Why it's lower priority:** tournament size is a second-order knob compared to mutation rate and pop size on these tasks; likely worth visiting only if §4–§5 don't crack the 8-bit ceiling.
+
+### 8. Rule family beyond outer-totalistic
+
+Deferred until after a second task. Extending the rule family while still on parity-only adds an axis the task can't distinguish.
+
+---
+
+## What these experiments do not address
+
+- **Comparison against folding** — that is a separate study (see `docs/future-directions.md` Direction 3.1). CA-GP must first stand up on its own.
+- **Symbolic regression** — deferred until a second discrete task is in place.
+- **Visualization of evolved rules** — `experiments/ca/inspect_best.py` can reload the best genotype, but interpretive analysis of *what* the winning rule is doing is out of scope for the sweep layer.

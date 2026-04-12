@@ -1,0 +1,21 @@
+sweep_name: majority
+base:
+  grid_n: 16
+  steps: 16
+  rule_family: outer_totalistic
+  task: majority
+  n_examples: 64
+  pop_size: 256
+  generations: 150
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 10
+# Odd n_bits → balanced 50/50 labels; even n_bits would be class-imbalanced under
+# the ties-to-zero convention, making the baseline no longer 0.5.
+grid:
+  n_bits: [3, 5, 7]
+  n_states: [2, 4, 8]
+  seed: [0, 1, 2]
