@@ -71,6 +71,92 @@ Keep a global motif pool updated from evolved populations. Now unblocked — dri
 
 Easy tasks evolve motifs, hard tasks consume and elaborate them. Now unblocked.
 
+**1.14: Lineage analysis of drift and Pareto breakthroughs**
+
+Reconstruct the ancestry of successful S5 / filter-program individuals from 1.9 and 1.11 runs. Data should already exist in population snapshots — this is primarily a data-mining exercise on existing logs.
+
+**Hypothesis**: Under drift and Pareto preservation, breakthrough individuals have ancestors carrying S1 / S2 / S3 scaffolds for many generations before S4 / S5 appears. Under continuous selection, scaffold ancestors are absent or short-lived.
+
+**Setup**:
+- Reload saved populations from 1.9 (pop=200, 500 gens, drift 10/20) and 1.11 (Pareto(scaffold_stage))
+- For each S5 / filter-program individual at termination, trace parent pointers back to gen 0
+- For each ancestor, classify scaffold stage (S0 / S1 / S2 / S3 / S4 / S5)
+- Compute: generation of first S1 ancestor, first S2, first S3, dwell time per stage, number of independent S1 lineages that fed into the final genotype
+
+**Measure**: Lineage depth of each scaffold stage, dwell time distributions, whether multiple independent S1/S2 lineages converge into the breakthrough individual (evidence of compositional assembly across lineages via crossover).
+
+**Why this matters**: Confirms the preservation mechanism at the individual / lineage level, not just population statistics. Cheap relative to a new sweep. Strong evidence that drift / Pareto is doing what the aggregate metrics suggest.
+
+**1.15: Cryptic variation assay**
+
+Directly test whether drift- and Pareto-preserved populations carry hidden useful variation that becomes expressible under novel selection.
+
+**Hypothesis**: Populations evolved under drift or Pareto scaffold protection adapt faster to a *novel* target than continuous-selection populations of the same final fitness. The preservation mechanism accumulates cryptic variation that selection can later exploit.
+
+**Setup**:
+- Take populations from three conditions at gen 100, 200, 300:
+  - Continuous selection on filter-price-200
+  - Drift 10/20 on filter-price-200
+  - Pareto(scaffold_stage) on filter-price-200
+- Switch target to a novel but related task: filter-price-800, filter-amount-300, or a reducer like `(reduce (fn x (+ x ...)) 0 data/products)`
+- Resume selection (continuous, no drift / Pareto in the assay phase) for 100 gens
+- Measure generations to first solution, final fitness, number of S1–S5 carriers transferred from the preserved state
+
+**Measure**: Time-to-adaptation on the novel target; fitness trajectory in the first 50 gens after the switch; fraction of solutions that reuse scaffolds from the preserved state vs re-evolved from scratch.
+
+**Why this matters**: This is the direct test of *what preservation buys you*. If preserved populations adapt faster, the drift / Pareto mechanism is accumulating reusable variation, not just inflating a specific scaffold count. Connects the strongest result (1.8 / 1.11) to the evolvability literature tightly.
+
+**1.16: Motif-pair and motif-triple epistasis**
+
+Measure whether useful motifs contribute additively, synergistically, or context-dependently to scaffold formation.
+
+**Hypothesis**: The fitness / bond contribution of any single motif (e.g., `Da`) depends strongly on whether other motifs (`QDa`, `DaK`, `AS`, `BS`) are nearby on the genotype. Motif effects are non-additive; composition requires co-localization.
+
+**Setup**:
+- Use the chemistry-screened motif set from 1.5 plus hand-coded motifs (`Da`, `QDa`, `DaK`, `AS`, `BS`, `K5`)
+- For each motif pair (A, B) and a subset of triples:
+  - Insert A alone, B alone, and A+B into 1000 random genotype backgrounds at length 100
+  - Score each background for: bond count, scaffold stage (S1–S5), program fitness
+- Compute: expected effect under additivity (effect(A) + effect(B)), observed effect (effect(A+B)), epistasis = observed − expected
+
+**Measure**: Epistasis distribution across motif pairs. Per-pair synergy score. Identify "compositional partners" (large positive epistasis) vs "interchangeable" vs "antagonistic."
+
+**Why this matters**: 1.4 showed bonding is context-dependent — this quantifies it at the motif level. Tests the compositional claim that breaks from "motifs help" into "which motifs help *together*." Informs whether the motif-presence Pareto proposed in 1.13 should count motifs independently or score co-presence.
+
+**1.17: Trait dissociation assay**
+
+Lightweight modularity proxy: can one phenotypic subtree be mutated independently of another?
+
+**Hypothesis**: In scaffold-carrying genotypes, comparator threshold, field accessor, and wrapper structure can be mutated independently — the folding representation produces module-like dissociability even without explicit modular structure.
+
+**Setup**:
+- Start from S4 / S5 carrier genotypes (seeded and evolved)
+- Define three target traits:
+  - Threshold value (e.g., 500 in `(> ... 500)`)
+  - Field accessor (`:price` vs `:amount` vs other keys)
+  - Wrapper (filter vs filter+count; fn wrapper present or absent)
+- For each genotype, apply 500 point mutations and classify each mutation by which traits changed (possibly multiple)
+- Compute: pairwise co-change frequency between traits, conditional probabilities (P(trait_b changed | trait_a changed))
+
+**Measure**: Trait dissociation index = fraction of mutations changing exactly one trait. Compare evolved scaffold carriers vs random genotypes with matched bond counts. Low co-change = modular; high co-change = pleiotropic tangles.
+
+**Why this matters**: Gives a principled modularity statement without full biological network machinery. If evolved scaffolds show higher dissociation than matched random controls, that is constructional selection reshaping the GP map. If not, the "modular scaffold" framing needs softening.
+
+**1.18: Direct pleiotropy-per-mutation on evolved populations**
+
+Promote the existing 3a / 3.2 plan to Priority 1.
+
+**Hypothesis**: Evolved folding populations have lower mutational pleiotropy than random genotypes (Altenberg's prediction). Shift-evolved populations may show *higher* pleiotropy than stable-evolved populations (selection maintained exploratory capacity).
+
+**Setup**:
+- For each individual in four populations (random, stable-evolved folding, shift-evolved folding, continuous-selection filter-evolved), apply 100 point mutations
+- Count phenotypic traits changed per mutation: bond count, program AST depth, program output on fixed context set, active program sites (positions that contribute to output)
+- Compute distributions per condition
+
+**Measure**: Mean and variance of pleiotropy per mutation per condition. Compare with Wilcoxon rank-sum. Report distribution shape, not just the mean.
+
+**Why this matters**: Right now pleiotropy is inferred from neutrality and large-break rates. A direct assay tightens the Altenberg claim. Supporting, not central, to the preservation story — but needed if the paper frame retains the evolvability connection.
+
 ### Superseded/Completed Experiments
 
 - **Scale Up**: C1 showed scaling doesn't help — more bonds but not better programs.
