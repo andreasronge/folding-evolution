@@ -1,0 +1,29 @@
+sweep_name: banded_phased_pop1024
+# Probe the evolvability-bound hypothesis for banded_phased.
+# At pop=256, gens=200: median 0.691 (collapsed to uniform baseline), max 0.980.
+# Scaling pop 4× tests whether most seeds can reach the combined-specialization
+# ceiling given more initial coverage and more per-generation diversity.
+#
+# Everything else held identical to banded_phased.yaml for clean comparison.
+# 8-bit parity only; majority was a secondary control, parity is the binding
+# question here.
+base:
+  grid_n: 16
+  steps: 16
+  n_states: 4
+  rule_family: banded_phased
+  n_bands: 3
+  n_phases: 2
+  mutation_rate: 0.0049
+  pop_size: 1024
+  generations: 200
+  tournament_size: 3
+  elite_count: 2
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 10
+  task: parity
+  n_bits: 8
+  n_examples: 256
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]

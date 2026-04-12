@@ -567,6 +567,37 @@ This is the §11.a-b (per_row) lesson recurring at a lower genome length: over-p
 
 Plots: `output/banded_phased/box_task.png`; best-run error analysis at `banded_phased/80e8a00e8c0f/error_analysis.png`.
 
+### 11.ab-b Banded+phased at 4× population — evolvability-bound hypothesis confirmed
+
+**Sweep:** `sweeps/banded_phased_pop1024.yaml` — same config as §11.ab but `pop_size=1024` (4× baseline). 10 seeds × 8-bit parity full-space only (majority is a secondary control; parity is the binding question). One MLX crash, n=9.
+
+**Hypothesis:** If §11.ab's median collapse is search-budget-bound rather than expressiveness-bound, 4× population should lift the typical seed from 0.69 to the ~0.80 level reached by banded_3 and phased_2 alone.
+
+### Status: complete. Confirmed — pop=1024 lifts median +0.13 while max is unchanged.
+
+| config                       | n | median | min   | max   | mean  |
+|------------------------------|---|--------|-------|-------|-------|
+| banded_phased pop=256 (§11.ab) | 10 | 0.691 | 0.668 | 0.980 | 0.725 |
+| **banded_phased pop=1024**   | 9  | **0.824** | 0.672 | 0.969 | **0.821** |
+| banded_3 pop=256 (ref §11.a) | 10 | 0.805 | 0.637 | 0.969 | 0.794 |
+| phased_2 pop=256 (ref §11.b) | 10 | 0.814 | 0.645 | 0.961 | 0.812 |
+
+**Median lifts +0.13, mean +0.10** at 4× population. Max unchanged (0.97 vs 0.98 within seed noise). Spread contracts from (0.67–0.98) to (0.67–0.97). The distribution shifts right with roughly the same shape.
+
+**Two conclusions.**
+
+1. **Compatibility confirmed.** At pop=1024, banded_phased now beats both single-specialization baselines on median (0.824 vs 0.805 and 0.814). The two mechanisms do compose once evolvability is unblocked. §11.ab's median collapse was a search-budget artifact, as predicted.
+
+2. **But the expressive ceiling is ~0.97, not higher.** Across pop=256 and pop=1024, banded_phased max sits at 0.97-0.98 — the same ceiling as banded_3 and phased_2 alone. Combining specializations lifts the *typical* seed to the expressive ceiling but does not push the ceiling itself. The 8-bit parity full-solve remains out of reach at K=4 / N=16 / T=16, even with both spatial and temporal specialization.
+
+**Updated diagnosis of the 8-bit parity ceiling:**
+
+- Expressive bound (~0.97): some form of heterogeneity (spatial or temporal or both) is necessary to reach the bound; uniform dynamics cap at ~0.70. Across any of the three heterogeneity schemes tested, peak single-seed accuracy converges at ~251-252 / 256 correct.
+- Evolvability bound: longer genomes need larger populations to reliably find the structural solution. pop=256 suffices for 300-byte banded_3 and 216-byte phased_2; pop=1024 is required for 616-byte banded_phased.
+- Full-solve bound: not reached under any tested CA-GP configuration. 5 errors out of 256 is the closest we've come (banded_phased pop=256, seed=4). Whether N > 16, T > 16, or K > 4 could close the last 5 errors is an open question; §10-b and §3 mildly suggest no, but weren't paper-clean under current methodology.
+
+Plots: `output/banded_phased_pop1024/box_seed.png`, `fitness_curves.png`.
+
 ### 11.c Neighborhood radius — information propagation speed
 
 **Sweep:** `sweeps/radius.yaml` — `radius ∈ {1, 2, 3}` × 10 seeds × 2 tasks (8-bit parity full-space, 7-bit majority full-space) = 60 runs. 59/60 complete; one 7-bit/r=3 MLX crash. Rule table scales with neighborhood count at K=4 outer-totalistic: r=1 → 100 bytes, r=2 → 292, r=3 → 580. **Mutation rate length-normalized** (per §11.a-b lesson): 0.030 / 0.010 / 0.005 respectively, holding expected flips per genome ≈ 3 per generation across radii.
