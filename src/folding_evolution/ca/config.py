@@ -14,6 +14,8 @@ class CAConfig:
     steps: int = 16
     n_states: int = 4
     rule_family: str = "outer_totalistic"
+    # rule_family ∈ {"outer_totalistic", "decision_tree", "banded_ot"}
+    n_bands: int = 3   # only used when rule_family == "banded_ot"
 
     # Task
     task: str = "parity"

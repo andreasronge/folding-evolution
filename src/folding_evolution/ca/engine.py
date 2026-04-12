@@ -12,6 +12,7 @@ import numpy as np
 from . import engine_mlx, engine_numpy
 from . import rule as rule_mod
 from . import rule_decision_tree as _dt
+from . import rule_banded as _banded
 from .config import CAConfig
 
 
@@ -66,6 +67,31 @@ def _run_decision_tree(
     raise ValueError(f"Unknown backend {cfg.backend!r}")
 
 
+def _run_banded(
+    cfg: CAConfig,
+    genotypes: list[np.ndarray],
+    initial_grid: np.ndarray,
+    input_clamp: np.ndarray,
+) -> np.ndarray:
+    B = initial_grid.shape[0]
+    P = len(genotypes)
+    E = B // P
+    batch = _banded.decode_batch(genotypes, cfg.n_states, cfg.n_bands)
+    tables = batch.tables                                    # (P, n_bands, K, max_sum+1)
+    tables_be = np.broadcast_to(
+        tables[:, None, ...], (P, E, *tables.shape[1:])
+    )
+    tables_be = np.ascontiguousarray(tables_be).reshape(P * E, *tables.shape[1:])
+
+    row_band = _banded.row_to_band(cfg.grid_n, cfg.n_bands)
+
+    if cfg.backend == "numpy":
+        return engine_numpy.run_banded(initial_grid, tables_be, row_band, input_clamp, cfg.steps)
+    if cfg.backend == "mlx":
+        return engine_mlx.run_banded(initial_grid, tables_be, row_band, input_clamp, cfg.steps)
+    raise ValueError(f"Unknown backend {cfg.backend!r}")
+
+
 def run_population(
     cfg: CAConfig,
     genotypes: list[np.ndarray],
@@ -78,6 +104,8 @@ def run_population(
         return _run_outer_totalistic(cfg, genotypes, initial_grid, input_clamp)
     if fam == "decision_tree":
         return _run_decision_tree(cfg, genotypes, initial_grid, input_clamp)
+    if fam == "banded_ot":
+        return _run_banded(cfg, genotypes, initial_grid, input_clamp)
     raise ValueError(f"Unknown rule_family {fam!r}")
 
 

@@ -167,3 +167,57 @@ def run_dt(
     for _ in range(steps):
         grid = step_dt(grid, pos, val, leaves, input_clamp, depth=depth)
     return grid
+
+
+# ---------------- Banded outer-totalistic rule family ----------------
+
+def step_banded(
+    grid: np.ndarray,
+    tables: np.ndarray,
+    row_band: np.ndarray,
+    input_clamp: np.ndarray,
+) -> np.ndarray:
+    """One CA step with a per-row-band outer-totalistic rule.
+
+    Args:
+        grid: (B, N, N) uint8
+        tables: (B, n_bands, K, max_sum+1) uint8 — per-band rule tables
+        row_band: (N,) int64 — band index for each row
+        input_clamp: (B, N) uint8 — values pinned to row 0 after the step
+    """
+    assert grid.dtype == np.uint8
+    assert tables.dtype == np.uint8
+    B, N, _ = grid.shape
+    n_bands, K, max_sum_plus_1 = tables.shape[1], tables.shape[2], tables.shape[3]
+
+    padded = np.zeros((B, N + 2, N + 2), dtype=np.int16)
+    padded[:, 1:-1, 1:-1] = grid.astype(np.int16)
+    nbr_sum = (
+        padded[:, :-2, :-2] + padded[:, :-2, 1:-1] + padded[:, :-2, 2:]
+        + padded[:, 1:-1, :-2] + padded[:, 1:-1, 2:]
+        + padded[:, 2:, :-2] + padded[:, 2:, 1:-1] + padded[:, 2:, 2:]
+    ).astype(np.int64)
+
+    self_idx = grid.astype(np.int64)                               # (B, N, N)
+    b_idx = np.arange(B).reshape(B, 1, 1)                          # (B, 1, 1)
+    row_band_bcast = row_band.reshape(1, N, 1)                     # (1, N, 1) → broadcasts over (B, N, N)
+    row_band_full = np.broadcast_to(row_band_bcast, (B, N, N))     # (B, N, N)
+
+    # Gather: new[b, y, x] = tables[b, row_band[y], self_idx[b,y,x], nbr_sum[b,y,x]]
+    new_grid = tables[b_idx, row_band_full, self_idx, nbr_sum].astype(np.uint8)
+    new_grid[:, 0, :] = input_clamp
+    return new_grid
+
+
+def run_banded(
+    initial_grid: np.ndarray,
+    tables: np.ndarray,
+    row_band: np.ndarray,
+    input_clamp: np.ndarray,
+    steps: int,
+) -> np.ndarray:
+    grid = initial_grid.copy()
+    grid[:, 0, :] = input_clamp
+    for _ in range(steps):
+        grid = step_banded(grid, tables, row_band, input_clamp)
+    return grid

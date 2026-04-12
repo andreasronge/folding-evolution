@@ -190,3 +190,70 @@ def run_dt(
         grid = step_dt(grid, pos_mx, val_mx, leaves_mx, clamp_mx, depth=depth)
     mx.eval(grid)
     return np.array(grid, dtype=np.uint8)
+
+
+# ---------------- Banded outer-totalistic rule family (MLX) ----------------
+
+def step_banded(
+    grid: mx.array,
+    tables: mx.array,
+    row_band: mx.array,
+    input_clamp: mx.array,
+) -> mx.array:
+    """MLX banded-OT step. Same contract as engine_numpy.step_banded."""
+    B, N, _ = grid.shape
+    n_bands, K, max_sum_plus_1 = tables.shape[1], tables.shape[2], tables.shape[3]
+
+    nbr_sum = _neighbor_sum(grid)                      # (B, N, N) int32
+    self_idx = grid.astype(mx.int32)                   # (B, N, N)
+
+    # Flatten (K, max_sum+1) into a single 1-D index:
+    # For each cell we look up tables[b, band(y), self, sum].
+    # Linearize table indexing per band: flat_within_band = self * max_sum+1 + nbr_sum
+    flat_within = self_idx * max_sum_plus_1 + nbr_sum              # (B, N, N) int32
+
+    # Collapse per-batch tables to shape (B, n_bands, K*max_sum+1).
+    tables_flat = tables.reshape(B, n_bands, K * max_sum_plus_1)
+
+    # Pick each cell's band table via row_band (broadcast across x).
+    row_band_bcast = mx.broadcast_to(row_band.reshape(1, N, 1), (B, N, N))  # (B,N,N) int32
+    # For each (b, y, x), gather tables_flat[b, row_band_bcast[b,y,x], flat_within[b,y,x]]
+    # Flatten (y, x) to a single axis for take_along_axis.
+    band_idx_flat = row_band_bcast.reshape(B, N * N)
+    within_flat = flat_within.reshape(B, N * N)
+
+    # Step 1: gather the table row per cell — shape (B, N*N, K*max_sum+1).
+    # This would be expensive if done naively; do it via a combined linear index.
+    # global_idx = band * (K*max_sum+1) + within
+    global_idx = band_idx_flat * (K * max_sum_plus_1) + within_flat      # (B, N*N)
+    tables_flat_B = tables_flat.reshape(B, n_bands * K * max_sum_plus_1)
+    gathered = mx.take_along_axis(
+        tables_flat_B.astype(mx.int32), global_idx, axis=1
+    )                                                                    # (B, N*N)
+    new_grid = gathered.reshape(B, N, N).astype(mx.uint8)
+
+    clamped_row0 = input_clamp.reshape(B, 1, N)
+    new_grid = mx.concatenate([clamped_row0, new_grid[:, 1:, :]], axis=1)
+    return new_grid
+
+
+def run_banded(
+    initial_grid: np.ndarray,
+    tables: np.ndarray,
+    row_band: np.ndarray,
+    input_clamp: np.ndarray,
+    steps: int,
+) -> np.ndarray:
+    grid = _to_mx(initial_grid)
+    tables_mx = _to_mx(tables)
+    row_band_mx = _to_mx(row_band.astype(np.int32))
+    clamp_mx = _to_mx(input_clamp)
+
+    B, N, _ = initial_grid.shape
+    clamped_row0 = clamp_mx.reshape(B, 1, N)
+    grid = mx.concatenate([clamped_row0, grid[:, 1:, :]], axis=1)
+
+    for _ in range(steps):
+        grid = step_banded(grid, tables_mx, row_band_mx, clamp_mx)
+    mx.eval(grid)
+    return np.array(grid, dtype=np.uint8)

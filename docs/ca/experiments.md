@@ -385,13 +385,48 @@ Plot: `output/ca_dynamic_budget/heatmap_grid_n_vs_steps.png` — visibly flat ac
 
 ### 11.a Non-uniform CA — banded rule assignment
 
-**Sweep:** `sweeps/nonuniform_bands.yaml` — `rule_mode ∈ {uniform, banded_3}` × 10 seeds on 8-bit parity full-space. Bands: rows 0–4 (transducer), 5–10 (mix), 11–15 (reducer). Each band gets its own (K=4, 25)-entry table = 300 bytes total. Matched-byte control: 300-byte uniform variant (larger K or an extended neighborhood encoding — document which).
+**Sweep:** `sweeps/nonuniform_bands.yaml` — `rule_family ∈ {outer_totalistic, banded_ot}` × `(task, n_bits, n_examples) ∈ {(parity, 8, 256), (majority, 7, 128)}` × 10 seeds = 40 runs. Banded: 3 bands at N=16 (rows 0–4, 5–10, 11–15), each with its own K=4 OT rule table. Total banded genotype = 300 bytes; baseline uniform is 100 bytes.
 
 **Hypothesis:** if the 0.70 ceiling is caused by uniform rules forcing every row to play the same role, banding should break it. Sipper's non-uniform result predicts parity becomes tractable once cells can specialize. Expected direction: banded > uniform by ≥ 0.05 on median, or null.
 
-**Why first:** largest predicted effect, smallest kernel delta (one extra lookup axis — the band index), and directly addresses the §8-b reframing — specialization gives information a place to live on the way down the grid.
+### Status: complete. First ceiling-break in 11 sweeps.
 
-**Possible ablation — `per_row` variant.** Sipper's original non-uniform CA assigned a distinct rule to every cell. If `banded_3` lifts the ceiling modestly, a `per_row` variant (16 independent rules, one per row, 16 × 25 = 400 bytes at K=4) tests whether the gain scales with specialization granularity. Run only if §11.a is positive; otherwise the granularity question is moot.
+| task           | rule family       | n  | median | min   | max   | mean  |
+|----------------|-------------------|----|--------|-------|-------|-------|
+| 7-bit majority | outer_totalistic  | 10 | 0.898  | 0.875 | 0.930 | 0.904 |
+| 7-bit majority | banded_ot         | 9  | 0.930  | 0.797 | 0.938 | 0.913 |
+| **8-bit parity** | outer_totalistic | 10 | 0.693  | 0.621 | 0.816 | 0.711 |
+| **8-bit parity** | **banded_ot**     | 10 | **0.805** | 0.637 | **0.969** | **0.794** |
+
+(One 7-bit majority banded_ot run crashed on MLX — n=9; doesn't affect the direction.)
+
+**8-bit parity: Δmedian +0.11, Δmax +0.15, Δmean +0.08.** Best banded run reached **0.969 = 248/256 correct** on the full 256-input space. That's 15 percentage points above anything uniform OT ever produced across six prior sweeps (max 0.816).
+
+**7-bit majority: Δmedian +0.03, Δmax +0.008.** Modest lift on top of an already-high baseline; majority was already close to solved.
+
+**Mechanistic inspection of the best banded parity rule (seed=2, fitness 0.9688):**
+
+| bit-count | n   | correct | err rate |
+|-----------|-----|---------|----------|
+| 0         | 1   | 1       | 0.000    |
+| 1         | 8   | 8       | 0.000    |
+| 2         | 28  | 28      | 0.000    |
+| 3         | 56  | 56      | 0.000    |
+| 4         | 70  | 70      | 0.000    |
+| 5         | 56  | 48      | **0.143** |
+| 6         | 28  | 28      | 0.000    |
+| 7         | 8   | 8       | 0.000    |
+| 8         | 1   | 1       | 0.000    |
+
+**All 8 errors concentrate at bit-count=5.** Every other bit count is exactly solved. This is qualitatively different from the uniform OT failure mode (§9), which had bias-by-bit-count spread across multiple odd-weight inputs and a strong bias toward predicting 0. The banded rule is approximately computing true parity, with a single structural failure mode on one residue class. Bit-position asymmetries are also much smaller (max +0.062 vs uniform OT's +0.156 at position 0).
+
+**Interpretation.** Spatial specialization is the first intervention in 11 sweeps that actually works. Rule-table expressiveness (§3), search pressure (§4, §5), rule-family symmetry (§8), readout geometry (§8-b), compute budget (§10-b), and λ-class (§13) all failed to move the ceiling; banding moves it by 0.11 median and nearly solves the task on best seed. The §8-b reframing is vindicated: partial structures carrying parity information needed different rules in different rows to exist at all, not more aggregation or more time.
+
+**Matched-byte control caveat.** Banded (300 bytes) vs uniform K=4 (100 bytes) is not byte-matched. However, the §3 capacity result showed K=4 vs K=8 OT (100 vs 456 bytes) is a null — raw byte count at fixed family doesn't move fitness. That makes "more bytes" a weak alternative explanation here, though not ruled out formally. A future matched-byte control could run banded K=2 (54 bytes) and compare to uniform K=2 (18 bytes) — predicts banded K=2 still stuck at 0.5 if the K=2 cliff is band-invariant.
+
+**Next move per the §11 plan.** The `per_row` ablation is now warranted: extend specialization from 3 bands to 16 rows (16 × 100 = 1600 bytes, K=4) and ask whether the ceiling keeps moving up. If per_row pushes parity accuracy > 0.95 median, spatial specialization is *the* story. If per_row plateaus at 0.80-ish like banded_3, 3 bands is capturing the available structural advantage.
+
+Plot: `output/nonuniform_bands/heatmap_n_bits_vs_rule_family.png`; error map of best run at `nonuniform_bands/8ae27e2c29a7/error_analysis.png`.
 
 ### 11.b Rule schedules — multi-phase CA
 

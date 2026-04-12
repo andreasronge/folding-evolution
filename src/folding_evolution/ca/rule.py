@@ -20,6 +20,7 @@ import numpy as np
 
 from .config import CAConfig
 from . import rule_decision_tree as _dt
+from . import rule_banded as _banded
 
 
 # ---------------- Outer-totalistic helpers ----------------
@@ -93,6 +94,8 @@ def random_genotype_for(cfg: CAConfig, rng: random.Random) -> np.ndarray:
         return random_genotype(cfg.n_states, rng)
     if fam == "decision_tree":
         return _dt.random_genotype(cfg.n_states, rng)
+    if fam == "banded_ot":
+        return _banded.random_genotype(cfg.n_states, cfg.n_bands, rng)
     raise ValueError(f"Unknown rule_family {fam!r}")
 
 
@@ -106,6 +109,8 @@ def mutate_for(
         return mutate(genotype, cfg.n_states, cfg.mutation_rate, rng)
     if fam == "decision_tree":
         return _dt.mutate(genotype, cfg.n_states, cfg.mutation_rate, rng)
+    if fam == "banded_ot":
+        return _banded.mutate(genotype, cfg.n_states, cfg.mutation_rate, rng)
     raise ValueError(f"Unknown rule_family {fam!r}")
 
 
@@ -115,7 +120,7 @@ def crossover_for(
     cfg: CAConfig,
     rng: random.Random,
 ) -> np.ndarray:
-    # Same byte-level splice works for both families; keep single implementation.
+    # Same byte-level splice works for all families; keep single implementation.
     return crossover(parent_a, parent_b, rng)
 
 
@@ -125,4 +130,6 @@ def genotype_len(cfg: CAConfig) -> int:
         return rule_len(cfg.n_states)
     if fam == "decision_tree":
         return _dt.genotype_len()
+    if fam == "banded_ot":
+        return _banded.genotype_len(cfg.n_states, cfg.n_bands)
     raise ValueError(f"Unknown rule_family {fam!r}")
