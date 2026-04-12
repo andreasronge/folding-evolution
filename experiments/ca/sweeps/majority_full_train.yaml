@@ -1,0 +1,24 @@
+sweep_name: majority_full_train
+# Re-examining majority under full-space training to match the corrected parity line.
+# Odd n_bits → balanced 50/50 labels under strict-majority (ties→0) convention.
+# n_examples = 2^n_bits gives fitness = true accuracy; no memorization possible.
+base:
+  grid_n: 16
+  steps: 16
+  rule_family: outer_totalistic
+  task: majority
+  pop_size: 256
+  generations: 150
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 10
+paired:
+  - {n_bits: 3, n_examples: 8}
+  - {n_bits: 5, n_examples: 32}
+  - {n_bits: 7, n_examples: 128}
+grid:
+  n_states: [2, 4, 8]
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]

@@ -287,6 +287,48 @@ With full-space training (fitness = true accuracy, memorization impossible):
 
 ---
 
+## 10. Majority under full-space training (clean cross-task comparison)
+
+**Sweep:** `sweeps/majority_full_train.yaml` — paired `(n_bits, n_examples) ∈ {(3,8), (5,32), (7,128)}` × `n_states ∈ {2, 4, 8}` × 10 seeds = 90 runs (89 completed; one 7-bit K=8 run crashed on MLX, pattern unambiguous).
+
+### Status: complete. Paper-worthy cross-task claim now supported on clean data.
+
+**Majority fitness by n_bits × n_states (medians):**
+
+| n_bits \ n_states | 2     | 4     | 8     |
+|-------------------|-------|-------|-------|
+| 3                 | 0.500 | 1.000 | 1.000 |
+| 5                 | 0.500 | 0.938 | 0.938 |
+| 7                 | 0.500 | 0.898 | 0.891 |
+
+**Three findings:**
+
+1. **K=2 cliff holds a third time — third independent confirmation on clean data.** Every K=2 run at every tested n_bits stuck at exactly 0.500. Combined with the parity (§3) and mutation-rate (§4) sweeps, the K=2 cliff is now one of the most firmly established results in this module: three sweeps, two tasks, six `n_bits` values, hundreds of runs, *zero* K=2 runs above 0.500.
+2. **The majority-vs-parity gap is real and widens with n_bits.** Side-by-side on full-space training:
+
+   | n_bits (parity / majority) | parity median | majority median | gap (maj − par) |
+   |----------------------------|---------------|-----------------|-----------------|
+   | 4 / 3 (small)              | 1.000         | 1.000           | 0.00            |
+   | 6 / 5 (mid)                | 0.875         | 0.938           | +0.06           |
+   | 8 / 7 (large)              | 0.703         | 0.898           | **+0.20**       |
+
+   The gap essentially doesn't exist at small n_bits (both tasks trivially solvable), appears at mid (~0.06), and is large at high n_bits (~0.20). Classical Mitchell/Crutchfield prediction: CAs integrate "how many" easily and "how many mod 2" badly, with the gap growing as more bits must be integrated.
+3. **The previous half-coverage majority result slightly overstated performance.** 7-bit majority was 0.938 at `n_examples=64` (half the 128-input space); full coverage gives 0.898. A ~0.04 drop, much smaller than parity's ~0.10 drop — majority is both easier *and* more robust to training-subset sampling, consistent with its local-count structure (most input variation is reflected in bit-count, which majority depends on).
+
+Also confirmed on clean data: K=4 and K=8 remain indistinguishable (0.898 vs 0.891 at 7-bit; within seed noise).
+
+### Current consolidated claims (after clean re-evaluation)
+
+1. **K=2 outer-totalistic with row-0-clamp / center-readout geometry cannot express non-constant input-dependent output.** Structural, task-invariant, robust to mutation-rate (§4) and input-coverage (§3, §6, §10).
+2. **K=4 is sufficient; K=8 is redundant.** Rule-table expressiveness saturates at K=4 for both parity and majority at all tested n_bits.
+3. **Grid size (N ∈ {8, 16, 32}) is not a binding constraint** at K≥4 on either task.
+4. **Parity is hard, majority is easy, and the gap widens with n_bits.** Full-space training: parity 0.70 @ 8-bit vs majority 0.90 @ 7-bit. Confirms the task-structure hypothesis — spatial CAs integrate density easily and parity badly.
+5. **Breaking CA symmetry (DT vs OT) doesn't help on these tasks.** DT is worse than OT on both under matched budget; OT's symmetries are useful priors for symmetric tasks.
+
+Plots: `output/majority_full_train/heatmap_n_bits_vs_n_states.png` is the cleanest single figure — matches the parity heatmap's K=2 column exactly, but warmer K≥4 cells. Side-by-side with `output/capacity/heatmap_n_bits_vs_n_states.png` (parity) is the paper-worthy figure for this module.
+
+---
+
 ## Methodological correction (applies to all future CA sweeps)
 
 The `n_examples` field in CAConfig historically defaulted to 64. For tasks whose input space is ≤ 64 (e.g., 6-bit parity), that trains on the full space. For larger spaces (8-bit parity has 256 inputs) it silently becomes a train/holdout split without a holdout evaluation — allowing memorization to register as fitness.

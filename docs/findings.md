@@ -931,4 +931,14 @@ Six sweeps (178 runs total) on outer-totalistic rules over a 3×3 Moore neighbor
 
 **g) Methodology correction and 8-bit ceiling restatement.** Mechanistic inspection of the best 8-bit OT rule revealed **severe overfitting**: training fitness 0.92 on 64 examples, but only 0.57 on the 192 unseen inputs (0.66 full-space accuracy). The previous "0.80 ceiling" across sweeps 3–8 was training-subset memorization at `n_examples=64` on a 256-input space, not a true parity competence measure. A confirmatory sweep (`parity_full_train.yaml`) trained on all 256 inputs — median true accuracy falls to **0.70 (max 0.82)**, confirming the qualitative ceiling but correcting its level downward by ~10 points. The CA at K=4 / N=16 / T=16 genuinely cannot compute 8-bit parity. Sweeps with `n_examples ≥ 2^n_bits` (4-bit, 6-bit parity; 3-bit, 5-bit majority) were always clean and remain valid. Going forward: prefer full-space training, or log holdout accuracy as a secondary metric.
 
+**h) Cross-task comparison on clean data — paper-worthy claim supported.** `majority_full_train.yaml` (90 runs) re-ran majority under full-space training for `n_bits ∈ {3, 5, 7}`. 7-bit majority corrected from 0.938 (half-coverage) to **0.898 (full-space)** — a small 0.04 drop compared to parity's 0.10 drop. The resulting full-space-training table makes the cross-task claim unambiguous:
+
+  | n_bits (par/maj) | parity | majority | gap    |
+  |------------------|--------|----------|--------|
+  | 4 / 3            | 1.000  | 1.000    | 0.00   |
+  | 6 / 5            | 0.875  | 0.938    | +0.06  |
+  | 8 / 7            | 0.703  | 0.898    | +0.20  |
+
+The majority-vs-parity gap widens with n_bits — classical Mitchell/Crutchfield result confirmed without any memorization confound. K=2 cliff holds a third time (0.500 on all n_bits on both tasks). K=4 / K=8 remain indistinguishable on clean data. **Total runs this track: 318.**
+
 Sweeps reproducible from `experiments/ca/sweeps/*.yaml`; per-run history under `experiments/ca/output/<sweep>/<config_hash>/`.
