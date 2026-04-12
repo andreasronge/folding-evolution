@@ -352,6 +352,44 @@ Plots: `output/majority_full_train/heatmap_n_bits_vs_n_states.png` is the cleane
 
 ---
 
+## 11. Next experiments (round 2) — constructional expressivity
+
+§3–§10 bound the current rule family's ceiling on 8-bit parity at ~0.70 full-space. Four distinct mechanisms have been ruled out: rule-table expressiveness (§3), search pressure (§4, §5), rule-family symmetry (§8), readout geometry (§8-b). The remaining move is to change *what kind of thing the CA is* — add structure that lets partial solutions persist and combine, rather than enlarge the flat rule table. The three sweeps below are ordered by predicted information-per-cost. All use 8-bit parity full-space training (`n_examples=256`) as the primary task; 7-bit majority full-space is cheap to re-run as a cross-task control under each variant.
+
+### 11.a Non-uniform CA — banded rule assignment
+
+**Sweep:** `sweeps/nonuniform_bands.yaml` — `rule_mode ∈ {uniform, banded_3}` × 10 seeds on 8-bit parity full-space. Bands: rows 0–4 (transducer), 5–10 (mix), 11–15 (reducer). Each band gets its own (K=4, 25)-entry table = 300 bytes total. Matched-byte control: 300-byte uniform variant (larger K or an extended neighborhood encoding — document which).
+
+**Hypothesis:** if the 0.70 ceiling is caused by uniform rules forcing every row to play the same role, banding should break it. Sipper's non-uniform result predicts parity becomes tractable once cells can specialize. Expected direction: banded > uniform by ≥ 0.05 on median, or null.
+
+**Why first:** largest predicted effect, smallest kernel delta (one extra lookup axis — the band index), and directly addresses the §8-b reframing — specialization gives information a place to live on the way down the grid.
+
+### 11.b Rule schedules — multi-phase CA
+
+**Sweep:** `sweeps/phase_schedule.yaml` — `n_phases ∈ {1, 2, 3}` × 10 seeds on 8-bit parity full-space. Genotype: `n_phases` separate rule tables plus a 16-entry schedule vector assigning each time step to a phase. `n_phases=1` reproduces the current baseline. Matched-byte uniform control as in §11.a.
+
+**Hypothesis:** Lee-Xu-Chau proved parity is exactly solvable by a *sequence* of radius-1 rules even when no single one suffices. If the ceiling is rooted in "one stationary local rule is a very restrictive language," phases should lift it. Expected direction: `n_phases=3` > `n_phases=1` by ≥ 0.05, or null.
+
+**Why second:** strong theoretical grounding, independent of §11.a (results don't overlap). If §11.a already breaks the ceiling, §11.b becomes an ablation rather than the primary bet.
+
+### 11.c Second-order CA — one-step cell memory
+
+**Sweep:** `sweeps/memory_1step.yaml` — `memory ∈ {none, 1step}` × 10 seeds on 8-bit parity full-space. `1step` extends the rule-table input to `(self, prev_self, neighbor_sum) → next_state`, doubling the table to 200 entries at K=4. Matched-byte control: K=4 no-memory at 200 bytes (extended neighborhood or wider sum range).
+
+**Hypothesis:** Stone & Bull showed memory improves CA evolvability on density classification. The folding-scaffold analogy predicts memory gives partial information somewhere to persist rather than being rewritten every step. Expected direction: 1step > none by ≥ 0.03, or null.
+
+**Why third:** smallest predicted effect, and the mechanism is the least clear of the three (see caveat 3 below). If §11.a and §11.b both null out, §11.c becomes the load-bearing test; if either succeeds, §11.c becomes a follow-up ablation.
+
+### Concerns / open caveats for round 2
+
+1. **§8-b reframes the bottleneck upstream of readout.** Pooling 16× more cells on the bottom row gave the same 0.70 as a single cell. Partial structures are not failing to be *selected* — they are failing to *exist* in the CA state at T=16. Round-2 interventions must change state-carrying machinery (propagation, specialization, memory). Further readout-side fitness shaping is not expected to help and is out of scope for this round.
+2. **Keep representation changes and fitness shaping separate.** Intermediate-row supervision (auxiliary losses on rows 8, 12, etc.) is a training-signal intervention, not a representation one. Bundling it into §11 would conflate two effects and make diagnosis harder. Defer to a future §12 if round-2 motivates it.
+3. **The folding → CA scaffold analogy is suggestive, not mechanistic.** In folding, partial structures persist because the mapping physically preserves them across mutations. In CA, every cell is rewritten each step — memory adds a hidden bit but does not create a persistent lattice of carriers. Non-uniformity (role specialization) is arguably closer in spirit to folding's motif arrangement than memory is. Budget expectations for §11.c accordingly.
+4. **Matched-byte controls are mandatory.** Each round-2 sweep adds parameters. Without a byte-matched uniform baseline, any gain could be attributed to "more capacity" rather than "more *constructional* capacity" — the confound §8 (DT vs OT) exposed. Every sweep in this round must publish both absolute fitness and a matched-byte control.
+5. **Cross-task control on majority.** 7-bit majority full-space (§10) is cheap to re-run under each new representation. If round-2 lifts parity but not majority, or lifts both equally, that discriminates task-specific bottlenecks from general evolvability gains — informative either way.
+
+---
+
 ## Methodological correction (applies to all future CA sweeps)
 
 The `n_examples` field in CAConfig historically defaulted to 64. For tasks whose input space is ≤ 64 (e.g., 6-bit parity), that trains on the full space. For larger spaces (8-bit parity has 256 inputs) it silently becomes a train/holdout split without a holdout evaluation — allowing memorization to register as fitness.
