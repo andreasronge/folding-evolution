@@ -46,31 +46,24 @@ With the ceiling broken and confirmed, the next experiments shift from "can we b
 
 After 1.13, the story is: discovery solved (chemistry screening), preservation solved semigenerically (structural_pattern Pareto). The remaining questions are (a) does preservation buy stored evolvability, and (b) can the preservation objective itself be learned from data? The recommended sequence:
 
-1. **1.15 (running)** — cryptic variation assay. Does preservation buy evolvability?
-2. **1.14 (next after 1.15)** — lineage analysis. Mechanistic confirmation at individual level; also produces the dataset needed for 1.19.
+1. **1.15 (DONE, needs scale-up)** — cryptic variation assay. First pass (15 seeds) supports transfer of preserved adaptive structure: Pareto reaches fitness ceilings continuous selection doesn't (≥0.8 in 4/60 vs 0/30) and adapts ~2x faster to mid-thresholds on T_far. Bimodal endpoints and plateau dynamics argue for *discrete inventory transfer*, not continuous latent variation. Follow-up: AUC reanalysis on existing data, then 30+ seed rerun with shorter checkpoints and a true far-transfer (reduce / nested filter).
+2. **1.14 (next)** — lineage analysis. Mechanistic confirmation at individual level; also produces the dataset needed for 1.19.
 3. **1.19** — learned preservation objective. Closes the last hand-coding loop.
-4. **1.16 / 1.17** — epistasis and modularity assays to sharpen existing findings.
+4. **A2 ablation (external benchmark)** — folding × preservation × motifs ablation on hard problems. Answers "what is the paper actually about."
+5. **1.16 / 1.17** — epistasis and modularity assays to sharpen existing findings.
 
 ---
 
-**1.15: Cryptic variation assay — IN PROGRESS**
+**1.15: Cryptic variation assay — DONE (first pass; scale-up planned)**
 
-The natural next measurement after 1.13. Directly tests whether Pareto-preserved populations carry hidden useful variation that becomes expressible under novel selection. This ties the preservation story to stored evolvability.
+First-pass result (15 seeds, snapshots at gens 200 and 300, 80-gen assay on T_near=filter-price-600 and T_far=filter-amount-300): Pareto-preserved populations reach fitness ceilings (≥0.8) in 4/60 seed-trials vs 0/30 for continuous selection; B_scaffold adapts ~2x faster to ≥0.6 on T_far than continuous (first-hit sequence B `[1,1,4,6,14,15,18,33]` vs A `[4,10,19,24,26,30,49]`). Endpoint distributions are bimodal; plateau dynamics dominate. Interpretation: discrete inventory transfer of compositional scaffolds, mechanistically distinct from Wagner/Kimura continuous standing variation. See findings Section 6 "Cryptic Variation Assay" and `exp_cryptic_variation.py`.
 
-**Hypothesis**: Populations evolved under Pareto scaffold protection adapt faster to a *novel* target than continuous-selection populations of the same final fitness. The preservation mechanism accumulates cryptic variation that selection can later exploit.
+**Confound disclosed**: starting-structure imbalance (A: 0 scaffolds, B: 74 S5+/68 G5+, C: 16 S5+/87 G5+) means the result is a *transfer-of-preserved-structure* assay, not a clean latent-variation test. Average-case final-fitness advantage is modest (5–15%); ceiling access is clean.
 
-**Setup**:
-- Take populations from three conditions at gen 100, 200, 300 on filter-price-200:
-  - Continuous selection
-  - Pareto(scaffold_stage) — task-specific preservation
-  - Pareto(structural_pattern) — semigeneric preservation (1.13 winner)
-- Switch target to a novel but related task: filter-price-800, filter-amount-300, or a reducer like `(reduce (fn x (+ x ...)) 0 data/products)`
-- Resume **continuous selection only** (no Pareto in the assay phase) for 100 gens
-- Measure generations to first solution, final fitness, number of S1–S5 carriers transferred
-
-**Measure**: Time-to-adaptation on the novel target; fitness trajectory in the first 50 gens after the switch; fraction of solutions that reuse scaffolds from the preserved state vs re-evolved from scratch.
-
-**Why this matters**: Direct test of *what preservation buys you*. If preserved populations adapt faster, the mechanism accumulates reusable variation, not just current-task scaffolds. Connects 1.8 / 1.11 / 1.13 to the evolvability literature.
+**Follow-up plan (1.15b)**:
+- AUC / recovery-slope reanalysis on existing trajectories (no new compute). Report fitness at checkpoints 10/20/40 to emphasize early adaptation.
+- Rerun at 30+ seeds with 40-gen assay (not 80), shorter checkpoint schedule, and a genuine compositional-family far-transfer: `(reduce (fn a b (+ a (get b :price))) 0 data/products)` or nested filter-of-map.
+- Optional matched-starting-fitness subpopulation analysis to partially disentangle preserved-scaffold-inventory from starting-fitness advantage.
 
 **1.14: Lineage analysis of preservation breakthroughs**
 

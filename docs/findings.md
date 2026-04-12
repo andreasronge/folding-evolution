@@ -645,6 +645,62 @@ Selection on developmental potential — not just immediate task fitness — is 
 
 **Next: cryptic-variation assay.** If populations evolved under `Pareto(structural_pattern)` adapt faster to novel but related targets than continuous-selection populations, the preservation mechanism is accumulating reusable variation — stored evolvability — not just boosting current-task innovation. This ties the preservation story to the evolvability literature tightly.
 
+### Cryptic Variation Assay (Experiment 1.15)
+
+Tested whether Pareto-preserved populations adapt faster to novel but related targets than continuous-selection populations. 15 seeds, pop=100, train 300 gens on filter-price-200, snapshot at gens 200 and 300, assay 80 gens of continuous selection only (no Pareto, no motif insertion) on two novel targets.
+
+**Results (snapshot gen 300):**
+
+| Task | Condition | final_best (mean) | first≥0.6 | first≥0.8 | start S5+ | start G5+ |
+|---|---|---|---|---|---|---|
+| T_near: filter-price-600 | A. Continuous | 0.454 | 34 gens (1/15) | — (0/15) | 0 | 0 |
+| T_near: filter-price-600 | B. Pareto(scaffold_stage) | 0.512 | 29 gens (2/15) | 14 gens (1/15) | 74 | 68 |
+| T_near: filter-price-600 | C. Pareto(structural_pattern) | 0.519 | 28.5 gens **(4/15)** | — (0/15) | 16 | 87 |
+| T_far: filter-amount-300 | A. Continuous | 0.628 | 23.1 gens (7/15) | — (0/15) | 0 | 0 |
+| T_far: filter-amount-300 | B. Pareto(scaffold_stage) | 0.642 | **11.5 gens (8/15)** | 19 gens (2/15) | 74 | 68 |
+| T_far: filter-amount-300 | C. Pareto(structural_pattern) | 0.630 | 21.1 gens (7/15) | 43 gens (2/15) | 16 | 87 |
+
+**What the raw data supports (from per-seed distributions):**
+
+1. **Ceiling access is the cleanest signal.** Continuous selection reached fitness ≥0.8 in 0/30 seed-task combinations at snap 300; Pareto conditions reached ≥0.8 in 4/60. Preservation unlocks fitness regions that re-evolution from unstructured populations cannot reach in 80 assay generations.
+
+2. **B_scaffold early-adaptation speed on T_far is clean.** Time-to-≥0.6 sequence: B_scaffold `[1, 1, 4, 6, 14, 15, 18, 33]`, A_continuous `[4, 10, 19, 24, 26, 30, 49]`. Roughly 2x faster, with distinct distributions.
+
+3. **Endpoint fitness distributions are bimodal/modal.** A_continuous on T_far clusters at `0.55, 0.713, 0.731` — discrete partial-credit modes matching specific program shapes. Pareto conditions add tail outliers at `0.825–0.844`. The "higher ceiling access" claim is a tail-distribution claim, not a mean-shift claim.
+
+4. **Plateau dynamics under both conditions.** Median ~2 best-fitness changes across the 80-gen assay. For C_structural on T_far, 8/15 runs have ≤1 change after the initial jump. The assay is often "found a scaffold, sat there" — not sustained adaptive search. This is mechanistically informative: preservation stocks *discrete compositional assets*, not continuous latent variation.
+
+**What the data does NOT strongly support:**
+
+- **A large average-case transfer advantage.** Means differ by 5–15%; medians are similar. 80 gens of continuous selection partially closes the gap.
+- **Generic > task-specific preservation for transfer.** The C > B ordering on T_near (4/15 vs 2/15 for ≥0.6) is *consistent with* this prediction but too small to claim statistically. On T_far, B slightly edges C.
+- **Near/far distinction separating mechanisms.** I'd expected C_structural to dominate T_far transfer specifically. The two preservation methods produce similar transfer quality with different distribution shapes.
+
+**Starting-structure confound (disclosed):**
+
+At snapshot 300, A_continuous starts the assay with S5+=0 / G5+=0; B_scaffold with S5+=74 / G5+=68; C_structural with S5+=16 / G5+=87. This is a genuine confound: the result is a *transfer-of-preserved-structure* assay, not a clean test of hidden latent variation independent of scaffold occupancy. Both claims are interesting, but they are different claims.
+
+**Mechanistic interpretation — distinct from continuous cryptic variation:**
+
+The bimodal endpoint distributions and plateau dynamics together argue that this mechanism is **not** Wagner/Kimura-style continuous standing variation that becomes visible under selection. Continuous latent variation would produce smooth fitness improvement distributions and sustained adaptive search. What the data shows instead is **discrete inventory transfer of compositional scaffolds**: preserved populations either inherit a scaffold that solves the novel target or they don't, and when they do, they converge quickly and plateau. This is closer to constructional selection (Altenberg) than to standing-variation population genetics.
+
+**Honest claim for paper writeup:**
+
+> *Populations evolved under Pareto preservation carry a transferable inventory of discrete compositional scaffolds. When exposed to novel but related targets under continuous selection with no preservation machinery, they reach fitness ceilings that continuous-selection controls do not reach within the assay window (≥0.8 in 4/60 Pareto seed-trials vs 0/30 controls) and adapt ~2x faster to mid-range thresholds. This is consistent with cryptic variation in a structural-inventory sense, but mechanistically distinct from continuous standing variation: the modal endpoint distributions and plateau dynamics indicate that scaffolds function as discrete adaptive assets rather than as a gradient of hidden diversity.*
+
+**Caveats and limitations:**
+
+- n=15 per condition; should scale to 30+ for statistical claims
+- 80-gen assay allows continuous selection to partially catch up; shorter checkpoints (10/20/40) would emphasize early-adaptation advantage
+- T_far is still within the filter compositional family; a true far-transfer (reduce, nested filter) would stress-test the structural-reuse claim
+- No motif insertion in assay is the cleanest mechanism test but understates production-setting transfer
+
+**Follow-up priorities:**
+
+1. AUC / recovery-slope reanalysis on existing trajectories (no new compute) — emphasize early-adaptation advantage.
+2. Scale to 30+ seeds with shorter checkpoint reporting and a genuine compositional-family far-transfer (e.g., `reduce` over aggregated fields, or nested `filter-of-map`).
+3. Matched-starting-fitness subpopulation analysis to partially disentangle "preserved scaffold inventory" from "starting-fitness advantage."
+
 ## 7. Coevolution Findings (Elixir)
 
 ### Single-Context Collusion
@@ -693,7 +749,9 @@ See Section 6 for the full diagnostic series. The framing evolved through multip
 
 **Revision 9 (after generalization):** Pareto(bond_count) helps but much weaker than scaffold_stage. Preservation needs a targeted objective; generic complexity alone is not a substitute.
 
-**Current (after endogenous scaffold identification):** Pareto(structural_pattern) — a field-agnostic, target-family-general AST objective — nearly matches scaffold_stage on price target (18/20 vs 20/20 S5) and transfers cleanly to amount target (17/20 filter programs, 20/20 G5). The generalization claim is defended. Motif-presence is weaker (arrangement matters, not just inventory). Claim upgraded from "targeted preservation works" to "semigeneric preservation of compositional intermediates works." The mechanism: selection on developmental potential — typed around compositional structure (higher-order + predicate + data) — breaks the ceiling across target families without target-specific hand-coding.
+**Revision 10 (after endogenous scaffold identification):** Pareto(structural_pattern) — a field-agnostic, target-family-general AST objective — nearly matches scaffold_stage on price target (18/20 vs 20/20 S5) and transfers cleanly to amount target (17/20 filter programs, 20/20 G5). The generalization claim is defended. Motif-presence is weaker (arrangement matters, not just inventory). Claim upgraded from "targeted preservation works" to "semigeneric preservation of compositional intermediates works."
+
+**Current (after cryptic variation assay):** Preserved populations transfer discrete compositional scaffolds to novel but related targets. Pareto-preserved populations reach fitness ceilings that continuous-selection controls never reach in the assay window (≥0.8 in 4/60 Pareto seed-trials vs 0/30 controls) and adapt ~2x faster to mid-range thresholds on T_far (filter-amount-300). Bimodal endpoint distributions and plateau dynamics indicate the mechanism is *discrete inventory transfer* of compositional scaffolds, mechanistically distinct from continuous standing variation (Wagner/Kimura). The honest framing: "transfer of preserved adaptive structure, consistent with cryptic variation." Starting-structure confound disclosed. Average-case advantage is modest; ceiling access is clean. Sample size (n=15) and 80-gen assay window are the primary methodological weaknesses to address.
 
 ## 9. Eval Performance
 
