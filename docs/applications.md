@@ -2,6 +2,8 @@
 
 Assumes the complexity ceiling is solved (5+ bonds routinely evolved). Each application includes what makes folding's regime-shift advantage relevant and what alphabet/chemistry changes are needed.
 
+**Caveat on "solved":** The ceiling is broken via Pareto-based preservation of compositional intermediates. Experiment 1.11 showed hand-coded `Pareto(scaffold_stage)` achieves S5 in 90% of seeds. Experiment 1.13 then showed `Pareto(structural_pattern)` — a field-agnostic, target-family-general AST objective — nearly matches the hand-coded version on price (18/20 S5) and transfers cleanly to a different target family (amount: 17/20 filter programs). The "semigeneric preservation" claim is defended within compositional program structure (higher-order function + predicate lambda + data source). **The remaining caveat is per-domain, not per-task:** applications that live in a different compositional family (arithmetic expressions for symbolic regression, gate composition for circuits, string/list manipulation for PSB2) each need their own structural_pattern definition — not per-target hand-coding. That is real scope, but far cheaper than a per-problem classifier, and the pattern for defining it is now well-understood from 1.13.
+
 ## Tier 1: Minimal Changes to Current System
 
 ### Data Transformation Rules / ETL Logic
@@ -166,11 +168,67 @@ Evolve message-handling rules for distributed agents.
 | Incremental improvement path | The chemistry's multi-pass structure provides natural scaffolding |
 | Spatial structure in the solution | The 2D fold adds value when adjacency/topology matters in the phenotype |
 
-## Recommended Starting Point
+## Benchmark Strategy
 
-**Symbolic regression** is the most pragmatic entry point:
-1. Well-benchmarked (SRBench) — results are directly comparable to existing work
-2. Useful expressions emerge at lower bond counts than data queries (3-bond `sin(x * c)` is already meaningful)
-3. The regime-shift variant (tracking a changing target function) is a novel benchmark contribution
-4. The alphabet change is straightforward — arithmetic operators slot into the existing chemistry passes
-5. If folding shows an advantage on regime-shift symbolic regression, it's a publishable result on its own
+The applications above describe *where* folding could be useful. This section describes *which benchmarks to run and in what order* to produce publishable claims. Precondition (now met): experiment 1.13 succeeded — `Pareto(structural_pattern)` works as a semigeneric preservation objective, removing the per-task classifier dependency within a compositional family. Per-domain structural_pattern definitions are still required for application areas outside filter/map/reduce (e.g., symbolic regression needs an arithmetic-tree variant), but that is one-time domain setup, not per-problem overhead.
+
+Benchmarks are ranked by what they answer, not by application area.
+
+### Tier A — Competitive credibility
+
+**A1. PSB2 (Program Synthesis Benchmark Suite 2).** Helmuth & Kelly's 25-problem suite is the de facto GP program-synthesis benchmark. Tree GP, PushGP, grammar-guided GP all have published numbers.
+- *Why run it:* gets head-to-head numbers with real GP systems, problems span trivial to very hard, success is pass/fail per problem and easy to report.
+- *What it shows:* whether folding is competitive at all on standard problems.
+- *Risk:* may favor canalized representations on easier problems. Report honestly.
+- *Alternative:* PSB1 if PSB2's infrastructure is too heavy.
+
+**A2. Ablation study: representation × preservation mechanism × motif supply.** The single most scientifically important benchmark in this plan because no one else can run it.
+- *Design:* 2×2×2 — {folding, tree GP} × {continuous selection, Pareto(scaffold)} × {with, without motif insertion} — on 3–5 hard PSB2 problems.
+- *What it answers:* is the advantage from the folding representation, the preservation mechanism, the motif supply, or interactions between them?
+- *Possible outcomes:* (a) Pareto(scaffold) rescues tree GP too — preservation is the general insight, folding is incidental. Still a paper, just reframed. (b) Pareto(scaffold) only rescues folding — strong interaction claim. Best outcome. (c) Motif insertion is the dominant factor — shifts the story toward building-block supply.
+- *Priority:* high. This is the experiment that tells you what the paper is actually about.
+
+### Tier B — Unique selling point
+
+**B1. Regime-shift variant of SRBench.** Take SRBench's Feynman and Black-Box problems, periodically switch the ground-truth expression every N generations. No standardized regime-shift benchmark exists in symbolic regression — this is a novel contribution, not a reproduction.
+- *Compare against:* folding+Pareto(scaffold), PySR, Operon, DEAP tree GP, gplearn.
+- *Measure:* mean fitness over time, recovery after shift, number of distinct solutions discovered, fitness jumps.
+- *Why it matters:* this is the paper headline if folding wins. Static SRBench is dominated by PySR/Operon — folding likely loses there. The regime-shift variant is where folding's pleiotropy advantage should dominate.
+- *Risk:* if folding doesn't win on regime shift, the core project claim needs re-examination.
+
+**B2. Concept-drift tabular feature engineering.** Practical-usefulness angle with a real user base beyond GP researchers.
+- *Datasets:* Electricity, Airline Delay, Weather, CoverType — all have known concept drift, all have temporal splits.
+- *Compare against:* AutoFeat, Featuretools, tsfresh.
+- *Fitness:* downstream model AUC or RMSE improvement with evolved feature added.
+- *Regime shift:* train on early time window, evaluate on later — natural temporal drift.
+- *Why it matters:* "is this useful" is more compelling to applied reviewers than clean GP benchmarks.
+
+**B3. Transfer / generalization benchmark.** Not listed in the applications above but follows directly from 1.12 Level 2.
+- *Design:* evolve on task A with Pareto(scaffold_A), then evaluate unmodified population on related tasks B, C, D without further adaptation.
+- *What it answers:* does scaffold preservation build *reusable* modular structure, or does it overfit to the classifier?
+- *Ties to:* the Altenberg constructional-selection claim — if evolved populations transfer, the GP map has been reshaped. If not, Pareto is task-specific and the modularity claim needs softening.
+
+### Tier C — Skip or defer
+
+- **Static SRBench as headline result.** PySR and Operon dominate this space. Run only as a ceiling check, not as the main comparison.
+- **Digital circuits.** CGP has ~20 years of tuning on this problem family. Narrow comparison, unlikely to win.
+- **Scheduling heuristics.** Niche; hyper-heuristic GP literature is small.
+- **Loss function evolution.** Each fitness evaluation requires training a model. Computational blocker for 50-seed studies.
+
+### Recommended Ordering
+
+With 1.13 complete and structural_pattern Pareto validated:
+
+1. **Experiment 1.15 (cryptic variation assay)** — runs on existing preserved populations. Closes the evolvability loop before external benchmarks.
+2. **A2 ablation on 3–5 hard problems** — answers the scientific question about what the paper is about. Now cleaner because structural_pattern needs no per-problem classifier.
+3. **Engineering: structural_pattern v2 for arithmetic** — unlocks SR benchmarks. Parallel track with A2.
+4. **B1 regime-shift SRBench** — the paper headline if it works. Requires arithmetic structural_pattern and a tree GP baseline.
+5. **A1 PSB2 static** — establishes competitive credibility. May require per-compositional-family structural_pattern definitions (filter, accumulator, mapper).
+6. **B2 concept-drift features** — practical-usefulness story for applied reviewers.
+7. **B3 transfer/generalization** — tightens the Altenberg claim; 1.15 is a partial preview.
+
+If only two external benchmarks can be run: **A2 + B1.** The ablation tells you what the paper is actually about. The regime-shift benchmark tells you whether the paper is worth writing.
+
+### Symbolic Regression Note
+
+Symbolic regression remains the most pragmatic entry point for a first real-world application because useful expressions emerge at lower bond counts (3-bond `sin(x * c)` is already meaningful) and the alphabet change is straightforward — arithmetic operators slot into the existing chemistry passes. But the headline result is the regime-shift variant (B1), not the static benchmark.
