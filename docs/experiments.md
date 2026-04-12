@@ -36,7 +36,24 @@ With both constraints addressed (motif discovery + drift preservation), the ceil
 
 With the ceiling broken and confirmed, the next experiments shift from "can we break through?" to "what does the breakthrough enable and how can the mechanism be refined?"
 
+**1.13: Endogenous scaffold identification (NEXT)**
+
+The generalization test revealed that Pareto preservation needs a targeted objective, but the current `scaffold_stage` classifier is hand-coded and task-specific. Can scaffold identification be made endogenous without hand-written AST classifiers?
+
+Three conditions on both price and amount targets:
+- (a) Pareto(fitness, motif_presence): score = count of screened motifs present as substrings in genotype. Uses chemistry screening (endogenous) as the scaffold signal. No AST inspection, no task knowledge.
+- (b) Pareto(fitness, structural_pattern): score = presence of generic patterns like "higher-order function + predicate lambda + data source" regardless of specific fields. Recognizes compositional structure type-generically.
+- (c) Positive control: Pareto(fitness, scaffold_stage) — the 1.11 winner, but now re-used across both target families.
+
+If motif_presence works on both targets: the scaffold signal can be derived entirely from chemistry screening, no target-specific AST classifier needed. This would fully generalize the 1.11 result.
+
+If structural_pattern works: compositional type structure (higher-order + predicate + data) is a sufficient signal, independent of specific fields.
+
+If only scaffold_stage works: the preservation mechanism is principled but not yet fully endogenous. That's a real finding worth reporting honestly.
+
 **1.11: Scaffold protection** — DONE. **Pareto surpasses drift.** Pareto(fitness, scaffold_stage) achieves S5 18/20 (90%) vs drift 8/20 (40%) vs baseline 0/20. Carrier lifetimes reach 302 gens (vs 34 drift, 5 baseline). Scaffolds accumulate monotonically to 56% of population at gen 299. Confirms the mechanism is specifically about preserving scaffold carriers. See `exp_scaffold_protection.py`.
+
+**1.12: Generalization test** — DONE. Mixed result that sharpens the claim. Pareto(bond_count) generic metric helps (4/20 S5 vs 0/20 baseline) but much weaker than Pareto(scaffold_stage) (20/20 S5). On different target family (filter-amount), generic metric mostly inflates bonds without useful structure. The preservation mechanism needs a targeted objective — generic complexity alone is not a substitute. See `exp_generalization.py`.
 
 **1.10: Endogenous motif screening during evolution**
 

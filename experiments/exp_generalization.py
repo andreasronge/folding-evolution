@@ -103,28 +103,45 @@ def mutate_with_motif(genotype: str, rng: random.Random, motifs: list[str]) -> s
 # ---------------------------------------------------------------------------
 
 def _pareto_sort(scored_list, pop_size):
-    """Non-dominated sorting. scored_list = [(ind, obj1, obj2), ...].
-    Returns pop_size individuals."""
-    fronts = []
-    remaining = list(range(len(scored_list)))
+    """NSGA-II fast non-dominated sort. O(M*N^2) total, not per-front.
 
-    while remaining:
-        front = []
-        for i in remaining:
-            dominated = False
-            for j in remaining:
-                if i == j:
-                    continue
-                _, fi, si = scored_list[i]
-                _, fj, sj = scored_list[j]
-                if fj >= fi and sj >= si and (fj > fi or sj > si):
-                    dominated = True
-                    break
-            if not dominated:
-                front.append(i)
-        fronts.append(front)
-        remaining = [i for i in remaining if i not in front]
+    scored_list = [(ind, obj1, obj2), ...]. Returns pop_size individuals.
+    """
+    n = len(scored_list)
+    # For each i: count of solutions dominating i, and list of solutions i dominates
+    domination_count = [0] * n
+    dominates = [[] for _ in range(n)]
 
+    for i in range(n):
+        _, fi, si = scored_list[i]
+        for j in range(i + 1, n):
+            _, fj, sj = scored_list[j]
+            # i dominates j?
+            if fi >= fj and si >= sj and (fi > fj or si > sj):
+                dominates[i].append(j)
+                domination_count[j] += 1
+            # j dominates i?
+            elif fj >= fi and sj >= si and (fj > fi or sj > si):
+                dominates[j].append(i)
+                domination_count[i] += 1
+
+    # Front 0: non-dominated
+    fronts = [[i for i in range(n) if domination_count[i] == 0]]
+
+    # Build subsequent fronts
+    while fronts[-1]:
+        next_front = []
+        for i in fronts[-1]:
+            for j in dominates[i]:
+                domination_count[j] -= 1
+                if domination_count[j] == 0:
+                    next_front.append(j)
+        if next_front:
+            fronts.append(next_front)
+        else:
+            break
+
+    # Fill population front by front
     selected = []
     for front in fronts:
         if len(selected) + len(front) <= pop_size:
@@ -149,7 +166,10 @@ def pareto_scaffold(population, pop_size):
 
 
 def pareto_bonds(population, pop_size):
-    scored = [(ind, ind.fitness, ind.program.bond_count if ind.program else 0)
+    # Cap bond_count at 10 to limit the number of Pareto fronts.
+    # Bonds beyond 10 are typically junk accumulation, not useful structure.
+    scored = [(ind, ind.fitness,
+               min(ind.program.bond_count if ind.program else 0, 10))
               for ind in population]
     return _pareto_sort(scored, pop_size)
 

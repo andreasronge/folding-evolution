@@ -557,6 +557,52 @@ Under drift, S5 never exceeds 0.3 average occupancy and oscillates with each dri
 2. Pareto selection is a practical approach — no need for artificial drift windows, no wasted generations, continuous adaptive improvement.
 3. The monotonic scaffold accumulation under Pareto suggests that once the preservation constraint is properly addressed, the fold/chemistry's compositional assembly is reliable and directional, not stochastic.
 
+### Generalization Test (Experiment 1.12)
+
+Tested whether the scaffold protection mechanism is general or task-specific. Two levels:
+
+**Level 1: Same target (filter-price), generic vs task-specific metric.**
+Does Pareto(fitness, bond_count) — a generic structural metric with no target knowledge — work as well as Pareto(fitness, scaffold_stage)?
+
+| Condition | Avg fitness | Avg bonds | S3 | S4 | S5 | Filter programs |
+|---|---|---|---|---|---|---|
+| A. Continuous selection | 0.769 | 2.2 | 3/20 | 0/20 | 0/20 | 0/20 |
+| B. Pareto(scaffold_stage) | 0.754 | 8.5 | 20/20 | 20/20 | **20/20** | **16/20** |
+| C. Pareto(bond_count) | 0.754 | 12.3 | 14/20 | 6/20 | **4/20** | 1/20 |
+
+**Level 2: Different target (filter-amount on orders), generic metric only.**
+The `scaffold_stage` classifier is hardcoded to `:price` and returns 0 for `:amount` programs. Screened motifs regenerated for `:amount` (`Df`, `fD`, `KU`, etc.) using the same chemistry-screening procedure.
+
+| Condition | Avg fitness | Avg bonds | S3 (incidental) | S4 (incidental) | S5 (incidental) |
+|---|---|---|---|---|---|
+| D. Continuous selection | 0.728 | 2.2 | 3/20 | 1/20 | 1/20 |
+| E. Pareto(bond_count) | 0.711 | 12.3 | 6/20 | 1/20 | 0/20 |
+
+S3/S4/S5 counts at Level 2 detect only incidental `:price` subexpressions, not the actual `:amount`-based scaffolds we care about. Bond counts inflate from 2.2 to 12.3 but this is mostly junk accumulation, not useful structure.
+
+**Interpretation — the generic mechanism is weaker, which sharpens the claim.**
+
+Pareto(bond_count) shows real signal on Level 1 (14/20 S3, 4/20 S5 vs 0/20 baseline), confirming that generic structural preservation helps. But it is substantially weaker than Pareto(scaffold_stage) (4/20 vs 20/20 S5). At Level 2, Pareto(bond_count) mostly inflates bonds without producing useful structure.
+
+**Three findings:**
+
+1. **The preservation mechanism is real and general in principle.** Any second objective rewarding structure provides some benefit over pure fitness selection.
+2. **But targeted protection vastly outperforms generic protection.** Knowing what kind of intermediate to preserve matters — not all bonds are useful scaffolds. Generic complexity inflation includes noise.
+3. **The 1.11 success was built on target-specific knowledge.** The `scaffold_stage` classifier encodes what filter-price scaffolds look like. Without that knowledge, Pareto(bond_count) produces ~5x fewer S5 breakthroughs.
+
+**What this means for the Altenberg story:**
+
+The GP map can expose useful building blocks (chemistry screening), and multi-objective preservation can protect them (Pareto selection), **but the protection must be informed about what compositional structure matters.** Unprotected generic complexity becomes junk accumulation. This is consistent with biological intuition: gene duplication and niche protection in nature target specific functional categories, not arbitrary sequence complexity.
+
+**The new open question — can scaffold identification itself be made endogenous?**
+
+Three plausible directions:
+1. **Motif-presence objective**: Pareto(fitness, count of screened motifs present in genotype). Uses chemistry screening (endogenous) rather than AST classification (hand-coded) as the scaffold signal.
+2. **Structural type detection**: Generic AST patterns like "higher-order function + predicate lambda + data source" without specifying `:price`. Recognizes compositional structure regardless of which field it operates on.
+3. **Co-evolved scaffold classifier**: A second evolving system learns which AST substructures predict fitness improvement, providing an adaptive Pareto objective.
+
+The most principled test: motif-presence Pareto. If it works on both price and amount targets without any target-specific AST classifier, the generalization claim is fully defended.
+
 ## 7. Coevolution Findings (Elixir)
 
 ### Single-Context Collusion
@@ -601,7 +647,9 @@ See Section 6 for the full diagnostic series. The framing evolved through multip
 
 **Revision 7 (after consolidation):** Confirmed at 50 seeds, pop=200, 500 gens. S3: 100%, S4: 92%, S5: 78%, filter programs: 72%. Ceiling broken and robust.
 
-**Current (after scaffold protection):** Pareto selection on (fitness, scaffold_stage) surpasses drift: S5 90% vs 40%, filter programs 70% vs 25%. Carrier lifetimes reach 302 gens (vs 34 under drift). Scaffolds accumulate monotonically to 56% of population. This confirms the mechanism is specifically about preserving scaffold carriers, not about neutral drift's broader effects. The full system: chemistry screening (endogenous motif discovery) + Pareto selection (targeted intermediate preservation) = reliable compositional innovation without artificial drift windows.
+**Revision 8 (after scaffold protection):** Pareto(fitness, scaffold_stage) surpasses drift: S5 90% vs 40%, filter programs 70% vs 25%. Mechanism confirmed as targeted preservation, not random drift.
+
+**Current (after generalization):** Pareto preservation is real but needs a targeted objective. Pareto(bond_count) generic metric helps (4/20 S5 vs 0/20 baseline) but much weaker than Pareto(scaffold_stage) (20/20 S5). On different target family (filter-amount), generic metric mostly inflates bonds without useful structure. Claim: the GP map exposes useful building blocks and multi-objective preservation can protect them, but the protection must be informed about what compositional structure matters. Generic complexity alone is not a substitute. Next question: can scaffold identification be made endogenous via motif-presence or structural patterns, without hand-written AST classifiers?
 
 ## 9. Eval Performance
 
