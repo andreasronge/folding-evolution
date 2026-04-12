@@ -471,11 +471,68 @@ Plot: `output/per_row/box_task.png` — per_row parity is a visibly tight cluste
 
 ### 11.b Rule schedules — multi-phase CA
 
-**Sweep:** `sweeps/phase_schedule.yaml` — `n_phases ∈ {1, 2, 3}` × 10 seeds on 8-bit parity full-space. Genotype: `n_phases` separate rule tables plus a 16-entry schedule vector assigning each time step to a phase. `n_phases=1` reproduces the current baseline. Matched-byte uniform control as in §11.a.
+**Sweep:** `sweeps/phase_schedule.yaml` — `n_phases ∈ {1, 2, 3}` × 10 seeds × 2 tasks (8-bit parity full-space, 7-bit majority full-space) = 60 runs. Genotype: `n_phases × 100` bytes of rule tables plus a 16-entry schedule vector (each entry decoded mod n_phases). `n_phases=1` reproduces the uniform baseline but with a vestigial zero-valued schedule. Mutation rate length-normalized so expected flips per generation ≈ 3 across all n_phases.
 
-**Hypothesis:** Lee-Xu-Chau proved parity is exactly solvable by a *sequence* of radius-1 rules even when no single one suffices. If the ceiling is rooted in "one stationary local rule is a very restrictive language," phases should lift it. Expected direction: `n_phases=3` > `n_phases=1` by ≥ 0.05, or null.
+**Hypothesis:** Lee-Xu-Chau proved parity is exactly solvable by a *sequence* of radius-1 rules even when no single one suffices. If the ceiling is rooted in "one stationary local rule is a very restrictive language," phases should lift it. Expected direction: `n_phases ≥ 2` > `n_phases=1` by ≥ 0.05, or null.
 
-**Why second:** strong theoretical grounding, independent of §11.a (results don't overlap). If §11.a already breaks the ceiling, §11.b becomes an ablation rather than the primary bet.
+### Status: complete. Parity ceiling lifts again — temporal specialization matches spatial.
+
+**8-bit parity (full 256 inputs):**
+
+| n_phases | bytes | n  | median | min   | max   | mean  |
+|----------|-------|----|--------|-------|-------|-------|
+| 1        | 116   | 10 | 0.674  | 0.648 | 0.758 | 0.682 |
+| 2        | 216   | 10 | **0.814** | 0.645 | **0.961** | **0.812** |
+| 3        | 316   | 10 | 0.805  | 0.652 | 0.906 | 0.793 |
+
+**7-bit majority (full 128 inputs):**
+
+| n_phases | median | max   | mean  |
+|----------|--------|-------|-------|
+| 1        | 0.910  | 0.938 | 0.907 |
+| 2        | 0.914  | 0.930 | 0.909 |
+| 3        | 0.922  | 0.930 | 0.907 |
+
+**Parity: P=2 and P=3 both lift median to ~0.81, best seed at 0.961.** Δmedian +0.14 over the P=1 baseline (0.674). Same magnitude as banded_3's +0.11 lift on parity (§11.a) — roughly the same ceiling break by a completely different mechanism.
+
+**Majority: modest lift.** 0.91 → 0.92 with more phases; nothing like radius r=3's full solve (§11.c). Phases are a weaker lever for density tasks than a bigger neighborhood is.
+
+**Diminishing returns past P=2.** P=3 has more expressive capacity but needs a slightly larger schedule to search — median drops 0.01 from P=2 to P=3, within noise. Two phases appear to capture the temporal-specialization effect for the T=16 / N=16 geometry.
+
+### Error structure of the best phased rule vs the best banded rule
+
+Best phased parity (P=2, seed=8, fitness 0.961 = 246/256):
+
+| bit-count | correct | err rate | notes                                  |
+|-----------|---------|----------|-----------------------------------------|
+| 0, 1, 2, 6, 8 | all   | 0.000    | trivially or cleanly solved            |
+| 3         | 55/56   | 0.018    | one misclassification                   |
+| 4         | 64/70   | **0.086** | largest error mass                      |
+| 5         | 54/56   | 0.036    | scattered errors                        |
+| 7         | 7/8     | 0.125    | one misclassification                   |
+
+Best banded parity (seed=2, fitness 0.969 = 248/256): **all 8 errors at bit-count=5**, every other bit-count exactly solved (§11.a).
+
+**Different failure structures; comparable overall accuracy.** The banded rule concentrates failure on one residue class (bit_count mod N); the phased rule distributes errors across bit-counts with peak at bit-count=4. The two mechanisms produce different internal computations that reach similar overall ceiling. Both strong candidates for the §12 particles / space-time diagnostic — the dynamics are almost certainly different.
+
+### Consolidated parity-mover table (across all 13 sweeps)
+
+| intervention                               | parity median | mechanism                                   |
+|--------------------------------------------|---------------|---------------------------------------------|
+| **phased_2 (§11.b)**                        | **0.814**     | temporal specialization — 2 alternating rules |
+| **banded_3 (§11.a)**                        | **0.805**     | spatial specialization — 3 row-bands         |
+| **phased_3 (§11.b)**                        | **0.805**     | temporal specialization — 3 phases           |
+| uniform OT (baseline)                      | 0.693         | —                                           |
+| radius r=2, r=3 (§11.c)                    | 0.662         | null / slightly negative                    |
+| per_row (§11.a-b over-param)                | 0.641         | worse — evolvability collapse                |
+| decision tree (§8 symmetry break)          | 0.719*        | overfit-inflated — actual lower             |
+| readout geometry, pop size, mut rate, λ    | 0.69–0.70     | all null                                    |
+
+**Spatial and temporal specialization are both ceiling-breakers for parity, at essentially the same magnitude.** Uniform dynamics — whether given bigger windows, more compute, richer rule families, or different readouts — cannot move the ceiling. Heterogeneity over *some* dimension (rows or time) is the missing structural ingredient.
+
+**Natural combination follow-up.** Banded + phased together (different rules per (row-band, phase) pair) would test whether the two mechanisms add, or whether they saturate at the same 0.80 ceiling because parity at this grid/step budget has a *single* underlying structural bottleneck that either dimension of specialization can partially address. Either outcome is informative.
+
+Plot: `output/phase_schedule/heatmap_mutation_rate_vs_task.png`; error analysis of best run at `phase_schedule/c24ada82325c/error_analysis.png`.
 
 ### 11.c Neighborhood radius — information propagation speed
 

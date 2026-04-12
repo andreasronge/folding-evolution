@@ -21,6 +21,7 @@ import numpy as np
 from .config import CAConfig
 from . import rule_decision_tree as _dt
 from . import rule_banded as _banded
+from . import rule_phased as _phased
 
 
 # ---------------- Outer-totalistic helpers ----------------
@@ -103,6 +104,8 @@ def random_genotype_for(cfg: CAConfig, rng: random.Random) -> np.ndarray:
         return _dt.random_genotype(cfg.n_states, rng)
     if fam == "banded_ot":
         return _banded.random_genotype(cfg.n_states, cfg.n_bands, rng)
+    if fam == "phased_ot":
+        return _phased.random_genotype(cfg.n_states, cfg.n_phases, cfg.steps, rng)
     raise ValueError(f"Unknown rule_family {fam!r}")
 
 
@@ -118,6 +121,8 @@ def mutate_for(
         return _dt.mutate(genotype, cfg.n_states, cfg.mutation_rate, rng)
     if fam == "banded_ot":
         return _banded.mutate(genotype, cfg.n_states, cfg.mutation_rate, rng)
+    if fam == "phased_ot":
+        return _phased.mutate(genotype, cfg.n_states, cfg.mutation_rate, rng)
     raise ValueError(f"Unknown rule_family {fam!r}")
 
 
@@ -139,4 +144,6 @@ def genotype_len(cfg: CAConfig) -> int:
         return _dt.genotype_len()
     if fam == "banded_ot":
         return _banded.genotype_len(cfg.n_states, cfg.n_bands)
+    if fam == "phased_ot":
+        return _phased.genotype_len(cfg.n_states, cfg.n_phases, cfg.steps)
     raise ValueError(f"Unknown rule_family {fam!r}")

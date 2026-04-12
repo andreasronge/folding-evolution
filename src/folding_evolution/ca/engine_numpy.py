@@ -219,3 +219,36 @@ def run_banded(
     for _ in range(steps):
         grid = step_banded(grid, tables, row_band, input_clamp)
     return grid
+
+
+# ---------------- Phased (scheduled) outer-totalistic rule family ----------------
+
+def run_phased(
+    initial_grid: np.ndarray,
+    tables: np.ndarray,
+    schedule: np.ndarray,
+    input_clamp: np.ndarray,
+    steps: int,
+) -> np.ndarray:
+    """Run a phase-scheduled CA: step t uses table schedule[:, t].
+
+    Args:
+        initial_grid: (B, N, N) uint8
+        tables: (B, n_phases, K, max_sum+1) uint8
+        schedule: (B, steps) int8 — each entry in [0, n_phases)
+        input_clamp: (B, N) uint8
+        steps: number of iterations
+    """
+    assert initial_grid.dtype == np.uint8
+    assert tables.dtype == np.uint8
+    B, N, _ = initial_grid.shape
+    grid = initial_grid.copy()
+    grid[:, 0, :] = input_clamp
+
+    b_idx = np.arange(B)
+    for t in range(steps):
+        phase_t = schedule[:, t]                        # (B,)
+        # active_table[b] = tables[b, phase_t[b]]
+        active = tables[b_idx, phase_t]                 # (B, K, max_sum+1)
+        grid = step(grid, active, input_clamp, radius=1)
+    return grid

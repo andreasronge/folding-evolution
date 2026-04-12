@@ -1,0 +1,33 @@
+sweep_name: phase_schedule
+# §11.b — multi-phase CA (rule schedule over time steps).
+# Lee-Xu-Chau: parity is exactly solvable by a sequence of radius-1 rules
+# even when no single one suffices. Tests whether breaking the stationary-
+# rule constraint lifts the 8-bit parity ceiling, independently of
+# spatial specialization (§11.a) or radius (§11.c).
+#
+# Genotype = n_phases rule tables (100 bytes each at K=4) + 16 schedule
+# bytes, total P*100 + 16 bytes. Mutation rate length-normalized so
+# expected flips per generation ≈ 3 across all variants.
+base:
+  grid_n: 16
+  steps: 16
+  n_states: 4
+  rule_family: phased_ot
+  pop_size: 256
+  generations: 200
+  tournament_size: 3
+  elite_count: 2
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 10
+paired:
+  # 8-bit parity full-space — primary task
+  - {n_phases: 1, mutation_rate: 0.0259, task: parity, n_bits: 8, n_examples: 256}
+  - {n_phases: 2, mutation_rate: 0.0139, task: parity, n_bits: 8, n_examples: 256}
+  - {n_phases: 3, mutation_rate: 0.0095, task: parity, n_bits: 8, n_examples: 256}
+  # 7-bit majority full-space — cross-task control
+  - {n_phases: 1, mutation_rate: 0.0259, task: majority, n_bits: 7, n_examples: 128}
+  - {n_phases: 2, mutation_rate: 0.0139, task: majority, n_bits: 7, n_examples: 128}
+  - {n_phases: 3, mutation_rate: 0.0095, task: majority, n_bits: 7, n_examples: 128}
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]

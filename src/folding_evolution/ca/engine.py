@@ -13,6 +13,7 @@ from . import engine_mlx, engine_numpy
 from . import rule as rule_mod
 from . import rule_decision_tree as _dt
 from . import rule_banded as _banded
+from . import rule_phased as _phased
 from .config import CAConfig
 
 
@@ -95,6 +96,34 @@ def _run_banded(
     raise ValueError(f"Unknown backend {cfg.backend!r}")
 
 
+def _run_phased(
+    cfg: CAConfig,
+    genotypes: list[np.ndarray],
+    initial_grid: np.ndarray,
+    input_clamp: np.ndarray,
+) -> np.ndarray:
+    B = initial_grid.shape[0]
+    P = len(genotypes)
+    E = B // P
+    batch = _phased.decode_batch(genotypes, cfg.n_states, cfg.n_phases, cfg.steps)
+    tables = batch.tables        # (P, n_phases, K, max_sum+1)
+    schedule = batch.schedule    # (P, steps)
+
+    tables_be = np.broadcast_to(
+        tables[:, None, ...], (P, E, *tables.shape[1:])
+    )
+    tables_be = np.ascontiguousarray(tables_be).reshape(P * E, *tables.shape[1:])
+
+    sched_be = np.broadcast_to(schedule[:, None, :], (P, E, cfg.steps))
+    sched_be = np.ascontiguousarray(sched_be).reshape(P * E, cfg.steps)
+
+    if cfg.backend == "numpy":
+        return engine_numpy.run_phased(initial_grid, tables_be, sched_be, input_clamp, cfg.steps)
+    if cfg.backend == "mlx":
+        return engine_mlx.run_phased(initial_grid, tables_be, sched_be, input_clamp, cfg.steps)
+    raise ValueError(f"Unknown backend {cfg.backend!r}")
+
+
 def run_population(
     cfg: CAConfig,
     genotypes: list[np.ndarray],
@@ -109,6 +138,8 @@ def run_population(
         return _run_decision_tree(cfg, genotypes, initial_grid, input_clamp)
     if fam == "banded_ot":
         return _run_banded(cfg, genotypes, initial_grid, input_clamp)
+    if fam == "phased_ot":
+        return _run_phased(cfg, genotypes, initial_grid, input_clamp)
     raise ValueError(f"Unknown rule_family {fam!r}")
 
 
