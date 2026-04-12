@@ -695,11 +695,32 @@ The bimodal endpoint distributions and plateau dynamics together argue that this
 - T_far is still within the filter compositional family; a true far-transfer (reduce, nested filter) would stress-test the structural-reuse claim
 - No motif insertion in assay is the cleanest mechanism test but understates production-setting transfer
 
-**Follow-up priorities:**
+**Trajectory analysis (post-hoc, same data):**
 
-1. AUC / recovery-slope reanalysis on existing trajectories (no new compute) — emphasize early-adaptation advantage.
-2. Scale to 30+ seeds with shorter checkpoint reporting and a genuine compositional-family far-transfer (e.g., `reduce` over aggregated fields, or nested `filter-of-map`).
-3. Matched-starting-fitness subpopulation analysis to partially disentangle "preserved scaffold inventory" from "starting-fitness advantage."
+AUC of the best-fitness trajectory, fitness at checkpoints (10, 20, 40, 80 gens), and early slope were computed from the saved trajectories. Three findings refine the summary interpretation:
+
+1. **Endpoint clustering is extreme.** A_continuous on T_near snap 300: 11/15 seeds end at exactly 0.425, 2/15 at 0.488, 2/15 at 0.550–0.600. On T_far: 11/15 at exactly 0.550, rest at 0.713 or 0.731. Pareto conditions show the same modes plus tail outliers at 0.812–0.844. These are partial-credit-scoring fingerprints of specific program shapes. The Pareto advantage is exclusively about unlocking the tail, not shifting the mode.
+
+2. **Pareto advantage grows with assay time on T_near, not shrinks.** Mean-at-checkpoint deltas (Pareto − Continuous) at gens 10/20/40/80 for T_near snap 300:
+   - B_scaffold: −0.003, +0.033, +0.043, +0.057
+   - C_structural: −0.013, +0.017, +0.029, +0.065
+
+   On T_far the gap is largest at gen 20 and partially closes by gen 80 — but on T_near the gap keeps widening. The "80 gens lets controls catch up" concern applies to T_far but not to T_near.
+
+3. **Early slope is *lower* for Pareto, not higher.** T_far snap 300 slope×20: A 0.285, B 0.250, C 0.161. This contradicts my earlier "2x faster adaptation" framing. The reason: Pareto populations start the assay with higher baseline fitness (inherited partial-credit from scaffolds), so they have less headroom for a steep early climb. The "faster to reach ≥0.6" metric reflects *starting closer to the threshold*, not steeper improvement. This is an honest recharacterization: Pareto populations don't adapt faster — they *start ahead and occasionally climb into regions controls cannot access*.
+
+**Revised headline claim after trajectory analysis:**
+
+> *Pareto-preserved populations inherit an elevated starting fitness on novel related targets plus occasional access to high-fitness regions (≥0.8) that continuous-selection controls cannot reach within 80 assay generations. The mechanism is not steeper adaptation; it is inherited inventory plus rare ceiling unlock. Mean advantages at endpoint are small and driven by 2–4 tail outliers per condition; median endpoints are identical across conditions on T_far.*
+
+That is a weaker and more specific claim than "cryptic variation demonstrated" or "faster adaptation." It is also the claim the data actually supports.
+
+**Follow-up priorities (now better-informed):**
+
+1. **30+ seed rerun with shorter checkpoints (10, 20, 40).** Emphasize mid-range differences where the Pareto signal is clearest. 80-gen window is not required.
+2. **Add a genuine compositional-family far-transfer** (e.g., `(reduce (fn a b (+ a (get b :price))) 0 data/products)` or `(count (map (fn x (get x :price)) data/products))`). Current T_far stays within filter family.
+3. **Matched-starting-fitness subpopulation analysis.** The elevated-baseline finding makes this more important, not less: comparing Pareto subpopulations at equivalent starting fitness against continuous-selection individuals tests whether ceiling access survives the baseline confound.
+4. **Count unique endpoint values per condition.** If Pareto populations produce more distinct programs at termination, that is additional evidence of inventory transfer (diverse scaffolds → diverse solutions).
 
 ## 7. Coevolution Findings (Elixir)
 
@@ -751,7 +772,9 @@ See Section 6 for the full diagnostic series. The framing evolved through multip
 
 **Revision 10 (after endogenous scaffold identification):** Pareto(structural_pattern) — a field-agnostic, target-family-general AST objective — nearly matches scaffold_stage on price target (18/20 vs 20/20 S5) and transfers cleanly to amount target (17/20 filter programs, 20/20 G5). The generalization claim is defended. Motif-presence is weaker (arrangement matters, not just inventory). Claim upgraded from "targeted preservation works" to "semigeneric preservation of compositional intermediates works."
 
-**Current (after cryptic variation assay):** Preserved populations transfer discrete compositional scaffolds to novel but related targets. Pareto-preserved populations reach fitness ceilings that continuous-selection controls never reach in the assay window (≥0.8 in 4/60 Pareto seed-trials vs 0/30 controls) and adapt ~2x faster to mid-range thresholds on T_far (filter-amount-300). Bimodal endpoint distributions and plateau dynamics indicate the mechanism is *discrete inventory transfer* of compositional scaffolds, mechanistically distinct from continuous standing variation (Wagner/Kimura). The honest framing: "transfer of preserved adaptive structure, consistent with cryptic variation." Starting-structure confound disclosed. Average-case advantage is modest; ceiling access is clean. Sample size (n=15) and 80-gen assay window are the primary methodological weaknesses to address.
+**Revision 11 (after cryptic variation assay, first pass):** Preserved populations transfer discrete compositional scaffolds to novel but related targets. Pareto-preserved populations reach fitness ceilings that continuous-selection controls never reach in the assay window (≥0.8 in 4/60 Pareto seed-trials vs 0/30 controls). Bimodal endpoint distributions and plateau dynamics indicate the mechanism is *discrete inventory transfer* of compositional scaffolds, mechanistically distinct from continuous standing variation (Wagner/Kimura). Starting-structure confound disclosed.
+
+**Current (after trajectory-analysis reanalysis of 1.15):** The initial "2x faster adaptation" framing was wrong. Post-hoc trajectory analysis shows Pareto populations have *lower* early slopes than continuous-selection — they inherit higher starting fitness (partial credit from inherited scaffolds), which looks like fast adaptation in time-to-threshold metrics but is actually an initial-condition advantage. The residual genuine effect is (a) ceiling access at fitness ≥0.8 that controls never reach (n=4 Pareto hits vs n=0 control, across 60/30 seed-trials), and (b) on T_near, a cumulative mean advantage that grows over 80 assay gens rather than shrinks. The honest claim: "preserved populations inherit an elevated baseline plus occasional access to high-fitness regions unreachable to controls in the assay window; the mechanism is discrete inventory transfer, not continuous cryptic variation and not faster adaptation." Sample size (n=15), 80-gen assay, and the elevated-baseline confound are the primary weaknesses to address in a scale-up.
 
 ## 9. Eval Performance
 
