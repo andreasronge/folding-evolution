@@ -36,20 +36,7 @@ With both constraints addressed (motif discovery + drift preservation), the ceil
 
 With the ceiling broken and confirmed, the next experiments shift from "can we break through?" to "what does the breakthrough enable and how can the mechanism be refined?"
 
-**1.13: Endogenous scaffold identification (NEXT)**
-
-The generalization test revealed that Pareto preservation needs a targeted objective, but the current `scaffold_stage` classifier is hand-coded and task-specific. Can scaffold identification be made endogenous without hand-written AST classifiers?
-
-Three conditions on both price and amount targets:
-- (a) Pareto(fitness, motif_presence): score = count of screened motifs present as substrings in genotype. Uses chemistry screening (endogenous) as the scaffold signal. No AST inspection, no task knowledge.
-- (b) Pareto(fitness, structural_pattern): score = presence of generic patterns like "higher-order function + predicate lambda + data source" regardless of specific fields. Recognizes compositional structure type-generically.
-- (c) Positive control: Pareto(fitness, scaffold_stage) — the 1.11 winner, but now re-used across both target families.
-
-If motif_presence works on both targets: the scaffold signal can be derived entirely from chemistry screening, no target-specific AST classifier needed. This would fully generalize the 1.11 result.
-
-If structural_pattern works: compositional type structure (higher-order + predicate + data) is a sufficient signal, independent of specific fields.
-
-If only scaffold_stage works: the preservation mechanism is principled but not yet fully endogenous. That's a real finding worth reporting honestly.
+**1.13: Endogenous scaffold identification** — DONE. **Pareto(structural_pattern) works.** The field-agnostic, target-family-general AST objective nearly matches hand-coded scaffold_stage on price (18/20 vs 20/20 S5) AND transfers cleanly to amount target (17/20 filter programs). Motif-presence is weaker — arrangement matters, not just inventory. Claim upgraded to "semigeneric preservation of compositional intermediates works." See `exp_endogenous_scaffold.py`.
 
 **1.11: Scaffold protection** — DONE. **Pareto surpasses drift.** Pareto(fitness, scaffold_stage) achieves S5 18/20 (90%) vs drift 8/20 (40%) vs baseline 0/20. Carrier lifetimes reach 302 gens (vs 34 drift, 5 baseline). Scaffolds accumulate monotonically to 56% of population at gen 299. Confirms the mechanism is specifically about preserving scaffold carriers. See `exp_scaffold_protection.py`.
 
@@ -87,9 +74,18 @@ Reconstruct the ancestry of successful S5 / filter-program individuals from 1.9 
 
 **Why this matters**: Confirms the preservation mechanism at the individual / lineage level, not just population statistics. Cheap relative to a new sweep. Strong evidence that drift / Pareto is doing what the aggregate metrics suggest.
 
-**1.15: Cryptic variation assay**
+**1.15: Cryptic variation assay (NEXT)**
 
-Directly test whether drift- and Pareto-preserved populations carry hidden useful variation that becomes expressible under novel selection.
+The natural next measurement after 1.13. Directly test whether Pareto-preserved populations carry hidden useful variation that becomes expressible under novel selection. This ties the preservation story to stored evolvability.
+
+Three conditions at gen 100, 200, 300 (from the filter-price runs):
+- Continuous selection on filter-price-200
+- Pareto(scaffold_stage) — task-specific preservation
+- Pareto(structural_pattern) — semigeneric preservation (the 1.13 winner)
+
+Switch target to a novel but related task (filter-price-800, filter-amount-300, or a map variant). Resume **continuous selection only** (no Pareto in the assay phase) for 100 gens. Measure time-to-adaptation on the novel target.
+
+If Pareto-preserved populations adapt faster, the preservation mechanism accumulates reusable variation — stored evolvability — not just current-task scaffolds. That is the direct evolvability claim.
 
 **Hypothesis**: Populations evolved under drift or Pareto scaffold protection adapt faster to a *novel* target than continuous-selection populations of the same final fitness. The preservation mechanism accumulates cryptic variation that selection can later exploit.
 

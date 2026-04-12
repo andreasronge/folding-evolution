@@ -601,7 +601,49 @@ Three plausible directions:
 2. **Structural type detection**: Generic AST patterns like "higher-order function + predicate lambda + data source" without specifying `:price`. Recognizes compositional structure regardless of which field it operates on.
 3. **Co-evolved scaffold classifier**: A second evolving system learns which AST substructures predict fitness improvement, providing an adaptive Pareto objective.
 
-The most principled test: motif-presence Pareto. If it works on both price and amount targets without any target-specific AST classifier, the generalization claim is fully defended.
+### Endogenous Scaffold Identification (Experiment 1.13)
+
+Tested three Pareto objectives on both price and amount targets.
+
+**Level 1: Price target**
+
+| Condition | Avg fitness | S3 | S4 | S5 | G5 | Filter programs |
+|---|---|---|---|---|---|---|
+| A. Continuous selection | 0.769 | 3/20 | 0/20 | 0/20 | 3/20 | 0/20 |
+| B. Pareto(motif_presence) | 0.723 | 17/20 | 10/20 | 5/20 | 12/20 | 3/20 |
+| **C. Pareto(structural_pattern) — generic** | **0.739** | **20/20** | **19/20** | **18/20** | **20/20** | **12/20** |
+| D. Pareto(scaffold_stage) — task-specific | 0.754 | 20/20 | 20/20 | 20/20 | 20/20 | 16/20 |
+
+**Level 2: Amount target** (`scaffold_stage` returns 0 here, use G levels)
+
+| Condition | Avg fitness | G3 | G4 | G5 | Filter programs |
+|---|---|---|---|---|---|
+| E. Continuous selection | 0.728 | 10/20 | 2/20 | 2/20 | 0/20 |
+| F. Pareto(motif_presence) | 0.731 | 20/20 | 13/20 | 12/20 | 6/20 |
+| **G. Pareto(structural_pattern) — generic** | **0.714** | **20/20** | **20/20** | **20/20** | **17/20** |
+
+**The generalization claim is defended.** Pareto(structural_pattern) — a field-agnostic, target-family-general preservation objective — nearly matches the hand-coded scaffold_stage on the price target (18/20 vs 20/20 S5) AND transfers cleanly to the amount target (20/20 G5, 17/20 filter programs). The mechanism works across target families without any target-specific classifier.
+
+**Motif-presence is weaker**, and this is informative: local motif counts are too crude an abstraction for preservation. A genotype with many screened motifs scattered as inert substrings scores the same as one with motifs in productive spatial arrangement. You need arrangement-sensitive structure, not just substring inventory. Motif supply alone is not the right abstraction level for preservation.
+
+**Definitional precision on "generic":** The `structural_pattern` objective is **field-agnostic and target-family-general within the symbolic program domain**, not fully domain-free. It is typed around compositional program structure: higher-order function + predicate lambda + data source. That is the right level of abstraction for this domain — not a limitation. Any preservation scheme must commit to what kind of compositional form it protects; `structural_pattern` commits at a level that transfers across field names, data sources, and target programs within the filter/map/reduce family.
+
+**Revised project claim (upgraded from "targeted" to "semigeneric"):**
+
+1. The chemistry can discover useful building blocks endogenously (1.5b).
+2. Standard fitness selection destroys intermediate scaffold carriers (1.5 application).
+3. Multi-objective preservation rescues those carriers (1.8, 1.11).
+4. The preservation objective does not need target-specific field names or hand-coded final programs (1.13).
+5. A generic compositional template (higher-order + predicate + data) is enough to reliably break the ceiling across target families.
+
+Selection on developmental potential — not just immediate task fitness — is what unlocks compositional complexity in the folding GP map. That potential can be detected at a level general enough to transfer across related target families without hand-coding.
+
+**Interpretive reads:**
+- `Pareto(structural_pattern)` is the key winner — not because it beats `scaffold_stage`, but because it nearly matches it while being generic.
+- `Pareto(motif_presence)` underperforming tells us motif supply alone is not sufficient as a preservation signal; arrangement matters, not just inventory.
+- The amount-target result being at least as strong as price (17/20 vs 12/20 filter programs) suggests the mechanism is not narrowly overfit to one target family.
+
+**Next: cryptic-variation assay.** If populations evolved under `Pareto(structural_pattern)` adapt faster to novel but related targets than continuous-selection populations, the preservation mechanism is accumulating reusable variation — stored evolvability — not just boosting current-task innovation. This ties the preservation story to the evolvability literature tightly.
 
 ## 7. Coevolution Findings (Elixir)
 
@@ -649,7 +691,9 @@ See Section 6 for the full diagnostic series. The framing evolved through multip
 
 **Revision 8 (after scaffold protection):** Pareto(fitness, scaffold_stage) surpasses drift: S5 90% vs 40%, filter programs 70% vs 25%. Mechanism confirmed as targeted preservation, not random drift.
 
-**Current (after generalization):** Pareto preservation is real but needs a targeted objective. Pareto(bond_count) generic metric helps (4/20 S5 vs 0/20 baseline) but much weaker than Pareto(scaffold_stage) (20/20 S5). On different target family (filter-amount), generic metric mostly inflates bonds without useful structure. Claim: the GP map exposes useful building blocks and multi-objective preservation can protect them, but the protection must be informed about what compositional structure matters. Generic complexity alone is not a substitute. Next question: can scaffold identification be made endogenous via motif-presence or structural patterns, without hand-written AST classifiers?
+**Revision 9 (after generalization):** Pareto(bond_count) helps but much weaker than scaffold_stage. Preservation needs a targeted objective; generic complexity alone is not a substitute.
+
+**Current (after endogenous scaffold identification):** Pareto(structural_pattern) — a field-agnostic, target-family-general AST objective — nearly matches scaffold_stage on price target (18/20 vs 20/20 S5) and transfers cleanly to amount target (17/20 filter programs, 20/20 G5). The generalization claim is defended. Motif-presence is weaker (arrangement matters, not just inventory). Claim upgraded from "targeted preservation works" to "semigeneric preservation of compositional intermediates works." The mechanism: selection on developmental potential — typed around compositional structure (higher-order + predicate + data) — breaks the ceiling across target families without target-specific hand-coding.
 
 ## 9. Eval Performance
 
