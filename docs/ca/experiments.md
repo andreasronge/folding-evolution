@@ -176,7 +176,7 @@ Plots: `output/majority/heatmap_n_bits_vs_n_states.png` is the cleanest companio
 | task          | rule family       | median | min   | max   | mean  | n |
 |---------------|-------------------|--------|-------|-------|-------|---|
 | 7-bit majority | outer_totalistic | 0.938  | 0.922 | 0.938 | 0.931 | 5 |
-| 7-bit majority | decision_tree    | 0.883  | 0.797 | 0.922 | 0.871 | 5 |
+| 7-bit majority | decision_tree    | 0.875  | 0.797 | 0.922 | 0.866 | 5 |
 | 8-bit parity   | outer_totalistic | 0.812  | 0.719 | 0.906 | 0.819 | 5 |
 | 8-bit parity   | decision_tree    | 0.719  | 0.641 | 0.750 | 0.706 | 5 |
 
