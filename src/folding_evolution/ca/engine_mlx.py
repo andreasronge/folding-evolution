@@ -291,3 +291,43 @@ def run_phased(
 
     mx.eval(grid)
     return np.array(grid, dtype=np.uint8)
+
+
+# ---------------- Banded + Phased combined (MLX) ----------------
+
+def run_banded_phased(
+    initial_grid: np.ndarray,
+    tables: np.ndarray,
+    schedule: np.ndarray,
+    row_band: np.ndarray,
+    input_clamp: np.ndarray,
+    steps: int,
+) -> np.ndarray:
+    """MLX banded+phased CA. Same contract as engine_numpy.run_banded_phased."""
+    B, n_phases, n_bands, K, max_sum_plus_1 = tables.shape
+    tables_mx = _to_mx(tables)                      # (B, P, n_bands, K, S)
+    schedule_mx = _to_mx(schedule.astype(np.int32))
+    row_band_mx = _to_mx(row_band.astype(np.int32))
+    clamp_mx = _to_mx(input_clamp)
+
+    N = initial_grid.shape[1]
+    grid = _to_mx(initial_grid)
+    clamped_row0 = clamp_mx.reshape(B, 1, N)
+    grid = mx.concatenate([clamped_row0, grid[:, 1:, :]], axis=1)
+
+    # Flatten phases × (n_bands*K*S) axis for per-step gather of the whole
+    # banded table stack at the active phase.
+    inner = n_bands * K * max_sum_plus_1
+    tables_flat = tables_mx.reshape(B, n_phases, inner)
+
+    for t in range(steps):
+        phase_t = schedule_mx[:, t]                 # (B,) int32
+        phase_expanded = mx.broadcast_to(
+            phase_t.reshape(B, 1, 1), (B, 1, inner)
+        )
+        active = mx.take_along_axis(tables_flat, phase_expanded, axis=1)
+        active = active.reshape(B, n_bands, K, max_sum_plus_1)
+        grid = step_banded(grid, active, row_band_mx, clamp_mx)
+
+    mx.eval(grid)
+    return np.array(grid, dtype=np.uint8)

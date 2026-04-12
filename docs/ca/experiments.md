@@ -534,6 +534,39 @@ Best banded parity (seed=2, fitness 0.969 = 248/256): **all 8 errors at bit-coun
 
 Plot: `output/phase_schedule/heatmap_mutation_rate_vs_task.png`; error analysis of best run at `phase_schedule/c24ada82325c/error_analysis.png`.
 
+### 11.ab Combined spatial+temporal specialization
+
+**Sweep:** `sweeps/banded_phased.yaml` — new `rule_family=banded_phased` with `n_bands=3, n_phases=2`, genotype = 2×3 rule tables + 16-entry schedule = 616 bytes. Length-normalized mutation (~3 flips/gen). 10 seeds × 2 tasks = 20 runs (19 complete; one majority MLX crash).
+
+**Hypothesis.** Banded_3 and phased_2 each lift 8-bit parity independently to ~0.81 median with best seed ~0.96. Do the mechanisms add (reaching full solve) or saturate at the same ~0.80 ceiling?
+
+### Status: complete. Mechanisms are compatible at peak but not additive under current search budget.
+
+| family            | bytes | parity median | parity max | parity mean | notes                          |
+|-------------------|-------|---------------|-----------|-------------|--------------------------------|
+| uniform OT        | 100   | 0.693         | 0.816     | 0.711       | baseline                       |
+| banded_3          | 300   | 0.805         | 0.969     | 0.794       | spatial specialization only    |
+| phased_2          | 216   | 0.814         | 0.961     | 0.812       | temporal specialization only   |
+| **banded_phased (3,2)** | **616** | **0.691** | **0.980** | 0.725   | **both at once — see text**    |
+
+**Two things are simultaneously true:**
+
+1. **Combined expressive power is real.** Best banded_phased run: **0.980 = 251/256 correct**, higher than either banded_3's 0.969 or phased_2's 0.961 alone. Peak performance beats either single specialization by ~0.01. Error inspection of best run (seed=4): 5 total errors (1 at bit_count=4, 2 at bit_count=5, 2 at bit_count=7) — cleaner than banded_3's 8 errors or phased_2's 10.
+
+2. **Median collapses back to uniform baseline.** 0.691 ≈ uniform's 0.693. Wide spread (min 0.668, max 0.980, mean 0.725): most seeds never find the combined potential; a few lucky ones do. Majority: 0.852 median (worse than banded_3's 0.930, phased_2's 0.914, and even uniform's 0.898).
+
+**Diagnosis — Goldilocks-zone collapse, not mechanism conflict.** At 616 bytes with length-normalized mutation (3 flips/gen on ~600-byte genome × 200 gens), the search space is too large to reliably navigate from random initialization at pop=256. Banded_3 (300 bytes) and phased_2 (216 bytes) succeed because their genomes are in a regime where evolution's cumulative exploration (~600 flips over 200 gens) covers enough of the useful landscape. Banded_phased at 616 bytes asks evolution to discover coordinated structure across *both* specialization axes simultaneously. Some seeds stumble into working configurations (0.98); most don't.
+
+This is the §11.a-b (per_row) lesson recurring at a lower genome length: over-parameterization past the evolvable regime hurts the typical seed, even when it helps the peak.
+
+**What this tells us:**
+
+- **The two mechanisms are NOT addressing the same bottleneck.** If they were, peak would saturate at banded_3's 0.969 / phased_2's 0.961. Instead it reaches 0.980. So they compose at the expressive level.
+- **At a fixed search budget, evolvability is the binding constraint**, not expressive power. The 8-bit parity ceiling under CA-GP at this budget is a joint expressiveness × evolvability curve.
+- **A bigger compute budget (pop, gens, or adaptive mutation schedule) is the natural next probe** for whether banded_phased can consistently solve 8-bit parity. Out of scope for this sweep round — expensive, and would move the goalposts.
+
+Plots: `output/banded_phased/box_task.png`; best-run error analysis at `banded_phased/80e8a00e8c0f/error_analysis.png`.
+
 ### 11.c Neighborhood radius — information propagation speed
 
 **Sweep:** `sweeps/radius.yaml` — `radius ∈ {1, 2, 3}` × 10 seeds × 2 tasks (8-bit parity full-space, 7-bit majority full-space) = 60 runs. 59/60 complete; one 7-bit/r=3 MLX crash. Rule table scales with neighborhood count at K=4 outer-totalistic: r=1 → 100 bytes, r=2 → 292, r=3 → 580. **Mutation rate length-normalized** (per §11.a-b lesson): 0.030 / 0.010 / 0.005 respectively, holding expected flips per genome ≈ 3 per generation across radii.

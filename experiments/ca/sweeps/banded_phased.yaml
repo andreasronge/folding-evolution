@@ -1,0 +1,29 @@
+sweep_name: banded_phased
+# Combining spatial specialization (§11.a banded_3) and temporal specialization
+# (§11.b phased_2), both of which independently lifted 8-bit parity median from
+# 0.69 to ~0.81 at max ~0.96. The key question: do they add (fully solving
+# parity) or saturate at the same ~0.80 bottleneck from two directions?
+#
+# Genotype = n_phases × n_bands rule tables + 16 schedule bytes.
+# At K=4, n_phases=2, n_bands=3: 2*3*100 + 16 = 616 bytes.
+# Length-normalized mutation so expected flips/gen ≈ 3.
+base:
+  grid_n: 16
+  steps: 16
+  n_states: 4
+  rule_family: banded_phased
+  n_bands: 3
+  n_phases: 2
+  mutation_rate: 0.0049   # 3/616 ≈ 0.00487
+  pop_size: 256
+  generations: 200
+  tournament_size: 3
+  elite_count: 2
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 10
+paired:
+  - {task: parity,   n_bits: 8, n_examples: 256}
+  - {task: majority, n_bits: 7, n_examples: 128}
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
