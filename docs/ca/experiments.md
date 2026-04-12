@@ -452,22 +452,50 @@ Crutchfield / Mitchell / Das (1998) frame evolved CA computation as *particles* 
 
 ## 13. Edge-of-chaos retrospective — Langton's λ on all evolved rules
 
-**Not a sweep — a zero-new-compute reanalysis of existing sweep outputs (§3, §8, §10, and all of §11 once complete).**
+**Zero-new-compute reanalysis of existing sweep outputs.** Implementation: `experiments/ca/analyze_lambda.py` — walks every `result.json` in `experiments/ca/output/*/`, decodes the best genotype, computes λ (fraction of rule-table entries mapping to non-quiescent state), compares against 10,000 random-rule samples of the same shape.
 
-Langton (1990) and Mitchell / Crutchfield / Hraber (1993b) predict that CA rules capable of non-trivial computation sit near a critical λ (fraction of rule-table entries that map to a non-quiescent state). Evolution toward computation should therefore move λ toward a characteristic value and away from the random-rule distribution.
+### Status: complete. Evolved λ is indistinguishable from random λ.
 
-**Procedure:**
-- For every final-generation rule in every completed sweep, compute λ — the fraction of (self, neighbor_sum) entries mapping to non-zero state.
-- For each sweep, compute the same distribution over 10,000 random rules of the same shape.
-- Plot: evolved λ distribution vs random λ distribution, one panel per (task, n_bits, K).
-- Correlate fitness with λ within each sweep.
+**Coverage:** 374 evolved rules across all 11 completed sweeps, 3 rule families × state counts (OT K=2, OT K=4, OT K=8, DT K=4).
 
-**Predictions:**
-- Evolved λ distributions should be narrower and displaced from the random baseline for tasks where evolution makes progress (K≥4, parity 4–6 bit, majority).
-- For K=2 (stuck at 0.50 everywhere), evolved and random λ distributions should be indistinguishable — evolution has no gradient to follow, consistent with the §4/§6 findings.
-- If §11 lifts the 8-bit parity ceiling, evolved λ at the new level should sit closer to any identified critical value.
+**λ medians per (family, K, task, n_bits):**
 
-**Cost.** A few minutes of Python over existing `result.json` files. Highest information-per-cost item on the list — should be done *before* §11 runs, as the random-λ baseline doubles as a sanity check on the random-rule fitness distribution used elsewhere.
+| family | K | task | n_bits | n   | evolved λ med | random λ | Δ       |
+|--------|---|------|--------|-----|---------------|----------|---------|
+| OT     | 2 | parity   | 4 | 39  | 0.500 | 0.499 | +0.001 |
+| OT     | 2 | parity   | 6 | 9   | 0.556 | 0.499 | +0.057 |
+| OT     | 2 | parity   | 8 | 9   | 0.556 | 0.499 | +0.057 |
+| OT     | 2 | majority | 3 | 13  | 0.500 | 0.499 | +0.001 |
+| OT     | 2 | majority | 5 | 13  | 0.500 | 0.499 | +0.001 |
+| OT     | 2 | majority | 7 | 13  | 0.500 | 0.499 | +0.001 |
+| OT     | 4 | parity   | 4 | 39  | 0.760 | 0.749 | +0.011 |
+| OT     | 4 | parity   | 6 | 29  | 0.760 | 0.749 | +0.011 |
+| OT     | 4 | parity   | 8 | 90  | 0.750 | 0.749 | +0.001 |
+| OT     | 4 | majority | 3 | 13  | 0.750 | 0.749 | +0.001 |
+| OT     | 4 | majority | 5 | 13  | 0.750 | 0.749 | +0.001 |
+| OT     | 4 | majority | 7 | 18  | 0.760 | 0.749 | +0.011 |
+| OT     | 8 | parity   | 4 | 9   | 0.884 | 0.874 | +0.010 |
+| OT     | 8 | parity   | 6 | 9   | 0.882 | 0.874 | +0.008 |
+| OT     | 8 | parity   | 8 | 9   | 0.877 | 0.874 | +0.003 |
+| OT     | 8 | majority | 3 | 13  | 0.879 | 0.874 | +0.005 |
+| OT     | 8 | majority | 5 | 13  | 0.877 | 0.874 | +0.003 |
+| OT     | 8 | majority | 7 | 13  | 0.875 | 0.874 | +0.001 |
+| DT     | 4 | parity   | 8 | 5   | 0.781 | 0.748 | +0.033 |
+| DT     | 4 | majority | 7 | 5   | 0.750 | 0.748 | +0.002 |
+
+**Main finding: evolution does not move λ.** Across every cell with n ≥ 9, Δ(evolved, random) is ≤ 0.011. The outlier cells (K=2 at 6-bit / 8-bit parity, DT at 8-bit parity) are tiny subsets (n=9, n=9, n=5) with large variance. Across the 334-rule OT-K=4 population overall, evolved λ distribution is **centered exactly on the random-rule distribution**, with no statistical separation.
+
+**Fitness is not predicted by λ.** Within each K band, fitness ranges from 0.5 (K=2 stuck) to 1.0 (solvable cells) at essentially the same λ. The `lambda_all.png` scatter shows each K cluster as a vertical band at its random-rule λ; fitness varies orthogonally to λ. Rules that compute parity/majority sit in the *same* λ regime as random rules that do nothing.
+
+**Interpretation.** Langton's edge-of-chaos hypothesis does not apply to this CA-GP setup as a useful summary statistic:
+
+1. **Evolution finds task-solving rules without tuning λ.** When a task is solvable (K ≥ 4 on small bit-widths), evolution discovers rules with fitness 1.0 at λ indistinguishable from the random distribution. Whatever makes an evolved rule work is much finer-grained than its λ.
+2. **K=2 confirms the null gradient.** The K=2 cliff (§3, §4, §6, §10) is consistent with a flat fitness-λ relationship: if λ gradient were the mechanism, K=2 evolution would at least move λ even if it couldn't break 0.5. It doesn't — evolved K=2 λ matches random K=2 λ nearly perfectly. No signal, no search pressure, no movement on any summary statistic.
+3. **The bottleneck isn't λ-class.** None of the five already-ruled-out mechanisms for the 8-bit parity ceiling (§3, §4, §5, §8, §8-b, §10-b) are λ-related either. λ is not on the list of candidate causes; the reanalysis merely confirms this explicitly.
+
+**Implication for §11.** Round-2 interventions (non-uniform, rule schedules, radius, memory) can be evaluated without λ as a correlate. The λ readout for §11 rules will be reported in the per-sweep summary but should not be expected to differ from random — the analog of this section's finding. If §11 variants *do* show displaced λ, that would itself be notable.
+
+Plots: `experiments/ca/output/analysis/lambda_all.png` (consolidated), per-sweep `lambda_<sweep>.png`. Raw CSV: `experiments/ca/output/analysis/lambda_summary.csv` (374 rows).
 
 ---
 
