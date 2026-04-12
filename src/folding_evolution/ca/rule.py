@@ -1,13 +1,15 @@
-"""Outer-totalistic CA rule encoding.
+"""Rule-family dispatch + outer-totalistic rule encoding.
 
-Genotype = rule table bytes. For K states and 8 neighbors, the max neighbor sum
-is 8*(K-1), so the table shape is (K, 8*(K-1)+1). Each entry ∈ [0, K).
+The `outer_totalistic` family keeps the original semantics: next state is a
+function of (self, sum_of_8_neighbors). Genotype = rule table bytes.
 
-Indexing:
-    next_state = rule_table[self_state, sum_of_8_neighbors]
+Other families live in their own modules (e.g. `rule_decision_tree.py`).
+Callers should use the family-agnostic helpers below; they route by
+`cfg.rule_family`.
 
-Genotype layout: flat uint8 array, length K * (8*(K-1)+1), row-major (self, sum).
-Values are already in [0, K) — no separate validity step.
+Genotype layout for outer-totalistic:
+    Flat uint8 array of length K * (8*(K-1)+1), row-major (self, sum).
+    Values already in [0, K).
 """
 
 from __future__ import annotations
@@ -16,6 +18,11 @@ import random
 
 import numpy as np
 
+from .config import CAConfig
+from . import rule_decision_tree as _dt
+
+
+# ---------------- Outer-totalistic helpers ----------------
 
 def rule_shape(n_states: int) -> tuple[int, int]:
     return (n_states, 8 * (n_states - 1) + 1)
@@ -27,7 +34,7 @@ def rule_len(n_states: int) -> int:
 
 
 def random_genotype(n_states: int, rng: random.Random) -> np.ndarray:
-    """Sample a uniform-random rule table as a flat uint8 genotype."""
+    """Sample a uniform-random outer-totalistic rule table as a flat uint8 genotype."""
     length = rule_len(n_states)
     return np.array(
         [rng.randrange(n_states) for _ in range(length)],
@@ -36,7 +43,7 @@ def random_genotype(n_states: int, rng: random.Random) -> np.ndarray:
 
 
 def decode(genotype: np.ndarray, n_states: int) -> np.ndarray:
-    """Reshape a flat genotype into a 2-D rule table of shape (K, max_sum+1)."""
+    """Reshape a flat outer-totalistic genotype into a (K, max_sum+1) table."""
     shape = rule_shape(n_states)
     expected = shape[0] * shape[1]
     if genotype.size != expected:
@@ -53,11 +60,7 @@ def mutate(
     mutation_rate: float,
     rng: random.Random,
 ) -> np.ndarray:
-    """Per-byte random-reset mutation.
-
-    Each byte is independently replaced with a uniform random [0, K) draw
-    with probability mutation_rate. Returns a new array (does not modify input).
-    """
+    """Per-byte random-reset mutation for outer-totalistic rules."""
     out = genotype.copy()
     for i in range(out.size):
         if rng.random() < mutation_rate:
@@ -70,7 +73,7 @@ def crossover(
     parent_b: np.ndarray,
     rng: random.Random,
 ) -> np.ndarray:
-    """Single-point splice on the flat genotype."""
+    """Single-point splice on the flat genotype (shared across families)."""
     if parent_a.size != parent_b.size:
         raise ValueError("Parents must have equal length")
     if parent_a.size < 2:
@@ -80,3 +83,46 @@ def crossover(
     child[:point] = parent_a[:point]
     child[point:] = parent_b[point:]
     return child
+
+
+# ---------------- Family-agnostic dispatch ----------------
+
+def random_genotype_for(cfg: CAConfig, rng: random.Random) -> np.ndarray:
+    fam = cfg.rule_family
+    if fam == "outer_totalistic":
+        return random_genotype(cfg.n_states, rng)
+    if fam == "decision_tree":
+        return _dt.random_genotype(cfg.n_states, rng)
+    raise ValueError(f"Unknown rule_family {fam!r}")
+
+
+def mutate_for(
+    genotype: np.ndarray,
+    cfg: CAConfig,
+    rng: random.Random,
+) -> np.ndarray:
+    fam = cfg.rule_family
+    if fam == "outer_totalistic":
+        return mutate(genotype, cfg.n_states, cfg.mutation_rate, rng)
+    if fam == "decision_tree":
+        return _dt.mutate(genotype, cfg.n_states, cfg.mutation_rate, rng)
+    raise ValueError(f"Unknown rule_family {fam!r}")
+
+
+def crossover_for(
+    parent_a: np.ndarray,
+    parent_b: np.ndarray,
+    cfg: CAConfig,
+    rng: random.Random,
+) -> np.ndarray:
+    # Same byte-level splice works for both families; keep single implementation.
+    return crossover(parent_a, parent_b, rng)
+
+
+def genotype_len(cfg: CAConfig) -> int:
+    fam = cfg.rule_family
+    if fam == "outer_totalistic":
+        return rule_len(cfg.n_states)
+    if fam == "decision_tree":
+        return _dt.genotype_len()
+    raise ValueError(f"Unknown rule_family {fam!r}")

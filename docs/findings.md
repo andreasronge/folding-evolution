@@ -927,6 +927,6 @@ Six sweeps (178 runs total) on outer-totalistic rules over a 3×3 Moore neighbor
 
 **e) Pipeline reproducibility.** Same config + seed twice produces bitwise-identical genotypes and fitness histories on both backends; sweeps are resumable; all 178 runs logged with config hash + history for post-hoc analysis.
 
-**Open question driving next work:** is the 8-bit parity ceiling specific to *outer-totalistic* CAs (maximally symmetric: rotation- AND permutation-invariant over neighbors), or to CA development in general? A richer, less-symmetric rule family (decision tree over 3×3 neighborhood; register-VM symbolic rule) is the discriminator.
+**f) Rule-family symmetry is *not* the 8-bit parity bottleneck.** A decision-tree rule family (depth 5, 94-byte genotype, breaks rotation + permutation symmetry of OT) performs *worse* than outer-totalistic at matched budget on both parity (0.72 vs 0.81 median) and majority (0.88 vs 0.94). Diagnosis: OT's symmetries are a correct inductive bias for these symmetric tasks — removing them forces evolution to re-discover the prior from byte-level mutations, which evidently doesn't happen within 150 generations. Combined with (b) and the mutation/pop sweeps, this rules out three candidate causes of the 8-bit parity ceiling (rule expressiveness, search pressure, family symmetry) and points toward I/O geometry (row-0 clamp, single-cell readout) as the remaining explanation.
 
 Sweeps reproducible from `experiments/ca/sweeps/*.yaml`; per-run history under `experiments/ca/output/<sweep>/<config_hash>/`.

@@ -90,3 +90,103 @@ def run(
         grid = step(grid, table, clamp)
     mx.eval(grid)
     return np.array(grid, dtype=np.uint8)
+
+
+# ---------------- Decision-tree rule family (MLX) ----------------
+
+def _window_stack_mx(grid: mx.array) -> mx.array:
+    """Build a (B, N, N, 9) window stack on MLX. Same position order as NumPy.
+    Position order: 0=NW 1=N 2=NE 3=W 4=C 5=E 6=SW 7=S 8=SE.
+    """
+    B, N, _ = grid.shape
+    padded = mx.pad(grid, [(0, 0), (1, 1), (1, 1)])
+    # stack 9 shifted views along a new last axis
+    return mx.stack([
+        padded[:, 0:-2, 0:-2],
+        padded[:, 0:-2, 1:-1],
+        padded[:, 0:-2, 2:],
+        padded[:, 1:-1, 0:-2],
+        padded[:, 1:-1, 1:-1],
+        padded[:, 1:-1, 2:],
+        padded[:, 2:,   0:-2],
+        padded[:, 2:,   1:-1],
+        padded[:, 2:,   2:],
+    ], axis=-1)
+
+
+def step_dt(
+    grid: mx.array,
+    pos: mx.array,
+    val: mx.array,
+    leaves: mx.array,
+    input_clamp: mx.array,
+    depth: int = 5,
+) -> mx.array:
+    """Decision-tree CA step on MLX. Same contract as engine_numpy.step_dt."""
+    B, N, _ = grid.shape
+    n_internal = (1 << depth) - 1
+
+    window = _window_stack_mx(grid)                              # (B, N, N, 9) uint8
+
+    # Work in int32 for indices/comparisons; cast back to uint8 at the end.
+    current = mx.zeros((B, N, N), dtype=mx.int32)
+
+    # Flatten the per-rule arrays once for take_along_axis gathers per step.
+    # pos/val are (B, n_internal); we want pos[b, current[b,y,x]] per (b,y,x).
+    pos_flat = pos.astype(mx.int32)                              # (B, n_internal)
+    val_flat = val.astype(mx.int32)
+
+    # For window gather: flatten window to (B, N*N, 9) so we can take at the
+    # cell's (y,x) position using mx.take_along_axis over axis=2.
+    window_flat = window.astype(mx.int32).reshape(B, N * N, 9)
+
+    for _ in range(depth):
+        # Gather pos and val at current node per (b, y, x).
+        cur_flat = current.reshape(B, N * N)                     # (B, N*N)
+        pos_here = mx.take_along_axis(pos_flat, cur_flat, axis=1)  # (B, N*N)
+        val_here = mx.take_along_axis(val_flat, cur_flat, axis=1)
+
+        # Gather the window cell at `pos_here` along the last axis of window_flat.
+        pos_idx = pos_here.reshape(B, N * N, 1)
+        window_val = mx.take_along_axis(window_flat, pos_idx, axis=2).reshape(B, N * N)
+
+        goes_left = (window_val == val_here).astype(mx.int32)
+        step_vec = 2 - goes_left                                 # 1 if left else 2
+        cur_flat = 2 * cur_flat + step_vec
+        current = cur_flat.reshape(B, N, N)
+
+    leaf_idx = current - n_internal                              # (B, N, N) int32
+    leaf_idx_flat = leaf_idx.reshape(B, N * N)
+    new_flat = mx.take_along_axis(
+        leaves.astype(mx.int32), leaf_idx_flat, axis=1
+    )
+    new_grid = new_flat.reshape(B, N, N).astype(mx.uint8)
+
+    clamped_row0 = input_clamp.reshape(B, 1, N)
+    new_grid = mx.concatenate([clamped_row0, new_grid[:, 1:, :]], axis=1)
+    return new_grid
+
+
+def run_dt(
+    initial_grid: np.ndarray,
+    pos: np.ndarray,
+    val: np.ndarray,
+    leaves: np.ndarray,
+    input_clamp: np.ndarray,
+    steps: int,
+    depth: int = 5,
+) -> np.ndarray:
+    grid = _to_mx(initial_grid)
+    pos_mx = _to_mx(pos)
+    val_mx = _to_mx(val)
+    leaves_mx = _to_mx(leaves)
+    clamp_mx = _to_mx(input_clamp)
+
+    B, N, _ = initial_grid.shape
+    clamped_row0 = clamp_mx.reshape(B, 1, N)
+    grid = mx.concatenate([clamped_row0, grid[:, 1:, :]], axis=1)
+
+    for _ in range(steps):
+        grid = step_dt(grid, pos_mx, val_mx, leaves_mx, clamp_mx, depth=depth)
+    mx.eval(grid)
+    return np.array(grid, dtype=np.uint8)

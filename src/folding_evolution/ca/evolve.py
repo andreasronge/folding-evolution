@@ -37,8 +37,8 @@ def run_evolution(cfg: CAConfig) -> EvolutionResult:
     rng = random.Random(cfg.seed)
     task = build_task(cfg, seed=cfg.seed)
 
-    # Initial population — P random rule genotypes.
-    population = [ca_rule.random_genotype(cfg.n_states, rng) for _ in range(cfg.pop_size)]
+    # Initial population — P random rule genotypes (family-dispatched).
+    population = [ca_rule.random_genotype_for(cfg, rng) for _ in range(cfg.pop_size)]
     fitnesses, _ = evaluate_population(population, task, cfg)
 
     stats = CAStatsCollector()
@@ -55,11 +55,11 @@ def run_evolution(cfg: CAConfig) -> EvolutionResult:
             if rng.random() < cfg.crossover_rate:
                 i = _tournament_select(pop_idx, fitnesses, cfg.tournament_size, rng)
                 j = _tournament_select(pop_idx, fitnesses, cfg.tournament_size, rng)
-                child = ca_rule.crossover(population[i], population[j], rng)
+                child = ca_rule.crossover_for(population[i], population[j], cfg, rng)
             else:
                 i = _tournament_select(pop_idx, fitnesses, cfg.tournament_size, rng)
                 child = population[i].copy()
-            child = ca_rule.mutate(child, cfg.n_states, cfg.mutation_rate, rng)
+            child = ca_rule.mutate_for(child, cfg, rng)
             new_pop.append(child)
 
         population = new_pop

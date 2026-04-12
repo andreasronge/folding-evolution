@@ -1,0 +1,23 @@
+sweep_name: rule_family_compare
+# Matched-budget comparison of outer-totalistic vs decision-tree rule families
+# on the two characterized tasks: 8-bit parity (hard) and 7-bit majority (easy).
+# Genotype length is naturally comparable (OT K=4: 100 bytes; DT D=5: 94 bytes).
+base:
+  grid_n: 16
+  steps: 16
+  n_states: 4
+  n_examples: 64
+  pop_size: 256
+  generations: 150
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 10
+paired:
+  - {task: parity,   n_bits: 8}
+  - {task: majority, n_bits: 7}
+grid:
+  rule_family: [outer_totalistic, decision_tree]
+  seed: [0, 1, 2, 3, 4]

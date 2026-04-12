@@ -163,9 +163,45 @@ Plots: `output/majority/heatmap_n_bits_vs_n_states.png` is the cleanest companio
 **Hypothesis:** Higher tournament sizes will collapse diversity faster on easy tasks but may help on 8-bit parity. Current sweeps use `tournament_size=3, elite_count=2`.
 **Why it's lower priority:** tournament size is a second-order knob compared to mutation rate and pop size on these tasks; likely worth visiting only if §4–§5 don't crack the 8-bit ceiling.
 
-### 8. Rule family beyond outer-totalistic
+### 8. Rule family beyond outer-totalistic — decision tree
 
-Deferred until after a second task. Extending the rule family while still on parity-only adds an axis the task can't distinguish.
+**Sweep:** `sweeps/rule_family_compare.yaml` — `rule_family ∈ {outer_totalistic, decision_tree}` × `(task, n_bits) ∈ {(parity, 8), (majority, 7)}` × 5 seeds = 20 runs. Matched budget: `grid_n=16, steps=16, K=4, pop=256, gens=150`, genotype length 100 bytes (OT) vs 94 bytes (DT depth-5).
+
+**Decision-tree family:** fixed-shape complete binary tree of depth 5 over the 3×3 Moore window. Each internal node tests `window[position] == value`; leaves emit next-state. Breaks both rotation and permutation symmetry of the outer-totalistic family. Implementation in `src/folding_evolution/ca/rule_decision_tree.py`; MLX kernel bitwise-identical to NumPy reference (8 parity tests).
+
+**Hypothesis:** if the 8-bit parity 0.80 ceiling was caused by OT's maximally-symmetric rule structure (rotation- and permutation-invariant over neighbors), a less-symmetric rule family should break through. If the ceiling is actually geometric (clamped-row input, central-cell readout) or intrinsic to the CA dynamic, DT should not clearly win.
+
+### Status: complete. DT is *worse* than OT on both tasks.
+
+| task          | rule family       | median | min   | max   | mean  | n |
+|---------------|-------------------|--------|-------|-------|-------|---|
+| 7-bit majority | outer_totalistic | 0.938  | 0.922 | 0.938 | 0.931 | 5 |
+| 7-bit majority | decision_tree    | 0.883  | 0.797 | 0.922 | 0.871 | 5 |
+| 8-bit parity   | outer_totalistic | 0.812  | 0.719 | 0.906 | 0.819 | 5 |
+| 8-bit parity   | decision_tree    | 0.719  | 0.641 | 0.750 | 0.706 | 5 |
+
+DT is consistently below OT: **-0.06 median on majority, -0.09 median on parity**. Well outside seed noise.
+
+**Interpretation — corrects the working hypothesis.**
+
+The original framing was that OT is "strictly more symmetric" and DT is "strictly more expressive." Both halves are wrong at matched budget:
+
+1. **DT depth-5 is not strictly more expressive than OT K=4.** OT K=4 has 100 entries, each a distinct behavior over the (self, sum) input space. DT with 32 leaves can only express 32 distinguishable behaviors total. They are *incomparable* expressive classes, not nested.
+2. **OT's symmetries are inductive biases, not just compression.** Rotation and permutation invariance over neighbors are exactly correct priors for parity and majority — both tasks are symmetric under permutation of input bits. OT encodes that prior for free; DT must *learn* it from byte-level mutations, and evidently cannot within 150 generations.
+3. **The mutation landscape degrades under DT.** A byte flip in OT shifts one output value in the table. A byte flip in DT's `pos` bytes qualitatively changes which window position a test consumes — much larger effect. Consistent with the slightly wider best-fitness spread in DT (min 0.641 vs OT min 0.719 on parity).
+
+**What this rules out.** The 8-bit parity 0.80 ceiling is *not* caused by OT's symmetry constraint. A less-symmetric rule family with similar expressive budget does worse, not better. The ceiling must live somewhere other than rule-family symmetry — most likely the **I/O geometry** (row-0 clamp for inputs, single-cell readout for output). That makes §8-b (below) the scientifically next move, not a deeper or less-symmetric rule family.
+
+Plots: `output/rule_family_compare/heatmap_rule_family_vs_task.png` is the clearest single figure — DT is the darker row in both task columns.
+
+### 8-b. I/O geometry (queued, not yet run)
+
+**Next cheap probe:** vary the readout. Candidates:
+- Read from multiple cells + vote (reduce readout noise).
+- Read at a different position (top-right, bottom-right, opposite side from input).
+- Multi-row output band (read full bottom row, majority-vote for the bit).
+
+If any of these breaks the 8-bit parity ceiling under OT, the ceiling was a readout-geometry artifact. If none do, the 8-bit ceiling is fundamentally tied to the CA dynamic at this grid size — a stronger, more negative result about this representation.
 
 ---
 
