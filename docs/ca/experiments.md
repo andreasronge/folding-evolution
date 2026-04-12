@@ -354,7 +354,7 @@ Plots: `output/majority_full_train/heatmap_n_bits_vs_n_states.png` is the cleane
 
 ## 11. Next experiments (round 2) — constructional expressivity
 
-§3–§10 bound the current rule family's ceiling on 8-bit parity at ~0.70 full-space. Four distinct mechanisms have been ruled out: rule-table expressiveness (§3), search pressure (§4, §5), rule-family symmetry (§8), readout geometry (§8-b). The remaining move is to change *what kind of thing the CA is* — add structure that lets partial solutions persist and combine, rather than enlarge the flat rule table. The three sweeps below are ordered by predicted information-per-cost. All use 8-bit parity full-space training (`n_examples=256`) as the primary task; 7-bit majority full-space is cheap to re-run as a cross-task control under each variant.
+§3–§10 bound the current rule family's ceiling on 8-bit parity at ~0.70 full-space. Four distinct mechanisms have been ruled out: rule-table expressiveness (§3), search pressure (§4, §5), rule-family symmetry (§8), readout geometry (§8-b). The remaining move is to change *what kind of thing the CA is* — add structure that lets partial solutions persist and combine, or lets information propagate further per step, rather than enlarge the flat rule table. The four sweeps below are ordered by predicted information-per-cost. All use 8-bit parity full-space training (`n_examples=256`) as the primary task; 7-bit majority full-space is cheap to re-run as a cross-task control under each variant.
 
 ### 11.a Non-uniform CA — banded rule assignment
 
@@ -364,6 +364,8 @@ Plots: `output/majority_full_train/heatmap_n_bits_vs_n_states.png` is the cleane
 
 **Why first:** largest predicted effect, smallest kernel delta (one extra lookup axis — the band index), and directly addresses the §8-b reframing — specialization gives information a place to live on the way down the grid.
 
+**Possible ablation — `per_row` variant.** Sipper's original non-uniform CA assigned a distinct rule to every cell. If `banded_3` lifts the ceiling modestly, a `per_row` variant (16 independent rules, one per row, 16 × 25 = 400 bytes at K=4) tests whether the gain scales with specialization granularity. Run only if §11.a is positive; otherwise the granularity question is moot.
+
 ### 11.b Rule schedules — multi-phase CA
 
 **Sweep:** `sweeps/phase_schedule.yaml` — `n_phases ∈ {1, 2, 3}` × 10 seeds on 8-bit parity full-space. Genotype: `n_phases` separate rule tables plus a 16-entry schedule vector assigning each time step to a phase. `n_phases=1` reproduces the current baseline. Matched-byte uniform control as in §11.a.
@@ -372,21 +374,73 @@ Plots: `output/majority_full_train/heatmap_n_bits_vs_n_states.png` is the cleane
 
 **Why second:** strong theoretical grounding, independent of §11.a (results don't overlap). If §11.a already breaks the ceiling, §11.b becomes an ablation rather than the primary bet.
 
-### 11.c Second-order CA — one-step cell memory
+### 11.c Neighborhood radius — information propagation speed
 
-**Sweep:** `sweeps/memory_1step.yaml` — `memory ∈ {none, 1step}` × 10 seeds on 8-bit parity full-space. `1step` extends the rule-table input to `(self, prev_self, neighbor_sum) → next_state`, doubling the table to 200 entries at K=4. Matched-byte control: K=4 no-memory at 200 bytes (extended neighborhood or wider sum range).
+**Sweep:** `sweeps/radius.yaml` — `radius ∈ {1, 2, 3}` × 10 seeds on 8-bit parity full-space. Rule table scales with neighborhood count: r=1 → 3×3 = 9 neighbors (current baseline), r=2 → 5×5 = 25, r=3 → 7×7 = 49. At K=4 outer-totalistic the tables are 36 / 100 / 196 bytes respectively. Matched-byte control for r=1: K=4 with a wider sum range or additional state bit, sized to r=2's 100-byte budget.
 
-**Hypothesis:** Stone & Bull showed memory improves CA evolvability on density classification. The folding-scaffold analogy predicts memory gives partial information somewhere to persist rather than being rewritten every step. Expected direction: 1step > none by ≥ 0.03, or null.
+**Hypothesis:** Betel-Oliveira-Flocchini (2012) proved radius-2 1D CA cannot solve parity and radius-4 can — a sharp theoretical transition in information propagation. In 2D at N=16 / T=16, the ceiling identified in §8-b is precisely "information does not reach the bottom fast enough." Propagation speed per step equals the radius, so doubling it doubles the causal cone reaching the readout. Expected direction: r=2 > r=1 by ≥ 0.05 on 8-bit parity, with a possible further step at r=3.
 
-**Why third:** smallest predicted effect, and the mechanism is the least clear of the three (see caveat 3 below). If §11.a and §11.b both null out, §11.c becomes the load-bearing test; if either succeeds, §11.c becomes a follow-up ablation.
+**Why third (but arguably first — see sequencing note):** strongest theoretical grounding on the list. Betel/Oliveira/Flocchini is a proof, not an empirical trend. The mechanism (propagation speed) maps most directly onto the §8-b diagnosis that state at the bottom of the grid doesn't carry enough input information. The sweep is placed third rather than first only because the kernel delta is largest (rule-table size scales quadratically with radius) and there is some risk of confounding "more propagation" with "more rule capacity" — hence the matched-byte control.
+
+**Sequencing note:** if §11.a and §11.b both null, escalate §11.c (radius) ahead of §11.d (memory) — radius has a theoretical prediction of effect *direction and location*, memory only predicts direction.
+
+### 11.d Second-order CA — cell memory depth
+
+**Sweep:** `sweeps/memory_depth.yaml` — `memory_depth ∈ {0, 1, 2}` × 10 seeds on 8-bit parity full-space. `memory_depth=0` reproduces the current baseline. `memory_depth=k` extends the rule-table input to `(self, prev_self_1, …, prev_self_k, neighbor_sum) → next_state`, multiplying the table by K^k at K=4 (100, 400, 1600 entries). Matched-byte control at each depth: K=4 no-memory at the same byte budget via extended neighborhood or wider sum range.
+
+**Hypothesis:** Stone & Bull (2009) showed memory improves CA evolvability on density classification. The folding-scaffold analogy predicts memory gives partial information somewhere to persist rather than being rewritten every step. Expected direction: `memory_depth ≥ 1` > 0 by ≥ 0.03, with diminishing or null returns from depth=1 → depth=2 (memory effect likely saturates shallow).
+
+**Why fourth:** smallest predicted effect, and the mechanism is the least clear of the four (see caveat 3 below). If §11.a, §11.b, and §11.c all null out, §11.d becomes the load-bearing test; if any succeeds, §11.d becomes a follow-up ablation. If budget is tight, run only `memory_depth ∈ {0, 1}` first and add depth=2 only if depth=1 is positive.
 
 ### Concerns / open caveats for round 2
 
 1. **§8-b reframes the bottleneck upstream of readout.** Pooling 16× more cells on the bottom row gave the same 0.70 as a single cell. Partial structures are not failing to be *selected* — they are failing to *exist* in the CA state at T=16. Round-2 interventions must change state-carrying machinery (propagation, specialization, memory). Further readout-side fitness shaping is not expected to help and is out of scope for this round.
 2. **Keep representation changes and fitness shaping separate.** Intermediate-row supervision (auxiliary losses on rows 8, 12, etc.) is a training-signal intervention, not a representation one. Bundling it into §11 would conflate two effects and make diagnosis harder. Defer to a future §12 if round-2 motivates it.
-3. **The folding → CA scaffold analogy is suggestive, not mechanistic.** In folding, partial structures persist because the mapping physically preserves them across mutations. In CA, every cell is rewritten each step — memory adds a hidden bit but does not create a persistent lattice of carriers. Non-uniformity (role specialization) is arguably closer in spirit to folding's motif arrangement than memory is. Budget expectations for §11.c accordingly.
+3. **The folding → CA scaffold analogy is suggestive, not mechanistic.** In folding, partial structures persist because the mapping physically preserves them across mutations. In CA, every cell is rewritten each step — memory adds a hidden bit but does not create a persistent lattice of carriers. Non-uniformity (role specialization) is arguably closer in spirit to folding's motif arrangement than memory is. Budget expectations for §11.d accordingly.
 4. **Matched-byte controls are mandatory.** Each round-2 sweep adds parameters. Without a byte-matched uniform baseline, any gain could be attributed to "more capacity" rather than "more *constructional* capacity" — the confound §8 (DT vs OT) exposed. Every sweep in this round must publish both absolute fitness and a matched-byte control.
 5. **Cross-task control on majority.** 7-bit majority full-space (§10) is cheap to re-run under each new representation. If round-2 lifts parity but not majority, or lifts both equally, that discriminates task-specific bottlenecks from general evolvability gains — informative either way.
+
+---
+
+## 12. Mechanism diagnostic — particles and space-time structure of evolved rules
+
+**Not a sweep — a post-hoc analysis pass over §11 outputs.**
+
+Crutchfield / Mitchell / Das (1998) frame evolved CA computation as *particles* (propagating boundaries between homogeneous domains) and *collisions* (particle interactions that implement logical operations). §11.a–d all propose mechanisms for letting partial structure persist or travel — but none of the sweeps alone verify that a successful variant is actually computing via particle-like carriers, versus some other mechanism that happens to lift fitness.
+
+**Procedure:**
+- For the best-of-run genotype from each §11 variant (and the matched-byte control), render full space-time diagrams: `N × T` grid coloured by state, one diagram per input.
+- Overlay input-bit identity: mark which output cells are causally downstream of each input bit (precompute via a causal-cone traversal under the evolved rule).
+- Identify (manually, then script) candidate particles: thin diagonal or vertical strips of state change that persist across ≥ 3 time steps.
+- For rules that solve or nearly solve parity: count collisions on the readout row and check whether the final readout cell's state is consistent with a particle-parity interpretation.
+
+**What the analysis buys:**
+- If §11.a (banded) lifts fitness, particle diagrams should show role-stratified dynamics across bands (e.g., the middle band transporting particles from transducer to reducer). If the diagrams look identical to uniform dynamics, the gain came from somewhere else — capacity, not specialization — and the interpretation changes.
+- If §11.c (radius) lifts fitness, particle speeds in the diagram should scale with r. A null here would be a red flag even with positive fitness numbers.
+- If §11.b (phases) lifts fitness, particle geometry should change at phase boundaries. Absent that, the phase schedule is acting as mere extra capacity, consistent with Lee-Xu-Chau at a more superficial level than their result suggests.
+
+**Caveat.** This is interpretive, not automated fitness — conclusions should be reported as qualitative observations with concrete diagram references, not as numerical metrics. Keep the sweep-level claims separate from the diagnostic claims.
+
+---
+
+## 13. Edge-of-chaos retrospective — Langton's λ on all evolved rules
+
+**Not a sweep — a zero-new-compute reanalysis of existing sweep outputs (§3, §8, §10, and all of §11 once complete).**
+
+Langton (1990) and Mitchell / Crutchfield / Hraber (1993b) predict that CA rules capable of non-trivial computation sit near a critical λ (fraction of rule-table entries that map to a non-quiescent state). Evolution toward computation should therefore move λ toward a characteristic value and away from the random-rule distribution.
+
+**Procedure:**
+- For every final-generation rule in every completed sweep, compute λ — the fraction of (self, neighbor_sum) entries mapping to non-zero state.
+- For each sweep, compute the same distribution over 10,000 random rules of the same shape.
+- Plot: evolved λ distribution vs random λ distribution, one panel per (task, n_bits, K).
+- Correlate fitness with λ within each sweep.
+
+**Predictions:**
+- Evolved λ distributions should be narrower and displaced from the random baseline for tasks where evolution makes progress (K≥4, parity 4–6 bit, majority).
+- For K=2 (stuck at 0.50 everywhere), evolved and random λ distributions should be indistinguishable — evolution has no gradient to follow, consistent with the §4/§6 findings.
+- If §11 lifts the 8-bit parity ceiling, evolved λ at the new level should sit closer to any identified critical value.
+
+**Cost.** A few minutes of Python over existing `result.json` files. Highest information-per-cost item on the list — should be done *before* §11 runs, as the random-λ baseline doubles as a sanity check on the random-rule fitness distribution used elsewhere.
 
 ---
 
@@ -405,4 +459,4 @@ The `n_examples` field in CAConfig historically defaulted to 64. For tasks whose
 
 - **Comparison against folding** — that is a separate study (see `docs/future-directions.md` Direction 3.1). CA-GP must first stand up on its own.
 - **Symbolic regression** — deferred until a second discrete task is in place.
-- **Visualization of evolved rules** — `experiments/ca/inspect_best.py` can reload the best genotype, but interpretive analysis of *what* the winning rule is doing is out of scope for the sweep layer.
+- **Visualization of evolved rules as a sweep concern** — `experiments/ca/inspect_best.py` can reload the best genotype, and §12 specifies a post-hoc particle/space-time analysis pass for §11 variants. Interpretive analysis is out of scope for the sweep layer itself, but is explicitly in scope for §12.
