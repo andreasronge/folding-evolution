@@ -1,0 +1,24 @@
+sweep_name: sum_gt_10_islands
+# Experiments §4: discriminates "v1 tax = diversity loss under panmictic
+# tournament" from "v1 tax = pruning-intrinsic to the decode."
+# Matched total-eval baseline against §2c's panmictic pop=1024 at gens=1500.
+# 8 islands × 128 = 1024 total per-gen evaluations.
+base:
+  task: sum_gt_10
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  n_islands: 8
+  migration_interval: 50
+  migrants_per_island: 2    # 1 elite + 1 random non-elite
+grid:
+  arm: [A, B, BP]
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]

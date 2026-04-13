@@ -27,6 +27,13 @@ class ChemTapeConfig:
     mutation_rate: float = 0.03
     crossover_rate: float = 0.7
 
+    # Island-model GA (experiments.md §4). n_islands=1 → panmictic (default, unchanged
+    # from v1). n_islands>1 splits the population into equal-sized islands with ring-
+    # topology synchronous migration every `migration_interval` generations.
+    n_islands: int = 1
+    migration_interval: int = 50
+    migrants_per_island: int = 2    # 1 elite + 1 random non-elite per migration
+
     # Infra
     seed: int = 0
     backend: str = "mlx"            # "numpy" | "mlx"
