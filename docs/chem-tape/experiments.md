@@ -307,7 +307,52 @@ This set of choices is deliberately conservative — ring (not random graph), sy
 
 **Implementation note.** Requires adding an island-aware evolution loop (`evolve_islands.py` or an `islands` config on `ChemTapeConfig`). The bond/decode engine, executor, evaluate, metrics, and task registries are untouched — this is a GA-machinery change, not a representation change. Expected incremental LOC: ~100.
 
-### Status: queued (design pre-registered).
+### Status: complete. Diversity hypothesis substantially vindicated for Arm B; no effect on A or BP.
+
+Results from commit `4454c96` — sweep elapsed 330s / 5.5 min at 4 workers.
+
+#### 4a. Head-to-head (islands vs panmictic at matched total evaluations)
+
+| arm | panmictic (§2b / §3b) | islands (§4) | Δ |
+|-----|----------------------|--------------|---|
+| A   | 3 / 10               | 3 / 10       | 0 |
+| B   | **0 / 10**           | **2 / 10**   | **+2** |
+| BP  | 1 / 10               | 1 / 10       | 0 |
+
+**A-B solve-count gap:** panmictic +3 → island **+1**. Islands close 2/3 of the v1-strict tax.
+
+#### 4b. Which seeds do islands unlock?
+
+- **Arm B under islands:** solves seeds 2 and 9. Seed 2 solved at gen 701; seed 9 solved at gen 257. Both of these are seeds Arm A also solves — i.e., islands let Arm B reach *already-known-reachable* solutions it was previously missing.
+- **Arm B does NOT solve seed 8** even with islands. Arm A under panmictic and islands both solve seed 8 (though island-A shifted the solve pattern: solves seeds 1, 2, 9 instead of panmictic's 2, 8, 9). Seed 8's solution appears intrinsically unreachable under the strict active-cell decode.
+- **Arm BP under islands** still solves only seed 2. Islands add nothing for BP.
+- **Arm A under islands** shifts which seeds it solves (1, 2, 9 vs panmictic's 2, 8, 9) but matches the same 3/10 total count — consistent with "A's diversity is already adequate under panmictic; islands just reshuffle which seeds get attention."
+
+#### 4c. Interpretation: decomposing the v1 tax
+
+The clean read: **the v1 tax decomposes into two roughly equal parts — diversity loss under panmictic tournament, plus decode-intrinsic pruning.**
+
+- **Diversity-loss part (~2/3 of the tax):** Arm B's narrow reachable-program class (v1's strict active-cell decode excludes NOP-containing and short-run programs) produces less population entropy under panmictic tournament selection. Tournament pulls toward whichever few bonded-run shapes dominate early, and alternatives die off before they can explore. Islands preserve sub-populations exploring different bonded-run configurations; each can independently assemble a scaffold. This is an **infrastructure bug**, not a representation bug. The panmictic GA amplifies a cost that isn't intrinsic to chem-tape.
+- **Decode-intrinsic part (~1/3 of the tax):** seed 8 is unreachable under Arm B regardless of GA structure. The solution class Arm A uses on seed 8 (a 32-cell program with junk tokens scattered through the scaffold — the structural shape §3 identified) is *structurally absent* from Arm B's reachable set under any amount of diversity. Islands don't fix this; only decode-rule changes (permeable §3, or soft redesign) can.
+
+**Why Arm A is unchanged by islands:** A's reachable class is "all 32-cell programs" — maximally broad. Its population diversity under panmictic tournament is already high; islands can't add what's already there. The shift in *which* seeds A solves (1/2/9 vs 2/8/9) is noise-level rerouting, not a performance effect.
+
+**Why Arm BP is unchanged by islands:** this is the surprising finding. If BP's decode is broader than B's (NOP passes through), we'd predict smaller diversity-loss tax and therefore smaller island benefit — which is what we see (0 vs +2). But more interesting: BP's one solved seed (2) is the *easiest* seed under any representation, and the diversity preservation that helped B on seeds 2 and 9 doesn't help BP find seed 9 or any unreachable-under-BP-panmictic seed. Possible explanation: seed 9's Arm A solution uses 32-cell breadth; BP's permeable rule extends reach within a bonded region but *doesn't* let programs span across separators. Seed 9 may need that cross-separator reach, which neither B nor BP can provide.
+
+#### 4d. What this means for the v1 verdict and v2 direction
+
+1. **The spec §Layer 11 rejection is narrowed, not overturned.** Arm B 2/10 under islands is still < Arm A 3/10. Rejection clause "Arm B < Arm A on sum-gt-10" still holds. But the gap is now +1, not +3 — and +1 is within the noise range of seed choice for 5–10 seeds. The design is no longer clearly inferior.
+2. **"Islands become the new baseline GA" reading is supported.** For future chem-tape experiments (v1.5, soft redesign, granularity sweeps), panmictic pop=1024 is the wrong baseline — islands are. This changes the methodology of every downstream experiment.
+3. **The decode-intrinsic residual (~1/3 of the tax) is still there.** §3 (permeable) and §4 (islands) address different parts of the tax: permeable addresses the hard-separator bug within the decode; islands address the tournament-diversity bug within the GA. Neither fully closes it. The combined **BP + islands** configuration would be the natural next test — this sweep tested them separately, not together.
+4. **Soft redesign becomes less urgent.** The argument "v1 is dominated by direct stack-GP on its own gate" was the motivator for the soft redesign. With islands (and with the mechanism decomposition above), v1 is now "comparable to direct under matched infrastructure, with a smaller decode-intrinsic cost." The soft redesign moves from "critical-path alternative" to "still-interesting but not obviously required."
+
+#### 4e. Immediate follow-ups
+
+Note: §4 already tested all three arms under islands (the sweep YAML set `n_islands: 8` at the base, and arms were the grid axis). The "BP + islands combined" question that would have been queued is *already* in the §4a/b table — and it shows islands do not help BP. The follow-ups below are what's new:
+
+- **Fully-permeable rule (all of 0, 14, 15 transparent; no hard separators at all).** This is the limiting case of the permeable redesign — ablates the last boundary semantics. If fully-permeable chem-tape matches Arm A under islands, then no hard-separator decode is needed; bonds would have to earn their keep through evolutionary-structure effects (soft redesign) rather than through any execution-gating role. Cheap to implement (one-line change to `SEPARATOR_MASK`) and test (10 runs).
+- **Island parameter sensitivity.** Are the pre-registered choices (8 islands, 50-gen interval, 2 migrants) optimal for chem-tape in particular? Unknown. The seed-8 residual under Arm B may respond to different migration schedules. A small sensitivity sweep (migration_interval ∈ {25, 50, 100}, migrants_per_island ∈ {1, 2, 4}) on Arm B only would clarify.
+- **Why does seed 8 resist Arm B even with islands?** The best-genotype inspection on Arm A seed 8 would tell us whether the required scaffold shape is intrinsically outside B's (and BP's) reachable set. If so, that's additional mechanism-level evidence for the decode-intrinsic residual.
 
 ---
 
@@ -366,10 +411,12 @@ This set of choices is deliberately conservative — ring (not random graph), sy
 5. **Arm B ≠ Arm A on short-scaffold tasks, and the difference is task-specific and opposite in sign.** Count-R: B/BP win (BP fastest at 11.0 median gens). Has-upper: A wins. The best current explanation is fitness-signal granularity, not scaffold length per se — graded integer labels favor shorter-program arms; binary labels with trivial-constant plateaus favor longer-program arms. §4 granularity sweep (queued) would test this as a predictor.
 6. **Mechanism claim partially vindicated (not in the predicted form).** The architecture's "scaffold preservation" framing doesn't describe the v1 data, but **§3's "decode matters and hard-separators hurt" finding vindicates a weaker claim**: the bond/decode structure does change search in ways that matter — just not necessarily in the direction or for the reason the architecture anticipated. This is the correct v1 → v2 handoff framing: what v2 should try next is *different decode rules*, not *richer chemistry* (per the original research ladder).
 7. **§2c resolved: v1 is a search-efficiency cost, not a ceiling.** Arm B solves 2/5 at pop=4096 (40%) vs 0/5 at pop=1024. Arm A keeps a roughly constant +1–2 solve advantage across the four tested budget points. Population scaling (1024→4096) helps more than generation scaling (1500→3000). The v1 rejection stands in the narrow "at the spec's budget" sense, but v1-strict is not an unworkable representation — it's a less search-efficient one than direct stack-GP, with the decode rule (not bonding as a concept) as the binding constraint.
-8. **Current priorities (in order):**
-   - **§4 island-model on sum-gt-10** (queued, designed) — discriminates "v1 tax is diversity loss under panmictic tournament" from "v1 tax is pruning-intrinsic to the decode." §2c raised this distinction; no existing data can resolve it. If diversity hypothesis wins, islands become the new baseline GA for every later chem-tape experiment. If pruning hypothesis wins, the §3 decode-is-binding reading locks in and the soft redesign moves up in priority. Cheap (30 runs, ~15 min) and high information-per-compute.
-   - **§v1.5 regime-shift test** (from architecture's research ladder, not yet opened as a numbered experiment) — the experiment the architecture was actually motivated to run. Tests whether chem-tape's neutral reserve enables the folding-analog dynamic advantage (`findings.md` §4–5) when active task rotates within a run. Ordered after §4 because §4's result affects the baseline GA choice.
-   - **§3c permeable at expanded budget** (queued) — completes the three-arm budget-scaling picture; lower priority since §3b already established BP > B > (permeability doesn't fully rescue) and the representation-level verdict is stable.
-   - **Soft redesign** (bonds as evolutionary-dynamics structure — bond-aware mutation rates, bond-preserving crossover — execution over the full tape, Arm-A-style) remains the natural v2 experiment. §2c's "not a ceiling" + §3's "decode is the binding constraint" converge on this recommendation. Run only if §4 and §v1.5 haven't already resolved the direction.
+8. **§4 island-model: v1 tax decomposes into diversity-loss + decode-intrinsic parts.** 8-island ring-topology GA with synchronous migration closes 2/3 of the A-B solve-count gap on sum-gt-10 at matched total evaluations — Arm B solves 0/10 panmictic → 2/10 islands (Arm A unchanged at 3/10; Arm BP unchanged at 1/10). This vindicates the diversity hypothesis for Arm B specifically: the v1-strict reachable-program class interacts badly with panmictic tournament selection, not because the representation is broken but because the GA amplifies its narrowness. The residual +1 gap is decode-intrinsic (seed 8 is unreachable under B at any GA structure tested). **Islands become the new baseline GA for every downstream chem-tape experiment.**
+
+9. **Current priorities (in order):**
+   - **§v1.5 regime-shift test** (queued, ordered up after §4 resolved) — the experiment the architecture was actually motivated to run. Tests whether chem-tape's neutral reserve enables the folding-analog dynamic advantage when active task rotates within a run. Now runs over the island-GA baseline.
+   - **Fully-permeable rule ablation** — ablate ids 14 and 15 as separators too (all three currently-inactive ids become transparent). If this matches Arm A under islands, then no separator-based decode is needed; only the soft redesign remains as a chem-tape research direction.
+   - **§3c permeable at expanded budget** (queued) — completes the three-arm budget-scaling picture; lower priority since §3 and §4 together already characterized the representation.
+   - **Soft redesign** (bonds as evolutionary-dynamics structure — bond-aware mutation rates, bond-preserving crossover — execution over the full tape, Arm-A-style) remains the natural v2 experiment. **Downgraded in priority** now that §4 shows the v1 gap is partly infrastructure; the soft redesign's unique value is no longer "rescuing a broken representation" but "a genuinely different mechanism for using bonds."
 
 See [architecture.md](architecture.md) for the substrate specification, [findings.md](../findings.md) for the prior Elixir-era folding results that motivated the "differential outcome" expectation, and [coevolution.md](../coevolution.md) for the coevolution designs that produced the scaffold-preservation framing.
