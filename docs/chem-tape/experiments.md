@@ -155,7 +155,7 @@ Notable details:
 
 ---
 
-## 2c. Budget-scaling follow-up — running
+## 2c. Budget-scaling follow-up
 
 **Sweep:** `sweeps/sum_gt_10_scaling.yaml` — pop ∈ {1024, 4096} × gens ∈ {1500, 3000} × arm ∈ {A, B} × 5 seeds = 40 runs.
 
@@ -163,7 +163,32 @@ Notable details:
 - **Arm A wins at every budget:** clean rejection; v1 design is worse than direct stack-GP.
 - **Arm A wins at medium budget, Arm B catches up at very high budget:** v1 has a search-efficiency cost but not a ceiling. Still a rejection of the spec's gate, but a different kind of failure.
 
-### Status: running (background). Results to be folded in when complete.
+### Status: complete. Finding: **v1 is a search-efficiency cost, not a ceiling.**
+
+Results from commit `3d1c3fb` (sweep elapsed 1245s / 20.7 min at 4 workers; 77.6 min wall-sum).
+
+| pop   | gens | Arm A solved | Arm B solved | Δ (A−B) |
+|-------|------|-------------|-------------|---------|
+| 1024  | 1500 | 1 / 5       | 0 / 5       | +1      |
+| 1024  | 3000 | 2 / 5       | 0 / 5       | +2      |
+| 4096  | 1500 | 3 / 5       | 2 / 5       | +1      |
+| 4096  | 3000 | **4 / 5**   | **2 / 5**   | +2      |
+
+Two clean findings:
+
+1. **Arm B is not a representational ceiling.** At pop=4096 it solves 2/5 seeds (40%) vs the 0/5 at pop=1024. The v1-strict representation *can* find sum-gt-10 scaffolds; it just needs more search. The §2/§2b rejection was valid at the spec's budget but not a falsification of the representation class.
+2. **Arm A wins at every budget, with a roughly constant gap of 1–2 additional solves per 5 seeds.** The A-B cost is an efficiency cost, not a structural wall — consistent with the §3 mechanism explanation (v1 strict prunes solution classes Arm A finds, so the same pop gives A more effective search).
+
+**Interaction effects:**
+
+- **Population scaling matters more than generation scaling.** Going pop 1024 → 4096 (4×) added +2 solves for A and +2 for B. Going gens 1500 → 3000 (2×) added +1 solve for A, 0 for B. Population diversity is the binding constraint, not runtime per-seed.
+- **Both arms benefit roughly equally from compute.** Solve counts move together (A 1→2→3→4; B 0→0→2→2 across the four budget points). The representations aren't diverging in asymptotic capacity; they're scaling at different offsets.
+
+**Implications for the v1 verdict:**
+
+The rejection from §2/§2b stands in the narrow sense: v1-strict loses to direct stack-GP at the spec's budget. But the §2c data softens the mechanism interpretation — v1-strict is not *unable* to solve sum-gt-10, it's *less search-efficient* than direct at producing tape-wide solutions. Combined with §3 (permeable recovers some but not all of the gap), the overall v1 failure mode is clearer: the decode rule (execute only the longest bonded region) is the binding constraint, not bonding as a concept. A representation that keeps bond structure but drops the execution gate — the soft redesign — becomes the natural next-experiment target.
+
+**What §2c does NOT test:** Arm BP (permeable) at pop=4096. That sweep would directly answer whether the permeable redesign's 1/5 solve rate at pop=1024 scales the way Arm A and Arm B do. Queued as §3c.
 
 ---
 
@@ -232,6 +257,18 @@ Head-to-head with §2b's Arm A and Arm B data (same config, same seeds, same cod
 
 ---
 
+## 3c. Permeable at expanded budget — queued
+
+**Sweep:** `sweeps/sum_gt_10_budget_perm_scaling.yaml` (to create) — Arm BP only, pop ∈ {1024, 4096} × gens ∈ {1500, 3000} × 5 seeds = 20 runs. Parallel to §2c but for BP.
+
+**Hypothesis:** Given §2c shows Arm B scaling from 0/5 at pop=1024 to 2/5 at pop=4096, and §3b showed BP > B at pop=1024 (1/10 vs 0/10), BP at pop=4096 should solve more than both B (2/5) and BP at pop=1024 (1/10 → ≈ 0.5/5 equivalent). Whether BP at pop=4096 catches up to A (3-4/5) is the discriminating question.
+
+**Purpose:** Complete the three-arm budget-scaling picture. If BP at pop=4096 ≈ A at pop=4096, the permeable rule is ultimately equivalent to Arm A with additional cost (not obviously worth the complexity). If BP at pop=4096 lies strictly between A and B, it's a genuinely different point on the cost/benefit frontier.
+
+### Status: queued.
+
+---
+
 ## 4. Fitness-signal granularity (follow-up)
 
 **Sweep:** `sweeps/granularity.yaml` (to create) — synthetic tasks with matched scaffold length but varied label granularity. E.g., count-R (integer 0..16), has-at-least-1-R (binary {0,1}), count-R-mod-3 (integer 0..2). All with 4-cell natural scaffold.
@@ -286,8 +323,9 @@ Head-to-head with §2b's Arm A and Arm B data (same config, same seeds, same cod
 4. **When BP wins, it wins efficiently.** On the one sum-gt-10 seed where both BP and A succeed, BP solves at gen 135 vs A at gen 889 — a 6.6× speedup. Shorter programs are genuinely easier to optimize *when they contain the scaffold*. This hints at a selective-decode redesign where BP's mechanism is preserved on bounded-scaffold problems.
 5. **Arm B ≠ Arm A on short-scaffold tasks, and the difference is task-specific and opposite in sign.** Count-R: B/BP win (BP fastest at 11.0 median gens). Has-upper: A wins. The best current explanation is fitness-signal granularity, not scaffold length per se — graded integer labels favor shorter-program arms; binary labels with trivial-constant plateaus favor longer-program arms. §4 granularity sweep (queued) would test this as a predictor.
 6. **Mechanism claim partially vindicated (not in the predicted form).** The architecture's "scaffold preservation" framing doesn't describe the v1 data, but **§3's "decode matters and hard-separators hurt" finding vindicates a weaker claim**: the bond/decode structure does change search in ways that matter — just not necessarily in the direction or for the reason the architecture anticipated. This is the correct v1 → v2 handoff framing: what v2 should try next is *different decode rules*, not *richer chemistry* (per the original research ladder).
-7. **Current priorities:**
-   - **§2c scaling** is running (pop∈{1024,4096} × gens∈{1500,3000}). Answers whether A-vs-B gap is a ceiling or a budget-efficiency cost. Also a sanity check on whether BP's 1/10 would climb at higher budget.
-   - **Soft redesign** (bonds as evolutionary-dynamics structure — bond-aware mutation rates, bond-preserving crossover — execution over the full tape, Arm-A-style) is the natural v2 experiment. The §3 results justify the investment; the §2c results will refine the specific design.
+7. **§2c resolved: v1 is a search-efficiency cost, not a ceiling.** Arm B solves 2/5 at pop=4096 (40%) vs 0/5 at pop=1024. Arm A keeps a roughly constant +1–2 solve advantage across the four tested budget points. Population scaling (1024→4096) helps more than generation scaling (1500→3000). The v1 rejection stands in the narrow "at the spec's budget" sense, but v1-strict is not an unworkable representation — it's a less search-efficient one than direct stack-GP, with the decode rule (not bonding as a concept) as the binding constraint.
+8. **Current priorities:**
+   - **§3c permeable at expanded budget** (queued) — completes the three-arm budget-scaling picture; discriminates "BP ≈ A at scale" from "BP lies strictly between A and B".
+   - **Soft redesign** (bonds as evolutionary-dynamics structure — bond-aware mutation rates, bond-preserving crossover — execution over the full tape, Arm-A-style) is the natural v2 experiment. §2c's "not a ceiling" + §3's "decode is the binding constraint" converge on this recommendation: keep bonds, drop the execution gate.
 
 See [architecture.md](architecture.md) for the substrate specification, [findings.md](../findings.md) for the prior Elixir-era folding results that motivated the "differential outcome" expectation, and [coevolution.md](../coevolution.md) for the coevolution designs that produced the scaffold-preservation framing.
