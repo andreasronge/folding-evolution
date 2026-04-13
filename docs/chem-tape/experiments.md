@@ -155,29 +155,96 @@ Notable details:
 
 ---
 
-## 2c. Budget-scaling follow-up — queued
+## 2c. Budget-scaling follow-up — running
 
-**Sweep:** `sweeps/sum_gt_10_scaling.yaml` — pop ∈ {1024, 4096} × gens ∈ {1500, 3000} × both arms × 5 seeds = 40 runs. ~8h at 4 workers; run only if §2b confirms the rejection and the scaling question is worth the compute.
+**Sweep:** `sweeps/sum_gt_10_scaling.yaml` — pop ∈ {1024, 4096} × gens ∈ {1500, 3000} × arm ∈ {A, B} × 5 seeds = 40 runs.
 
 **Purpose:** Distinguish two readings of the §2 result:
 - **Arm A wins at every budget:** clean rejection; v1 design is worse than direct stack-GP.
 - **Arm A wins at medium budget, Arm B catches up at very high budget:** v1 has a search-efficiency cost but not a ceiling. Still a rejection of the spec's gate, but a different kind of failure.
 
+### Status: running (background). Results to be folded in when complete.
+
 ---
 
-## 3. Fitness-signal granularity (follow-up)
+## 3. Permeable bond rule redesign (Arm BP)
+
+**Motivation.** The §2 mechanism observation pointed at the real v1 design error: "inactive cell" bundled two distinct semantics — *no-op in execution* AND *hard boundary in the decode*. Arm A's solved runs showed that (a) alone is fine; (b) is what prunes the solution class evolution actually uses on sum-gt-10. The permeable redesign separates them: id 0 (NOP) becomes *transparent* (passes through bonded runs as a no-op), while ids 14 and 15 remain hard separators. The active-cell set for bond purposes becomes "non-separator" (ids 0..13) rather than "active" (ids 1..13). Everything else v1-equivalent.
+
+Under uniform init the separator count per 32-cell tape drops from ~6 inactive-cells to ~4 separators, and the expected longest-runnable segment widens from ~8 to ~14 cells — right at the sum-gt-10 canonical scaffold length. The implementation change is one token-class split plus a parameterised mask function in the engine; see `src/folding_evolution/chem_tape/alphabet.py` and `engine_numpy.py`.
+
+**Sweeps:**
+- `sweeps/mvp_permeable.yaml` — 3 tasks × Arm BP × 10 seeds = 30 runs. Direct head-to-head against the §1 MVP (Arm A and Arm B data already on disk).
+- `sweeps/sum_gt_10_budget_permeable.yaml` — Arm BP on sum-gt-10 at pop=1024, gens=1500 (matching §2b). Direct comparison against the §2b rejection gate data.
+
+**Pre-registered outcomes for the permeable rule (from our design discussion):**
+- **BP >> B** → the hard-separator semantics were the v1 bug (what we're testing for).
+- **BP ≈ B** → separators weren't the primary issue; push to soft redesign (bonds as evolutionary-dynamics structure rather than execution gate).
+- **BP << A** on sum-gt-10 → the separator/decode mechanism has deeper problems that permeability doesn't fix. Reconsider whether chem-tape is the right direction.
+
+### Status: both sweeps complete. Results from commit `3d1c3fb`.
+
+#### 3a. Three-arm MVP (pop=256, gens=200, 10 seeds)
+
+| task        | arm | solved / 10 | median gens-to-solve |
+|-------------|-----|-------------|----------------------|
+| count-R     | A   | 10          | 39.5                 |
+| count-R     | B   | 10          | 15.0                 |
+| count-R     | **BP** | **10**   | **11.0**             |
+| has-upper   | A   | 10          | 69.0                 |
+| has-upper   | B   | 7           | 103.0                |
+| has-upper   | **BP** | **9**    | **83.0**             |
+| sum-gt-10   | A, B, BP | 0 / 10 each | — (MVP budget too low for any arm) |
+
+**count-R:** BP is *faster than B*, which was already faster than A. BP median 11.0 gens vs B's 15.0 vs A's 39.5. The permeable rule stacks on top of B's advantage — executing NOP-bridged segments doesn't hurt on count-R's graded fitness landscape.
+
+**has-upper:** BP recovers **2 of the 3 seeds** Arm B got stuck on at 0.500 plateaus (BP 9/10 vs B 7/10). This is direct evidence that the hard-separator semantics were at least partly responsible for the has-upper trivial-constant trap: when NOPs bridge bonded regions, the population has more program-shape diversity and escapes the plateau more reliably. **But BP still doesn't match A's 10/10** — so the longest-run decode itself (not just hard separators) also carries some cost on has-upper. The permeable rule addresses one mechanism, not both.
+
+**sum-gt-10:** All three arms 0/10 at the MVP budget. Consistent with §1 — neither representation can build the ~14-cell scaffold at pop=256 / gens=200. Discriminating among arms requires the expanded budget (§3b).
+
+#### 3b. Permeable at §2 budget (pop=1024, gens=1500, 10 seeds)
+
+Head-to-head with §2b's Arm A and Arm B data (same config, same seeds, same code-Rust-path):
+
+| arm | solved / 10 | seeds solved | median gens-to-solve on solved seeds | max best-ever |
+|-----|------------|--------------|--------------------------------------|---------------|
+| A   | 3 / 10     | 2 (gen 889), 8 (gen 626), 9 (gen 391) | 626 | 1.000 |
+| B   | 0 / 10     | —            | —                                    | 0.734         |
+| **BP** | **1 / 10** | **2 (gen 135)** | **135**                             | **1.000**     |
+
+**BP > B: confirmed.** BP solves 1/10 vs B's 0/10 at identical settings. The hard-separator ablation recovers some of the solution space that strict v1 prunes. The direction of the predicted effect is right.
+
+**BP << A: also confirmed.** BP 1/10 vs A 3/10. The longest-run decode — even after making NOPs transparent — still structurally prunes solution classes Arm A finds. Seeds 8 and 9 that Arm A solves are not reachable under BP at this budget.
+
+**The one BP-solved seed is highly informative.** BP solved seed 2 at **generation 135**; Arm A solved the same seed at generation 889 (verified bitwise-reproducibly across §2 and §2b). On this one seed, BP is **6.6× faster than A in generations-to-solve**. Reading the best-genotype inspection: this seed's winning tape has no separators in a long contiguous region that includes both the sum-building operators and the GT comparator; BP's longest-runnable segment captures that region and executes it efficiently. On seeds 8 and 9, the equivalent region either contains a separator or the winning program spreads across separator boundaries in a way Arm A tolerates but BP cannot.
+
+#### What §3 establishes
+
+1. **The hard-separator semantics were a real v1 design bug.** Permeability recovers two has-upper seeds (MVP) and one sum-gt-10 seed (budget) that strict v1 lost. The rejection in §2 was not entirely a chem-tape-direction failure — part of it was the specific hard-separator rule.
+
+2. **But permeability alone does not reach Arm A parity.** BP still loses to A on has-upper (9/10 vs 10/10) and on sum-gt-10 (1/10 vs 3/10). The longest-run decode itself — the choice to execute only a bounded region rather than the whole tape — remains a cost.
+
+3. **When BP wins, it can win by a large margin.** BP's 135-gen solve on sum-gt-10 seed 2 vs A's 889-gen solve on the same seed is a 6.6× speedup — significantly better than BP's count-R speedup over B (~36%). Shorter programs, when they contain the scaffold, are genuinely easier to optimize toward. This suggests a further redesign where BP's decode is used selectively — on problems where the scaffold fits in a bounded segment.
+
+4. **The soft redesign (bonds as evolutionary-dynamics structure rather than execution gate) is now the next question.** §3's data doesn't settle whether the soft redesign would close the A-BP gap; it just establishes that one specific local fix (permeability) doesn't, on its own, reach A parity. The soft redesign stays queued as v2-scope if the chem-tape direction is pursued further.
+
+---
+
+---
+
+## 4. Fitness-signal granularity (follow-up)
 
 **Sweep:** `sweeps/granularity.yaml` (to create) — synthetic tasks with matched scaffold length but varied label granularity. E.g., count-R (integer 0..16), has-at-least-1-R (binary {0,1}), count-R-mod-3 (integer 0..2). All with 4-cell natural scaffold.
 
-**Hypothesis:** Arm B's advantage correlates with label granularity, not with scaffold length (new hypothesis suggested by §1). Integer labels → Arm B wins. Binary labels with trivial-constant plateau → Arm A wins.
+**Hypothesis:** Arm B's advantage correlates with label granularity, not with scaffold length (new hypothesis suggested by §1). Integer labels → Arm B/BP wins. Binary labels with trivial-constant plateau → Arm A wins.
 
 **Purpose:** Test whether the §1 interpretation holds as a predictor, not just a post-hoc story. If it does, the "scaffold preservation" mechanism name in the architecture should be replaced with something fitness-landscape-shaped.
 
-### Status: queued. Runs only if §2 doesn't render v1 falsified.
+### Status: queued.
 
 ---
 
-## 4. Mutation rate sensitivity (queued)
+## 5. Mutation rate sensitivity (queued)
 
 **Sweep:** `sweeps/mutation.yaml` — `mutation_rate ∈ {0.01, 0.03, 0.1, 0.3}` × both arms × 5 seeds on count-R and has-upper.
 
@@ -187,7 +254,7 @@ Notable details:
 
 ---
 
-## 5. Scaffold-length sweep (queued)
+## 6. Scaffold-length sweep (queued)
 
 **Sweep:** `sweeps/scaffold_length.yaml` — synthetic tasks with scaffold lengths 4, 6, 8, 10, 12 cells, same label granularity across all.
 
@@ -213,11 +280,14 @@ Notable details:
 
 ## Summary of v1 findings
 
-1. **MVP gate on sum-gt-10: REJECTED (confirmed, n=10).** At pop=1024, gens=1500, Arm A solved 3/10 seeds with holdout 1.000; Arm B solved 0/10 (max best-ever 0.734). Spec §Layer 11's rejection clause "Arm B < Arm A on sum-gt-10 specifically" holds with solid evidence. **v1 chem-tape is falsified on its own stated acceptance criterion.**
-2. **Arm B ≠ Arm A on short-scaffold tasks, but the difference is task-specific and opposite in sign.** Count-R: Arm B wins 2.6× on generations-to-solve. Has-upper: Arm A wins in solve count and speed. This contradicts the spec's "uniformly B < A on short scaffolds" prediction.
-3. **Fitness-signal granularity emerges as a candidate explanatory variable** not present in the original architecture's outcome table. The §3 granularity sweep would test this.
-4. **Longest-run-length diagnostic does not differ between arms at the population level.** The representation difference lives at the fitness-gradient or program-semantics level, not at active-run length alone. The solved Arm A runs used 32-cell full-tape programs that Arm B's longest-run decode structurally cannot produce — this is *why* A beats B on sum-gt-10.
-5. **Mechanism claim not vindicated.** The "scaffold preservation" framing from the architecture does not describe the v1 data. Arm A wins on sum-gt-10 not because it's better at protecting the 14-cell canonical scaffold (it doesn't find that scaffold) but because it can assemble 32-cell programs where many cells can be "junk" without breaking execution. Arm B's separator-based decode is specifically a pruning of exactly this solution class.
-6. **Next action (optional).** §2c scaling sweep — distinguish "A wins at every budget" from "A wins at this budget, B catches up at higher budget." Could inform v2 if chem-tape is to be pursued, but is not on the critical path now that v1 is closed.
+1. **MVP gate on sum-gt-10: REJECTED (confirmed, n=10).** At pop=1024, gens=1500, Arm A solved 3/10 seeds with holdout 1.000; Arm B solved 0/10 (max best-ever 0.734). Spec §Layer 11's rejection clause "Arm B < Arm A on sum-gt-10 specifically" holds with solid evidence. v1-strict chem-tape is falsified on its own stated acceptance criterion.
+2. **But the v1 design error was localized: hard-separator semantics, not the bonding/decode concept itself.** §3's permeable-rule redesign (id 0 passes through bonded runs; ids 14, 15 remain separators) recovers 2 of Arm B's 3 has-upper failures at MVP budget, and 1 of the 3 sum-gt-10 solves at expanded budget (vs B's 0). **Arm BP > Arm B** across all tested benchmarks. The bundling of "no-op" with "hard boundary" into a single "inactive cell" class was the v1 mechanism-level bug.
+3. **But Arm BP < Arm A on the hard benchmarks.** Permeability alone does not close the gap: BP 9/10 vs A 10/10 on has-upper, BP 1/10 vs A 3/10 on sum-gt-10. The longest-run decode itself (executing only a bounded region rather than the whole tape) also carries a cost that permeability doesn't address.
+4. **When BP wins, it wins efficiently.** On the one sum-gt-10 seed where both BP and A succeed, BP solves at gen 135 vs A at gen 889 — a 6.6× speedup. Shorter programs are genuinely easier to optimize *when they contain the scaffold*. This hints at a selective-decode redesign where BP's mechanism is preserved on bounded-scaffold problems.
+5. **Arm B ≠ Arm A on short-scaffold tasks, and the difference is task-specific and opposite in sign.** Count-R: B/BP win (BP fastest at 11.0 median gens). Has-upper: A wins. The best current explanation is fitness-signal granularity, not scaffold length per se — graded integer labels favor shorter-program arms; binary labels with trivial-constant plateaus favor longer-program arms. §4 granularity sweep (queued) would test this as a predictor.
+6. **Mechanism claim partially vindicated (not in the predicted form).** The architecture's "scaffold preservation" framing doesn't describe the v1 data, but **§3's "decode matters and hard-separators hurt" finding vindicates a weaker claim**: the bond/decode structure does change search in ways that matter — just not necessarily in the direction or for the reason the architecture anticipated. This is the correct v1 → v2 handoff framing: what v2 should try next is *different decode rules*, not *richer chemistry* (per the original research ladder).
+7. **Current priorities:**
+   - **§2c scaling** is running (pop∈{1024,4096} × gens∈{1500,3000}). Answers whether A-vs-B gap is a ceiling or a budget-efficiency cost. Also a sanity check on whether BP's 1/10 would climb at higher budget.
+   - **Soft redesign** (bonds as evolutionary-dynamics structure — bond-aware mutation rates, bond-preserving crossover — execution over the full tape, Arm-A-style) is the natural v2 experiment. The §3 results justify the investment; the §2c results will refine the specific design.
 
 See [architecture.md](architecture.md) for the substrate specification, [findings.md](../findings.md) for the prior Elixir-era folding results that motivated the "differential outcome" expectation, and [coevolution.md](../coevolution.md) for the coevolution designs that produced the scaffold-preservation framing.
