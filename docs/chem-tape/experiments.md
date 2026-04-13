@@ -87,20 +87,63 @@ Plots: (to add — per-task fitness curves, longest-run evolution, holdout gap).
 
 ---
 
-## 2. Sum-gt-10 at expanded budget (next experiment)
+## 2. Sum-gt-10 at expanded budget
 
-**Sweep:** `sweeps/sum_gt_10_budget.yaml` (to create) — sum-gt-10 only, `arm ∈ {A, B}` × 10 seeds, `pop_size ∈ {1024, 4096}` × `generations ∈ {500, 1500}`. Four budget points, 80 runs.
+**Sweep:** `sweeps/sum_gt_10_budget.yaml` — sum-gt-10 only, `arm ∈ {A, B}` × 5 seeds, `pop_size = 1024, generations = 1500`. 10 runs, ~30× MVP compute per run. Five seeds chosen to keep the first look cheap (~60 min at 4 workers); scaling to 10 seeds is the natural confirmation step (§2b below).
 
-**Hypothesis:** At pop=4096, gens=1500 (≈60× the MVP compute for this task), at least one arm breaks the 0.500 plateau. The acceptance-criterion gate from the architecture can then be evaluated.
+**Hypothesis:** At expanded budget, at least one arm breaks the 0.500 plateau. The spec §Layer 11 acceptance gate can then be evaluated.
 
-**Purpose:** Separate "chem-tape doesn't help on sum-gt-10" from "sum-gt-10 isn't solvable at MVP budget." These are very different conclusions and the MVP cannot distinguish them.
+**Purpose:** Separate "chem-tape doesn't help on sum-gt-10" from "sum-gt-10 isn't solvable at MVP budget." The MVP could not distinguish these.
 
 **Pre-registered outcomes:**
 - If Arm B > Arm A at expanded budget: the spec's gate passes, v2 earns its compute.
-- If Arm A > Arm B: the spec's gate rejects, the whole direction is falsified as planned.
-- If both still plateau at 0.500 at 4096×1500: the ~14-cell scaffold is out of reach for 14-token alphabets regardless of representation. Falsifies v1 *and* informs v2 (the extra alphabet expressivity is necessary to make the problem tractable at all).
+- If Arm A > Arm B: the spec's gate rejects, v1 is falsified as planned.
+- If both still plateau at 0.500: budget still insufficient; informs v2 (alphabet expressivity may be required for the problem to be tractable at all).
 
-### Status: queued.
+### Status: **GATE REJECTED.** Arm A > Arm B on sum-gt-10 (n=5, weak evidence — confirmation queued as §2b).
+
+Results from commit `3b62e56` (sweep elapsed 1857s / 31 min, 4 workers).
+
+| arm | solved / 5 | median gens-to-solve | best-ever fitness (median / max) | median holdout | median elapsed |
+|-----|-----------|----------------------|----------------------------------|----------------|----------------|
+| A   | **1 / 5** (seed 2, gen 889) | 889 | 0.500 / **1.000** | 0.500 | 940 s |
+| B   | 0 / 5 | — | 0.500 / 0.734 | 0.500 | 370 s |
+
+**§Layer 11 rejection clause:** "Rejection requires Arm B ≤ Arm A on *all three* benchmarks, or Arm B < Arm A on sum-gt-10 specifically." The second clause fires: Arm A solved 1/5 seeds and reached holdout 1.000; Arm B solved 0/5 seeds, max holdout 0.746. **The v1 design is falsified on its own stated acceptance criterion.**
+
+#### What happened on the one solved seed
+
+Arm A seed 2 reached fitness 1.0 at generation 889 with a 32-cell RPN program that builds the literal 10 through repeated `C1 DUP ADD` operations, sums the input, compares, and ignores trailing junk tokens. The program doesn't compress to the natural 14-cell scaffold — it's a 32-cell version where every tape cell participates. **This is exactly the regime where Arm B cannot compete**: a full-tape program *requires* that no separator ever appears between active regions, and at 19% inactive-cell frequency per cell (spec §Layer 7: three NOP alleles out of 16) that is vanishingly unlikely under mutation drift. Arm A's execution model (every cell runs; NOPs are no-ops but not separators) makes a 32-cell program reachable.
+
+#### Why Arm B plateaus
+
+Arm B's longest-run distribution stays bounded by 15–20 cells across the population (population mean of max longest-run ≈ 10–11 cells for both arms in the MVP, ≈ 11–13 cells here). To solve sum-gt-10, chem-tape would need either (a) a sub-30-cell program that happens to fit within a single bonded region, or (b) the longest active run to grow beyond 20 cells. Both are much rarer than Arm A's "any 32-cell program that uses NOPs as no-ops" solution space. The separator-based decode prunes exactly the solution class that solves sum-gt-10 at this budget.
+
+#### Caveats on the rejection verdict
+
+- **n = 5 is thin.** The A-vs-B gap is 1/5 vs 0/5. A 10-seed confirmation (§2b) would reduce the chance that the solved seed is an outlier.
+- **Budget is still limiting.** Arm A solved 1/5, not 5/5. Both arms plateau on most seeds. Whether pop=4096 or gens=5000 changes the picture is unknown.
+- **The "scaffold preservation" mechanism language** from the architecture is not vindicated by this data. Neither arm demonstrated the predicted "Arm B > Arm A because the 14-cell scaffold survives better under chem-tape" pattern. The solved Arm A run found a 32-cell scaffold (two scaffolds concatenated with junk), not the 14-cell canonical one.
+
+Despite the caveats, the spec's rejection clause is literal and unambiguous. Further chem-tape investment beyond v1 is not justified by the v1 data as it stands. If v2's expressivity gates are still interesting, they are interesting for reasons independent of the v1 mechanism claim.
+
+---
+
+## 2b. Confirmation run — queued
+
+**Sweep:** `sweeps/sum_gt_10_budget_confirm.yaml` — identical to §2 but with 10 seeds (all of 0–9) instead of 5. Purpose: confirm that 1/5 vs 0/5 is not a single-seed fluke before recording "v1 falsified" as the final v1 verdict. Also records whether Arm A's solve rate at pop=1024/gens=1500 is ≥ 1/10 or higher.
+
+### Status: queued. Cheap follow-up before closing v1.
+
+---
+
+## 2c. Budget-scaling follow-up — queued
+
+**Sweep:** `sweeps/sum_gt_10_scaling.yaml` — pop ∈ {1024, 4096} × gens ∈ {1500, 3000} × both arms × 5 seeds = 40 runs. ~8h at 4 workers; run only if §2b confirms the rejection and the scaling question is worth the compute.
+
+**Purpose:** Distinguish two readings of the §2 result:
+- **Arm A wins at every budget:** clean rejection; v1 design is worse than direct stack-GP.
+- **Arm A wins at medium budget, Arm B catches up at very high budget:** v1 has a search-efficiency cost but not a ceiling. Still a rejection of the spec's gate, but a different kind of failure.
 
 ---
 
@@ -152,10 +195,10 @@ Plots: (to add — per-task fitness curves, longest-run evolution, holdout gap).
 
 ## Summary of v1 findings
 
-1. **MVP gate: INCONCLUSIVE** at the specified budget. Neither arm solves the load-bearing sum-gt-10 benchmark at pop=256 / gens=200, so the decisive comparison cannot be read.
+1. **MVP gate on sum-gt-10: REJECTED (weak, n=5).** At pop=1024, gens=1500, Arm A solved 1/5 seeds (holdout 1.000); Arm B solved 0/5 (max holdout 0.746). Spec §Layer 11's rejection clause "Arm B < Arm A on sum-gt-10 specifically" fires. Confirmation with 10 seeds is queued as §2b before calling v1 closed.
 2. **Arm B ≠ Arm A on short-scaffold tasks, but the difference is task-specific and opposite in sign.** Count-R: Arm B wins 2.6× on generations-to-solve. Has-upper: Arm A wins in solve count and speed. This contradicts the spec's "uniformly B < A on short scaffolds" prediction.
 3. **Fitness-signal granularity emerges as a candidate explanatory variable** not present in the original architecture's outcome table. The §3 granularity sweep would test this.
-4. **Longest-run-length diagnostic does not differ between arms.** The representation difference must live at the fitness-gradient or program-semantics level, not at active-run length alone.
-5. **Next action: §2 budget sweep on sum-gt-10.** Cannot interpret v1 until the load-bearing gate is evaluable.
+4. **Longest-run-length diagnostic does not differ between arms at the population level.** The representation difference lives at the fitness-gradient or program-semantics level, not at active-run length alone. The solved Arm A run used a 32-cell scaffold that Arm B's longest-run decode structurally cannot produce — this is *why* A beats B on sum-gt-10.
+5. **Next action: §2b 10-seed confirmation run** — cheap (~60 min) and seals whether the 1-vs-0 gap is robust. If it holds, v1 is falsified per spec and further chem-tape work needs a different justification than the v1 mechanism claim.
 
 See [architecture.md](architecture.md) for the substrate specification, [findings.md](../findings.md) for the prior Elixir-era folding results that motivated the "differential outcome" expectation, and [coevolution.md](../coevolution.md) for the coevolution designs that produced the scaffold-preservation framing.
