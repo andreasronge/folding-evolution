@@ -9,18 +9,20 @@ This project continues research started in Elixir/PTC-Lisp (`~/projects/ptc_runn
 ## Documentation
 
 - `docs/architecture.md` — The folding pipeline (alphabet, fold, chemistry, operators)
-- `docs/findings.md` — All experimental results from the Elixir implementation
-- `docs/experiments.md` — Planned experiments with hypotheses and setup
+- `docs/findings.md` — All experimental results (authoritative; includes commit hashes)
+- `docs/experiments.md` — Planned experiments with hypotheses and status
 - `docs/coevolution.md` — Four coevolution designs tested, lessons learned
 - `docs/theory.md` — Altenberg's constructional selection framework
+- `Plans/` — Scoped plans for new directions (current: `psb2-sanity-probe.md`)
 
-## Key Findings (from prior work)
+## Key Findings (current)
 
 1. Folding loses on static metrics (neutrality, crossover) but wins on evolutionary dynamics
 2. The regime shift experiment is the key result — folding adapts, direct encoding can't
-3. Separated coevolution with data-dependence gate is the best design
-4. Complexity ceiling at 3 bonds is the main limitation to address
-5. Altenberg's framework explains the static/dynamic discrepancy
+3. **3-bond ceiling is broken** via Pareto scaffold preservation (§1.11/§1.13): S5 reached in 78–92% of seeds. Both discovery (chemistry screening) and preservation (Pareto on structural pattern) are required — neither alone is sufficient.
+4. Altenberg's constructional selection framework explains the static/dynamic discrepancy
+
+For full completed-experiment list and open questions, see `docs/experiments.md`.
 
 ## Tech Stack
 

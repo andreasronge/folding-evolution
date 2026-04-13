@@ -15,6 +15,10 @@ Prior work (in Elixir/PTC-Lisp) established:
 
 This project continues the research in Python for faster experimentation and access to the GP/ALife ecosystem.
 
+## Direction
+
+An upcoming probe evaluates whether the project should reframe around **inductive program synthesis from input-output examples** (PBE) using [PSB2](https://arxiv.org/abs/2106.06086) as an external benchmark. The hypothesis is that the chem-tape + folding representation, combined with Pareto scaffold preservation (see [Findings §1.11/§1.13](docs/findings.md)), produces a smaller train→held-out generalization gap than direct-encoding GP at matched compute. Plan: [Plans/psb2-sanity-probe.md](Plans/psb2-sanity-probe.md). This is a scoped probe, not yet a committed pivot — the decision rule is in the plan.
+
 ## Documentation
 
 - **[Research Findings](docs/findings.md)** — What we know so far, with data
