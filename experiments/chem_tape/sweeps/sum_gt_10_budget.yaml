@@ -1,0 +1,24 @@
+sweep_name: sum_gt_10_budget
+# Experiments §2: the load-bearing benchmark at expanded compute budget.
+# MVP sweep (pop=256, gens=200) left both arms stuck at baseline 0.500 on
+# sum_gt_10, making the architecture's acceptance gate untestable. This
+# sweep raises population and generation budget ~30× to separate "chem-tape
+# does not help on long scaffolds" from "sum-gt-10 is out of reach at MVP
+# budget." Five seeds per arm keeps cost manageable (~60 min at 4 workers);
+# expand to 10 seeds only if early results look decisive.
+base:
+  task: sum_gt_10
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+grid:
+  arm: [A, B]
+  seed: [0, 1, 2, 3, 4]
