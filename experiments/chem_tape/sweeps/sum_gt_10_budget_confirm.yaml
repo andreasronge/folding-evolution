@@ -1,0 +1,23 @@
+sweep_name: sum_gt_10_budget_confirm
+# Experiments §2b: 10-seed confirmation of the §2 sum_gt_10 rejection.
+# §2 saw Arm A 1/5 vs Arm B 0/5 — the spec §Layer 11 rejection clause
+# fired but on thin evidence. Doubling the sample to 10 seeds closes out
+# whether the rejection is robust or a single-seed fluke. Same compute
+# budget as §2 (pop=1024, gens=1500); Rust executor now in place so the
+# run is cheap enough to do clean.
+base:
+  task: sum_gt_10
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+grid:
+  arm: [A, B]
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
