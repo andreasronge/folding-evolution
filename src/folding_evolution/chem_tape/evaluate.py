@@ -18,6 +18,12 @@ from . import engine, executor
 from .config import ChemTapeConfig
 from .tasks import Task
 
+try:
+    from _folding_rust import rust_chem_execute_batch as _rust_exec_batch  # type: ignore
+    _HAS_RUST_EXECUTOR = True
+except ImportError:
+    _HAS_RUST_EXECUTOR = False
+
 
 def _tapes_from_population(population: list[np.ndarray]) -> np.ndarray:
     """Stack P individual tapes into a (P, L) uint8 array."""
@@ -53,12 +59,20 @@ def evaluate_population(
     programs = _programs_for_arm(cfg, tapes)                     # len P, list[int]
 
     predictions = np.zeros((P, E), dtype=np.int64)
-    for p in range(P):
-        prog = programs[p]
-        for e in range(E):
-            predictions[p, e] = executor.execute_program(
-                prog, task.alphabet, task.inputs[e], task.input_type
+    if _HAS_RUST_EXECUTOR:
+        s12 = task.alphabet.slot_12
+        s13 = task.alphabet.slot_13
+        for p in range(P):
+            predictions[p] = _rust_exec_batch(
+                programs[p], s12, s13, task.inputs, task.input_type
             )
+    else:
+        for p in range(P):
+            prog = programs[p]
+            for e in range(E):
+                predictions[p, e] = executor.execute_program(
+                    prog, task.alphabet, task.inputs[e], task.input_type
+                )
 
     fitnesses = (predictions == task.labels[None, :]).mean(axis=1).astype(np.float64)
     return fitnesses, predictions

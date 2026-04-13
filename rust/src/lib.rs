@@ -5,6 +5,7 @@ mod ast;
 mod engine;
 mod chemistry;
 mod vm;
+mod chem_tape;
 
 use pyo3::prelude::*;
 use pyo3::types::{PyDict, PyList};
@@ -218,6 +219,8 @@ fn _folding_rust(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(rust_fold_grid, m)?)?;
     m.add_function(wrap_pyfunction!(rust_adjacency, m)?)?;
     m.add_function(wrap_pyfunction!(rust_assemble_debug, m)?)?;
+    m.add_function(wrap_pyfunction!(chem_tape::rust_chem_execute, m)?)?;
+    m.add_function(wrap_pyfunction!(chem_tape::rust_chem_execute_batch, m)?)?;
     m.add_class::<RustContexts>()?;
     m.add_class::<RustTargetOutputs>()?;
     Ok(())
