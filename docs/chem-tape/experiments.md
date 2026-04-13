@@ -269,7 +269,49 @@ Head-to-head with §2b's Arm A and Arm B data (same config, same seeds, same cod
 
 ---
 
-## 4. Fitness-signal granularity (follow-up)
+## 4. Island-model GA on sum-gt-10 — discrimination experiment
+
+**Motivation.** §2c established that population scaling is the dominant lever on sum-gt-10 and the A-B solve gap stays ~constant across budget points. Two readings are consistent with that data:
+
+- **Diversity hypothesis:** chem-tape's narrower reachable-program class interacts badly with tournament selection in a panmictic population — premature convergence eats away the search advantage the larger population nominally provides. Islands, by maintaining semi-independent sub-populations, would preserve diversity longer and close the gap.
+- **Pruning hypothesis:** the A-B gap is intrinsic to v1's structural filter on programs, independent of how diversity is managed. Islands help both arms equally; the gap persists.
+
+These are very different conclusions about where chem-tape's tax actually lives, and the existing data cannot distinguish them. An island-model run at matched total evaluations against §2c's panmictic pop=1024 baseline does distinguish them — cleanly and cheaply.
+
+**Sweep:** `sweeps/sum_gt_10_islands.yaml` (to create) — sum-gt-10 only, arm ∈ {A, B, BP} × 10 seeds = 30 runs.
+
+**Design (pre-registered):**
+
+- **Islands:** 8 islands × 128 individuals each = 1024 total evaluations per generation. Matches §2c's panmictic pop=1024 baseline at identical total-evaluation budget.
+- **Generations:** 1500 (same as §2c mid-budget and §3b).
+- **Topology:** ring (island *i* migrates to island *i+1* mod 8).
+- **Migration cadence:** every 50 generations (synchronous — all islands migrate at gens 50, 100, 150, ...).
+- **Migrants per island per migration:** 2 (1 elite + 1 random non-elite). Migrants are *copies* — receiving island gains 2, sending island doesn't lose.
+- **Within-island selection:** identical to panmictic (tournament size 3, elite count 2, same mutation/crossover rates). Only the population structure changes.
+- **Seeding:** same 10 seeds as §2b/§3b so per-seed comparisons are direct.
+
+This set of choices is deliberately conservative — ring (not random graph), synchronous (not stochastic), coarse-grained (not per-neighbourhood) — so any observed effect is cleanly attributable to "some island structure helps," without sub-design parameters contributing extra noise. If islands help, fine-grained tuning is a follow-up; if they don't, the conservative choice rules out the whole family.
+
+**Pre-registered hypotheses (spec-style outcome table):**
+
+| Arm A | Arm B | Arm BP | interpretation |
+|-------|-------|--------|----------------|
+| helps  | helps ≥ A | helps ≥ A | Diversity hypothesis: v1's tax is panmictic-tournament-loss, not decode-intrinsic. Islands are a real methodological fix for chem-tape. |
+| helps  | helps ~ A | helps ~ A | Islands accelerate search generically; the A-B gap persists. Pruning hypothesis wins: decode is the binding constraint. Confirms §3's reading and closes the diversity alternative. |
+| helps  | helps < A | helps < A | Islands amplify A's broader solution class. Chem-tape interacts worse with structured populations — additional evidence against the direction. |
+| no effect on any arm | same as above | same | Sum-gt-10's landscape doesn't have enough basin structure for islands to matter. Re-evaluate: maybe pop=1024 is already above the diversity-maintenance threshold for this problem. |
+
+**Purpose.** This is the experiment that distinguishes "v1's tax is diversity loss" from "v1's tax is pruning" — a distinction §2c raised but could not answer. If diversity: islands change the baseline for every future chem-tape experiment (including v1.5). If pruning: the decode-rule reading from §3 is locked in, and the soft redesign moves up in priority.
+
+**Ordering rationale.** This experiment runs before §v1.5 (regime-shift) because (a) it's cheaper (30 single-task runs vs v1.5's multi-task schedule), (b) its outcome reshapes v1.5's baseline GA choice, and (c) it answers a sharper question that can be read from 30 runs rather than requiring dynamic-regime nuance.
+
+**Implementation note.** Requires adding an island-aware evolution loop (`evolve_islands.py` or an `islands` config on `ChemTapeConfig`). The bond/decode engine, executor, evaluate, metrics, and task registries are untouched — this is a GA-machinery change, not a representation change. Expected incremental LOC: ~100.
+
+### Status: queued (design pre-registered).
+
+---
+
+## 5. Fitness-signal granularity (follow-up)
 
 **Sweep:** `sweeps/granularity.yaml` (to create) — synthetic tasks with matched scaffold length but varied label granularity. E.g., count-R (integer 0..16), has-at-least-1-R (binary {0,1}), count-R-mod-3 (integer 0..2). All with 4-cell natural scaffold.
 
@@ -281,7 +323,7 @@ Head-to-head with §2b's Arm A and Arm B data (same config, same seeds, same cod
 
 ---
 
-## 5. Mutation rate sensitivity (queued)
+## 6. Mutation rate sensitivity (queued)
 
 **Sweep:** `sweeps/mutation.yaml` — `mutation_rate ∈ {0.01, 0.03, 0.1, 0.3}` × both arms × 5 seeds on count-R and has-upper.
 
@@ -291,7 +333,7 @@ Head-to-head with §2b's Arm A and Arm B data (same config, same seeds, same cod
 
 ---
 
-## 6. Scaffold-length sweep (queued)
+## 7. Scaffold-length sweep (queued)
 
 **Sweep:** `sweeps/scaffold_length.yaml` — synthetic tasks with scaffold lengths 4, 6, 8, 10, 12 cells, same label granularity across all.
 
@@ -324,8 +366,10 @@ Head-to-head with §2b's Arm A and Arm B data (same config, same seeds, same cod
 5. **Arm B ≠ Arm A on short-scaffold tasks, and the difference is task-specific and opposite in sign.** Count-R: B/BP win (BP fastest at 11.0 median gens). Has-upper: A wins. The best current explanation is fitness-signal granularity, not scaffold length per se — graded integer labels favor shorter-program arms; binary labels with trivial-constant plateaus favor longer-program arms. §4 granularity sweep (queued) would test this as a predictor.
 6. **Mechanism claim partially vindicated (not in the predicted form).** The architecture's "scaffold preservation" framing doesn't describe the v1 data, but **§3's "decode matters and hard-separators hurt" finding vindicates a weaker claim**: the bond/decode structure does change search in ways that matter — just not necessarily in the direction or for the reason the architecture anticipated. This is the correct v1 → v2 handoff framing: what v2 should try next is *different decode rules*, not *richer chemistry* (per the original research ladder).
 7. **§2c resolved: v1 is a search-efficiency cost, not a ceiling.** Arm B solves 2/5 at pop=4096 (40%) vs 0/5 at pop=1024. Arm A keeps a roughly constant +1–2 solve advantage across the four tested budget points. Population scaling (1024→4096) helps more than generation scaling (1500→3000). The v1 rejection stands in the narrow "at the spec's budget" sense, but v1-strict is not an unworkable representation — it's a less search-efficient one than direct stack-GP, with the decode rule (not bonding as a concept) as the binding constraint.
-8. **Current priorities:**
-   - **§3c permeable at expanded budget** (queued) — completes the three-arm budget-scaling picture; discriminates "BP ≈ A at scale" from "BP lies strictly between A and B".
-   - **Soft redesign** (bonds as evolutionary-dynamics structure — bond-aware mutation rates, bond-preserving crossover — execution over the full tape, Arm-A-style) is the natural v2 experiment. §2c's "not a ceiling" + §3's "decode is the binding constraint" converge on this recommendation: keep bonds, drop the execution gate.
+8. **Current priorities (in order):**
+   - **§4 island-model on sum-gt-10** (queued, designed) — discriminates "v1 tax is diversity loss under panmictic tournament" from "v1 tax is pruning-intrinsic to the decode." §2c raised this distinction; no existing data can resolve it. If diversity hypothesis wins, islands become the new baseline GA for every later chem-tape experiment. If pruning hypothesis wins, the §3 decode-is-binding reading locks in and the soft redesign moves up in priority. Cheap (30 runs, ~15 min) and high information-per-compute.
+   - **§v1.5 regime-shift test** (from architecture's research ladder, not yet opened as a numbered experiment) — the experiment the architecture was actually motivated to run. Tests whether chem-tape's neutral reserve enables the folding-analog dynamic advantage (`findings.md` §4–5) when active task rotates within a run. Ordered after §4 because §4's result affects the baseline GA choice.
+   - **§3c permeable at expanded budget** (queued) — completes the three-arm budget-scaling picture; lower priority since §3b already established BP > B > (permeability doesn't fully rescue) and the representation-level verdict is stable.
+   - **Soft redesign** (bonds as evolutionary-dynamics structure — bond-aware mutation rates, bond-preserving crossover — execution over the full tape, Arm-A-style) remains the natural v2 experiment. §2c's "not a ceiling" + §3's "decode is the binding constraint" converge on this recommendation. Run only if §4 and §v1.5 haven't already resolved the direction.
 
 See [architecture.md](architecture.md) for the substrate specification, [findings.md](../findings.md) for the prior Elixir-era folding results that motivated the "differential outcome" expectation, and [coevolution.md](../coevolution.md) for the coevolution designs that produced the scaffold-preservation framing.
