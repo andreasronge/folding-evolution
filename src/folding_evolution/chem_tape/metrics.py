@@ -40,9 +40,24 @@ def _longest_run_mask(genotypes) -> tuple[np.ndarray, np.ndarray]:
 
 
 def _count_unique_programs(tapes: np.ndarray, mask: np.ndarray, arm: str) -> int:
-    """Count distinct executor-visible programs. Arm A: full tape; Arm B: longest run."""
+    """Count distinct executor-visible programs.
+
+    Arm A: full tape (32 cells; every cell executes).
+    Arm B: v1 longest-active-run (mask passed in is the strict mask).
+    Arm BP: the permeable mask must be computed separately — the caller
+    passes the strict mask as the diagnostic; we recompute the permeable
+    mask here so the "unique programs" count reflects what the executor
+    actually sees.
+    """
     if arm == "A":
         return len({tapes[b].tobytes() for b in range(tapes.shape[0])})
+    if arm == "BP":
+        perm_mask = engine_numpy.compute_longest_runnable_mask(tapes)
+        seen: set[bytes] = set()
+        for b in range(tapes.shape[0]):
+            seen.add(tapes[b][perm_mask[b]].tobytes())
+        return len(seen)
+    # Arm B: strict active-run mask already computed by the caller.
     seen: set[bytes] = set()
     for b in range(tapes.shape[0]):
         seen.add(tapes[b][mask[b]].tobytes())

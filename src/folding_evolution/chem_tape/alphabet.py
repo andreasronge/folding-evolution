@@ -47,14 +47,33 @@ OP_MAP_IS_UPPER = "MAP_IS_UPPER"
 
 
 # Active mask over all 16 ids: True iff the id executes a non-NOP operation.
-# Indices 1..13 are active; 0, 14, 15 are inactive.
+# Indices 1..13 are active; 0, 14, 15 are inactive. This is the v1 strict
+# rule used by Arm B.
 ACTIVE_MASK: np.ndarray = np.zeros(N_TOKENS, dtype=bool)
 ACTIVE_MASK[1:14] = True
+
+# Permeable-rule masks (Arm BP). Splits v1's single "inactive" class into:
+#   SEPARATOR (ids 14, 15): hard boundary — breaks bonded runs, executes as NOP.
+#   TRANSPARENT (id 0 = NOP): transparent — does NOT break bonded runs,
+#       executes as NOP from within the run.
+# The "runnable" set is everything-except-separator, i.e. ids 0..13.
+SEPARATOR_MASK: np.ndarray = np.zeros(N_TOKENS, dtype=bool)
+SEPARATOR_MASK[14:16] = True
+
+TRANSPARENT_MASK: np.ndarray = np.zeros(N_TOKENS, dtype=bool)
+TRANSPARENT_MASK[0] = True
+
+NON_SEPARATOR_MASK: np.ndarray = ~SEPARATOR_MASK
 
 
 def is_active(tid: int) -> bool:
     """Spec §Layer 4: a cell is active iff its token id is in 1..13."""
     return 1 <= tid <= 13
+
+
+def is_separator(tid: int) -> bool:
+    """Permeable-rule separator: ids 14, 15 are hard boundaries."""
+    return tid in (14, 15)
 
 
 @dataclass(frozen=True)

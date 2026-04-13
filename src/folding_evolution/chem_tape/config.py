@@ -11,7 +11,8 @@ from dataclasses import asdict, dataclass
 class ChemTapeConfig:
     # Representation
     tape_length: int = 32
-    arm: str = "B"                  # "A" = direct stack-GP, "B" = chem-tape v1
+    arm: str = "B"                  # "A" = direct stack-GP, "B" = chem-tape v1 strict,
+                                    # "BP" = v1 permeable (NOP passes through bonded runs)
 
     # Task
     task: str = "count_r"           # "count_r" | "has_upper" | "sum_gt_10"

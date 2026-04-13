@@ -33,13 +33,17 @@ def _tapes_from_population(population: list[np.ndarray]) -> np.ndarray:
 def _programs_for_arm(
     cfg: ChemTapeConfig, tapes: np.ndarray
 ) -> list[list[int]]:
-    """Arm A: full tape as program. Arm B: longest-run extraction via engine."""
+    """Arm A: full tape as program. Arm B: strict longest-active-run. Arm BP:
+    permeable longest-run (NOP passes through; ids 14/15 are hard separators)."""
     if cfg.arm == "A":
         return [tapes[b].astype(np.int64).tolist() for b in range(tapes.shape[0])]
     if cfg.arm == "B":
         mask = engine.compute_longest_run_mask(tapes, backend=cfg.backend)
         return engine.extract_programs(tapes, mask)
-    raise ValueError(f"Unknown arm {cfg.arm!r}; use 'A' or 'B'")
+    if cfg.arm == "BP":
+        mask = engine.compute_longest_runnable_mask(tapes, backend=cfg.backend)
+        return engine.extract_programs(tapes, mask)
+    raise ValueError(f"Unknown arm {cfg.arm!r}; use 'A', 'B', or 'BP'")
 
 
 def evaluate_population(

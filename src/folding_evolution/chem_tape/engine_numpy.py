@@ -17,13 +17,19 @@ from __future__ import annotations
 
 import numpy as np
 
-from .alphabet import ACTIVE_MASK
+from .alphabet import ACTIVE_MASK, NON_SEPARATOR_MASK
 
 
 def compute_active_mask(tapes: np.ndarray) -> np.ndarray:
     """(B, L) uint8 in [0, 16) → (B, L) bool. True iff token id ∈ {1..13}."""
     assert tapes.dtype == np.uint8
     return ACTIVE_MASK[tapes]
+
+
+def compute_non_separator_mask(tapes: np.ndarray) -> np.ndarray:
+    """(B, L) uint8 → (B, L) bool. True iff token id ∉ {14, 15} (permeable rule)."""
+    assert tapes.dtype == np.uint8
+    return NON_SEPARATOR_MASK[tapes]
 
 
 def _shift_right_pad0(m: np.ndarray) -> np.ndarray:
@@ -33,31 +39,39 @@ def _shift_right_pad0(m: np.ndarray) -> np.ndarray:
     return out
 
 
-def compute_longest_run_mask(tapes: np.ndarray) -> np.ndarray:
-    """Return a (B, L) bool mask picking out the leftmost-longest active run per row."""
-    is_active = compute_active_mask(tapes)                      # (B, L) bool
-    B, L = is_active.shape
+def _longest_run_under_mask(eligible: np.ndarray) -> np.ndarray:
+    """Return the (B, L) bool mask picking the leftmost-longest run of True cells.
 
-    run_start = is_active & ~_shift_right_pad0(is_active)        # (B, L) bool
-    run_id = np.cumsum(run_start.astype(np.int32), axis=1) * is_active.astype(np.int32)
+    Shared spec §Layer 6 algorithm; parameterized by which cells are eligible
+    to be part of a run. Arm B uses is_active; Arm BP uses is_non_separator.
+    """
+    B, L = eligible.shape
 
-    # lengths[b, k] = cells with run_id == k (run_id=0 means "inactive").
+    run_start = eligible & ~_shift_right_pad0(eligible)          # (B, L) bool
+    run_id = np.cumsum(run_start.astype(np.int32), axis=1) * eligible.astype(np.int32)
+
     lengths = np.zeros((B, L + 1), dtype=np.int32)
     for b in range(B):
-        # np.bincount is ~2x faster than a scatter-add loop and keeps this readable.
         lengths[b] = np.bincount(run_id[b], minlength=L + 1)
 
-    # Best run id per row; ties → leftmost (argmax returns first occurrence).
     best_run = np.argmax(lengths[:, 1:], axis=1) + 1             # (B,)
+    any_eligible = eligible.any(axis=1)
+    best_run = np.where(any_eligible, best_run, 0)
 
-    # If lengths[:, 1:] is all-zero (no active cells), argmax returns 0 → best_run=1,
-    # but run_id never equals 1 in that row, so the mask is all-False. Explicitly
-    # zero such rows so downstream behaviour is unambiguous.
-    any_active = is_active.any(axis=1)                           # (B,)
-    best_run = np.where(any_active, best_run, 0)                 # 0 → mask all-False
+    return (run_id == best_run[:, None]) & eligible              # (B, L) bool
 
-    active_best = (run_id == best_run[:, None]) & is_active       # (B, L) bool
-    return active_best
+
+def compute_longest_run_mask(tapes: np.ndarray) -> np.ndarray:
+    """Arm B (strict): longest contiguous run of *active* cells (ids 1..13)."""
+    return _longest_run_under_mask(compute_active_mask(tapes))
+
+
+def compute_longest_runnable_mask(tapes: np.ndarray) -> np.ndarray:
+    """Arm BP (permeable): longest contiguous run of *non-separator* cells
+    (ids 0..13). Id 0 (NOP) passes through bonded runs as a no-op; ids 14
+    and 15 remain hard boundaries.
+    """
+    return _longest_run_under_mask(compute_non_separator_mask(tapes))
 
 
 def extract_programs(

@@ -1,0 +1,20 @@
+sweep_name: mvp_permeable
+# Experiments §3: three-task MVP with the permeable bond rule (Arm BP).
+# Arm A and Arm B data already exists in output/mvp/; this sweep adds BP so
+# we have a three-way comparison under identical settings. 30 runs.
+base:
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 256
+  generations: 200
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 10
+  arm: BP
+grid:
+  task: [count_r, has_upper, sum_gt_10]
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
