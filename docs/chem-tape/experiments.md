@@ -307,62 +307,82 @@ This set of choices is deliberately conservative — ring (not random graph), sy
 
 **Implementation note.** Requires adding an island-aware evolution loop (`evolve_islands.py` or an `islands` config on `ChemTapeConfig`). The bond/decode engine, executor, evaluate, metrics, and task registries are untouched — this is a GA-machinery change, not a representation change. Expected incremental LOC: ~100.
 
-### Status: initial run complete (n=10 per arm). n=20 replication running for confirmation (§4f).
+### Status: n=20 replication complete. Initial n=10 story partly held, partly revised.
 
-Results from commit `4454c96` — initial-run sweep elapsed 330s / 5.5 min at 4 workers. **These are preliminary numbers from n=10; the claim structure below should be read against §4f's n=20 replication before being treated as a stable finding.**
+Results from commits `4454c96` (initial 30 runs, seeds 0-9) and `a0a22a5` (replication 30 runs, seeds 10-19). Combined sweep elapsed ~11 min at 4 workers.
 
-#### 4a. Head-to-head (islands vs panmictic at matched total evaluations, n=10)
+#### 4a. Head-to-head (islands vs panmictic at matched total evaluations)
 
-| arm | panmictic (§2b / §3b) | islands (§4) | Δ |
-|-----|----------------------|--------------|---|
-| A   | 3 / 10               | 3 / 10       | 0 |
-| B   | **0 / 10**           | **2 / 10**   | **+2** |
-| BP  | 1 / 10               | 1 / 10       | 0 |
+| arm | panmictic (n=10, seeds 0-9) | islands (n=10, seeds 0-9) | islands (n=20, seeds 0-19) | rate panmictic → islands |
+|-----|----------------------------:|--------------------------:|---------------------------:|:------------------------|
+| A   | 3 / 10 (30%) | 3 / 10 (30%) | **7 / 20 (35%)**  | 30% → 35% (+5pp) |
+| B   | 0 / 10 ( 0%) | 2 / 10 (20%) | **2 / 20 (10%)**  |  0% → 10% (+10pp) |
+| BP  | 1 / 10 (10%) | 1 / 10 (10%) | **3 / 20 (15%)**  | 10% → 15% (+5pp) |
 
-**A-B solve-count gap:** panmictic +3 → island **+1**. Islands close *most of the observed gap* at this budget. (The precise fractional claim is unstable at n=10 where solve counts are small integers — §4f n=20 tightens this.)
+**Arm A's solve count increased from 3/10 to 7/20 under islands — the n=10 preview was misleadingly flat.** Islands appear to help Arm A too. **Arm B's 2 solves are both from the first-half seeds (0-9); the second half (10-19) gave B zero solves** — so the "islands rescue B" effect at n=10 did not replicate in the second half.
+
+**Important baseline limitation.** No panmictic baseline exists for seeds 10-19. The rate comparisons in the rightmost column assume seeds 10-19 are statistically similar to seeds 0-9 under panmictic, which may or may not hold. §4f (below) queues the missing 30 panmictic-baseline runs to close this.
+
+**A-B solve-count gap:**
+
+- At n=10 (seeds 0-9): panmictic +3, islands +1 — appeared to close "most of" the gap.
+- At n=20 (full): island gap is +5 (7-2). Panmictic n=10 gap scaled to n=20 would be ~+6. **So the gap reduction is ~17%, not "most of the gap."**
+
+The initial n=10 reading overstated the effect size. The qualitative direction (islands narrow the A-B gap) may hold, but by a much smaller margin than the preview suggested.
 
 #### 4b. Which seeds do islands unlock?
 
-- **Arm B under islands:** solves seeds 2 (gen 701) and 9 (gen 257). Both are seeds Arm A also solves — i.e., islands let Arm B reach *already-known-reachable* solutions it was previously missing.
-- **Arm B does NOT solve seed 8** under this island configuration. Arm A under panmictic and islands both solve seed 8 (though island-A's solved seeds shifted from {2, 8, 9} panmictic to {1, 2, 9} island). Under *this specific GA configuration* (8×128, 50-gen interval, 2 migrants), seed 8's solution appears absent from B's effectively-reached set; but I'd need varied island parameters to claim true unreachability.
-- **Arm BP under islands** still solves only seed 2. Islands added nothing for BP at n=10.
-- **Arm A under islands** shifts which seeds it solves (1, 2, 9 vs panmictic's 2, 8, 9) but matches the same 3/10 total count — consistent with "A's diversity is already adequate under panmictic; islands just reshuffle which seeds get attention."
+Full per-arm seed sets under islands (n=20):
 
-#### 4c. Interpretation: representation-GA interaction
+- **Arm A:** {1, 2, 9, 14, 15, 18, 19} — 7 seeds. Notable: seed 8 (solved by panmictic A) is *not* here; islands shifted A's success pattern away from 8 and toward several new seeds.
+- **Arm B:** {2, 9} — 2 seeds, all first-half. No solves in seeds 10-19.
+- **Arm BP:** {2, 14, 18} — 3 seeds. Seeds 14 and 18 are solved by *both* A and BP but not B, which is the structural pattern §3 predicted (BP reaches some full-tape-ish solutions via NOP-bridged runs that B's strict mask excludes).
 
-**Primary finding — a representation-GA search-policy interaction.** Arm B was competitive under islands at pop=1024, where it was rejected under panmictic at pop=1024. Same representation, same budget, same seeds — different GA policy gives materially different results. This is the finding most robust to sample size: it's qualitative ("the ordering of outcomes changes under GA policy"), not quantitative.
+**Per-seed coverage breakdown** (interesting for ruling out "islands help all arms generically"):
 
-**What the n=10 data lets us claim:**
+- Seeds solved by A only: {1, 15, 19} — 3 seeds where only the broadest reachable class succeeds.
+- Seeds solved by A and BP (not B): {14, 18} — 2 seeds where permeable bridging helps but strict separator doesn't.
+- Seeds solved by all three: {2}.
+- Seeds solved by A and B (not BP): {9} — weirdly, BP should be strictly broader than B; this single-seed inversion is most likely a fixed-tournament-path effect at n=20.
+- Seeds solved by no arm: {0, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 16, 17} — 13 seeds.
 
-- Islands help Arm B materially (0→2 solves) while not helping Arm A (3→3) at this budget. This is representation-interaction behavior, not generic GA improvement.
-- Islands help Arm BP less visibly (1→1) than they help Arm B — but n=10 with 1 solve either way gives essentially zero discriminating power. The BP-benefits-less-than-B story is consistent with the data, not evidenced by it.
+The coverage structure is consistent with "reachable class widens A > BP > B," which is the pre-registered structural hypothesis. But with 2-7 solves per arm out of 20, the statistical power to confirm this ordering is limited.
 
-**What the n=10 data does NOT let us claim:**
+#### 4c. Interpretation: what n=20 supports (and doesn't)
 
-- A specific decomposition ratio (e.g., "2/3 diversity, 1/3 decode"). Solve counts in {0, 1, 2, 3} don't support stable fractional decomposition claims. "Most of the observed gap closed" is as precise as the data supports.
-- Intrinsic unreachability of seed 8 (or any seed) under Arm B. All we've shown is "not rescued by this one island configuration at this budget." True unreachability claims require varied migration parameters and/or scaled pop_size. §4g queues that sensitivity test.
-- That BP doesn't benefit from diversity preservation. BP at 1/10 in both regimes could be "diversity isn't BP's binding cost" or "the underlying solve rate is too low for n=10 to resolve changes." §4f n=20 helps; a larger pop or longer gens might help more.
+**What the n=20 data supports:**
 
-**What's solid in the mechanism story.** Arm A's flat 3/10 under both regimes is informative: it means islands are not generically boosting search on this problem. Whatever effect islands have is *specific to the arm whose reachable-program class is narrowest*. That's consistent with the "diversity maintenance matters more when the reachable class is small" intuition, even without a fractional tax decomposition. The interaction direction is what's supported.
+- **Under islands, the A-B solve-count gap is real and substantial:** 7/20 vs 2/20 ≈ 5 solves or 25 percentage points. This is a proper-test finding, not a sample-size artifact. The design is not rescued to A-parity.
+- **Islands produce non-zero positive effect for at least Arm B relative to panmictic-B (0/10 → 2/20).** We don't know the effect's exact size vs an apples-to-apples panmictic-B-n=20, but B picking up any solves under islands when panmictic-B was at 0/10 is directionally consistent with the diversity-interaction hypothesis.
+- **The reachable-class ordering A > BP > B is weakly consistent with the n=20 seed coverage** — A solves a superset of what BP solves except for one inversion (seed 9), and BP solves a superset of B's seeds. But at 2-7 solves out of 20 this is a pattern to flag, not conclude.
 
-**"Infrastructure bug" was the wrong label in the first draft.** Panmictic tournament was a registered design choice, not a broken implementation. The more accurate framing: chem-tape's decode rule and the GA's selection policy *interact*, and the interaction can dominate raw-representation effects. The methodological lesson is sharper than the specific B-vs-A numerical result: **a single-GA baseline is not a neutral test of a new representation when the representation materially changes the reachable-program class.**
+**What the n=20 data revises from the n=10 preview:**
 
-#### 4d. Revised reading of the v1 verdict
+- **"Islands help Arm B specifically, not A" does not replicate cleanly.** At n=20, Arm A's rate under islands (35%) is higher than Arm A under panmictic (30%). The n=10 flat 3/10-vs-3/10 was partly coincidence. Islands may be helping all arms — we can't tell without panmictic baselines on seeds 10-19. **The single-GA-comparison claim is underpowered with the data we have.**
+- **"Most of the A-B gap closes under islands" was overstated.** Rate-normalized gap reduction is ~17% (from 30pp panmictic to 25pp islands), not "most of the gap." The directional claim (island gap < panmictic gap) holds, but the effect size was smaller than the first-half numbers suggested.
+- **"Arm BP doesn't benefit from islands" was wrong.** BP at 1/10 under panmictic but 3/20 under islands — modest positive effect, similar to A's 5pp bump. §4e's "BP is immune to islands" bullet is retracted.
 
-**Reframing.** The original §2/§2b summary said "v1 chem-tape is falsified on its own acceptance criterion." A more accurate framing after §4 is: **v1 chem-tape under panmictic tournament is falsified on its own acceptance criterion; under a diversity-preserving GA at matched budget, most of the gap closes.** The single-baseline rejection reading conflated two things — representation cost and representation-GA interaction cost — and only the second part of that conflation was actionably wrong.
+**What the n=20 data does NOT support:**
 
-1. **Spec §Layer 11 rejection narrowed but not overturned.** Arm B 2/10 under islands is still < Arm A 3/10 at n=10. Rejection clause "Arm B < Arm A on sum-gt-10" still holds numerically. But the gap shrunk from +3 to +1, and +1 at n=10 is close enough to noise that the design is no longer *clearly* inferior at this budget. §4f n=20 tightens this.
-2. **"Islands become the new baseline GA" is the operational consequence.** For every downstream chem-tape experiment, panmictic pop=1024 is no longer a neutral baseline — it systematically disadvantages B-class representations. The cleanest practice is to report both GA baselines when feasible; at minimum, the island baseline should be the standard when comparing chem-tape variants.
-3. **Decode-intrinsic residual exists, but its size is unresolved.** §3 (permeable) and §4 (islands) address different candidate bottlenecks — the decode rule and the tournament-diversity interaction respectively. The combined BP-under-islands was *already* tested in §4 (the BP arm runs with n_islands=8), and it showed BP 1/10 identical to BP-panmictic 1/10. That's suggestive that BP's binding constraint is not diversity — but n=10 at 1 solve is barely above the single-run-outcome level; not conclusive. More sample size or more budget is needed to characterize the residual.
-4. **Soft redesign priority re-evaluated.** The soft redesign's motivation was "v1 is broken, so try a different bond mechanism." With the §4 reframing — v1 is "competitive under the right GA, with a smaller decode cost" — the soft redesign's value shifts from *rescue* to *exploration of a genuinely different mechanism*. Still interesting, but not on the critical path. If the representation-GA interaction finding is solid after §4f, the more immediate scientific move is to write up that finding — it's more generalizable than the specific v1 verdict.
+- A clean decomposition of the v1 tax into "diversity cost" and "decode cost" components. At this sample size the effect sizes aren't sharp enough to decompose.
+- Representation-specific island benefit ("islands disproportionately help B"). Without panmictic-on-seeds-10-19 data we can't cleanly attribute the second-half changes to islands rather than to the seeds themselves.
+
+**What remains the central finding.** The methodological point survives even after the revision: **panmictic pop=1024 and 8×128 islands at pop=1024 give different absolute results for the same representation on the same problem — a GA-structure choice that was made casually in §2 turns out to carry representation-interaction weight.** Even if the effect is smaller than n=10 suggested, reporting only one GA baseline would have masked the interaction entirely. The generalizable result is "report multiple GA policies when testing a new representation," not any specific decomposition of chem-tape's costs.
+
+**"Infrastructure bug" was the wrong first-draft label.** Panmictic tournament was a registered design choice, not a broken implementation. The accurate framing is **representation-GA search-policy interaction** — chem-tape's decode rule and the GA's selection policy interact, and the interaction is part of the total observed cost.
+
+#### 4d. Revised reading of the v1 verdict (after n=20)
+
+1. **Spec §Layer 11 rejection holds at n=20.** Arm B 2/20 (10%) is clearly < Arm A 7/20 (35%) under islands. Gap is 5 solves / 25 percentage points — larger in absolute terms than the n=10 +1 suggested. **v1 is slower-solving than direct at pop=1024/gens=1500 even with a diversity-preserving GA.** The rejection is more firmly established, not weaker.
+2. **"Islands help B specifically" is weaker than n=10 suggested.** Without panmictic baselines on seeds 10-19 we can't cleanly attribute B's island pickup to B-specific benefit vs. general search improvement that helped all arms. §4f queues the missing 30 panmictic runs to resolve this.
+3. **Islands matter as a methodology note more than as a v1 rescue.** The non-obvious finding: a GA-structure choice (tournament vs islands) affects solve-count results by single-digit percentage points across all arms. A single-GA baseline can mask interaction effects comparable to the representation's own cost. Even if the representation isn't rescued, the methodology point survives — and it generalizes beyond chem-tape.
+4. **Soft redesign priority remains downgraded.** The v1 result at this budget is "v1 is 10% solve rate on sum-gt-10 vs direct's 35%, under islands" — underpowered but not hopeless. Whether the soft redesign closes the 25pp gap is open. Better to build on firm ground (§4f panmictic baseline on 10-19, §4g migration sensitivity) before committing to the bigger redesign.
 
 #### 4e. Immediate follow-ups
 
-Three, ordered by information-per-compute:
-
-- **§4f n=20 replication (running).** Same island config, seeds 10–19 added (seeds 0–9 skipped via resumability). Doubles the statistical power. Resolves whether the n=10 pattern (A=3, B=2, BP=1) is a stable finding or a parameter-choice lucky shot.
-- **§4g migration-parameter sensitivity on Arm B.** migration_interval ∈ {25, 50, 100} × migrants_per_island ∈ {1, 2, 4}, Arm B only, n=5 seeds per cell (or n=10 if compute cheap). 45 runs. Answers: is the +2 effect specific to the pre-registered params, or is the direction robust? If robust, the interaction finding generalizes beyond the one config tested. If fragile, the finding is tied to a specific GA setup and needs more disclosure.
-- **§4h best-genotype inspection on Arm A's solved seeds.** Read the actual winning tape for seed 8 (the one Arm B never solves even under islands). Does the solution shape require cross-separator program reach (explaining why no mask-based decode — neither B's strict nor BP's permeable — can assemble it)? If yes, that's mechanism-level evidence for an irreducible decode-intrinsic cost; if no, the residual is more opaque and deserves more investigation. Zero compute (just re-decoding existing best-genotype hex) — can run right now.
+- **§4f panmictic baseline on seeds 10-19 (critical).** Run `sum_gt_10_budget_confirm.yaml`-style panmictic configs for seeds 10-19 across arms A/B/BP — 30 runs, ~5 min. Without this, the "islands help Arm B specifically" claim cannot be tested at matched sample size; the current n=20 island data vs n=10 panmictic data is apples-to-oranges. **This is the highest-priority missing data point.**
+- **§4g migration-parameter sensitivity on Arm B.** migration_interval ∈ {25, 50, 100} × migrants_per_island ∈ {1, 2, 4}, Arm B only, n=10 seeds. 90 runs. Answers: is any diversity-preservation effect on Arm B specific to the pre-registered (50, 2) choice, or robust across reasonable migration regimes? Run after §4f establishes a clean baseline.
+- **§4h best-genotype inspection on Arm A's solved seeds.** Read the actual winning tape for several A-only seeds (1, 8, 15, 19). Common structural feature? Does the shape require full-tape program reach that no mask-based decode can assemble? Zero compute.
 
 ---
 
@@ -421,15 +441,14 @@ Three, ordered by information-per-compute:
 5. **Arm B ≠ Arm A on short-scaffold tasks, and the difference is task-specific and opposite in sign.** Count-R: B/BP win (BP fastest at 11.0 median gens). Has-upper: A wins. The best current explanation is fitness-signal granularity, not scaffold length per se — graded integer labels favor shorter-program arms; binary labels with trivial-constant plateaus favor longer-program arms. §4 granularity sweep (queued) would test this as a predictor.
 6. **Mechanism claim partially vindicated (not in the predicted form).** The architecture's "scaffold preservation" framing doesn't describe the v1 data, but **§3's "decode matters and hard-separators hurt" finding vindicates a weaker claim**: the bond/decode structure does change search in ways that matter — just not necessarily in the direction or for the reason the architecture anticipated. This is the correct v1 → v2 handoff framing: what v2 should try next is *different decode rules*, not *richer chemistry* (per the original research ladder).
 7. **§2c resolved: v1 is a search-efficiency cost, not a ceiling.** Arm B solves 2/5 at pop=4096 (40%) vs 0/5 at pop=1024. Arm A keeps a roughly constant +1–2 solve advantage across the four tested budget points. Population scaling (1024→4096) helps more than generation scaling (1500→3000). The v1 rejection stands in the narrow "at the spec's budget" sense, but v1-strict is not an unworkable representation — it's a less search-efficient one than direct stack-GP, with the decode rule (not bonding as a concept) as the binding constraint.
-8. **§4 island-model: representation-GA interaction, n=10 preliminary.** 8-island ring-topology GA with synchronous migration changes Arm B's solve count from 0/10 (panmictic) → 2/10 (islands) on sum-gt-10 at matched total evaluations, while Arm A stays at 3/10 in both regimes and Arm BP stays at 1/10 in both. The qualitative finding is a **representation-GA search-policy interaction**: the same representation looks rejected or competitive depending on the GA, and the effect is specific to the arm whose reachable-program class is narrowest. Fractional decomposition claims ("N/3 diversity, M/3 decode") are not supported at n=10; "most of the observed gap closed" is the honest phrasing. §4f n=20 replication queued to confirm. **Methodological consequence:** a single-GA baseline is not a neutral test of a new representation when the representation materially changes the reachable class — panmictic pop=1024 should no longer be the default baseline for chem-tape experiments.
+8. **§4 island-model: n=20 shows effects are real but smaller than n=10 suggested.** Under 8×128 islands with ring-topology synchronous migration: Arm A 7/20 (35%), Arm B 2/20 (10%), Arm BP 3/20 (15%). The A-B rejection holds firmly at n=20 (gap: 25 percentage points). The n=10 preview's "islands specifically help B" claim is underpowered — without panmictic baselines on seeds 10-19 we can't cleanly separate representation-specific benefits from general island benefits that affect all arms. The *methodological finding* is firm: a GA-structure choice affects solve counts by single-digit percentage points across arms, so a single-GA baseline is not a neutral test of a new representation. **Panmictic pop=1024 should no longer be the default baseline for chem-tape experiments.** §4f panmictic-on-10-19 baseline is the critical missing data to resolve effect-size attribution.
 
 9. **Current priorities (in order):**
-   - **§4f n=20 replication** — running. Confirms or corrects §4's n=10 pattern. Cheap (~5 min in background). All downstream claims depend on this landing.
-   - **§4g migration-parameter sensitivity on Arm B** — tests whether the +2 diversity effect is robust to the specific (50-gen × 2-migrants) choice. If yes, the interaction claim generalizes. If no, the §4 finding is narrower than advertised and disclosure matters.
-   - **§4h best-genotype inspection on Arm A seeds 2/8/9** — zero-compute; asks whether seed 8's solution shape is structurally outside any mask-based decode.
-   - **Write-up of the representation-GA interaction finding** — the most generalizable result so far. Worth framing carefully before running more experiments since it affects how every subsequent chem-tape result should be reported.
-   - **§v1.5 regime-shift test** — still the architecture's motivating experiment. Runs after §4f confirms (or revises) the baseline.
+   - **§4f panmictic baseline on seeds 10-19** — critical. Without this the "islands help B specifically" claim cannot be tested at matched sample size. 30 runs, ~5 min, closes the apples-to-oranges problem in §4a.
+   - **§4h best-genotype inspection on Arm A seeds {1, 8, 15, 19}** — zero-compute; asks whether the A-only-solved seeds share a structural feature that mask-based decodes can't reach.
+   - **§4g migration sensitivity** — tests whether any B-specific effect is robust across reasonable migration regimes. Lower priority until §4f clarifies whether a B-specific effect exists at all.
+   - **§v1.5 regime-shift test** — the architecture's motivating experiment. Tests whether chem-tape's neutral reserve enables folding-analog dynamic advantages. Runs after §4f clarifies the baseline picture.
    - **Fully-permeable rule ablation** — queued.
-   - **Soft redesign** — downgraded. With §4's reframing, v1 is "competitive under the right GA, with a smaller decode cost" rather than "broken." The soft redesign's value is now "exploring a different mechanism for using bonds" rather than "rescuing a broken representation."
+   - **Soft redesign** — downgraded; see §4d.
 
 See [architecture.md](architecture.md) for the substrate specification, [findings.md](../findings.md) for the prior Elixir-era folding results that motivated the "differential outcome" expectation, and [coevolution.md](../coevolution.md) for the coevolution designs that produced the scaffold-preservation framing.
