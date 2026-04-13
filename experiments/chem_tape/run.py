@@ -63,6 +63,7 @@ def execute(cfg: ChemTapeConfig, output_root: Path) -> Path:
         mean_fitness=np.array([s.mean_fitness for s in history]),
         std_fitness=np.array([s.std_fitness for s in history]),
         unique_genotypes=np.array([s.unique_genotypes for s in history]),
+        unique_programs=np.array([s.unique_programs for s in history]),
         mean_longest_run=np.array([s.mean_longest_run for s in history]),
         max_longest_run=np.array([s.max_longest_run for s in history]),
         best_longest_run=np.array([s.best_longest_run for s in history]),

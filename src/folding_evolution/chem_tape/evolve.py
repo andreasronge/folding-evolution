@@ -74,8 +74,9 @@ def run_evolution(cfg: ChemTapeConfig) -> EvolutionResult:
     fitnesses, _ = evaluate_population(population, task, cfg)
 
     stats = ChemTapeStatsCollector()
-    stats.record(0, fitnesses, population)
+    stats.record(0, fitnesses, population, arm=cfg.arm)
 
+    gen = 0
     for gen in range(1, cfg.generations + 1):
         order = np.argsort(-fitnesses)
         elites = [population[i].copy() for i in order[: cfg.elite_count]]
@@ -95,7 +96,10 @@ def run_evolution(cfg: ChemTapeConfig) -> EvolutionResult:
 
         population = new_pop
         fitnesses, _ = evaluate_population(population, task, cfg)
-        stats.record(gen, fitnesses, population)
+        stats.record(gen, fitnesses, population, arm=cfg.arm)
+
+        if fitnesses.max() >= 1.0:
+            break
 
     best_idx = int(np.argmax(fitnesses))
     best = population[best_idx].copy()
@@ -110,6 +114,6 @@ def run_evolution(cfg: ChemTapeConfig) -> EvolutionResult:
         best_genotype=best,
         best_fitness=float(fitnesses[best_idx]),
         stats=stats,
-        generations_run=cfg.generations,
+        generations_run=gen,
         holdout_fitness=holdout_fitness,
     )
