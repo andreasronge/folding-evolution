@@ -19,10 +19,13 @@ Chemistry-tape's bet: a separator-based decode with a neutral reserve is the sim
 
 Four stages, each gated on its predecessor. Only v1 is fully specified in this document.
 
-- **v1 — Substrate gate (this doc).** *Does persistent local bonding around a fixed tape outperform direct stack-GP on tasks where scaffold completion matters?* Two arms: direct stack-GP vs. chemistry-tape with a fixed trivial bond rule. If B ≤ A on simple string benchmarks, the entire direction is falsified cheaply. If B > A, the separator-based decode earns the right to everything downstream.
+- **v1 — Substrate gate (this doc).** *Does persistent local bonding around a fixed tape outperform direct stack-GP on tasks where scaffold completion matters?* Two arms: direct stack-GP vs. chemistry-tape with a fixed trivial bond rule. The predicted positive signal is *differential*, not uniform — Arm B is expected to lose on short-scaffold benchmarks and win on long-scaffold ones (see Layer 9 and the methodological note below). If B ≤ A on sum-gt-10 (the long-scaffold test), the entire direction is falsified cheaply.
+- **v1.5 — Regime-shift test (optional, gated on v1).** *Does chem-tape show temporal-regime-shift advantages analogous to folding's?* Same three benchmarks as v1, but the active task alternates every `N` generations within a single run (e.g., count-R → has-upper → sum-gt-10 → repeat). Tests whether Arm B's neutral reserve enables cross-task adaptation the way folding's pleiotropy enabled regime recovery (`docs/findings.md` §4–§5). Cheap — one extra sweep if v1 passes. Answers whether chem-tape inherits folding's dynamic advantage on a different axis or produces its own independent structural-scaffold advantage.
 - **v2 — Expressivity parity.** *Can chem-tape, extended to match folding-Lisp's problem domain, compete with folding-Lisp on its own benchmarks?* Adds quotation tokens (LAMBDA_OPEN/LAMBDA_CLOSE or Joy-style `[` `]`), structured-record inputs, field-access tokens, control-flow tokens. Alphabet grows to ~30. Enables direct comparison against folding-Lisp on filter/map/reduce queries over records.
 - **v3 — Chemistry ablation.** *How much of folding's evolvability comes from the clever multi-pass chemistry, and which mechanism within it?* At matched alphabet (v2's), introduce folding-style chemistry mechanisms one at a time: single-pass → multi-pass staged bonding → + bond priority (assembled > literal > data) → + irreversibility (consumed can't rebond). Five-arm ablation that produces a publishable-grade attribution claim.
 - **v4 — Topology ablation.** *Does 2D adjacency contribute beyond chemistry mechanism?* 1D vs. 2D chem-tape at matched chemistry. Separates the dimensionality contribution from the chemistry-mechanism contribution that v3 establishes.
+
+**Methodological note — the conditional-benefit pattern (analog to folding's regime-shift result).** Folding's key finding (`docs/findings.md` §4–§5) was not a uniform improvement over direct encoding but a *conditional* one: folding looked comparable or worse on static metrics, and only outperformed when the fitness regime shifted. The original hypothesis ("folding increases neutrality") turned out to be the wrong vocabulary; the reframed finding was about pleiotropy enabling structural reorganization under pressure. Chem-tape's v1 hypothesis has the same shape — Arm B is predicted to *lose* on short-scaffold tasks (count-R, has-upper) and *win* on long-scaffold tasks (sum-gt-10). A differential outcome is the expected positive signal under the hypothesis, not a contradiction. Gate criteria and result interpretation below are designed for this expectation, and the mechanism language ("scaffold preservation") is deliberately loose enough that v1 data can rename the mechanism if it needs to.
 
 v1 is deliberately the cheapest possible gate. It does **not** by itself test chemistry mechanism, higher-order evolvability, or folding-comparable expressivity — those are v2+ questions that earn their runs only if v1 passes.
 
@@ -227,13 +230,21 @@ A v1 result means nothing without a comparison. Two arms, sharing the same GA, t
 
 Everything else is bitwise the same code path. This is the equivalence the comparison hinges on.
 
-**Outcomes that discriminate cleanly:**
+**Outcomes that discriminate cleanly (differential pattern across tasks, not per-task in isolation):**
 
-- **Arm A > Arm B:** separator-based decode throws away information that direct execution uses. The whole chemistry-tape direction is falsified. Stop.
-- **Arm A ≈ Arm B:** no effect. The developmental layer neither helps nor hurts. Probably also falsifying — chem-tape's thesis was that persistent bonding helps, not that it's neutral.
-- **Arm B > Arm A:** separator-based decode with neutral reserve helps. v2+ earns the right to extend expressivity and study richer chemistry mechanisms.
+Chem-tape's mechanism is predicted to be task-dependent. On short-scaffold tasks (count-R, has-upper, ~4-cell optimum), Arm B's longest-run decode can drop cells that Arm A uses freely — the mechanism is a net cost. On long-scaffold tasks (sum-gt-10, ~14-cell optimum), the neutral reserve protects partial scaffolds from disruption elsewhere on the tape — the mechanism is a net gain. The expected positive signal is therefore *differential*, not uniform:
 
-A v1.5 fixed-typed-chemistry arm (bonds only form between type-compatible tokens) is deliberately deferred to v3, where it becomes the "Arm 2 — multi-pass staged bonding" of the chemistry ablation. Bundling it into v1 would conflate two questions.
+| count-R (short) | has-upper (short) | sum-gt-10 (long) | interpretation |
+|-----------------|-------------------|------------------|----------------|
+| B < A | B < A | B > A | **Predicted pattern — hypothesis confirmed, mechanism localized to scaffold-completion pressure** |
+| B ≈ A | B ≈ A | B > A | Also hypothesis-confirming (weaker differential) |
+| B > A | B > A | B > A | Uniform benefit — something beyond scaffold-preservation is active; reframe the mechanism |
+| B ≤ A | B ≤ A | B ≤ A | Design worse everywhere. Falsifies. |
+| B > A | B < A | B < A | Incoherent; suggests confound or noise — rerun with more seeds |
+
+**Acceptance criterion:** Arm B > Arm A on sum-gt-10 (the load-bearing benchmark). Outcomes on count-R and has-upper characterize the mechanism but do not gate it. **Rejection** requires Arm B ≤ Arm A on *all three* benchmarks, or Arm B < Arm A on sum-gt-10 specifically.
+
+A typed-chemistry arm (bonds only form between type-compatible tokens) is deliberately deferred to v3, where it becomes the "Arm 2 — multi-pass staged bonding" of the chemistry ablation. Bundling it into v1 would conflate two questions.
 
 ## Layer 10: Benchmark definitions
 
@@ -278,11 +289,19 @@ Any task whose input space exceeds `E` also logs a **held-out generalization fit
 
 ## Layer 11: MVP sweep
 
-`sweeps/mvp.yaml` — task = count-R, `arm ∈ {A, B}` × 10 seeds, fixed `L=32, pop=256, gens=200, E=64, mutation_rate=0.03, crossover_rate=0.7`.
+`sweeps/mvp.yaml` — `task ∈ {count-R, has-upper, sum-gt-10}` × `arm ∈ {A, B}` × 10 seeds, fixed `L=32, pop=256, gens=200, E=64, mutation_rate=0.03, crossover_rate=0.7`. ~1.5 hours total on M1 — cheap enough that there is no reason to stage benchmarks behind a single-task gate.
 
-**Gate criterion:** Arm B reaches fitness 1.0 on count-R at least as often as Arm A *and* within ≤ 2× the generations on median. If Arm B is strictly worse on this benchmark (where the separator-based decode has no specific advantage), the design doesn't survive contact with an easy problem and further benchmarks are not run.
+**Acceptance criterion (from Layer 9):** Arm B > Arm A on sum-gt-10 (the load-bearing benchmark). Outcomes on count-R and has-upper characterize the mechanism (differential, uniform, or null) but do not gate the design. Rejection requires Arm B ≤ Arm A on *all three* benchmarks, or Arm B < Arm A on sum-gt-10 specifically.
 
-Only if MVP passes do the real experiments begin on `has-upper` and `sum-gt-10`. **sum-gt-10 is the load-bearing benchmark** — its ~14-cell scaffold is where Arm B's hypothesized advantage (scaffold-preserving neutral reserve) should be most visible. count-R and has-upper have ~4-cell natural scaffolds; sum-gt-10 has ~14. If chem-tape outperforms direct stack-GP anywhere, it should be there.
+**Why no single-benchmark gate.** An earlier draft gated on count-R. That is the wrong test: count-R is the benchmark where chem-tape is most likely to lose regardless of whether the underlying mechanism works, because its ~4-cell natural scaffold makes Arm B's longest-run decode a cost without a matching benefit. Gating on count-R would reject exactly the differential outcome pattern that most strongly supports the hypothesis (see the methodological note in the research ladder, above). Running all three from the start and judging on the differential is the sound version.
+
+**Diagnostics to log** (beyond best/mean/std fitness):
+
+- Longest active run length at gen-0 and final (mean and distribution across population).
+- Per-generation best-tape with active-run boundaries marked — for visual inspection of scaffold-building dynamics.
+- Held-out generalization fitness alongside training fitness (Layer 10) — guards against the overfitting artifact that caught out 8-bit parity in the CA module (`docs/ca/experiments.md` §9).
+
+If Arm B loses on count-R (expected under the hypothesis), these diagnostics are what tell us *why*: is Arm B's longest-run dropping useful cells, or is the active-cell fraction at gen-0 too sparse for short scaffolds? The former is intrinsic; the latter suggests tuning the genotype distribution per task.
 
 ## Layer 12: Backend, engine, and driver
 
