@@ -60,6 +60,7 @@ def _gen_balanced(
     gen_one: Callable[[np.random.Generator], object],
     label_fn: Callable[[object], int],
     positive_predicate: Callable[[object], bool],
+    gen_negative: Callable[[np.random.Generator], object] | None = None,
     exclude: set | None = None,
     max_tries_per_half: int = 100_000,
 ) -> tuple[list, np.ndarray]:
@@ -67,27 +68,36 @@ def _gen_balanced(
 
     `exclude` is a set of input hashes to reject (used to make the holdout
     disjoint from training). Odd n rounds up in the positive half.
+
+    If `gen_negative` is provided, it is used as a dedicated sampler for the
+    negative half (saves massive rejection-sampling cost when one class is
+    rare under `gen_one`, e.g. has_upper's "no uppercase" strings). Generated
+    negatives are verified against `positive_predicate` and skipped if they
+    don't match — the dedicated sampler is trusted but not blindly.
     """
     want_pos = (n + 1) // 2
     want_neg = n - want_pos
-    pos: list = []
-    neg: list = []
     exclude = exclude if exclude is not None else set()
-    tries = 0
-    limit = max_tries_per_half * n
-    while (len(pos) < want_pos or len(neg) < want_neg) and tries < limit:
-        x = gen_one(rng)
-        key = repr(x)
-        if key in exclude:
+
+    def _sample_until(n_wanted: int, sampler, expect_positive: bool) -> list:
+        out: list = []
+        tries = 0
+        limit = max_tries_per_half * max(n_wanted, 1)
+        while len(out) < n_wanted and tries < limit:
+            x = sampler(rng)
+            key = repr(x)
             tries += 1
-            continue
-        if positive_predicate(x) and len(pos) < want_pos:
-            pos.append(x)
-            exclude.add(key)
-        elif not positive_predicate(x) and len(neg) < want_neg:
-            neg.append(x)
-            exclude.add(key)
-        tries += 1
+            if key in exclude:
+                continue
+            if positive_predicate(x) == expect_positive:
+                out.append(x)
+                exclude.add(key)
+        return out
+
+    pos = _sample_until(want_pos, gen_one, True)
+    neg_sampler = gen_negative if gen_negative is not None else gen_one
+    neg = _sample_until(want_neg, neg_sampler, False)
+
     inputs = pos + neg
     # Shuffle so positives and negatives interleave.
     order = rng.permutation(len(inputs))
@@ -118,10 +128,12 @@ def _build_training_and_holdout(
     gen_one: Callable[[np.random.Generator], object],
     label_fn: Callable[[object], int],
     positive_predicate: Callable[[object], bool],
+    gen_negative: Callable[[np.random.Generator], object] | None = None,
 ) -> tuple[list, np.ndarray, list | None, np.ndarray | None]:
     train_rng = np.random.default_rng(seed)
     train_inputs, train_labels = _gen_balanced(
-        train_rng, n_train, gen_one, label_fn, positive_predicate
+        train_rng, n_train, gen_one, label_fn, positive_predicate,
+        gen_negative=gen_negative,
     )
     if n_holdout <= 0:
         return train_inputs, train_labels, None, None
@@ -129,7 +141,8 @@ def _build_training_and_holdout(
     exclude = {repr(x) for x in train_inputs}
     hold_rng = np.random.default_rng(seed ^ 0xABCDEF)
     hold_inputs, hold_labels = _gen_balanced(
-        hold_rng, n_holdout, gen_one, label_fn, positive_predicate, exclude=exclude
+        hold_rng, n_holdout, gen_one, label_fn, positive_predicate,
+        gen_negative=gen_negative, exclude=exclude,
     )
     return train_inputs, train_labels, hold_inputs, hold_labels
 
@@ -155,10 +168,18 @@ def make_count_r_task(cfg: ChemTapeConfig, seed: int) -> Task:
 
 def make_has_upper_task(cfg: ChemTapeConfig, seed: int) -> Task:
     """has-upper: does a length-16 string contain any uppercase character?"""
+    # Negatives (no uppercase) have probability ~(27/53)^16 ≈ 2e-5 under the
+    # full alphabet, so rejection sampling burns seconds. Draw negatives
+    # directly from the non-upper subset (26 lowercase + 1 space).
+    _LOWER_ALPHABET = [c for c in "abcdefghijklmnopqrstuvwxyz "]
     def gen(rng): return _rand_str(rng, length=16)
+    def gen_neg(rng):
+        idx = rng.integers(0, len(_LOWER_ALPHABET), size=16)
+        return "".join(_LOWER_ALPHABET[i] for i in idx)
     def positive(s): return any(c.isupper() for c in s)
     train_inp, train_lab, hold_inp, hold_lab = _build_training_and_holdout(
-        seed, cfg.n_examples, cfg.holdout_size, gen, _has_upper_label, positive
+        seed, cfg.n_examples, cfg.holdout_size, gen, _has_upper_label, positive,
+        gen_negative=gen_neg,
     )
     return Task(
         name="has_upper",
