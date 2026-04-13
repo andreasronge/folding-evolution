@@ -1,7 +1,10 @@
 sweep_name: mvp
+# Architecture §Layer 11: task × arm × seed = 3 × 2 × 10 = 60 configs. The
+# expected signal is differential across tasks (Arm B < Arm A on short
+# scaffolds, Arm B > Arm A on sum-gt-10), not uniform. Gate is on sum-gt-10
+# only; count-R and has-upper characterize the mechanism.
 base:
   tape_length: 32
-  task: count_r
   n_examples: 64
   holdout_size: 256
   pop_size: 256
@@ -13,5 +16,6 @@ base:
   backend: mlx
   log_every: 10
 grid:
+  task: [count_r, has_upper, sum_gt_10]
   arm: [A, B]
   seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
