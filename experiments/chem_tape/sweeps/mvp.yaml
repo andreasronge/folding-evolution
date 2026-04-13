@@ -1,0 +1,17 @@
+sweep_name: mvp
+base:
+  tape_length: 32
+  task: count_r
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 256
+  generations: 200
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 10
+grid:
+  arm: [A, B]
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]

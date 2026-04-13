@@ -5,3 +5,6 @@ __pycache__/
 .pytest_cache/
 output/runs/
 experiments/ca/output/
+experiments/chem_tape/output/
+experiments/chemistry-tape/output/
+experiments/output/
