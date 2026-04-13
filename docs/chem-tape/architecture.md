@@ -32,7 +32,7 @@ v1 is deliberately the cheapest possible gate. It does **not** by itself test ch
 Genotype (initial tape: 32 bytes — only field under selection in v1)
     |
     v
-Fixed chemistry: bond[i] = (tape[i].token != NOP) AND (tape[i+1].token != NOP)
+Fixed chemistry: bond[i] = is_active(tape[i]) AND is_active(tape[i+1])
     |
     v  (one-pass; no temporal dynamics in v1)
 Phenotype: longest contiguous bonded run on the tape
@@ -61,28 +61,41 @@ Default `L = 32`. In v1 the bond bits on the input tape are always zero — bond
 
 ## Layer 2: Token alphabet (14 tokens)
 
-Fourteen tokens covering a small typed RPN instruction set. Chosen to be **closed** (every combination executes without crashing — see Layer 3) and sufficient for the v1 benchmark ladder (count-R, has-upper, sum-gt-10).
+Each task defines its own 14-token alphabet, split into **12 task-invariant shared tokens** (ids 0–11) and **2 task-specific slots** (ids 12–13). The shared core is what makes cross-task comparisons clean; the task-specific slots let each task access operations relevant to its problem shape.
 
-| id | token         | stack effect                             |
-|----|---------------|------------------------------------------|
-| 0  | NOP           | — (acts as separator in v1 chemistry)    |
-| 1  | INPUT         | → input                                  |
-| 2  | CONST_0       | → 0                                      |
-| 3  | CONST_1       | → 1                                      |
-| 4  | CHARS         | str → charlist                           |
-| 5  | MAP_EQ_R      | charlist → boollist                      |
-| 6  | MAP_IS_UPPER  | charlist → boollist                      |
-| 7  | SUM           | list → int                               |
-| 8  | ANY           | boollist → bool                          |
-| 9  | ADD           | int, int → int                           |
-| 10 | GT            | int, int → bool                          |
-| 11 | DUP           | a → a, a                                 |
-| 12 | SWAP          | a, b → b, a                              |
-| 13 | REDUCE_ADD    | list → int (fixed combinator)            |
+**Shared tokens (ids 0–11) — identical across all tasks:**
 
-Ids 14–15 are unused in v1. Kept available for v2 (LAMBDA_OPEN / LAMBDA_CLOSE) so the alphabet stays at 4 bits/token and rule-table dimensions don't churn when v2 arrives.
+| id | token       | input types      | output type |
+|----|-------------|------------------|-------------|
+| 0  | NOP         | —                | —           |
+| 1  | INPUT       | —                | task-declared (str, intlist, …) |
+| 2  | CONST_0     | —                | int         |
+| 3  | CONST_1     | —                | int         |
+| 4  | CHARS       | str              | charlist    |
+| 5  | SUM         | intlist          | int         |
+| 6  | ANY         | intlist          | int (0/1)   |
+| 7  | ADD         | int, int         | int         |
+| 8  | GT          | int, int         | int (0/1)   |
+| 9  | DUP         | a                | a, a        |
+| 10 | SWAP        | a, b             | b, a        |
+| 11 | REDUCE_ADD  | intlist          | int (fixed combinator) |
 
-**Types are tracked at execution time via tagged values.** `REDUCE_ADD` is a fixed combinator, not a higher-order operator — it sums a list directly. User-provided step functions require quotation tokens and are a v2 feature.
+**Task-specific slots (ids 12–13) — per-task, declared in each benchmark's config (see Layer 10):**
+
+| task        | id 12         | id 13 |
+|-------------|---------------|-------|
+| count-R     | MAP_EQ_R      | NOP   |
+| has-upper   | MAP_IS_UPPER  | NOP   |
+| sum-gt-10   | NOP           | NOP   |
+
+- `MAP_EQ_R`: `charlist → intlist` — maps each char to 1 if `== 'R'`, else 0.
+- `MAP_IS_UPPER`: `charlist → intlist` — maps each char to 1 if uppercase, else 0.
+
+Unused task-specific slots (`NOP`) mean some tasks have an effective alphabet smaller than 14. This is deliberate — the extra NOPs become additional neutral reserve. Sum-gt-10 uses only the shared core, which is the point (see Layer 10).
+
+**Ids 14–15** are unused in v1 and **execute as NOP** (see Layer 7). Kept reserved for v2 quotation tokens (LAMBDA_OPEN / LAMBDA_CLOSE) so the 4-bit encoding stays stable when v2 arrives.
+
+`REDUCE_ADD` is a fixed combinator, not a higher-order operator — it sums a list directly. User-provided step functions require quotation tokens and are a v2 feature.
 
 ## Layer 3: Execution safety — non-negotiable
 
@@ -90,47 +103,65 @@ Every combination of tokens must produce *some* output. No exceptions, no crashe
 
 Semantics (not validation errors — semantics):
 
-- Pop from empty stack → yield `0` (or empty list, matched by expected type).
-- Wrong-type operand → coerce to a default: non-numeric → `0`, non-list → empty list.
+- Pop from empty stack → yield the default value for the op's expected input type (see runtime type system below).
+- Wrong-type operand → coerce to the same type-matched default.
 - Hard cap: 256 stack operations per program. Truncate beyond; final stack top is the output.
 - End of execution: if stack is empty, output is `0`. Otherwise, top of stack is the output.
 
+### Runtime type system
+
+Four tagged value types:
+
+| type     | default | notes                                                |
+|----------|---------|------------------------------------------------------|
+| int      | `0`     | bools are ints; `0` is false, non-zero is true       |
+| intlist  | `[]`    | used for counts, boolean vectors, list reductions    |
+| str      | `""`    | input-only in v1; no str-constructing ops            |
+| charlist | `[]`    | produced by `CHARS`; consumed by map-ops             |
+
+**No separate `bool` type.** `ANY`, `GT`, and `MAP_EQ_R` all produce ints in `{0, 1}`. `SUM` of an intlist of 0/1 values is a count — this is the v1 idiom for counting.
+
+**Per-op dispatch on pop.** Each op declares an input signature. When popping, if the stack is empty or the top-of-stack has the wrong type, the op substitutes the declared type's default before consuming. Example: `ADD` expects `(int, int)`; an empty stack supplies `(0, 0)` and `ADD` produces `0`. `SUM` expects `(intlist)`; wrong type supplies `[]` and `SUM` produces `0`. Codified once in `executor.py` and dispatched from each op's declared signature — no op contains its own empty-stack logic.
+
 ## Layer 4: Chemistry (fixed, trivial in v1)
 
-The v1 chemistry rule is deliberately the simplest non-trivial rule:
+The v1 chemistry rule is deliberately the simplest non-trivial rule. Define:
 
-> **Bond exists between cells `i` and `i+1` iff both tokens are non-NOP.**
+> **A cell is *active* iff its token executes a non-NOP operation — `token ∈ {1..13}`. Ids 0, 14, and 15 all execute as NOP in v1 and are inactive.**
+>
+> **Bond exists between cells `i` and `i+1` iff both cells are active.**
 
 Computed in one pass from the tape. No temporal dynamics. No T-step CA. The rule takes the tape as input and emits a bond graph.
 
 This is intentional. v1 is the **substrate gate** — it tests whether the *consequence* of persistent bonding (a neutral reserve plus a bonded "active" region) helps evolution at all. If it does, v2 and v3 earn the right to introduce richer dynamics (typed bonding, multi-pass staging, evolved rules). If it does not, no amount of cleverer chemistry will help either.
 
-**What this trivializes on purpose.** The v1 rule makes NOPs the *only* source of separators — every non-NOP adjacency bonds. A v2.5 or v3 rule could make bonding *type-compatible* (e.g., INPUT bonds to CHARS, CHARS bonds to MAP_*, etc.), or allow bonds to form and break across T steps. Those are planned later ablations, not v1 concerns.
+**What this trivializes on purpose.** The v1 rule makes inactive cells the *only* source of separators — every active adjacency bonds. A v3 rule could make bonding *type-compatible* (e.g., INPUT bonds to CHARS, CHARS bonds to MAP_*, etc.), or allow bonds to form and break across T steps. Those are planned later ablations, not v1 concerns.
 
-**What this preserves honestly.** Scaffold preservation in v1 is "a contiguous non-NOP region survives small mutations as long as no mutation turns an interior cell into a NOP." Neutral reserve is "NOPs and any non-NOP region shorter than the longest are selection-invisible." Both properties are weaker than folding's, but they are present and measurable.
+**What this preserves honestly.** Scaffold preservation in v1 is "a contiguous active region survives small mutations as long as no mutation turns an interior cell inactive." Neutral reserve is "inactive cells plus any active region shorter than the longest are selection-invisible." Both properties are weaker than folding's, but they are present and measurable.
 
 ## Layer 5: Phenotype decode
 
-Walk the tape left to right. Identify all maximal contiguous runs of non-NOP cells (each is a "bonded run"). Execute the **longest** bonded run as an RPN stack program. All other cells — shorter runs and NOPs — are ignored; they form the neutral reserve.
+Walk the tape left to right. Identify all maximal contiguous runs of active cells. Execute the **longest** active run as an RPN stack program. All other cells — shorter runs and inactive cells — are ignored; they form the neutral reserve.
 
-Worked example. Tape:
+Worked example with tape tokens (inactive cells marked `_`):
 
 ```
-idx:   0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 ...
-token: 1  4  5  7  0  0  1  4  5  6  8  0  2  9  0  0 ...
+idx:   0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15
+token: 1  4 12  5  _  _  1  4 12  6 10  _  2  7  _  _
+                                   ANY
 ```
 
-Token 0 = NOP. Bonded runs are:
+Interpreting the `_` cells as inactive, active runs are:
 
-- cells 0–3 = `[INPUT, CHARS, MAP_EQ_R, SUM]` (length 4)
-- cells 6–10 = `[INPUT, CHARS, MAP_EQ_R, MAP_IS_UPPER, ANY]` (length 5) ← longest
+- cells 0–3 = `[INPUT, CHARS, MAP_EQ_R, SUM]` (length 4) — count-R task alphabet.
+- cells 6–10 = `[INPUT, CHARS, MAP_EQ_R, ANY, GT]` (length 5) ← longest
 - cells 12–13 = `[CONST_0, ADD]` (length 2)
 
-Executed program: `INPUT CHARS MAP_EQ_R MAP_IS_UPPER ANY`. Everything else is neutral reserve.
+Executed program: cells 6–10. Everything else is neutral reserve.
 
-**Ties:** if two bonded runs are the same length, pick the leftmost. Deterministic by construction.
+**Ties:** if two active runs are the same length, pick the leftmost. Deterministic by construction.
 
-**Empty case:** all-NOP tape or all-length-0 runs → empty program → stack ends empty → output `0`.
+**Empty case:** all-inactive tape or all-length-zero runs → empty program → stack ends empty → output `0`.
 
 This "longest run" rule is the v1 simplification of the original spec's concatenated-runs decode. Concatenation produced semantic adjacency between fragments that were never chemically connected; longest-run keeps motif boundaries sharp at the cost of dropping secondary bonded regions.
 
@@ -139,21 +170,44 @@ This "longest run" rule is the v1 simplification of the original spec's concaten
 Same pattern as the CA module. For population `P` and `E` task examples:
 
 - Tapes: broadcast to `(P·E, L)` bytes.
-- Bond computation: one stencil op, `bond[i] = (token[i] != 0) AND (token[i+1] != 0)` over the full batch.
-- Longest-run finding: compute run-starts and run-lengths with MLX primitives (segment reductions), take argmax, gather the run.
-- Stack execution: per-example Python/NumPy loop for v1. At `P=256, E=64` that's 16K evaluations per generation, each ~32 tokens × ≤256 op cap — acceptable unless profiling shows otherwise.
+- Bond computation: one stencil op — compute `is_active[b, i] = (token[b, i] >= 1) & (token[b, i] <= 13)` in parallel.
+- Longest-run finding: algorithm below.
+- Stack execution: per-example Python/NumPy loop for v1. At `P=256, E=64` that's 16K evaluations per generation, each ≤32 tokens × ≤256 op cap — acceptable unless profiling shows otherwise.
+
+### Longest-run algorithm (vectorized, batched)
+
+For batched tape `(B, L)` of uint8 tokens:
+
+```
+1. is_active    = (token >= 1) & (token <= 13)               # (B, L) bool
+2. run_start    = is_active & ~shift_right_pad0(is_active)   # (B, L); 1 at first cell of each active run
+3. run_id       = cumsum(run_start, axis=1) * is_active       # (B, L); 0 for inactive, else 1-indexed
+4. lengths      = scatter_add_per_row(run_id, ones)           # (B, L+1); lengths[b, k] = cells with run_id=k
+5. best_run     = argmax(lengths[:, 1:], axis=1) + 1          # (B,); skip run_id=0 (inactive); ties → leftmost
+6. active_mask  = (run_id == best_run[:, None]) & is_active   # (B, L)
+7. gather token[b] where active_mask[b] is true, preserving tape order → program per batch row
+```
+
+`shift_right_pad0` shifts the axis right by one with zero padding. `scatter_add_per_row` is implementable in MLX via `mx.zeros((B, L+1)).at[batch_idx, run_id].add(1)`; the NumPy reference uses `np.apply_along_axis(np.bincount, 1, run_id, minlength=L+1)`.
 
 **Batched stack execution** (fixed-size stack tensor with masks) is deferred to v2 or later, only if execution becomes the bottleneck. In v1 the expected hot path is bond computation + longest-run, both of which are MLX-native.
 
 ## Layer 7: Genotype and operators (v1)
 
-One evolved array:
+One evolved array: the **initial tape** (`L = 32` bytes). No evolved rule table in v1 — the bond rule (Layer 4) is fixed. A rule table becomes an evolved genotype component in v3 (chemistry ablation).
 
-- **Initial tape** (`L = 32` bytes). Per-byte mutation at rate `mutation_rate` (default 0.03). Mutation randomizes the low 4 bits (token); high bits stay zero.
+### Genotype distribution (initialization and mutation)
 
-Single-point crossover on the tape. Mutation rate and crossover rate are sweep axes.
+**Per cell, sample uniformly from `{0..15}`** for both initialization and mutation. Ids 14 and 15 execute as NOP in v1, giving three NOP alleles (0, 14, 15). Effective NOP frequency per cell ≈ 3/16 ≈ 19%, or ~6 inactive cells per 32-cell tape at gen-0 — enough for a meaningful neutral reserve and multiple bonded segments from the start, without any ad-hoc init bias.
 
-**No evolved rule table in v1.** The bond rule (Layer 4) is fixed. A rule table becomes an evolved genotype component in v3 (chemistry ablation). This is the main thing v1 strips compared to the original unsimplified spec: tape is 32 bytes, total evolved genotype is 32 bytes, search-space is balanced.
+Three NOP alleles is a feature, not a bug: extra neutrality, no special code path. When v2 arrives, ids 14 and 15 take on their quotation-token meanings without changing the init/mutation distribution.
+
+### Operators
+
+- **Point mutation:** per-byte, rate `mutation_rate` (default **0.03**). Replaces the byte with a fresh uniform sample from `{0..15}` (so a mutation to the same value is possible but rare — 1/16).
+- **Crossover:** single-point splice on the tape, rate `crossover_rate` (default **0.7**). When crossover does not fire, one parent copies through. Children are always mutated.
+
+Both rates are sweep axes.
 
 ## Layer 8: Evolution loop
 
@@ -161,10 +215,17 @@ Identical to CA-GP. Tournament selection (size 3), elitism (count 2), no niching
 
 ## Layer 9: The two research arms
 
-A v1 result means nothing without a comparison. Two arms, sharing the same GA, token alphabet, and stack semantics:
+A v1 result means nothing without a comparison. Two arms, sharing the same GA, token alphabet (per task), and stack semantics:
 
-1. **Arm A — Direct stack-GP (null hypothesis).** The tape is executed directly as an RPN program. All 32 tokens participate in execution in tape order; NOPs are no-ops but do not act as separators. This is the stack-GP baseline with no developmental layer.
-2. **Arm B — Chemistry-tape v1 (this design).** NOPs act as separators; only the longest non-NOP run executes. This introduces the neutral reserve and separator-based decode.
+1. **Arm A — Direct stack-GP (null hypothesis).** The tape is executed directly as an RPN program. All 32 tokens participate in execution in tape order; NOPs (and ids 14–15) are no-ops but do not act as separators. This is the stack-GP baseline with no developmental layer.
+2. **Arm B — Chemistry-tape v1 (this design).** NOPs act as separators; only the longest active run executes. This introduces the neutral reserve and separator-based decode.
+
+**Arm A = Arm B minus Layers 4 and 5.** Both arms use identical: token alphabet, runtime type system, stack safety (256-op cap, pop-empty defaults), mutation rate, crossover rate, population size, generation budget, initialization distribution, tournament/elitism, and example sampling. The *only* differences are:
+
+- Arm A skips Layer 4 (no bond graph computed).
+- Arm A skips Layer 5 (executes the whole tape in order, not the longest run).
+
+Everything else is bitwise the same code path. This is the equivalence the comparison hinges on.
 
 **Outcomes that discriminate cleanly:**
 
@@ -174,15 +235,56 @@ A v1 result means nothing without a comparison. Two arms, sharing the same GA, t
 
 A v1.5 fixed-typed-chemistry arm (bonds only form between type-compatible tokens) is deliberately deferred to v3, where it becomes the "Arm 2 — multi-pass staged bonding" of the chemistry ablation. Bundling it into v1 would conflate two questions.
 
-## Layer 10: MVP sweep
+## Layer 10: Benchmark definitions
 
-`sweeps/mvp.yaml` — task = count-R benchmark, `arm ∈ {A, B}` × 10 seeds, fixed `L=32, pop=256, gens=200`, single input-string length (e.g., 16 chars).
+Each task is fully specified by: INPUT type, task-specific slot assignments (ids 12–13), input-space size, sampling strategy, and label function.
+
+### count-R
+
+Count the occurrences of `'R'` in a string.
+
+- **INPUT type:** `str`
+- **Slots:** id 12 = `MAP_EQ_R`, id 13 = `NOP`
+- **Input generator:** strings of length 16 over alphabet `[A-Za-z ]` (53 chars). Input space ≈ 53^16 (sampled).
+- **Sampling:** `E = 64` examples per evaluation, drawn with a fixed per-seed sub-seed (same across generations within a seed, different across seeds). Balanced: half with `R`-count ≥ 1, half with `R`-count = 0.
+- **Label:** integer count of `'R'` characters.
+- **Natural scaffold:** `INPUT CHARS MAP_EQ_R SUM` (4 cells).
+
+### has-upper
+
+Does a string contain any uppercase character?
+
+- **INPUT type:** `str`
+- **Slots:** id 12 = `MAP_IS_UPPER`, id 13 = `NOP`
+- **Input generator:** strings of length 16 over `[A-Za-z ]`. Sampled.
+- **Sampling:** `E = 64`, fixed per-seed. Balanced: half contain at least one uppercase, half contain none.
+- **Label:** `1` if any uppercase present, else `0`.
+- **Natural scaffold:** `INPUT CHARS MAP_IS_UPPER ANY` (4 cells).
+
+### sum-gt-10
+
+Is the sum of an integer list greater than 10?
+
+- **INPUT type:** `intlist`
+- **Slots:** id 12 = `NOP`, id 13 = `NOP`. No task-specific ops — sum-gt-10 uses only the shared core.
+- **Input generator:** lists of length 4, values in `[0, 9]`. Input space = 10^4 = 10000 (sampled).
+- **Sampling:** `E = 64`, fixed per-seed. Balanced: half with sum > 10, half with sum ≤ 10.
+- **Label:** `1` if sum > 10, else `0`.
+- **Natural scaffold:** `INPUT SUM <construct 10> GT` (~12+ cells). The literal 10 must be built from `CONST_0`, `CONST_1`, `ADD`, and `DUP`. A minimal construction is `C1 DUP ADD DUP ADD DUP ADD C1 ADD` (→ 1, 2, 4, 8, 9) plus one more `C1 ADD` (→ 10) = 11 cells for the literal plus 3 cells for the rest = 14 cells. This long scaffold is deliberate — a `CONST_10` shortcut would remove exactly the scaffold-completion pressure sum-gt-10 is designed to exert.
+
+### Generalization evaluation (for tasks with large input space)
+
+Any task whose input space exceeds `E` also logs a **held-out generalization fitness** on a separate 256-example sample (fixed per-seed, disjoint from the training sample). This guards against the overfitting-as-fitness artifact that caught out 8-bit parity in the CA module (§9). Count-R and has-upper both require this; sum-gt-10 is borderline and also runs it.
+
+## Layer 11: MVP sweep
+
+`sweeps/mvp.yaml` — task = count-R, `arm ∈ {A, B}` × 10 seeds, fixed `L=32, pop=256, gens=200, E=64, mutation_rate=0.03, crossover_rate=0.7`.
 
 **Gate criterion:** Arm B reaches fitness 1.0 on count-R at least as often as Arm A *and* within ≤ 2× the generations on median. If Arm B is strictly worse on this benchmark (where the separator-based decode has no specific advantage), the design doesn't survive contact with an easy problem and further benchmarks are not run.
 
-Only if MVP passes do the real experiments begin on `has-upper` and `sum-gt-10`. The latter exercises `REDUCE_ADD` and is the closest v1 proxy for the reduce-with-lambda target folding-Lisp partially solved. It is the actual test — `sum-gt-10` is where scaffold completion matters most within the v1 alphabet, and is therefore the v1 benchmark that most directly pressures the central hypothesis.
+Only if MVP passes do the real experiments begin on `has-upper` and `sum-gt-10`. **sum-gt-10 is the load-bearing benchmark** — its ~14-cell scaffold is where Arm B's hypothesized advantage (scaffold-preserving neutral reserve) should be most visible. count-R and has-upper have ~4-cell natural scaffolds; sum-gt-10 has ~14. If chem-tape outperforms direct stack-GP anywhere, it should be there.
 
-## Layer 11: Backend, engine, and driver
+## Layer 12: Backend, engine, and driver
 
 Two interchangeable kernels, mirroring the CA module:
 
@@ -198,7 +300,7 @@ A `ChemTapeConfig` dataclass, SHA-1 hashed, names the output directory. Sweeps a
 ```
 output/<sweep>/<hash>/
     config.yaml
-    result.json        # best_fitness, best_genotype_hex, elapsed_sec
+    result.json        # best_fitness, best_genotype_hex, elapsed_sec, holdout_fitness
     history.csv        # per-generation stats
     history.npz        # per-generation stats (fast reload)
     best_tape.txt      # final tape with bonds marked (for inspection)
@@ -242,11 +344,11 @@ RPN as a substrate is Turing-equivalent to Lisp — Forth, Joy, and Factor demon
 | From     | Property                                          | Realized in v1 as                        |
 |----------|---------------------------------------------------|------------------------------------------|
 | CA-GP    | 1D stencil kernel on MLX                          | Layer 6 bond computation (one stencil op)|
-| CA-GP    | Flat `(P·E)` batching, config-hash reproducibility | Layers 6, 11                             |
-| Folding  | Scaffold preservation (weak form)                 | Non-NOP runs survive small mutations     |
-| Folding  | Indirect encoding / neutral network               | NOPs + non-longest runs = neutral reserve|
-| Folding  | Motif emergence (weak form)                       | Bonded runs act as proto-motifs          |
-| Novel    | Crash-proof stack semantics                       | Layer 3 closed RPN                       |
+| CA-GP    | Flat `(P·E)` batching, config-hash reproducibility | Layers 6, 12                             |
+| Folding  | Scaffold preservation (weak form)                 | Active runs survive small mutations      |
+| Folding  | Indirect encoding / neutral network               | Inactive cells + non-longest runs = neutral reserve|
+| Folding  | Motif emergence (weak form)                       | Active runs act as proto-motifs          |
+| Novel    | Crash-proof stack semantics                       | Layer 3 closed RPN + runtime type system |
 
 The "weak form" qualifications are honest. v1 does not test the strong form of scaffold preservation (bonds that genuinely persist across developmental dynamics while tokens change) — that is explicitly v3 territory. v1 tests the minimum downstream consequence of any such mechanism: "does a neutral reserve plus single-active-region decode help stack-GP at all?" If yes, v3 earns the right to study which richer chemistry mechanisms produce the most.
 
