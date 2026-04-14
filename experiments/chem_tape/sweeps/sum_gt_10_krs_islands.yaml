@@ -1,0 +1,29 @@
+sweep_name: sum_gt_10_krs_islands
+# Experiments §11: K × r × islands compact comparison.
+# Missing cells in the 3×2 grid {A, K=3 r=1.0, K=3 r=0.5} × {panmictic, islands}
+# on seeds 0-19. Already on disk: A panmictic (§2b + §4f), A islands (§4),
+# K=3 r=1.0 panmictic (§8 + §9c), K=3 r=0.5 panmictic (§9b + §9c).
+# This sweep adds K=3 r=1.0 islands and K=3 r=0.5 islands.
+# Islands config matches §4: 8 islands × 128 pop = 1024 total, ring migration
+# every 50 gens, 2 migrants per island.
+base:
+  task: sum_gt_10
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  arm: BP_TOPK
+  topk: 3
+  n_islands: 8
+  migration_interval: 50
+  migrants_per_island: 2
+grid:
+  bond_protection_ratio: [1.0, 0.5]
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]

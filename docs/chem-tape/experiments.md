@@ -935,6 +935,95 @@ The naive default (standard ring-migration with identical bodies flowing across 
 
 ---
 
+## 4f. Arm A panmictic baseline on seeds 10-19
+
+**Sweep:** `sweeps/sum_gt_10_arm_a_confirm.yaml` — 10 runs, Arm A panmictic on seeds 10-19. Closes the methodological hole that every prior "A vs chem-tape" comparison on sum-gt-10 used only seeds 0-9.
+
+### Status: complete.
+
+Results from commit `e86aba4` (141s / 2.4 min at 4 workers).
+
+| seed half | solved | seeds solved (gens) |
+|-----------|--------|---------------------|
+| 0-9 (§2b) | 3/10   | 2 (889), 8 (626), 9 (391) |
+| 10-19 (§4f) | 2/10 | 14 (711), 18 (190)  |
+| **n=20**  | **5/20 (25%)** | {2, 8, 9, 14, 18} |
+
+**Revises §9c's "seeds 10-19 are slightly easier" claim.** The claim was arm-specific: K=3 r=1.0 finds 4/10 on 10-19 vs 3/10 on 0-9, but Arm A finds *fewer* on 10-19 (2/10 vs 3/10). Different arms have different seed-difficulty profiles. The right framing is "seed-difficulty varies by arm," not "seed difficulty varies uniformly."
+
+---
+
+## 11. Compact K × r × islands comparison
+
+**Motivation.** §8, §9, §4 independently established that decode breadth, moderate protection, and island-model diversity each help vs Arm A on sum-gt-10. The open question: do these three factors add, substitute, or interact? A 3 × 2 grid isolates the answer.
+
+**Sweep:** `sweeps/sum_gt_10_krs_islands.yaml` — K=3 × r ∈ {1.0, 0.5} × n_islands=8 × seeds 0-19 = 40 novel runs. Fills the missing island cells; other cells already on disk.
+
+### Status: complete. Finding: **factors are non-additive; r=0.5 + islands actively destroys the r=0.5 advantage.**
+
+Results from commit `e86aba4` for §4f, this commit for §11 (sweep elapsed 875s / 14.6 min at 4 workers, 40 novel runs).
+
+#### The full 3 × 2 grid at n=20
+
+| condition                 | solved/20 | seeds solved |
+|---------------------------|-----------|--------------|
+| Arm A panmictic           | 5/20      | 2, 8, 9, 14, 18 |
+| Arm A islands             | 7/20      | 1, 2, 9, 14, 15, 18, 19 |
+| K=3 r=1.0 panmictic       | 7/20      | 2, 6, 7, 13, 14, 18, 19 |
+| K=3 r=1.0 islands         | 8/20      | 1, 2, 7, 8, 14, 15, 16, 18 |
+| **K=3 r=0.5 panmictic**   | **11/20** | **0, 2, 3, 6, 7, 8, 10, 13, 14, 15, 18** |
+| K=3 r=0.5 islands         | 5/20      | 0, 1, 2, 14, 18 |
+
+#### Pairwise McNemar tests (one-sided, paired seeds 0-19)
+
+| comparison                                          | wins/losses | p-value |
+|-----------------------------------------------------|-------------|---------|
+| **K=3 r=0.5 panmictic > A panmictic**               | **7/1**     | **0.035 ★** |
+| K=3 r=0.5 panmictic > A islands                     | 7/3         | 0.172   |
+| **K=3 r=0.5 panmictic > K=3 r=0.5 islands**         | **7/1**     | **0.035 ★** |
+| K=3 r=1.0 panmictic > A panmictic                   | 4/2         | 0.344   |
+| K=3 r=1.0 islands > A panmictic                     | 4/1         | 0.188   |
+| A islands > A panmictic                             | 3/1         | 0.312   |
+| K=3 r=1.0 islands > K=3 r=1.0 panmictic             | 4/3         | 0.500   |
+
+Only two comparisons clear the p<0.05 threshold at n=20: **K=3 r=0.5 panmictic beats Arm A panmictic, and K=3 r=0.5 panmictic beats K=3 r=0.5 islands.** Every other comparison is directional or ambiguous.
+
+#### Three findings
+
+1. **The three factors are not additive.** Naive additivity would predict K=3 r=0.5 islands ≈ 13–15/20 (if islands add ~2 solves to every panmictic cell, as they do for Arm A: 5 → 7). Actual: **5/20, same as Arm A panmictic's baseline.** Adding islands to the best-performing cell destroys its 11-solve advantage entirely.
+
+2. **r=0.5 and islands are substitutes, not complements.** Both mechanisms make evolution "gentler" — protection by reducing scaffold mutation rate; islands by preserving diversity via subpopulations. Applied together, evolution is too gentle to assemble scaffolds — not enough exploration pressure. Lost under K=3 r=0.5 islands: seeds {3, 6, 7, 8, 10, 13, 15} — specifically, seven of the "novel r=0.5" seeds from §9b/§9c. Islands keep the Arm-A-findable seeds {1, 2, 14, 18} but lose the protection-findable ones.
+
+3. **K=3 r=0.5 panmictic remains the single best cell**, and its advantage over Arm A panmictic (11 vs 5, p=0.035) is the only statistically significant arm-vs-arm comparison at n=20. K=3 r=1.0 vs A panmictic (7 vs 5) and A islands vs A panmictic (7 vs 5) are directional but not significant.
+
+#### Mechanism reading
+
+The non-additivity points at **interaction between exploration pressure and selection pressure**. Each factor reduces one or the other:
+
+- Arm A → K=3 decode: reduces *selection noise* (top-K decode filters out irrelevant tape regions from fitness evaluation).
+- r=1.0 → r=0.5: reduces *mutation pressure on scaffold cells* (preserves partially-assembled structure).
+- panmictic → islands: reduces *selection homogenization* (each island explores independently).
+
+Applied together, all three simultaneously dial down the forces that drive evolution to find solutions. K=3 + r=0.5 gives panmictic pop=1024 just enough exploration to assemble novel scaffolds. Add islands (pop per island = 128) and the same protection/decode settings are operating in a population that's already diversity-preserved — the combination starves the search of pressure to move.
+
+This is a provisional mechanism reading from the solve-count pattern; the fitness-trajectory data per seed (which I haven't inspected) would test whether the K=3 r=0.5 islands cell plateaus earlier than panmictic, or just crawls slower. That's a zero-compute follow-up worth doing.
+
+#### Implications for upstream experiments
+
+**§4's "islands help" story was arm-specific.** §4 tested A, B, BP under islands; all three gave small positive shifts. §11 shows this does NOT generalize to K=3 r=0.5 — the shift is strongly negative. The §4 methodological finding ("a GA-structure choice affects solve counts across arms") is correct, but the specific claim "islands help" needs qualification to "islands help under low-exploration-pressure regimes but hurt under low-exploration-pressure × high-protection combinations."
+
+**§10's plasticity test should use K=3 r=1.0 as the baseline, not r=0.5.** §11 shows r=0.5 is already fragile to additional GA-structure changes (islands hurt it dramatically). A K-alternating schedule is also a GA-dynamics perturbation; there's no reason to expect r=0.5 to tolerate it better than it tolerates islands. Use the architecturally-uniform K=3 r=1.0 baseline for cleaner interpretation.
+
+#### Combined reachable-seed picture
+
+Union across every condition tried on sum-gt-10 at n=20 (§1–§11):
+- **Ever solved:** {0, 1, 2, 3, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 18, 19} = 16/20 (80%)
+- **Never solved by any condition:** {4, 5, 11, 17} = 4/20 (20%)
+
+The hard floor hasn't moved since §9c. Four seeds (20% of the seed space) appear to be outside the reachable set for any chem-tape variant tested so far, including Arm A. Whether these are "impossible at this compute budget" or "impossible regardless of compute" is an open question for later.
+
+---
+
 ## Planned v2 experiments (contingent on §2 passing)
 
 ### E. Expressivity parity vs folding-Lisp on structured-record benchmarks
@@ -970,12 +1059,13 @@ The naive default (standard ring-migration with identical bodies flowing across 
 
 13. **Seeds 10-19 reveal that seeds 0-9 are slightly harder.** r=1.0 on seeds 10-19 solves 4/10 vs 3/10 on seeds 0-9; r=0.3 shows a larger gap (4/10 vs 1/10). All findings reported only on seeds 0-9 (§1-§9b, §2b, §4 panmictic) likely understate arm performance by a small but consistent amount. §4f (panmictic baseline on seeds 10-19) now more important as a general methodological correction, not just for the islands attribution question.
 
-14. **Current priorities (reordered after §9d review):**
-    - **§4f Arm A panmictic baseline on seeds 10-19** — elevated to first. Methodological hole: every prior "A vs chem-tape" comparison on sum-gt-10 used seeds 0-9 only, and §9c showed seeds 10-19 are modestly easier. Closing this hole is a prerequisite for the next experiment's baseline. ~5 min, 10 runs.
-    - **§11 compact K × r × islands comparison** — the real static question. Fills the missing cells in a 3 × 2 grid: {Arm A, K=3 r=1.0, K=3 r=0.5} × {panmictic, islands} on seeds 0-19. Most cells already on disk; ~50 runs of new work. Answers whether decode, protection, and diversity are additive, substitutive, or multiplicative.
-    - **§8d scaffold-length × K × r** — generalization test. Turns the K-story into a general law rather than a sum-gt-10 story. Requires synthetic task design; queued.
-    - **§10 K-alternating regime shift** — rescheduled after §11. Rationale: §9d suggests the r=0.5 condition's architectural heterogeneity will confound §10's plasticity interpretation; should either pick the cleaner r=1.0 K=3 baseline (architecturally uniform) or defer until §11 clarifies which factor is driving what.
-    - **Evolve-K-per-individual (panmictic, then islands)** — gated on §10.
+14. **§4f + §11 static-picture baseline: K=3 r=0.5 panmictic is the only statistically significant improvement on Arm A panmictic at n=20 (11/20 vs 5/20, McNemar p=0.035).** Every other arm-vs-arm comparison (K=3 r=1.0 vs A, A islands vs A panmictic, K=3 r=1.0 islands vs K=3 r=1.0 panmictic) is directional but not significant at n=20. The three factors decode + protection + islands are **non-additive**: K=3 r=0.5 islands collapses to 5/20 (= Arm A panmictic's baseline), losing 7 of the "novel r=0.5" seeds from §9b/§9c. Mechanism reading: r=0.5 and islands are substitutes, not complements — both reduce exploration pressure, and together they starve the search. Combined reachable-seed union across §1-§11 is 16/20 (80%); hard floor {4, 5, 11, 17}.
+
+15. **Current priorities (reordered after §11):**
+    - **§10 K-alternating regime shift** — use K=3 r=1.0 baseline (architecturally uniform, stable under GA-structure perturbations) rather than r=0.5 (§11 showed r=0.5 is fragile to GA changes). Tests within-individual plasticity under a cleaner initial condition.
+    - **§8d scaffold-length × K × r** — generalization test; synthetic task design required.
+    - **Evolve-K-per-individual (panmictic)** — gated on §10 outcome.
+    - **§11 fitness-trajectory inspection (zero-compute)** — does K=3 r=0.5 islands plateau early, or crawl slower? Discriminates between "starved of exploration" and "too slow to converge." ~15 min analysis work.
     - **§v1.5 regime-shift test (task-alternating)** — after §10.
     - **Type-closed top-K decode criterion** — cheap side experiment; low prior.
 
