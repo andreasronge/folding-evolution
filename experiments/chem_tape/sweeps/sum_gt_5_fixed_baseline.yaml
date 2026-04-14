@@ -1,0 +1,21 @@
+sweep_name: sum_gt_5_fixed_baseline
+# Fixed-task baseline for sum_gt_5 under K=3 r=0.5 panmictic, so §v1.5a-
+# internal-control has its max-of-fixed anchor. 20 runs, ~11 min.
+base:
+  task: sum_gt_5
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  arm: BP_TOPK
+  topk: 3
+  bond_protection_ratio: 0.5
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]

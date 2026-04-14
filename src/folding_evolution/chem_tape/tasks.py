@@ -125,6 +125,10 @@ def _sum_gt_10_label(xs: tuple[int, ...]) -> int:
     return 1 if sum(xs) > 10 else 0
 
 
+def _sum_gt_5_label(xs: tuple[int, ...]) -> int:
+    return 1 if sum(xs) > 5 else 0
+
+
 def _build_training_and_holdout(
     seed: int,
     n_train: int,
@@ -245,11 +249,35 @@ def make_sum_gt_10_task(cfg: ChemTapeConfig, seed: int) -> Task:
     )
 
 
+def make_sum_gt_5_task(cfg: ChemTapeConfig, seed: int) -> Task:
+    """sum-gt-5: threshold-variation sibling of sum-gt-10. Same structure
+    (intlist input, same scaffold shape), same basin (binary), differs only
+    in threshold constant (5 vs 10). Designed for §v1.5a-internal-control:
+    same-structure variation test of the basin-width × scaffold-length
+    framework."""
+    def gen(rng): return _rand_intlist(rng, length=4)
+    def positive(xs): return sum(xs) > 5
+    train_inp, train_lab, hold_inp, hold_lab = _build_training_and_holdout(
+        seed, cfg.n_examples, cfg.holdout_size, gen, _sum_gt_5_label, positive
+    )
+    return Task(
+        name="sum_gt_5",
+        input_type="intlist",
+        inputs=train_inp,
+        labels=train_lab,
+        alphabet=alph.TaskAlphabet(slot_12=alph.OP_NOP, slot_13=alph.OP_NOP),
+        label_fn=_sum_gt_5_label,
+        holdout_inputs=hold_inp,
+        holdout_labels=hold_lab,
+    )
+
+
 TASK_REGISTRY = {
     "count_r": make_count_r_task,
     "has_at_least_1_R": make_has_at_least_1_R_task,
     "has_upper": make_has_upper_task,
     "sum_gt_10": make_sum_gt_10_task,
+    "sum_gt_5": make_sum_gt_5_task,
 }
 
 

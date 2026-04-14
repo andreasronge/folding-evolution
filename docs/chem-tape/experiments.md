@@ -1578,7 +1578,7 @@ A clean three-case taxonomy of environmental-forcing outcomes:
 2. **§v1.5a-binary matched-shape task pair**: zero-cost cross-task compatibility, 20/20 BOTH-solve.
 3. **§v1.5 / §v1.5a basin-width-mismatched task pair**: canalized single-basin commitment; narrower-basin task sacrificed; 0/20 BOTH.
 
-**Unified claim (now defensible):** environmental forcing produces cross-regime-compatible bodies *when the regimes share structural/basin-width shape*. When they don't, evolution commits to one basin and sacrifices the other. The decode axis (§10) is a special case where the landscape itself is unchanged and compatibility is automatic; the task axis is a richer testbed where compatibility survives or fails based on how closely the regimes are matched in shape.
+**Within-family claim (exploratory validation):** on the tested benchmark family (scan-map-aggregate tasks over short strings and intlists), environmental forcing produces cross-regime-compatible bodies when the regimes share structural/basin-width shape. When they don't, evolution commits to one basin and sacrifices the other. The decode axis (§10) is a special case where the landscape itself is unchanged. This claim is scoped to the benchmark family; external validity on tasks outside this family (order-sensitive, memory-requiring, non-threshold-arithmetic, compositionally deeper) is not established — see the External Validity note below.
 
 #### What this means for the paper-level narrative
 
@@ -1647,7 +1647,7 @@ After §v1.5 + §v1.5a + §v1.5a-binary + §v1.5a-scaffold:
 | §v1.5a graded+binary (count_r, hasU)| ✗ | ✓ | 0/20      | 17/20 | 3/20 |
 | §v1.5 three-task                    | partial | mixed | 0/20 | 14/20 | 6/20 / 0/20 |
 
-**Refined unified claim:** environmental forcing produces full cross-regime compatibility only when BOTH basin width AND scaffold length are matched across the rotating regimes. Either mismatch alone (basin in §v1.5a, scaffold in §v1.5a-scaffold) causes complete canalization to the easier task on the mismatched axis. The §v1.5a-binary 20/20 result requires matching on *both* axes.
+**Refined within-family claim:** on the tested benchmark family, environmental forcing produces full cross-regime compatibility only when BOTH basin width AND scaffold length are matched across the rotating regimes. Either mismatch alone (basin in §v1.5a, scaffold in §v1.5a-scaffold) causes complete canalization to the easier task on the mismatched axis. The §v1.5a-binary 20/20 result requires matching on *both* tested axes. Whether additional axes (order-sensitivity, compositional depth, input-type, aggregator shape) are independently load-bearing on other task families is not tested — see External Validity note.
 
 This sharpens the §v1.5a-binary finding: "shared structural/basin-width shape" was correct but understated. The specific structural factors that must match are (at least) basin width and scaffold length. Both are independently necessary; neither alone is sufficient.
 
@@ -1660,6 +1660,112 @@ This sharpens the §v1.5a-binary finding: "shared structural/basin-width shape" 
 - **Three-binary-task schedule** — {has_at_least_1_R, has_upper, sum_gt_10}: all binary, mixed scaffolds. Predicts sum_gt_10 sacrificed (0/20) and the two short-scaffold tasks share compatibility. Rounds out the §v1.5 story cleanly. ~10 min.
 - **Inspection: what architectures do §v1.5a-scaffold winners use on has_at_least_1_R?** Do they differ from §v1.5a-binary winners? Zero-compute.
 - **Scaffold-length sweep at fixed-task** (§8d-adjacent): does K=3 r=0.5 show a solve-rate cliff as scaffold length grows? This would characterize the scaffold-length gradient independently of alternation.
+
+---
+
+## External validity: what §v1.5 does and does not establish
+
+The four-schedule §v1.5 suite (§v1.5, §v1.5a, §v1.5a-binary, §v1.5a-scaffold) provides **exploratory validation** of the basin-width × scaffold-length framework *within a narrow benchmark family*. The explicit scope limits:
+
+**Shared across all tested tasks:**
+- Pure scan-map-aggregate structure (CHARS/INPUT → MAP → reduce/any)
+- Short fixed-length inputs (16-char strings or 4-element intlists)
+- Binary or small-integer output spaces
+- Order-invariant task semantics (reordering input doesn't change the correct answer)
+- Stateless computation (no memory across elements)
+- Threshold-based decisions (GT-based, not exact equality or non-linear comparisons)
+- One of two slot-12 ops (MAP_EQ_R, MAP_IS_UPPER); task difference is almost entirely in slot binding + aggregator + label function
+
+**Not tested (these would require new executor ops = alphabet expansion, v2-scope work):**
+- Order-sensitive tasks (first-occurrence-position, palindrome, monotone-check)
+- Memory/state-carrying tasks (running max, cumulative sum with bound, prefix-detection)
+- Non-threshold arithmetic (multiplication, division, modulo, exact equality)
+- Compositional tasks requiring two coordinated reductions with interaction
+- Different input types (trees, graphs, longer sequences, paired inputs)
+
+**Three specific overfitting risks:**
+
+1. **Task-family overfitting.** All tested tasks are variants of very small stack-machine programs over strings / simple arithmetic. The "basin width × scaffold length" decomposition could be this family's private structure rather than a general evolvability mechanism.
+
+2. **Alphabet overfitting.** MAP_EQ_R, MAP_IS_UPPER, and the slot-12 semantics are tightly coupled to the benchmark family. The scaffold-length factor we measured is largely scaffold-length-in-this-alphabet, not a fundamental evolvability parameter.
+
+3. **Mechanism overfitting.** The "basin width × scaffold length" framework may be correct locally but fail on axes we can't test within the existing alphabet — order sensitivity, compositional depth, aggregator shape, memory requirements, junk-tolerance differences.
+
+**What this means for the paper-level narrative.** §10 + §v1.5a-binary establish a genuine cross-regime-compatibility mechanism under environmental forcing, demonstrated concretely on the tested family. The claim generalizes at most to tasks structurally similar to the tested family; broader generalization needs alphabet expansion and a systematic second-phase suite with at least:
+- another binary long-scaffold task (external-validity replication of §v1.5a-scaffold)
+- an order-sensitive task (tests positional structure as an axis)
+- a non-threshold arithmetic task (tests aggregator-shape as an axis)
+- a task with high junk-tolerance (tests whether full-tape vs selective-K preferences depend on junk-cell semantics)
+
+The §v1.5a-internal-control (next) is a first step at within-alphabet external validity: it tests whether the framework survives *structural controls* (same scaffold, same aggregator, different threshold constant) before we ask whether it survives genuinely different structures.
+
+---
+
+## v1.5a-internal-control. Same-structure threshold-variation pair {sum_gt_5, sum_gt_10}
+
+**Motivation.** Before claiming "basin width × scaffold length" is a general mechanism, we want to check that it handles *within-structure* variation cleanly. Pair sum_gt_10 (existing, 11/20 fixed-task) with a sibling sum_gt_5 — identical structure, same scaffold shape, same input type, same basin, differing only in the threshold constant. If the framework handles this, the mechanism description is internally self-consistent. If even trivial threshold variation causes canalization, the "structural match" axes we've named are not capturing the full picture.
+
+**Prediction under the framework.** Both tasks should solve at or near their fixed-task ceilings (sum_gt_10 at 11/20, sum_gt_5 expected higher since it's easier — more positive examples for random intlists), with zero flip cost. This is an internal consistency check, not a direct external validity test.
+
+**Sweep:** `sweeps/v1_5a_internal_control.yaml` — K=3 r=0.5 panmictic × schedule {sum_gt_5, sum_gt_10} × period 300 × 20 seeds. Plus `sum_gt_5_fixed_baseline.yaml` to anchor max-of-fixed for sum_gt_5.
+
+### Status: complete. Finding: **framework prediction falsified — 0/20 BOTH despite matched basin AND scaffold.** The basin-width × scaffold-length framework is insufficient; a third axis is load-bearing.
+
+Results from commits (`4f9b02e` for sum_gt_5 baseline 551s / 9.2 min, `6cd374c` for alternation 866s / 14.4 min at 4 workers; 40 runs total).
+
+#### Pre-registered comparison
+
+**Fixed-task baselines at K=3 r=0.5 panmictic:**
+- sum_gt_5: 17/20 (easier task — more sensitive threshold)
+- sum_gt_10: 11/20 (from §9c)
+
+**Alternation {sum_gt_5, sum_gt_10}:**
+
+| metric | actual | max-of-fixed | verdict |
+|--------|--------|--------------|---------|
+| sum_gt_5 solve rate    | **6/20** | 17/20 | **BELOW (gap: 11)** |
+| sum_gt_10 solve rate   | **8/20** | 11/20 | BELOW (gap: 3) |
+| BOTH simultaneously    | **0/20** | —     | complete canalization |
+| Mean \|Δbest\| at flip | 0.072    | (§v1.5a-binary: 0.000) | small but present |
+
+Cross-task fitness distributions under alternation:
+- sum_gt_5:  mean 0.934, median 0.984, minimum 0.500 — most runs close but not solving
+- sum_gt_10: mean 0.820, median 0.812, minimum 0.500 — clear partial canalization
+
+No run solves both tasks to 1.000 simultaneously. **Even with identical structure (intlist input, same scaffold shape, same slot bindings NOP+NOP), matching only in threshold constant, alternation produces canalization.**
+
+#### What this falsifies
+
+The pre-registered hypothesis said these two tasks should trivially co-solve under the basin-width × scaffold-length framework — they match on both stated axes plus every other structural feature we've been tracking. They don't. Neither reaches fixed-task ceiling; BOTH-solve is 0/20.
+
+**The framework as previously stated is insufficient.** At least one additional factor is load-bearing. A candidate mechanism sketch (not established, working hypothesis):
+
+**Same-body-required axis.** Tasks co-solve under alternation only when the same body can satisfy both regimes — either because the body itself solves both (§v1.5a-binary: same INPUT CHARS MAP_* ANY scaffold, slot_12's binding *changes per task but the body doesn't*) or because the body encodes multiple programs that the current task selects between. Tasks requiring genuinely different bodies (sum_gt_5's program ≠ sum_gt_10's program — different constant construction, different comparison target) cannot be co-solved by a single evolved tape.
+
+Under this reading:
+- **§v1.5a-binary's 20/20 result** was *task-level indirection through slot-12*, not body-level flexibility. Both tasks use the same `INPUT CHARS MAP_* ANY` body; slot_12's binding shifts per task. The body doesn't change.
+- **§v1.5a-scaffold and §v1.5a-graded+binary** fail because the required bodies differ structurally (different scaffold shape or output type).
+- **§v1.5a-internal-control** fails because the required programs differ in specific constant construction despite identical scaffold shape — same body cannot produce `>10` and `>5` answers simultaneously on the same inputs.
+
+#### Implications
+
+1. **The basin-width × scaffold-length framework is narrower than stated.** It correlates with the real mechanism — same-body-required — but doesn't fully describe it. The §v1.5 family of findings should be re-read as "cross-regime compatibility when task variation can be absorbed by body-invariant mechanisms (e.g., slot indirection), fails otherwise."
+
+2. **§v1.5a-binary's 20/20 is partially degenerate.** The zero-cost compatibility was enabled specifically by the slot-12 indirection: both tasks accept the same body with different slot interpretations. This is a narrower result than I previously framed it; it's not a demonstration of evolved cross-task plasticity per se, but a demonstration that evolution uses available indirection mechanisms effectively.
+
+3. **The user's "mechanism overfitting" warning is vindicated within the family.** We didn't even need alphabet expansion to find where the framework breaks. The internal control revealed the limit. Further external validity tests (order-sensitive, memory-requiring, non-threshold-arithmetic) would likely reveal more axes we haven't isolated.
+
+4. **The core positive result still stands** — §10 and §v1.5a-binary show that environmental forcing produces cross-regime-compatible bodies when the regimes are absorbable by existing indirection. That's a real finding. But it's narrower than "basin width × scaffold length" framing suggested, and the mechanism is more specific.
+
+#### Revised claim language
+
+Replacing "environmental forcing produces full cross-regime compatibility only when BOTH basin width AND scaffold length are matched" with:
+
+**Environmental forcing produces full cross-regime compatibility when the rotating regimes admit the same body — either because the body solves both directly or because task-level indirection (slot bindings) absorbs the inter-regime variation. When regimes require genuinely different bodies, evolution canalizes to one regime and sacrifices the other. Basin width and scaffold length correlate with body-equivalence in the tested family but do not fully determine it.**
+
+This is narrower, more specific, and strictly supported by the current data.
+
+---
 
 ---
 
@@ -1706,18 +1812,23 @@ This sharpens the §v1.5a-binary finding: "shared structural/basin-width shape" 
 
 17. **§12a/§12b/§12c established: no tested selection-regime modification buys §10's cross-K benefit at the individual level.** Four evolve-K variants at n=20: (§12) panmictic, (§12a) K-prior islands, (§12b) K-niching at α ∈ {0.3, 0.5, 1.0}, (§12c) migrate-body adopt-host-K. All solve counts 2-6/20; none beat K=3 fixed (7/20) or K=3 r=0.5 (11/20). §12b α=0.5 at 6/20 is the closest and not statistically distinguishable from §12 panmictic. **Refined mechanism reading (§12b crucial):** K-homogenization was *one* failure mode, not the binding constraint. §12b's niching completely suppresses homogenization (28% dominant-K share vs §12's 85-96%) yet solve rate doesn't recover. The deeper requirement is **coherent within-basin K-body co-evolution** — selection pushing a body-family under a specific K toward convergence. Forcing K-diversity prevents collapse but also prevents K-specific bodies from refining into solvers. **Side effect:** §12c unlocked seed 5 (previously unsolvable by any condition), reducing the hard floor from {4, 5, 11, 17} to {4, 11, 17}. **Combined verdict:** §10's cross-K benefit is not buyable via any *tested* encoding/selection modification — we have not shown it requires environmental forcing in general, only that it isn't achievable by the mechanisms we tested. K=3 r=0.5 panmictic remains the best chem-tape baseline.
 
-18. **§v1.5 family: cross-regime compatibility requires matching BOTH basin width AND scaffold length.** Four schedules at K=3 r=0.5 panmictic × period 300 × 20 seeds:
+18. **§v1.5 family + internal control: basin-width × scaffold-length framework is narrower than previously stated; same-body-required is the load-bearing axis.** Five schedules at K=3 r=0.5 panmictic × period 300 × 20 seeds:
 
-    | schedule | basin | scaffold | BOTH-solves | broader/shorter | narrower/longer |
-    |----------|:-----:|:--------:|:-----------:|:---------------:|:---------------:|
-    | §v1.5a-binary {hasR, hasU}          | ✓ | ✓ | **20/20** | 20/20 | 20/20 |
-    | §v1.5a-scaffold {hasR, sum_gt_10}   | ✓ | ✗ | 0/20      | 18/20 | **0/20** |
-    | §v1.5a graded+binary {count_r, hasU}| ✗ | ✓ | 0/20      | 17/20 | 3/20  |
-    | §v1.5 three-task                    | partial | mixed | 0/20 | 14/20 | 0/20 / 6/20 |
+    | schedule | basin | scaffold | BOTH | task-A | task-B | slot-indirection? |
+    |----------|:-----:|:--------:|:----:|:------:|:------:|:-----------------:|
+    | §v1.5a-binary {hasR, hasU}          | ✓ | ✓ | **20/20** | 20/20 | 20/20 | **yes** (slot_12 differs per task) |
+    | §v1.5a-scaffold {hasR, sum_gt_10}   | ✓ | ✗ | 0/20 | 18/20 | 0/20  | partial |
+    | §v1.5a graded+binary {count_r, hasU}| ✗ | ✓ | 0/20 | 17/20 | 3/20  | yes |
+    | §v1.5 three-task                    | partial | mixed | 0/20 | 14/20 | 0/20, 6/20 | partial |
+    | **§v1.5a-internal-control {sum_gt_5, sum_gt_10}** | ✓ | ✓ | **0/20** | 6/20 | 8/20 | **no** (same slots for both) |
 
-    §v1.5a-scaffold's pre-registered max-of-fixed criterion was "has_at_least_1_R ~20/20 AND sum_gt_10 ~11/20 → basin-width is sole binding axis." Actual: 18/20 on has_at_least_1_R, **0/20 on sum_gt_10** (full 11-solve gap below max-of-fixed). Compute-bound alternative ruled out by gap magnitude: fixed-task sum_gt_10 at identical settings solves 11/20 (§9c). **Scaffold length is independently load-bearing** — scaffold mismatch forces canalization even when basin widths match.
+    **§v1.5a-internal-control falsified the pre-registered framework.** Same-structure threshold-variation pair (differs only in `>5` vs `>10` constant) should have trivially co-solved under basin-width × scaffold-length. Actual: BOTH 0/20, both tasks below fixed-task ceilings (sum_gt_5 6/20 vs 17/20 fixed; sum_gt_10 8/20 vs 11/20 fixed). Neither basin width nor scaffold length mismatched; canalization still occurred.
 
-    **Unified claim (sharpened):** environmental forcing produces full cross-regime compatibility only when BOTH basin width AND scaffold length are matched across rotating regimes. Either mismatch alone causes complete canalization to the easier task on the mismatched axis. §10's zero-cost signature is a special case — K alternation holds both axes trivially constant (same task). Cross-task compatibility requires careful task-pair matching on multiple structural factors; "task axis" isn't the right abstraction — it's "structural-match axis."
+    **Revised within-family claim:** Environmental forcing produces full cross-regime compatibility when rotating regimes admit the same body — either because the body solves both directly or because task-level indirection (slot bindings) absorbs the inter-regime variation. When regimes require genuinely different bodies (different constant constructions, different scaffold tokens even at same length), evolution canalizes. Basin width and scaffold length correlate with body-equivalence in the tested family but do not fully determine it. §v1.5a-binary's 20/20 was specifically enabled by slot-12 indirection (same body, different slot meaning per task), not by cross-task body-level flexibility.
+
+    **§10's zero-cost K-alternation signature remains a clean positive** — K variation doesn't change the task, so body equivalence is trivial. The §v1.5 line's narrower mechanism claim reinforces rather than undermines §10.
+
+    **The analyst's "mechanism overfitting" concern is partially vindicated within the family** — §v1.5a-internal-control surfaces a framework limit without needing alphabet expansion. External validity tests (order-sensitive, memory, non-threshold-arithmetic) would likely reveal more axes. See External Validity note.
 
 19. **Current priorities (after §v1.5a-scaffold):**
     - **Three-binary-task schedule** — {has_at_least_1_R, has_upper, sum_gt_10}: all binary, mixed scaffolds. Predicts sum_gt_10 at 0/20, {hasR, hasU} co-solved. Rounds out the §v1.5 story. ~10 min.
