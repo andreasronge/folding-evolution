@@ -388,15 +388,17 @@ The coverage structure is consistent with "reachable class widens A > BP > B," w
 
 ---
 
-## 5. Fitness-signal granularity (follow-up)
+## 5. Fitness-signal granularity — **re-scoped after §v1.5a-binary**
 
-**Sweep:** `sweeps/granularity.yaml` (to create) — synthetic tasks with matched scaffold length but varied label granularity. E.g., count-R (integer 0..16), has-at-least-1-R (binary {0,1}), count-R-mod-3 (integer 0..2). All with 4-cell natural scaffold.
+**Original design (deprecated).** Synthetic tasks with matched scaffold length but varied label granularity — count-R (integer), has-at-least-1-R (binary), count-R-mod-3 (integer 0..2) — intended to test whether §1's "graded labels favor shorter-program arms" post-hoc story holds under systematic variation.
 
-**Hypothesis:** Arm B's advantage correlates with label granularity, not with scaffold length (new hypothesis suggested by §1). Integer labels → Arm B/BP wins. Binary labels with trivial-constant plateau → Arm A wins.
+**Why re-scoped.** §v1.5a-binary established that label granularity (basin width) is the dominant factor gating cross-regime compatibility under alternation — the question the original §5 was circling is now answered cleanly on the alternation axis. The remaining distinct question is the *fixed-task* version: **does granularity interact with representation parameters (K, r) under no alternation?** That's a cleaner factorization vs the new alternation results and doesn't re-run ground §v1.5a-binary already covered.
 
-**Purpose:** Test whether the §1 interpretation holds as a predictor, not just a post-hoc story. If it does, the "scaffold preservation" mechanism name in the architecture should be replaced with something fitness-landscape-shaped.
+**Re-scoped design (if run).** Fixed-task (no alternation). has_at_least_1_R vs count_r as a graded-vs-binary pair, both at K=3 r=1.0 and K=3 r=0.5, both panmictic, seeds 0-19. Question: does moderate protection's advantage depend on label granularity, or is it task-structure-independent?
 
-### Status: queued.
+**Hypothesis:** r=0.5's benefit may vary by task granularity. On binary tasks (broad basin), r=0.5 might provide less lift than on graded tasks (narrow basin, more mutation can disrupt partial scaffolds).
+
+### Status: deprioritized. Queued re-scoped version if the fixed-task granularity question becomes load-bearing downstream.
 
 ---
 
@@ -1586,8 +1588,78 @@ The §v1.5 asymmetry finding remains real and important — it identifies *when*
 
 #### Follow-ups
 
-- **Task pair varying scaffold length** — pair has_at_least_1_R (short scaffold) with sum_gt_10 (long scaffold, also binary). Tests whether basin-width-match alone is enough, or whether scaffold-length match is also required. Directly analogous to §v1.5's 0/20 sum_gt_10 finding but with basin widths now aligned. Predicts: if scaffold length is an independent factor, sum_gt_10 will still be sacrificed. ~10 min.
-- **Three-binary-task schedule** — {has_at_least_1_R, has_upper, sum_gt_10}. All binary; mixed scaffolds. Tests joint contribution of scaffold length and basin width. Would round out the §v1.5 story cleanly.
+- **§v1.5a-scaffold scaffold-length pair** — see next section.
+- **Three-binary-task schedule** — {has_at_least_1_R, has_upper, sum_gt_10}. Gated on §v1.5a-scaffold outcome; rounds out the §v1.5 story after scaffold-length axis resolves.
+
+---
+
+## v1.5a-scaffold. Scaffold-length pair {has_at_least_1_R, sum_gt_10}
+
+**Motivation.** §v1.5a-binary established basin-width-match suffices for cross-task compatibility *when scaffold length is held constant*. The open question: is scaffold length an independent load-bearing factor, or is basin-width the sole gating axis? Direct falsification test: pair has_at_least_1_R (4-cell scaffold, binary) with sum_gt_10 (14-cell scaffold, binary). Basin width matched; scaffold length mismatched by ~3.5×.
+
+**Sweep:** `sweeps/v1_5a_scaffold_pair.yaml` — K=3 r=0.5 panmictic × schedule {has_at_least_1_R, sum_gt_10} × period 300 × 20 seeds. All other settings match §v1.5a-binary for clean single-factor variation.
+
+### Pre-registered success criterion (max-of-fixed per task)
+
+"BOTH at 20/20" is the wrong bar: sum_gt_10's fixed-task ceiling at K=3 r=0.5 panmictic is only **11/20** (summary #12). The right criterion is **max-of-fixed per task**:
+
+| task             | fixed-task ceiling |
+|------------------|-------------------|
+| has_at_least_1_R | ~20/20 (inferred from §v1.5a-binary; shares basin shape with has_upper) |
+| sum_gt_10        | 11/20 (from K=3 r=0.5 panmictic, §9c)                                    |
+
+**Outcome decision rule:**
+- **~20/20 on has_at_least_1_R AND ~11/20 on sum_gt_10 with zero flip cost** → basin-width is the sole binding axis on task alternation; scaffold length is decoupled. Strong confirmation of §v1.5a-binary's unified claim.
+- **Strictly below max-of-fixed on either task, proportional to the gap** → scaffold length is independently load-bearing. The magnitude of the gap measures how much.
+- **sum_gt_10 at ~0/20** → scaffold-length mismatch forces canalization even with matched basins. The §v1.5 story generalizes beyond basin width.
+
+### Confound to flag
+
+This pair co-varies scaffold length with fixed-task difficulty — sum_gt_10 is the hardest task in the record. If we see partial canalization (sum_gt_10 < 11/20 but > 0), we cannot cleanly separate "scaffold length matters" from "sum_gt_10 is compute-bound even in a matched-basin regime." A follow-up rerun at pop=4096 on this specific pair (matching the higher-compute side of §2c) would close that loophole if the partial-canalization reading lands.
+
+### Status: complete. Finding: **scaffold length is independently load-bearing.** sum_gt_10 scores 0/20 under alternation (vs 11/20 max-of-fixed), even with matched basin width.
+
+Results from commit `4f9b02e` (sweep elapsed 624s / 10.4 min at 4 workers; 20 runs).
+
+#### Pre-registered scoring
+
+| task              | actual    | max-of-fixed | verdict         |
+|-------------------|-----------|--------------|-----------------|
+| has_at_least_1_R  | **18/20** | ~20/20       | ≈ max-of-fixed  |
+| sum_gt_10         | **0/20**  | ~11/20       | **fully sacrificed (gap: 11 solves)** |
+| BOTH              | 0/20      | —            | complete canalization |
+| Flip \|Δbest\|    | 0.448     | (§v1.5a-binary: 0.000) | large drops |
+
+18 of 20 seeds show the pattern (1.000, 0.500) — perfect on has_at_least_1_R, baseline on sum_gt_10. Seeds 5 and 8 are double-failure runs (0.500 on both). **Zero runs make any progress on sum_gt_10.** sum_gt_10's fitness distribution: 18 at 0.500, 2 at 0.516. No run exceeds 0.75 on sum_gt_10.
+
+#### The confound is resolved by the gap magnitude
+
+The pre-reg flagged that partial canalization on sum_gt_10 could confound "scaffold length matters" with "sum_gt_10 is compute-bound." The actual result (0/20, not partial) rules out the compute-bound alternative: fixed-task sum_gt_10 at identical settings solves 11/20 (§9c). The gap from 11/20 to 0/20 under alternation with a broader-basin partner cannot be explained by compute alone — it's strictly caused by the alternation regime itself. **Scaffold-length mismatch forces canalization even with matched basin widths.** The pop=4096 fallback sweep is no longer needed; the result stands on its own.
+
+#### Combined four-schedule picture
+
+After §v1.5 + §v1.5a + §v1.5a-binary + §v1.5a-scaffold:
+
+| schedule | basin match? | scaffold match? | BOTH solves | broader/shorter task | narrower/longer task |
+|----------|:------------:|:---------------:|:-----------:|---------------------|----------------------|
+| §v1.5a-binary (hasR, hasU)          | ✓ | ✓ | **20/20** | 20/20 | 20/20 |
+| §v1.5a-scaffold (hasR, sum_gt_10)   | ✓ | ✗ | 0/20      | 18/20 | **0/20** |
+| §v1.5a graded+binary (count_r, hasU)| ✗ | ✓ | 0/20      | 17/20 | 3/20 |
+| §v1.5 three-task                    | partial | mixed | 0/20 | 14/20 | 6/20 / 0/20 |
+
+**Refined unified claim:** environmental forcing produces full cross-regime compatibility only when BOTH basin width AND scaffold length are matched across the rotating regimes. Either mismatch alone (basin in §v1.5a, scaffold in §v1.5a-scaffold) causes complete canalization to the easier task on the mismatched axis. The §v1.5a-binary 20/20 result requires matching on *both* axes.
+
+This sharpens the §v1.5a-binary finding: "shared structural/basin-width shape" was correct but understated. The specific structural factors that must match are (at least) basin width and scaffold length. Both are independently necessary; neither alone is sufficient.
+
+#### Where §10's zero-cost signature applies
+
+§10's zero-cost cross-K compatibility is a special case of this framework: under K alternation, both basin width and scaffold length are trivially matched (same task, so all task-structural factors are identical). The K axis is inherently shape-matched — changing K changes *which cells execute*, not *what the landscape looks like*. This is why §10 "just works" where task alternation requires careful task-pair matching.
+
+#### Follow-ups
+
+- **Three-binary-task schedule** — {has_at_least_1_R, has_upper, sum_gt_10}: all binary, mixed scaffolds. Predicts sum_gt_10 sacrificed (0/20) and the two short-scaffold tasks share compatibility. Rounds out the §v1.5 story cleanly. ~10 min.
+- **Inspection: what architectures do §v1.5a-scaffold winners use on has_at_least_1_R?** Do they differ from §v1.5a-binary winners? Zero-compute.
+- **Scaffold-length sweep at fixed-task** (§8d-adjacent): does K=3 r=0.5 show a solve-rate cliff as scaffold length grows? This would characterize the scaffold-length gradient independently of alternation.
 
 ---
 
@@ -1634,13 +1706,25 @@ The §v1.5 asymmetry finding remains real and important — it identifies *when*
 
 17. **§12a/§12b/§12c established: no tested selection-regime modification buys §10's cross-K benefit at the individual level.** Four evolve-K variants at n=20: (§12) panmictic, (§12a) K-prior islands, (§12b) K-niching at α ∈ {0.3, 0.5, 1.0}, (§12c) migrate-body adopt-host-K. All solve counts 2-6/20; none beat K=3 fixed (7/20) or K=3 r=0.5 (11/20). §12b α=0.5 at 6/20 is the closest and not statistically distinguishable from §12 panmictic. **Refined mechanism reading (§12b crucial):** K-homogenization was *one* failure mode, not the binding constraint. §12b's niching completely suppresses homogenization (28% dominant-K share vs §12's 85-96%) yet solve rate doesn't recover. The deeper requirement is **coherent within-basin K-body co-evolution** — selection pushing a body-family under a specific K toward convergence. Forcing K-diversity prevents collapse but also prevents K-specific bodies from refining into solvers. **Side effect:** §12c unlocked seed 5 (previously unsolvable by any condition), reducing the hard floor from {4, 5, 11, 17} to {4, 11, 17}. **Combined verdict:** §10's cross-K benefit is not buyable via any *tested* encoding/selection modification — we have not shown it requires environmental forcing in general, only that it isn't achievable by the mechanisms we tested. K=3 r=0.5 panmictic remains the best chem-tape baseline.
 
-18. **§v1.5 + §v1.5a + §v1.5a-binary sequence: basin-width hypothesis strongly confirmed on the graded-vs-binary contrast.** §v1.5 three-task schedule gave 0/20 all-task solves; §v1.5a removed sum_gt_10 → still 0/20 BOTH; working hypothesis was "narrower success criterion gets sacrificed." §v1.5a-binary tested this directly by replacing count_r with has_at_least_1_R (binary version, same slot binding, same domain). Result: **20/20 BOTH-solves, zero flip drops, zero recovery time** — identical to §10's K-axis zero-cost compatibility signature. McNemar vs §v1.5a graded+binary: p<10⁻⁶. **Unified claim (now defensible):** environmental forcing produces cross-regime-compatible bodies when the rotating regimes share structural/basin-width shape; when they don't, evolution canalizes to the broader-basin task. The apparent task-axis ceiling in §v1.5/§v1.5a was a basin-width mismatch effect, not a fundamental task-axis limit. §10 (decode) + §v1.5a-binary (matched-shape tasks) together establish environmental forcing as a real positive mechanism with well-defined scope.
+18. **§v1.5 family: cross-regime compatibility requires matching BOTH basin width AND scaffold length.** Four schedules at K=3 r=0.5 panmictic × period 300 × 20 seeds:
 
-19. **Current priorities (after §v1.5a-binary):**
-    - **Task pair varying scaffold length** — pair has_at_least_1_R (short) with sum_gt_10 (long, also binary). Tests whether basin-width match alone is enough or whether scaffold-length match is independently required. Directly analogous to §v1.5's sum_gt_10 failure but with basin widths now aligned. ~10 min.
-    - **Three-binary-task schedule** — {has_at_least_1_R, has_upper, sum_gt_10}. All binary, mixed scaffolds. Rounds out the §v1.5 story. ~15 min.
-    - **§v1.5b period sensitivity** — lower priority after §v1.5a-binary's strong positive.
-    - **§8d scaffold-length × K × r** — generalization test.
+    | schedule | basin | scaffold | BOTH-solves | broader/shorter | narrower/longer |
+    |----------|:-----:|:--------:|:-----------:|:---------------:|:---------------:|
+    | §v1.5a-binary {hasR, hasU}          | ✓ | ✓ | **20/20** | 20/20 | 20/20 |
+    | §v1.5a-scaffold {hasR, sum_gt_10}   | ✓ | ✗ | 0/20      | 18/20 | **0/20** |
+    | §v1.5a graded+binary {count_r, hasU}| ✗ | ✓ | 0/20      | 17/20 | 3/20  |
+    | §v1.5 three-task                    | partial | mixed | 0/20 | 14/20 | 0/20 / 6/20 |
+
+    §v1.5a-scaffold's pre-registered max-of-fixed criterion was "has_at_least_1_R ~20/20 AND sum_gt_10 ~11/20 → basin-width is sole binding axis." Actual: 18/20 on has_at_least_1_R, **0/20 on sum_gt_10** (full 11-solve gap below max-of-fixed). Compute-bound alternative ruled out by gap magnitude: fixed-task sum_gt_10 at identical settings solves 11/20 (§9c). **Scaffold length is independently load-bearing** — scaffold mismatch forces canalization even when basin widths match.
+
+    **Unified claim (sharpened):** environmental forcing produces full cross-regime compatibility only when BOTH basin width AND scaffold length are matched across rotating regimes. Either mismatch alone causes complete canalization to the easier task on the mismatched axis. §10's zero-cost signature is a special case — K alternation holds both axes trivially constant (same task). Cross-task compatibility requires careful task-pair matching on multiple structural factors; "task axis" isn't the right abstraction — it's "structural-match axis."
+
+19. **Current priorities (after §v1.5a-scaffold):**
+    - **Three-binary-task schedule** — {has_at_least_1_R, has_upper, sum_gt_10}: all binary, mixed scaffolds. Predicts sum_gt_10 at 0/20, {hasR, hasU} co-solved. Rounds out the §v1.5 story. ~10 min.
+    - **Inspection: §v1.5a-scaffold winner architectures** — zero-compute; do the 18 has_at_least_1_R winners look like §v1.5a-binary winners, or did the presence of sum_gt_10 in the rotation shape the evolved body?
+    - **Scaffold-length fixed-task sweep** (§8d-adjacent) — K=3 r=0.5 across synthetic task suite with scaffold lengths {4, 6, 8, 10, 12, 14}. Would characterize scaffold-length cliff independently of alternation.
+    - **§v1.5b period sensitivity** — lower priority.
+    - **§5 re-scoped fixed-task granularity** — deprioritized (see §5).
     - **§12c seed-5 inspection** — zero-compute.
     - **Graded-label K-alternation/evolve-K replication** — later.
     - **Type-closed top-K decode criterion** — low prior.
