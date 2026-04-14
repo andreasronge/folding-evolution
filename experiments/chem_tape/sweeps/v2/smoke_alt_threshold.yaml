@@ -1,0 +1,26 @@
+sweep_name: smoke_v2_alt_threshold
+# Smoke-scale task-alternation covering §v2.3's THRESHOLD_SLOT path (the
+# most v2-specific plumbing: per-task TaskAlphabet.threshold plumbed
+# through to the Rust boundary). If this runs clean, all other alternation
+# shapes will too.
+base:
+  alphabet: v2_probe
+  task: sum_gt_5_slot
+  tape_length: 32
+  n_examples: 16
+  holdout_size: 0
+  pop_size: 32
+  generations: 10
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 5
+  arm: BP_TOPK
+  topk: 3
+  bond_protection_ratio: 0.5
+  task_alternating_period: 5
+  task_alternating_values: "sum_gt_5_slot,sum_gt_10_slot"
+grid:
+  seed: [0, 1]

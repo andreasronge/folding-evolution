@@ -94,16 +94,19 @@ def evaluate_population(
     if _HAS_RUST_EXECUTOR:
         s12 = task.alphabet.slot_12
         s13 = task.alphabet.slot_13
+        threshold = int(task.alphabet.threshold)
         for p in range(P):
             predictions[p] = _rust_exec_batch(
-                programs[p], s12, s13, task.inputs, task.input_type
+                programs[p], s12, s13, task.inputs, task.input_type,
+                alphabet_name=cfg.alphabet, threshold=threshold,
             )
     else:
         for p in range(P):
             prog = programs[p]
             for e in range(E):
                 predictions[p, e] = executor.execute_program(
-                    prog, task.alphabet, task.inputs[e], task.input_type
+                    prog, task.alphabet, task.inputs[e], task.input_type,
+                    alphabet_name=cfg.alphabet,
                 )
 
     fitnesses = (predictions == task.labels[None, :]).mean(axis=1).astype(np.float64)
@@ -125,7 +128,9 @@ def evaluate_on_inputs(
     prog = programs[0]
     correct = 0
     for e, x in enumerate(inputs):
-        pred = executor.execute_program(prog, task.alphabet, x, task.input_type)
+        pred = executor.execute_program(
+            prog, task.alphabet, x, task.input_type, alphabet_name=cfg.alphabet,
+        )
         if pred == int(labels[e]):
             correct += 1
     return correct / max(len(inputs), 1)

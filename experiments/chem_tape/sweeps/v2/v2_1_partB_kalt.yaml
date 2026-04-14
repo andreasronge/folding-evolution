@@ -1,0 +1,24 @@
+sweep_name: v2_1_partB_kalt
+# §v2.1 Part B — K-alternation replication on sum_gt_10_v2. K ∈ {3, 999}
+# × period 300. Alternation signal compared against Part A's F_10_v2.
+base:
+  alphabet: v2_probe
+  task: sum_gt_10_v2
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  arm: BP_TOPK
+  topk: 3
+  bond_protection_ratio: 0.5
+  k_alternating_period: 300
+  k_alternating_values: "3,999"
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]

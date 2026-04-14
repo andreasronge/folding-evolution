@@ -100,6 +100,11 @@ class ChemTapeConfig:
     migration_interval: int = 50
     migrants_per_island: int = 2    # 1 elite + 1 random non-elite per migration
 
+    # v2-probe alphabet switch (architecture-v2.md). "v1" (default) preserves
+    # the 16-id alphabet and hash-stability for all prior sweeps. "v2_probe"
+    # enables ids 14..19 as new primitives and shifts separators to 20/21.
+    alphabet: str = "v1"
+
     # Infra
     seed: int = 0
     backend: str = "mlx"            # "numpy" | "mlx"
@@ -139,6 +144,10 @@ class ChemTapeConfig:
         if self.task_alternating_period == 0 and self.task_alternating_values == "":
             d.pop("task_alternating_period", None)
             d.pop("task_alternating_values", None)
+        # v2-probe alphabet: excluded from hash at default "v1" so existing
+        # v1 sweep hashes are unchanged.
+        if self.alphabet == "v1":
+            d.pop("alphabet", None)
         blob = json.dumps(d, sort_keys=True).encode()
         return hashlib.sha1(blob).hexdigest()[:12]
 

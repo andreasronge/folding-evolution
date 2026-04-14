@@ -1,0 +1,118 @@
+# Overnight queue — chem-tape v2 probe (Session 3 output).
+#
+# Entries are executed in order. `expect_outputs` is relative to $RUN_DIR.
+# Each sweep command invokes sweep.py with --output-root $RUN_DIR so all
+# outputs land under the queue's per-entry directory. sweep.py writes
+# sweep_index.json at the root of its output dir — that's our "done"
+# sentinel.
+#
+# Compute budget per entry (per architecture-v2.md / prior v1 reference):
+#   20 seeds × pop=1024 × gens=1500 × 4-worker Rayon ≈ 10-20 min per sweep.
+# `timeout_seconds: 1800` (30 min) is ~2× the expected time — safe margin.
+# The 3 seed-expansion entries inherit the same per-sweep cost.
+#
+# Ordering: pre-reg graded experiments first (§v2.1 → §v2.4), exploratory
+# §v2.5 next, seed expansions + tape-length headroom last. §v2.4 is run
+# regardless of pre-reg gating (gating is decided in morning triage).
+
+- id: v2_1_partA_fixed_baseline
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_1_partA_fixed_baseline.yaml --output-root "$RUN_DIR" --workers 4
+  timeout_seconds: 1800
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.1 Part A: sum_gt_10_v2 fixed baseline; produces F_10_v2 used by Part B and swamp-check."
+
+- id: v2_1_partB_kalt
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_1_partB_kalt.yaml --output-root "$RUN_DIR" --workers 4
+  timeout_seconds: 1800
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.1 Part B: K-alternation on sum_gt_10_v2."
+
+- id: v2_2_pairA
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_2_pairA.yaml --output-root "$RUN_DIR" --workers 4
+  timeout_seconds: 1800
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.2 Pair A: within-family slot indirection {R, E}."
+
+- id: v2_2_pairB
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_2_pairB.yaml --output-root "$RUN_DIR" --workers 4
+  timeout_seconds: 1800
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.2 Pair B: cross-family {R, upper}. v2 replication of v1.5a-binary."
+
+- id: v2_2_fixed_baselines
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_2_fixed_baselines.yaml --output-root "$RUN_DIR" --workers 4
+  timeout_seconds: 3600
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.1 swamp-check inputs: fixed baselines on string tasks R, E, upper_v2 (3 × 20 seeds)."
+
+- id: v2_3_alternation
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_3.yaml --output-root "$RUN_DIR" --workers 4
+  timeout_seconds: 1800
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.3 pre-reg: constant-slot indirection {sum_gt_5_slot, sum_gt_10_slot}."
+
+- id: v2_3_fixed_baselines
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_3_fixed_baselines.yaml --output-root "$RUN_DIR" --workers 4
+  timeout_seconds: 3600
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.3 fixed baselines on both threshold tasks (2 × 20 seeds)."
+
+- id: v2_4_alternation
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_4.yaml --output-root "$RUN_DIR" --workers 4
+  timeout_seconds: 1800
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.4 compositional depth {AND, OR}. Morning triage decides §v2.1 || §v2.3 gate."
+
+- id: v2_4_fixed_baselines
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_4_fixed_baselines.yaml --output-root "$RUN_DIR" --workers 4
+  timeout_seconds: 3600
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.4 fixed baselines for Fmin = min(F_AND, F_OR) threshold."
+
+- id: v2_5_alternation
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_5.yaml --output-root "$RUN_DIR" --workers 4
+  timeout_seconds: 1800
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.5 exploratory: aggregator-variation {sum, max}. Qualitative reporting only."
+
+# ---- §v2.3 seed expansion (split 3-way per overnight-queue-runner design) ----
+
+- id: v2_3_seeds_20_39
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_3_seeds_20_39.yaml --output-root "$RUN_DIR" --workers 4
+  timeout_seconds: 1800
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.3 expansion block 1/3."
+
+- id: v2_3_seeds_40_59
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_3_seeds_40_59.yaml --output-root "$RUN_DIR" --workers 4
+  timeout_seconds: 1800
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.3 expansion block 2/3."
+
+- id: v2_3_seeds_60_79
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_3_seeds_60_79.yaml --output-root "$RUN_DIR" --workers 4
+  timeout_seconds: 1800
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.3 expansion block 3/3."
+
+# ---- Tape-length headroom (low-priority housekeeping) ----
+
+- id: v2_1_partA_tape48
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_1_partA_tape48.yaml --output-root "$RUN_DIR" --workers 4
+  timeout_seconds: 2400
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "Tape length=48 replication of §v2.1 Part A; settles the alphabet-density confound."

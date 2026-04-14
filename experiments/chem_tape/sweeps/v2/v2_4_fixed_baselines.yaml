@@ -1,0 +1,23 @@
+sweep_name: v2_4_fixed_baselines
+# Fixed-task baselines for §v2.4. Used to compute Fmin = min(F_AND, F_OR)
+# which sets the alternation threshold (alternation BOTH ≥ max(Fmin-3, 12)
+# → "scales"). Required per experiments-v2.md §v2.4.
+base:
+  alphabet: v2_probe
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  arm: BP_TOPK
+  topk: 3
+  bond_protection_ratio: 0.5
+grid:
+  task: [sum_gt_10_AND_max_gt_5, sum_gt_10_OR_max_gt_5]
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]

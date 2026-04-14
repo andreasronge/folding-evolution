@@ -272,12 +272,255 @@ def make_sum_gt_5_task(cfg: ChemTapeConfig, seed: int) -> Task:
     )
 
 
+# ---------------- v2-probe tasks (architecture-v2.md / experiments-v2.md) ----------------
+#
+# These task builders require `ChemTapeConfig.alphabet == "v2_probe"` at
+# execution time, because they return programs / alphabets that reference
+# ids 14..19 (MAP_EQ_E, IF_GT, REDUCE_MAX, THRESHOLD_SLOT). Under
+# alphabet="v1" the executor would treat those ids as NOP.
+
+
+def _any_char_is(target: str, task_name: str, slot_12_op: str):
+    """Factory: build an `any_char_is_<target>` binary task.
+
+    Body used by evolution is the 4-cell scan-map-aggregate shape
+    `INPUT CHARS slot_12 ANY` (architecture-v2.md §v2.2). `slot_12_op`
+    determines which character the MAP primitive flags.
+    """
+    # Negatives exclude the target char directly — keeps sampling fast
+    # (same trick as has_upper's _LOWER_ALPHABET).
+    _NO_TARGET = [c for c in _STR_ALPHABET_STR if c != target]
+
+    def _label(s: str) -> int:
+        return 1 if target in s else 0
+
+    def _make(cfg: ChemTapeConfig, seed: int) -> Task:
+        def gen(rng):
+            return _rand_str(rng, length=16)
+        def gen_neg(rng):
+            idx = rng.integers(0, len(_NO_TARGET), size=16)
+            return "".join(_NO_TARGET[i] for i in idx)
+        def positive(s):
+            return target in s
+        train_inp, train_lab, hold_inp, hold_lab = _build_training_and_holdout(
+            seed, cfg.n_examples, cfg.holdout_size, gen, _label, positive,
+            gen_negative=gen_neg,
+        )
+        return Task(
+            name=task_name,
+            input_type="str",
+            inputs=train_inp,
+            labels=train_lab,
+            alphabet=alph.TaskAlphabet(slot_12=slot_12_op, slot_13=alph.OP_NOP),
+            label_fn=_label,
+            holdout_inputs=hold_inp,
+            holdout_labels=hold_lab,
+        )
+
+    return _make
+
+
+_STR_ALPHABET_STR = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+
+
+# §v2.2 Multi-slot indirection: three binary char-scan tasks sharing the same
+# 4-cell body `INPUT CHARS slot_12 ANY` and differing only in slot_12 binding.
+make_any_char_is_R_task = _any_char_is("R", "any_char_is_R", alph.OP_MAP_EQ_R)
+make_any_char_is_E_task = _any_char_is("E", "any_char_is_E", alph.OP_MAP_EQ_E)
+
+
+def make_any_char_is_upper_v2_task(cfg: ChemTapeConfig, seed: int) -> Task:
+    """§v2.2 Pair B: uppercase variant of the char-scan task. Under v2
+    alphabet so Pair B can be matched against Pair A directly."""
+    _LOWER_ALPHABET = [c for c in "abcdefghijklmnopqrstuvwxyz "]
+    def gen(rng):
+        return _rand_str(rng, length=16)
+    def gen_neg(rng):
+        idx = rng.integers(0, len(_LOWER_ALPHABET), size=16)
+        return "".join(_LOWER_ALPHABET[i] for i in idx)
+    def positive(s):
+        return any(c.isupper() for c in s)
+    train_inp, train_lab, hold_inp, hold_lab = _build_training_and_holdout(
+        seed, cfg.n_examples, cfg.holdout_size, gen, _has_upper_label, positive,
+        gen_negative=gen_neg,
+    )
+    return Task(
+        name="any_char_is_upper_v2",
+        input_type="str",
+        inputs=train_inp,
+        labels=train_lab,
+        alphabet=alph.TaskAlphabet(slot_12=alph.OP_MAP_IS_UPPER, slot_13=alph.OP_NOP),
+        label_fn=_has_upper_label,
+        holdout_inputs=hold_inp,
+        holdout_labels=hold_lab,
+    )
+
+
+def make_sum_gt_10_v2_task(cfg: ChemTapeConfig, seed: int) -> Task:
+    """§v2.1 Part A: sum_gt_10 label function on the v2 alphabet. Semantics
+    identical to v1's sum_gt_10 — only the canonical target body differs
+    (`CONST_5 CONST_5 ADD` instead of `CONST_1 + DUP + ADD` chain).
+    """
+    def gen(rng):
+        return _rand_intlist(rng, length=4)
+    def positive(xs):
+        return sum(xs) > 10
+    train_inp, train_lab, hold_inp, hold_lab = _build_training_and_holdout(
+        seed, cfg.n_examples, cfg.holdout_size, gen, _sum_gt_10_label, positive
+    )
+    return Task(
+        name="sum_gt_10_v2",
+        input_type="intlist",
+        inputs=train_inp,
+        labels=train_lab,
+        alphabet=alph.TaskAlphabet(slot_12=alph.OP_NOP, slot_13=alph.OP_NOP),
+        label_fn=_sum_gt_10_label,
+        holdout_inputs=hold_inp,
+        holdout_labels=hold_lab,
+    )
+
+
+def _make_sum_gt_slot_task(threshold: int, task_name: str):
+    """§v2.3 factory: `INPUT SUM THRESHOLD_SLOT GT` with the threshold bound
+    via `TaskAlphabet.threshold`. Two instances — `sum_gt_5_slot` and
+    `sum_gt_10_slot` — share the identical token body and differ only in
+    `threshold`.
+    """
+    def _label(xs: tuple[int, ...]) -> int:
+        return 1 if sum(xs) > threshold else 0
+
+    def _make(cfg: ChemTapeConfig, seed: int) -> Task:
+        def gen(rng):
+            return _rand_intlist(rng, length=4)
+        def positive(xs):
+            return sum(xs) > threshold
+        train_inp, train_lab, hold_inp, hold_lab = _build_training_and_holdout(
+            seed, cfg.n_examples, cfg.holdout_size, gen, _label, positive
+        )
+        return Task(
+            name=task_name,
+            input_type="intlist",
+            inputs=train_inp,
+            labels=train_lab,
+            alphabet=alph.TaskAlphabet(
+                slot_12=alph.OP_NOP,
+                slot_13=alph.OP_NOP,
+                threshold=threshold,
+            ),
+            label_fn=_label,
+            holdout_inputs=hold_inp,
+            holdout_labels=hold_lab,
+        )
+
+    return _make
+
+
+make_sum_gt_5_slot_task = _make_sum_gt_slot_task(5, "sum_gt_5_slot")
+make_sum_gt_10_slot_task = _make_sum_gt_slot_task(10, "sum_gt_10_slot")
+
+
+def _compositional_label(xs: tuple[int, ...], op: str) -> int:
+    s_pred = 1 if sum(xs) > 10 else 0
+    m_pred = 1 if max(xs, default=0) > 5 else 0
+    if op == "AND":
+        return 1 if (s_pred and m_pred) else 0
+    return 1 if (s_pred or m_pred) else 0
+
+
+def _make_compositional_task(op: str, task_name: str):
+    """§v2.4 factory for `sum_gt_10_{AND,OR}_max_gt_5`. Binary label on
+    length-4 intlists (values in [0,9]). Uses v2 IF_GT semantics."""
+    def _label(xs):
+        return _compositional_label(xs, op)
+
+    def _make(cfg: ChemTapeConfig, seed: int) -> Task:
+        def gen(rng):
+            return _rand_intlist(rng, length=4)
+        def positive(xs):
+            return _label(xs) == 1
+        train_inp, train_lab, hold_inp, hold_lab = _build_training_and_holdout(
+            seed, cfg.n_examples, cfg.holdout_size, gen, _label, positive
+        )
+        return Task(
+            name=task_name,
+            input_type="intlist",
+            inputs=train_inp,
+            labels=train_lab,
+            alphabet=alph.TaskAlphabet(slot_12=alph.OP_NOP, slot_13=alph.OP_NOP),
+            label_fn=_label,
+            holdout_inputs=hold_inp,
+            holdout_labels=hold_lab,
+        )
+
+    return _make
+
+
+make_sum_gt_10_AND_max_gt_5_task = _make_compositional_task("AND", "sum_gt_10_AND_max_gt_5")
+make_sum_gt_10_OR_max_gt_5_task = _make_compositional_task("OR", "sum_gt_10_OR_max_gt_5")
+
+
+def _make_agg_task(
+    aggregator_op: str,
+    threshold: int,
+    task_name: str,
+    label_fn: Callable[[tuple[int, ...]], int],
+):
+    """§v2.5 factory: aggregator-variation pair sharing body
+    `INPUT slot_13 THRESHOLD_SLOT GT` with slot_13 bound to REDUCE_ADD or
+    REDUCE_MAX and threshold task-bound.
+    """
+    def _make(cfg: ChemTapeConfig, seed: int) -> Task:
+        def gen(rng):
+            return _rand_intlist(rng, length=4)
+        def positive(xs):
+            return label_fn(xs) == 1
+        train_inp, train_lab, hold_inp, hold_lab = _build_training_and_holdout(
+            seed, cfg.n_examples, cfg.holdout_size, gen, label_fn, positive
+        )
+        return Task(
+            name=task_name,
+            input_type="intlist",
+            inputs=train_inp,
+            labels=train_lab,
+            alphabet=alph.TaskAlphabet(
+                slot_12=alph.OP_NOP,
+                slot_13=aggregator_op,
+                threshold=threshold,
+            ),
+            label_fn=label_fn,
+            holdout_inputs=hold_inp,
+            holdout_labels=hold_lab,
+        )
+
+    return _make
+
+
+def _max_gt_5_label(xs: tuple[int, ...]) -> int:
+    return 1 if max(xs, default=0) > 5 else 0
+
+
+make_agg_sum_gt_10_task = _make_agg_task(alph.OP_REDUCE_ADD, 10, "agg_sum_gt_10", _sum_gt_10_label)
+make_agg_max_gt_5_task = _make_agg_task(alph.OP_REDUCE_MAX, 5, "agg_max_gt_5", _max_gt_5_label)
+
+
 TASK_REGISTRY = {
+    # v1 (unchanged).
     "count_r": make_count_r_task,
     "has_at_least_1_R": make_has_at_least_1_R_task,
     "has_upper": make_has_upper_task,
     "sum_gt_10": make_sum_gt_10_task,
     "sum_gt_5": make_sum_gt_5_task,
+    # v2-probe (require cfg.alphabet == "v2_probe").
+    "any_char_is_R": make_any_char_is_R_task,
+    "any_char_is_E": make_any_char_is_E_task,
+    "any_char_is_upper_v2": make_any_char_is_upper_v2_task,
+    "sum_gt_10_v2": make_sum_gt_10_v2_task,
+    "sum_gt_5_slot": make_sum_gt_5_slot_task,
+    "sum_gt_10_slot": make_sum_gt_10_slot_task,
+    "sum_gt_10_AND_max_gt_5": make_sum_gt_10_AND_max_gt_5_task,
+    "sum_gt_10_OR_max_gt_5": make_sum_gt_10_OR_max_gt_5_task,
+    "agg_sum_gt_10": make_agg_sum_gt_10_task,
+    "agg_max_gt_5": make_agg_max_gt_5_task,
 }
 
 

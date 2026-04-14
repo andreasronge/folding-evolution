@@ -1,0 +1,31 @@
+# Smoke-scale queue that mirrors tonight's queue.yaml shapes with tight
+# budgets. Purpose (per Plans/overnight-queue-runner.md pre-bed smoke
+# workflow): catch real failures — missing imports, bad config paths,
+# SIGTERM behaviour — quickly. Each entry runs in seconds, not minutes.
+#
+# Invoke with disposable state:
+#   uv run python scripts/run_queue.py --queue smoke.yaml \
+#       --status /tmp/smoke.status.json \
+#       --lock /tmp/smoke.lock \
+#       --output-root /tmp/smoke_out
+
+- id: smoke_v2_fixed
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/smoke_fixed.yaml --output-root "$RUN_DIR"
+  timeout_seconds: 120
+  expect_outputs: [sweep_index.json]
+  track: smoke
+  notes: "Single-task fixed — exercises v2 alphabet + evolve token range."
+
+- id: smoke_v2_alt_threshold
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/smoke_alt_threshold.yaml --output-root "$RUN_DIR"
+  timeout_seconds: 120
+  expect_outputs: [sweep_index.json]
+  track: smoke
+  notes: "Task-alternation with THRESHOLD_SLOT — exercises the per-task threshold plumbing to the Rust boundary."
+
+- id: smoke_v2_kalt
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/smoke_kalt.yaml --output-root "$RUN_DIR"
+  timeout_seconds: 120
+  expect_outputs: [sweep_index.json]
+  track: smoke
+  notes: "K-alternation on v2_probe — guards the v2 + K-alt combinator."

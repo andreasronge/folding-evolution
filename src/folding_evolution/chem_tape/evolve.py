@@ -40,10 +40,23 @@ class EvolutionResult:
     cross_task_fitness: dict | None = None
 
 
+def _token_max(cfg: ChemTapeConfig) -> int:
+    """Inclusive upper bound for `random.randint(0, token_max)` on this
+    alphabet. v1: 15 (ids 0..15 — all 16 v1 tokens incl. separators 14/15).
+    v2_probe: 21 (ids 0..21 — 20 primitives + separators 20/21).
+
+    Separators are part of the representation (they break bonded runs under
+    every arm), so the mutation range includes them — same shape as v1.
+    """
+    return 21 if cfg.alphabet == "v2_probe" else 15
+
+
 def random_genotype(cfg: ChemTapeConfig, rng: random.Random) -> np.ndarray:
-    """Uniform {0..15} per cell (spec §Layer 7). Three ids execute as NOP."""
+    """Uniform {0..token_max} per cell (spec §Layer 7). Token range depends
+    on `cfg.alphabet`: v1 → 0..15 (unchanged), v2_probe → 0..21."""
+    hi = _token_max(cfg)
     return np.array(
-        [rng.randint(0, 15) for _ in range(cfg.tape_length)],
+        [rng.randint(0, hi) for _ in range(cfg.tape_length)],
         dtype=np.uint8,
     )
 
@@ -64,6 +77,7 @@ def mutate(
     K under the §10 K-alternating schedule."""
     out = tape.copy()
     L = out.shape[0]
+    hi = _token_max(cfg)
 
     protect_mask: np.ndarray | None = None
     if cfg.bond_protection_ratio < 1.0 and cfg.arm in ("BP", "BP_TOPK"):
@@ -86,14 +100,14 @@ def mutate(
     if protect_mask is None:
         for i in range(L):
             if rng.random() < cfg.mutation_rate:
-                out[i] = rng.randint(0, 15)
+                out[i] = rng.randint(0, hi)
     else:
         mu = cfg.mutation_rate
         mu_prot = mu * cfg.bond_protection_ratio
         for i in range(L):
             rate = mu_prot if protect_mask[i] else mu
             if rng.random() < rate:
-                out[i] = rng.randint(0, 15)
+                out[i] = rng.randint(0, hi)
     return out
 
 
