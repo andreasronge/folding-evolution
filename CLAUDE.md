@@ -8,9 +8,10 @@ This project continues research started in Elixir/PTC-Lisp (`~/projects/ptc_runn
 
 ## Documentation
 
-- `docs/architecture.md` — The folding pipeline (alphabet, fold, chemistry, operators)
-- `docs/findings.md` — All experimental results (authoritative; includes commit hashes)
-- `docs/experiments.md` — Planned experiments with hypotheses and status
+- `docs/folding/architecture.md` — The folding pipeline (alphabet, fold, chemistry, operators) — original folding track
+- `docs/folding/findings.md` — Folding-track experimental results (authoritative; includes commit hashes)
+- `docs/folding/experiments.md` — Folding-track planned experiments with hypotheses and status
+- `docs/chem-tape/` and `docs/ca/` — Active research tracks (each has own architecture.md + experiments.md)
 - `docs/coevolution.md` — Four coevolution designs tested, lessons learned
 - `docs/theory.md` — Altenberg's constructional selection framework
 - `Plans/` — Scoped plans for new directions (current: `psb2-sanity-probe.md`)
@@ -22,7 +23,7 @@ This project continues research started in Elixir/PTC-Lisp (`~/projects/ptc_runn
 3. **3-bond ceiling is broken** via Pareto scaffold preservation (§1.11/§1.13): S5 reached in 78–92% of seeds. Both discovery (chemistry screening) and preservation (Pareto on structural pattern) are required — neither alone is sufficient.
 4. Altenberg's constructional selection framework explains the static/dynamic discrepancy
 
-For full completed-experiment list and open questions, see `docs/experiments.md`.
+For full completed-experiment list and open questions, see `docs/folding/experiments.md` (original track), `docs/chem-tape/experiments.md`, and `docs/ca/experiments.md`.
 
 ## Tech Stack
 
@@ -38,4 +39,4 @@ For full completed-experiment list and open questions, see `docs/experiments.md`
 - Visualization of every experiment (fitness curves, population diversity, bond count distributions)
 - The fold/chemistry pipeline should be decoupled from the evaluation language
 - Compare against standard GP baselines (DEAP tree GP)
-- When documenting findings in `docs/findings.md` or `docs/python-rewrite-results.md`, include the git commit hash that produced the results (e.g. `Results from commit abc1234`). This anchors data to a specific code state for reproducibility.
+- When documenting findings in any track's `findings.md`/`experiments.md` (or `docs/python-rewrite-results.md`), include the git commit hash that produced the results (e.g. `Results from commit abc1234`). This anchors data to a specific code state for reproducibility.

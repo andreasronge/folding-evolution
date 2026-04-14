@@ -37,6 +37,7 @@ Grade is deliberately included as a negative-control task: if we win everywhere,
 1. **Primitives.** Extend the chem-tape VM with minimal PSB2-shaped primitives (string indexing, list primitives, integer arithmetic). Keep it minimal — do not chase PushGP's 100+ instruction set.
 2. **Data split.** PSB2 ships train/test. Further split train into *visible* (given to GP) and *held-out-train* (never touched). Report held-out-train AND PSB2 test. This catches lexicase-style leakage.
 3. **Baseline.** DEAP tree GP with a matched primitive set, matched population × generations budget. (PushGP is optional stretch — not required for the probe to be informative.)
+   - *Optional secondary baseline:* a minimal Analog GRN (AGRN, ~32 genes, sigmoid update) decoding network activations into stack-machine tokens. If included, it positions the work against both direct tree-GP *and* the established developmental-evolution line (Banzhaf / Cussat-Blanc et al.), strengthening the claim from "better than tree-GP" to "better than tree-GP *and* AGRN." Cost: ~1 week extra implementation; only worth it if the primary probe looks positive. If the probe kills the PBE frame, AGRN baseline work is abandoned with it.
 4. **Compute match.** Fix total program evaluations, not generations.
 5. **Seeds.** 20 per (task × system). Report distributions, not means.
 6. **Metrics.**
@@ -66,4 +67,29 @@ One week wall-clock. If VM primitive extension alone takes more than two days, s
 
 ## Deliverable
 
-A short `docs/findings.md` section (one-pass probe, not a full experiment writeup) with: task list, seed distributions for gap metric, decision against the rule above, and a one-paragraph recommendation on framing.
+A short findings section (one-pass probe, not a full experiment writeup) in the appropriate track's `findings.md`/`experiments.md` with: task list, seed distributions for gap metric, decision against the rule above, and a one-paragraph recommendation on framing.
+
+---
+
+## Parking lot: GRN-parameterized chemistry (not part of this probe)
+
+If the evolvable-chemistry direction (DevGenome, d2 bonds) comes back as a live priority after the PBE probe decides, there is a more principled parameterization worth exploring: **a small GRN as the bond rule itself.**
+
+Current chemistry decides bonding via a fixed lookup on local neighborhood characters. DevGenome generalizes this with family-based d2 bonds, but the family structure is hand-designed. A GRN variant would replace both with a tiny learned network:
+
+```
+local neighborhood (chars + positions) -> small GRN (e.g. 8-16 genes) -> bond / no-bond
+```
+
+Why this is the *right* way to use GRNs in this project (and the only way that doesn't compete with the Altenberg thesis):
+
+- **Preserves the constructional-selection story.** Spatial folding, genome extension, and scaffold accumulation all continue to work — we are only reparameterizing the chemistry rule, not replacing the substrate.
+- **Makes the chemistry continuously evolvable.** DevGenome's family structure creates discrete mutation events; a GRN gives smooth weight changes, which is where the "continuous-dynamics for smoother landscapes" claim would actually have teeth.
+- **Keeps the ANE angle honest.** GRNs here are tiny (order-10 genes) and many-per-individual — still not obviously ANE-shaped, but closer than whole-phenotype GRNs.
+
+Explicitly **not** in scope now because:
+- The current priority is the PBE frame decision, not chemistry reparameterization.
+- If PBE fails, evolvable chemistry comes back with fixed v1 or DevGenome; the GRN variant is a *follow-up refinement*, not a reset.
+- Adding it concurrently would inflate the ablation matrix (folding × chemistry × preservation × baseline) beyond what one paper can defend.
+
+Revisit trigger: after the PBE probe decides *and* the evolvable-chemistry thread becomes the active direction.
