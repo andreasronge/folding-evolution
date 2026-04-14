@@ -268,17 +268,69 @@ def _run_entry(
     return metadata
 
 
+def _validate(queue_path: Path, status_path: Path) -> int:
+    """Parse queue.yaml, check it, print a brief plan. Exit non-zero on issues."""
+    try:
+        queue = load_queue(queue_path)
+    except Exception as e:
+        print(f"[validate] FAIL: could not load {queue_path}: {e}", file=sys.stderr)
+        return 1
+
+    issues: list[str] = []
+    for entry in queue:
+        if not entry.cmd.strip():
+            issues.append(f"{entry.id}: empty cmd")
+        if entry.timeout_seconds <= 0:
+            issues.append(f"{entry.id}: non-positive timeout_seconds")
+        for out in entry.expect_outputs:
+            if Path(out).is_absolute() or ".." in Path(out).parts:
+                issues.append(
+                    f"{entry.id}: expect_outputs should be relative to $RUN_DIR "
+                    f"(got {out!r})"
+                )
+
+    status = load_status(status_path)
+    terminal = {"done", "failed", "timeout", "interrupted", "suspicious"}
+    pending = [e for e in queue if status.get(e.id, {}).get("status") not in terminal]
+    done_count = sum(1 for e in queue if status.get(e.id, {}).get("status") == "done")
+
+    print(f"[validate] {queue_path}: {len(queue)} entries, {done_count} already done, "
+          f"{len(pending)} pending")
+    if pending:
+        print("[validate] would run:")
+        for e in pending:
+            track = f" [{e.track}]" if e.track else ""
+            print(f"  - {e.id}{track}  (timeout {e.timeout_seconds}s)")
+
+    if issues:
+        print(f"[validate] FAIL: {len(issues)} issue(s):", file=sys.stderr)
+        for i in issues:
+            print(f"  - {i}", file=sys.stderr)
+        return 1
+
+    print("[validate] OK")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Overnight experiment queue runner")
     ap.add_argument("--queue", type=Path, default=DEFAULT_QUEUE)
     ap.add_argument("--status", type=Path, default=DEFAULT_STATUS)
     ap.add_argument("--lock", type=Path, default=DEFAULT_LOCK)
     ap.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT_ROOT)
+    ap.add_argument(
+        "--validate",
+        action="store_true",
+        help="parse queue.yaml and report issues, then exit. Runs nothing.",
+    )
     args = ap.parse_args()
 
     if not args.queue.exists():
         print(f"[run_queue] no queue at {args.queue}", file=sys.stderr)
         return 2
+
+    if args.validate:
+        return _validate(args.queue, args.status)
 
     queue = load_queue(args.queue)
     status = load_status(args.status)

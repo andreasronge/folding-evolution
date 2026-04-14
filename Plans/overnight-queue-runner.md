@@ -122,7 +122,27 @@ Sweeps done entries without a `summary.json`, calls `claude -p ... --output-form
 - Atomic writes for status file (tmp + rename).
 - Child invoked via `shell=True` so pipe-style commands in queue entries work. The queue is user-authored and trusted.
 
-## Pre-flight check (before first use)
+## Pre-bed smoke workflow (recommended)
+
+Two checks before kicking off a real overnight run:
+
+1. **Parse + lint the queue** — catches duplicate ids, empty cmds, non-positive timeouts, expect_outputs paths that escape `$RUN_DIR`:
+   ```
+   uv run python scripts/run_queue.py --validate
+   ```
+   Prints the would-run plan and exits non-zero on issues. Runs in milliseconds.
+
+2. **Short-budget smoke run** — catches real failures (missing imports, bad config paths, experiments that crash early, SIGTERM behavior). Maintain a `smoke.yaml` that mirrors tonight's `queue.yaml` with tight budgets (e.g. `--seeds 2 --gens 10`, or a `--quick` mode on each experiment). Run against disposable state:
+   ```
+   uv run python scripts/run_queue.py \
+     --queue smoke.yaml \
+     --status /tmp/smoke.status.json \
+     --lock /tmp/smoke.lock \
+     --output-root /tmp/smoke_out
+   ```
+   Completes in minutes. If this passes, the real queue is very likely to run through cleanly overnight.
+
+## SIGTERM pre-flight check (before first real use)
 
 Before relying on the runner in production, verify the Rust/Python experiment path cleans up on SIGTERM:
 

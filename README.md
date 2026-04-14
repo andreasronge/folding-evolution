@@ -15,6 +15,31 @@ Prior work (in Elixir/PTC-Lisp) established:
 
 This project continues the research in Python for faster experimentation and access to the GP/ALife ecosystem.
 
+## Running Overnight Experiments
+
+The nightly queue runner (`scripts/run_queue.py`) runs every entry in `queue.yaml` whose id isn't already terminal in `queue.status.json`. Per-run output lands in `experiments/output/YYYY-MM-DD/<id>/` with stdout/stderr logs, rusage profile, and metadata. Experiments must write their outputs under `$RUN_DIR` (exported to the child environment) for `expect_outputs` checks to pass.
+
+```
+# before bed: lint your queue, then kick off
+uv run python scripts/run_queue.py --validate
+caffeinate -s uv run python scripts/run_queue.py
+
+# morning: Claude-CLI summaries
+uv run python scripts/summarize_runs.py
+```
+
+For a pre-bed smoke test, maintain a `smoke.yaml` with short-budget variants of tonight's runs (e.g. 2 seeds, 10 generations) and run it against disposable state:
+
+```
+uv run python scripts/run_queue.py \
+  --queue smoke.yaml \
+  --status /tmp/smoke.status.json \
+  --lock /tmp/smoke.lock \
+  --output-root /tmp/smoke_out
+```
+
+Full design: [Plans/overnight-queue-runner.md](Plans/overnight-queue-runner.md).
+
 ## Direction
 
 An upcoming probe evaluates whether the project should reframe around **inductive program synthesis from input-output examples** (PBE) using [PSB2](https://arxiv.org/abs/2106.06086) as an external benchmark. The hypothesis is that the chem-tape + folding representation, combined with Pareto scaffold preservation (see [Findings §1.11/§1.13](docs/folding/findings.md)), produces a smaller train→held-out generalization gap than direct-encoding GP at matched compute. Plan: [Plans/psb2-sanity-probe.md](Plans/psb2-sanity-probe.md). This is a scoped probe, not yet a committed pivot — the decision rule is in the plan.
