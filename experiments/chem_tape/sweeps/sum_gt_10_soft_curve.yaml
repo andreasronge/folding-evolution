@@ -1,0 +1,26 @@
+sweep_name: sum_gt_10_soft_curve
+# Experiments §9b: protection-ratio curve at K=3. Pre-registered as CLOSURE
+# (expects monotone degradation from r=1.0 down to r=0.1 bracket already
+# established in §9). Runs once to rule out a mild-protection sweet spot
+# before committing to downstream experiments (§10, evolve-K).
+# Anchors already on disk:
+#   r=1.0: §8 K=3 BP_TOPK → 3/10 (seeds 2, 6, 7)
+#   r=0.1: §9 K=3 protected → 1/10 (seed 7 only)
+base:
+  task: sum_gt_10
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  arm: BP_TOPK
+  topk: 3
+grid:
+  bond_protection_ratio: [0.3, 0.5, 0.7, 0.9]
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]

@@ -662,14 +662,153 @@ Results from commit `6241c0f` (sweep elapsed 589s / 9.8 min at 4 workers for the
 
 #### What §9 forecloses vs. what it leaves open
 
-- **Closed: "bonds persist across generations AS a mutation-rate signal" is not a load-bearing mechanism on sum-gt-10 at r=0.1.** The architecture's v1 premise that bond persistence provides evolutionary-dynamics structure is not rescued by recasting bonds-as-protection, at least not at this design point.
-- **Open: the mild-protection regime (r ∈ [0.5, 0.9]).** A gentler protection might preserve some scaffold stability without blocking discovery. Unlikely to change the qualitative picture (no new seeds unlocked) but could quantify "how much protection is too much."
+**NOTE (post-§9b).** The verdict below held at r=0.1 but was overturned for moderate protection strengths. §9b's protection-ratio curve falsified the pre-registered monotone-degradation expectation: at r=0.5 bond-protection solves 6/10 including two seeds no arm has ever reached. The "closed" bullet below is wrong as a general claim; it applies only to r ≤ 0.3. See §9b for the revised reading.
+
+- ~~**Closed: "bonds persist across generations AS a mutation-rate signal" is not a load-bearing mechanism on sum-gt-10 at r=0.1."**~~ Restricted to strong protection (r ≤ 0.3). At moderate protection (r=0.5), the mechanism is real and provides the best chem-tape solve rate measured to date.
+- **Open (now resolved by §9b): the mild-protection regime (r ∈ [0.5, 0.9]).** Non-monotone with peak at r=0.5 (6/10). Two genuinely novel seeds unlocked.
 - **Open: alternative protection targets.** Protecting *only the longest run* (regardless of K) while allowing mutation on all other cells — including other executing runs — might be the cleanest "bonds = stability of the primary scaffold" test.
 
 ### Follow-ups
 
-- **§9b protection-ratio curve** — K=3 × r ∈ {0.3, 0.5, 0.7, 0.9, 1.0} × 10 seeds = 50 runs. Is there a protection sweet spot, or is the effect monotone? ~15 min.
-- **§9c "primary-run-only" protection variant** — protect only the longest bonded run (not the full top-K), keeping K=3 decode. Tests whether the issue is "too much of the scaffold is frozen" vs "any scaffold freezing hurts." Design pending on §9b shape.
+- **§9b protection-ratio curve** — pre-registered closure. See below.
+- **§9c "primary-run-only" protection variant** — deprioritized. §9's mechanism reading (executing cells need mutation during assembly) makes this low prior: seed 7 surviving r=0.1 was already-near-functional when protection mattered, so "protect longest run only" tests preservation-of-found-scaffold, but §8 data doesn't show found scaffolds being lost. Keeping here for completeness; not actively queued.
+
+---
+
+## 9b. Protection-ratio curve — **pre-registered closure FALSIFIED**
+
+**Purpose.** Rule out a mild-protection sweet spot before committing to experiments that rest on §9's negative verdict. Pre-registered as *closure*, not discovery.
+
+**Sweep:** `sweeps/sum_gt_10_soft_curve.yaml` — K=3 × r ∈ {0.3, 0.5, 0.7, 0.9} × 10 seeds = 40 novel runs, on sum-gt-10 at pop=1024, gens=1500. r=1.0 (= §8 K=3 anchor) and r=0.1 (= §9 K=3 protected) already on disk.
+
+**Pre-registered expectation.** Monotone degradation: r=0.3 → ≤ 2/10, r=0.5 → ≤ 2/10, r=0.7 → 2–3/10, r=0.9 → ≈ 3/10 matching r=1.0. No r value rescues lost seeds {2, 6} beyond what r=1.0 already does.
+
+**Falsification criterion (pre-registered):** non-monotone curve with some r ∈ {0.3, 0.5, 0.7} solving ≥ 4/10, or unlocking a seed not in {2, 6, 7}.
+
+### Status: complete. **Falsification triggered.** Non-monotone curve with peak at r=0.5 (6/10 solved, 2 novel seeds).
+
+Results from commit `a564184` (sweep elapsed 1073s / 17.9 min at 4 workers; 40 novel runs).
+
+| r    | solved / 10 | seeds solved (gens-to-solve)                                 | max best | median best | median holdout | source |
+|------|-------------|--------------------------------------------------------------|----------|-------------|----------------|--------|
+| 1.0  | 3/10        | s2(86), s6(962), s7(1350)                                    | 1.000    | 0.508       | 0.500          | §8     |
+| 0.9  | 4/10        | s0(95), s2(171), s6(1123), s9(821)                           | 1.000    | 0.516       | 0.502          | §9b    |
+| 0.7  | 3/10        | s1(276), s2(252), s8(503)                                    | 1.000    | 0.500       | 0.500          | §9b    |
+| **0.5** | **6/10** | **s0(1116), s2(183), s3(844), s6(334), s7(653), s8(1376)**   | **1.000** | **1.000**  | **1.000**      | §9b    |
+| 0.3  | 1/10        | s2(1296)                                                     | 1.000    | 0.500       | 0.500          | §9b    |
+| 0.1  | 1/10        | s7(1331)                                                     | 1.000    | 0.516       | 0.502          | §9     |
+
+#### What the data shows
+
+1. **The curve is clearly non-monotone with a peak at r=0.5.** Solve count rises from 3/10 (r=1.0) through 4/10 (r=0.9), drops to 3/10 at r=0.7, then jumps to **6/10 at r=0.5**, before collapsing to 1/10 at r=0.3 and 1/10 at r=0.1.
+
+2. **r=0.5 achieves median best fitness = 1.000 AND median holdout = 1.000.** Population-level performance at the ceiling, with genuine generalization. Every prior chem-tape condition on sum-gt-10 had median ≈ 0.500 (majority of seeds plateau at trivial). **r=0.5 K=3 is the first chem-tape condition where the median seed solves the task.**
+
+3. **Two genuinely new seeds unlocked.** Cross-referenced against every prior sum-gt-10 sweep (§2b, §3b, §4 islands, §8 all K, §9): **seeds 0 and 3 have never been solved by any arm** — not by Arm A at any budget, not by B/BP/BP_TOPK at any K, not under islands, not by K=3 r=0.1. r=0.5 K=3 adds them to the total solve-union.
+
+4. **r=0.5 solve-set covers three different mechanism regions:**
+   - K=3-specific: {6, 7} (§8 K=3 r=1.0 unique)
+   - Arm-A-style: {8} (§8 K=999 = A-like)
+   - Cross-mechanism: {2} (solved by nearly every arm)
+   - **Novel to r=0.5:** {0, 3}
+
+   This is not "r=0.5 just adds 2 seeds on top of K=3." It integrates solution classes from multiple arms *plus* opens new territory.
+
+5. **Solve-union across everything chem-tape has tried on sum-gt-10:**
+
+   | seeds | ever solved? |
+   |-------|--------------|
+   | 0, 2, 3, 6, 7, 8, 9 | yes, by some arm somewhere |
+   | 1 | yes, only by A-islands (§4) and r=0.7 (§9b) |
+   | 4, 5 | **never solved by any condition** |
+
+   **8/10 seeds are reachable by some chem-tape variant**, up from 5/10 before §9b. Seeds 4 and 5 remain the hard floor.
+
+#### Mechanism reading
+
+**§9's "protection is antagonistic" claim was correct at r=0.1 but does not generalize.** The protection landscape has two regimes:
+
+- **Strong protection (r ≤ 0.3):** freezes the executing scaffold before it becomes functional, blocking assembly. Seeds {2, 6} that r=1.0 found are lost at r=0.3 and r=0.1.
+- **Moderate protection (r ∈ [0.5, 0.9]):** differential mutation rate between scaffold and non-scaffold regions preserves partially-assembled structures while still allowing refinement. Evolution gets the §8a quarantine benefit (tails mutate freely) AND scaffold stability (executing cells don't get randomly destroyed).
+- **No protection (r=1.0):** scaffold mutates at full rate; partial solutions get disrupted; §8's 3/10 is what evolution can manage under this regime.
+
+**The r=0.5 sweet spot.** At r=0.5, executing cells mutate at 1.5% while quarantined-tail and separator cells mutate at 3%. This 2× differential is enough to give partially-assembled scaffolds a survival advantage without preventing further exploration. The bond-protection mechanism *is* load-bearing — it just needs to be gentle.
+
+#### What §9b actually establishes (revising §9's verdict)
+
+1. **The architecture's "bonds as evolutionary-dynamics structure" claim is partially vindicated.** Bond-protection at the right strength adds significant solve-rate on top of K=3 selective decode. §9's rejection applies to *strong* protection; the mechanism is real at moderate strength.
+
+2. **K=3 + r=0.5 is the new best chem-tape baseline on sum-gt-10.** Any future experiment comparing "chem-tape vs X" on sum-gt-10 should use K=3 + r=0.5 as the chem-tape representative, not K=1 r=1.0 (= Arm BP) or K=3 r=1.0.
+
+3. **§9's analytical framing ("discovery needs mutation on the executing scaffold") needs refinement.** At r=0.1 this blocked discovery. At r=0.5 it didn't. The revised claim: *the executing scaffold needs a mutation rate below the quarantined-tail rate, but not too far below.* There's a specific differential that works; pure uniform is suboptimal; pure freezing is worse.
+
+4. **n=10 sample size caveat.** 6/10 vs 3/10 is a 3-solve gap at n=10; under a binomial model with null p=0.3, getting 6/10 has ~5% probability of being pure seed luck. The qualitative pattern (non-monotone curve + 2 genuinely-novel seeds) is strong evidence, but a replication on seeds 10-19 before building more experiments on r=0.5 is prudent — queued as §9c.
+
+#### Immediate follow-ups
+
+- **§9c n=20 confirmation on seeds 10-19.** Confirm r=0.5 K=3's 6/10 on an independent seed set before adopting it as the new default baseline. Also run r=1.0 K=3 on the same seeds for matched-sample-size baseline (§8's seeds 0-9 only). ~30 runs total (10 new r=1.0 baseline + 10 new r=0.5 + maybe 10 at r=0.3 or r=0.7 to confirm curve shape). ~10 min.
+- **§10 K-alternating** updated to use r=0.5 K=3 as the baseline. The plasticity question becomes: does cryptic variation under K=3 r=0.5 become primary scaffold when K flips to ∞? Queued.
+- **§9d best-genotype inspection on r=0.5-unique seeds {0, 3}.** What structural pattern distinguishes the r=0.5-specific solutions from K=3 r=1.0's? Zero-compute, should run alongside §9c.
+- **Revise §9 summary.** The §9 result ("protection antagonistic") applies only to r ≤ 0.3. Main-summary entries #12 and #13 need updating to reflect this.
+
+---
+
+## 10. K-alternating regime shift — plasticity test
+
+**Motivation (after §8+§8a+§9).** §8/§8a/§9 converge on the claim that decode rule is the load-bearing evolvability axis and decode-induced quarantine (K=3's lower-ranked runs as mutation sinks) is the specific mechanism. Two distinct plasticity claims remain untested, and §10 is the sharpest single-task test available for them:
+
+- **Latent-phenotype plasticity:** does the cryptic variation accumulated in K=3's quarantined tail become functional primary scaffold when the decode forces those cells to execute? This is the central prediction that would vindicate chem-tape as a many-to-many genotype-phenotype substrate.
+- **Canalized generalist body:** can evolution find a single tape that performs adequately under multiple K values — even without true latent-phenotype switching — trading peak per-K fitness for cross-K robustness?
+
+K-alternating holds the task fixed and alternates the decode every N generations. It does not require multi-task infrastructure, isolates the K-plasticity mechanism cleanly, and its outcome reshapes the priority of both evolve-K-per-individual and the original §v1.5 task-alternating design.
+
+### Design
+
+**Base condition.** sum-gt-10, pop=1024, gens=1500, seeds 0-9, backend=mlx (same as §8/§9 for comparability).
+
+**Regime-shift schedule.** K alternates between K=3 (quarantine present) and K=∞ (all non-separator cells execute). The K=3 ↔ K=∞ pairing is chosen because §8a established that K=3 quarantines tails while K=∞ forces every non-separator cell to execute — this is the most direct test of whether cryptic variation becomes primary scaffold.
+
+**Flip interval (grid):** every 100 gens, every 300 gens. Rationale: 100 gens is short enough that mid-flip recovery dynamics are visible; 300 gens allows partial specialization before each flip. Both are explored.
+
+**Controls (fixed-K reference runs, already on disk):**
+- K=3 fixed for 1500 gens (§8 anchor): 3/10 on seeds {2, 6, 7}.
+- K=∞ / K=999 fixed for 1500 gens (§8 anchor): 3/10 on seeds {2, 8, 9}.
+
+**Metrics (per seed, per regime flip):**
+- Post-flip fitness drop: `best_fitness(gen = flip_t - 1) − best_fitness(gen = flip_t)`.
+- Recovery time: generations until post-flip fitness returns to within 5% of pre-flip peak.
+- Cross-K ratio: `min(best_fitness_under_K=3, best_fitness_under_K=∞) / max(...)`. Flatness of this ratio across a run diagnoses the canalized generalist outcome.
+- Solve-count under the alternating schedule (vs fixed-K controls).
+
+### Pre-registered outcomes
+
+| outcome | signature | interpretation |
+|---------|-----------|----------------|
+| **(1) Smooth switching** | Post-flip fitness drop small; recovery < 30 gens; solve-count ≥ better-fixed-K control | Latent-phenotype plasticity vindicated. Quarantined-tail variation does become primary scaffold when K flips. Evolve-K-per-individual becomes high-prior next experiment. |
+| **(2) Abrupt collapse** | Post-flip fitness drop large; recovery > 300 gens or never; solve-count strictly worse than better-fixed-K control | Latent-phenotype plasticity fails on chem-tape. K-committed bodies cannot re-route. Evolve-K-per-individual inherits this ceiling — de-prioritize in favor of multi-task evolve-K-islands as the §v1.5 convergence. |
+| **(3) Canalized generalist** | Cross-K ratio stays high (> 0.7) throughout the run; per-K peak fitness is below fixed-K controls; solve-count comparable but slower | Evolution finds bodies that are adequate under both K values without true latent switching. Theoretically the most interesting outcome: partial plasticity without cryptic variation as primary mechanism. Pre-register this explicitly — it's easy to miss by only coding (1) vs (2). |
+| **(4) Monotone degradation** | Each flip strictly worsens fitness; no recovery between flips | Alternation itself is harmful regardless of K-switching semantics. Would suggest selection horizon is too short vs flip interval — retry at longer intervals or abandon. |
+
+### Decision tree (asymmetric)
+
+Positive K-alternating (outcomes 1 or 3) → **evolve-K-per-individual with islands** becomes the clear next experiment, with outcome-3 adding a generalist-body hypothesis to pre-register.
+
+Negative K-alternating (outcome 2) → does **not** kill evolve-K by itself, because a panmictic evolve-K on sum-gt-10 can simply fix K=3 and do fine (single-task optimization doesn't require plasticity to be adaptive). The sharper follow-up in this branch is **multi-task evolve-K-islands** where fix-K is suboptimal by construction — which is where the §v1.5 reframe and evolve-K converge into the same experiment.
+
+### Design notes pre-registered for follow-ups
+
+**Within-individual vs between-population plasticity (if §10 runs).** A body that performs well under both K=1 and K=3 needs its longest run to be functional on its own AND its top-3 concatenation to be functional. That's a much narrower search target than either optimum alone — possibly too narrow to evolve under panmictic selection on a single task. §10 tests within-individual plasticity directly. Evolve-K-islands (follow-up) tests between-population plasticity. These may have different answers; chem-tape may support the second but not the first. Name the distinction explicitly when reporting results.
+
+**Migration design for future evolve-K-islands.** Different-K islands will have incompatible body structures. Naive ring-migration lands migrants in foreign basins where they underperform and get outselected before contributing. Design options to evaluate before running:
+- Very low migration rate (rare-novelty injection).
+- Asymmetric migration (one-way; e.g., K=3 → K=1 only, testing whether cryptic content from K=3's tails helps K=1 populations).
+- **"Migrate body, adopt host K"** — decouples body from its evolved decode context; a meaningful design decision in itself.
+
+The naive default (standard ring-migration with identical bodies flowing across K priors) is likely to produce a null result that doesn't actually test the plasticity claim. Worth a pre-implementation discussion.
+
+**§v1.5 reframe adopted.** Replace the original "neutral reserve enables regime recovery" with "quarantined-tail cryptic variation becomes primary scaffold after regime change." Sharper and more falsifiable. Applies to both §10 (K-alternating, single-task) and future §v1.5 (task-alternating, multi-task).
+
+### Status: queued. To run after §9b completes.
 
 ---
 
@@ -704,14 +843,17 @@ Results from commit `6241c0f` (sweep elapsed 589s / 9.8 min at 4 workers for the
 
 11. **§8b K-curve on short-scaffold tasks: optimal K is task-dependent.** count-R (graded, 4-cell scaffold): K=1 dominant at median 11 gens, K=3 3.5× slower. has-upper (binary-plateau, 4-cell): K=1 falls into trivial-constant trap (9/10), K≥3 matches Arm A exactly (10/10 at median 69). Combined with §8 on sum-gt-10 (graded, 14-cell) where K=3 wins uniquely: no single K is uniformly best. K_optimal appears to increase with scaffold length and in the presence of binary-plateau traps. Chem-tape reports should include multiple K values by default — a single-K framing misses the structure entirely. The §1 MVP's "chem-tape vs direct" gate rejection was partially an artifact of fixing K=1 (= Arm B).
 
-12. **§9 soft decode: rejected at r=0.1.** Bond-protection of executing cells does not add value on top of selective decode and actively degrades K=3 (3/10 → 1/10 protected). Protection slows K=1 seed-2 solve by 5.7× (gen 135 → 768) and causes K=3 to lose seeds {2, 6} that it found at r=1.0. Only seed 7 survives protection under K=3. The mechanism reading: sum-gt-10 evolution needs mutation *of the executing scaffold* to assemble solutions; freezing those cells stops assembly. §8a's quarantine-via-exclusion mechanism is sufficient; complementary scaffold-stability mutation reduction is not required and is antagonistic at this strength. **The architecture's "bonds-as-mutation-signal" premise is not rescued by the §9 redesign.** A mild-protection (r ∈ [0.5, 0.9]) follow-up is queued as §9b in case there's a non-antagonistic regime.
+12. **§9 + §9b soft decode — non-monotone protection curve; r=0.5 is a genuine win.** §9 at r=0.1 rejected bond-protection as antagonistic (K=3: 3/10 → 1/10 protected, seeds {2, 6} lost). §9b's pre-registered closure was then falsified: the full curve (r ∈ {1.0, 0.9, 0.7, 0.5, 0.3, 0.1}) is non-monotone with a peak at r=0.5 solving **6/10 seeds with median best AND median holdout = 1.000** — the first chem-tape condition where the median seed solves sum-gt-10. Two seeds (0, 3) are genuinely novel — never solved by any prior arm (A/B/BP/BP_TOPK at any K, §4 islands, §9). Total reachable-seed union rises from 5/10 (pre-§9b) to **8/10**; only seeds {4, 5} remain the hard floor. Revised mechanism reading: the executing scaffold needs a mutation rate *below* the quarantined-tail rate, not equal to it and not zero — at r=0.5 (2× differential) evolution gets both §8a quarantine and scaffold stability. **The architecture's "bonds as evolutionary-dynamics structure" claim is partially vindicated** — not as mutation-rate signal at r=0.1 strength, but as differential mutation at moderate strength. n=10 caveat: 6/10 vs 3/10 is compelling (null-p≈0.3 → ~5% luck probability) but §9c replication on seeds 10-19 is prudent before building downstream experiments on r=0.5.
 
 13. **Current priorities (in order):**
-    - **§9b mild-protection ratio curve** — K=3 × r ∈ {0.3, 0.5, 0.7, 0.9, 1.0} × 10 seeds. ~15 min. Resolves whether protection degradation is monotone or has a mild-regime sweet spot.
-    - **§8d scaffold-length × K interaction** — test whether K_optimal is monotone in scaffold length (predicted by §8b's task-conditional pattern). Combines §7 with K-sweep.
-    - **§4f panmictic baseline on seeds 10-19** — clean island-vs-panmictic attribution. 30 runs, ~5 min.
-    - **§8c island × K=3** — tests whether §8 and §4 effects compound.
-    - **§4h best-genotype inspection on Arm A seeds {1, 8, 15, 19}** — zero-compute; informs why A-reachable ≠ K=3-reachable.
-    - **§v1.5 regime-shift test** — the architecture's motivating experiment. Runs after the reachability picture settles.
+    - **§9c n=20 confirmation of r=0.5 K=3** on seeds 10-19 + matched r=1.0 K=3 baseline on same seeds. Critical before adopting r=0.5 as the new default. ~10 min, ~30 runs.
+    - **§9d best-genotype inspection on r=0.5-unique seeds {0, 3}** — zero-compute. Does r=0.5's new-seed coverage correspond to a structural pattern distinct from both r=1.0 K=3 and Arm A?
+    - **§10 K-alternating regime shift** — updated to use K=3 + r=0.5 as the baseline. Tests within-individual plasticity: does cryptic variation under K=3 r=0.5 become primary scaffold when K flips to ∞? Pre-registers the "canalized generalist body" outcome (3) explicitly.
+    - **Evolve-K-per-individual (panmictic)** — gated on §10 outcome (1) or (3). Adds K as a tape-header gene.
+    - **Evolve-K with K-prior islands** — migration design decision is pre-implementation (see §10 "Design notes"). Naive ring-migration likely produces null.
+    - **§8d scaffold-length × K × r interaction** — now 3-dimensional given §9b. Queued.
+    - **§4f panmictic baseline on seeds 10-19** — clean island-vs-panmictic attribution.
+    - **§v1.5 regime-shift test (task-alternating)** — reframed as "quarantined-tail cryptic variation becomes primary scaffold after regime change." Runs after §10.
+    - **Type-closed top-K decode criterion** — cheap side experiment; low prior.
 
 See [architecture.md](architecture.md) for the substrate specification, [findings.md](../findings.md) for the prior Elixir-era folding results that motivated the "differential outcome" expectation, and [coevolution.md](../coevolution.md) for the coevolution designs that produced the scaffold-preservation framing.
