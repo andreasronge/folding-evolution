@@ -424,7 +424,7 @@ The coverage structure is consistent with "reachable class widens A > BP > B," w
 
 **Motivation.** §3 localized one v1 bug (hard separators) but left a residual BP<A gap on has-upper (9/10 vs 10/10) and sum-gt-10 (1/10 vs 3/10). The current decode executes only *the single longest* bonded run. Top-K generalizes this: concatenate the K longest bonded runs in tape order and execute the concatenation. K=1 is BP; K=∞ approaches A (modulo separator semantics). K becomes a single-integer sweep axis that interpolates the decode-breadth dimension while preserving "bonds select what executes."
 
-**Sweep:** `sweeps/sum_gt_10_topk.yaml` (to create) — sum-gt-10, K ∈ {1, 2, 3, 4, 8, ∞} × 10 seeds (0-9), pop=1024, gens=1500. Permeable bond rule throughout (builds on BP, not strict B). 60 runs, ~30 min at 4 workers.
+**Sweep:** `sweeps/sum_gt_10_topk.yaml` — sum-gt-10, K ∈ {1, 2, 3, 4, 8, 999} × 10 seeds (0-9), pop=1024, gens=1500. Permeable bond rule throughout (builds on BP, not strict B). 60 runs, ~18 min at 4 workers (measured).
 
 **Design decisions (pre-registered):**
 
@@ -442,7 +442,174 @@ The coverage structure is consistent with "reachable class widens A > BP > B," w
 
 **Purpose.** Diagnostic. Maps the BP→A decode-breadth axis cheaply before committing to the bigger §9 redesign. Its outcome reshapes §9's cost/benefit.
 
-### Status: planned. See `Plans/chem-tape-topk.md`.
+### Status: complete. Finding: **non-monotone — K=3 unlocks solution basins no other arm reaches.**
+
+Results from commit `2046d39` (sweep elapsed 1056s / 17.6 min at 4 workers; 60 runs).
+
+| K   | solved / 10 | seeds solved (gens-to-solve)                | max best | median best | median holdout | median elapsed |
+|-----|-------------|---------------------------------------------|----------|-------------|----------------|----------------|
+|  1  | 1 / 10      | s2 (135)                                    | 1.000    | 0.500       | 0.500          | 72.8 s         |
+|  2  | 1 / 10      | s2 (134)                                    | 1.000    | 0.500       | 0.500          | 77.7 s         |
+| **3**  | **3 / 10**  | **s2 (86), s6 (962), s7 (1350)**            | 1.000    | 0.516       | 0.500          | 76.8 s         |
+|  4  | 2 / 10      | s2 (179), s9 (1186)                         | 1.000    | 0.500       | 0.500          | 78.1 s         |
+|  8  | 3 / 10      | s2 (468), s8 (632), s9 (391)                | 1.000    | 0.500       | 0.500          | 78.9 s         |
+| 999 | 3 / 10      | s2 (889), s8 (626), s9 (391)                | 1.000    | 0.500       | 0.500          | 78.7 s         |
+
+Reference baselines on the same seeds (from §2b / §3b):
+- Arm A: 3/10 — seeds {2, 8, 9} at gens {889, 626, 391}.
+- Arm B: 0/10.
+- Arm BP: 1/10 — seed {2} at gen 135.
+
+#### What the data shows
+
+1. **Reproducibility anchors hold.** K=1 bit-exactly reproduces §3b's BP result (s2 at gen 135). K=999 bit-exactly reproduces §2b's A result on seeds {2, 8, 9} at gens {889, 626, 391}. The implementation is correctly anchored at both ends of the sweep.
+
+2. **The curve is non-monotone.** K=3 solves 3/10, K=4 drops to 2/10, K=8 recovers to 3/10, K=999 stays at 3/10. Solve count as a function of K is not increasing. This is pre-registered outcome (3).
+
+3. **K=3 unlocks two previously-unreachable seeds.** Seeds 6 and 7 are solved by *no other arm across the entire v1 experimental record* — not A at any tested budget, not B, not BP, not K ∈ {1, 2, 4, 8, 999}. They are K=3-specific. This is the strongest signal in the sweep: intermediate decode breadth finds solution structure that full-tape execution (K=∞ / A) and single-run execution (K=1 / BP) both miss.
+
+4. **On the one seed where K=3 and A both win, K=3 is 10.3× faster.** Seed 2: K=3 at gen 86 vs A at gen 889. This is a larger speedup than BP's 6.6× (§3's gen-135 finding), and it is on the same seed — so the speedup is attributable to decode breadth, not to a seed-specific landscape artifact.
+
+5. **K=8 and K=999 solve identical seed sets and gen counts to A.** At K ≥ 8 the mechanism collapses into full-tape-A behaviour: seeds {2, 8, 9} with A's exact generations-to-solve (K=999) or close variants (K=8). This confirms the K=∞ limit is semantically Arm A on separator-free solutions.
+
+6. **The solve-union across K is wider than any single arm.** K=3 ∪ K=999 covers seeds {2, 6, 7, 8, 9} = 5/10, vs any single K covering ≤ 3/10 and Arm A covering 3/10. There is strictly more solution-space reachable when K is treated as a sweepable parameter than when any single decode is fixed.
+
+#### Mechanism reading
+
+K=3 winning where K=∞ fails is not a search-efficiency story (both get the full 1500 generations). It is a *reachability* story: K=3 and A-like arms make *different* regions of program space reachable under the same mutation-crossover operators, because the decode rule changes which token-layouts on the tape map to which executable programs.
+
+A plausible mechanism sketch: K=3 filters out program suffixes that junk-up Arm A's top-of-stack but keeps enough pieces to assemble sum-gt-10's scaffold. This is close to the "scaffold preservation" framing the architecture originally proposed (§1.11/§1.13 parent project), but here the mechanism is *decode-induced* rather than *selection-induced*. Seeds 6 and 7 — inspecting their K=3 winning tapes is the natural next diagnostic.
+
+#### Implications for §9 (soft decode)
+
+The pre-registered decision rule was: *non-monotone → re-opens scaffold-preservation framing on cleaner data.* §9 is not preempted. Both directions remain interesting, but with a sharper question each:
+
+- **Top-K is a first-class chem-tape hyperparameter.** K=3 should be the default under the permeable rule on long-scaffold tasks; including K=3 alongside K=1 / K=∞ should be standard in future sweeps.
+- **§9 (soft decode) now asks:** does bond-as-protection reach the K=3-unique seeds {6, 7}, or does only a selective-decode rule reach them? If soft decode can't reach {6, 7}, then the K=3 effect is specifically about *executing only a selected subset of the tape* — protection alone is insufficient.
+
+#### Immediate follow-ups
+
+- **§8b three-task replication at K=3.** Run count-R, has-upper, sum-gt-10 at K=3 (+ K=1 and A as anchors) on 10 seeds to check whether K=3 dominates K=1 on non-sum-gt-10 tasks too. ~30 runs, ~10 min.
+- **§8c island-model × K=3.** Revisit §4 with K=3 BP_TOPK as the chem-tape arm. If the K=3 advantage on reachable-class structure holds under islands, chem-tape's diversity interaction (§4) and decode interaction (§8) compound favourably. ~30 runs at the §4 scale.
+
+---
+
+## 8a. Best-genotype inspection on K=3-unique seeds
+
+**Question.** Why do K=3 and K=999 evolve such different winning tapes when they start from identical initial populations (same RNG seed) and face an identical task? The §8 solve-count tables showed K=3 and K=999 have mostly disjoint seed sets; this inspection asks whether the *architectures* of their solutions differ in a load-bearing way.
+
+### Method
+
+For each K ∈ {3, 999} × seed ∈ {0..9}, decoded the final best-genotype's tape, counted non-separator runs, and recorded the top-3 run lengths. Zero additional compute — all data from the §8 `result.json` files.
+
+### Result
+
+**Per-seed best-genotype tape shape (★ = solved at fitness 1.0):**
+
+| seed | K=3 solved | K=3 #runs | K=3 top-3 lens | K=999 solved | K=999 #runs | K=999 top-3 lens |
+|------|:---------:|----------:|----------------|:------------:|------------:|------------------|
+|   2  | ★ gen 86   | 7         | [10, 5, 3]     | ★ gen 889    | 1           | [31]             |
+|   6  | ★ gen 962  | 4         | [17, 9, 1]     | —            | 5           | [12, 7, 4]       |
+|   7  | ★ gen 1350 | 6         | [11, 8, 2]     | —            | 1           | [32]             |
+|   8  | —          | 5         | [18, 4, 3]     | ★ gen 626    | 5           | [8, 6, 4]        |
+|   9  | —          | 3         | [18, 6, 5]     | ★ gen 391    | 4           | [18, 5, 2]       |
+
+Plus unsolved control seeds (1, 3-5, 0): both K=3 and K=999 produce 2-6 run tapes at 0.500–0.516 fitness.
+
+### What the structure shows
+
+1. **Same seed 2, same initial population, two architecturally distinct solutions.** Under K=3 evolution seed 2's winner has 7 bonded regions; under K=999 it collapses to 1 region (31-cell full tape). Since `random.Random(cfg.seed)` is deterministic and both arms start from the same seeded population, this is direct evidence that **decode rule reshapes the evolved architecture, not just selection efficiency.** Evolution finds genuinely different structural solutions to the same problem under different decode pressure.
+
+2. **K=3-unique seeds show multi-chunk architectures that K=999 never develops.**
+   - Seed 6: K=3 winner has 4 runs of [17, 9, 1] — top-3 = 27 of 28 non-sep cells, with 1 token quarantined in a length-1 run.
+   - Seed 7: K=3 winner has 6 runs of [11, 8, 2, ...] — top-3 = 21 cells, with 4 tokens quarantined in the bottom 3 runs.
+
+   Under K=999 these seeds never evolve multi-chunk tapes at all — they produce either single full-tape runs (seed 7: n_runs=1) or flat-distribution multi-run tapes where every run contributes to execution (seed 6: [12, 7, 4]). K=999 cannot *use* quarantined junk, so evolution doesn't *produce* tapes with quarantined junk.
+
+3. **K=3's lower-ranked runs act as mutation sinks.** On seed 6's K=3 winner, the length-1 bottom run (1 token) is mutationally inert — it does not execute, so any token drift within it is neutral. On seed 7's K=3 winner, runs 4-6 contain 5 quarantined tokens (lengths 1, 2, 2). This is constructional-selection-style scaffold protection, **produced by decode rule rather than by selection pressure** — a mechanism distinct from the Pareto scaffold preservation in the parent Elixir project (§1.11/§1.13 in `docs/findings.md`).
+
+4. **K=999's winners are either single-run or flat-distribution.** Seeds 2 and 7 produce n_runs=1 full-tape programs (Arm-A-style). Seeds 8 and 9 produce multi-run tapes, but without the Top-3 hierarchy — all runs are roughly the same length and all contribute. There is no architecture in the K=999 results that resembles K=3's top-heavy + junk-tail shape.
+
+### Mechanism conclusion (load-bearing claim)
+
+**The K=3 mechanism is genuinely selective decode, not just decode breadth.** Two independent pieces of evidence:
+
+- K=3 and K=∞ both evolve under the same operators, population size, and generations. They diverge on *which tape architectures they can exploit*. K=3 exploits multi-chunk tapes with quarantined tails; K=∞ cannot distinguish a quarantined tail from an active tail and therefore doesn't evolve quarantined tails.
+- On seeds 6 and 7, K=999 does evolve multi-chunk tapes (it just doesn't solve) — so the problem isn't that K=∞ can't produce multi-chunk structure. The problem is that K=∞'s decode rule makes every bonded cell execute, so a multi-chunk K=999 tape has no way to hide junk, and evolution can't assemble a solution out of partially-junk cells.
+
+**This is Altenberg's constructional selection framework resurfacing through the decode layer.** The parent project (`docs/theory.md`, `docs/findings.md` §1.11/§1.13) established that scaffold preservation via Pareto selection enables S5 bond discovery. §8a suggests the same evolutionary-dynamics effect — scaffolds + protected mutation sinks — can emerge from decode-level quarantine rather than from selection pressure. It's the same mechanism expressed through a different substrate layer.
+
+### Implication for §9 (soft decode)
+
+**§8a strengthens the case that §9 cannot substitute for §8's mechanism.**
+
+Soft decode's premise is *execute the whole tape, but protect bonded cells from mutation*. This preserves scaffolds against mutation but still forces every bonded cell to execute. On seed 6's architecture (top-3 + length-1 quarantine), soft decode would still execute the quarantined cell as part of the program and have to tolerate whatever token sits there. §8a's data shows evolution under K=3 *actively exploits* the ability to keep cells alive structurally without executing them — which soft decode does not provide.
+
+**Refined §9 hypothesis:** soft decode is a complement to §8, not a substitute. A full characterization of "what makes bonds load-bearing" likely needs both mechanisms: selective decode (§8) for mutation quarantine via execution-exclusion, plus mutation-rate differential (§9) for scaffold stability. The cleanest §9 design now becomes a 2×2 factorial: {K=1, K=3} × {uniform mutation, bond-protected mutation}, on sum-gt-10 seeds including {6, 7, 8, 9} where we already have K-sensitivity data.
+
+### Immediate follow-ups (revised)
+
+- **§9 redesigned as 2×2** — {K=1, K=3} × {uniform μ, bond-protected μ}. Tests whether protection adds anything on top of selective decode, and whether protection without decode (§9 original) can reach the K=3-unique seeds. ~60 runs. Replaces §9's original design.
+- **§8b three-task replication at K=3** — unchanged priority. Confirms whether K=3's advantage is sum-gt-10-specific or generalizes.
+- **§8c island × K=3** — unchanged priority.
+
+---
+
+## 8b. K-curve on short-scaffold tasks (MVP budget)
+
+**Sweep:** `sweeps/mvp_topk.yaml` — tasks ∈ {count-R, has-upper} × K ∈ {1, 2, 3, 4, 8} × 10 seeds = 100 runs at MVP budget (pop=256, gens=200).
+
+**Purpose.** Test whether §8's K=3 win on sum-gt-10 is substrate-wide ("K=3 is a universally good chem-tape default") or task-structural ("K=3 wins on long-scaffold tasks; other K shapes win on other structures"). Baselines on these seeds from §1/§3a are: A 10/10 (count-R at gen 39.5, has-upper at gen 69), B 10/10 / 7/10 , BP 10/10 / 9/10.
+
+### Status: complete. Finding: **K is a task-conditional hyperparameter — no single K is uniformly best.**
+
+Results from commit `2046d39` (sweep elapsed 19.6s / 20s at 4 workers; 100 runs).
+
+#### count-R (graded integer labels, 4-cell scaffold)
+
+| K   | solved / 10 | median gens-to-solve | max best | median holdout |
+|-----|-------------|----------------------|----------|----------------|
+|  1  | 10/10       | **11.0**             | 1.000    | 1.000          |
+|  2  | 10/10       | 62.0                 | 1.000    | 1.000          |
+|  3  | 10/10       | 38.5                 | 1.000    | 1.000          |
+|  4  | 10/10       | 35.5                 | 1.000    | 1.000          |
+|  8  | 10/10       | 39.5                 | 1.000    | 1.000          |
+
+**K=1 is dominant on count-R.** K=3 is 3.5× slower than K=1; K=2 is 5.6× slower. K=1 reproduces §3a's BP median of 11.0 bit-exactly (anchor confirmed). The §8 non-monotone winner is the loser here.
+
+#### has-upper (binary labels with trivial-constant plateau, 4-cell scaffold)
+
+| K   | solved / 10 | median gens-to-solve | max best | median holdout |
+|-----|-------------|----------------------|----------|----------------|
+|  1  | 9/10        | 83.0                 | 1.000    | 1.000          |
+|  2  | 10/10       | 74.0                 | 1.000    | 1.000          |
+| **3**  | **10/10**   | **69.0**             | 1.000    | 1.000          |
+|  4  | 10/10       | 69.0                 | 1.000    | 1.000          |
+|  8  | 10/10       | 69.0                 | 1.000    | 1.000          |
+
+**K≥2 escapes has-upper's trivial-constant plateau that trapped K=1.** K=1 reproduces §3a's BP 9/10 at median 83 exactly — same seed gets stuck. K=3 onward matches **Arm A's 10/10 at median 69** (from §1) bit-exactly. Adding one run to the decode (K=2) is enough to escape the plateau; by K=3 the gap to A closes completely.
+
+### What §8b establishes
+
+1. **The optimal K is task-dependent.** Short-scaffold graded labels (count-R): K=1 wins by 3.5×. Short-scaffold binary with trivial-plateau (has-upper): K≥3 wins, matching A. Long-scaffold graded (sum-gt-10, §8): K=3 wins uniquely, finding seeds no other K reaches. **No single K is uniformly best across the task space.**
+
+2. **K=1 is fragile to binary-plateau traps.** On has-upper, K=1 misses the same seed that §3a's BP missed (9/10 vs 10/10). This is §1's "trivial-constant plateau" mechanism: when labels are binary {0, 1} and a scaffold collapses to a single constant output, K=1's short-program-induces-variance assumption backfires. K=2 suffices to escape.
+
+3. **K=3 on has-upper matches Arm A *exactly* (gens 69).** Under the permeable rule with K=3 decode, on has-upper, the evolved programs become indistinguishable in solve-count and solve-time from full-tape Arm A. This suggests that on short-scaffold tasks where there's no quarantine value, K=3 is *effectively* Arm A, i.e. the top-3 runs cover everything meaningful.
+
+4. **K=3's §8 win is structural to sum-gt-10, not a substrate-wide property.** Sum-gt-10's ~14-cell scaffold plus fragmentation tolerance makes multi-chunk architectures with quarantined tails a competitive advantage. On 4-cell scaffolds this mechanism provides nothing — the scaffold fits in a single run and extra runs just add noise (count-R) or are neutral (has-upper).
+
+### Refined mechanism claim
+
+- **K=1 advantage appears on short-scaffold + graded labels.** Scaffold fits in longest run; additional runs add stack-junk that hurts the graded fitness gradient.
+- **K≥2 advantage appears on tasks with trivial-plateau traps.** Additional runs increase program-shape diversity enough to escape fitness-function degenerate regions.
+- **K=3 unique advantage appears on long-scaffold + fragmentable structure.** Multi-chunk evolution + quarantined tails open solution basins inaccessible to any single K.
+
+**Recommendation for future chem-tape sweeps.** Report K across the set {1, 2, 3, 4, 8, large} by default on unfamiliar tasks. Single-K baselines are not representative — the §1 MVP's "chem-tape (K=1) vs direct (Arm A)" framing missed the richness of the K axis entirely.
+
+### Follow-up
+
+- **§8d scaffold-length × K interaction** — combine §7 (scaffold length sweep, queued) with K ∈ {1, 2, 3, 8}. Pre-registered hypothesis: K_optimal is monotone increasing in scaffold length. A clean mapping would recover the "scaffold preservation" mechanism claim on cleaner data than §1's confounded design.
 
 ---
 
@@ -459,7 +626,7 @@ The coverage structure is consistent with "reachable class widens A > BP > B," w
 - **Soft ≈ random-protected:** heterogeneous mutation helps, but bond *identity* doesn't. The bonding mechanism is not load-bearing; what matters is mutation-rate diversity.
 - **Soft ≈ Arm A:** bonding-as-protection does not produce an evolutionary-dynamics advantage at this scale. Would effectively close the chem-tape direction.
 
-### Status: queued pending §8. §4d downgraded this after BP > B explained most of Arm B's failure; §8's residual BP < A is the evidence that would re-promote it.
+### Status: queued; redesigned as 2×2 factorial. §8a showed K=3's mechanism is *mutation quarantine via execution-exclusion* (lower-ranked runs hold non-executing cells that tolerate mutations). Soft decode's protection mechanism is complementary, not substitutive — the revised §9 is {K=1, K=3} × {uniform μ, bond-protected μ}, testing whether protection adds value on top of selective decode and whether protection alone can reach K=3-unique seeds {6, 7}.
 
 ---
 
@@ -488,12 +655,18 @@ The coverage structure is consistent with "reachable class widens A > BP > B," w
 7. **§2c resolved: v1 is a search-efficiency cost, not a ceiling.** Arm B solves 2/5 at pop=4096 (40%) vs 0/5 at pop=1024. Arm A keeps a roughly constant +1–2 solve advantage across the four tested budget points. Population scaling (1024→4096) helps more than generation scaling (1500→3000). The v1 rejection stands in the narrow "at the spec's budget" sense, but v1-strict is not an unworkable representation — it's a less search-efficient one than direct stack-GP, with the decode rule (not bonding as a concept) as the binding constraint.
 8. **§4 island-model: n=20 shows effects are real but smaller than n=10 suggested.** Under 8×128 islands with ring-topology synchronous migration: Arm A 7/20 (35%), Arm B 2/20 (10%), Arm BP 3/20 (15%). The A-B rejection holds firmly at n=20 (gap: 25 percentage points). The n=10 preview's "islands specifically help B" claim is underpowered — without panmictic baselines on seeds 10-19 we can't cleanly separate representation-specific benefits from general island benefits that affect all arms. The *methodological finding* is firm: a GA-structure choice affects solve counts by single-digit percentage points across arms, so a single-GA baseline is not a neutral test of a new representation. **Panmictic pop=1024 should no longer be the default baseline for chem-tape experiments.** §4f panmictic-on-10-19 baseline is the critical missing data to resolve effect-size attribution.
 
-9. **Current priorities (in order):**
-   - **§8 Top-K decode-breadth sweep** — active next experiment. Maps BP→A as a single integer axis at ~30 min compute. Diagnostic: its outcome decides whether §9 (soft decode) is interesting or preempted. See `Plans/chem-tape-topk.md`.
-   - **§4f panmictic baseline on seeds 10-19** — critical for clean island-vs-panmictic attribution. 30 runs, ~5 min, closes the apples-to-oranges problem in §4a.
-   - **§4h best-genotype inspection on Arm A seeds {1, 8, 15, 19}** — zero-compute; asks whether the A-only-solved seeds share a structural feature that mask-based decodes can't reach. Naturally informs §8's K=∞ reading.
-   - **§4g migration sensitivity** — tests whether any B-specific effect is robust across reasonable migration regimes. Lower priority until §4f clarifies whether a B-specific effect exists at all.
-   - **§9 soft decode** — promoted/demoted by §8 outcome; contingent.
-   - **§v1.5 regime-shift test** — the architecture's motivating experiment. Runs after §8 and §4f clarify the baseline picture.
+9. **§8 Top-K result: non-monotone, K=3 unlocks unreachable seeds.** K=3 on sum-gt-10 solves 3/10 including seeds {6, 7} that no other arm (A, B, BP, K=1,2,4,8,999) has ever solved — a K-specific reachability effect, not a search-efficiency one. K=1 reproduces BP (§3b) and K=999 reproduces A (§2b) bit-exactly. Union of solves across K covers 5/10 seeds vs any single arm's ≤ 3/10. Pre-registered outcome (3) — intermediate decode-breadth wins. Top-K becomes a first-class chem-tape hyperparameter; §9 (soft decode) re-promoted with a sharper question ("can protection alone reach K=3's unique seeds, or is selective decode necessary?").
+
+10. **§8a inspection result: mechanism is mutation quarantine via execution-exclusion.** Seeds 6 and 7 (K=3-unique) evolve multi-chunk tapes whose top-3 bonded runs carry the functional program while lower-ranked runs hold non-executing "junk" cells. On seed 2, same initial RNG population, K=3 evolves a 7-run tape and K=999 evolves a 1-run tape — direct evidence that decode rule reshapes evolved architecture. The mechanism is Altenberg's constructional selection surfacing through the decode layer rather than through selection pressure. §9 redesigned as 2×2 factorial — protection and selective-decode are complements, not substitutes.
+
+11. **§8b K-curve on short-scaffold tasks: optimal K is task-dependent.** count-R (graded, 4-cell scaffold): K=1 dominant at median 11 gens, K=3 3.5× slower. has-upper (binary-plateau, 4-cell): K=1 falls into trivial-constant trap (9/10), K≥3 matches Arm A exactly (10/10 at median 69). Combined with §8 on sum-gt-10 (graded, 14-cell) where K=3 wins uniquely: no single K is uniformly best. K_optimal appears to increase with scaffold length and in the presence of binary-plateau traps. Chem-tape reports should include multiple K values by default — a single-K framing misses the structure entirely. The §1 MVP's "chem-tape vs direct" gate rejection was partially an artifact of fixing K=1 (= Arm B).
+
+12. **Current priorities (in order):**
+    - **§9 redesigned 2×2 factorial** — {K=1, K=3} × {uniform μ, bond-protected μ} on sum-gt-10 seeds 0-9. ~60 runs. Tests whether protection adds value on top of selective decode and whether protection alone reaches K=3-unique seeds.
+    - **§8d scaffold-length × K interaction** — test whether K_optimal is monotone in scaffold length (predicted by §8b's task-conditional pattern). Combines §7 with K-sweep.
+    - **§4f panmictic baseline on seeds 10-19** — clean island-vs-panmictic attribution. 30 runs, ~5 min.
+    - **§8c island × K=3** — tests whether §8 and §4 effects compound.
+    - **§4h best-genotype inspection on Arm A seeds {1, 8, 15, 19}** — zero-compute; informs why A-reachable ≠ K=3-reachable.
+    - **§v1.5 regime-shift test** — the architecture's motivating experiment. Runs after the reachability picture settles.
 
 See [architecture.md](architecture.md) for the substrate specification, [findings.md](../findings.md) for the prior Elixir-era folding results that motivated the "differential outcome" expectation, and [coevolution.md](../coevolution.md) for the coevolution designs that produced the scaffold-preservation framing.

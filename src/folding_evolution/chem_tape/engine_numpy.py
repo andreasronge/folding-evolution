@@ -74,6 +74,46 @@ def compute_longest_runnable_mask(tapes: np.ndarray) -> np.ndarray:
     return _longest_run_under_mask(compute_non_separator_mask(tapes))
 
 
+def _topk_runs_under_mask(eligible: np.ndarray, k: int) -> np.ndarray:
+    """Return the (B, L) bool mask selecting cells in the K longest runs of
+    True cells in `eligible`. Runs are emitted in tape order (a cell is True in
+    the output iff its run is among the top K by length, with leftmost
+    tiebreak on equal lengths). K=1 reduces to `_longest_run_under_mask`;
+    K ≥ (number of runs) selects all non-empty runs (equals `eligible` itself).
+
+    Experiments.md §8.
+    """
+    assert k >= 1
+    B, L = eligible.shape
+
+    run_start = eligible & ~_shift_right_pad0(eligible)
+    run_id = np.cumsum(run_start.astype(np.int32), axis=1) * eligible.astype(np.int32)
+
+    out = np.zeros_like(eligible)
+    run_ids_all = np.arange(1, L + 1, dtype=np.int32)
+    for b in range(B):
+        lengths = np.bincount(run_id[b], minlength=L + 1)[1:]   # lengths of runs 1..L
+        valid = lengths > 0
+        if not valid.any():
+            continue
+        valid_ids = run_ids_all[valid]                          # ascending = leftmost first
+        valid_lengths = lengths[valid]
+        # Stable sort on -length preserves ascending run_id among ties → leftmost tiebreak.
+        order = np.argsort(-valid_lengths, kind="stable")
+        chosen_ids = valid_ids[order[: min(k, valid_ids.size)]]
+        out[b] = np.isin(run_id[b], chosen_ids) & eligible[b]
+    return out
+
+
+def compute_topk_runnable_mask(tapes: np.ndarray, k: int) -> np.ndarray:
+    """Arm BP_TOPK: K longest non-separator runs, concatenated in tape order
+    on extraction. At K=1 identical to `compute_longest_runnable_mask` (Arm BP).
+    At K ≥ number-of-runs, mask equals the non-separator mask (every bonded
+    cell executes). Separator cells (ids 14, 15) never participate.
+    """
+    return _topk_runs_under_mask(compute_non_separator_mask(tapes), k)
+
+
 def extract_programs(
     tapes: np.ndarray, longest_mask: np.ndarray
 ) -> list[list[int]]:

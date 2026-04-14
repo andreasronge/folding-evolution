@@ -78,6 +78,14 @@ def compute_longest_runnable_mask(tapes: np.ndarray) -> np.ndarray:
     return np.array(mask, dtype=bool)
 
 
+def compute_topk_runnable_mask(tapes: np.ndarray, k: int) -> np.ndarray:
+    """Arm BP_TOPK: delegates to NumPy. The per-row top-K run-length sort does
+    not benefit from MLX parallelism at the batch shapes this experiment uses,
+    and delegating keeps NumPy↔MLX parity trivially exact."""
+    from . import engine_numpy as _np_engine
+    return _np_engine.compute_topk_runnable_mask(tapes, k)
+
+
 def extract_programs(
     tapes: np.ndarray, longest_mask: np.ndarray
 ) -> list[list[int]]:

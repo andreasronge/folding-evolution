@@ -1,0 +1,21 @@
+sweep_name: sum_gt_10_topk
+# Experiments §8: Top-K decode-breadth sweep on sum-gt-10.
+# K=1 ≡ Arm BP; K=999 ≡ every non-separator cell executes.
+# Direct per-seed comparison against §2b (A 3/10, B 0/10) and §3b (BP 1/10).
+base:
+  task: sum_gt_10
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  arm: BP_TOPK
+grid:
+  topk: [1, 2, 3, 4, 8, 999]
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]

@@ -12,7 +12,13 @@ class ChemTapeConfig:
     # Representation
     tape_length: int = 32
     arm: str = "B"                  # "A" = direct stack-GP, "B" = chem-tape v1 strict,
-                                    # "BP" = v1 permeable (NOP passes through bonded runs)
+                                    # "BP" = v1 permeable (NOP passes through bonded runs),
+                                    # "BP_TOPK" = BP with K longest runs concatenated
+                                    #             in tape order (experiments.md §8).
+
+    # Top-K decode breadth (only meaningful when arm == "BP_TOPK"). K=1 is
+    # identical to "BP"; K large ⇒ every non-separator cell executes.
+    topk: int = 1
 
     # Task
     task: str = "count_r"           # "count_r" | "has_upper" | "sum_gt_10"
@@ -40,6 +46,13 @@ class ChemTapeConfig:
     log_every: int = 10
 
     def hash(self) -> str:
-        """Stable short hash of this config — used for output directory names."""
-        blob = json.dumps(asdict(self), sort_keys=True).encode()
+        """Stable short hash of this config — used for output directory names.
+
+        `topk` is excluded from the hash for arms other than BP_TOPK so that
+        existing cached sweep results (A/B/BP) remain addressable unchanged.
+        """
+        d = asdict(self)
+        if self.arm != "BP_TOPK":
+            d.pop("topk", None)
+        blob = json.dumps(d, sort_keys=True).encode()
         return hashlib.sha1(blob).hexdigest()[:12]

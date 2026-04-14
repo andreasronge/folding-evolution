@@ -31,6 +31,19 @@ def compute_longest_runnable_mask(tapes: np.ndarray, backend: str = "mlx") -> np
     raise ValueError(f"Unknown backend {backend!r}; use 'numpy' or 'mlx'")
 
 
+def compute_topk_runnable_mask(
+    tapes: np.ndarray, k: int, backend: str = "mlx"
+) -> np.ndarray:
+    """Arm BP_TOPK: K longest non-separator runs. K=1 = Arm BP. K=∞ ⇒
+    every non-separator cell executes (distinct from Arm A only in that
+    ids 14/15 still gate)."""
+    if backend == "numpy":
+        return engine_numpy.compute_topk_runnable_mask(tapes, k)
+    if backend == "mlx":
+        return engine_mlx.compute_topk_runnable_mask(tapes, k)
+    raise ValueError(f"Unknown backend {backend!r}; use 'numpy' or 'mlx'")
+
+
 def extract_programs(
     tapes: np.ndarray, longest_mask: np.ndarray
 ) -> list[list[int]]:

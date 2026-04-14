@@ -1,0 +1,25 @@
+sweep_name: mvp_topk
+# Experiments §8b: K-curve replication on count-R and has-upper at MVP budget.
+# Checks whether the non-monotone K=3 finding on sum-gt-10 (§8) generalizes
+# to short-scaffold tasks, or is sum-gt-10-specific.
+# Baselines already on disk (from §1/§3a MVP, same seeds, same budget):
+#   count-R:   A 10/10 (gen 39.5), B 10/10 (gen 15), BP 10/10 (gen 11)
+#   has-upper: A 10/10 (gen 69),   B 7/10 (gen 103), BP 9/10 (gen 83)
+# K=1 is an anchor — should reproduce BP bit-exactly on both tasks.
+base:
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 256
+  generations: 200
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 20
+  arm: BP_TOPK
+grid:
+  task: [count_r, has_upper]
+  topk: [1, 2, 3, 4, 8]
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
