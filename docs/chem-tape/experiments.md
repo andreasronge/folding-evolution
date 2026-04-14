@@ -1,4 +1,6 @@
-# Chemistry-Tape GP — Experiments
+# Chemistry-Tape GP — Experiments (v1)
+
+**Status:** v1 experimental record, complete through §v1.5a-internal-control. Active experimental work has moved to the v2 probe; see [experiments-v2.md](experiments-v2.md) for the pre-registered v2 suite and [architecture-v2.md](architecture-v2.md) for the v2-probe north star and decision tree.
 
 Ordered by the question each one answers. Every experiment is a YAML sweep under `experiments/chem_tape/sweeps/`; results live under `experiments/chem_tape/output/<sweep>/`.
 

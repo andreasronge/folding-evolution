@@ -1,8 +1,10 @@
 # Architecture: Chemistry-Tape GP — v1
 
+**Status:** v1 specification, stable. v1 experimental work is complete (see [experiments.md](experiments.md)). The "v2 — expressivity parity" item in the research ladder below has been superseded by a narrower v2-probe direction defined in [architecture-v2.md](architecture-v2.md); the v2-probe targets mechanism-scaling as a prerequisite to full v2 engineering. See also [experiments-v2.md](experiments-v2.md) for the v2-probe experiment suite.
+
 A third research track alongside folding (`docs/folding/architecture.md`) and CA-development (`docs/ca/architecture.md`). Folding taught us that scaffold preservation under drift makes evolution reach rare compositional structures. CA taught us that batched local updates on a grid run orders of magnitude faster on M1. Chemistry-tape unifies both on a single 1D data structure: a token tape with per-cell bond bits, decoded as a postfix (RPN) stack program.
 
-This document specifies **v1** — the minimum-viable design that answers one question at the lowest possible complexity. v2–v4 are sketched in the research ladder below and will be specified when each becomes next-to-implement.
+This document specifies **v1** — the minimum-viable design that answers one question at the lowest possible complexity. v2–v4 are sketched in the research ladder below; v2 is now scoped to the v2 probe in [architecture-v2.md](architecture-v2.md) rather than the original "expressivity parity" framing.
 
 Source: `src/folding_evolution/chem_tape/` (to be created). Drivers: `experiments/chem_tape/`.
 
