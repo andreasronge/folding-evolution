@@ -27,6 +27,15 @@ class ChemTapeConfig:
     # arm ∈ {"BP", "BP_TOPK"}; ignored for "A" and "B".
     bond_protection_ratio: float = 1.0
 
+    # K-alternating schedule (experiments.md §10 plasticity test). When
+    # period > 0 AND values is non-empty, the BP_TOPK decode K cycles
+    # through `values` every `period` generations:
+    #   current_k(gen) = values[(gen // period) % len(values)]
+    # The `topk` field is ignored in this mode. Values are stored as a
+    # comma-separated string (e.g. "3,999") for stable dataclass hashing.
+    k_alternating_period: int = 0
+    k_alternating_values: str = ""
+
     # Task
     task: str = "count_r"           # "count_r" | "has_upper" | "sum_gt_10"
     n_examples: int = 64
@@ -65,5 +74,25 @@ class ChemTapeConfig:
             d.pop("topk", None)
         if self.bond_protection_ratio == 1.0:
             d.pop("bond_protection_ratio", None)
+        # K-alternating fields excluded from hash when inactive → existing
+        # cached BP_TOPK results (§8, §9, §9b, §9c, §11) remain addressable.
+        if self.k_alternating_period == 0 and self.k_alternating_values == "":
+            d.pop("k_alternating_period", None)
+            d.pop("k_alternating_values", None)
         blob = json.dumps(d, sort_keys=True).encode()
         return hashlib.sha1(blob).hexdigest()[:12]
+
+    def current_k(self, generation: int) -> int:
+        """Return the K to use at `generation` (for BP_TOPK decode).
+
+        If K-alternation is inactive (period=0 or empty values), returns
+        `self.topk`. Otherwise cycles through parsed values every `period`
+        generations. Also defines what `evolve.py` passes to the decode.
+        """
+        if self.k_alternating_period <= 0 or not self.k_alternating_values:
+            return self.topk
+        values = [int(x) for x in self.k_alternating_values.split(",") if x.strip()]
+        if not values:
+            return self.topk
+        idx = (generation // self.k_alternating_period) % len(values)
+        return values[idx]

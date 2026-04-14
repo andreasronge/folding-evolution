@@ -1,0 +1,22 @@
+sweep_name: sum_gt_10_k999_10_19
+# Experiments §10 side-baseline: K=999 fixed on seeds 10-19.
+# §8 gave K=999 = 3/10 on seeds 0-9. This fills in the matched n=20 baseline
+# so §10's K-alternating runs can be compared against BOTH fixed-K endpoints
+# on the same seed set.
+base:
+  task: sum_gt_10
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  arm: BP_TOPK
+  topk: 999
+grid:
+  seed: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]

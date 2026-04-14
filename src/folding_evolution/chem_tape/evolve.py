@@ -29,6 +29,10 @@ class EvolutionResult:
     stats: ChemTapeStatsCollector
     generations_run: int
     holdout_fitness: float | None
+    # §10: per-flip-event metrics under K-alternating schedule. Empty list
+    # when alternation is inactive. Each entry is a dict with keys:
+    #   flip_gen, old_k, new_k, pre_flip_best, post_flip_best, recovery_gen
+    flip_events: list[dict] | None = None
 
 
 def random_genotype(cfg: ChemTapeConfig, rng: random.Random) -> np.ndarray:
@@ -39,14 +43,20 @@ def random_genotype(cfg: ChemTapeConfig, rng: random.Random) -> np.ndarray:
     )
 
 
-def mutate(tape: np.ndarray, cfg: ChemTapeConfig, rng: random.Random) -> np.ndarray:
+def mutate(
+    tape: np.ndarray,
+    cfg: ChemTapeConfig,
+    rng: random.Random,
+    topk_override: int | None = None,
+) -> np.ndarray:
     """Per-byte fresh uniform resample. Uniform rate `mutation_rate` unless
     bond-protected mutation is active (experiments.md §9): when
     `cfg.bond_protection_ratio < 1.0` and the arm has a bond structure
     (BP / BP_TOPK), cells inside the decode mask mutate at
     `mutation_rate * bond_protection_ratio` while cells outside the mask
     mutate at full `mutation_rate`. The mask is computed on the child tape
-    (post-crossover, pre-mutation)."""
+    (post-crossover, pre-mutation). `topk_override` supplies the per-generation
+    K under the §10 K-alternating schedule."""
     out = tape.copy()
     L = out.shape[0]
 
@@ -57,7 +67,8 @@ def mutate(tape: np.ndarray, cfg: ChemTapeConfig, rng: random.Random) -> np.ndar
         if cfg.arm == "BP":
             protect_mask = _np_engine.compute_longest_runnable_mask(tape_2d)[0]
         else:  # BP_TOPK
-            protect_mask = _np_engine.compute_topk_runnable_mask(tape_2d, cfg.topk)[0]
+            k_for_protection = topk_override if topk_override is not None else cfg.topk
+            protect_mask = _np_engine.compute_topk_runnable_mask(tape_2d, k_for_protection)[0]
 
     if protect_mask is None:
         for i in range(L):
@@ -100,9 +111,11 @@ def _reproduce_one_island(
     fitnesses: np.ndarray,
     cfg: ChemTapeConfig,
     rng: random.Random,
+    topk_override: int | None = None,
 ) -> list[np.ndarray]:
     """Produce the next generation's population for one island (or the whole
-    panmictic pool, which is just a single-island call)."""
+    panmictic pool, which is just a single-island call). `topk_override`
+    flows through to `mutate()` for per-generation K under §10."""
     order = np.argsort(-fitnesses)
     elites = [population[i].copy() for i in order[: cfg.elite_count]]
     new_pop: list[np.ndarray] = list(elites)
@@ -115,7 +128,7 @@ def _reproduce_one_island(
         else:
             i = _tournament_select(pop_idx, fitnesses, cfg.tournament_size, rng)
             child = population[i].copy()
-        child = mutate(child, cfg, rng)
+        child = mutate(child, cfg, rng, topk_override=topk_override)
         new_pop.append(child)
     return new_pop
 
@@ -166,24 +179,70 @@ def _migrate(
     return new_islands
 
 
+def _is_k_alternating(cfg: ChemTapeConfig) -> bool:
+    return cfg.k_alternating_period > 0 and bool(cfg.k_alternating_values)
+
+
 def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
-    """Standard tournament-elitism GA (v1 default, unchanged semantics)."""
+    """Standard tournament-elitism GA. Supports §10 K-alternating schedule:
+    when active, the top-K decode K cycles every `k_alternating_period`
+    generations through `k_alternating_values`.
+    """
     rng = random.Random(cfg.seed)
     task = build_task(cfg, seed=cfg.seed)
 
+    alternating = _is_k_alternating(cfg)
+
     population = [random_genotype(cfg, rng) for _ in range(cfg.pop_size)]
-    fitnesses, _ = evaluate_population(population, task, cfg)
+    current_k_0 = cfg.current_k(0)
+    fitnesses, _ = evaluate_population(population, task, cfg, topk_override=current_k_0)
 
     stats = ChemTapeStatsCollector()
     stats.record(0, fitnesses, population, arm=cfg.arm)
 
+    flip_events: list[dict] = []
+    last_k = current_k_0
+    # Track the "pre-flip best" for each pending flip — the best fitness at
+    # the last generation under the previous K before the flip lands.
+    pending_pre_flip: dict | None = None
+
     gen = 0
     for gen in range(1, cfg.generations + 1):
-        population = _reproduce_one_island(population, fitnesses, cfg, rng)
-        fitnesses, _ = evaluate_population(population, task, cfg)
+        current_k = cfg.current_k(gen)
+
+        # Detect K flip transition at this generation.
+        if alternating and current_k != last_k:
+            pending_pre_flip = {
+                "flip_gen": gen,
+                "old_k": int(last_k),
+                "new_k": int(current_k),
+                "pre_flip_best": float(stats.history[-1].best_fitness),
+            }
+
+        # Reproduce under current K (mutation uses current_k for protection mask).
+        population = _reproduce_one_island(
+            population, fitnesses, cfg, rng, topk_override=current_k
+        )
+        fitnesses, _ = evaluate_population(
+            population, task, cfg, topk_override=current_k
+        )
         stats.record(gen, fitnesses, population, arm=cfg.arm)
 
-        if fitnesses.max() >= 1.0:
+        # Record the immediate post-flip best.
+        if pending_pre_flip is not None:
+            pending_pre_flip["post_flip_best"] = float(fitnesses.max())
+            pending_pre_flip["recovery_gen"] = -1  # filled in later
+            flip_events.append(pending_pre_flip)
+            pending_pre_flip = None
+
+        # Check recovery for any flip event awaiting recovery.
+        for ev in flip_events:
+            if ev["recovery_gen"] < 0 and fitnesses.max() >= ev["pre_flip_best"]:
+                ev["recovery_gen"] = int(gen)
+
+        last_k = current_k
+
+        if fitnesses.max() >= 1.0 and not alternating:
             break
 
     best_idx = int(np.argmax(fitnesses))
@@ -191,8 +250,11 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
 
     holdout_fitness: float | None = None
     if task.holdout_inputs is not None and task.holdout_labels is not None:
+        # Under alternating, score holdout under the final generation's K.
+        final_k = cfg.current_k(gen)
         holdout_fitness = evaluate_on_inputs(
-            best, task.holdout_inputs, task.holdout_labels, task, cfg
+            best, task.holdout_inputs, task.holdout_labels, task, cfg,
+            topk_override=final_k,
         )
 
     return EvolutionResult(
@@ -201,6 +263,7 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
         stats=stats,
         generations_run=gen,
         holdout_fitness=holdout_fitness,
+        flip_events=flip_events if alternating else None,
     )
 
 

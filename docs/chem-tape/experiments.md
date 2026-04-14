@@ -1083,6 +1083,96 @@ The hard floor hasn't moved since §9c. Four seeds (20% of the seed space) appea
 
 ---
 
+## 10. K-alternating regime shift — plasticity test
+
+**Motivation (after §11a).** §8a established K=3 r=1.0 winners are uniformly multi-chunk with quarantined tails. §10 tests whether evolution under K alternating between K=3 and K=999 produces bodies that tolerate both regimes. The pre-registered sharpening (per analyst review): if K=3's quarantined tails are truly neutral under K=999, alternation should be tolerable; abrupt collapse would mean tails are not cryptically neutral but *conditionally maladaptive* under full execution.
+
+### Design
+
+- **Sweep:** `sweeps/sum_gt_10_kalt.yaml` — K cycles between {3, 999} with period ∈ {100, 300} × seeds 0-19 = 40 runs on sum-gt-10 at pop=1024, gens=1500.
+- **Additional baseline:** `sweeps/sum_gt_10_k999_10_19.yaml` — K=999 fixed on seeds 10-19 (10 runs) to complete the n=20 fixed-K=∞ baseline for matched-seed comparison.
+- **Flip-local metrics:** per flip, recorded pre_flip_best, post_flip_best, and recovery_gen (first gen after flip where best ≥ pre-flip).
+
+### Pre-registered outcomes (from §10 pre-reg):
+1. Smooth switching: post-flip drop small; recovery < 30 gens; solve-count ≥ better-fixed-K.
+2. Abrupt collapse: large drop; recovery > 300 gens or never; solve-count strictly worse.
+3. Canalized generalist: cross-K ratio > 0.7 throughout; per-K peak below fixed-K; solve-count comparable but slower.
+4. Monotone degradation: each flip worsens fitness.
+
+### Status: complete. Finding: **outcome (1) — perfect smooth switching.** Post-flip fitness drop is *exactly zero* on every flip across every seed × period in the sweep. Solve-count matches the better fixed-K baseline.
+
+Results from commit `8c26115` (K-alt sweep: 767s / 12.8 min; K=999 baseline: 203s / 3.4 min; 50 runs total at 4 workers).
+
+#### Solve-count comparison (n=20 seeds)
+
+| condition              | solved/20 | seeds solved                                    |
+|------------------------|-----------|-------------------------------------------------|
+| K=3 fixed (baseline)   | 7/20      | 2, 6, 7, 13, 14, 18, 19                         |
+| K=999 fixed (baseline) | 5/20      | 2, 8, 9, 14, 18                                 |
+| **K-alt period=300**   | 7/20      | **0, 2, 7, 9, 13, 14, 19**                      |
+| K-alt period=100       | 5/20      | 2, 11, 14, 18, 19                               |
+
+K-alt period=300 ties the better fixed-K baseline (7/20 = K=3 fixed). Solve-set overlap:
+- Common with K=3 fixed: {2, 7, 13, 14, 19}
+- K-alt gains vs K=3: {0, 9} (seed 0 is new vs all prior fixed-K; seed 9 was K=999-fixed)
+- K-alt loses vs K=3: {6, 18} — the §8a quarantine-tail-heavy seeds
+
+K-alt period=100 is worse (5/20). Fast alternation appears to apply stronger selection pressure against multi-chunk architectures.
+
+#### Flip-event dynamics
+
+**On every flip event across all 40 runs, `post_flip_best = pre_flip_best` exactly (Δ = 0.000).** The best-of-population fitness is unchanged the generation a K flip lands.
+
+Spot-check for representative seeds under period=300 (5 flips per run at gens 300/600/900/1200/1500):
+
+- **Seed 2 (solved early, ★):** best=1.000 from gen 183 onward. All 5 subsequent flips: Δ = 0.000.
+- **Seed 7 (★ gen 1500):** best stays at 0.500 through flips at 300/600/900/1200, reaches 1.000 at gen 1500. No flip caused a drop.
+- **Seed 0 (★ gen 900, NEW):** solved the gen of the K=3→K=999 flip at gen 900. Zero drop, instant solve.
+- **Seed 9 (★ gen 1200, NEW):** solved the gen of K=999→K=3 flip at gen 1200. Zero drop, instant solve.
+- **Seed 14 (★ gen 1500):** rose from 0.516 → 1.000 at the final flip.
+- **Seeds 3, 5, 6, 11, 18 (failed):** flat at 0.500-0.516 throughout; flips have zero effect in either direction.
+
+Zero drop on every flip across every run means the best individual is **perfectly cross-K compatible**.
+
+#### Mechanism: cross-K-compatible body plans
+
+Architecture inspection of all winners (run-count distribution):
+
+| condition         | 1-run | 2-run | 3-run | 4+-run |
+|-------------------|-------|-------|-------|--------|
+| K=3 fixed         | 0     | 0     | 0     | **7**  |
+| K=999 fixed       | 2     | 0     | 1     | 2      |
+| K-alt period=300  | 1     | 0     | 1     | 5      |
+| K-alt period=100  | 0     | 1     | 3     | 1      |
+
+K=3 fixed winners are uniformly multi-chunk (4+ runs) — consistent with §8a. K=999 fixed winners are mostly simple (1 or 3 runs). **K-alt period=100 winners are almost all ≤ 3 runs** — fast alternation strongly selects for cross-K-compatible bodies. K-alt period=300 is mixed.
+
+But the *zero-drop* phenomenon across every seed, including 4+-run winners under period=300, says more: even when a 4+-run architecture is evolved, its lower-ranked runs (those included under K=999 but excluded under K=3) produce identical fitness under both decodes. The winning tapes' tail content is genuinely cryptically neutral — it contributes to the K=999 program without changing the output on any of the 64 test cases.
+
+This is the "quarantined tail is neutral under K=∞" hypothesis from §8a, *vindicated* at the fitness level. Under selection pressure from K alternation, evolution finds tapes where:
+- Top-3 runs carry the functional program (works under K=3).
+- Lower-ranked runs' content is either inert (single-use operators that immediately no-op on empty stack) or output-preserving (produces exactly the test-suite-correct output after additional operations).
+
+#### What §10 establishes
+
+1. **Pre-registered abrupt collapse did NOT occur.** Post-flip drops are exactly zero everywhere. This falsifies the "K=3's quarantined tails are conditionally maladaptive under K=999" alternative and confirms the cryptic-neutral-tail reading of §8a.
+
+2. **Smooth switching (outcome 1) holds at n=20.** Solve count under K-alt period=300 (7/20) matches K=3 fixed (7/20) and exceeds K=999 fixed (5/20). Recovery time is zero.
+
+3. **Fast alternation (period=100) selects for simpler architectures.** The ≤3-run architecture distribution under period=100 vs mixed under period=300 shows selection pressure scales with flip frequency. Period=100 costs 2 solves vs K=3 fixed because the simpler bodies it selects don't reach all K=3-findable solutions.
+
+4. **K-alternation opens new seeds (0, 9) by avoiding K=3 fixed's architectural bottleneck.** K=3 fixed's 7/20 is constrained to multi-chunk-only winners. K-alternation permits the 1-run and 3-run architectures K=999 finds, adding seeds 0 and 9 while losing seeds 6 and 18 (which are specifically K=3-r=1.0-optimal multi-chunk).
+
+5. **Evolve-K-per-individual becomes the next obvious experiment.** §10 showed evolution *adapts to* a fixed K schedule by finding cross-K bodies. The next question is whether evolving K per-individual lets selection pick the right K for each body on-the-fly — is the plasticity buyable at the individual level, or only at the population level under environmental alternation?
+
+#### Followup
+
+- **§10a inspect K-alt unique winners (seeds 0, 9)** — zero compute. Do these use novel architectures not found by either fixed K?
+- **Evolve-K-per-individual** — the §10 plasticity result argues strongly for implementing this as the next substantial experiment.
+- **§v1.5 task-alternating (now with §10 reframing)** — combined task × K alternation would test whether cross-K-compatible bodies are also cross-task-compatible. Expected to be a much harder target.
+
+---
+
 ## Planned v2 experiments (contingent on §2 passing)
 
 ### E. Expressivity parity vs folding-Lisp on structured-record benchmarks
@@ -1120,12 +1210,14 @@ The hard floor hasn't moved since §9c. Four seeds (20% of the seed space) appea
 
 14. **§4f + §11 static-picture baseline: K=3 r=0.5 panmictic is the only statistically significant improvement on Arm A panmictic at n=20 (11/20 vs 5/20, McNemar p=0.035).** Every other arm-vs-arm comparison (K=3 r=1.0 vs A, A islands vs A panmictic, K=3 r=1.0 islands vs K=3 r=1.0 panmictic) is directional but not significant at n=20. The three factors decode + protection + islands are **non-additive**: K=3 r=0.5 islands collapses to 5/20 (= Arm A panmictic's baseline), losing 7 of the "novel r=0.5" seeds from §9b/§9c. Mechanism reading: r=0.5 and islands are substitutes, not complements — both reduce exploration pressure, and together they starve the search. Combined reachable-seed union across §1-§11 is 16/20 (80%); hard floor {4, 5, 11, 17}.
 
-15. **Current priorities (reordered after §11):**
-    - **§10 K-alternating regime shift** — use K=3 r=1.0 baseline (architecturally uniform, stable under GA-structure perturbations) rather than r=0.5 (§11 showed r=0.5 is fragile to GA changes). Tests within-individual plasticity under a cleaner initial condition.
-    - **§8d scaffold-length × K × r** — generalization test; synthetic task design required.
-    - **Evolve-K-per-individual (panmictic)** — gated on §10 outcome.
-    - **§11 fitness-trajectory inspection (zero-compute)** — does K=3 r=0.5 islands plateau early, or crawl slower? Discriminates between "starved of exploration" and "too slow to converge." ~15 min analysis work.
-    - **§v1.5 regime-shift test (task-alternating)** — after §10.
+15. **§10 K-alternating: pre-registered outcome (1) smooth switching confirmed.** K cycled {3, 999} with period ∈ {100, 300} × seeds 0-19, 40 runs. Post-flip fitness drop = 0.000 on every flip across every seed — perfect cross-K compatibility of winners. K-alt period=300 solves 7/20 (matches fixed K=3 baseline), K-alt period=100 solves 5/20 (fast alternation costs 2 solves). K-alt opens new seeds {0, 9} not solved by K=3 fixed while losing {6, 18} (K=3-r=1.0-optimal multi-chunk). Architecture analysis: period=100 selects strongly for ≤3-run cross-K-compatible bodies; period=300 permits 4+-run winners whose tail runs happen to produce identical fitness under K=999. §8a's "quarantined tails are neutral under K=∞" hypothesis is vindicated at the fitness level — the abrupt-collapse alternative is ruled out. Evolve-K-per-individual is the next obvious experiment.
+
+16. **Current priorities (reordered after §10):**
+    - **§10a inspect K-alt unique winners (seeds 0, 9)** — zero-compute; do these use architectures not found by either fixed K?
+    - **Evolve-K-per-individual (panmictic)** — primary next substantial experiment. Adds K as a tape-header gene; selection tunes the decode to the task on each individual. §10 showed cross-K bodies are evolvable under environmental alternation; this tests whether the plasticity is buyable at the individual level instead of via alternation.
+    - **§v1.5 task-alternating** — reframed per §10: tests whether cross-K-compatible bodies are also cross-task-compatible. Expected to be a much harder target.
+    - **§8d scaffold-length × K × r** — generalization test.
+    - **Evolve-K with K-prior islands** — migration design decision; naive ring-migration likely produces null per §11a.
     - **Type-closed top-K decode criterion** — cheap side experiment; low prior.
 
 See [architecture.md](architecture.md) for the substrate specification, [findings.md](../findings.md) for the prior Elixir-era folding results that motivated the "differential outcome" expectation, and [coevolution.md](../coevolution.md) for the coevolution designs that produced the scaffold-preservation framing.

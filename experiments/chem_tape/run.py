@@ -86,6 +86,8 @@ def execute(cfg: ChemTapeConfig, output_root: Path) -> Path:
         "final_generation_mean": history[-1].mean_fitness,
         "holdout_fitness": result.holdout_fitness,
     }
+    if result.flip_events is not None:
+        summary["flip_events"] = result.flip_events
     (run_dir / "result.json").write_text(json.dumps(summary, indent=2))
     return run_dir
 

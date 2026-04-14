@@ -1,0 +1,25 @@
+sweep_name: sum_gt_10_kalt
+# Experiments §10: K-alternating regime shift on sum-gt-10.
+# Tests whether cryptic variation in K=3's quarantined tails becomes primary
+# scaffold when decode flips to K=999 (≡ Arm A / execute all non-separator).
+# Baseline: K=3 fixed r=1.0 (§8 + §9c), 7/20 on seeds 0-19.
+# Contrast: K=999 fixed — §8 gave 3/10 on seeds 0-9; §10a runs the missing
+# seeds 10-19 for matched n=20 baseline.
+base:
+  task: sum_gt_10
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  arm: BP_TOPK
+  k_alternating_values: "3,999"
+grid:
+  k_alternating_period: [100, 300]
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]

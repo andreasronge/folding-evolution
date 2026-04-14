@@ -31,11 +31,13 @@ def _tapes_from_population(population: list[np.ndarray]) -> np.ndarray:
 
 
 def _programs_for_arm(
-    cfg: ChemTapeConfig, tapes: np.ndarray
+    cfg: ChemTapeConfig, tapes: np.ndarray, topk_override: int | None = None
 ) -> list[list[int]]:
     """Arm A: full tape as program. Arm B: strict longest-active-run. Arm BP:
     permeable longest-run (NOP passes through; ids 14/15 are hard separators).
-    Arm BP_TOPK: top-K permeable runs concatenated in tape order (§8)."""
+    Arm BP_TOPK: top-K permeable runs concatenated in tape order (§8).
+    `topk_override` lets the evolve loop supply a per-generation K under the
+    K-alternating schedule (§10); ignored unless arm == "BP_TOPK"."""
     if cfg.arm == "A":
         return [tapes[b].astype(np.int64).tolist() for b in range(tapes.shape[0])]
     if cfg.arm == "B":
@@ -45,7 +47,8 @@ def _programs_for_arm(
         mask = engine.compute_longest_runnable_mask(tapes, backend=cfg.backend)
         return engine.extract_programs(tapes, mask)
     if cfg.arm == "BP_TOPK":
-        mask = engine.compute_topk_runnable_mask(tapes, cfg.topk, backend=cfg.backend)
+        k = topk_override if topk_override is not None else cfg.topk
+        mask = engine.compute_topk_runnable_mask(tapes, k, backend=cfg.backend)
         return engine.extract_programs(tapes, mask)
     raise ValueError(f"Unknown arm {cfg.arm!r}; use 'A', 'B', 'BP', or 'BP_TOPK'")
 
@@ -54,8 +57,12 @@ def evaluate_population(
     population: list[np.ndarray],
     task: Task,
     cfg: ChemTapeConfig,
+    topk_override: int | None = None,
 ) -> tuple[np.ndarray, np.ndarray]:
     """Evaluate every tape in `population` on `task.inputs`.
+
+    `topk_override` — for the §10 K-alternating schedule, evolve.py supplies
+    the K to use this generation. Ignored unless arm == "BP_TOPK".
 
     Returns:
         fitnesses: (P,) float in [0, 1] — fraction correct.
@@ -64,7 +71,7 @@ def evaluate_population(
     P = len(population)
     E = len(task.inputs)
     tapes = _tapes_from_population(population)                   # (P, L) uint8
-    programs = _programs_for_arm(cfg, tapes)                     # len P, list[int]
+    programs = _programs_for_arm(cfg, tapes, topk_override=topk_override)
 
     predictions = np.zeros((P, E), dtype=np.int64)
     if _HAS_RUST_EXECUTOR:
@@ -92,10 +99,12 @@ def evaluate_on_inputs(
     labels: np.ndarray,
     task: Task,
     cfg: ChemTapeConfig,
+    topk_override: int | None = None,
 ) -> float:
-    """Score a single genotype on an arbitrary input set (used for holdout)."""
+    """Score a single genotype on an arbitrary input set (used for holdout).
+    `topk_override` (§10): decode under this K instead of `cfg.topk`."""
     tape = genotype.astype(np.uint8).reshape(1, -1)
-    programs = _programs_for_arm(cfg, tape)
+    programs = _programs_for_arm(cfg, tape, topk_override=topk_override)
     prog = programs[0]
     correct = 0
     for e, x in enumerate(inputs):
