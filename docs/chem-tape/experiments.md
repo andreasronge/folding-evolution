@@ -194,6 +194,8 @@ The rejection from §2/§2b stands in the narrow sense: v1-strict loses to direc
 
 ## 3. Permeable bond rule redesign (Arm BP)
 
+**Specification.** The permeable rule is now folded into the substrate spec — see [architecture.md](architecture.md) §Layer 4.1 for the bond predicate, the expected distributional effect, and the implementation pointers. Arm BP is Layer 9's third arm (Arm B with the Layer 4.1 predicate substituted). The discussion below is the experimental record of the redesign: motivation, pre-registered outcomes, and the head-to-head results against Arms A and B.
+
 **Motivation.** The §2 mechanism observation pointed at the real v1 design error: "inactive cell" bundled two distinct semantics — *no-op in execution* AND *hard boundary in the decode*. Arm A's solved runs showed that (a) alone is fine; (b) is what prunes the solution class evolution actually uses on sum-gt-10. The permeable redesign separates them: id 0 (NOP) becomes *transparent* (passes through bonded runs as a no-op), while ids 14 and 15 remain hard separators. The active-cell set for bond purposes becomes "non-separator" (ids 0..13) rather than "active" (ids 1..13). Everything else v1-equivalent.
 
 Under uniform init the separator count per 32-cell tape drops from ~6 inactive-cells to ~4 separators, and the expected longest-runnable segment widens from ~8 to ~14 cells — right at the sum-gt-10 canonical scaffold length. The implementation change is one token-class split plus a parameterised mask function in the engine; see `src/folding_evolution/chem_tape/alphabet.py` and `engine_numpy.py`.
@@ -418,6 +420,49 @@ The coverage structure is consistent with "reachable class widens A > BP > B," w
 
 ---
 
+## 8. Top-K longest runs — decode-breadth sweep
+
+**Motivation.** §3 localized one v1 bug (hard separators) but left a residual BP<A gap on has-upper (9/10 vs 10/10) and sum-gt-10 (1/10 vs 3/10). The current decode executes only *the single longest* bonded run. Top-K generalizes this: concatenate the K longest bonded runs in tape order and execute the concatenation. K=1 is BP; K=∞ approaches A (modulo separator semantics). K becomes a single-integer sweep axis that interpolates the decode-breadth dimension while preserving "bonds select what executes."
+
+**Sweep:** `sweeps/sum_gt_10_topk.yaml` (to create) — sum-gt-10, K ∈ {1, 2, 3, 4, 8, ∞} × 10 seeds (0-9), pop=1024, gens=1500. Permeable bond rule throughout (builds on BP, not strict B). 60 runs, ~30 min at 4 workers.
+
+**Design decisions (pre-registered):**
+
+- **Base arm is BP**, not B. §3 established permeability is strictly better; no reason to re-confound with separators.
+- **Concatenation order is tape order** (left-to-right positions of the K selected runs), not length-rank order. This matches how Arm A reads the tape and avoids program-semantics discontinuities between adjacent K values.
+- **Tie-breaking on equal-length runs:** leftmost first. Deterministic given tape contents.
+- **K=∞ arm** is "concatenate all non-empty non-separator runs" (every bonded region contributes). Distinct from Arm A only in that hard separators still gate — so K=∞ ≈ A under permeability is the expected limit.
+- **Per-run diagnostic:** record the number of bonded runs per tape (population mean, max) and total bonded-cell count alongside fitness. Lets us check whether small-K arms are starved of runs or just decode-breadth-limited.
+
+**Pre-registered outcomes:**
+- **Monotone rise 1→∞ that saturates at A's rate:** residual BP<A gap is purely decode-breadth. §9 (soft decode) becomes uninteresting — bonds-as-gates with permissive breadth is enough. Promote K as a first-class chem-tape hyperparameter.
+- **Monotone rise 1→∞ that plateaus strictly below A:** decode-breadth is part of the cost but not all of it. Promote §9 with a sharper question ("breadth isn't enough; what else do bonds need to do?").
+- **Non-monotone (e.g., K=2 beats both K=1 and K=∞):** an intermediate decode regime is the sweet spot. Unexpected but highly informative — suggests bonds-as-gates genuinely helps when gated selectively. Would re-open the "scaffold preservation" framing with cleaner mechanism.
+- **Flat (no K affects solve rate):** the binding constraint is neither breadth nor separators — something deeper. §9 becomes urgent.
+
+**Purpose.** Diagnostic. Maps the BP→A decode-breadth axis cheaply before committing to the bigger §9 redesign. Its outcome reshapes §9's cost/benefit.
+
+### Status: planned. See `Plans/chem-tape-topk.md`.
+
+---
+
+## 9. Soft decode (bonds-as-protection) — queued
+
+**Motivation.** Execute the whole tape (Arm A semantics), but use bond structure only as a mutation-protection signal: bonded cells mutate at a lower rate than non-bonded cells. Bonds become *evolutionary-dynamics structure* rather than an execution gate. This entirely decouples Layer 4 (bond compute) from Layer 5 (decode) and is the cleanest test of "is persistent bonding valuable independent of decode-gating?"
+
+**Sweep:** `sweeps/sum_gt_10_soft.yaml` (to create) — contingent on §8 outcome. Expected shape: sum-gt-10 × protection ratio ∈ {1.0 (≡ Arm A), 0.3, 0.1, 0.03} × 10 seeds × pop=1024, gens=1500.
+
+**Required control arm.** A matched-count random-cell-protection baseline: same number of cells protected per tape, but selected uniformly at random rather than by bond structure. Without this, a positive result reads as "heterogeneous mutation helps," not "persistent bonds help." The control arm is non-optional for this experiment.
+
+**Pre-registered outcomes:**
+- **Soft > Arm A AND Soft > random-protected control:** persistent bonds carry evolutionary-dynamics value independent of decode. Vindicates the original architecture premise on weaker (and more interesting) grounds than v1 anticipated.
+- **Soft ≈ random-protected:** heterogeneous mutation helps, but bond *identity* doesn't. The bonding mechanism is not load-bearing; what matters is mutation-rate diversity.
+- **Soft ≈ Arm A:** bonding-as-protection does not produce an evolutionary-dynamics advantage at this scale. Would effectively close the chem-tape direction.
+
+### Status: queued pending §8. §4d downgraded this after BP > B explained most of Arm B's failure; §8's residual BP < A is the evidence that would re-promote it.
+
+---
+
 ## Planned v2 experiments (contingent on §2 passing)
 
 ### E. Expressivity parity vs folding-Lisp on structured-record benchmarks
@@ -444,11 +489,11 @@ The coverage structure is consistent with "reachable class widens A > BP > B," w
 8. **§4 island-model: n=20 shows effects are real but smaller than n=10 suggested.** Under 8×128 islands with ring-topology synchronous migration: Arm A 7/20 (35%), Arm B 2/20 (10%), Arm BP 3/20 (15%). The A-B rejection holds firmly at n=20 (gap: 25 percentage points). The n=10 preview's "islands specifically help B" claim is underpowered — without panmictic baselines on seeds 10-19 we can't cleanly separate representation-specific benefits from general island benefits that affect all arms. The *methodological finding* is firm: a GA-structure choice affects solve counts by single-digit percentage points across arms, so a single-GA baseline is not a neutral test of a new representation. **Panmictic pop=1024 should no longer be the default baseline for chem-tape experiments.** §4f panmictic-on-10-19 baseline is the critical missing data to resolve effect-size attribution.
 
 9. **Current priorities (in order):**
-   - **§4f panmictic baseline on seeds 10-19** — critical. Without this the "islands help B specifically" claim cannot be tested at matched sample size. 30 runs, ~5 min, closes the apples-to-oranges problem in §4a.
-   - **§4h best-genotype inspection on Arm A seeds {1, 8, 15, 19}** — zero-compute; asks whether the A-only-solved seeds share a structural feature that mask-based decodes can't reach.
+   - **§8 Top-K decode-breadth sweep** — active next experiment. Maps BP→A as a single integer axis at ~30 min compute. Diagnostic: its outcome decides whether §9 (soft decode) is interesting or preempted. See `Plans/chem-tape-topk.md`.
+   - **§4f panmictic baseline on seeds 10-19** — critical for clean island-vs-panmictic attribution. 30 runs, ~5 min, closes the apples-to-oranges problem in §4a.
+   - **§4h best-genotype inspection on Arm A seeds {1, 8, 15, 19}** — zero-compute; asks whether the A-only-solved seeds share a structural feature that mask-based decodes can't reach. Naturally informs §8's K=∞ reading.
    - **§4g migration sensitivity** — tests whether any B-specific effect is robust across reasonable migration regimes. Lower priority until §4f clarifies whether a B-specific effect exists at all.
-   - **§v1.5 regime-shift test** — the architecture's motivating experiment. Tests whether chem-tape's neutral reserve enables folding-analog dynamic advantages. Runs after §4f clarifies the baseline picture.
-   - **Fully-permeable rule ablation** — queued.
-   - **Soft redesign** — downgraded; see §4d.
+   - **§9 soft decode** — promoted/demoted by §8 outcome; contingent.
+   - **§v1.5 regime-shift test** — the architecture's motivating experiment. Runs after §8 and §4f clarify the baseline picture.
 
 See [architecture.md](architecture.md) for the substrate specification, [findings.md](../findings.md) for the prior Elixir-era folding results that motivated the "differential outcome" expectation, and [coevolution.md](../coevolution.md) for the coevolution designs that produced the scaffold-preservation framing.

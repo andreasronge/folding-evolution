@@ -142,6 +142,24 @@ This is intentional. v1 is the **substrate gate** — it tests whether the *cons
 
 **What this preserves honestly.** Scaffold preservation in v1 is "a contiguous active region survives small mutations as long as no mutation turns an interior cell inactive." Neutral reserve is "inactive cells plus any active region shorter than the longest are selection-invisible." Both properties are weaker than folding's, but they are present and measurable.
 
+### Layer 4.1: Permeable bond rule (v1.1 refinement)
+
+The v1-strict rule above bundled two distinct semantics into a single "inactive cell" class: (a) *no-op in execution* (the cell does nothing when run) and (b) *hard boundary in the decode* (the cell terminates a bonded run; execution cannot cross it). The v1 MVP evidence (see [experiments.md](experiments.md) §2) localised the sum-gt-10 failure to (b), not (a): Arm A's successful runs routinely used NOP cells as interior padding within the scaffold, which Arm B's strict separator rule prunes.
+
+The **permeable rule** splits the two semantics:
+
+> **Separator cells are `token ∈ {14, 15}`** (the reserved-for-v2 quotation slots, which execute as NOP in v1 but serve as *hard* separators for decode purposes).
+> **Bond-transparent cells are `token ∈ {0..13}`** — including `NOP` (id 0), which remains a no-op at execution time but is *transparent* to bonding: a bonded run can span across NOPs as if they weren't there.
+> **Bond exists between cells `i` and `i+1` iff both cells are bond-transparent.**
+
+Concretely, the bond predicate changes from `is_active[i] & is_active[i+1]` (v1-strict, `is_active := token ∈ {1..13}`) to `is_non_separator[i] & is_non_separator[i+1]` (permeable, `is_non_separator := token ∈ {0..13}`). NOP execution semantics are unchanged — the cell still does nothing on the stack — only its role in the decode changes.
+
+**Expected distributional effect under uniform init.** v1-strict expects ~6 inactive cells per 32-cell tape (ids 0, 14, 15 at 3/16) and a longest-runnable-segment of ~8 cells. The permeable rule drops this to ~4 separators (ids 14, 15 at 2/16) and widens the expected longest-runnable segment to ~14 cells — *right at the sum-gt-10 canonical scaffold length* (Layer 10). This is the hypothesis: scaffold completion was budget-limited by the separator density the v1-strict rule enforced, not by the bonded-run decode per se.
+
+**Implementation.** One token-class split (separator vs. non-separator, replacing active vs. inactive) plus a parameterised mask function in the engine. See `src/folding_evolution/chem_tape/alphabet.py` and `engine_numpy.py`. Layer 6's `is_active` expression generalises to a selectable mask predicate; the longest-run algorithm is otherwise unchanged.
+
+**Status.** The permeable rule is the **current default** for chem-tape experiments from [experiments.md](experiments.md) §3 onward. The v1-strict rule remains documented above because (a) it is the gate design the v1 MVP acceptance criterion (Layer 11) was written against and (b) the v1-strict-vs-permeable head-to-head is itself an ablation — see Arm B vs Arm BP in Layer 9.
+
 ## Layer 5: Phenotype decode
 
 Walk the tape left to right. Identify all maximal contiguous runs of active cells. Execute the **longest** active run as an RPN stack program. All other cells — shorter runs and inactive cells — are ignored; they form the neutral reserve.
@@ -216,17 +234,20 @@ Both rates are sweep axes.
 
 Identical to CA-GP. Tournament selection (size 3), elitism (count 2), no niching, no island model, no adaptive rates. The *representation* is the experimental variable; GA machinery stays fixed so the comparison is clean.
 
-## Layer 9: The two research arms
+## Layer 9: The research arms
 
-A v1 result means nothing without a comparison. Two arms, sharing the same GA, token alphabet (per task), and stack semantics:
+A v1 result means nothing without a comparison. The arms share the same GA, token alphabet (per task), and stack semantics; they differ only in which of Layers 4 and 5 apply and which bond rule is used:
 
 1. **Arm A — Direct stack-GP (null hypothesis).** The tape is executed directly as an RPN program. All 32 tokens participate in execution in tape order; NOPs (and ids 14–15) are no-ops but do not act as separators. This is the stack-GP baseline with no developmental layer.
-2. **Arm B — Chemistry-tape v1 (this design).** NOPs act as separators; only the longest active run executes. This introduces the neutral reserve and separator-based decode.
+2. **Arm B — Chemistry-tape v1-strict (original design).** v1-strict bond rule (Layer 4): NOPs act as separators; only the longest active run executes. This introduces the neutral reserve and separator-based decode.
+3. **Arm BP — Chemistry-tape v1.1 permeable (current default).** Permeable bond rule (Layer 4.1): only ids 14–15 are separators; NOPs are bond-transparent. Otherwise identical to Arm B — same longest-run decode, same stack machine.
 
 **Arm A = Arm B minus Layers 4 and 5.** Both arms use identical: token alphabet, runtime type system, stack safety (256-op cap, pop-empty defaults), mutation rate, crossover rate, population size, generation budget, initialization distribution, tournament/elitism, and example sampling. The *only* differences are:
 
 - Arm A skips Layer 4 (no bond graph computed).
 - Arm A skips Layer 5 (executes the whole tape in order, not the longest run).
+
+**Arm BP = Arm B with the Layer 4.1 permeable predicate substituted for the Layer 4 v1-strict predicate.** Same decode (Layer 5), same executor (Layer 3), same genotype and operators (Layer 7). The B-vs-BP comparison directly isolates the separator semantics — bundled-inactive (B) vs. separator-only (BP) — as an ablation axis.
 
 Everything else is bitwise the same code path. This is the equivalence the comparison hinges on.
 
