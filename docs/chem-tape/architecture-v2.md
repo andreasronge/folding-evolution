@@ -35,6 +35,12 @@ Open questions explicitly not answered in v1:
 
 **Not** full folding-Lisp parity. Not quotation tokens, not structured-record inputs, not higher-order combinators. The v2 probe adds a small, targeted set of primitives chosen to (a) enable mechanism tests at richer expressivity, (b) address the specific internal-control falsification §v1.5a-internal-control identified, (c) keep implementation cost low (~1-2 weeks, not months).
 
+### Inherited from v1 (unchanged)
+
+v1 primitive ids 0-13 (`alphabet.py`): `NOP=0, INPUT=1, CONST_0=2, CONST_1=3, CHARS=4, SUM=5, ANY=6, ADD=7, GT=8, DUP=9, SWAP=10, REDUCE_ADD=11, SLOT_12=12, SLOT_13=13`. Active mask is ids 1-13 (id 0 = NOP is inactive). `SLOT_12, SLOT_13` dispatch via `TaskAlphabet` to op names `OP_NOP, OP_MAP_EQ_R, OP_MAP_IS_UPPER` (v1). v1 also reserves ids 14-15 as separators (execute as NOP). v2 adds 6 primitives at ids 14-19, reassigning the previously-reserved ids, and shifts separators to 20-21. v1 ids 0-13 are semantically unchanged; `TaskAlphabet` extends its op-name vocabulary (see below).
+
+**SUM vs REDUCE_ADD in v1 / v2-probe.** Both primitives exist and have *identical executor implementations* (pop intlist, push its sum — see `executor.py` `_op_sum` and `_op_reduce_add`). `REDUCE_ADD`'s comment marks it as a placeholder for a higher-order reduce introduced in full v2. **Because higher-order combinators are explicitly out of scope for the v2 probe (see "Scope hygiene"), `REDUCE_ADD` remains a semantic alias for `SUM` throughout this document.** Task bodies in [experiments-v2.md](experiments-v2.md) use `SUM` for aggregation; §v2.5's aggregator-variation framing compares `REDUCE_ADD` (≡ `SUM` in v2-probe) against the new `REDUCE_MAX` — the distinction is nominal at v2-probe scale and only becomes semantically real at v2-full.
+
 ### Proposed alphabet expansion (5 primitives + 1 for §v2.3)
 
 | id | primitive | semantics (precise) |
@@ -62,8 +68,8 @@ This is the mechanism under test. v1's §v1.5a-binary demonstrated that slot-ind
 
 ### Alphabet / tape dimensions
 
-- Token ids 0-19 are primitives (20 total, up from v1's 14). Separator ids shift: `SEP_A = 20`, `SEP_B = 21`. Effective alphabet size 22.
-- **Tape cell storage stays `uint8`** (v1 already uses uint8, not 4-bit packing). No storage-layer changes: the 22-id alphabet fits in a byte unchanged.
+- Token ids 0-19 are primitives (20 total, up from v1's 14 — counting active ids 1-13 + NOP at 0). Separator ids shift: `SEP_A = 20`, `SEP_B = 21`. Effective alphabet size 22.
+- **Tape cell storage:** v1 stores tokens in the low nibble of a `uint8` (per `alphabet.py`'s module docstring — 4-bit tokens, 16-value range). The v2 alphabet's max id is 21, which requires 5 bits and **crosses the 4-bit boundary**. The storage byte remains `uint8` (no packing change), but any v1 code path that assumes "low nibble only" must be audited: the `alphabet.py` module docstring needs updating, and any hash / display / mask logic keyed on the 4-bit assumption (e.g., `& 0x0F`) must be located and widened. Estimated audit effort: a grep for `0x0F`, `nibble`, and `N_TOKENS == 16` across the executor and tape-viz code; small scope but mandatory before v2 runs.
 - **Tape length: fixed at 32 (unchanged from v1).** 32 cells was sufficient for v1's 14-token active alphabet. The v2 probe's 20-token active alphabet is denser, but holding tape length constant eliminates one confound when comparing v2-probe solve rates to v1 baselines. If v2 experiments show systematic under-capacity (maximum observed scaffold length saturating at tape bound across all seeds), extending to 48 cells is queued as a separate axis — not rolled into the probe.
 - Mask definitions (`ACTIVE_MASK`, `NON_SEPARATOR_MASK`) extend to ids 0-19 active, 20-21 separators.
 
@@ -119,12 +125,12 @@ Separate from the primary mechanism-scaling question, the v2 probe provides a tr
 
 ## Decision tree
 
-Four outcomes, each with an operational signature. The 5-experiment suite in [experiments-v2.md](experiments-v2.md) maps to this tree via the combined success criterion: **≥4/5 experiments land in their pre-registered "scales" column → scales cleanly; fixed-baseline check in §v2.1 declares swamped if ceilings are saturated; ≥4/5 in "does not scale" → does not scale; anything else → partial.**
+Four outcomes, each with an operational signature. The suite has **four graded experiments** (§v2.1, §v2.2, §v2.3, §v2.4) with pre-registered pass/fail columns, plus **one exploratory experiment** (§v2.5) that reports qualitative distributions rather than a hard pass/fail bit. Combined success criterion: **≥3/4 graded experiments land in their pre-registered "scales" column AND §v2.5's qualitative observations are consistent with scaling (no evidence against) → scales cleanly; fixed-baseline check in §v2.1 Part A declares swamped if ceilings are saturated; ≥3/4 graded in "does not scale" → does not scale; anything else → partial.** §v2.5 never flips a "scales" verdict to "does not scale" on its own — it contributes weight-of-evidence, not a veto.
 
 ```
 v2 probe runs (mechanism tests at intermediate expansion)
 │
-├── SCALES CLEANLY  (≥4/5 experiments "scales" column)
+├── SCALES CLEANLY  (≥3/4 graded experiments in "scales" column + §v2.5 consistent)
 │   signatures:
 │     - §v2.1 alternation solve rate ≥ fixed − 1 AND mean |Δbest| < 0.05
 │     - §v2.2 Pair A AND Pair B both at 15+/20 BOTH
@@ -145,7 +151,7 @@ v2 probe runs (mechanism tests at intermediate expansion)
 │   → Full v2 unlikely to teach more about the chemistry layer.
 │   → Decision: back to v1-scope paper or pivot research track.
 │
-├── DOES NOT SCALE  (≥4/5 experiments "does not scale" column)
+├── DOES NOT SCALE  (≥3/4 graded experiments in "does not scale" column)
 │   signatures: §v2.1 drop ≥ 0.2 or solve rate collapsed; §v2.2 BOTH ≤ 10/20
 │   on both pairs; §v2.3 BOTH ≤ 5/20.
 │   → v1 findings are rep-scale-specific.
@@ -153,7 +159,7 @@ v2 probe runs (mechanism tests at intermediate expansion)
 │     capability engineering, not mechanism research.
 │   → Consider pivoting research direction.
 │
-└── PARTIAL  (mixed outcomes, or 3/5 in any column)
+└── PARTIAL  (mixed outcomes, or 2/4 graded in any column)
     → Focused experiment to characterize the limit.
     → Narrower paper claim than full scaling, but still mechanistic.
     → Decide on full v2 based on which specific axes survive.

@@ -16,7 +16,7 @@ All sweeps use the MLX engine + Rust executor path (`_folding_rust.rust_chem_exe
 
 > Does chem-tape's body-invariant-route mechanism (v1 experiments.md §10 + §v1.5a-binary) scale with expressivity, or is it a v1-scale artifact?
 
-Three possible regime outcomes define the decision tree in [architecture-v2.md](architecture-v2.md#decision-tree): scales cleanly, becomes irrelevant, partially survives. Each suite experiment below pre-registers which outcome its result would support.
+Four possible regime outcomes define the decision tree in [architecture-v2.md](architecture-v2.md#decision-tree): scales cleanly, swamped by expressivity, does not scale, partial. Each suite experiment below pre-registers which outcome its result would support. §v2.1's Part A fixed-baseline check is the explicit swamp-detection gate.
 
 ## Suite at a glance
 
@@ -113,29 +113,48 @@ This is the direct constant-indirection analogue of §v1.5a-binary's op-indirect
 
 **Setup.**
 
-Task: `sum_gt_10_AND_has_upper` — binary, returns 1 iff both `sum(input) > 10` AND `input` contains an uppercase char. A solving program computes both sub-predicates, leaves them on the stack, then uses `IF_GT` as an AND-selector. Example body structure (not the only valid program):
+Both tasks operate on the same integer-list input space as v1's `sum_gt_10` (intlist; no string/char inputs involved — this eliminates the input-type confound).
 
+- **Task A — `sum_gt_10_AND_max_gt_5`**: binary. Label 1 iff `sum(input) > 10` AND `max(input) > 5`.
+- **Task B — `sum_gt_10_OR_max_gt_5`**: binary. Label 1 iff `sum(input) > 10` OR `max(input) > 5`.
+
+Both predicates (`sum > 10` via existing SUM + CONST_5 CONST_5 ADD + GT; `max > 5` via v2's REDUCE_MAX + CONST_5 + GT) are native to intlist. Both tasks use v2's `IF_GT` as the compositional primitive. Example solving programs (not the only valid programs; GP may evolve equivalents):
+
+**Task A (AND):**
 ```
-INPUT CHARS MAP_IS_UPPER ANY     # has_upper result → [hu]
-INPUT SUM CONST_5 CONST_5 ADD GT # sum_gt_10 result → [hu, s]
-CONST_0                          # else_val = 0       → [hu, s, 0]
-SWAP                             # swap then reorder  → [hu, 0, s]
-IF_GT                            # pops (else=0, then=hu, cond=s); if s>0 push hu else 0
+CONST_0                           # else_val = 0          → [0]
+INPUT REDUCE_MAX CONST_5 GT       # mg = (max > 5)        → [0, mg]
+INPUT SUM CONST_5 CONST_5 ADD GT  # s = (sum > 10)        → [0, mg, s]
+IF_GT                             # pops s (cond), mg (then), 0 (else)
+                                  # → mg if s>0 else 0  =  AND(mg, s) ✓
+```
+(Prefix `CONST_0` is placed first so the else slot sits at stack-bottom without needing a subsequent `SWAP` — cleaner than build-and-swap.)
+
+**Task B (OR):**
+```
+INPUT SUM CONST_5 CONST_5 ADD GT  # s = (sum > 10)        → [s]
+INPUT REDUCE_MAX CONST_5 GT       # mg = (max > 5)        → [s, mg]
+DUP                               # duplicate mg          → [s, mg, mg]
+IF_GT                             # pops mg (cond), mg (then), s (else)
+                                  # → mg if mg>0 else s  =  OR(mg, s) ✓
+                                  # (valid because mg is binary: mg=1 when >0)
 ```
 
-Stack trace uses v1's existing primitives (INPUT, CHARS, MAP_IS_UPPER, ANY, SUM, ADD, GT, CONST_0, SWAP) plus v2's `CONST_5` and `IF_GT`. No unused primitives; `IF_GT`'s (else, then, cond) signature is respected.
+Primitives used: v1's `INPUT, SUM, ADD, GT, CONST_0, SWAP, DUP` + v2's `CONST_5, REDUCE_MAX, IF_GT`. Both programs respect IF_GT's (else, then, cond) signature with `cond` on top.
 
-Alternation schedule: `{sum_gt_10_AND_has_upper, sum_gt_10_OR_has_upper}` at period 300 × seeds 0-19, K=3 r=0.5 panmictic. The OR variant is the same body with a different last step (e.g., `SWAP CONST_1 SWAP IF_GT`, or a cleaner rewrite; the exact token sequence to swap between AND and OR is an implementation choice — what's pre-registered is that both tasks are binary, compositional, use only v2 primitives, and differ minimally).
+**Body-diff framing (explicit).** Bodies are *not* token-identical. Differences: AND prefixes `CONST_0` to seat the else-branch at stack-bottom; OR uses `DUP` to duplicate cond as then. Token multisets differ by exactly one token — `{CONST_0}` vs `{DUP}` — and the AND/OR programs are otherwise isomorphic. This is a *minimal body-diff* compositional pair, not a body-matched one. §v2.4 therefore tests a slightly weaker compatibility hypothesis than §v2.2 / §v2.3: can the mechanism absorb *structurally isomorphic but one-token-divergent* compositional programs? A body-matched compositional test (using THRESHOLD_SLOT + ADD + GT to vary AND/OR via threshold 1 vs 0, sidestepping IF_GT entirely) is queued as **§v2.4-alt** if §v2.4's result is ambiguous or motivates a cleaner follow-up.
 
-**Fixed-task baselines.** Both tasks' fixed-task solve rates measured first (same as §v2.1's baseline-pairing pattern) to establish max-of-fixed per task. Alternation thresholds below are expressed relative to the lower of the two fixed baselines.
+Alternation schedule: `{sum_gt_10_AND_max_gt_5, sum_gt_10_OR_max_gt_5}` × period 300 × seeds 0-19, K=3 r=0.5 panmictic.
+
+**Fixed-task baselines.** Both tasks' fixed-task solve rates measured first (same pattern as §v2.1) to establish max-of-fixed per task. Let `Fmin = min(F_AND, F_OR)` be the lower of the two fixed baselines. Alternation thresholds are expressed relative to `Fmin`, with an absolute floor to prevent row-overlap at low `Fmin`.
 
 **Pre-registered outcomes.**
 
 | BOTH solves | interpretation |
 |-------------|----------------|
-| ≥ lower fixed − 3 | **Scales:** mechanism survives compositional depth. Cross-regime compatibility isn't limited to single-reduction tasks. |
-| 6-11/20 (or lower-fixed-minus-more-than-3) | **Partial:** compositional depth reduces but doesn't eliminate compatibility. |
-| 0-5/20 | **Does not scale:** compositional depth breaks the mechanism. Chem-tape's body-invariant-route claim applies only to non-compositional task space. |
+| ≥ max(Fmin − 3, 12)  | **Scales:** mechanism survives compositional depth + non-trivial body-diff. |
+| 6 ≤ BOTH < max(Fmin − 3, 12) | **Partial:** compositional depth reduces but doesn't eliminate compatibility. |
+| 0-5/20 | **Does not scale:** compositional depth (and/or the body-diff) breaks the mechanism. Chem-tape's body-invariant-route claim applies only to non-compositional task space. |
 
 **Importance:** if §v2.4 fails but §v2.1-§v2.3 pass, the v2 probe ends with "mechanism scales up to compositional depth 1 but not beyond" — a clear, narrower-than-hoped result.
 
@@ -158,11 +177,14 @@ This experiment is labeled exploratory and reports distributions, not pass/fail 
 
 ## Overall decision tree
 
-Combined outcomes from §v2.1-§v2.5 map to one of three regimes (full decision tree in [architecture-v2.md](architecture-v2.md#decision-tree)):
+The suite has **four graded experiments** (§v2.1, §v2.2, §v2.3, §v2.4) with pre-registered pass/fail columns and **one exploratory experiment** (§v2.5) that reports qualitative distributions only. Combined outcomes map to one of four regimes (full decision tree in [architecture-v2.md](architecture-v2.md#decision-tree)):
 
-- **All-or-most scale (≥4/5 experiments in the "scales" column):** mechanism generalizes. Commit to full v2 + v3 chemistry ablation. Paper-level claim: chem-tape provides scalable evolvability via body-invariant-route mechanism.
-- **Most-or-all fail to scale (≥4/5 in the "does not scale" column):** v1 findings are rep-scale-specific. Full v2 is primarily capability engineering. Paper-level claim narrows to v1 scope. Consider pivoting.
-- **Mixed (no clear majority):** partial scaling with characterizable limits. Focused follow-up to nail the specific failure mode; paper-level claim is about mechanism scope rather than existence.
+- **Scales cleanly (≥3/4 graded in "scales" column + §v2.5 consistent, swamp-check not triggered):** mechanism generalizes. Commit to full v2 + v3 chemistry ablation. Paper-level claim: chem-tape provides scalable evolvability via body-invariant-route mechanism.
+- **Swamped by expressivity (§v2.1 Part A triggers the swamp gate):** v2 fixed-task ceilings are saturated; alternation cannot demonstrate mechanism-attributable lift. Paper claim narrows to v1 scope; full v2 unlikely to teach more about chemistry.
+- **Does not scale (≥3/4 graded in "does not scale" column):** v1 findings are rep-scale-specific. Full v2 is primarily capability engineering. Consider pivoting.
+- **Partial (mixed, or 2/4 graded in any column):** focused follow-up to nail the specific failure mode; paper-level claim is about mechanism scope rather than existence.
+
+§v2.5 never flips a "scales" verdict to "does not scale" on its own; it contributes qualitative evidence. If §v2.5 shows strong canalization that contradicts §v2.1-§v2.4's "scales" picture, flag as partial pending follow-up.
 
 ## What this suite does NOT test (explicitly out of scope)
 
