@@ -40,11 +40,36 @@ def random_genotype(cfg: ChemTapeConfig, rng: random.Random) -> np.ndarray:
 
 
 def mutate(tape: np.ndarray, cfg: ChemTapeConfig, rng: random.Random) -> np.ndarray:
-    """Per-byte fresh uniform resample at rate `mutation_rate`."""
+    """Per-byte fresh uniform resample. Uniform rate `mutation_rate` unless
+    bond-protected mutation is active (experiments.md §9): when
+    `cfg.bond_protection_ratio < 1.0` and the arm has a bond structure
+    (BP / BP_TOPK), cells inside the decode mask mutate at
+    `mutation_rate * bond_protection_ratio` while cells outside the mask
+    mutate at full `mutation_rate`. The mask is computed on the child tape
+    (post-crossover, pre-mutation)."""
     out = tape.copy()
-    for i in range(out.shape[0]):
-        if rng.random() < cfg.mutation_rate:
-            out[i] = rng.randint(0, 15)
+    L = out.shape[0]
+
+    protect_mask: np.ndarray | None = None
+    if cfg.bond_protection_ratio < 1.0 and cfg.arm in ("BP", "BP_TOPK"):
+        from . import engine_numpy as _np_engine
+        tape_2d = out[None, :]
+        if cfg.arm == "BP":
+            protect_mask = _np_engine.compute_longest_runnable_mask(tape_2d)[0]
+        else:  # BP_TOPK
+            protect_mask = _np_engine.compute_topk_runnable_mask(tape_2d, cfg.topk)[0]
+
+    if protect_mask is None:
+        for i in range(L):
+            if rng.random() < cfg.mutation_rate:
+                out[i] = rng.randint(0, 15)
+    else:
+        mu = cfg.mutation_rate
+        mu_prot = mu * cfg.bond_protection_ratio
+        for i in range(L):
+            rate = mu_prot if protect_mask[i] else mu
+            if rng.random() < rate:
+                out[i] = rng.randint(0, 15)
     return out
 
 

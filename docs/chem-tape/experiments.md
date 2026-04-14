@@ -613,20 +613,63 @@ Results from commit `2046d39` (sweep elapsed 19.6s / 20s at 4 workers; 100 runs)
 
 ---
 
-## 9. Soft decode (bonds-as-protection) — queued
+## 9. Soft decode (bonds-as-protection) — 2×2 factorial
 
-**Motivation.** Execute the whole tape (Arm A semantics), but use bond structure only as a mutation-protection signal: bonded cells mutate at a lower rate than non-bonded cells. Bonds become *evolutionary-dynamics structure* rather than an execution gate. This entirely decouples Layer 4 (bond compute) from Layer 5 (decode) and is the cleanest test of "is persistent bonding valuable independent of decode-gating?"
+**Motivation (after §8a).** §8a established that K=3's mechanism is *mutation quarantine via execution-exclusion* — lower-ranked runs hold cells that don't execute, so mutations drift there freely without affecting fitness. The revised §9 asks whether a complementary mechanism — *reducing mutation on the executing scaffold* — adds value on top of selective decode, or whether mutation quarantine via exclusion is sufficient by itself.
 
-**Sweep:** `sweeps/sum_gt_10_soft.yaml` (to create) — contingent on §8 outcome. Expected shape: sum-gt-10 × protection ratio ∈ {1.0 (≡ Arm A), 0.3, 0.1, 0.03} × 10 seeds × pop=1024, gens=1500.
+**Sweep:** `sweeps/sum_gt_10_soft.yaml` — {K=1, K=3} × {r=1.0 (no protection), r=0.1 (10× reduced mutation on executing cells)} × 10 seeds = 40 runs on sum-gt-10 at pop=1024, gens=1500.
 
-**Required control arm.** A matched-count random-cell-protection baseline: same number of cells protected per tape, but selected uniformly at random rather than by bond structure. Without this, a positive result reads as "heterogeneous mutation helps," not "persistent bonds help." The control arm is non-optional for this experiment.
+**Protection semantics.** The protection mask is *the same mask used for decode*: cells that execute are protected at rate `mutation_rate × r`; cells outside the decode mask (including lower-ranked runs and separators) mutate at full `mutation_rate`. This keeps K and protection orthogonal — K controls *what executes*, protection controls *how stably it mutates*. Protecting lower-ranked runs would destroy §8a's quarantine mechanism and is avoided by design.
 
 **Pre-registered outcomes:**
-- **Soft > Arm A AND Soft > random-protected control:** persistent bonds carry evolutionary-dynamics value independent of decode. Vindicates the original architecture premise on weaker (and more interesting) grounds than v1 anticipated.
-- **Soft ≈ random-protected:** heterogeneous mutation helps, but bond *identity* doesn't. The bonding mechanism is not load-bearing; what matters is mutation-rate diversity.
-- **Soft ≈ Arm A:** bonding-as-protection does not produce an evolutionary-dynamics advantage at this scale. Would effectively close the chem-tape direction.
+- **Both protected cells win:** protection adds value independent of decode; mechanism is compound (quarantine + scaffold stability).
+- **K=1 protected wins but K=3 protected doesn't:** protection rescues strict decode but is redundant with K=3's quarantine.
+- **K=1 protected reaches {6, 7}:** protection alone can substitute for selective decode.
+- **Neither protected cell wins (= baseline or worse):** quarantine via exclusion is sufficient; protection adds nothing.
 
-### Status: queued; redesigned as 2×2 factorial. §8a showed K=3's mechanism is *mutation quarantine via execution-exclusion* (lower-ranked runs hold non-executing cells that tolerate mutations). Soft decode's protection mechanism is complementary, not substitutive — the revised §9 is {K=1, K=3} × {uniform μ, bond-protected μ}, testing whether protection adds value on top of selective decode and whether protection alone can reach K=3-unique seeds {6, 7}.
+### Status: complete. Finding: **protection rejected — neither protected cell outperforms its r=1.0 anchor; K=3 protected actively degrades.**
+
+Results from commit `6241c0f` (sweep elapsed 589s / 9.8 min at 4 workers for the 20 novel r=0.1 runs; 20 r=1.0 runs copied bit-exactly from §8 via hash backward-compat).
+
+| cell               | solved / 10 | seeds solved (gens-to-solve)        | max best | median best | median holdout |
+|--------------------|-------------|-------------------------------------|----------|-------------|----------------|
+| K=1, r=1.0 (≡ BP)   | 1 / 10      | s2 (135)                            | 1.000    | 0.500       | 0.500          |
+| K=1, r=0.1          | 1 / 10      | s2 (**768**)                        | 1.000    | 0.500       | 0.500          |
+| K=3, r=1.0 (≡ §8)   | 3 / 10      | s2 (86), s6 (962), s7 (1350)        | 1.000    | 0.508       | 0.500          |
+| K=3, r=0.1          | **1 / 10**  | **s7 (1331)** — s2 and s6 LOST      | 1.000    | 0.516       | 0.502          |
+
+#### What the data shows
+
+1. **Anchors bit-exactly reproduced.** The K=1, r=1.0 and K=3, r=1.0 cells are the same hashes as §3b and §8 respectively (hash excludes `bond_protection_ratio` when = 1.0), so the anchors are the identical prior runs, not noisy re-executions.
+
+2. **Protection does not unlock any new seed.** No K=1-protected seed joins the winning set. No K=3-protected seed joins the winning set (seed 7 was already a K=3 winner at r=1.0; protection doesn't find {6}).
+
+3. **Protection slows discovery on K=1's one solved seed.** K=1 r=1.0 finds seed 2 at gen 135; K=1 r=0.1 finds seed 2 at gen 768 — **5.7× slower**. Reducing mutation on the executing scaffold interferes with the mutational trajectory that leads to scaffold discovery.
+
+4. **Protection breaks K=3's two quickest discoveries.** K=3 r=1.0 solves seeds {2, 6, 7} at gens {86, 962, 1350}. K=3 r=0.1 solves only {7}, at essentially the same gen (1331). **Seeds 2 and 6 are actively lost under protection.** Freezing the executing cells prevents the scaffold from being *assembled* — evolution needs mutation on those very cells to find functional arrangements.
+
+5. **Seed 7 is the only one that survives protection.** Reading this seed's tape (§8a): top-3 runs of lengths 11, 8, 2 with 4 tokens quarantined in runs 4–6. Under r=0.1, the top-3 are protected but the quarantine tail mutates freely; this tape's scaffold is apparently already stable enough by gen 1331 that low executing-cell mutation suffices.
+
+#### Mechanism conclusion
+
+**Bond-protection is not complementary to selective decode; it's antagonistic on sum-gt-10 at r=0.1.** The §9 pre-registered outcome "neither protected cell wins" obtains, strongly. The interpretation:
+
+- Evolution on sum-gt-10 needs ongoing mutation *of the executing scaffold* to find solutions. Protecting those cells freezes a not-yet-functional program and prevents further refinement.
+- The benefit §8a identified — mutation-freedom in quarantined tails — is sufficient by itself. The §9 redesign's hypothesis that protection of executing cells would *add* scaffold stability is falsified at this protection strength.
+- Reducing mutation on the scaffold is a different intervention from *preserving discovered scaffolds against disruption*. The former stops assembly; the latter would matter only if the current selection regime was losing discovered scaffolds too fast, which the §8 data shows is not the case.
+
+**The soft-decode direction is closed at this protection strength.** One remaining design degree of freedom is the protection ratio itself: r=0.1 is aggressive. An r ∈ {0.5, 0.7, 0.9} sweep might reveal a mild-protection regime that helps — or might confirm monotone degradation. Queued as §9b (small follow-up, ~6 min).
+
+#### What §9 forecloses vs. what it leaves open
+
+- **Closed: "bonds persist across generations AS a mutation-rate signal" is not a load-bearing mechanism on sum-gt-10 at r=0.1.** The architecture's v1 premise that bond persistence provides evolutionary-dynamics structure is not rescued by recasting bonds-as-protection, at least not at this design point.
+- **Open: the mild-protection regime (r ∈ [0.5, 0.9]).** A gentler protection might preserve some scaffold stability without blocking discovery. Unlikely to change the qualitative picture (no new seeds unlocked) but could quantify "how much protection is too much."
+- **Open: alternative protection targets.** Protecting *only the longest run* (regardless of K) while allowing mutation on all other cells — including other executing runs — might be the cleanest "bonds = stability of the primary scaffold" test.
+
+### Follow-ups
+
+- **§9b protection-ratio curve** — K=3 × r ∈ {0.3, 0.5, 0.7, 0.9, 1.0} × 10 seeds = 50 runs. Is there a protection sweet spot, or is the effect monotone? ~15 min.
+- **§9c "primary-run-only" protection variant** — protect only the longest bonded run (not the full top-K), keeping K=3 decode. Tests whether the issue is "too much of the scaffold is frozen" vs "any scaffold freezing hurts." Design pending on §9b shape.
 
 ---
 
@@ -661,8 +704,10 @@ Results from commit `2046d39` (sweep elapsed 19.6s / 20s at 4 workers; 100 runs)
 
 11. **§8b K-curve on short-scaffold tasks: optimal K is task-dependent.** count-R (graded, 4-cell scaffold): K=1 dominant at median 11 gens, K=3 3.5× slower. has-upper (binary-plateau, 4-cell): K=1 falls into trivial-constant trap (9/10), K≥3 matches Arm A exactly (10/10 at median 69). Combined with §8 on sum-gt-10 (graded, 14-cell) where K=3 wins uniquely: no single K is uniformly best. K_optimal appears to increase with scaffold length and in the presence of binary-plateau traps. Chem-tape reports should include multiple K values by default — a single-K framing misses the structure entirely. The §1 MVP's "chem-tape vs direct" gate rejection was partially an artifact of fixing K=1 (= Arm B).
 
-12. **Current priorities (in order):**
-    - **§9 redesigned 2×2 factorial** — {K=1, K=3} × {uniform μ, bond-protected μ} on sum-gt-10 seeds 0-9. ~60 runs. Tests whether protection adds value on top of selective decode and whether protection alone reaches K=3-unique seeds.
+12. **§9 soft decode: rejected at r=0.1.** Bond-protection of executing cells does not add value on top of selective decode and actively degrades K=3 (3/10 → 1/10 protected). Protection slows K=1 seed-2 solve by 5.7× (gen 135 → 768) and causes K=3 to lose seeds {2, 6} that it found at r=1.0. Only seed 7 survives protection under K=3. The mechanism reading: sum-gt-10 evolution needs mutation *of the executing scaffold* to assemble solutions; freezing those cells stops assembly. §8a's quarantine-via-exclusion mechanism is sufficient; complementary scaffold-stability mutation reduction is not required and is antagonistic at this strength. **The architecture's "bonds-as-mutation-signal" premise is not rescued by the §9 redesign.** A mild-protection (r ∈ [0.5, 0.9]) follow-up is queued as §9b in case there's a non-antagonistic regime.
+
+13. **Current priorities (in order):**
+    - **§9b mild-protection ratio curve** — K=3 × r ∈ {0.3, 0.5, 0.7, 0.9, 1.0} × 10 seeds. ~15 min. Resolves whether protection degradation is monotone or has a mild-regime sweet spot.
     - **§8d scaffold-length × K interaction** — test whether K_optimal is monotone in scaffold length (predicted by §8b's task-conditional pattern). Combines §7 with K-sweep.
     - **§4f panmictic baseline on seeds 10-19** — clean island-vs-panmictic attribution. 30 runs, ~5 min.
     - **§8c island × K=3** — tests whether §8 and §4 effects compound.

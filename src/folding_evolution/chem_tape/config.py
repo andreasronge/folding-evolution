@@ -20,6 +20,13 @@ class ChemTapeConfig:
     # identical to "BP"; K large ⇒ every non-separator cell executes.
     topk: int = 1
 
+    # Bond-protected mutation (experiments.md §9, 2×2 redesign). r=1.0 ⇒
+    # uniform mutation (unchanged). r<1.0 ⇒ cells in the arm's decode mask
+    # (the *executing* cells) mutate at rate `mutation_rate * r`; cells
+    # outside the mask mutate at full `mutation_rate`. Meaningful only when
+    # arm ∈ {"BP", "BP_TOPK"}; ignored for "A" and "B".
+    bond_protection_ratio: float = 1.0
+
     # Task
     task: str = "count_r"           # "count_r" | "has_upper" | "sum_gt_10"
     n_examples: int = 64
@@ -50,9 +57,13 @@ class ChemTapeConfig:
 
         `topk` is excluded from the hash for arms other than BP_TOPK so that
         existing cached sweep results (A/B/BP) remain addressable unchanged.
+        `bond_protection_ratio` is excluded when it equals its 1.0 default,
+        so pre-§9 cached results remain addressable.
         """
         d = asdict(self)
         if self.arm != "BP_TOPK":
             d.pop("topk", None)
+        if self.bond_protection_ratio == 1.0:
+            d.pop("bond_protection_ratio", None)
         blob = json.dumps(d, sort_keys=True).encode()
         return hashlib.sha1(blob).hexdigest()[:12]
