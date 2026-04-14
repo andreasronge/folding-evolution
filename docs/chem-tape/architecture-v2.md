@@ -35,24 +35,37 @@ Open questions explicitly not answered in v1:
 
 **Not** full folding-Lisp parity. Not quotation tokens, not structured-record inputs, not higher-order combinators. The v2 probe adds a small, targeted set of primitives chosen to (a) enable mechanism tests at richer expressivity, (b) address the specific internal-control falsification §v1.5a-internal-control identified, (c) keep implementation cost low (~1-2 weeks, not months).
 
-### Proposed alphabet expansion (5 primitives)
+### Proposed alphabet expansion (5 primitives + 1 for §v2.3)
 
-| primitive | semantics | role |
-|-----------|-----------|------|
-| `MAP_EQ_E` | map each char to 1 if 'E' else 0 | enables multi-mapping tasks; pairs with existing MAP_EQ_R and MAP_IS_UPPER |
-| `CONST_2` | push literal 2 | direct constant; removes the "build 2 via DUP/ADD" cost |
-| `CONST_5` | push literal 5 | same; unblocks the §v1.5a-internal-control scenario cleanly |
-| `IF_GT` | pop 3 values (else, then, cond); push `then if cond > 0 else else` | conditional dispatch; enables compositional tasks v1 cannot express |
-| `REDUCE_MAX` | array reduce to max element | new aggregator; pairs with REDUCE_ADD for aggregator-variation tests |
+| id | primitive | semantics (precise) |
+|----|-----------|---------------------|
+| 14 | `MAP_EQ_E`       | array op: map each char `c` in top-of-stack array to `1 if c == 'E' else 0`. Stack underflow → push 0. |
+| 15 | `CONST_2`        | push integer literal `2`. No stack consumption. |
+| 16 | `CONST_5`        | push integer literal `5`. No stack consumption. |
+| 17 | `IF_GT`          | value-level selector (eager). Pop three integers — `else_val`, `then_val`, `cond` (in that stack order, `cond` on top). Push `then_val if cond > 0 else else_val`. Both branches are already-evaluated values; not a control operator. `cond > 0` is **strictly** positive (0 → else). Any underflow → push 0. |
+| 18 | `REDUCE_MAX`     | array op: reduce top-of-stack array to `max(elements)`. Empty array → push `0` (matches `REDUCE_ADD`'s empty-sum convention). Underflow → push 0. |
+| 19 | `THRESHOLD_SLOT` | push integer constant whose value is task-bound via `TaskAlphabet.threshold: int`. No stack consumption. Added specifically for §v2.3 (constant-slot indirection). |
 
 Reasons for each:
 
-- **MAP_EQ_E**: existing slot_12 can only bind to MAP_EQ_R or MAP_IS_UPPER. Adding MAP_EQ_E enables tasks like "has R and E both" or "first-char-of-type" that force multi-slot programs.
-- **CONST_2, CONST_5**: §v1.5a-internal-control revealed that requiring different constants (10 vs 5) produces canalization even with matched basin and scaffold. Adding direct constants tests whether the framework survives when the "same body" criterion is genuinely achievable — both tasks can use literal constants without needing structurally different programs.
-- **IF_GT**: enables compositional tasks (branch on a condition) that v1's pure scan-map-aggregate model cannot express. Lets us test whether the mechanism scales to compositional depth.
-- **REDUCE_MAX**: pairs with existing REDUCE_ADD for aggregator-shape variation. Tasks like "max element > threshold" test whether aggregator variation alone breaks body-invariance.
+- **MAP_EQ_E**: v1 slot_12 can only bind to `MAP_EQ_R` or `MAP_IS_UPPER`. Adding `MAP_EQ_E` enables multi-map-binding tasks and richer slot-indirection testing at v2 scale.
+- **CONST_2, CONST_5**: direct integer literals. v1's `sum_gt_5` and `sum_gt_10` required ADD-chains to build their constants; direct literals make the body shorter and remove one confound in §v2.3.
+- **IF_GT**: enables compositional tasks that v1's scan-map-aggregate model cannot express. Value-level selector (not control flow) — both operands always evaluated before IF_GT executes.
+- **REDUCE_MAX**: pairs with existing `REDUCE_ADD` for aggregator-shape variation at matched body settings.
+- **THRESHOLD_SLOT**: the direct analogue of v1's slot_12 but binding an integer constant. Makes §v2.3 a clean body-invariant-route test — both sum_gt_5_slot and sum_gt_10_slot share the identical body `INPUT SUM THRESHOLD_SLOT GT`; only the task's bound integer differs.
 
-Alphabet size grows from 14 active tokens (0-13) to 19 (0-18). Separator ids 14, 15 become 19, 20. Tape length may need to grow to compensate for the slightly denser alphabet. Detailed tokenization is an implementation decision.
+### Slot-binding generalization (explicit design commitment)
+
+The v2 probe **extends** v1's slot mechanism rather than holding it fixed. `TaskAlphabet` is generalized so existing `slot_12` and `slot_13` can bind to any of the new map/aggregator primitives (MAP_EQ_E, REDUCE_MAX), not just the v1 map ops. `THRESHOLD_SLOT` adds a third slot-binding channel for integer constants.
+
+This is the mechanism under test. v1's §v1.5a-binary demonstrated that slot-indirection absorbs *op* variation across regimes (20/20 BOTH); v2 tests whether this generalizes to (a) a broader op set (§v2.2) and (b) *constant* variation (§v2.3).
+
+### Alphabet / tape dimensions
+
+- Token ids 0-19 are primitives (20 total, up from v1's 14). Separator ids shift: `SEP_A = 20`, `SEP_B = 21`. Effective alphabet size 22.
+- **Tape cell storage stays `uint8`** (v1 already uses uint8, not 4-bit packing). No storage-layer changes: the 22-id alphabet fits in a byte unchanged.
+- **Tape length: fixed at 32 (unchanged from v1).** 32 cells was sufficient for v1's 14-token active alphabet. The v2 probe's 20-token active alphabet is denser, but holding tape length constant eliminates one confound when comparing v2-probe solve rates to v1 baselines. If v2 experiments show systematic under-capacity (maximum observed scaffold length saturating at tape bound across all seeds), extending to 48 cells is queued as a separate axis — not rolled into the probe.
+- Mask definitions (`ACTIVE_MASK`, `NON_SEPARATOR_MASK`) extend to ids 0-19 active, 20-21 separators.
 
 ### Scope hygiene
 
@@ -70,7 +83,7 @@ The new primitives unlock roughly four new task classes useful for mechanism tes
 
 1. **Multi-mapping tasks** (using MAP_EQ_R + MAP_EQ_E together): "has_R_and_E" — binary, short-scaffold, requires using two slots coherently. Pairs with existing has_at_least_1_R and has_upper for an extended §v1.5a-binary analogue.
 
-2. **Direct-constant threshold tasks** (using CONST_2, CONST_5): `sum_gt_2_v2`, `sum_gt_5_v2`, `sum_gt_10_v2` — same as existing intlist tasks but using literal constants instead of built-up arithmetic. Directly tests §v1.5a-internal-control's framework limit — if different tasks now share the same scaffold token sequence (differing only in which CONST_* is used), do they co-solve?
+2. **Constant-slot threshold tasks** (using THRESHOLD_SLOT): `sum_gt_5_slot`, `sum_gt_10_slot` — both use the identical body `INPUT SUM THRESHOLD_SLOT GT`; only the task's bound `threshold` value differs. This is the sharpest body-invariance test: two tasks whose required programs are *token-sequence-identical*, differing only in a slot-bound integer. §v2.3 tests whether slot-indirection absorbs constant variation the way §v1.5a-binary showed it absorbs op variation.
 
 3. **Conditional tasks** (using IF_GT): "if sum>threshold output count-R else 0" — compositional depth, requires the body to use multiple primitives coordinated by a conditional. Tests mechanism scaling to compositional structure.
 
@@ -82,21 +95,23 @@ Detailed task specifications are in [experiments-v2.md](experiments-v2.md).
 
 The v1 executor (`src/folding_evolution/chem_tape/executor.py`) dispatches on token id. Changes required:
 
-- New dispatch entries for MAP_EQ_E, CONST_2, CONST_5, IF_GT, REDUCE_MAX.
-- Token-id map updates in `alphabet.py`. Separator ids shift.
-- `ACTIVE_MASK` / `NON_SEPARATOR_MASK` update to cover the expanded id range.
-- `TaskAlphabet` gains capacity to bind additional slots if needed (but initially slot_12, slot_13 retain their v1 semantics; new primitives are direct-dispatched).
-- New task builders in `tasks.py`: `make_has_R_and_E_task`, `make_sum_gt_2_task`, `make_sum_gt_5_v2_task`, etc.
+- New dispatch entries for MAP_EQ_E, CONST_2, CONST_5, IF_GT, REDUCE_MAX, THRESHOLD_SLOT with the precise semantics above (stack-underflow convention: push 0; eager branch evaluation for IF_GT).
+- Token-id map updates in `alphabet.py`; separator ids shift from v1's (14, 15) to (20, 21).
+- `ACTIVE_MASK` / `NON_SEPARATOR_MASK` extend to cover ids 0-19 as active, 20-21 as separators.
+- `TaskAlphabet` extended so `slot_12` and `slot_13` can bind any of MAP_EQ_E, REDUCE_MAX (in addition to v1's MAP_EQ_R, MAP_IS_UPPER, NOP). A new `threshold: int` field binds the value pushed by THRESHOLD_SLOT. This is the v2 probe's core mechanism-scaling lever; §v2.2 and §v2.3 depend on it.
+- New task builders in `tasks.py`: `make_any_char_is_E_task`, `make_sum_gt_slot_task` (slot-bound threshold), etc. Full task specs in [experiments-v2.md](experiments-v2.md).
 
-Hash stability: v1 configs continue to hash unchanged (new primitives only exist when v2-probe sweeps enable them via an `alphabet: "v2_probe"` config field, defaulted to `"v1"`).
+**Hash stability:** v1 configs continue to hash unchanged. New primitives only exist when v2-probe sweeps enable them via an `alphabet: "v2_probe"` config field (default `"v1"`). `threshold` is excluded from the hash when `alphabet="v1"`.
 
-Estimated implementation effort: 1–2 weeks for a focused push, vs months for full v2.
+**Backend and compute.** v2-probe sweeps use the MLX backend + Rust executor path (`_folding_rust.rust_chem_execute_batch`) — same as current v1 sweeps. Experiment compute estimates in [experiments-v2.md](experiments-v2.md) assume 4-worker parallelism; empirical v1 reference sweep (`sum_gt_10_topk` at pop=1024, gens=1500, 20 seeds × 6 conditions) took ~17.6 min, which pins per-experiment expectations.
+
+**Estimated implementation effort:** 1-2 weeks for a focused push (executor dispatches, alphabet wiring, new task builders, tests). Full v2 would be months.
 
 ## Secondary direction: evolvable G→P mapping (exploratory)
 
 Separate from the primary mechanism-scaling question, the v2 probe provides a tractable entry point for the "can the mapping be evolved" question the broader discussion surfaced.
 
-**Level 2 concrete probe:** add a genotype-encoded header field (beyond cell 0 which evolve-K already uses) that determines which subset of a meta-alphabet is active for this individual. Example: 3 header cells × 4 possible primitive-set indices → 64 alphabet configurations. Evolution discovers which primitive set suits the task.
+**Level 2 concrete probe:** add three new genotype-encoded header cells (cells 1, 2, 3; cell 0 remains the evolve-K header if active). **Each of the three cells independently selects** from 4 possible slot-binding assignments, yielding 4³ = 64 per-individual alphabet configurations. Independent selection means the three header loci are orthogonal — mutation and crossover combine bindings from different parents, and evolution explores the 64-configuration space via local moves rather than 1-of-64 jumps. (Contrast: a single header cell indexing into 64 pre-designed alphabet sets would be a lookup table, not evolvable. The independent-cell design is the evolvable version.)
 
 **What this would establish:** whether evolution can discover task-appropriate primitive sets, or whether it collapses to a fixed assignment (analogous to §12's K-collapse). Connects to evolution-of-evolvability literature.
 
@@ -104,25 +119,47 @@ Separate from the primary mechanism-scaling question, the v2 probe provides a tr
 
 ## Decision tree
 
+Four outcomes, each with an operational signature. The 5-experiment suite in [experiments-v2.md](experiments-v2.md) maps to this tree via the combined success criterion: **≥4/5 experiments land in their pre-registered "scales" column → scales cleanly; fixed-baseline check in §v2.1 declares swamped if ceilings are saturated; ≥4/5 in "does not scale" → does not scale; anything else → partial.**
+
 ```
 v2 probe runs (mechanism tests at intermediate expansion)
 │
-├── Mechanism scales cleanly
+├── SCALES CLEANLY  (≥4/5 experiments "scales" column)
+│   signatures:
+│     - §v2.1 alternation solve rate ≥ fixed − 1 AND mean |Δbest| < 0.05
+│     - §v2.2 Pair A AND Pair B both at 15+/20 BOTH
+│     - §v2.3 constant-slot indirection at 15+/20 BOTH
 │   → Full v2 engineering push justified
 │   → v3 chemistry ablation becomes well-motivated
 │   → Evolvable-mapping probe (level 2) becomes natural follow-up
 │
-├── Mechanism becomes irrelevant (swamped by primitives)
-│   → Chem-tape is a minimum-viable-rep story
-│   → Paper-level claim narrows to v1 scope
-│   → Full v2 not scientifically justified
-│   → Consider pivot to different research track
+├── SWAMPED BY EXPRESSIVITY  (mechanism has no headroom to demonstrate)
+│   signature: §v2.1 Part A fixed-task baseline F_10_v2 ≥ 18/20 on sum-family
+│   AND fixed-task baselines on string-family tasks ≥ 19/20. Alternation cannot
+│   improve on ceilings. §v2.1's fixed-baseline gate declares this explicitly.
+│   → Chem-tape's v1 mechanism findings may be partly a minimum-viable-rep
+│     story; richer primitives make the tasks directly solvable without
+│     needing the chemistry layer.
+│   → Paper-level claim narrows: mechanism demonstrated at v1-scale,
+│     supplanted by direct-primitive solvability at v2 scale.
+│   → Full v2 unlikely to teach more about the chemistry layer.
+│   → Decision: back to v1-scope paper or pivot research track.
 │
-└── Mechanism partially survives (scope limits characterizable)
-    → Focused experiment to characterize the limit
-    → Narrower paper claim than full scaling, but still mechanistic
-    → Decide on full v2 based on residual mechanism strength
+├── DOES NOT SCALE  (≥4/5 experiments "does not scale" column)
+│   signatures: §v2.1 drop ≥ 0.2 or solve rate collapsed; §v2.2 BOTH ≤ 10/20
+│   on both pairs; §v2.3 BOTH ≤ 5/20.
+│   → v1 findings are rep-scale-specific.
+│   → Paper-level claim confined to v1 scope; v2 full push primarily
+│     capability engineering, not mechanism research.
+│   → Consider pivoting research direction.
+│
+└── PARTIAL  (mixed outcomes, or 3/5 in any column)
+    → Focused experiment to characterize the limit.
+    → Narrower paper claim than full scaling, but still mechanistic.
+    → Decide on full v2 based on which specific axes survive.
 ```
+
+"Swamped" is a distinct branch from "does not scale" — both may produce similar alternation numbers, but have different mechanism implications and different follow-up actions. The swamp check is an explicit gating step in [experiments-v2.md §v2.1 Part A](experiments-v2.md) rather than inferred retrospectively.
 
 ## References
 
