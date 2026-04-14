@@ -43,4 +43,4 @@ For full completed-experiment list and open questions, see `docs/folding/experim
 
 ## Overnight Runs
 
-Planned: nightly experiment queue runner. User authors `queue.yaml`, runner executes every entry not marked done in `queue.status.json`, writes per-run output to `experiments/output/YYYY-MM-DD/<id>/` including rusage profile. Claude CLI summarization is a separate morning phase — phase 1 never depends on it. Design: [Plans/overnight-queue-runner.md](Plans/overnight-queue-runner.md). Not yet implemented.
+Nightly experiment queue runner. User authors `queue.yaml`, `scripts/run_queue.py` executes every entry not marked done in `queue.status.json`, writes per-run output to `experiments/output/YYYY-MM-DD/<id>/` including rusage profile. Experiments must write outputs under `$RUN_DIR` (exported to child env) for `expect_outputs` to match. Claude CLI summarization (`scripts/summarize_runs.py`) is a separate morning phase — phase 1 never depends on it. Launch: `caffeinate -s uv run python scripts/run_queue.py`. Design: [Plans/overnight-queue-runner.md](Plans/overnight-queue-runner.md).

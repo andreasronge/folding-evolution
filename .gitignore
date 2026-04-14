@@ -8,3 +8,7 @@ experiments/ca/output/
 experiments/chem_tape/output/
 experiments/chemistry-tape/output/
 experiments/output/
+
+# overnight queue runner — per-machine runtime state
+queue.lock
+queue.status.json

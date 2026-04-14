@@ -1,6 +1,6 @@
 # Overnight Queue Runner — Design
 
-**Status:** design finalized, not yet implemented.
+**Status:** implemented (`scripts/queue_lib.py`, `scripts/run_queue.py`, `scripts/summarize_runs.py`). Smoke-tested for done / failed / timeout / suspicious paths. SIGTERM pre-flight on the actual experiment code still pending (see below).
 
 **Purpose:** Run a queue of experiments overnight, capture structured output + profiling data, produce a morning digest via Claude CLI. Explicitly **not** autonomous experiment design — execution only. See conversation 2026-04-14 for the scientific rationale against closed-loop auto-design.
 
@@ -116,9 +116,11 @@ Sweeps done entries without a `summary.json`, calls `claude -p ... --output-form
 ## Child-process hygiene
 
 - `PYTHONUNBUFFERED=1` in child env (don't lose last log lines on crash).
+- `RUN_DIR` exported to child env — **experiments must write result.json and any other outputs under `$RUN_DIR`**, not into `cwd`. The runner checks `expect_outputs` relative to run_dir; writing to cwd leaves outputs in REPO_ROOT and makes the entry land `suspicious`.
 - stdout/stderr streamed to files, not buffered.
 - Output dirs timestamped per run; partial output from a crashed run is preserved.
 - Atomic writes for status file (tmp + rename).
+- Child invoked via `shell=True` so pipe-style commands in queue entries work. The queue is user-authored and trusted.
 
 ## Pre-flight check (before first use)
 
