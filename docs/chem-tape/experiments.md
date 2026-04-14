@@ -1472,9 +1472,68 @@ The population's selection pressure at any given time is for the current task, b
 
 #### Follow-ups
 
-- **§v1.5a: matched-difficulty task pair.** Run task alternation on {count_r, has_upper} only — both 4-cell scaffolds, similar difficulty. Pre-registered prediction: if the asymmetry hypothesis is right, solve rate on both should exceed §v1.5's 70%/30% split. ~10 min.
+- **§v1.5a: matched-difficulty task pair** — see next section.
 - **§v1.5b: period sensitivity.** Repeat at period ∈ {100, 600} to test whether longer regimes let the hardest task recover. ~20 min per period.
 - **Inspection: do the 6 count_r-specialist bodies share a specific architecture?** Zero-compute.
+
+---
+
+## v1.5a. Matched-difficulty task pair (test of the asymmetry reading)
+
+**Hypothesis under test.** §v1.5 proposed that task-axis plasticity has a difficulty-driven ceiling: when one task is substantially harder than the others, the population canalizes toward the easier subset. §v1.5a removes sum_gt_10 from the rotation, leaving only count_r and has_upper — both 4-cell scaffolds with comparable per-task solve rates under fixed baselines. Prediction: if the difficulty-asymmetry reading is correct, the BOTH-solve rate (both tasks to 1.000 simultaneously) should be substantially > 0/20, and per-task solve rates should both exceed §v1.5's 30%/70% split.
+
+**Sweep:** `sweeps/v1_5a_matched_pair.yaml` — K=3 r=0.5 × task schedule {count_r, has_upper} × period 300 × 20 seeds. All other settings match §v1.5 for clean comparison.
+
+### Status: complete. Finding: **hypothesis partially contradicted — BOTH-solve rate still 0/20, but flip dynamics dramatically smoother.**
+
+Results from commit `c1bece0` (sweep elapsed 648s / 10.8 min at 4 workers; 20 runs).
+
+#### Solve-count comparison
+
+| condition              | count_r | has_upper | sum_gt_10 | BOTH (c+h) | ALL 3 |
+|------------------------|---------|-----------|-----------|------------|-------|
+| §v1.5 (3-task)         | 6/20    | 14/20     | 0/20      | 0/20       | 0/20  |
+| **§v1.5a (matched pair)** | **3/20** | **17/20** | n/a      | **0/20**   | n/a   |
+
+**BOTH-solve rate is unchanged: 0/20 in both experiments.** Removing sum_gt_10 did not enable any run to solve both count_r and has_upper simultaneously.
+
+**count_r solves decreased from 6→3** under the matched pair (despite getting 900 gens of count_r regime time vs 600 in §v1.5). **has_upper solves increased from 14→17.** The "pick one task, sacrifice the other" failure mode persists, and removing sum_gt_10 actually shifted several seeds FROM count_r-specialist TO has_upper-solver (seeds 8, 12, 15, 17 switched directions).
+
+#### Flip dynamics are dramatically better
+
+| condition       | mean |Δbest| at flip | mean recovery time |
+|-----------------|---------------------|--------------------|
+| §v1.5 (3-task)  | 0.269               | 69.3 gens          |
+| **§v1.5a (matched pair)** | **0.074** | **0.3 gens**        |
+
+Flip cost dropped ~4× and recovery time is essentially instantaneous (0.3 gens ≈ 0). This is much closer to §10's zero-drop behavior than §v1.5's substantial drops. **Matched-difficulty tasks ARE easier for the population to transition between — but this doesn't translate into solving both.**
+
+#### Refined mechanism reading
+
+The asymmetry hypothesis was partly wrong. Three updates:
+
+1. **The sacrificed task is not strictly "the hardest."** §v1.5a also fails to produce all-task solvers despite having matched difficulty. The "pick one, sacrifice the other" pattern is deeper than difficulty gap.
+
+2. **The sacrificed task appears to be the one with the narrower success criterion.** count_r has graded integer labels (fitness is continuous 0.5..1.0, solving requires ALL 64 examples exactly right). has_upper has binary labels (easier to find bodies that satisfy 64/64). Under alternating pressure, the broader-basin task (has_upper) wins: 17/20 under §v1.5a commit to has_upper, only 3/20 commit to count_r. The same pattern holds in §v1.5 (14/20 vs 6/20).
+
+3. **Matched difficulty improves flip *transitions* but not all-task competence.** The zero-cost transition signature (§10-like) emerges when the two tasks share a difficulty level, but this reflects the fact that the same body works for both transitions in *one direction* (picking the broader basin on each flip) rather than a body that genuinely satisfies both landscapes.
+
+**The combined §v1.5 + §v1.5a picture:** environmental task alternation produces body-level canalization to a single task's basin — specifically the one with the broadest success criterion. The 0/20 all-task solve rate is the signal. Matched difficulty smooths the transition dynamics but does not widen the reachable solution class to "competent at all tasks simultaneously."
+
+This is a more specific and more interesting result than §v1.5's "hardest task sacrificed" reading. The constraint on task-axis plasticity is apparently about *basin width*, not difficulty per se.
+
+#### What §v1.5 + §v1.5a jointly establish
+
+- **Cross-regime compatibility via environmental forcing has a task-axis ceiling.** The §10-level "fully cross-regime compatible bodies" is not replicable on the task axis under the tested regimes.
+- **The bodies that evolve under task alternation are canalized to one task's fitness basin**, with preference for broader-criterion tasks (binary-label) over narrower-criterion (graded-label).
+- **Difficulty asymmetry affects *transition dynamics* but not all-task competence.** Matched pairs smooth transitions; they don't enable all-task solvers.
+- **ALL-task solve rate at 0/20 is the firm ceiling.** Both §v1.5 and §v1.5a hit this.
+
+#### Follow-ups (revised)
+
+- **§v1.5b period sensitivity on the matched pair** — longer regimes (period 600) might let one basin stabilize enough that switches don't disrupt. Lower prior now given §v1.5a's flat BOTH-solve.
+- **Task pair by success-criterion shape** — replace count_r with has_at_least_1_R (binary version, same scaffold). If the basin-width hypothesis is right, two binary tasks should show much higher BOTH-solve rate.
+- **Paper-level narrative:** §10 (zero-cost cross-decode compatibility) + §v1.5/§v1.5a (canalized single-basin commitment on task axis, with basin width as the key factor) establish environmental forcing as a real-but-limited mechanism. The "limited" part is worth taking seriously as a finding.
 
 ---
 
@@ -1521,11 +1580,11 @@ The population's selection pressure at any given time is for the current task, b
 
 17. **§12a/§12b/§12c established: no tested selection-regime modification buys §10's cross-K benefit at the individual level.** Four evolve-K variants at n=20: (§12) panmictic, (§12a) K-prior islands, (§12b) K-niching at α ∈ {0.3, 0.5, 1.0}, (§12c) migrate-body adopt-host-K. All solve counts 2-6/20; none beat K=3 fixed (7/20) or K=3 r=0.5 (11/20). §12b α=0.5 at 6/20 is the closest and not statistically distinguishable from §12 panmictic. **Refined mechanism reading (§12b crucial):** K-homogenization was *one* failure mode, not the binding constraint. §12b's niching completely suppresses homogenization (28% dominant-K share vs §12's 85-96%) yet solve rate doesn't recover. The deeper requirement is **coherent within-basin K-body co-evolution** — selection pushing a body-family under a specific K toward convergence. Forcing K-diversity prevents collapse but also prevents K-specific bodies from refining into solvers. **Side effect:** §12c unlocked seed 5 (previously unsolvable by any condition), reducing the hard floor from {4, 5, 11, 17} to {4, 11, 17}. **Combined verdict:** §10's cross-K benefit is not buyable via any *tested* encoding/selection modification — we have not shown it requires environmental forcing in general, only that it isn't achievable by the mechanisms we tested. K=3 r=0.5 panmictic remains the best chem-tape baseline.
 
-18. **§v1.5 task-alternation: cross-task compatibility generalizes from K-axis, but with difficulty asymmetry.** K=3 r=0.5 panmictic × task schedule {sum_gt_10, count_r, has_upper} × period 300 × 20 seeds. Per-task solve rates on best-of-run: sum_gt_10 0/20, count_r 6/20, has_upper 14/20. **NO run solves all three simultaneously.** Flip dynamics show real cost (~0.28 |Δbest|, ~60-120 gen recovery) — unlike §10's zero drop. Two failure modes: "has_upper + partial count_r" bodies (14/20) and "count_r specialist" bodies (6/20). **The hardest task in a rotation gets sacrificed** — evolution canalizes to the easier subset rather than attempting all-task generalism. Combined §10 + §v1.5 picture: environmental forcing produces cross-regime-compatible bodies on both axes, but the effect is stronger on the decode axis (zero-cost cross-K) than the task axis (partial-cost cross-task), with difficulty asymmetry setting a ceiling on task-axis compatibility.
+18. **§v1.5 / §v1.5a task-alternation: body-level canalization to a single-task basin is the binding constraint, not difficulty asymmetry.** §v1.5 three-task schedule {sum_gt_10, count_r, has_upper} produced 0/20 solve sum_gt_10, 6/20 count_r, 14/20 has_upper, **0/20 all-three**. Initial reading was "hardest task sacrificed." §v1.5a tested this by dropping sum_gt_10: matched-difficulty pair {count_r, has_upper} → 3/20 count_r, 17/20 has_upper, **0/20 BOTH** (same ceiling). Flip dynamics DO improve dramatically under matched difficulty (§v1.5: 0.27 drop / 69 gens; §v1.5a: 0.07 drop / 0.3 gens — §10-like zero-cost transitions). Refined mechanism: **the sacrificed task is the one with the narrower success criterion.** count_r (graded integer labels, exact-match required) loses to has_upper (binary labels, broader basin) under alternation. Combined §10 + §v1.5 + §v1.5a: environmental forcing produces cross-regime-compatible bodies on the decode axis (zero-cost, §10) but only canalized single-basin commitment on the task axis (0/20 all-task solves in both §v1.5 and §v1.5a). Difficulty asymmetry affects transition dynamics; basin width determines which task is sacrificed.
 
-19. **Current priorities (after §v1.5):**
-    - **§v1.5a: matched-difficulty task pair** — run task alternation on {count_r, has_upper} only (both 4-cell scaffolds). Tests whether §v1.5's "sacrifice hardest task" pattern is difficulty-driven. Predicted: solve rate on both exceeds §v1.5's 70%/30% split. ~10 min.
-    - **§v1.5b: period sensitivity** — task alternation at period ∈ {100, 600}. Tests whether longer regimes let the hardest task recover. ~20 min per period.
+19. **Current priorities (after §v1.5 / §v1.5a):**
+    - **Basin-width hypothesis test** — replace count_r with a binary-label variant (e.g. has_at_least_1_R). If basin width is the constraint, two binary tasks should produce substantially > 0/20 BOTH-solves. Cheap follow-up. ~10 min.
+    - **§v1.5b period sensitivity on matched pair** — lower prior after §v1.5a's flat BOTH-solve rate, but worth one sweep.
     - **§8d scaffold-length × K × r** — generalization test.
     - **§12c seed-5 inspection** — zero-compute; understand what architecture unlocked the previously-unreachable seed.
     - **Graded-label K-alternation/evolve-K replication** — later, distinguishes role-switching from canalization.
