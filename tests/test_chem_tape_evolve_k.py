@@ -173,3 +173,70 @@ def test_evolve_k_is_reproducible():
     r2 = run_evolution(cfg)
     assert np.array_equal(r1.best_genotype, r2.best_genotype)
     assert r1.best_fitness == r2.best_fitness
+
+
+# ---------- §12a: K-prior island initialization ----------
+
+
+def test_header_cell_for_k_roundtrip():
+    cfg = ChemTapeConfig(arm="BP_TOPK", evolve_k=True, evolve_k_values="1,3,8,999")
+    # Header cell values should map back to target K via cfg.individual_k.
+    for target_k in [1, 3, 8, 999]:
+        header = cfg.header_cell_for_k(target_k)
+        fake_tape = np.zeros(4, dtype=np.uint8)
+        fake_tape[0] = header
+        assert cfg.individual_k(fake_tape) == target_k
+
+
+def test_header_cell_for_k_raises_for_invalid():
+    cfg = ChemTapeConfig(arm="BP_TOPK", evolve_k=True, evolve_k_values="1,3,8,999")
+    with pytest.raises(ValueError):
+        cfg.header_cell_for_k(5)
+
+
+def test_island_k_prior_list_parses_and_defaults():
+    c_empty = ChemTapeConfig()
+    assert c_empty.island_k_prior_list() == []
+    c_set = ChemTapeConfig(island_k_priors="1,3,8,999,1,3,8,999")
+    assert c_set.island_k_prior_list() == [1, 3, 8, 999, 1, 3, 8, 999]
+
+
+def test_hash_stable_when_island_k_priors_empty():
+    c1 = ChemTapeConfig(arm="BP_TOPK", evolve_k=True)
+    c2 = ChemTapeConfig(arm="BP_TOPK", evolve_k=True, island_k_priors="")
+    assert c1.hash() == c2.hash()
+
+
+def test_island_k_priors_bias_initial_population():
+    """With K priors set, each island's gen-0 population should have cell 0
+    values corresponding to that island's target K."""
+    cfg = ChemTapeConfig(
+        task="count_r", n_examples=16, holdout_size=0,
+        tape_length=16, pop_size=32, generations=1,  # minimal
+        backend="numpy", arm="BP_TOPK",
+        evolve_k=True, evolve_k_values="1,3,8,999",
+        n_islands=4, migration_interval=50, migrants_per_island=1,
+        island_k_priors="1,3,8,999",
+        seed=0,
+    )
+    result = run_evolution(cfg)
+    # gen 0 k_distribution: 8 individuals per island (pop_size/n_islands), 4 priors.
+    # Each prior contributes 8 individuals with matching K, so k_distribution[0]
+    # should be [8, 8, 8, 8] (one per K-value slot).
+    gen0 = result.stats.history[0].k_distribution
+    assert gen0 is not None
+    assert list(gen0) == [8, 8, 8, 8], f"expected uniform K priors, got {gen0}"
+
+
+def test_island_k_priors_reproducible():
+    cfg = ChemTapeConfig(
+        task="count_r", n_examples=16, holdout_size=0,
+        tape_length=16, pop_size=32, generations=4,
+        backend="numpy", arm="BP_TOPK",
+        evolve_k=True, evolve_k_values="1,3,8,999",
+        n_islands=4, island_k_priors="1,3,8,999",
+        seed=42,
+    )
+    r1 = run_evolution(cfg)
+    r2 = run_evolution(cfg)
+    assert np.array_equal(r1.best_genotype, r2.best_genotype)

@@ -297,11 +297,22 @@ def _run_evolution_islands(cfg: ChemTapeConfig) -> EvolutionResult:
     rng = random.Random(cfg.seed)
     task = build_task(cfg, seed=cfg.seed)
 
-    # Initialize islands.
-    islands: list[list[np.ndarray]] = [
-        [random_genotype(cfg, rng) for _ in range(island_size)]
-        for _ in range(n_islands)
-    ]
+    # Initialize islands. §12a: if evolve_k AND island_k_priors is set,
+    # force cell 0 of each island's initial population to the corresponding
+    # K-prior's header value. Length must equal n_islands.
+    k_priors = cfg.island_k_prior_list() if cfg.evolve_k else []
+    if k_priors and len(k_priors) != n_islands:
+        raise ValueError(
+            f"island_k_priors has {len(k_priors)} entries but n_islands={n_islands}"
+        )
+    islands: list[list[np.ndarray]] = []
+    for i in range(n_islands):
+        pop = [random_genotype(cfg, rng) for _ in range(island_size)]
+        if k_priors:
+            header = cfg.header_cell_for_k(k_priors[i])
+            for g in pop:
+                g[0] = np.uint8(header)
+        islands.append(pop)
 
     def _evaluate_all(islands_: list[list[np.ndarray]]):
         flat = [g for isl in islands_ for g in isl]
@@ -314,8 +325,10 @@ def _run_evolution_islands(cfg: ChemTapeConfig) -> EvolutionResult:
     all_fitnesses, island_fits = _evaluate_all(islands)
 
     stats = ChemTapeStatsCollector()
+    evolve_k_values_list = cfg.evolve_k_value_list() if cfg.evolve_k else None
     flat_pop = [g for isl in islands for g in isl]
-    stats.record(0, all_fitnesses, flat_pop, arm=cfg.arm, island_fits=island_fits)
+    stats.record(0, all_fitnesses, flat_pop, arm=cfg.arm,
+                 island_fits=island_fits, evolve_k_values=evolve_k_values_list)
 
     gen = 0
     for gen in range(1, cfg.generations + 1):
@@ -333,7 +346,8 @@ def _run_evolution_islands(cfg: ChemTapeConfig) -> EvolutionResult:
             all_fitnesses, island_fits = _evaluate_all(islands)
 
         flat_pop = [g for isl in islands for g in isl]
-        stats.record(gen, all_fitnesses, flat_pop, arm=cfg.arm, island_fits=island_fits)
+        stats.record(gen, all_fitnesses, flat_pop, arm=cfg.arm,
+                     island_fits=island_fits, evolve_k_values=evolve_k_values_list)
 
         if all_fitnesses.max() >= 1.0:
             break

@@ -46,6 +46,15 @@ class ChemTapeConfig:
     evolve_k: bool = False
     evolve_k_values: str = "1,2,3,4,8,999"
 
+    # §12a: K-prior island initialization. When non-empty AND evolve_k=True
+    # AND n_islands > 1, this sets each island's initial-population K by
+    # forcing cell 0 during initialization. String format is the K value
+    # per island (e.g. "1,1,3,3,8,8,999,999" for 8 islands biased toward
+    # K = {1, 3, 8, 999} with 2 islands each). Length must equal n_islands;
+    # each entry must be in evolve_k_values. Mutation afterward is free
+    # (cell 0 drifts at full rate); selection maintains K if adaptive.
+    island_k_priors: str = ""
+
     # Task
     task: str = "count_r"           # "count_r" | "has_upper" | "sum_gt_10"
     n_examples: int = 64
@@ -93,6 +102,9 @@ class ChemTapeConfig:
         if not self.evolve_k:
             d.pop("evolve_k", None)
             d.pop("evolve_k_values", None)
+        # §12a island K priors: excluded at default empty string.
+        if self.island_k_priors == "":
+            d.pop("island_k_priors", None)
         blob = json.dumps(d, sort_keys=True).encode()
         return hashlib.sha1(blob).hexdigest()[:12]
 
@@ -125,3 +137,19 @@ class ChemTapeConfig:
             return self.topk
         header = int(np.asarray(tape).ravel()[0])
         return values[header % len(values)]
+
+    def island_k_prior_list(self) -> list[int]:
+        """§12a: parse island_k_priors string into a list of K values,
+        one per island. Returns [] if unset."""
+        if not self.island_k_priors:
+            return []
+        return [int(x) for x in self.island_k_priors.split(",") if x.strip()]
+
+    def header_cell_for_k(self, k: int) -> int:
+        """§12a: smallest valid cell-0 value that maps to target K under the
+        current evolve_k_values mapping. Raises if K is not in the value set.
+        """
+        values = self.evolve_k_value_list()
+        if k not in values:
+            raise ValueError(f"K={k} not in evolve_k_values={values}")
+        return values.index(k)  # in range [0, len(values)-1] ⊂ [0, 15]

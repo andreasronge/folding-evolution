@@ -1242,9 +1242,83 @@ Pre-registered outcome (3) holds: **the §10 schedule-diversity benefit is a pop
 
 #### Follow-ups
 
-- **§12a Evolve-K with K-prior islands** — 8 islands, each initialized with a K-bias (say, 2 islands per K value in {1, 3, 8, 999}) and naive migration. Tests whether structural support *preserves K-diversity long enough* for the §10 benefit to be realized at the individual level. **Prior is modest:** §11a showed that migration is insufficient to pool discoveries across islands under K=3 r=0.5 at the tested policy; §12a likely inherits this — islands may preserve K-diversity locally but migration may not propagate cross-K-compatible body-K combinations effectively. Running it to measure the effect, not to expect a fix. ~15 min compute.
-- **§12b Evolve-K with frequency-dependent selection or K-niching** — explicitly penalize K homogeneity in selection. More aggressive design; consider only if §12a fails.
-- **Graded-label evolve-K replication** — later follow-up. Would help distinguish "evolve-K can't find K-diverse solutions" from "no K-diverse solutions exist for this task."
+- **§12b Evolve-K with frequency-dependent selection or K-niching** — explicitly penalize K homogeneity in selection. More aggressive design; raised in priority after §12a's null result.
+- **Graded-label evolve-K replication** — later follow-up.
+
+---
+
+## 12a. Evolve-K with K-prior islands
+
+**Design.** 8 islands × 128 = 1024 total. Initialization forces cell 0 of each island's starting population to match a target K: islands {0, 1} → K=1; {2, 3} → K=3; {4, 5} → K=8; {6, 7} → K=999. After gen 0, mutation operates freely on cell 0 (K can drift within islands). Ring migration every 50 gens, 2 migrants/island, matches §4/§11 policy. Evolve-K values restricted to `{1, 3, 8, 999}` (4 values) to align with the 4 K-priors.
+
+**Pre-registered prior (modest):** §11a showed migration is insufficient to pool discoveries under K=3 r=0.5 at the tested island policy. §12a inherits this risk — structural support may preserve K-diversity locally but migration may not propagate cross-K-compatible body-K combinations effectively.
+
+### Status: complete. Finding: **K-diversity preserved, but solve rate does not improve over panmictic evolve-K.**
+
+Results from commit `ddfa565` (sweep elapsed 448s / 7.5 min at 4 workers; 20 runs).
+
+#### Solve counts (n=20)
+
+| condition               | solved/20 | seeds                              |
+|-------------------------|-----------|------------------------------------|
+| Arm A panmictic         | 5/20      | 2, 8, 9, 14, 18                    |
+| K=3 fixed               | 7/20      | 2, 6, 7, 13, 14, 18, 19            |
+| K=999 fixed             | 5/20      | 2, 8, 9, 14, 18                    |
+| K-alt period=300        | 7/20      | 0, 2, 7, 9, 13, 14, 19             |
+| **K=3 r=0.5 panmictic** | **11/20** | 0, 2, 3, 6, 7, 8, 10, 13, 14, 15, 18 |
+| Evolve-K panmictic (§12)| 5/20      | 2, 9, 14, 15, 18                   |
+| **Evolve-K K-prior islands (§12a)** | **5/20** | **1, 2, 6, 14, 19**          |
+
+§12a matches §12's panmictic count exactly (5 each), but on a partly different seed set: §12a gains {1, 6, 19} and loses {9, 15, 18}. Two of the §12a-unique seeds (6, 19) are K=3-specific seeds fixed K=3 solved but §12 missed; seed 1 is a seed only A-islands had previously solved.
+
+Pairwise McNemar: §12a vs §12 panmictic → 3/3 disc=6 p=0.66 (no statistical difference). §12a vs K=3 r=0.5 → 2/8 disc=10 p=0.989 (significantly worse, borderline — K=3 r=0.5 > §12a at p=0.055).
+
+#### K-diversity preserved (the positive §12a finding)
+
+Final K distributions (counts out of pop=1024 with 4 K slots {1, 3, 8, 999}):
+
+| seed | solved? | final K distribution: {1, 3, 8, 999} | dominant K share |
+|------|---------|-------------------------------------|------------------|
+| ★ 1  | yes     | [161, 308, 280, 275] | 30% (K=3) — near uniform |
+| ★ 2  | yes     | [52, 138, 424, 410]  | 42% (K=8)                |
+| ★ 6  | yes     | [89, 223, 203, 509]  | 50% (K=999)              |
+| ★ 14 | yes     | [54, 591, 221, 158]  | 58% (K=3)                |
+| ★ 19 | yes     | [37, 455, 309, 223]  | 44% (K=3)                |
+| 0 (fail) | no  | [194, 359, 214, 257] | near uniform             |
+| typical failing run | no | similar spread 150-400 per K | mixed  |
+
+**Contrast with §12 panmictic's winners**, where 3/5 winning runs had the dominant K at 85-96%. Here the most dominant K in any winner is 58% (seed 14). **K-diversity is maintained throughout evolution under K-prior islands.** This is a real positive finding — the pre-registered structural-support mechanism does what it was designed to do.
+
+#### But solve rate doesn't improve
+
+Despite preserving K-diversity, §12a does not match K=3 fixed (7/20) or K-alt period=300 (7/20), and does not approach K=3 r=0.5 (11/20). Possible mechanism sketch (speculative):
+
+- **Per-island selection scale is still the binding constraint (§11a).** Each island has pop=128, which is too small to assemble rare multi-chunk scaffolds under r=1.0 for most seeds. Under K=3 r=0.5 at pop=1024 panmictic, the scaffold-stability + large-pool combination works; islands at pop=128 lose the scale.
+- **Migration doesn't propagate K-compatible bodies.** Four of five §12a winners came from islands whose prior-K differed from the best-individual's final K — seed 2 solved in an island biased K=8 but the winner has K=3; seed 6 solved in a K=1-biased island but winner has K=999. So K drift + migration brought K-diverse individuals together at some point, but the resulting body-K combinations did not spread to other islands.
+
+This is consistent with §11a's "migration is insufficient to pool discoveries" reading. K diversity is *preserved*, which is what islands are designed to do; but the *compounding* of K diversity with body evolution — which would realize §10's cross-K benefit at the individual level — doesn't happen under naive ring migration.
+
+#### What §12a + §12 jointly establish
+
+The §10 cross-K benefit is specifically a **population-level schedule-diversity** effect tied to external K variation:
+
+1. **§10 (K-alt):** External K schedule forces every generation's population to be functional under the current K. Over many flips, evolution finds bodies whose tail content is K-neutral. Solve count 7/20 at period=300. Benefit realized.
+2. **§12 (evolve-K panmictic):** K is evolvable but there's no external schedule. Selection homogenizes the population toward a body-compatible K basin. K diversity collapses. Solve count 5/20 = Arm A baseline.
+3. **§12a (evolve-K K-prior islands):** Structural support maintains K diversity but doesn't compound with body evolution. Migration alone is insufficient to propagate cross-K bodies. Solve count 5/20.
+
+**The §10 benefit is not buyable at the individual level under the tested machinery.** It requires environmental K variation (external forcing) or something beyond standard island migration to compound K-diversity with body evolution.
+
+#### Implications and next experiments
+
+- **Any "evolve-K" substitute for external K-scheduling needs non-standard machinery.** Candidates: frequency-dependent selection (§12b), K-niching, or "migrate body, adopt host K" (decouple body from evolved decode context during migration).
+- **K=3 r=0.5 panmictic remains best chem-tape baseline.** Neither evolve-K variant (panmictic or K-islands) touches it.
+- **The §10 cross-K finding remains interesting** but its scope is now clarified: it's a claim about what evolution can do under environmental variation, not a claim about intrinsic representational plasticity.
+
+#### Follow-ups
+
+- **§12b frequency-dependent selection / K-niching** — explicit anti-homogenization pressure in selection. The most direct test of "does any selection regime recover §10's benefit at the individual level?" Raised in priority after §12a.
+- **"Migrate body, adopt host K" variant** — pre-registered design decision in §10's Design Notes. Tests whether the migration policy was the wrong default for K-prior islands.
+- **§v1.5 task-alternating** — separate axis; §10/§12/§12a's findings on K-alternation motivate running task-alternation with the same pre-registration framework.
 
 ---
 
@@ -1289,12 +1363,14 @@ Pre-registered outcome (3) holds: **the §10 schedule-diversity benefit is a pop
 
 16. **§10a / §12 established: individual-level plasticity not buyable under panmictic selection.** §10a winning tapes on seeds 0/9 contain non-trivial tail content that executes under K=999 without breaking output — cross-K-compatible by selection, not blank-padding. §12 evolve-K panmictic: 5/20 (= Arm A baseline; directionally below K=3 fixed's 7/20 but not statistically distinguishable at n=20; significantly below K=3 r=0.5 at McNemar p=0.035). **Populations homogenize in K** — but the mechanism is not simple winner-K hitchhiking: on seeds 14, 15, 18 the best individual's K differs from the population modal K. Rather, selection finds body-families that are high-fitness under a narrow K region, and tournament/elitism collapses the population onto that K basin regardless of which specific K the top individual happens to carry. Pre-registered outcome (3) — **§10's cross-K benefit is population-level schedule diversity, not individual-level plasticity.** K=3 r=0.5 panmictic remains the best chem-tape baseline on sum-gt-10 at n=20.
 
-17. **Current priorities (reordered after §12):**
-    - **§12a Evolve-K with K-prior islands** — primary next experiment, with modest prior. 8 islands with K-bias initialization + naive ring migration. Tests whether structural K-diversity preservation lets evolve-K realize the §10 benefit at the individual level. **§11a already showed migration is insufficient to pool discoveries under the tested island policy** — §12a inherits this risk and is framed explicitly as "can structural support preserve K-diversity long enough?" rather than "will islands fix evolve-K?".
-    - **§v1.5 task-alternating** — reframed per §10 and §12: tests whether cross-regime-compatible bodies evolve under task variation.
+17. **§12a established: K-diversity preserved but does NOT compound with body evolution under naive island migration.** Evolve-K with K-prior islands (8 islands × 128, 2 per K ∈ {1, 3, 8, 999}) solves 5/20 — tied with evolve-K panmictic (§12), on a partly different seed set {1, 2, 6, 14, 19}. Final K distributions much more uniform than §12 panmictic (no single K > 58% in any winner vs §12's 85-96% dominance), confirming that structural K-diversity preservation *works as designed*. But migration doesn't propagate cross-K-compatible bodies across K-specialized islands; §11a's "migration insufficient to pool discoveries" reading inherits cleanly to this setting. **Combined §10 + §12 + §12a picture:** the §10 cross-K benefit is specifically a population-level, externally-driven schedule-diversity effect — it is not buyable at the individual level under either panmictic evolve-K or K-prior islands with standard migration. K=3 r=0.5 panmictic remains the best chem-tape baseline.
+
+18. **Current priorities (reordered after §12a):**
+    - **§12b Evolve-K with frequency-dependent selection / K-niching** — the most direct test of "does any selection regime recover §10's benefit at the individual level?" Promoted in priority after §12a confirmed naive structural support is insufficient.
+    - **"Migrate body, adopt host K" variant** — targeted migration-policy redesign for K-prior islands (body migrates, host K is applied). Tests whether the migration default was the wrong choice, not whether islands-as-class fail.
+    - **§v1.5 task-alternating** — orthogonal axis; §10/§12/§12a findings motivate running task-alternation under the same framework.
     - **§8d scaffold-length × K × r** — generalization test.
-    - **§12b Evolve-K with frequency-dependent selection** — aggressive alternative if §12a fails.
-    - **Graded-label K-alternation/evolve-K replication** — later; distinguishes role-switching from canalization via per-example output.
-    - **Type-closed top-K decode criterion** — cheap side experiment; low prior.
+    - **Graded-label K-alternation/evolve-K replication** — later.
+    - **Type-closed top-K decode criterion** — low prior.
 
 See [architecture.md](architecture.md) for the substrate specification, [findings.md](../findings.md) for the prior Elixir-era folding results that motivated the "differential outcome" expectation, and [coevolution.md](../coevolution.md) for the coevolution designs that produced the scaffold-preservation framing.
