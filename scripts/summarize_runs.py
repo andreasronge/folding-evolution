@@ -30,44 +30,75 @@ DEFAULT_OUTPUT_ROOT = REPO_ROOT / "experiments" / "output"
 LOG_TAIL_LINES = 80
 SUMMARIZE_TIMEOUT_SECONDS = 180
 SUMMARY_PROMPT_TEMPLATE = """\
-You are reviewing one overnight experiment run from a research project on \
-developmental encodings for genetic programming. Produce a structured summary \
-of this single run.
+You are producing a morning-triage summary for ONE overnight experiment run. \
+Project context (developmental encodings for genetic programming) is in \
+CLAUDE.md. This is one data point, not a finding.
 
-Metadata (JSON):
+Discipline rules (follow strictly):
+- Do NOT read other files or use tools. Summarize ONLY from the data below.
+- Do NOT elevate a single run to a finding. Findings live in \
+docs/<track>/findings.md and require replication + commit anchoring.
+- Do NOT invent numbers. If a metric is missing from the data below, leave it out.
+- Prefer empty strings over speculative filler in the suggestion fields.
+- Target: a human should be able to skim this at 7am in under 10 seconds.
+
+Input — metadata (run config + timing + rusage profile):
 ```
 {metadata}
 ```
 
-Last {tail_lines} lines of stdout:
+Input — last {tail_lines} lines of stdout:
 ```
 {stdout_tail}
 ```
 
-Last {tail_lines} lines of stderr:
+Input — last {tail_lines} lines of stderr:
 ```
 {stderr_tail}
 ```
 
-Result file (result.json, if present):
+Input — result file (result.json, if present):
 ```
 {result_snippet}
 ```
 
-Return ONLY a JSON object with these keys:
-- "one_line": 1-sentence summary of what this run did and how it ended.
-- "headline_numbers": dict of the 2-5 most important numeric results \
-(empty dict if none in result.json / logs).
-- "anomalies": list of suspicious signals (warnings in stderr, non-convergence, \
-unusual rusage, unexpected distributions). Empty list if none.
-- "next_step_suggestion": one sentence suggesting a follow-up IF this run \
-clearly opens a natural next question. Empty string if unclear or the run is \
-not worth following up.
-- "falsification_candidate": one sentence proposing an experiment that would \
-falsify or stress-test the apparent finding. Empty string if the run was \
-inconclusive.
+Return ONLY a JSON object with these keys. Values are short strings (<=150 \
+chars) unless otherwise noted.
 
-Be terse and specific. Do not speculate beyond the data.
+{{
+  "one_line": "WHAT was run, HOW it ended, the SINGLE most important number if applicable. Pure observation, no interpretation.",
+  "headline_numbers": {{}},
+  "anomalies": [],
+  "attention_required": false,
+  "attention_reason": "",
+  "next_step_suggestion": "",
+  "falsification_candidate": ""
+}}
+
+Field guidance:
+
+- headline_numbers: 0-5 key numeric results extracted verbatim from \
+result.json or logs. Do NOT include wall_seconds, exit_code, or \
+cpu_efficiency (they are already in metadata). Empty dict if result.json \
+is absent or has no meaningful metrics.
+
+- anomalies: stderr warnings, unusual rusage (cpu_efficiency under 2.0 on \
+an 8-core machine, peak_rss far outside peers), truncated/malformed \
+result.json, result shape contradicting the run's apparent intent. Do NOT \
+include routine progress messages, normal completion, or exit code 0.
+
+- attention_required: true ONLY if a human must inspect this BEFORE \
+tonight's queue starts. Examples that qualify: silent data corruption \
+(status=done but result.json has impossible values), environment issue that \
+will recur, resource exhaustion. Routine failures and expected nulls do \
+NOT qualify — those go through normal triage.
+
+- next_step_suggestion: one sentence IF this run clearly opens a \
+well-defined next question. Empty string otherwise. No weak suggestions.
+
+- falsification_candidate: one sentence proposing an experiment that \
+would stress-test the apparent signal. Empty string if the run shows no \
+signal worth stressing.
 """
 
 
