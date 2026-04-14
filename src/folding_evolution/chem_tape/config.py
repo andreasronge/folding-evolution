@@ -71,6 +71,15 @@ class ChemTapeConfig:
     # K-plus-body co-propagation) is the missing ingredient.
     migrate_body_adopt_host_k: bool = False
 
+    # §v1.5: task-alternating schedule (task-axis analogue of §10 K-alternation).
+    # When period > 0 AND values is non-empty, the active task cycles through
+    # `task_alternating_values` every `period` generations:
+    #   current_task(gen) = values[(gen // period) % len(values)]
+    # The `task` field is used as fallback when alternation is inactive.
+    # Values are comma-separated task names (e.g. "sum_gt_10,count_r,has_upper").
+    task_alternating_period: int = 0
+    task_alternating_values: str = ""
+
     # Task
     task: str = "count_r"           # "count_r" | "has_upper" | "sum_gt_10"
     n_examples: int = 64
@@ -126,6 +135,10 @@ class ChemTapeConfig:
             d.pop("k_niching_alpha", None)
         if not self.migrate_body_adopt_host_k:
             d.pop("migrate_body_adopt_host_k", None)
+        # §v1.5: task-alternating excluded at default-off.
+        if self.task_alternating_period == 0 and self.task_alternating_values == "":
+            d.pop("task_alternating_period", None)
+            d.pop("task_alternating_values", None)
         blob = json.dumps(d, sort_keys=True).encode()
         return hashlib.sha1(blob).hexdigest()[:12]
 
@@ -174,3 +187,21 @@ class ChemTapeConfig:
         if k not in values:
             raise ValueError(f"K={k} not in evolve_k_values={values}")
         return values.index(k)  # in range [0, len(values)-1] ⊂ [0, 15]
+
+    def task_alternating_value_list(self) -> list[str]:
+        """§v1.5: parse task_alternating_values into a list of task names."""
+        if not self.task_alternating_values:
+            return []
+        return [x.strip() for x in self.task_alternating_values.split(",") if x.strip()]
+
+    def current_task(self, generation: int) -> str:
+        """§v1.5: return the active task name at this generation.
+        When alternation inactive, returns self.task.
+        """
+        if self.task_alternating_period <= 0 or not self.task_alternating_values:
+            return self.task
+        values = self.task_alternating_value_list()
+        if not values:
+            return self.task
+        idx = (generation // self.task_alternating_period) % len(values)
+        return values[idx]

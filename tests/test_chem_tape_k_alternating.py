@@ -104,9 +104,12 @@ def test_flip_events_recorded_and_structured():
     # Loop runs gens 1..12 inclusive, so flips happen at gens 3, 6, 9, 12 → 4 events.
     assert len(result.flip_events) == 4
     for ev in result.flip_events:
+        # K-flip entries now include flip_type="k" tag.
         assert set(ev.keys()) == {
-            "flip_gen", "old_k", "new_k", "pre_flip_best", "post_flip_best", "recovery_gen",
+            "flip_gen", "flip_type", "old_k", "new_k",
+            "pre_flip_best", "post_flip_best", "recovery_gen",
         }
+        assert ev["flip_type"] == "k"
         assert ev["old_k"] != ev["new_k"]
     assert [(e["flip_gen"], e["old_k"], e["new_k"]) for e in result.flip_events] == [
         (3, 3, 999), (6, 999, 3), (9, 3, 999), (12, 999, 3),

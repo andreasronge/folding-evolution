@@ -1405,6 +1405,79 @@ Across the four evolve-K variants at n=20 on sum-gt-10:
 
 ---
 
+## v1.5. Task-alternating regime shift — task-axis analogue of §10
+
+**Motivation.** §10 showed environmental K alternation produces cross-K-compatible bodies at zero flip cost. §12-§12c established this is not buyable via internal encoding. §v1.5 asks the task-axis analogue: does environmental *task* alternation produce cross-*task*-compatible bodies? Structurally the same question on a different axis.
+
+**Expected weaker-than-§10 positive.** K alternation changes decode on the same landscape. Task alternation changes the landscape itself — different inputs, different correct outputs, different slot-op bindings (slot 12 = NOP for sum_gt_10, MAP_EQ_R for count_r, MAP_IS_UPPER for has_upper). A single body being competent under all three is a much narrower target than a body robust to decode rule variation.
+
+### Design
+
+- **Baseline:** K=3 r=0.5 panmictic (current best chem-tape).
+- **Task schedule:** `{sum_gt_10, count_r, has_upper}`, period 300 (matches §10's successful period), cycle order as listed.
+- **Seeds:** 0-19 (matching §10).
+- **Per-run metrics:** best-of-run genotype evaluated under *each* task (cross_task_fitness), plus flip-event dynamics (pre/post/recovery at each task transition).
+
+Pre-registered outcome criteria (parallel to §10):
+1. Smooth switching: small post-flip drops; cross-task high under all 3.
+2. Abrupt collapse: large drops, no recovery, low cross-task.
+3. Canalized generalist: modest per-task fitness under all 3, peak per-task below fixed-task baselines.
+4. Monotone degradation: each flip worsens.
+
+### Status: complete. Finding: **outcome (3) canalized generalism with a failure asymmetry — the hardest task is sacrificed.**
+
+Results from commit `3eefd4e` (sweep elapsed 660s / 11 min at 4 workers; 20 runs).
+
+#### Per-task solve rates (cross_task_fitness ≥ 0.999 on best-of-run)
+
+| task       | solved/20 | mean cross-task fitness | median | min   |
+|------------|-----------|-------------------------|--------|-------|
+| sum_gt_10  | **0/20**  | 0.500 (flat)            | 0.500  | 0.500 |
+| count_r    | 6/20      | 0.950                   | 0.953  | 0.891 |
+| has_upper  | 14/20     | 0.850                   | 1.000  | 0.500 |
+| **ALL 3**  | **0/20**  | —                       | —      | —     |
+
+**No run solves all three tasks simultaneously.** No run even breaks past 0.500 on sum_gt_10 — every best-of-run genotype scores exactly 0.500 on the hardest task in the schedule. Meanwhile, count_r averages 0.950 (high but rarely perfect) and has_upper solves in 14/20 runs.
+
+#### Flip-event dynamics (contrast with §10's zero drop)
+
+Across the 20 runs × 5 flips each = 100 flip events:
+- Mean |Δbest| at flip: **~0.28** (substantial; §10 was 0.000).
+- Mean recovery time: **~60-120 generations** (§10 was 0 gens).
+- Per-seed transitions are uniform by schedule: sum→count → count→has → has→sum → sum→count → count→has.
+
+Flips produce real fitness drops and real recovery costs — unlike §10, bodies do NOT have zero-cost task switching.
+
+#### Two failure modes (seed-level)
+
+Inspecting cross-task fitness per seed, runs split into two clusters:
+
+- **14/20: "has_upper + partial count_r" bodies** — cross-task fitness pattern (0.500, 0.88-0.97, 1.000). Best_live during training is 1.000 (solved has_upper at some point). Sacrifices sum_gt_10 completely, gets close on count_r.
+- **6/20: "count_r specialist" bodies** — pattern (0.500, 1.000, 0.500). Best_live stays at 0.500 (never reaches 1.0 under the final-gen task). Solves count_r perfectly but fails both others.
+
+No seed produces a body that solves even two tasks simultaneously. Best-of-run genotypes commit to one specialization or the other under the alternation pressure.
+
+#### Mechanism
+
+sum_gt_10 is structurally the hardest task — 14-cell scaffold, specific token pattern for accumulating and comparing to 10. count_r and has_upper share 4-cell scaffolds and rely on slot-12 ops (MAP_EQ_R and MAP_IS_UPPER respectively). Under task alternation, the body is pulled three ways; no single body has enough specialization to solve sum_gt_10's long scaffold while also carrying the short-scaffold ops for the other two.
+
+The population's selection pressure at any given time is for the current task, but the population carries genotypic memory across transitions. Evolution finds bodies that are "good enough" on the two easy tasks and sacrifices the hard one entirely (an all-or-nothing choice on sum_gt_10: either the 14-cell scaffold is present, or it scores 0.500). **The "sacrifice the hardest task" pattern is a specific form of canalized generalism, not predicted in the pre-registration.**
+
+#### What §v1.5 establishes
+
+1. **Environmental forcing → cross-regime compatibility generalizes from K (§10) to tasks, but with a difficulty asymmetry.** K alternation produced zero-cost cross-K bodies; task alternation produces positive cross-task competence (14/20 solve has_upper, 6/20 solve count_r) but with non-zero flip costs (~0.28 drop, ~60-120 gen recovery) and complete sacrifice of the hardest task.
+2. **The hardest task in a rotation gets abandoned.** This is a sharper, specific failure mode than the pre-registered "canalized generalist" framing. Evolution under task alternation selects for bodies that satisfy the easier tasks reliably rather than attempting to span all three.
+3. **Task-axis plasticity has a ceiling determined by the difficulty gap between rotation members.** When one task is substantially harder than the others, the population canalizes toward the easier subset rather than producing true all-task generalists.
+4. **Paper-level narrative now has a symmetric pair.** The decode axis (§10, zero-cost cross-K) and the task axis (§v1.5, partial-cost cross-task) together establish environmental forcing as a real mechanism for producing cross-regime compatibility in chem-tape, with the caveat that difficulty asymmetry in the regime set limits how complete that compatibility can be.
+
+#### Follow-ups
+
+- **§v1.5a: matched-difficulty task pair.** Run task alternation on {count_r, has_upper} only — both 4-cell scaffolds, similar difficulty. Pre-registered prediction: if the asymmetry hypothesis is right, solve rate on both should exceed §v1.5's 70%/30% split. ~10 min.
+- **§v1.5b: period sensitivity.** Repeat at period ∈ {100, 600} to test whether longer regimes let the hardest task recover. ~20 min per period.
+- **Inspection: do the 6 count_r-specialist bodies share a specific architecture?** Zero-compute.
+
+---
+
 ## Planned v2 experiments (contingent on §2 passing)
 
 ### E. Expressivity parity vs folding-Lisp on structured-record benchmarks
@@ -1448,8 +1521,11 @@ Across the four evolve-K variants at n=20 on sum-gt-10:
 
 17. **§12a/§12b/§12c established: no tested selection-regime modification buys §10's cross-K benefit at the individual level.** Four evolve-K variants at n=20: (§12) panmictic, (§12a) K-prior islands, (§12b) K-niching at α ∈ {0.3, 0.5, 1.0}, (§12c) migrate-body adopt-host-K. All solve counts 2-6/20; none beat K=3 fixed (7/20) or K=3 r=0.5 (11/20). §12b α=0.5 at 6/20 is the closest and not statistically distinguishable from §12 panmictic. **Refined mechanism reading (§12b crucial):** K-homogenization was *one* failure mode, not the binding constraint. §12b's niching completely suppresses homogenization (28% dominant-K share vs §12's 85-96%) yet solve rate doesn't recover. The deeper requirement is **coherent within-basin K-body co-evolution** — selection pushing a body-family under a specific K toward convergence. Forcing K-diversity prevents collapse but also prevents K-specific bodies from refining into solvers. **Side effect:** §12c unlocked seed 5 (previously unsolvable by any condition), reducing the hard floor from {4, 5, 11, 17} to {4, 11, 17}. **Combined verdict:** §10's cross-K benefit is not buyable via any *tested* encoding/selection modification — we have not shown it requires environmental forcing in general, only that it isn't achievable by the mechanisms we tested. K=3 r=0.5 panmictic remains the best chem-tape baseline.
 
-18. **Current priorities (after closing the evolve-K line):**
-    - **§v1.5 task-alternating** — now the clear next experiment. Tests whether the "environmental forcing drives cross-regime compatibility" finding from §10 generalizes from K to tasks.
+18. **§v1.5 task-alternation: cross-task compatibility generalizes from K-axis, but with difficulty asymmetry.** K=3 r=0.5 panmictic × task schedule {sum_gt_10, count_r, has_upper} × period 300 × 20 seeds. Per-task solve rates on best-of-run: sum_gt_10 0/20, count_r 6/20, has_upper 14/20. **NO run solves all three simultaneously.** Flip dynamics show real cost (~0.28 |Δbest|, ~60-120 gen recovery) — unlike §10's zero drop. Two failure modes: "has_upper + partial count_r" bodies (14/20) and "count_r specialist" bodies (6/20). **The hardest task in a rotation gets sacrificed** — evolution canalizes to the easier subset rather than attempting all-task generalism. Combined §10 + §v1.5 picture: environmental forcing produces cross-regime-compatible bodies on both axes, but the effect is stronger on the decode axis (zero-cost cross-K) than the task axis (partial-cost cross-task), with difficulty asymmetry setting a ceiling on task-axis compatibility.
+
+19. **Current priorities (after §v1.5):**
+    - **§v1.5a: matched-difficulty task pair** — run task alternation on {count_r, has_upper} only (both 4-cell scaffolds). Tests whether §v1.5's "sacrifice hardest task" pattern is difficulty-driven. Predicted: solve rate on both exceeds §v1.5's 70%/30% split. ~10 min.
+    - **§v1.5b: period sensitivity** — task alternation at period ∈ {100, 600}. Tests whether longer regimes let the hardest task recover. ~20 min per period.
     - **§8d scaffold-length × K × r** — generalization test.
     - **§12c seed-5 inspection** — zero-compute; understand what architecture unlocked the previously-unreachable seed.
     - **Graded-label K-alternation/evolve-K replication** — later, distinguishes role-switching from canalization.

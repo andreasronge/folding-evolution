@@ -29,10 +29,15 @@ class EvolutionResult:
     stats: ChemTapeStatsCollector
     generations_run: int
     holdout_fitness: float | None
-    # §10: per-flip-event metrics under K-alternating schedule. Empty list
-    # when alternation is inactive. Each entry is a dict with keys:
-    #   flip_gen, old_k, new_k, pre_flip_best, post_flip_best, recovery_gen
+    # §10 / §v1.5: per-flip-event metrics. Empty/None when alternation is off.
+    # Each entry is a dict with keys:
+    #   flip_gen, pre_flip_best, post_flip_best, recovery_gen,
+    #   plus (old_k, new_k) for K flips OR (old_task, new_task) for task flips.
     flip_events: list[dict] | None = None
+    # §v1.5: cross-task fitness of the best-of-run genotype, evaluated under
+    # each task in task_alternating_values. None when task-alternating is off.
+    # Dict of task_name → {fitness, holdout_fitness}.
+    cross_task_fitness: dict | None = None
 
 
 def random_genotype(cfg: ChemTapeConfig, rng: random.Random) -> np.ndarray:
@@ -239,19 +244,45 @@ def _is_k_alternating(cfg: ChemTapeConfig) -> bool:
     return cfg.k_alternating_period > 0 and bool(cfg.k_alternating_values)
 
 
+def _is_task_alternating(cfg: ChemTapeConfig) -> bool:
+    return cfg.task_alternating_period > 0 and bool(cfg.task_alternating_values)
+
+
+def _build_tasks_for_config(cfg: ChemTapeConfig):
+    """§v1.5: if task-alternating, build a dict of {task_name → Task} for all
+    tasks in the schedule. Else build a single {cfg.task → Task} dict.
+    All tasks use cfg.seed — deterministic per-task example generation.
+    """
+    from .tasks import TASK_REGISTRY
+    if _is_task_alternating(cfg):
+        task_names = cfg.task_alternating_value_list()
+    else:
+        task_names = [cfg.task]
+    tasks: dict = {}
+    for name in task_names:
+        if name not in TASK_REGISTRY:
+            raise KeyError(f"Unknown task {name!r}; known: {list(TASK_REGISTRY)}")
+        tasks[name] = TASK_REGISTRY[name](cfg, cfg.seed)
+    return tasks
+
+
 def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
-    """Standard tournament-elitism GA. Supports §10 K-alternating schedule:
-    when active, the top-K decode K cycles every `k_alternating_period`
-    generations through `k_alternating_values`.
+    """Standard tournament-elitism GA. Supports §10 K-alternating and
+    §v1.5 task-alternating schedules (both may be active simultaneously
+    but the intended use is one at a time).
     """
     rng = random.Random(cfg.seed)
-    task = build_task(cfg, seed=cfg.seed)
+    tasks_by_name = _build_tasks_for_config(cfg)
 
-    alternating = _is_k_alternating(cfg)
+    k_alt = _is_k_alternating(cfg)
+    task_alt = _is_task_alternating(cfg)
+    alternating = k_alt or task_alt
 
     population = [random_genotype(cfg, rng) for _ in range(cfg.pop_size)]
     current_k_0 = cfg.current_k(0)
-    fitnesses, _ = evaluate_population(population, task, cfg, topk_override=current_k_0)
+    current_task_0 = cfg.current_task(0)
+    task_0 = tasks_by_name[current_task_0]
+    fitnesses, _ = evaluate_population(population, task_0, cfg, topk_override=current_k_0)
 
     stats = ChemTapeStatsCollector()
     evolve_k_values_list = cfg.evolve_k_value_list() if cfg.evolve_k else None
@@ -259,61 +290,84 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
 
     flip_events: list[dict] = []
     last_k = current_k_0
-    # Track the "pre-flip best" for each pending flip — the best fitness at
-    # the last generation under the previous K before the flip lands.
+    last_task = current_task_0
     pending_pre_flip: dict | None = None
 
     gen = 0
     for gen in range(1, cfg.generations + 1):
         current_k = cfg.current_k(gen)
+        current_task_name = cfg.current_task(gen)
+        current_task_obj = tasks_by_name[current_task_name]
 
-        # Detect K flip transition at this generation.
-        if alternating and current_k != last_k:
+        # Detect K-flip or task-flip transition.
+        if k_alt and current_k != last_k:
             pending_pre_flip = {
-                "flip_gen": gen,
-                "old_k": int(last_k),
-                "new_k": int(current_k),
+                "flip_gen": gen, "flip_type": "k",
+                "old_k": int(last_k), "new_k": int(current_k),
+                "pre_flip_best": float(stats.history[-1].best_fitness),
+            }
+        elif task_alt and current_task_name != last_task:
+            pending_pre_flip = {
+                "flip_gen": gen, "flip_type": "task",
+                "old_task": last_task, "new_task": current_task_name,
                 "pre_flip_best": float(stats.history[-1].best_fitness),
             }
 
-        # Reproduce under current K (mutation uses current_k for protection mask).
+        # Reproduce under current K.
         population = _reproduce_one_island(
             population, fitnesses, cfg, rng, topk_override=current_k
         )
         fitnesses, _ = evaluate_population(
-            population, task, cfg, topk_override=current_k
+            population, current_task_obj, cfg, topk_override=current_k
         )
         stats.record(gen, fitnesses, population, arm=cfg.arm,
                      evolve_k_values=evolve_k_values_list)
 
-        # Record the immediate post-flip best.
+        # Record immediate post-flip best.
         if pending_pre_flip is not None:
             pending_pre_flip["post_flip_best"] = float(fitnesses.max())
-            pending_pre_flip["recovery_gen"] = -1  # filled in later
+            pending_pre_flip["recovery_gen"] = -1
             flip_events.append(pending_pre_flip)
             pending_pre_flip = None
 
-        # Check recovery for any flip event awaiting recovery.
         for ev in flip_events:
             if ev["recovery_gen"] < 0 and fitnesses.max() >= ev["pre_flip_best"]:
                 ev["recovery_gen"] = int(gen)
 
         last_k = current_k
+        last_task = current_task_name
 
+        # Early termination only if no alternation is active (would cut a run
+        # short mid-regime, skipping the interesting post-flip dynamics).
         if fitnesses.max() >= 1.0 and not alternating:
             break
 
     best_idx = int(np.argmax(fitnesses))
     best = population[best_idx].copy()
 
+    # Holdout on the final-gen task/K.
+    final_k = cfg.current_k(gen)
+    final_task_name = cfg.current_task(gen)
+    final_task = tasks_by_name[final_task_name]
     holdout_fitness: float | None = None
-    if task.holdout_inputs is not None and task.holdout_labels is not None:
-        # Under alternating, score holdout under the final generation's K.
-        final_k = cfg.current_k(gen)
+    if final_task.holdout_inputs is not None and final_task.holdout_labels is not None:
         holdout_fitness = evaluate_on_inputs(
-            best, task.holdout_inputs, task.holdout_labels, task, cfg,
-            topk_override=final_k,
+            best, final_task.holdout_inputs, final_task.holdout_labels,
+            final_task, cfg, topk_override=final_k,
         )
+
+    # §v1.5: cross-task fitness of the best-of-run genotype under every task.
+    cross_task_fitness: dict | None = None
+    if task_alt:
+        cross_task_fitness = {}
+        for name, t in tasks_by_name.items():
+            fit = evaluate_on_inputs(best, t.inputs, t.labels, t, cfg, topk_override=final_k)
+            hold = None
+            if t.holdout_inputs is not None and t.holdout_labels is not None:
+                hold = evaluate_on_inputs(
+                    best, t.holdout_inputs, t.holdout_labels, t, cfg, topk_override=final_k
+                )
+            cross_task_fitness[name] = {"fitness": float(fit), "holdout_fitness": hold}
 
     return EvolutionResult(
         best_genotype=best,
@@ -322,6 +376,7 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
         generations_run=gen,
         holdout_fitness=holdout_fitness,
         flip_events=flip_events if alternating else None,
+        cross_task_fitness=cross_task_fitness,
     )
 
 
