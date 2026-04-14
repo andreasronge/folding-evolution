@@ -1578,7 +1578,7 @@ A clean three-case taxonomy of environmental-forcing outcomes:
 2. **§v1.5a-binary matched-shape task pair**: zero-cost cross-task compatibility, 20/20 BOTH-solve.
 3. **§v1.5 / §v1.5a basin-width-mismatched task pair**: canalized single-basin commitment; narrower-basin task sacrificed; 0/20 BOTH.
 
-**Within-family claim (exploratory validation):** on the tested benchmark family (scan-map-aggregate tasks over short strings and intlists), environmental forcing produces cross-regime-compatible bodies when the regimes share structural/basin-width shape. When they don't, evolution commits to one basin and sacrifices the other. The decode axis (§10) is a special case where the landscape itself is unchanged. This claim is scoped to the benchmark family; external validity on tasks outside this family (order-sensitive, memory-requiring, non-threshold-arithmetic, compositionally deeper) is not established — see the External Validity note below.
+**Within-family claim (initial reading — superseded by §v1.5a-internal-control).** The 20/20 BOTH-solve result was initially read as evidence of cross-regime-compatible bodies under matched structural shape. §v1.5a-internal-control later falsified this framing: matched basin + matched scaffold + same slots still gives 0/20 BOTH when the tasks require different bodies. **The 20/20 here is real but narrower in meaning**: it's evolution exploiting slot-12 task indirection — the same `INPUT CHARS MAP_* ANY` body satisfies both tasks because slot_12's binding changes per task while the body doesn't. Not body-level task plasticity; stable body plus task-dependent interpretation layer. See the revised body-invariant-route claim in §v1.5a-internal-control below.
 
 #### What this means for the paper-level narrative
 
@@ -1647,7 +1647,7 @@ After §v1.5 + §v1.5a + §v1.5a-binary + §v1.5a-scaffold:
 | §v1.5a graded+binary (count_r, hasU)| ✗ | ✓ | 0/20      | 17/20 | 3/20 |
 | §v1.5 three-task                    | partial | mixed | 0/20 | 14/20 | 6/20 / 0/20 |
 
-**Refined within-family claim:** on the tested benchmark family, environmental forcing produces full cross-regime compatibility only when BOTH basin width AND scaffold length are matched across the rotating regimes. Either mismatch alone (basin in §v1.5a, scaffold in §v1.5a-scaffold) causes complete canalization to the easier task on the mismatched axis. The §v1.5a-binary 20/20 result requires matching on *both* tested axes. Whether additional axes (order-sensitivity, compositional depth, input-type, aggregator shape) are independently load-bearing on other task families is not tested — see External Validity note.
+**Refined within-family claim (superseded by §v1.5a-internal-control):** basin-width and scaffold-length mismatches each produce canalization on the tested family. This pattern originally looked like the mechanism, but §v1.5a-internal-control falsified that framing — matching on basin, scaffold, input type, AND slot bindings still produces 0/20 BOTH-solves when the tasks require genuinely different bodies. See the revised body-invariant-route claim in §v1.5a-internal-control.
 
 This sharpens the §v1.5a-binary finding: "shared structural/basin-width shape" was correct but understated. The specific structural factors that must match are (at least) basin width and scaffold length. Both are independently necessary; neither alone is sufficient.
 
@@ -1701,7 +1701,10 @@ The §v1.5a-internal-control (next) is a first step at within-alphabet external 
 
 ---
 
-## v1.5a-internal-control. Same-structure threshold-variation pair {sum_gt_5, sum_gt_10}
+## v1.5a-internal-control. Framework falsification — same-structure pair {sum_gt_5, sum_gt_10}
+
+**Result type: explicit falsification of the pre-registered basin-width × scaffold-length framework.** This is a strength, not a weakness: a tightly-controlled internal test revealed that the framework was missing at least one axis, without needing alphabet expansion or external-validity work. The falsification directly motivated the revised body-invariant-route mechanism claim.
+
 
 **Motivation.** Before claiming "basin width × scaffold length" is a general mechanism, we want to check that it handles *within-structure* variation cleanly. Pair sum_gt_10 (existing, 11/20 fixed-task) with a sibling sum_gt_5 — identical structure, same scaffold shape, same input type, same basin, differing only in the threshold constant. If the framework handles this, the mechanism description is internally self-consistent. If even trivial threshold variation causes canalization, the "structural match" axes we've named are not capturing the full picture.
 
@@ -1759,11 +1762,19 @@ Under this reading:
 
 #### Revised claim language
 
-Replacing "environmental forcing produces full cross-regime compatibility only when BOTH basin width AND scaffold length are matched" with:
+**Demoting the earlier "unified claim" from §v1.5a-binary.** Its previous framing implied body-level task plasticity as a general mechanism. Under the §v1.5a-internal-control falsification, that framing is too strong. The 20/20 result is still real, but it is not evidence for general body-level task plasticity — it's evidence that evolution can exploit a representation that provides a *stable body plus task-dependent interpretation layer*.
 
-**Environmental forcing produces full cross-regime compatibility when the rotating regimes admit the same body — either because the body solves both directly or because task-level indirection (slot bindings) absorbs the inter-regime variation. When regimes require genuinely different bodies, evolution canalizes to one regime and sacrifices the other. Basin width and scaffold length correlate with body-equivalence in the tested family but do not fully determine it.**
+**Replacement claim (narrower positive):**
 
-This is narrower, more specific, and strictly supported by the current data.
+> **Environmental forcing produces cross-regime compatibility when the representation offers a body-invariant route across regimes.**
+>
+> That route can come from:
+> - decode variation that preserves body structure (§10's K-alternation), or
+> - task-level indirection that preserves body structure (§v1.5a-binary's slot-12 mechanism).
+>
+> When different regimes require genuinely different body structures, alternation canalizes instead of producing all-regime solvers.
+
+This is narrower, more specific, and strictly supported by the current data. Basin width and scaffold length correlate with body-invariant-route availability in the tested family but do not fully determine it.
 
 ---
 
@@ -1812,28 +1823,29 @@ This is narrower, more specific, and strictly supported by the current data.
 
 17. **§12a/§12b/§12c established: no tested selection-regime modification buys §10's cross-K benefit at the individual level.** Four evolve-K variants at n=20: (§12) panmictic, (§12a) K-prior islands, (§12b) K-niching at α ∈ {0.3, 0.5, 1.0}, (§12c) migrate-body adopt-host-K. All solve counts 2-6/20; none beat K=3 fixed (7/20) or K=3 r=0.5 (11/20). §12b α=0.5 at 6/20 is the closest and not statistically distinguishable from §12 panmictic. **Refined mechanism reading (§12b crucial):** K-homogenization was *one* failure mode, not the binding constraint. §12b's niching completely suppresses homogenization (28% dominant-K share vs §12's 85-96%) yet solve rate doesn't recover. The deeper requirement is **coherent within-basin K-body co-evolution** — selection pushing a body-family under a specific K toward convergence. Forcing K-diversity prevents collapse but also prevents K-specific bodies from refining into solvers. **Side effect:** §12c unlocked seed 5 (previously unsolvable by any condition), reducing the hard floor from {4, 5, 11, 17} to {4, 11, 17}. **Combined verdict:** §10's cross-K benefit is not buyable via any *tested* encoding/selection modification — we have not shown it requires environmental forcing in general, only that it isn't achievable by the mechanisms we tested. K=3 r=0.5 panmictic remains the best chem-tape baseline.
 
-18. **§v1.5 family + internal control: basin-width × scaffold-length framework is narrower than previously stated; same-body-required is the load-bearing axis.** Five schedules at K=3 r=0.5 panmictic × period 300 × 20 seeds:
+18. **§v1.5 family + internal control: body-invariant-route axis is load-bearing; basin × scaffold framework falsified within the tested family.** Five schedules at K=3 r=0.5 panmictic × period 300 × 20 seeds:
 
-    | schedule | basin | scaffold | BOTH | task-A | task-B | slot-indirection? |
-    |----------|:-----:|:--------:|:----:|:------:|:------:|:-----------------:|
-    | §v1.5a-binary {hasR, hasU}          | ✓ | ✓ | **20/20** | 20/20 | 20/20 | **yes** (slot_12 differs per task) |
-    | §v1.5a-scaffold {hasR, sum_gt_10}   | ✓ | ✗ | 0/20 | 18/20 | 0/20  | partial |
-    | §v1.5a graded+binary {count_r, hasU}| ✗ | ✓ | 0/20 | 17/20 | 3/20  | yes |
+    | schedule | basin | scaffold | BOTH | task-A | task-B | body-invariant route? |
+    |----------|:-----:|:--------:|:----:|:------:|:------:|:---------------------:|
+    | §v1.5a-binary {hasR, hasU}          | ✓ | ✓ | **20/20** | 20/20 | 20/20 | **yes** (slot-12 indirection) |
+    | §v1.5a-scaffold {hasR, sum_gt_10}   | ✓ | ✗ | 0/20 | 18/20 | 0/20  | no |
+    | §v1.5a graded+binary {count_r, hasU}| ✗ | ✓ | 0/20 | 17/20 | 3/20  | partial |
     | §v1.5 three-task                    | partial | mixed | 0/20 | 14/20 | 0/20, 6/20 | partial |
-    | **§v1.5a-internal-control {sum_gt_5, sum_gt_10}** | ✓ | ✓ | **0/20** | 6/20 | 8/20 | **no** (same slots for both) |
+    | **§v1.5a-internal-control {sum_gt_5, sum_gt_10}** | ✓ | ✓ | **0/20** | 6/20 | 8/20 | **no** (same slots, different required constants) |
 
-    **§v1.5a-internal-control falsified the pre-registered framework.** Same-structure threshold-variation pair (differs only in `>5` vs `>10` constant) should have trivially co-solved under basin-width × scaffold-length. Actual: BOTH 0/20, both tasks below fixed-task ceilings (sum_gt_5 6/20 vs 17/20 fixed; sum_gt_10 8/20 vs 11/20 fixed). Neither basin width nor scaffold length mismatched; canalization still occurred.
+    **§v1.5a-internal-control falsified the pre-registered framework** (strength, not weakness: internal control surfaced the framework limit without needing alphabet expansion). Same-structure threshold-variation pair — differs only in `>5` vs `>10` constant — gave 0/20 BOTH despite matching on basin, scaffold, input type, AND slot bindings. Neither fixed-task ceiling reached (sum_gt_5: 6/20 vs 17/20 fixed; sum_gt_10: 8/20 vs 11/20 fixed). The basin × scaffold framing was missing an axis.
 
-    **Revised within-family claim:** Environmental forcing produces full cross-regime compatibility when rotating regimes admit the same body — either because the body solves both directly or because task-level indirection (slot bindings) absorbs the inter-regime variation. When regimes require genuinely different bodies (different constant constructions, different scaffold tokens even at same length), evolution canalizes. Basin width and scaffold length correlate with body-equivalence in the tested family but do not fully determine it. §v1.5a-binary's 20/20 was specifically enabled by slot-12 indirection (same body, different slot meaning per task), not by cross-task body-level flexibility.
+    **Revised claim (narrower positive):** *environmental forcing produces cross-regime compatibility when the representation offers a body-invariant route across regimes.* Routes tested: decode variation that preserves body structure (§10 K-alternation — 7/20, zero cost), task-level indirection that preserves body structure (§v1.5a-binary — 20/20, zero cost via slot-12 indirection). When different regimes require genuinely different body structures, alternation canalizes. §v1.5a-binary's 20/20 is still real but narrower in meaning — not body-level task plasticity, but evolution exploiting a stable-body-plus-interpretation-layer representation.
 
-    **§10's zero-cost K-alternation signature remains a clean positive** — K variation doesn't change the task, so body equivalence is trivial. The §v1.5 line's narrower mechanism claim reinforces rather than undermines §10.
+    **§10's signature remains a clean positive** — K variation doesn't change the task, so body equivalence is trivial. The §v1.5 line's narrower claim reinforces §10 rather than undermining it.
 
-    **The analyst's "mechanism overfitting" concern is partially vindicated within the family** — §v1.5a-internal-control surfaces a framework limit without needing alphabet expansion. External validity tests (order-sensitive, memory, non-threshold-arithmetic) would likely reveal more axes. See External Validity note.
+19. **Overfitting lesson (meta-finding).** The representation/task interaction space has more latent axes than the initial basin × scaffold factorization captured. §v1.5a-internal-control demonstrated this from inside a tightly-controlled within-family test — before any alphabet-expansion work. The general lesson: when a framework makes a new prediction, test it against the simplest possible internal control first. Doing so revealed a framework limit cheaply and changed the paper-level claim from "matched-basin × matched-scaffold mechanism" (too strong) to "body-invariant-route mechanism" (narrower, defensible). External validity beyond the tested scan-map-aggregate benchmark family remains open and would likely reveal additional axes — see External Validity note.
 
-19. **Current priorities (after §v1.5a-scaffold):**
-    - **Three-binary-task schedule** — {has_at_least_1_R, has_upper, sum_gt_10}: all binary, mixed scaffolds. Predicts sum_gt_10 at 0/20, {hasR, hasU} co-solved. Rounds out the §v1.5 story. ~10 min.
-    - **Inspection: §v1.5a-scaffold winner architectures** — zero-compute; do the 18 has_at_least_1_R winners look like §v1.5a-binary winners, or did the presence of sum_gt_10 in the rotation shape the evolved body?
-    - **Scaffold-length fixed-task sweep** (§8d-adjacent) — K=3 r=0.5 across synthetic task suite with scaffold lengths {4, 6, 8, 10, 12, 14}. Would characterize scaffold-length cliff independently of alternation.
+20. **Current priorities (after §v1.5a-internal-control):**
+    - **Chem-tape line consolidation** — the §10 + §v1.5a-binary positive result is narrower than previously claimed but still defensible (body-invariant-route mechanism). Decide whether to continue pressing within-family or step back and consolidate.
+    - **Three-binary-task schedule** — {has_at_least_1_R, has_upper, sum_gt_10}: rounds out the §v1.5 table cleanly if we want one more data point. ~10 min.
+    - **Inspection: §v1.5a-scaffold winner architectures** — zero-compute.
+    - **Scaffold-length fixed-task sweep** (§8d-adjacent) — characterizes scaffold-length cliff independently of alternation.
     - **§v1.5b period sensitivity** — lower priority.
     - **§5 re-scoped fixed-task granularity** — deprioritized (see §5).
     - **§12c seed-5 inspection** — zero-compute.
