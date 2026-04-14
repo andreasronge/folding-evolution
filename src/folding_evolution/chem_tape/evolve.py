@@ -66,7 +66,15 @@ def mutate(
         tape_2d = out[None, :]
         if cfg.arm == "BP":
             protect_mask = _np_engine.compute_longest_runnable_mask(tape_2d)[0]
-        else:  # BP_TOPK
+        elif cfg.evolve_k:
+            # §12: protect body cells under this individual's own K. Header cell 0
+            # is always unprotected so K can evolve.
+            k_for_protection = cfg.individual_k(out)
+            body = out[1:][None, :]
+            body_mask = _np_engine.compute_topk_runnable_mask(body, k_for_protection)[0]
+            protect_mask = np.zeros(L, dtype=bool)
+            protect_mask[1:] = body_mask
+        else:  # BP_TOPK fixed/alternating
             k_for_protection = topk_override if topk_override is not None else cfg.topk
             protect_mask = _np_engine.compute_topk_runnable_mask(tape_2d, k_for_protection)[0]
 
@@ -198,7 +206,8 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
     fitnesses, _ = evaluate_population(population, task, cfg, topk_override=current_k_0)
 
     stats = ChemTapeStatsCollector()
-    stats.record(0, fitnesses, population, arm=cfg.arm)
+    evolve_k_values_list = cfg.evolve_k_value_list() if cfg.evolve_k else None
+    stats.record(0, fitnesses, population, arm=cfg.arm, evolve_k_values=evolve_k_values_list)
 
     flip_events: list[dict] = []
     last_k = current_k_0
@@ -226,7 +235,8 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
         fitnesses, _ = evaluate_population(
             population, task, cfg, topk_override=current_k
         )
-        stats.record(gen, fitnesses, population, arm=cfg.arm)
+        stats.record(gen, fitnesses, population, arm=cfg.arm,
+                     evolve_k_values=evolve_k_values_list)
 
         # Record the immediate post-flip best.
         if pending_pre_flip is not None:

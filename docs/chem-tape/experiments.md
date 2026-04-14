@@ -1132,6 +1132,119 @@ The naive default (standard ring-migration with identical bodies flowing across 
 
 ---
 
+## 10a. Best-genotype inspection on K-alt unique winners
+
+**Question.** Do seeds 0 and 9 (solved by K-alt period=300 but not by fixed K=3) use novel architectures, or are they architecturally similar to existing fixed-K winners?
+
+### Method and result (zero-compute)
+
+Decoded the K-alt period=300 winning tapes under both K=3 and K=999.
+
+**Seed 0 winner:** 4 non-separator runs of lengths [14, 5, 3, 5]. Under K=3: top-3 = [14, 5, 5] → 24-cell program. Under K=999: all 4 runs → 27-cell program. **3-cell tail run** contains `[+, ., 0]`; under K=999 decode these are concatenated into the program mid-stream. Both decodes produce identical fitness on all 64 test cases.
+
+**Seed 9 winner:** 5 non-separator runs of lengths [1, 1, 6, 13, 7]. Under K=3: top-3 = [13, 7, 6] → 26-cell program. Under K=999: all 5 runs → 28-cell program. **Two length-1 tail runs** contain `>` and `1`; under K=999 decode these prepend to the program as the first two tokens. Both decodes produce identical fitness.
+
+**Comparison to fixed K=999 seed 9 winner (§8):** that solution has 4 runs [5, 2, 1, 18] — a fundamentally different architecture. K-alt's solution on seed 9 is not a re-discovery of the K=999 fixed solution.
+
+### What §10a shows and doesn't
+
+**Supports.** Tail runs contain non-trivial content (`[+, ., 0]` and `>`, `1` respectively), not blank padding. Under K=999 these tokens execute and happen to leave the program's test-case output unchanged. This is **evidence that evolution found cross-K-compatible tail content** under alternation pressure.
+
+**Does not establish role-switching.** Whether these tail tokens carry a "different functional role" under K=999 vs K=3 — as opposed to just being stack-neutral under the specific test inputs — cannot be distinguished from 64 binary outputs alone. On a graded-label task this could be tested more cleanly.
+
+**Seed 9 is the more suggestive case.** The prepended `>` and `1` change the program's opening state (stack starts with `1` instead of empty after `>` underflow). For subsequent operators to produce correct output despite this different starting state requires either "the rest of the program is robust to starting-stack perturbation" or "the `>` and `1` tokens compensate for each other." Either way, it's more constrained than "blank tail."
+
+---
+
+## 12. Evolve-K-per-individual — panmictic
+
+**Motivation (after §10).** §10 showed cross-K-compatible bodies are evolvable under *environmental* K alternation — selection pressure forces the population to find bodies that work under both decodes. §12 asks the converging question: can selection choose the right K per individual directly, without an external alternation schedule? If yes, plasticity is buyable at the individual level. If no, the §10 benefit is population-level schedule diversity, not individual-level plasticity.
+
+### Design
+
+- **Encoding.** Cell 0 of each tape is the K-header: `K = evolve_k_values[tape[0] mod len(values)]`. Decode operates on cells 1..L-1 (body = 31 cells). K values chosen: `{1, 2, 3, 4, 8, 999}` — covers the same range as §8.
+- **Implementation.** New config field `evolve_k: bool` plus `evolve_k_values: str`. Cell 0 is mutated at full rate regardless of protection (so K can evolve freely). Hash backward-compatible.
+- **Tracking.** Per-generation K distribution is recorded: `k_distribution[gen, i]` = count of individuals using K = values[i] at that generation.
+- **Sweep:** `sweeps/sum_gt_10_evolve_k.yaml` — seeds 0-19, pop=1024, gens=1500, panmictic.
+
+### Pre-registered outcomes (from external review)
+
+1. Evolve-K beats both fixed → K is an evolvable control variable.
+2. Evolve-K matches K-alt period=300 → plasticity buyable at individual level.
+3. Evolve-K collapses to one K → benefit is population-level schedule diversity.
+4. Evolve-K < both fixed → body-lock with wrong K.
+
+### Status: complete. Finding: **outcome (3) — winning runs collapse to a single K; evolve-K is outperformed by K=3 r=0.5 and underperforms K=3 fixed at n=20.**
+
+Results from commit `b83645d` (sweep elapsed 451s / 7.5 min at 4 workers; 20 runs).
+
+#### Headline solve counts at n=20
+
+| condition               | solved/20 | seeds solved                                    |
+|-------------------------|-----------|-------------------------------------------------|
+| Arm A panmictic         | 5/20      | 2, 8, 9, 14, 18                                 |
+| K=3 fixed               | 7/20      | 2, 6, 7, 13, 14, 18, 19                         |
+| K=999 fixed             | 5/20      | 2, 8, 9, 14, 18                                 |
+| K-alt period=300        | 7/20      | 0, 2, 7, 9, 13, 14, 19                          |
+| **K=3 r=0.5 panmictic** | **11/20** | 0, 2, 3, 6, 7, 8, 10, 13, 14, 15, 18            |
+| **Evolve-K**            | **5/20**  | **2, 9, 14, 15, 18**                            |
+
+#### Pairwise McNemar (one-sided, paired seeds 0-19)
+
+| comparison                           | wins/losses | p     |
+|--------------------------------------|-------------|-------|
+| Evolve-K vs K=3 fixed                | 2/4         | 0.891 |
+| Evolve-K vs K-alt period=300         | 2/4         | 0.891 |
+| Evolve-K vs K=999 fixed              | 1/1         | 0.750 |
+| Evolve-K vs Arm A panmictic          | 1/1         | 0.750 |
+| **K=3 r=0.5 vs Evolve-K**            | **7/1**     | **0.035 ★** |
+
+Evolve-K is not statistically distinguishable from any single-K baseline at n=20, but is significantly worse than K=3 r=0.5.
+
+#### The K-distribution story
+
+Per-run final K distribution (counts out of pop=1024) reveals the mechanism. Below, "star" rows are winners:
+
+| seed | solved? | best-individual K | final K distribution: {1, 2, 3, 4, 8, 999} |
+|------|---------|-------------------|---------------------------------------------|
+| ★ 2  | yes  @225 gens  | K=1 | **{943, 44, 12, 3, 12, 10}** — 92% K=1 |
+| ★ 9  | yes  @1191 gens | K=1 | {15, 126, 318, 443, 67, 55} — 43% K=4 dominant |
+| ★ 14 | yes  @656 gens  | K=4 | **{986, 3, 5, 19, 7, 4}** — 96% K=1 |
+| ★ 15 | yes  @626 gens  | K=999 | {15, 98, 401, 141, 190, 179} — 39% K=3 dominant |
+| ★ 18 | yes  @1163 gens | K=2 | **{870, 57, 37, 37, 9, 14}** — 85% K=1 |
+|  failed runs (15/20) | no | various | roughly mixed 100-300 per K value |
+
+**Winning runs collapse strongly toward a single K.** Three of five (seeds 2, 14, 18) end with > 80% of population at K=1, regardless of which K the best individual uses. The best individual's K is often different from the dominant K (e.g., seed 14 winner has K=4 but population is 96% K=1), meaning the winning body-K combination was found by a minority and never propagated K-wise.
+
+**Failing runs maintain K diversity.** Across 15 unsolved runs, no K value dominates — final distributions are roughly 100-300 per K value, matching initial ~uniform distribution.
+
+#### Reading
+
+Pre-registered outcome (3) dominates: **the benefit of K-scheduling under §10 is population-level, not individual-level**. Evolve-K under panmictic selection sacrifices that benefit by collapsing to a single K once any K-specific solution emerges. The pattern is:
+
+- Early on: diverse K distribution explores multiple decode regimes.
+- A body-K combination achieves high fitness.
+- Tournament + elitism replicates that body across the population.
+- Because the body is specialized for its K, the K allele that accompanies it also replicates (K genotype is dragged along).
+- The population homogenizes to the winner's K, losing plasticity.
+
+**This is body-lock at the population level**, the analyst's exact pre-registered concern from the evolve-K priority discussion. It's not that evolve-K is broken — it finds solutions on 5/20 seeds, comparable to Arm A. It's that the plasticity-preserving mechanism (K-diversity maintained throughout evolution) cannot be realized under panmictic selection because selection outcompetes plasticity.
+
+#### What this implies
+
+1. **K=3 r=0.5 panmictic remains the best chem-tape baseline on sum-gt-10 at n=20.** Evolve-K doesn't change this.
+2. **Individual-level plasticity requires structural support.** K-prior islands with migration — preventing any one island from K-homogenizing — is the natural next test. The §11a caveats apply: migration design matters.
+3. **§10's cross-K compatibility is a selection-pressure phenomenon, not a representation-intrinsic property.** Under panmictic evolve-K the same representation collapses to single-K. The §10 benefit required environmental alternation; evolve-K shows it's not intrinsic to chem-tape's decode structure.
+4. **K as a header gene is a valid encoding.** The mechanism is sound: evolve-K does find solutions. The issue is body-K linkage plus panmictic selection pressure, not the encoding itself.
+
+#### Follow-ups
+
+- **§12a Evolve-K with K-prior islands** — 8 islands, each initialized with a K-bias (say, 2 islands per K value in {1, 3, 8, 999}) and naive migration. Tests whether structural support maintains K diversity. This is the "K-prior islands" item from the priority queue, now with concrete design. ~15 min compute.
+- **§12b Evolve-K with frequency-dependent selection or K-niching** — explicitly penalize K homogeneity in selection. More aggressive design; consider only if §12a fails.
+- **Graded-label evolve-K replication** — later follow-up. Would help distinguish "evolve-K can't find K-diverse solutions" from "no K-diverse solutions exist for this task."
+
+---
+
 ## Planned v2 experiments (contingent on §2 passing)
 
 ### E. Expressivity parity vs folding-Lisp on structured-record benchmarks
@@ -1171,13 +1284,14 @@ The naive default (standard ring-migration with identical bodies flowing across 
 
 15. **§10 K-alternating: abrupt collapse ruled out; cross-K compatibility confirmed at zero flip cost.** K cycled {3, 999} with period ∈ {100, 300} × seeds 0-19, 40 runs. Post-flip fitness drop = 0.000 on every flip across every seed. K-alt period=300 solves 7/20 (matches fixed K=3 baseline), K-alt period=100 solves 5/20. K-alt opens new seeds {0, 9} not solved by fixed K=3 while losing {6, 18} (K=3-r=1.0-optimal multi-chunk). Architecture: period=100 selects strongly for ≤3-run cross-K-compatible bodies; period=300 permits 4+-run winners whose tail runs happen to produce the same fitness under K=999. **Operational signature matches outcome (1); mechanism reading is (3) canalized generalism** — binary-label sum-gt-10 can't distinguish latent role-switching from compatible-everywhere. The defensible claim is cross-K compatibility, not latent plasticity. §8a's "quarantined tails are neutral under K=∞" is vindicated in its weaker form; the stronger "cryptic variation becomes primary scaffold" form is not established by this data.
 
-16. **Current priorities (reordered after §10):**
-    - **§10a inspect K-alt unique winners (seeds 0, 9)** — zero-compute; do these use architectures not found by either fixed K?
-    - **Evolve-K-per-individual (panmictic)** — primary next substantial experiment. Adds K as a tape-header gene. Refined question (post-§10): does evolve-K find cross-K-compatible bodies, or does it lock to a single K per body and lose the compatibility property §10 demonstrated under alternation? This isolates individual-level vs population-level plasticity.
-    - **§v1.5 task-alternating** — reframed per §10: tests whether cross-K-compatible bodies are also cross-task-compatible. Expected to be a much harder target.
+16. **§10a / §12 established: individual-level plasticity not buyable under panmictic selection.** §10a winning tapes on seeds 0/9 contain non-trivial tail content that executes under K=999 without breaking output — cross-K-compatible by selection, not blank-padding. §12 evolve-K panmictic: 5/20 (= Arm A baseline, below K=3 fixed's 7/20, below K=3 r=0.5 at p=0.035). Winning runs collapse to single-K populations (often 85-96% K=1) regardless of which K the winner uses; failing runs maintain K-diversity. Body-K linkage under elitist tournament drives K homogenization once any K-specific solution emerges. **Pre-registered outcome (3) — §10's cross-K benefit is population-level schedule diversity, not individual-level plasticity.** K=3 r=0.5 panmictic remains the best chem-tape baseline on sum-gt-10 at n=20.
+
+17. **Current priorities (reordered after §12):**
+    - **§12a Evolve-K with K-prior islands** — primary next experiment. 8 islands with K-bias initialization + naive ring migration. Tests whether structural K-diversity preservation lets evolve-K realize the §10 benefit at the individual level. §11a caveats apply: migration design may need adjustment.
+    - **§v1.5 task-alternating** — reframed per §10 and §12: tests whether cross-regime-compatible bodies evolve under task variation.
     - **§8d scaffold-length × K × r** — generalization test.
-    - **Evolve-K with K-prior islands** — migration design decision; naive ring-migration likely produces null per §11a.
-    - **Graded-label K-alternation replication** — later follow-up. A graded-label task (like count-R) would let us distinguish outcome (1) role-switching from outcome (3) canalized generalism via per-example output analysis. Not urgent but noted for mechanism isolation.
+    - **§12b Evolve-K with frequency-dependent selection** — aggressive alternative if §12a fails.
+    - **Graded-label K-alternation/evolve-K replication** — later; distinguishes role-switching from canalization via per-example output.
     - **Type-closed top-K decode criterion** — cheap side experiment; low prior.
 
 See [architecture.md](architecture.md) for the substrate specification, [findings.md](../findings.md) for the prior Elixir-era folding results that motivated the "differential outcome" expectation, and [coevolution.md](../coevolution.md) for the coevolution designs that produced the scaffold-preservation framing.

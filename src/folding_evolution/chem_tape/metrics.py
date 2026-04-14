@@ -34,6 +34,9 @@ class ChemTapeGenerationStats:
     # Stored as np.float64 so NPZ roundtrip is clean. (§11 diagnostic.)
     per_island_best: np.ndarray | None = None
     per_island_mean: np.ndarray | None = None
+    # §12 evolve-K: per-generation K distribution — counts[i] is the number of
+    # individuals using K = evolve_k_values[i]. None when evolve-K inactive.
+    k_distribution: np.ndarray | None = None
 
 
 def _longest_run_mask(genotypes) -> tuple[np.ndarray, np.ndarray]:
@@ -79,6 +82,7 @@ class ChemTapeStatsCollector:
         genotypes,
         arm: str = "B",
         island_fits: list | None = None,
+        evolve_k_values: list[int] | None = None,
     ) -> ChemTapeGenerationStats:
         fits = np.asarray(fitnesses, dtype=np.float64)
         best_idx = int(fits.argmax())
@@ -93,6 +97,15 @@ class ChemTapeStatsCollector:
             per_island_best = np.array([float(np.asarray(f).max()) for f in island_fits], dtype=np.float64)
             per_island_mean = np.array([float(np.asarray(f).mean()) for f in island_fits], dtype=np.float64)
 
+        k_distribution = None
+        if evolve_k_values is not None and len(evolve_k_values) > 0:
+            n_vals = len(evolve_k_values)
+            counts = np.zeros(n_vals, dtype=np.int64)
+            for g in genotypes:
+                header = int(np.asarray(g).ravel()[0])
+                counts[header % n_vals] += 1
+            k_distribution = counts
+
         stats = ChemTapeGenerationStats(
             generation=generation,
             best_fitness=float(fits.max()),
@@ -106,6 +119,7 @@ class ChemTapeStatsCollector:
             best_longest_run=int(run_lengths[best_idx]),
             per_island_best=per_island_best,
             per_island_mean=per_island_mean,
+            k_distribution=k_distribution,
         )
         self.history.append(stats)
         return stats

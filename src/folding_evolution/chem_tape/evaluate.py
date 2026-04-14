@@ -36,8 +36,14 @@ def _programs_for_arm(
     """Arm A: full tape as program. Arm B: strict longest-active-run. Arm BP:
     permeable longest-run (NOP passes through; ids 14/15 are hard separators).
     Arm BP_TOPK: top-K permeable runs concatenated in tape order (§8).
+
+    §12 evolve-K mode (cfg.evolve_k=True, BP_TOPK only): cell 0 of each tape
+    is the K-header. K = evolve_k_values[tape[0] % len(values)]. Decode
+    operates on tape[1:] (body) only; cell 0 is never part of the program.
+
     `topk_override` lets the evolve loop supply a per-generation K under the
-    K-alternating schedule (§10); ignored unless arm == "BP_TOPK"."""
+    K-alternating schedule (§10); ignored when evolve_k=True (each individual
+    uses its own header-derived K instead)."""
     if cfg.arm == "A":
         return [tapes[b].astype(np.int64).tolist() for b in range(tapes.shape[0])]
     if cfg.arm == "B":
@@ -47,6 +53,17 @@ def _programs_for_arm(
         mask = engine.compute_longest_runnable_mask(tapes, backend=cfg.backend)
         return engine.extract_programs(tapes, mask)
     if cfg.arm == "BP_TOPK":
+        if cfg.evolve_k:
+            # Per-individual K from header cell 0; decode over body cells 1..L-1.
+            bodies = tapes[:, 1:]
+            progs: list[list[int]] = []
+            # Per-individual K means per-row decode; NumPy engine handles a single-row tape.
+            for b in range(tapes.shape[0]):
+                k_b = cfg.individual_k(tapes[b])
+                body_b = bodies[b:b+1]
+                mask_b = engine.compute_topk_runnable_mask(body_b, k_b, backend=cfg.backend)
+                progs.append(body_b[0][mask_b[0]].astype(np.int64).tolist())
+            return progs
         k = topk_override if topk_override is not None else cfg.topk
         mask = engine.compute_topk_runnable_mask(tapes, k, backend=cfg.backend)
         return engine.extract_programs(tapes, mask)

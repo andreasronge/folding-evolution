@@ -1,0 +1,29 @@
+sweep_name: sum_gt_10_evolve_k
+# Experiments §12: Evolve-K-per-individual on sum-gt-10.
+# Cell 0 of each tape encodes K from {1, 2, 3, 4, 8, 999}.
+# Decode operates on cells 1..31 (body); cell 0 selects the per-individual K.
+# Compare vs §10 baselines:
+#   K=3 fixed (7/20), K=999 fixed (5/20), K-alt period=300 (7/20).
+# Pre-registered outcomes (from external review):
+#  (1) Evolve-K > both fixed → K is an evolvable control variable.
+#  (2) Evolve-K ≈ K-alt → plasticity buyable at individual level.
+#  (3) Evolve-K collapses to one K → population-level schedule diversity, not individual plasticity.
+#  (4) Evolve-K < both fixed → body-lock with wrong K.
+base:
+  task: sum_gt_10
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  arm: BP_TOPK
+  evolve_k: true
+  evolve_k_values: "1,2,3,4,8,999"
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]

@@ -71,6 +71,9 @@ def execute(cfg: ChemTapeConfig, output_root: Path) -> Path:
         # Shape: (n_generations_logged, n_islands)
         npz_data["per_island_best"] = np.stack([s.per_island_best for s in history])
         npz_data["per_island_mean"] = np.stack([s.per_island_mean for s in history])
+    if history and history[0].k_distribution is not None:
+        # Shape: (n_generations_logged, n_k_values)
+        npz_data["k_distribution"] = np.stack([s.k_distribution for s in history])
     np.savez(run_dir / "history.npz", **npz_data)
 
     summary = {

@@ -36,6 +36,16 @@ class ChemTapeConfig:
     k_alternating_period: int = 0
     k_alternating_values: str = ""
 
+    # Evolve-K-per-individual (experiments.md §12). When True:
+    #   - Cell 0 of each tape is the K-header: tape[0] % len(values) selects
+    #     K for that individual from `evolve_k_values`.
+    #   - Cells 1..L-1 are the program body — decode / protect on that region
+    #     only. Cell 0 is mutated at full rate regardless of protection.
+    #   - Mutually exclusive with k_alternating; `topk` and any fixed-K
+    #     config are ignored when evolve_k=True.
+    evolve_k: bool = False
+    evolve_k_values: str = "1,2,3,4,8,999"
+
     # Task
     task: str = "count_r"           # "count_r" | "has_upper" | "sum_gt_10"
     n_examples: int = 64
@@ -79,6 +89,10 @@ class ChemTapeConfig:
         if self.k_alternating_period == 0 and self.k_alternating_values == "":
             d.pop("k_alternating_period", None)
             d.pop("k_alternating_values", None)
+        # Evolve-K fields excluded at defaults for the same reason.
+        if not self.evolve_k:
+            d.pop("evolve_k", None)
+            d.pop("evolve_k_values", None)
         blob = json.dumps(d, sort_keys=True).encode()
         return hashlib.sha1(blob).hexdigest()[:12]
 
@@ -96,3 +110,18 @@ class ChemTapeConfig:
             return self.topk
         idx = (generation // self.k_alternating_period) % len(values)
         return values[idx]
+
+    def evolve_k_value_list(self) -> list[int]:
+        """Parse evolve_k_values into a list of ints, e.g. "1,2,3,4,8,999"."""
+        return [int(x) for x in self.evolve_k_values.split(",") if x.strip()]
+
+    def individual_k(self, tape) -> int:
+        """§12 evolve-K: cell 0's value (mod len(values)) selects K for this
+        individual. Undefined behavior if evolve_k is False.
+        """
+        import numpy as np
+        values = self.evolve_k_value_list()
+        if not values:
+            return self.topk
+        header = int(np.asarray(tape).ravel()[0])
+        return values[header % len(values)]
