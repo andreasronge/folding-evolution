@@ -242,7 +242,7 @@ def _run_evolution_islands(cfg: ChemTapeConfig) -> EvolutionResult:
 
     stats = ChemTapeStatsCollector()
     flat_pop = [g for isl in islands for g in isl]
-    stats.record(0, all_fitnesses, flat_pop, arm=cfg.arm)
+    stats.record(0, all_fitnesses, flat_pop, arm=cfg.arm, island_fits=island_fits)
 
     gen = 0
     for gen in range(1, cfg.generations + 1):
@@ -260,7 +260,7 @@ def _run_evolution_islands(cfg: ChemTapeConfig) -> EvolutionResult:
             all_fitnesses, island_fits = _evaluate_all(islands)
 
         flat_pop = [g for isl in islands for g in isl]
-        stats.record(gen, all_fitnesses, flat_pop, arm=cfg.arm)
+        stats.record(gen, all_fitnesses, flat_pop, arm=cfg.arm, island_fits=island_fits)
 
         if all_fitnesses.max() >= 1.0:
             break

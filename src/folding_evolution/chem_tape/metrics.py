@@ -30,6 +30,10 @@ class ChemTapeGenerationStats:
     mean_longest_run: float
     max_longest_run: int
     best_longest_run: int
+    # Per-island best fitness vector (islands-only; empty for panmictic).
+    # Stored as np.float64 so NPZ roundtrip is clean. (§11 diagnostic.)
+    per_island_best: np.ndarray | None = None
+    per_island_mean: np.ndarray | None = None
 
 
 def _longest_run_mask(genotypes) -> tuple[np.ndarray, np.ndarray]:
@@ -74,6 +78,7 @@ class ChemTapeStatsCollector:
         fitnesses,
         genotypes,
         arm: str = "B",
+        island_fits: list | None = None,
     ) -> ChemTapeGenerationStats:
         fits = np.asarray(fitnesses, dtype=np.float64)
         best_idx = int(fits.argmax())
@@ -81,6 +86,13 @@ class ChemTapeStatsCollector:
         tapes, mask = _longest_run_mask(genotypes)
         run_lengths = mask.sum(axis=1).astype(np.int32)
         unique_progs = _count_unique_programs(tapes, mask, arm)
+
+        per_island_best = None
+        per_island_mean = None
+        if island_fits is not None:
+            per_island_best = np.array([float(np.asarray(f).max()) for f in island_fits], dtype=np.float64)
+            per_island_mean = np.array([float(np.asarray(f).mean()) for f in island_fits], dtype=np.float64)
+
         stats = ChemTapeGenerationStats(
             generation=generation,
             best_fitness=float(fits.max()),
@@ -92,6 +104,8 @@ class ChemTapeStatsCollector:
             mean_longest_run=float(run_lengths.mean()),
             max_longest_run=int(run_lengths.max()),
             best_longest_run=int(run_lengths[best_idx]),
+            per_island_best=per_island_best,
+            per_island_mean=per_island_mean,
         )
         self.history.append(stats)
         return stats

@@ -56,8 +56,7 @@ def execute(cfg: ChemTapeConfig, output_root: Path) -> Path:
     result.stats.to_csv(run_dir / "history.csv")
 
     history = result.stats.history
-    np.savez(
-        run_dir / "history.npz",
+    npz_data = dict(
         generation=np.array([s.generation for s in history]),
         best_fitness=np.array([s.best_fitness for s in history]),
         mean_fitness=np.array([s.mean_fitness for s in history]),
@@ -68,6 +67,11 @@ def execute(cfg: ChemTapeConfig, output_root: Path) -> Path:
         max_longest_run=np.array([s.max_longest_run for s in history]),
         best_longest_run=np.array([s.best_longest_run for s in history]),
     )
+    if history and history[0].per_island_best is not None:
+        # Shape: (n_generations_logged, n_islands)
+        npz_data["per_island_best"] = np.stack([s.per_island_best for s in history])
+        npz_data["per_island_mean"] = np.stack([s.per_island_mean for s in history])
+    np.savez(run_dir / "history.npz", **npz_data)
 
     summary = {
         "config_hash": cfg.hash(),

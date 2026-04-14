@@ -1014,6 +1014,65 @@ This is a provisional mechanism reading from the solve-count pattern; the fitnes
 
 **§10's plasticity test should use K=3 r=1.0 as the baseline, not r=0.5.** §11 shows r=0.5 is already fragile to additional GA-structure changes (islands hurt it dramatically). A K-alternating schedule is also a GA-dynamics perturbation; there's no reason to expect r=0.5 to tolerate it better than it tolerates islands. Use the architecturally-uniform K=3 r=1.0 baseline for cleaner interpretation.
 
+---
+
+## 11a. Per-island trajectory inspection (K=3 r=0.5 islands mechanism)
+
+**Purpose.** The aggregate inspection (§11 supplement) ruled out diversity collapse — islands have *higher* unique-program counts than panmictic. Per-island data discriminates among the remaining hypotheses: uniform failure (all islands fail to discover), migration-induced disruption, or single-island-discovery-no-propagation.
+
+**Method.** Added per-island best/mean fitness logging to the metrics collector (no change to hashing). Re-ran K=3 r=0.5 islands on 8 diagnostic seeds: five hard-failures (3, 6, 7, 13, 15), two both-win (0, 2), one islands-only-win (1). Same config; results reproduce bit-exactly (hash invariance confirms logging is a pure addition).
+
+### Result: uniform failure / single-island-discovery pattern
+
+**On failing seeds (3, 6, 7, 13): ALL 8 islands stay at baseline 0.500 for the entire 1500 generations.** Inter-island variance is 0.0000 at every sampled generation. No island ever escapes; none gets within 0.016 of baseline.
+
+Seed 15 is a partial-failure intermediate: all 8 islands escape to 0.516 (between gens 109-400) but none rises further. Still zero inter-island variance once all have escaped.
+
+**On succeeding seeds (0, 1, 2): exactly 1-2 islands discover the solution; the other 6-7 stay at baseline.**
+
+| seed | islands that escape > 0.5 | islands that solve | per-island max fitness (sorted) |
+|------|---------------------------|--------------------|---------------------------------|
+|   0  | 1 / 8                     | 1 / 8              | [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, **1.0**] |
+|   1  | 5 / 8                     | 1 / 8              | [0.5, 0.5, 0.672, 0.766, 0.766, 0.766, 0.969, **1.0**] |
+|   2  | 4 / 8                     | 1 / 8              | [0.5, 0.5, 0.5, 0.5, 0.516, 0.516, 0.734, **1.0**] |
+
+On every succeeding seed, only one island reaches fitness 1.0. Migration does not visibly propagate the solution — post-solve, the other islands' per-island best remains flat. Migrants arrive (every 50 gens, 2 migrants per island) but fail to establish; the receiving island's incumbents out-select the migrants fast enough that the solution does not take hold.
+
+### What this rules in and rules out
+
+**Ruled OUT:**
+- **Diversity collapse across islands.** Inter-island variance is zero on failing seeds, but the reason is NOT homogenization-to-one-basin — it's that *every island is independently stuck at baseline*. High unique-program counts (>700) are observed within each island, not across them.
+- **Migration-induced disruption.** If migration were disrupting partial progress, we'd see per-island bests fluctuate around migration boundaries. Instead we see flat zeros on failing seeds and pure monotonic single-island progress on succeeding seeds. Migration's effect is effectively *null*, not destructive.
+- **Slow-but-progressing search.** Failing islands show no fitness improvement over 1500 generations, not even to 0.51. It's not "slower"; it's "stopped."
+
+**Ruled IN:**
+- **Per-island population-scale is the binding constraint.** With pop=128 and r=0.5 (scaffold mutation rate 1.5%), each island has too few scaffold-mutations per generation to find rare multi-chunk assembly. Panmictic pop=1024 with the same r=0.5 has 8× the selection ledger working on the same problem; its 11/20 vs islands' 5/20 follows directly.
+- **Migration is non-functional under r=0.5.** Migrants arriving in a receiving island get outselected before contributing crossover children with sufficient partial scaffolding to seed the island's discovery. This is specific to r=0.5: under r=1.0, scaffold cells mutate at 3%, migrants' scaffolds decompose faster but receiving islands also find solutions independently more often.
+- **A-class vs K=3-r=0.5-specific solutions behave differently.** Seeds in {0, 1, 2} (where at least some island solves) evolve single-island-discovery even when only 1 island gets it. Seeds in {3, 6, 7, 10, 13, 15} (where no island solves) are the r=0.5-specific seeds from §9b/§9c — they *require* the multi-chunk or specialized architecture that per-island scale cannot produce.
+
+### Refined mechanism (supersedes §11's "substrates" sketch)
+
+The exploration/stability framing in §11 pointed directions but missed the mechanism. The cleaner story:
+
+**K=3 r=0.5 panmictic (pop=1024) works because:**
+- Large selection ledger integrates rare scaffold-mutation events across the whole population.
+- r=0.5 keeps incremental scaffold improvements stable enough to accumulate across generations.
+- Arm-A-class and K=3-r=0.5-specific architectures are both reachable.
+
+**K=3 r=0.5 islands (pop=128 × 8) fails on r=0.5-specific seeds because:**
+- Each island's selection ledger is 8× smaller; rare scaffold-assembly events are 8× less likely per island.
+- Migration doesn't pool the discovery because r=0.5's scaffold-protection makes migrants' partial scaffolds unlikely to establish in receiving islands under within-island elitism.
+- The result: islands fall back to finding only Arm-A-class solutions (which don't need multi-chunk assembly).
+
+**Predictions from this mechanism:**
+- Larger islands (8 × 256 = 2048 total, or 4 × 256 = 1024 total) should recover some of the r=0.5-specific solves. *Queued as §11b if needed.*
+- Higher migration rates (every 20 gens or 4 migrants/island) should NOT help — the constraint is receiving-island elitism out-selecting migrants, not migration sparsity. *Falsification test.*
+- Under r=1.0 islands, inter-island variance should be non-zero and migration should visibly redistribute fitness. Checking this against §11's K=3 r=1.0 islands (not yet instrumented for per-island data) would confirm.
+
+### For §10
+
+The K-alternating test uses K=3 r=1.0, so the per-island-scale problem doesn't apply. But the mechanism reading here — that GA-structure changes interact with protection strength through a *selection-ledger* mechanism rather than a *diversity* mechanism — suggests §10's K flips could similarly interact with protection strength. Running §10 at r=1.0 (architecturally uniform, not protection-sensitive) is the cleaner choice confirmed.
+
 #### Combined reachable-seed picture
 
 Union across every condition tried on sum-gt-10 at n=20 (§1–§11):
