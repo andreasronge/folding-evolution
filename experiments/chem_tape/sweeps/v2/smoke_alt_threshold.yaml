@@ -8,7 +8,7 @@ base:
   task: sum_gt_5_slot
   tape_length: 32
   n_examples: 16
-  holdout_size: 0
+  holdout_size: 32      # small but non-zero so the per-task gap fields populate
   pop_size: 32
   generations: 10
   tournament_size: 3

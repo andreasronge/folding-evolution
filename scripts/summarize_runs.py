@@ -29,6 +29,11 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_OUTPUT_ROOT = REPO_ROOT / "experiments" / "output"
 LOG_TAIL_LINES = 80
 SUMMARIZE_TIMEOUT_SECONDS = 180
+# Gap threshold above which a seed is flagged as "likely overfit"
+# (train accuracy minus holdout accuracy on the same genotype).
+# 0.05 is a working default — conservative enough that balanced-binary
+# tasks with gap > 5pp are suspicious, loose enough not to fire on noise.
+OVERFIT_GAP_THRESHOLD = 0.05
 SUMMARY_PROMPT_TEMPLATE = """\
 You are a research lab assistant briefing the PI at 7am on one overnight \
 experiment run. Project context is in CLAUDE.md (already loaded). The run's \
@@ -60,9 +65,15 @@ Input — last {tail_lines} lines of stderr:
 {stderr_tail}
 ```
 
-Input — result file (result.json, if present):
+Input — result file (result.json or sweep_index.json, whichever is present):
 ```
 {result_snippet}
+```
+
+Input — deterministic overfit metrics (pre-computed from result file; \
+absent when the run has no holdout data):
+```
+{overfit_metrics_snippet}
 ```
 
 Return ONLY a JSON object:
@@ -88,7 +99,13 @@ completion.
 
 `attention_required`: true only if the PI should look at this *before* \
 tonight's queue starts — silent data corruption, environment issues that \
-will recur, resource exhaustion. Routine failures don't qualify.
+will recur, resource exhaustion, OR a non-trivial overfit signal (>= 25%% \
+of seeds with gap > 0.05, or any single gap > 0.15). Routine failures and \
+isolated overfit don't qualify.
+
+If the deterministic overfit metrics block shows any overfit_seeds or \
+max_gap above threshold, mention that in `anomalies` with the concrete \
+numbers.
 
 `next_step_suggestion` / `falsification_candidate`: only fill when the run \
 genuinely opens a well-defined next probe or signal worth stressing.
@@ -111,17 +128,122 @@ def read_tail(path: Path, n_lines: int) -> str:
     return "\n".join(lines[-n_lines:])
 
 
+def _result_path(run_dir: Path) -> Path | None:
+    """Pick the best result-like artefact: single-run `result.json` if
+    present, otherwise a sweep's aggregate `sweep_index.json`. Returns None
+    when neither exists."""
+    for name in ("result.json", "sweep_index.json"):
+        p = run_dir / name
+        if p.exists():
+            return p
+    return None
+
+
 def read_result_snippet(run_dir: Path, max_chars: int = 4000) -> str:
-    candidate = run_dir / "result.json"
-    if not candidate.exists():
-        return "(no result.json)"
+    candidate = _result_path(run_dir)
+    if candidate is None:
+        return "(no result.json or sweep_index.json)"
     try:
         text = candidate.read_text()
     except OSError as e:
         return f"(could not read: {e})"
+    header = f"[{candidate.name}]\n"
     if len(text) > max_chars:
-        return text[:max_chars] + f"\n... [truncated, {len(text) - max_chars} more chars]"
-    return text
+        return header + text[:max_chars] + f"\n... [truncated, {len(text) - max_chars} more chars]"
+    return header + text
+
+
+def _per_seed_gaps(result_data) -> list[tuple[int | None, str | None, float]]:
+    """Extract (seed, task_name, gap) tuples from a parsed result artefact.
+
+    Handles three shapes:
+      - single-run result.json (dict with top-level train_holdout_gap)
+      - single-run result.json with cross_task_fitness (alternation)
+      - sweep_index.json (list of per-seed dicts, each as above)
+
+    Emits one tuple per (seed, task) where gap is a finite float. Entries
+    without holdout data are skipped silently.
+    """
+    out: list[tuple[int | None, str | None, float]] = []
+
+    def _scan_single(entry: dict) -> None:
+        seed = entry.get("seed")
+        ctf = entry.get("cross_task_fitness")
+        if isinstance(ctf, dict) and ctf:
+            for task_name, v in ctf.items():
+                if not isinstance(v, dict):
+                    continue
+                gap = v.get("gap")
+                if isinstance(gap, (int, float)):
+                    out.append((seed, task_name, float(gap)))
+        else:
+            gap = entry.get("train_holdout_gap")
+            if isinstance(gap, (int, float)):
+                out.append((seed, entry.get("task"), float(gap)))
+
+    if isinstance(result_data, list):
+        for entry in result_data:
+            if isinstance(entry, dict):
+                _scan_single(entry)
+    elif isinstance(result_data, dict):
+        _scan_single(result_data)
+    return out
+
+
+def compute_overfit_metrics(run_dir: Path) -> dict | None:
+    """Deterministic overfit signal for a sweep/run directory.
+
+    Returns None when the run has no usable holdout data. Otherwise:
+        {
+          "threshold": 0.05,
+          "n_observations": int,                # (seed × task) count
+          "n_seeds": int,                       # distinct seeds observed
+          "overfit_observations": int,          # count with gap > threshold
+          "overfit_seeds": int,                 # distinct seeds with any overfit task
+          "max_gap": float,
+          "mean_gap": float,
+          "per_task": {task_name: {"n": int, "overfit": int, "max_gap": float, "mean_gap": float}},
+        }
+    """
+    path = _result_path(run_dir)
+    if path is None:
+        return None
+    try:
+        data = json.loads(path.read_text())
+    except (OSError, json.JSONDecodeError):
+        return None
+    rows = _per_seed_gaps(data)
+    if not rows:
+        return None
+
+    seeds_all: set[int | None] = {s for s, _, _ in rows}
+    overfit_rows = [(s, t, g) for (s, t, g) in rows if g > OVERFIT_GAP_THRESHOLD]
+    overfit_seeds: set[int | None] = {s for s, _, _ in overfit_rows}
+    gaps = [g for _, _, g in rows]
+
+    per_task: dict[str, dict] = {}
+    for s, t, g in rows:
+        key = t if t is not None else "(unlabelled)"
+        bucket = per_task.setdefault(key, {"n": 0, "overfit": 0, "gaps": []})
+        bucket["n"] += 1
+        if g > OVERFIT_GAP_THRESHOLD:
+            bucket["overfit"] += 1
+        bucket["gaps"].append(g)
+    for key, bucket in per_task.items():
+        gaps_k = bucket.pop("gaps")
+        bucket["max_gap"] = round(max(gaps_k), 4)
+        bucket["mean_gap"] = round(sum(gaps_k) / len(gaps_k), 4)
+
+    return {
+        "threshold": OVERFIT_GAP_THRESHOLD,
+        "n_observations": len(rows),
+        "n_seeds": len(seeds_all),
+        "overfit_observations": len(overfit_rows),
+        "overfit_seeds": len(overfit_seeds),
+        "max_gap": round(max(gaps), 4),
+        "mean_gap": round(sum(gaps) / len(gaps), 4),
+        "per_task": per_task,
+    }
 
 
 def find_run_dirs(output_root: Path, date: str | None) -> list[Path]:
@@ -193,26 +315,29 @@ def extract_summary_payload(raw_stdout: str) -> dict:
 
 def summarize_one(run_dir: Path) -> dict:
     metadata = json.loads((run_dir / "metadata.json").read_text())
+    overfit = compute_overfit_metrics(run_dir)
+    overfit_snippet = (
+        json.dumps(overfit, indent=2)
+        if overfit is not None
+        else "(no holdout data — overfit metrics not computed)"
+    )
     prompt = SUMMARY_PROMPT_TEMPLATE.format(
         metadata=json.dumps(metadata, indent=2),
         tail_lines=LOG_TAIL_LINES,
         stdout_tail=read_tail(run_dir / "stdout.log", LOG_TAIL_LINES) or "(empty)",
         stderr_tail=read_tail(run_dir / "stderr.log", LOG_TAIL_LINES) or "(empty)",
         result_snippet=read_result_snippet(run_dir),
+        overfit_metrics_snippet=overfit_snippet,
     )
     raw, err = call_claude_cli(prompt)
-    if err is not None:
-        return {
-            "status": "failed",
-            "error": err,
-            "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
-        }
-    payload = extract_summary_payload(raw)
-    return {
-        "status": "ok",
+    base = {
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
-        "summary": payload,
+        "overfit_metrics": overfit,
     }
+    if err is not None:
+        return {"status": "failed", "error": err, **base}
+    payload = extract_summary_payload(raw)
+    return {"status": "ok", "summary": payload, **base}
 
 
 def main() -> int:

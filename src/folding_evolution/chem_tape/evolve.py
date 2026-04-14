@@ -381,7 +381,12 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
                 hold = evaluate_on_inputs(
                     best, t.holdout_inputs, t.holdout_labels, t, cfg, topk_override=final_k
                 )
-            cross_task_fitness[name] = {"fitness": float(fit), "holdout_fitness": hold}
+            gap = None if hold is None else float(fit) - float(hold)
+            cross_task_fitness[name] = {
+                "fitness": float(fit),
+                "holdout_fitness": hold,
+                "gap": gap,
+            }
 
     return EvolutionResult(
         best_genotype=best,

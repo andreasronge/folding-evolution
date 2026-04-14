@@ -76,6 +76,8 @@ def execute(cfg: ChemTapeConfig, output_root: Path) -> Path:
         npz_data["k_distribution"] = np.stack([s.k_distribution for s in history])
     np.savez(run_dir / "history.npz", **npz_data)
 
+    holdout = result.holdout_fitness
+    gap = None if holdout is None else float(result.best_fitness) - float(holdout)
     summary = {
         "config_hash": cfg.hash(),
         "seed": cfg.seed,
@@ -87,7 +89,8 @@ def execute(cfg: ChemTapeConfig, output_root: Path) -> Path:
         "elapsed_sec": elapsed,
         "final_generation_best": history[-1].best_fitness,
         "final_generation_mean": history[-1].mean_fitness,
-        "holdout_fitness": result.holdout_fitness,
+        "holdout_fitness": holdout,
+        "train_holdout_gap": gap,
     }
     if result.flip_events is not None:
         summary["flip_events"] = result.flip_events
