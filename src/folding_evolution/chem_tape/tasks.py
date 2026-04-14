@@ -117,6 +117,10 @@ def _has_upper_label(s: str) -> int:
     return 1 if any(c.isupper() for c in s) else 0
 
 
+def _has_at_least_1_R_label(s: str) -> int:
+    return 1 if "R" in s else 0
+
+
 def _sum_gt_10_label(xs: tuple[int, ...]) -> int:
     return 1 if sum(xs) > 10 else 0
 
@@ -161,6 +165,35 @@ def make_count_r_task(cfg: ChemTapeConfig, seed: int) -> Task:
         labels=train_lab,
         alphabet=alph.TaskAlphabet(slot_12=alph.OP_MAP_EQ_R, slot_13=alph.OP_NOP),
         label_fn=_count_r_label,
+        holdout_inputs=hold_inp,
+        holdout_labels=hold_lab,
+    )
+
+
+def make_has_at_least_1_R_task(cfg: ChemTapeConfig, seed: int) -> Task:
+    """has-at-least-1-R: binary version of count_r. Returns 1 if the length-16
+    string contains 'R', else 0. Same slot binding as count_r (slot_12 =
+    MAP_EQ_R), same domain/generator — differs only in label function (binary
+    instead of graded integer). Designed for §v1.5 basin-width test: matched
+    scaffold structure, broader-basin criterion.
+    """
+    _NO_R_ALPHABET = [c for c in "ABCDEFGHIJKLMNOPQSTUVWXYZabcdefghijklmnopqstuvwxyz "]
+    def gen(rng): return _rand_str(rng, length=16)
+    def gen_neg(rng):
+        idx = rng.integers(0, len(_NO_R_ALPHABET), size=16)
+        return "".join(_NO_R_ALPHABET[i] for i in idx)
+    def positive(s): return "R" in s
+    train_inp, train_lab, hold_inp, hold_lab = _build_training_and_holdout(
+        seed, cfg.n_examples, cfg.holdout_size, gen, _has_at_least_1_R_label, positive,
+        gen_negative=gen_neg,
+    )
+    return Task(
+        name="has_at_least_1_R",
+        input_type="str",
+        inputs=train_inp,
+        labels=train_lab,
+        alphabet=alph.TaskAlphabet(slot_12=alph.OP_MAP_EQ_R, slot_13=alph.OP_NOP),
+        label_fn=_has_at_least_1_R_label,
         holdout_inputs=hold_inp,
         holdout_labels=hold_lab,
     )
@@ -214,6 +247,7 @@ def make_sum_gt_10_task(cfg: ChemTapeConfig, seed: int) -> Task:
 
 TASK_REGISTRY = {
     "count_r": make_count_r_task,
+    "has_at_least_1_R": make_has_at_least_1_R_task,
     "has_upper": make_has_upper_task,
     "sum_gt_10": make_sum_gt_10_task,
 }
