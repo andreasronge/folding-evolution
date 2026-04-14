@@ -40,3 +40,7 @@ For full completed-experiment list and open questions, see `docs/folding/experim
 - The fold/chemistry pipeline should be decoupled from the evaluation language
 - Compare against standard GP baselines (DEAP tree GP)
 - When documenting findings in any track's `findings.md`/`experiments.md` (or `docs/python-rewrite-results.md`), include the git commit hash that produced the results (e.g. `Results from commit abc1234`). This anchors data to a specific code state for reproducibility.
+
+## Overnight Runs
+
+Planned: nightly experiment queue runner. User authors `queue.yaml`, runner executes every entry not marked done in `queue.status.json`, writes per-run output to `experiments/output/YYYY-MM-DD/<id>/` including rusage profile. Claude CLI summarization is a separate morning phase — phase 1 never depends on it. Design: [Plans/overnight-queue-runner.md](Plans/overnight-queue-runner.md). Not yet implemented.
