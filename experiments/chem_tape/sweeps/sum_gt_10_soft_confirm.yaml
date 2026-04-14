@@ -1,0 +1,28 @@
+sweep_name: sum_gt_10_soft_confirm
+# Experiments §9c: n=20 confirmation of §9b's non-monotone protection curve.
+# Replicates K=3 × r ∈ {1.0, 0.9, 0.5, 0.3} on seeds 10-19 (independent of the
+# 0-9 seeds used in §9b). Primary question: does r=0.5 reproduce ~5-6/10
+# solves on fresh seeds? Secondary: does the collapse at r=0.3 replicate?
+# §9b anchors on seeds 0-9 for comparison:
+#   r=1.0: 3/10 (seeds 2, 6, 7)
+#   r=0.9: 4/10
+#   r=0.5: 6/10 ★ (seeds 0, 2, 3, 6, 7, 8)
+#   r=0.3: 1/10 (seed 2)
+base:
+  task: sum_gt_10
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  arm: BP_TOPK
+  topk: 3
+grid:
+  bond_protection_ratio: [1.0, 0.9, 0.5, 0.3]
+  seed: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
