@@ -762,12 +762,14 @@ Results from commit `25c17a9` (sweep elapsed 805s / 13.4 min at 4 workers; 40 no
 
 #### Per-half results
 
-| r   | seeds 0-9 (§9b) | seeds 10-19 (§9c) | combined n=20 | null p=0.3 p-value |
-|-----|-----------------|-------------------|---------------|--------------------|
-| 1.0 | 3/10            | 4/10              | 7/20 (35%)    | 0.39 (ns)          |
-| 0.9 | 4/10            | **6/10**          | 10/20 (50%)   | **0.048** (*)      |
-| **0.5** | **6/10**    | 5/10              | **11/20 (55%)** | **0.017** (*)    |
-| 0.3 | 1/10            | **4/10**          | 5/20 (25%)    | 0.76 (ns)          |
+| r   | seeds 0-9 (§9b) | seeds 10-19 (§9c) | combined n=20 | vs historical 30% baseline |
+|-----|-----------------|-------------------|---------------|----------------------------|
+| 1.0 | 3/10            | 4/10              | 7/20 (35%)    | consistent with baseline   |
+| 0.9 | 4/10            | 6/10              | 10/20 (50%)   | convincingly above         |
+| **0.5** | **6/10**    | 5/10              | **11/20 (55%)** | **convincingly above**   |
+| 0.3 | 1/10            | 4/10              | 5/20 (25%)    | consistent with baseline   |
+
+**Statistical framing note.** The p-values in an earlier draft of this table tested against a fixed null p=0.3 (the historical chem-tape baseline expectation), not the observed r=1.0 sample of 7/20. For the direct pairwise comparison r=0.5 vs r=1.0 on paired seeds: 5 seeds where r=0.5 wins and r=1.0 loses, 1 seed the other way — one-sided McNemar p ≈ 0.11. So r=0.5 (and r=0.9) are convincingly above baseline expectations at ~50% vs the historical ~30%, but the direct pairwise advantage over r=1.0 is directional rather than sharply estimated at n=20.
 
 Seeds solved in the combined sample:
 - r=1.0: {2, 6, 7, 13, 14, 18, 19}
@@ -777,7 +779,7 @@ Seeds solved in the combined sample:
 
 #### What §9c confirms
 
-1. **Moderate protection (r ∈ [0.5, 0.9]) is a real effect at n=20.** Both r=0.5 (11/20) and r=0.9 (10/20) are statistically significant vs the r=1.0 null baseline at p<0.05. This is not a seed-luck artifact on §9b's half.
+1. **Moderate protection (r ∈ [0.5, 0.9]) is a real effect at n=20.** Both r=0.5 (11/20) and r=0.9 (10/20) are convincingly above the 30% historical baseline expectation. The direct pairwise advantage over r=1.0 (7/20) is directional — McNemar p ≈ 0.11 — so "real but not sharply estimated at n=20." This is not a seed-luck artifact on §9b's half.
 
 2. **r=0.5 and r=0.9 are nearly tied.** On seeds 0-9, r=0.5 dominated (6 vs 4). On seeds 10-19, r=0.9 dominated (6 vs 5). Combined, r=0.5 at 11/20 vs r=0.9 at 10/20 — statistically indistinguishable. **§9b's "peak at r=0.5" was a single-point seed-sampling artifact; the actual structure is a plateau across r ∈ [0.5, 0.9]**, not a single peak.
 
@@ -834,43 +836,43 @@ All at K=3; top-3 decode mask extracted.
 
 Per-seed tape architecture (★ = protection-specific solve):
 
-| seed | r    | gens | #runs | top-3 lens          | architecture       |
-|------|------|------|-------|---------------------|--------------------|
-| ★ 0  | 0.5  | 1116 | 4     | [13, 11, 4]         | Multi-chunk w/ tail quarantine (§8a-style) |
-| ★ 3  | 0.5  | 844  | 1     | [32]                | Full-tape (A / K=999-style)               |
-| ★ 10 | 0.5  | 1087 | 1     | [32]                | Full-tape                                 |
-| ★ 15 | 0.5  | 508  | 2     | [26, 5]             | Mostly full-tape with small tail         |
-| ★ 16 | 0.9  | 1263 | 2     | [17, 14]            | **Bimodal** — two roughly equal runs     |
+| seed | r    | gens | #runs | top-3 lens          | architecture          |
+|------|------|------|-------|---------------------|-----------------------|
+| ★ 0  | 0.5  | 1116 | 4     | [13, 11, 4]         | Multi-chunk with tail quarantine (§8a-style) |
+| ★ 3  | 0.5  | 844  | 1     | [32]                | A-like single run                      |
+| ★ 10 | 0.5  | 1087 | 1     | [32]                | A-like single run                      |
+| ★ 15 | 0.5  | 508  | 2     | [26, 5]             | Near-A-like with small tail           |
+| ★ 16 | 0.9  | 1263 | 2     | [17, 14]            | Bimodal — two roughly equal runs      |
+
+Note on "A-like": the decode *behaviour* on a 1-run tape under K=3 is identical to Arm A's decode — the whole non-separator span executes. But the tape was evolved under different selection pressure (top-3 decode + differential mutation), so its program content may differ systematically from tapes Arm A evolves. "A-like architecture" describes the decode shape, not necessarily the program semantics.
 
 ### Interpretation
 
-**Moderate protection's winners span *all* tape architectures, not a specific one.** r=1.0 K=3's winners (§8a: seeds 2, 6, 7) were exclusively multi-chunk with quarantine tails (4, 6, 7 runs). Arm A / K=999 winners were exclusively 1-run or flat multi-run. **Under r=0.5, evolution finds both** — multi-chunk (seed 0), full-tape (seeds 3, 10), near-full-tape with small tail (seed 15), and novel bimodal (seed 16).
+**Moderate protection's five inspected winners span multiple tape architectures.** K=3 r=1.0's winners (§8a: seeds 2, 6, 7) were uniformly multi-chunk with quarantine tails (4, 6, 7 non-separator runs). Arm A / K=999 winners were uniformly 1-run or flat multi-run. The five inspected r=0.5/0.9 winners include multi-chunk (seed 0), A-like (seeds 3, 10), near-A-like (seed 15), and bimodal (seed 16).
 
-This reveals a different mechanism than §8a's story. §8a said "K=3 quarantines tails, enabling scaffolds to be preserved while tails mutate." That is correct for some r=0.5 winners (seed 0), but it does not explain seeds 3 and 10 where there is no tail to quarantine.
+This is **suggestive but not established evidence** that §8a's quarantine-via-exclusion story is incomplete for the moderate-protection regime. Seeds 3 and 10 have no tail to quarantine, yet they solve under K=3 r=0.5 while failing at K=3 r=1.0. So whatever advantage r=0.5 provides on those seeds, it is not the §8a mechanism.
 
-**The broader mechanism for r=0.5 appears to be:** differential mutation creates a *stable-enough* fitness signal for partial solutions to persist regardless of architecture. Evolution under r=0.5 can commit to whichever architecture fits the seed's specific landscape — multi-chunk when that's the path, full-tape when that's the path, bimodal when that works — without noise disrupting the commitment process.
-
-This is a genuinely distinct mechanism from §8a's quarantine claim. Call it **architecture-agnostic scaffold stability**: protection works not by preserving a *specific* structural pattern, but by stabilizing *whatever* structure evolution happens to be assembling for this seed.
+**Working hypothesis (not yet established):** differential mutation creates a more stable fitness signal that lets evolution commit to whichever architecture fits the seed's specific landscape — multi-chunk when that's the path, A-like when that's the path, bimodal when that works. Call it **architecture-agnostic scaffold stability** as a provisional label. Five seeds is too small to establish this; it needs either (a) a larger structural-inspection sample across all 11 r=0.5 solved seeds, or (b) a direct experimental test that discriminates this hypothesis from alternatives (e.g., "protection merely raises success rate uniformly across whatever architectures evolution would have found").
 
 ### Implications
 
-1. **§8a's mechanism description is partial.** It correctly describes K=3 r=1.0's winners (all multi-chunk) but does not describe K=3 r=0.5's winners (a mix of architectures). The full story is:
-   - K=3 + r=1.0: quarantine-via-exclusion mechanism; winners exclusively multi-chunk.
-   - K=3 + r ∈ [0.5, 0.9]: architecture-agnostic scaffold stability; winners span all structures.
-   - K=3 + r ≤ 0.3: scaffold freezing; blocks assembly.
+1. **§8a's mechanism description is partial.** It correctly describes K=3 r=1.0's winners (three inspected, all multi-chunk) but at least two of the five r=0.5 inspected winners (seeds 3, 10) are A-like single-run architectures that §8a's quarantine story does not explain. Working picture:
+   - K=3 + r=1.0: quarantine-via-exclusion mechanism; all three inspected winners multi-chunk.
+   - K=3 + r ∈ [0.5, 0.9]: five inspected winners span multi-chunk, A-like, and bimodal. Working hypothesis: architecture-agnostic scaffold stability. **Not yet established** — requires larger sample or mechanistic experiment.
+   - K=3 + r ≤ 0.3: scaffold freezing; blocks assembly. Replicated at r=0.1; r=0.3 is noisy (see §9c).
 
-2. **§10 K-alternating's premise needs revisiting.** The plasticity hypothesis in §10 — "cryptic variation in K=3's quarantined tail becomes primary scaffold when K flips to ∞" — is a specific mechanism that may not apply to r=0.5 winners that are already full-tape (seeds 3, 10 have no tail). The K-alternating test at K=3 r=0.5 may produce outcome 3 (canalized generalist) for full-tape winners and outcome 1 (smooth switching) only for multi-chunk winners — which would be a per-seed effect to pre-register.
+2. **§10 K-alternating's premise needs revisiting.** The plasticity hypothesis in §10 — "cryptic variation in K=3's quarantined tail becomes primary scaffold when K flips to ∞" — is a specific mechanism that may not apply to r=0.5 winners that are A-like (seeds 3, 10 have no tail). The K-alternating test at K=3 r=0.5 may produce outcome 3 (canalized generalist) for A-like winners and outcome 1 (smooth switching) only for multi-chunk winners — a per-seed effect to pre-register, and a reason to run §10 with an architecturally-uniform baseline (K=3 r=1.0, whose winners are consistently multi-chunk) rather than r=0.5 if the clean plasticity test is the goal.
 
-3. **Seed 16's bimodal architecture is novel.** Two nearly-equal runs (lengths 17 and 14) is a structure neither K=3 r=1.0 nor K=999 nor Arm A ever produced. It's a bimodal scaffold where both runs contribute roughly equally to the program. Worth flagging as a "moderate protection only" architecture.
+3. **Seed 16's bimodal architecture is a novel observation, n=1.** Two nearly-equal runs (lengths 17 and 14) is a structure neither K=3 r=1.0 nor K=999 nor Arm A produced in any inspected winner. Worth flagging but not over-weighting — a single instance isn't a pattern.
 
-### Updated mechanism summary (post-§8a + §9d)
+### Updated working summary (post-§8a + §9d)
 
-| regime                    | winning architectures             | mechanism name                  |
-|---------------------------|-----------------------------------|---------------------------------|
-| K=3 r=1.0                 | Multi-chunk with quarantined tail | Quarantine via exclusion (§8a)  |
-| K=3 r ∈ [0.5, 0.9]        | All of {multi-chunk, full, bimodal} | Architecture-agnostic stability |
-| K=3 r ≤ 0.3               | None (blocks assembly)            | Scaffold freezing (antagonistic)|
-| K=999 / Arm A             | Full-tape or flat multi-run       | Full-breadth execution          |
+| regime                    | inspected winning architectures      | status                          |
+|---------------------------|--------------------------------------|---------------------------------|
+| K=3 r=1.0                 | Multi-chunk with quarantined tail (n=3) | Quarantine mechanism (§8a), uniform evidence |
+| K=3 r ∈ [0.5, 0.9]        | Multi-chunk, A-like, bimodal (n=5)   | Mixed architectures; broader mechanism suggested but not established |
+| K=3 r ≤ 0.3               | None successful                      | Scaffold freezing; antagonistic |
+| K=999 / Arm A             | A-like single run or flat multi-run  | Full-breadth execution          |
 
 ---
 
@@ -968,14 +970,13 @@ The naive default (standard ring-migration with identical bodies flowing across 
 
 13. **Seeds 10-19 reveal that seeds 0-9 are slightly harder.** r=1.0 on seeds 10-19 solves 4/10 vs 3/10 on seeds 0-9; r=0.3 shows a larger gap (4/10 vs 1/10). All findings reported only on seeds 0-9 (§1-§9b, §2b, §4 panmictic) likely understate arm performance by a small but consistent amount. §4f (panmictic baseline on seeds 10-19) now more important as a general methodological correction, not just for the islands attribution question.
 
-14. **Current priorities (in order):**
-    - **§9d best-genotype inspection on r=0.5-unique seeds {0, 3} and §9c's s10/s16** — zero-compute. Does moderate protection's new-seed coverage correspond to a distinct structural pattern vs r=1.0 K=3 and Arm A winners?
-    - **§10 K-alternating regime shift** — using K=3 + r=0.5 as the baseline. Tests within-individual plasticity: does cryptic variation under K=3 r=0.5 become primary scaffold when K flips to ∞?
-    - **Evolve-K-per-individual (panmictic)** — gated on §10 outcome (1) or (3). Adds K as a tape-header gene.
-    - **Evolve-K with K-prior islands** — migration design decision is pre-implementation (see §10 "Design notes"). Naive ring-migration likely produces null.
-    - **§4f panmictic baseline on seeds 10-19** — elevated in priority given §9c's finding that seeds 10-19 are a slightly different difficulty distribution.
-    - **§8d scaffold-length × K × r interaction** — now 3-dimensional given §9b/§9c. Queued.
-    - **§v1.5 regime-shift test (task-alternating)** — reframed as "quarantined-tail cryptic variation becomes primary scaffold after regime change." Runs after §10.
+14. **Current priorities (reordered after §9d review):**
+    - **§4f Arm A panmictic baseline on seeds 10-19** — elevated to first. Methodological hole: every prior "A vs chem-tape" comparison on sum-gt-10 used seeds 0-9 only, and §9c showed seeds 10-19 are modestly easier. Closing this hole is a prerequisite for the next experiment's baseline. ~5 min, 10 runs.
+    - **§11 compact K × r × islands comparison** — the real static question. Fills the missing cells in a 3 × 2 grid: {Arm A, K=3 r=1.0, K=3 r=0.5} × {panmictic, islands} on seeds 0-19. Most cells already on disk; ~50 runs of new work. Answers whether decode, protection, and diversity are additive, substitutive, or multiplicative.
+    - **§8d scaffold-length × K × r** — generalization test. Turns the K-story into a general law rather than a sum-gt-10 story. Requires synthetic task design; queued.
+    - **§10 K-alternating regime shift** — rescheduled after §11. Rationale: §9d suggests the r=0.5 condition's architectural heterogeneity will confound §10's plasticity interpretation; should either pick the cleaner r=1.0 K=3 baseline (architecturally uniform) or defer until §11 clarifies which factor is driving what.
+    - **Evolve-K-per-individual (panmictic, then islands)** — gated on §10.
+    - **§v1.5 regime-shift test (task-alternating)** — after §10.
     - **Type-closed top-K decode criterion** — cheap side experiment; low prior.
 
 See [architecture.md](architecture.md) for the substrate specification, [findings.md](../findings.md) for the prior Elixir-era folding results that motivated the "differential outcome" expectation, and [coevolution.md](../coevolution.md) for the coevolution designs that produced the scaffold-preservation framing.
