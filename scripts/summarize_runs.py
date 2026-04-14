@@ -30,17 +30,20 @@ DEFAULT_OUTPUT_ROOT = REPO_ROOT / "experiments" / "output"
 LOG_TAIL_LINES = 80
 SUMMARIZE_TIMEOUT_SECONDS = 180
 SUMMARY_PROMPT_TEMPLATE = """\
-You are producing a morning-triage summary for ONE overnight experiment run. \
-Project context (developmental encodings for genetic programming) is in \
-CLAUDE.md. This is one data point, not a finding.
+You are a research lab assistant briefing the PI at 7am on one overnight \
+experiment run. Project context is in CLAUDE.md (already loaded). The run's \
+track has its own architecture.md and experiments.md under `docs/<track>/` — \
+read whichever sections help you situate the run (the entry's `notes` field \
+often points at a specific §). Stick to this run's track; don't wander into \
+other tracks' docs.
 
-Discipline rules (follow strictly):
-- Do NOT read other files or use tools. Summarize ONLY from the data below.
-- Do NOT elevate a single run to a finding. Findings live in \
-docs/<track>/findings.md and require replication + commit anchoring.
-- Do NOT invent numbers. If a metric is missing from the data below, leave it out.
-- Prefer empty strings over speculative filler in the suggestion fields.
-- Target: a human should be able to skim this at 7am in under 10 seconds.
+Write like a lab assistant, not a paper abstract: terse, grounded, honest \
+about what one run does and doesn't tell us. If it's routine, say so \
+briefly. Prefer an empty field over a weak guess.
+
+Phrasing: a single run aligning with a hypothesis is "consistent with" — \
+not "supports." Contradicting is "contradicts pending replication" — not \
+"falsifies." One run is a data point.
 
 Input — metadata (run config + timing + rusage profile):
 ```
@@ -62,11 +65,11 @@ Input — result file (result.json, if present):
 {result_snippet}
 ```
 
-Return ONLY a JSON object with these keys. Values are short strings (<=150 \
-chars) unless otherwise noted.
+Return ONLY a JSON object:
 
 {{
-  "one_line": "WHAT was run, HOW it ended, the SINGLE most important number if applicable. Pure observation, no interpretation.",
+  "hypothesis_under_test": "what this run was probing, per the track's docs. If you can't locate the run in experiments.md, say so plainly.",
+  "one_line": "what ran, how it ended, the single most important number if applicable.",
   "headline_numbers": {{}},
   "anomalies": [],
   "attention_required": false,
@@ -75,30 +78,20 @@ chars) unless otherwise noted.
   "falsification_candidate": ""
 }}
 
-Field guidance:
+`headline_numbers`: real metrics from result.json or logs. Skip \
+wall_seconds / exit_code / cpu_efficiency (already in metadata).
 
-- headline_numbers: 0-5 key numeric results extracted verbatim from \
-result.json or logs. Do NOT include wall_seconds, exit_code, or \
-cpu_efficiency (they are already in metadata). Empty dict if result.json \
-is absent or has no meaningful metrics.
+`anomalies`: things that would make you raise an eyebrow — stderr warnings, \
+unusually low cpu_efficiency, peak_rss far outside peers, truncated \
+result.json, result shape that contradicts the run's intent. Skip routine \
+completion.
 
-- anomalies: stderr warnings, unusual rusage (cpu_efficiency under 2.0 on \
-an 8-core machine, peak_rss far outside peers), truncated/malformed \
-result.json, result shape contradicting the run's apparent intent. Do NOT \
-include routine progress messages, normal completion, or exit code 0.
+`attention_required`: true only if the PI should look at this *before* \
+tonight's queue starts — silent data corruption, environment issues that \
+will recur, resource exhaustion. Routine failures don't qualify.
 
-- attention_required: true ONLY if a human must inspect this BEFORE \
-tonight's queue starts. Examples that qualify: silent data corruption \
-(status=done but result.json has impossible values), environment issue that \
-will recur, resource exhaustion. Routine failures and expected nulls do \
-NOT qualify — those go through normal triage.
-
-- next_step_suggestion: one sentence IF this run clearly opens a \
-well-defined next question. Empty string otherwise. No weak suggestions.
-
-- falsification_candidate: one sentence proposing an experiment that \
-would stress-test the apparent signal. Empty string if the run shows no \
-signal worth stressing.
+`next_step_suggestion` / `falsification_candidate`: only fill when the run \
+genuinely opens a well-defined next probe or signal worth stressing.
 """
 
 
