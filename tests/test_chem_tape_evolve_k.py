@@ -240,3 +240,115 @@ def test_island_k_priors_reproducible():
     r1 = run_evolution(cfg)
     r2 = run_evolution(cfg)
     assert np.array_equal(r1.best_genotype, r2.best_genotype)
+
+
+# ---------- §12b: K-niching via fitness sharing ----------
+
+
+def test_niched_fitness_inactive_at_alpha_zero():
+    from folding_evolution.chem_tape.evolve import _compute_niched_fitnesses
+    cfg = ChemTapeConfig(arm="BP_TOPK", evolve_k=True, evolve_k_values="1,3")
+    pop = [np.array([0, 1, 2], dtype=np.uint8) for _ in range(4)]
+    raw = np.array([0.3, 0.5, 0.7, 0.2])
+    out = _compute_niched_fitnesses(raw, pop, cfg)
+    assert np.array_equal(out, raw)
+
+
+def test_niched_fitness_rewards_rare_k():
+    """With alpha > 0 and one rare K, the rare K's effective fitness is boosted."""
+    from folding_evolution.chem_tape.evolve import _compute_niched_fitnesses
+    cfg = ChemTapeConfig(arm="BP_TOPK", evolve_k=True,
+                         evolve_k_values="1,3", k_niching_alpha=1.0)
+    # 3 individuals at K=1 (cell 0 = 0), 1 at K=3 (cell 0 = 1). Shares: K=1 = 0.75, K=3 = 0.25.
+    pop = [
+        np.array([0, 1, 2], dtype=np.uint8),  # K=1
+        np.array([0, 1, 2], dtype=np.uint8),  # K=1
+        np.array([0, 1, 2], dtype=np.uint8),  # K=1
+        np.array([1, 1, 2], dtype=np.uint8),  # K=3
+    ]
+    raw = np.array([1.0, 1.0, 1.0, 1.0])
+    out = _compute_niched_fitnesses(raw, pop, cfg)
+    # K=1 individuals: raw * (1/0.75) = 1.333
+    # K=3 individual:  raw * (1/0.25) = 4.0
+    np.testing.assert_allclose(out[:3], 4/3, rtol=1e-6)
+    np.testing.assert_allclose(out[3], 4.0, rtol=1e-6)
+
+
+def test_niched_fitness_uniform_when_balanced():
+    """When all K values are equally represented, niching produces uniform
+    multipliers so selection order is unchanged."""
+    from folding_evolution.chem_tape.evolve import _compute_niched_fitnesses
+    cfg = ChemTapeConfig(arm="BP_TOPK", evolve_k=True,
+                         evolve_k_values="1,3", k_niching_alpha=0.5)
+    pop = [np.array([0, 1, 2], dtype=np.uint8) for _ in range(2)] + \
+          [np.array([1, 1, 2], dtype=np.uint8) for _ in range(2)]
+    raw = np.array([0.5, 0.3, 0.7, 0.9])
+    out = _compute_niched_fitnesses(raw, pop, cfg)
+    # All shares = 0.5 → all multipliers equal. Order preserved up to scaling.
+    assert np.argmax(raw) == np.argmax(out)
+    assert np.argmin(raw) == np.argmin(out)
+
+
+def test_hash_unchanged_when_niching_off():
+    c1 = ChemTapeConfig(arm="BP_TOPK", evolve_k=True)
+    c2 = ChemTapeConfig(arm="BP_TOPK", evolve_k=True, k_niching_alpha=0.0)
+    assert c1.hash() == c2.hash()
+
+
+def test_hash_changes_with_niching():
+    c1 = ChemTapeConfig(arm="BP_TOPK", evolve_k=True)
+    c2 = ChemTapeConfig(arm="BP_TOPK", evolve_k=True, k_niching_alpha=0.5)
+    assert c1.hash() != c2.hash()
+
+
+# ---------- §12c: migrate body, adopt host K ----------
+
+
+def test_migrate_body_adopt_host_k_overwrites_header():
+    """Under this policy, migrants arriving at an island have their cell 0
+    overwritten with the host island's prior K header."""
+    from folding_evolution.chem_tape.evolve import _migrate
+    cfg = ChemTapeConfig(
+        arm="BP_TOPK", evolve_k=True, evolve_k_values="1,3,8,999",
+        tape_length=8, pop_size=8,
+        n_islands=4, migration_interval=50, migrants_per_island=1,
+        island_k_priors="1,3,8,999", migrate_body_adopt_host_k=True,
+    )
+    # Island 0 (K=1 prior) holds a high-fitness individual with K=999 header.
+    islands = []
+    islands.append([np.array([3, 5, 5, 5, 5, 5, 5, 5], dtype=np.uint8)])  # K=999
+    islands.append([np.array([1, 9, 9, 9, 9, 9, 9, 9], dtype=np.uint8)])  # K=3
+    islands.append([np.array([2, 7, 7, 7, 7, 7, 7, 7], dtype=np.uint8)])  # K=8
+    islands.append([np.array([3, 1, 1, 1, 1, 1, 1, 1], dtype=np.uint8)])  # K=999
+    fits = [np.array([1.0]) for _ in range(4)]
+    rng = __import__("random").Random(0)
+    new_islands = _migrate(islands, fits, cfg, rng)
+    # island 0's incoming migrant is from island 3 (src = 0-1 mod 4 = 3).
+    # Under adopt_host_k, migrant's cell 0 → island 0's prior K header (K=1 → header=0).
+    arrived_0 = new_islands[0][0]  # replaced in position 0 (only member)
+    assert int(arrived_0[0]) == cfg.header_cell_for_k(1), \
+        f"expected cell 0 = header_for_K=1 (= 0), got {int(arrived_0[0])}"
+    # Body should be from island 3's migrant: [1,1,1,1,1,1,1]
+    assert list(arrived_0[1:]) == [1, 1, 1, 1, 1, 1, 1]
+
+
+def test_migrate_without_adopt_preserves_source_header():
+    """Default migration (no §12c flag) leaves migrant's cell 0 intact."""
+    from folding_evolution.chem_tape.evolve import _migrate
+    cfg = ChemTapeConfig(
+        arm="BP_TOPK", evolve_k=True, evolve_k_values="1,3,8,999",
+        tape_length=8, pop_size=8,
+        n_islands=4, migration_interval=50, migrants_per_island=1,
+        island_k_priors="1,3,8,999", migrate_body_adopt_host_k=False,
+    )
+    islands = [
+        [np.array([3, 5, 5, 5, 5, 5, 5, 5], dtype=np.uint8)],  # src for island 0
+        [np.array([1, 9, 9, 9, 9, 9, 9, 9], dtype=np.uint8)],
+        [np.array([2, 7, 7, 7, 7, 7, 7, 7], dtype=np.uint8)],
+        [np.array([3, 1, 1, 1, 1, 1, 1, 1], dtype=np.uint8)],
+    ]
+    fits = [np.array([1.0]) for _ in range(4)]
+    rng = __import__("random").Random(0)
+    new_islands = _migrate(islands, fits, cfg, rng)
+    # Migrant from island 3 to island 0: cell 0 remains 3 (source header).
+    assert int(new_islands[0][0][0]) == 3

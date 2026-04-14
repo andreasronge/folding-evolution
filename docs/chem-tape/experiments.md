@@ -1316,9 +1316,90 @@ The §10 cross-K benefit is specifically a **population-level schedule-diversity
 
 #### Follow-ups
 
-- **§12b frequency-dependent selection / K-niching** — explicit anti-homogenization pressure in selection. The most direct test of "does any selection regime recover §10's benefit at the individual level?" Raised in priority after §12a.
-- **"Migrate body, adopt host K" variant** — pre-registered design decision in §10's Design Notes. Tests whether the migration policy was the wrong default for K-prior islands.
-- **§v1.5 task-alternating** — separate axis; §10/§12/§12a's findings on K-alternation motivate running task-alternation with the same pre-registration framework.
+- **§v1.5 task-alternating** — separate axis; §10/§12/§12a/§12b/§12c findings on K-alternation motivate running task-alternation with the same pre-registration framework.
+
+---
+
+## 12b. Evolve-K with K-niching (fitness sharing)
+
+**Motivation.** §12 and §12a showed that neither panmictic selection nor standard K-prior islands preserves K-diversity well enough to realize §10's cross-K benefit at the individual level. §12b applies direct anti-homogenization pressure: multiplicative fitness sharing where an individual's effective tournament fitness is boosted by (1/share_of_same_K)^α. Elitism still uses raw fitness; only tournament selection is niched.
+
+**Sweep:** `sweeps/sum_gt_10_evolve_k_niching.yaml` — panmictic evolve-K × α ∈ {0.3, 0.5, 1.0} × seeds 0-19 = 60 runs.
+
+### Status: complete. Finding: **K-diversity fully preserved at all α; solve count unchanged.**
+
+Results from commit `e60ca0b` (sweep elapsed 1359s / 22.7 min at 4 workers).
+
+| α   | solved/20 | seeds                             | avg dominant-K share |
+|-----|-----------|-----------------------------------|----------------------|
+| 0.3 | 5/20      | 1, 2, 14, 15, 18                  | 28%                  |
+| 0.5 | 6/20      | 1, 2, 8, 14, 15, 18               | 28%                  |
+| 1.0 | 2/20      | 1, 18                             | 28%                  |
+
+Compare to §12 panmictic: 5/20 with winners' dominant-K share 85-96%.
+
+**Niching works as designed for K-diversity.** Average dominant-K share stays at ~28% across all α (vs uniform theoretical baseline of 17% over 6 K values) — §12's K-homogenization is completely suppressed.
+
+**But solve count doesn't improve.** α=0.5 gains one seed vs §12 panmictic (6 vs 5), not statistically distinguishable. α=1.0 is actively worse (2/20) — strong niching disrupts tournament signal too much.
+
+Pairwise McNemar:
+- α=0.5 vs §12 panmictic: 2/1 p=0.50 (no effect)
+- K=3 r=0.5 vs α=0.5: 6/1 p=0.062 (borderline — K=3 r=0.5 still better)
+- K=3 r=0.5 vs α=1.0: **10/1 p=0.006 ★** (strongly worse)
+
+#### Reading
+
+K-homogenization under §12 was a symptom, not the binding constraint. When homogenization is fully prevented by niching, solve rate doesn't recover. Evolution on sum-gt-10 apparently needs *coherent within-basin K-body co-evolution* — selection pushing a body-family under a specific K toward convergence — and niching disrupts that coherence. Forcing K-diversity prevents K-collapse but also prevents K-specific bodies from refining into solvers.
+
+This refines §12: individual-level K-plasticity is unbuyable under panmictic selection *regardless* of whether homogenization is allowed or suppressed.
+
+---
+
+## 12c. "Migrate body, adopt host K" — migration policy variant
+
+**Motivation.** §12a preserved K-diversity across islands but didn't compound it into body evolution (§11a's "migration insufficient" pattern). §12c tests whether the migration *policy* was the wrong default: migrants arriving at a host island have their cell 0 overwritten with the host's prior K header, so body propagates across K-islands without source-K context.
+
+**Sweep:** `sweeps/sum_gt_10_evolve_k_mbahk.yaml` — identical to §12a but with `migrate_body_adopt_host_k=True`. 20 runs.
+
+### Status: complete. Finding: **5/20 — same count as §12a on different seeds; seed 5 newly unlocked.**
+
+Results from commit `e60ca0b` (sweep elapsed 463s / 7.7 min at 4 workers).
+
+| condition | solved/20 | seeds |
+|-----------|-----------|-------|
+| §12a (standard migration) | 5/20 | 1, 2, 6, 14, 19 |
+| **§12c (adopt host K)**   | **5/20** | **1, 2, 5, 14, 18** |
+
+Same count, partly overlapping seeds: {1, 2, 14} common. §12c gains {5, 18}, §12a gains {6, 19}. McNemar 2/2 disc=4 p=0.69 — indistinguishable.
+
+**Seed 5 is genuinely new.** No prior condition across §1-§12b has solved seed 5 — Arm A, K=3 fixed, K=999 fixed, K-alt, K=3 r=0.5, §12, §12a, §12b all fail on it. §12c is the first. This reduces the never-solved hard floor from {4, 5, 11, 17} to **{4, 11, 17}**.
+
+**K-distribution exceptions.** Most seeds show preserved diversity, but seeds 6 and 15 (unsolved at 0.953 and 0.516) collapse to 97% K=1 (993/1024 and 970/1024 respectively). On those seeds, within-island mutation + selection during 50-gen inter-migration windows overwhelmed the K-prior enforcement. Migration-policy changes alone cannot prevent local K-homogenization when a single K strongly dominates the within-island fitness landscape.
+
+---
+
+## 12d. Combined evolve-K verdict
+
+Across the four evolve-K variants at n=20 on sum-gt-10:
+
+| variant | solved/20 | K-diversity preserved? | vs K=3 fixed (7) | vs K=3 r=0.5 (11) |
+|---------|-----------|-----|------|------|
+| §12 panmictic            | 5/20 | No — 85-96% dominance | −2  | −6 |
+| §12a K-prior islands     | 5/20 | Yes — 30-58% in winners | −2 | −6 |
+| §12b niching α=0.3       | 5/20 | Yes — ~28% average | −2 | −6 |
+| §12b niching α=0.5       | 6/20 | Yes — ~28% average | −1 | −5 (p=0.062) |
+| §12b niching α=1.0       | 2/20 | Yes, over-disruptive | −5 (p=0.062) | −9 (p=0.006 ★) |
+| §12c migrate-body adopt-K| 5/20 | Mostly yes | −2 | −6 |
+
+**None of the six evolve-K variants beat K=3 fixed (7/20), K-alt period=300 (7/20), or K=3 r=0.5 (11/20).** §12b α=0.5 at 6/20 is the closest and not statistically distinguishable from §12 panmictic.
+
+**Reachable-seed union across all tested conditions at n=20** (§1-§12c, all arms and parameters):
+- Ever solved: {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 18, 19} — 17/20
+- Still-unsolved hard floor: **{4, 11, 17}** — 3 seeds
+
+**Combined verdict:** §10's cross-K benefit is fundamentally externally-driven. Individual-level K-plasticity is not buyable under any tested selection-regime modification (panmictic, K-prior islands, K-niching, migrate-body adopt-host-K). The only tested mechanism that achieves cross-K compatibility in evolved bodies is environmental K alternation during evolution. Plasticity on this representation requires environmental forcing, not representational encoding.
+
+**Next experiment:** §v1.5 task-alternating is now the clear candidate. It tests whether the "environmental forcing drives cross-regime compatibility" finding generalizes from K (§10) to tasks — structurally the same question, different axis.
 
 ---
 
@@ -1363,14 +1444,13 @@ The §10 cross-K benefit is specifically a **population-level schedule-diversity
 
 16. **§10a / §12 established: individual-level plasticity not buyable under panmictic selection.** §10a winning tapes on seeds 0/9 contain non-trivial tail content that executes under K=999 without breaking output — cross-K-compatible by selection, not blank-padding. §12 evolve-K panmictic: 5/20 (= Arm A baseline; directionally below K=3 fixed's 7/20 but not statistically distinguishable at n=20; significantly below K=3 r=0.5 at McNemar p=0.035). **Populations homogenize in K** — but the mechanism is not simple winner-K hitchhiking: on seeds 14, 15, 18 the best individual's K differs from the population modal K. Rather, selection finds body-families that are high-fitness under a narrow K region, and tournament/elitism collapses the population onto that K basin regardless of which specific K the top individual happens to carry. Pre-registered outcome (3) — **§10's cross-K benefit is population-level schedule diversity, not individual-level plasticity.** K=3 r=0.5 panmictic remains the best chem-tape baseline on sum-gt-10 at n=20.
 
-17. **§12a established: K-diversity preserved but does NOT compound with body evolution under naive island migration.** Evolve-K with K-prior islands (8 islands × 128, 2 per K ∈ {1, 3, 8, 999}) solves 5/20 — tied with evolve-K panmictic (§12), on a partly different seed set {1, 2, 6, 14, 19}. Final K distributions much more uniform than §12 panmictic (no single K > 58% in any winner vs §12's 85-96% dominance), confirming that structural K-diversity preservation *works as designed*. But migration doesn't propagate cross-K-compatible bodies across K-specialized islands; §11a's "migration insufficient to pool discoveries" reading inherits cleanly to this setting. **Combined §10 + §12 + §12a picture:** the §10 cross-K benefit is specifically a population-level, externally-driven schedule-diversity effect — it is not buyable at the individual level under either panmictic evolve-K or K-prior islands with standard migration. K=3 r=0.5 panmictic remains the best chem-tape baseline.
+17. **§12a/§12b/§12c established: no selection-regime modification buys §10's cross-K benefit at the individual level.** Tested four evolve-K variants at n=20: (§12) panmictic, (§12a) K-prior islands, (§12b) K-niching at α ∈ {0.3, 0.5, 1.0}, (§12c) migrate-body adopt-host-K. All solve counts are 2-6/20, none beat K=3 fixed (7/20) or K=3 r=0.5 (11/20). §12b α=0.5 at 6/20 is the closest and not statistically distinguishable from §12 panmictic. Key mechanism finding: **K-diversity preservation alone is insufficient** — §12b's niching achieves ~28% average dominant-K share (vs §12's 85-96% collapse) but solve rate doesn't recover. Evolution apparently needs coherent within-basin K-body co-evolution; forcing K-diversity prevents collapse but also prevents K-specific bodies from refining into solvers. **Side effect:** §12c unlocked seed 5 (previously unsolvable by any condition) by propagating bodies across K-islands, reducing the hard floor from {4, 5, 11, 17} to {4, 11, 17}. **Combined verdict:** §10's cross-K compatibility requires environmental K alternation; it is not buyable via representational encoding under any tested selection regime. K=3 r=0.5 panmictic remains the best chem-tape baseline.
 
-18. **Current priorities (reordered after §12a):**
-    - **§12b Evolve-K with frequency-dependent selection / K-niching** — the most direct test of "does any selection regime recover §10's benefit at the individual level?" Promoted in priority after §12a confirmed naive structural support is insufficient.
-    - **"Migrate body, adopt host K" variant** — targeted migration-policy redesign for K-prior islands (body migrates, host K is applied). Tests whether the migration default was the wrong choice, not whether islands-as-class fail.
-    - **§v1.5 task-alternating** — orthogonal axis; §10/§12/§12a findings motivate running task-alternation under the same framework.
+18. **Current priorities (after closing the evolve-K line):**
+    - **§v1.5 task-alternating** — now the clear next experiment. Tests whether the "environmental forcing drives cross-regime compatibility" finding from §10 generalizes from K to tasks.
     - **§8d scaffold-length × K × r** — generalization test.
-    - **Graded-label K-alternation/evolve-K replication** — later.
+    - **§12c seed-5 inspection** — zero-compute; understand what architecture unlocked the previously-unreachable seed.
+    - **Graded-label K-alternation/evolve-K replication** — later, distinguishes role-switching from canalization.
     - **Type-closed top-K decode criterion** — low prior.
 
 See [architecture.md](architecture.md) for the substrate specification, [findings.md](../findings.md) for the prior Elixir-era folding results that motivated the "differential outcome" expectation, and [coevolution.md](../coevolution.md) for the coevolution designs that produced the scaffold-preservation framing.

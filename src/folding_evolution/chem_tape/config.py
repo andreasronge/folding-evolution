@@ -55,6 +55,22 @@ class ChemTapeConfig:
     # (cell 0 drifts at full rate); selection maintains K if adaptive.
     island_k_priors: str = ""
 
+    # §12b: K-niching via fitness sharing. When alpha > 0 AND evolve_k is on,
+    # tournament selection uses effective_fit[i] = raw_fit[i] / share_same_K[i]^alpha.
+    # Rare-K individuals get a selection-pressure bonus inversely proportional
+    # to their K's population share, raised to the alpha power. Elitism and
+    # solve-detection still use raw fitness; only tournament uses the niched
+    # signal. alpha=0 recovers standard tournament.
+    k_niching_alpha: float = 0.0
+
+    # §12c: "migrate body, adopt host K" migration variant. When True AND
+    # evolve_k AND island_k_priors set AND n_islands > 1, migrants' cell 0
+    # is overwritten with the destination island's prior K header before
+    # replacement. This decouples the migrant's body from its source-island K
+    # context. Tests whether body-propagation across K-islands (rather than
+    # K-plus-body co-propagation) is the missing ingredient.
+    migrate_body_adopt_host_k: bool = False
+
     # Task
     task: str = "count_r"           # "count_r" | "has_upper" | "sum_gt_10"
     n_examples: int = 64
@@ -105,6 +121,11 @@ class ChemTapeConfig:
         # §12a island K priors: excluded at default empty string.
         if self.island_k_priors == "":
             d.pop("island_k_priors", None)
+        # §12b / §12c: excluded at default-off values.
+        if self.k_niching_alpha == 0.0:
+            d.pop("k_niching_alpha", None)
+        if not self.migrate_body_adopt_host_k:
+            d.pop("migrate_body_adopt_host_k", None)
         blob = json.dumps(d, sort_keys=True).encode()
         return hashlib.sha1(blob).hexdigest()[:12]
 

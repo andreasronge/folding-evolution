@@ -114,6 +114,32 @@ def _tournament_select(
     return max(competitors, key=lambda i: fitnesses[i])
 
 
+def _compute_niched_fitnesses(
+    raw: np.ndarray, population: list[np.ndarray], cfg: ChemTapeConfig
+) -> np.ndarray:
+    """§12b: compute K-niched fitnesses for tournament selection.
+
+    effective_fit[i] = raw_fit[i] * (1 / share_same_K[i]) ** alpha
+
+    Elitism and solve-detection should use raw fitness; only tournament
+    selection uses the niched values. Falls back to raw when niching is
+    inactive.
+    """
+    if cfg.k_niching_alpha <= 0.0 or not cfg.evolve_k:
+        return raw
+    values = cfg.evolve_k_value_list()
+    if not values:
+        return raw
+    n = len(population)
+    k_per_ind = np.array([cfg.individual_k(g) for g in population], dtype=np.int64)
+    unique_k, counts = np.unique(k_per_ind, return_counts=True)
+    count_map = {int(k): int(c) for k, c in zip(unique_k, counts)}
+    shares = np.array([count_map[int(k)] / n for k in k_per_ind], dtype=np.float64)
+    # share > 0 always (individual itself counts). Avoid 0**α domain issues.
+    multiplier = (1.0 / shares) ** cfg.k_niching_alpha
+    return raw * multiplier
+
+
 def _reproduce_one_island(
     population: list[np.ndarray],
     fitnesses: np.ndarray,
@@ -122,19 +148,23 @@ def _reproduce_one_island(
     topk_override: int | None = None,
 ) -> list[np.ndarray]:
     """Produce the next generation's population for one island (or the whole
-    panmictic pool, which is just a single-island call). `topk_override`
-    flows through to `mutate()` for per-generation K under §10."""
+    panmictic pool). `topk_override` flows through to `mutate()` for §10.
+
+    §12b: elitism uses raw `fitnesses`; tournament uses niched fitness when
+    cfg.k_niching_alpha > 0 (no-op otherwise).
+    """
     order = np.argsort(-fitnesses)
     elites = [population[i].copy() for i in order[: cfg.elite_count]]
     new_pop: list[np.ndarray] = list(elites)
     pop_idx = list(range(len(population)))
+    sel_fitnesses = _compute_niched_fitnesses(fitnesses, population, cfg)
     while len(new_pop) < len(population):
         if rng.random() < cfg.crossover_rate:
-            i = _tournament_select(pop_idx, fitnesses, cfg.tournament_size, rng)
-            j = _tournament_select(pop_idx, fitnesses, cfg.tournament_size, rng)
+            i = _tournament_select(pop_idx, sel_fitnesses, cfg.tournament_size, rng)
+            j = _tournament_select(pop_idx, sel_fitnesses, cfg.tournament_size, rng)
             child = crossover(population[i], population[j], cfg, rng)
         else:
-            i = _tournament_select(pop_idx, fitnesses, cfg.tournament_size, rng)
+            i = _tournament_select(pop_idx, sel_fitnesses, cfg.tournament_size, rng)
             child = population[i].copy()
         child = mutate(child, cfg, rng, topk_override=topk_override)
         new_pop.append(child)
@@ -172,6 +202,19 @@ def _migrate(
         chosen = [elite_idx] + sampled
         outgoing.append([pop[j].copy() for j in chosen])
 
+    # §12c: precompute host-K header per island (only when active).
+    host_headers: dict[int, int] = {}
+    adopt_host_k = (
+        cfg.migrate_body_adopt_host_k
+        and cfg.evolve_k
+        and cfg.n_islands > 1
+        and cfg.island_k_prior_list()
+    )
+    if adopt_host_k:
+        priors = cfg.island_k_prior_list()
+        for i in range(n):
+            host_headers[i] = cfg.header_cell_for_k(priors[i])
+
     # Phase 2: apply migrations. Destination = (i+1) % n (ring).
     new_islands: list[list[np.ndarray]] = []
     for i in range(n):
@@ -182,6 +225,11 @@ def _migrate(
         # Replace the `len(migrants)` worst by incoming migrants.
         order = np.argsort(fit)  # ascending: worst first
         for k, migrant in enumerate(migrants):
+            # §12c: overwrite migrant's cell 0 with host island's K header.
+            # Body (cells 1..L-1) migrates; K context is inherited from host.
+            if adopt_host_k:
+                migrant = migrant.copy()
+                migrant[0] = np.uint8(host_headers[i])
             pop[int(order[k])] = migrant
         new_islands.append(pop)
     return new_islands

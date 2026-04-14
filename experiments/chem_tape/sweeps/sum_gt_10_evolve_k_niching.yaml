@@ -1,0 +1,31 @@
+sweep_name: sum_gt_10_evolve_k_niching
+# Experiments §12b: Evolve-K panmictic with K-niching (fitness sharing).
+# Direct test of "does any selection regime recover §10's benefit at the
+# individual level?" Uses same panmictic pop=1024 as §12 for a clean
+# single-factor comparison: only the selection regime changes.
+#
+# Alpha controls niching strength:
+#   alpha=0: no niching (≡ §12 evolve-K panmictic, 5/20)
+#   alpha=0.5: moderate niching, rare K ~2× effective fitness boost at 25% share
+#   alpha=1.0: strong niching, rare K at 10% share → ~10× boost
+#
+# Sweeping alpha ∈ {0.3, 0.5, 1.0} × seeds 0-19 = 60 runs, ~22 min at 4 workers.
+base:
+  task: sum_gt_10
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  arm: BP_TOPK
+  evolve_k: true
+  evolve_k_values: "1,2,3,4,8,999"
+grid:
+  k_niching_alpha: [0.3, 0.5, 1.0]
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
