@@ -876,64 +876,6 @@ This is **suggestive but not established evidence** that §8a's quarantine-via-e
 
 ---
 
-## 10. K-alternating regime shift — plasticity test
-
-**Motivation (after §8+§8a+§9).** §8/§8a/§9 converge on the claim that decode rule is the load-bearing evolvability axis and decode-induced quarantine (K=3's lower-ranked runs as mutation sinks) is the specific mechanism. Two distinct plasticity claims remain untested, and §10 is the sharpest single-task test available for them:
-
-- **Latent-phenotype plasticity:** does the cryptic variation accumulated in K=3's quarantined tail become functional primary scaffold when the decode forces those cells to execute? This is the central prediction that would vindicate chem-tape as a many-to-many genotype-phenotype substrate.
-- **Canalized generalist body:** can evolution find a single tape that performs adequately under multiple K values — even without true latent-phenotype switching — trading peak per-K fitness for cross-K robustness?
-
-K-alternating holds the task fixed and alternates the decode every N generations. It does not require multi-task infrastructure, isolates the K-plasticity mechanism cleanly, and its outcome reshapes the priority of both evolve-K-per-individual and the original §v1.5 task-alternating design.
-
-### Design
-
-**Base condition.** sum-gt-10, pop=1024, gens=1500, seeds 0-9, backend=mlx (same as §8/§9 for comparability).
-
-**Regime-shift schedule.** K alternates between K=3 (quarantine present) and K=∞ (all non-separator cells execute). The K=3 ↔ K=∞ pairing is chosen because §8a established that K=3 quarantines tails while K=∞ forces every non-separator cell to execute — this is the most direct test of whether cryptic variation becomes primary scaffold.
-
-**Flip interval (grid):** every 100 gens, every 300 gens. Rationale: 100 gens is short enough that mid-flip recovery dynamics are visible; 300 gens allows partial specialization before each flip. Both are explored.
-
-**Controls (fixed-K reference runs, already on disk):**
-- K=3 fixed for 1500 gens (§8 anchor): 3/10 on seeds {2, 6, 7}.
-- K=∞ / K=999 fixed for 1500 gens (§8 anchor): 3/10 on seeds {2, 8, 9}.
-
-**Metrics (per seed, per regime flip):**
-- Post-flip fitness drop: `best_fitness(gen = flip_t - 1) − best_fitness(gen = flip_t)`.
-- Recovery time: generations until post-flip fitness returns to within 5% of pre-flip peak.
-- Cross-K ratio: `min(best_fitness_under_K=3, best_fitness_under_K=∞) / max(...)`. Flatness of this ratio across a run diagnoses the canalized generalist outcome.
-- Solve-count under the alternating schedule (vs fixed-K controls).
-
-### Pre-registered outcomes
-
-| outcome | signature | interpretation |
-|---------|-----------|----------------|
-| **(1) Smooth switching** | Post-flip fitness drop small; recovery < 30 gens; solve-count ≥ better-fixed-K control | Latent-phenotype plasticity vindicated. Quarantined-tail variation does become primary scaffold when K flips. Evolve-K-per-individual becomes high-prior next experiment. |
-| **(2) Abrupt collapse** | Post-flip fitness drop large; recovery > 300 gens or never; solve-count strictly worse than better-fixed-K control | Latent-phenotype plasticity fails on chem-tape. K-committed bodies cannot re-route. Evolve-K-per-individual inherits this ceiling — de-prioritize in favor of multi-task evolve-K-islands as the §v1.5 convergence. |
-| **(3) Canalized generalist** | Cross-K ratio stays high (> 0.7) throughout the run; per-K peak fitness is below fixed-K controls; solve-count comparable but slower | Evolution finds bodies that are adequate under both K values without true latent switching. Theoretically the most interesting outcome: partial plasticity without cryptic variation as primary mechanism. Pre-register this explicitly — it's easy to miss by only coding (1) vs (2). |
-| **(4) Monotone degradation** | Each flip strictly worsens fitness; no recovery between flips | Alternation itself is harmful regardless of K-switching semantics. Would suggest selection horizon is too short vs flip interval — retry at longer intervals or abandon. |
-
-### Decision tree (asymmetric)
-
-Positive K-alternating (outcomes 1 or 3) → **evolve-K-per-individual with islands** becomes the clear next experiment, with outcome-3 adding a generalist-body hypothesis to pre-register.
-
-Negative K-alternating (outcome 2) → does **not** kill evolve-K by itself, because a panmictic evolve-K on sum-gt-10 can simply fix K=3 and do fine (single-task optimization doesn't require plasticity to be adaptive). The sharper follow-up in this branch is **multi-task evolve-K-islands** where fix-K is suboptimal by construction — which is where the §v1.5 reframe and evolve-K converge into the same experiment.
-
-### Design notes pre-registered for follow-ups
-
-**Within-individual vs between-population plasticity (if §10 runs).** A body that performs well under both K=1 and K=3 needs its longest run to be functional on its own AND its top-3 concatenation to be functional. That's a much narrower search target than either optimum alone — possibly too narrow to evolve under panmictic selection on a single task. §10 tests within-individual plasticity directly. Evolve-K-islands (follow-up) tests between-population plasticity. These may have different answers; chem-tape may support the second but not the first. Name the distinction explicitly when reporting results.
-
-**Migration design for future evolve-K-islands.** Different-K islands will have incompatible body structures. Naive ring-migration lands migrants in foreign basins where they underperform and get outselected before contributing. Design options to evaluate before running:
-- Very low migration rate (rare-novelty injection).
-- Asymmetric migration (one-way; e.g., K=3 → K=1 only, testing whether cryptic content from K=3's tails helps K=1 populations).
-- **"Migrate body, adopt host K"** — decouples body from its evolved decode context; a meaningful design decision in itself.
-
-The naive default (standard ring-migration with identical bodies flowing across K priors) is likely to produce a null result that doesn't actually test the plasticity claim. Worth a pre-implementation discussion.
-
-**§v1.5 reframe adopted.** Replace the original "neutral reserve enables regime recovery" with "quarantined-tail cryptic variation becomes primary scaffold after regime change." Sharper and more falsifiable. Applies to both §10 (K-alternating, single-task) and future §v1.5 (task-alternating, multi-task).
-
-### Status: queued. To run after §9b completes.
-
----
 
 ## 4f. Arm A panmictic baseline on seeds 10-19
 
@@ -1099,7 +1041,13 @@ The hard floor hasn't moved since §9c. Four seeds (20% of the seed space) appea
 3. Canalized generalist: cross-K ratio > 0.7 throughout; per-K peak below fixed-K; solve-count comparable but slower.
 4. Monotone degradation: each flip worsens fitness.
 
-### Status: complete. Finding: **outcome (1) — perfect smooth switching.** Post-flip fitness drop is *exactly zero* on every flip across every seed × period in the sweep. Solve-count matches the better fixed-K baseline.
+### Status: complete. Finding: **abrupt collapse ruled out; cross-K compatibility at zero flip cost.** Post-flip fitness drop is *exactly zero* on every flip across every seed × period in the sweep. Solve-count matches the better fixed-K baseline.
+
+**Operational vs mechanistic claim.** The data meets the pre-registered operational criteria for outcome (1) smooth switching (drop small, recovery < 30 gens trivially, solve-count ≥ better-fixed-K). But on a binary-label task like sum-gt-10, zero drop at the best-of-population level is observationally indistinguishable between:
+- **Canalized generalism (outcome 3):** evolution finds bodies where the same program output is produced under both K=3 and K=999 decodes. Tail content is compatible but not role-switching.
+- **Latent-phenotype switching (outcome 1, strong interpretation):** tail content carries a different functional role under K=999 that incidentally also produces the correct output.
+
+What the data supports is **compatibility**. What it does not yet isolate is **role-switching**. Distinguishing them would require per-individual lineage tracking across flips or per-example output analysis on a graded-label task. The defensible reading is cross-K canalization at zero flip cost; the stronger "latent tail variation becomes primary scaffold" claim is retracted where it appeared below.
 
 Results from commit `8c26115` (K-alt sweep: 767s / 12.8 min; K=999 baseline: 203s / 3.4 min; 50 runs total at 4 workers).
 
@@ -1147,29 +1095,40 @@ Architecture inspection of all winners (run-count distribution):
 
 K=3 fixed winners are uniformly multi-chunk (4+ runs) — consistent with §8a. K=999 fixed winners are mostly simple (1 or 3 runs). **K-alt period=100 winners are almost all ≤ 3 runs** — fast alternation strongly selects for cross-K-compatible bodies. K-alt period=300 is mixed.
 
-But the *zero-drop* phenomenon across every seed, including 4+-run winners under period=300, says more: even when a 4+-run architecture is evolved, its lower-ranked runs (those included under K=999 but excluded under K=3) produce identical fitness under both decodes. The winning tapes' tail content is genuinely cryptically neutral — it contributes to the K=999 program without changing the output on any of the 64 test cases.
+But the *zero-drop* phenomenon across every seed, including 4+-run winners under period=300, says more: even when a 4+-run architecture is evolved, its lower-ranked runs (those included under K=999 but excluded under K=3) produce the same fitness under both decodes. On sum-gt-10's binary labels, that means the tail's contribution to the K=999 program's output matches the K=3 program's output on all 64 test cases — either because the tail content is inert on the stack or because it happens to leave the correct output intact.
 
-This is the "quarantined tail is neutral under K=∞" hypothesis from §8a, *vindicated* at the fitness level. Under selection pressure from K alternation, evolution finds tapes where:
-- Top-3 runs carry the functional program (works under K=3).
-- Lower-ranked runs' content is either inert (single-use operators that immediately no-op on empty stack) or output-preserving (produces exactly the test-suite-correct output after additional operations).
+This is **compatibility of tail content at the fitness level**, vindicating the weaker form of §8a's claim ("tails are not conditionally maladaptive under K=∞"). It does not directly demonstrate that the tail content was cryptically carrying a latent role — that would require showing the tail's K=999-decoded operators do something different from the K=3 decoded operators and still arrive at the correct output. On a binary-label task we can't distinguish these; either would produce the observed zero drop.
 
 #### What §10 establishes
 
-1. **Pre-registered abrupt collapse did NOT occur.** Post-flip drops are exactly zero everywhere. This falsifies the "K=3's quarantined tails are conditionally maladaptive under K=999" alternative and confirms the cryptic-neutral-tail reading of §8a.
+1. **Pre-registered abrupt collapse (outcome 2) did NOT occur.** Post-flip drops are exactly zero everywhere. This is a strong negative result against "K=3's quarantined tails are conditionally maladaptive under K=999."
 
-2. **Smooth switching (outcome 1) holds at n=20.** Solve count under K-alt period=300 (7/20) matches K=3 fixed (7/20) and exceeds K=999 fixed (5/20). Recovery time is zero.
+2. **Outcome (1) operational criteria are met, but mechanism interpretation is (3) canalized generalism.** Solve count under K-alt period=300 (7/20) matches K=3 fixed (7/20) and exceeds K=999 fixed (5/20). Recovery time is zero because there is nothing to recover from — the best individual's fitness does not change at the flip. This is the operational signature of outcome (1), but the binary-label task cannot distinguish role-switching (outcome 1's mechanism) from compatible-everywhere (outcome 3's mechanism).
 
 3. **Fast alternation (period=100) selects for simpler architectures.** The ≤3-run architecture distribution under period=100 vs mixed under period=300 shows selection pressure scales with flip frequency. Period=100 costs 2 solves vs K=3 fixed because the simpler bodies it selects don't reach all K=3-findable solutions.
 
-4. **K-alternation opens new seeds (0, 9) by avoiding K=3 fixed's architectural bottleneck.** K=3 fixed's 7/20 is constrained to multi-chunk-only winners. K-alternation permits the 1-run and 3-run architectures K=999 finds, adding seeds 0 and 9 while losing seeds 6 and 18 (which are specifically K=3-r=1.0-optimal multi-chunk).
+4. **K-alternation opens new seeds (0, 9) by avoiding K=3 fixed's architectural bottleneck.** K=3 fixed's 7/20 is constrained to multi-chunk-only winners. K-alternation permits the 1-run and 3-run architectures K=999 finds, adding seeds 0 and 9 while losing seeds 6 and 18 (K=3-r=1.0-optimal multi-chunk).
 
-5. **Evolve-K-per-individual becomes the next obvious experiment.** §10 showed evolution *adapts to* a fixed K schedule by finding cross-K bodies. The next question is whether evolving K per-individual lets selection pick the right K for each body on-the-fly — is the plasticity buyable at the individual level, or only at the population level under environmental alternation?
+5. **Evolve-K-per-individual becomes the next obvious experiment, with a clarified question.** §10 showed evolution can find cross-K-compatible bodies *under environmental alternation*. The next question is whether the compatibility is evolvable at the individual level when K is a header gene — specifically, does evolve-K find compatible bodies, or does it lock to a single K per body and lose the cross-K property? The answer isolates individual-level vs population-level plasticity.
 
 #### Followup
 
 - **§10a inspect K-alt unique winners (seeds 0, 9)** — zero compute. Do these use novel architectures not found by either fixed K?
-- **Evolve-K-per-individual** — the §10 plasticity result argues strongly for implementing this as the next substantial experiment.
+- **Evolve-K-per-individual** — the §10 compatibility result argues strongly for implementing this as the next substantial experiment, with the refined question above.
 - **§v1.5 task-alternating (now with §10 reframing)** — combined task × K alternation would test whether cross-K-compatible bodies are also cross-task-compatible. Expected to be a much harder target.
+
+#### Design notes preserved for follow-ups (from the original §10 pre-reg)
+
+**Within-individual vs between-population plasticity (still not isolated).** A body that performs well under both K=3 and K=999 needs a decode-invariant contribution from its run structure — a narrower search target than either K-optimum alone. §10 showed this is achievable under environmental alternation (between-population plasticity via selection pressure). It does *not* establish that a single tape can simultaneously "switch" between distinct K-specific roles. That remains the open question.
+
+**Migration design for evolve-K-islands (future work).** Different-K islands would have incompatible body structures. Naive ring-migration would land migrants in foreign basins where they'd underperform and get outselected before contributing. Design options to evaluate before running:
+- Very low migration rate (rare-novelty injection).
+- Asymmetric migration (one-way; e.g., K=3 → K=999 only).
+- **"Migrate body, adopt host K"** — decouples body from evolved decode context; a meaningful design decision in itself.
+
+The naive default (standard ring-migration with identical bodies flowing across K priors) would likely produce a null result that doesn't actually test the plasticity claim. Worth a pre-implementation discussion.
+
+**§v1.5 reframe (adopted).** Replace the original "neutral reserve enables regime recovery" with "evolution finds cross-regime-compatible bodies under alternation." Sharper and better matches what §10 has shown for K alternation. Applies to future §v1.5 (task-alternating) as a testable hypothesis for the task axis.
 
 ---
 
@@ -1210,14 +1169,15 @@ This is the "quarantined tail is neutral under K=∞" hypothesis from §8a, *vin
 
 14. **§4f + §11 static-picture baseline: K=3 r=0.5 panmictic is the only statistically significant improvement on Arm A panmictic at n=20 (11/20 vs 5/20, McNemar p=0.035).** Every other arm-vs-arm comparison (K=3 r=1.0 vs A, A islands vs A panmictic, K=3 r=1.0 islands vs K=3 r=1.0 panmictic) is directional but not significant at n=20. The three factors decode + protection + islands are **non-additive**: K=3 r=0.5 islands collapses to 5/20 (= Arm A panmictic's baseline), losing 7 of the "novel r=0.5" seeds from §9b/§9c. Mechanism reading: r=0.5 and islands are substitutes, not complements — both reduce exploration pressure, and together they starve the search. Combined reachable-seed union across §1-§11 is 16/20 (80%); hard floor {4, 5, 11, 17}.
 
-15. **§10 K-alternating: pre-registered outcome (1) smooth switching confirmed.** K cycled {3, 999} with period ∈ {100, 300} × seeds 0-19, 40 runs. Post-flip fitness drop = 0.000 on every flip across every seed — perfect cross-K compatibility of winners. K-alt period=300 solves 7/20 (matches fixed K=3 baseline), K-alt period=100 solves 5/20 (fast alternation costs 2 solves). K-alt opens new seeds {0, 9} not solved by K=3 fixed while losing {6, 18} (K=3-r=1.0-optimal multi-chunk). Architecture analysis: period=100 selects strongly for ≤3-run cross-K-compatible bodies; period=300 permits 4+-run winners whose tail runs happen to produce identical fitness under K=999. §8a's "quarantined tails are neutral under K=∞" hypothesis is vindicated at the fitness level — the abrupt-collapse alternative is ruled out. Evolve-K-per-individual is the next obvious experiment.
+15. **§10 K-alternating: abrupt collapse ruled out; cross-K compatibility confirmed at zero flip cost.** K cycled {3, 999} with period ∈ {100, 300} × seeds 0-19, 40 runs. Post-flip fitness drop = 0.000 on every flip across every seed. K-alt period=300 solves 7/20 (matches fixed K=3 baseline), K-alt period=100 solves 5/20. K-alt opens new seeds {0, 9} not solved by fixed K=3 while losing {6, 18} (K=3-r=1.0-optimal multi-chunk). Architecture: period=100 selects strongly for ≤3-run cross-K-compatible bodies; period=300 permits 4+-run winners whose tail runs happen to produce the same fitness under K=999. **Operational signature matches outcome (1); mechanism reading is (3) canalized generalism** — binary-label sum-gt-10 can't distinguish latent role-switching from compatible-everywhere. The defensible claim is cross-K compatibility, not latent plasticity. §8a's "quarantined tails are neutral under K=∞" is vindicated in its weaker form; the stronger "cryptic variation becomes primary scaffold" form is not established by this data.
 
 16. **Current priorities (reordered after §10):**
     - **§10a inspect K-alt unique winners (seeds 0, 9)** — zero-compute; do these use architectures not found by either fixed K?
-    - **Evolve-K-per-individual (panmictic)** — primary next substantial experiment. Adds K as a tape-header gene; selection tunes the decode to the task on each individual. §10 showed cross-K bodies are evolvable under environmental alternation; this tests whether the plasticity is buyable at the individual level instead of via alternation.
+    - **Evolve-K-per-individual (panmictic)** — primary next substantial experiment. Adds K as a tape-header gene. Refined question (post-§10): does evolve-K find cross-K-compatible bodies, or does it lock to a single K per body and lose the compatibility property §10 demonstrated under alternation? This isolates individual-level vs population-level plasticity.
     - **§v1.5 task-alternating** — reframed per §10: tests whether cross-K-compatible bodies are also cross-task-compatible. Expected to be a much harder target.
     - **§8d scaffold-length × K × r** — generalization test.
     - **Evolve-K with K-prior islands** — migration design decision; naive ring-migration likely produces null per §11a.
+    - **Graded-label K-alternation replication** — later follow-up. A graded-label task (like count-R) would let us distinguish outcome (1) role-switching from outcome (3) canalized generalism via per-example output analysis. Not urgent but noted for mechanism isolation.
     - **Type-closed top-K decode criterion** — cheap side experiment; low prior.
 
 See [architecture.md](architecture.md) for the substrate specification, [findings.md](../findings.md) for the prior Elixir-era folding results that motivated the "differential outcome" expectation, and [coevolution.md](../coevolution.md) for the coevolution designs that produced the scaffold-preservation framing.
