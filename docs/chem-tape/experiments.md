@@ -1174,7 +1174,7 @@ Decoded the K-alt period=300 winning tapes under both K=3 and K=999.
 3. Evolve-K collapses to one K → benefit is population-level schedule diversity.
 4. Evolve-K < both fixed → body-lock with wrong K.
 
-### Status: complete. Finding: **outcome (3) — winning runs collapse to a single K; evolve-K is outperformed by K=3 r=0.5 and underperforms K=3 fixed at n=20.**
+### Status: complete. Finding: **outcome (3) — populations homogenize in K; evolve-K is significantly worse than K=3 r=0.5 (p=0.035) and directionally — but not significantly — worse than K=3 fixed at n=20.**
 
 Results from commit `b83645d` (sweep elapsed 451s / 7.5 min at 4 workers; 20 runs).
 
@@ -1199,7 +1199,7 @@ Results from commit `b83645d` (sweep elapsed 451s / 7.5 min at 4 workers; 20 run
 | Evolve-K vs Arm A panmictic          | 1/1         | 0.750 |
 | **K=3 r=0.5 vs Evolve-K**            | **7/1**     | **0.035 ★** |
 
-Evolve-K is not statistically distinguishable from any single-K baseline at n=20, but is significantly worse than K=3 r=0.5.
+Evolve-K is not statistically distinguishable from any single-K baseline at n=20; the only significant comparison is K=3 r=0.5 > Evolve-K. The "decisive" part of the finding is the K-homogenization *mechanism* (below), not the specific solve-count gap vs fixed K=3.
 
 #### The K-distribution story
 
@@ -1214,21 +1214,24 @@ Per-run final K distribution (counts out of pop=1024) reveals the mechanism. Bel
 | ★ 18 | yes  @1163 gens | K=2 | **{870, 57, 37, 37, 9, 14}** — 85% K=1 |
 |  failed runs (15/20) | no | various | roughly mixed 100-300 per K value |
 
-**Winning runs collapse strongly toward a single K.** Three of five (seeds 2, 14, 18) end with > 80% of population at K=1, regardless of which K the best individual uses. The best individual's K is often different from the dominant K (e.g., seed 14 winner has K=4 but population is 96% K=1), meaning the winning body-K combination was found by a minority and never propagated K-wise.
+**Winning runs homogenize in K.** Three of five (seeds 2, 14, 18) end with > 80% of population at K=1. But the mechanism is *not* simple hitchhiking of the winner's K — on seeds 14, 15, and 18 the best individual's K differs from the population's modal K:
+- Seed 14: best-individual K=4, population 96% K=1.
+- Seed 15: best-individual K=999, population 39% K=3 (mixed).
+- Seed 18: best-individual K=2, population 85% K=1.
 
-**Failing runs maintain K diversity.** Across 15 unsolved runs, no K value dominates — final distributions are roughly 100-300 per K value, matching initial ~uniform distribution.
+**Failing runs maintain K diversity.** Across 15 unsolved runs, no K value dominates — final distributions are roughly 100-300 per K value, matching the initial ~uniform distribution.
 
-#### Reading
+#### Reading — population-level K homogenization (not winner-K hitchhiking)
 
-Pre-registered outcome (3) dominates: **the benefit of K-scheduling under §10 is population-level, not individual-level**. Evolve-K under panmictic selection sacrifices that benefit by collapsing to a single K once any K-specific solution emerges. The pattern is:
+The simple "winner's K drags the whole population" story would predict the modal K equals the best-individual's K. The data doesn't show that. The more accurate reading:
 
-- Early on: diverse K distribution explores multiple decode regimes.
-- A body-K combination achieves high fitness.
-- Tournament + elitism replicates that body across the population.
-- Because the body is specialized for its K, the K allele that accompanies it also replicates (K genotype is dragged along).
-- The population homogenizes to the winner's K, losing plasticity.
+- Selection finds a *body-family* that is high-fitness under a *narrow region* of K (often K=1 neighborhood on this task).
+- Tournament + elitism collapse the population onto the K-basin that contains that body-family — not necessarily onto the best individual's specific K.
+- Minority winners with different K values can still exist at the population tail; they just don't take over.
 
-**This is body-lock at the population level**, the analyst's exact pre-registered concern from the evolve-K priority discussion. It's not that evolve-K is broken — it finds solutions on 5/20 seeds, comparable to Arm A. It's that the plasticity-preserving mechanism (K-diversity maintained throughout evolution) cannot be realized under panmictic selection because selection outcompetes plasticity.
+So the mechanism is **population-level K homogenization to a body-compatible K basin**, not direct replication of the top individual's K. Either way, the plasticity-preserving mechanism (maintaining K diversity throughout evolution) cannot be realized under panmictic selection because selection pulls the population toward a single K basin once any body-family establishes.
+
+Pre-registered outcome (3) holds: **the §10 schedule-diversity benefit is a population-level effect dependent on external K variation, and is not recovered by individual-level K-evolution under panmictic selection.**
 
 #### What this implies
 
@@ -1239,7 +1242,7 @@ Pre-registered outcome (3) dominates: **the benefit of K-scheduling under §10 i
 
 #### Follow-ups
 
-- **§12a Evolve-K with K-prior islands** — 8 islands, each initialized with a K-bias (say, 2 islands per K value in {1, 3, 8, 999}) and naive migration. Tests whether structural support maintains K diversity. This is the "K-prior islands" item from the priority queue, now with concrete design. ~15 min compute.
+- **§12a Evolve-K with K-prior islands** — 8 islands, each initialized with a K-bias (say, 2 islands per K value in {1, 3, 8, 999}) and naive migration. Tests whether structural support *preserves K-diversity long enough* for the §10 benefit to be realized at the individual level. **Prior is modest:** §11a showed that migration is insufficient to pool discoveries across islands under K=3 r=0.5 at the tested policy; §12a likely inherits this — islands may preserve K-diversity locally but migration may not propagate cross-K-compatible body-K combinations effectively. Running it to measure the effect, not to expect a fix. ~15 min compute.
 - **§12b Evolve-K with frequency-dependent selection or K-niching** — explicitly penalize K homogeneity in selection. More aggressive design; consider only if §12a fails.
 - **Graded-label evolve-K replication** — later follow-up. Would help distinguish "evolve-K can't find K-diverse solutions" from "no K-diverse solutions exist for this task."
 
@@ -1284,10 +1287,10 @@ Pre-registered outcome (3) dominates: **the benefit of K-scheduling under §10 i
 
 15. **§10 K-alternating: abrupt collapse ruled out; cross-K compatibility confirmed at zero flip cost.** K cycled {3, 999} with period ∈ {100, 300} × seeds 0-19, 40 runs. Post-flip fitness drop = 0.000 on every flip across every seed. K-alt period=300 solves 7/20 (matches fixed K=3 baseline), K-alt period=100 solves 5/20. K-alt opens new seeds {0, 9} not solved by fixed K=3 while losing {6, 18} (K=3-r=1.0-optimal multi-chunk). Architecture: period=100 selects strongly for ≤3-run cross-K-compatible bodies; period=300 permits 4+-run winners whose tail runs happen to produce the same fitness under K=999. **Operational signature matches outcome (1); mechanism reading is (3) canalized generalism** — binary-label sum-gt-10 can't distinguish latent role-switching from compatible-everywhere. The defensible claim is cross-K compatibility, not latent plasticity. §8a's "quarantined tails are neutral under K=∞" is vindicated in its weaker form; the stronger "cryptic variation becomes primary scaffold" form is not established by this data.
 
-16. **§10a / §12 established: individual-level plasticity not buyable under panmictic selection.** §10a winning tapes on seeds 0/9 contain non-trivial tail content that executes under K=999 without breaking output — cross-K-compatible by selection, not blank-padding. §12 evolve-K panmictic: 5/20 (= Arm A baseline, below K=3 fixed's 7/20, below K=3 r=0.5 at p=0.035). Winning runs collapse to single-K populations (often 85-96% K=1) regardless of which K the winner uses; failing runs maintain K-diversity. Body-K linkage under elitist tournament drives K homogenization once any K-specific solution emerges. **Pre-registered outcome (3) — §10's cross-K benefit is population-level schedule diversity, not individual-level plasticity.** K=3 r=0.5 panmictic remains the best chem-tape baseline on sum-gt-10 at n=20.
+16. **§10a / §12 established: individual-level plasticity not buyable under panmictic selection.** §10a winning tapes on seeds 0/9 contain non-trivial tail content that executes under K=999 without breaking output — cross-K-compatible by selection, not blank-padding. §12 evolve-K panmictic: 5/20 (= Arm A baseline; directionally below K=3 fixed's 7/20 but not statistically distinguishable at n=20; significantly below K=3 r=0.5 at McNemar p=0.035). **Populations homogenize in K** — but the mechanism is not simple winner-K hitchhiking: on seeds 14, 15, 18 the best individual's K differs from the population modal K. Rather, selection finds body-families that are high-fitness under a narrow K region, and tournament/elitism collapses the population onto that K basin regardless of which specific K the top individual happens to carry. Pre-registered outcome (3) — **§10's cross-K benefit is population-level schedule diversity, not individual-level plasticity.** K=3 r=0.5 panmictic remains the best chem-tape baseline on sum-gt-10 at n=20.
 
 17. **Current priorities (reordered after §12):**
-    - **§12a Evolve-K with K-prior islands** — primary next experiment. 8 islands with K-bias initialization + naive ring migration. Tests whether structural K-diversity preservation lets evolve-K realize the §10 benefit at the individual level. §11a caveats apply: migration design may need adjustment.
+    - **§12a Evolve-K with K-prior islands** — primary next experiment, with modest prior. 8 islands with K-bias initialization + naive ring migration. Tests whether structural K-diversity preservation lets evolve-K realize the §10 benefit at the individual level. **§11a already showed migration is insufficient to pool discoveries under the tested island policy** — §12a inherits this risk and is framed explicitly as "can structural support preserve K-diversity long enough?" rather than "will islands fix evolve-K?".
     - **§v1.5 task-alternating** — reframed per §10 and §12: tests whether cross-regime-compatible bodies evolve under task variation.
     - **§8d scaffold-length × K × r** — generalization test.
     - **§12b Evolve-K with frequency-dependent selection** — aggressive alternative if §12a fails.
