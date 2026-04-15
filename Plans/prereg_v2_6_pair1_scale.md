@@ -1,6 +1,6 @@
 # Pre-registration: §v2.6-pair1-scale — compute scaling on Pair 1
 
-**Status:** QUEUED · target commit `dbca965` · 2026-04-15
+**Status:** INCONCLUSIVE · target commit `dbca965` · 2026-04-15 · resolved by [experiments-v2.md §v2.6-pair1-scale](../docs/chem-tape/experiments-v2.md) at commit `391de6b` (BOTH=8/20, ADI closed 0.10→0.00, matched pre-reg INCONCLUSIVE row; component-discovery category noted as prereg-table gap)
 
 Pair 1 of §v2.6 (`any_char_count_gt_{1,3}_slot`, 6-token CHARS-chain body)
 failed at 4/20 BOTH at matched compute. Direct genotype inspection showed

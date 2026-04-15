@@ -1,6 +1,6 @@
 # Pre-registration: §v2.4-proxy — input-distribution shift
 
-**Status:** QUEUED · target commit `80d5320` · 2026-04-15
+**Status:** FAIL · target commit `80d5320` · 2026-04-15 · resolved by [experiments-v2.md §v2.4-proxy](../docs/chem-tape/experiments-v2.md) at commit `320fc6b` (3/20, matched pre-reg FAIL-proxy-story-generalises row)
 
 Derived from [docs/chem-tape/experiments-v2.md §v2.4-proxy](../docs/chem-tape/experiments-v2.md).
 

@@ -1,6 +1,6 @@
 # Pre-registration: §v2.6 — task-diversity breadth check for constant-indirection
 
-**Status:** QUEUED · target commit `80d5320` · 2026-04-15
+**Status:** FAIL · target commit `80d5320` · 2026-04-15 · resolved by [experiments-v2.md §v2.6](../docs/chem-tape/experiments-v2.md) at commit `dbca965` (post-baseline: 0/3 pairs scale, 2 swamped at Fmin=20/20, 1 does-not-scale; matched pre-reg FAIL combined-verdict row)
 
 Derived from [docs/chem-tape/experiments-v2.md §v2.6](../docs/chem-tape/experiments-v2.md).
 

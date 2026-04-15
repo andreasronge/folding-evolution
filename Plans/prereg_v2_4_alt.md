@@ -1,7 +1,7 @@
 # Pre-registration: §v2.4-alt — body-matched compositional pair
 
-**Status:** QUEUED · target commit `80d5320` (chem-tape code clean; working tree
-has unrelated untracked dirs) · 2026-04-15
+**Status:** INCONCLUSIVE · target commit `80d5320` (chem-tape code clean; working tree
+has unrelated untracked dirs) · 2026-04-15 · resolved by [experiments-v2.md §v2.4-alt](../docs/chem-tape/experiments-v2.md) at commit `320fc6b` (17/1 mixed outcome; matched pre-reg INCONCLUSIVE row)
 
 Derived from the doc draft at [docs/chem-tape/experiments-v2.md §v2.4-alt](../docs/chem-tape/experiments-v2.md#section-v2-4-alt---body-matched-compositional-pair-disentangles-the-v2-4-confound).
 This file stamps the commitment at a specific commit and closes two gates the

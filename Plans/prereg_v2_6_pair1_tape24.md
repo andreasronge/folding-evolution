@@ -1,6 +1,6 @@
 # Pre-registration: §v2.6-pair1-tape24 — Pair 1 at shorter tape length
 
-**Status:** QUEUED · target commit `af0a7e5` · 2026-04-15
+**Status:** FAIL · target commit `af0a7e5` · 2026-04-15 · resolved by [experiments-v2.md §v2.6-pair1 follow-up sweeps](../docs/chem-tape/experiments-v2.md) at commit `ef8f809` (COMP_24=5, BOTH_24=6 via seed-set substitution with zero overlap vs baseline-solved; matched pre-reg `FAIL — tape length is not the main barrier` row)
 
 Derived from [docs/chem-tape/experiments-v2.md §v2.6-pair1-scale](../docs/chem-tape/experiments-v2.md#v26-pair1-scale). The 4× run closed the assembly barrier but left Pair 1 component-discovery-limited on the 32-cell tape. This experiment asks whether tighter per-cell token pressure reduces that upstream discovery burden.
 

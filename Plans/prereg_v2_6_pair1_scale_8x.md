@@ -1,6 +1,6 @@
 # Pre-registration: §v2.6-pair1-scale-8x — Pair 1 at 8× compute
 
-**Status:** QUEUED · target commit `af0a7e5` · 2026-04-15
+**Status:** PASS-partial · target commit `af0a7e5` · 2026-04-15 · resolved by [experiments-v2.md §v2.6-pair1 follow-up sweeps](../docs/chem-tape/experiments-v2.md) at commit `ef8f809` (BOTH_8x=13, matched pre-reg `PASS — partial, still discovery-limited` row with a noted off-by-one on the strict COMP=BOTH criterion — one alternative-assembly solver, |ADI|=0.05; methodology lesson recorded in chronicle)
 
 Derived from [docs/chem-tape/experiments-v2.md §v2.6-pair1-scale](../docs/chem-tape/experiments-v2.md#v26-pair1-scale). The 4× run moved Pair 1 from 4/20 to 8/20 BOTH and closed the assembly barrier (`ADI = 0.00`), but left the result pre-registered `INCONCLUSIVE`.
 

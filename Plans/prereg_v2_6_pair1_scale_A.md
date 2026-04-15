@@ -1,6 +1,6 @@
 # Pre-registration: §v2.6-pair1-scale-A — Pair 1 under Arm A direct GP
 
-**Status:** QUEUED · target commit `af0a7e5` · 2026-04-15
+**Status:** PASS-partial · target commit `af0a7e5` · 2026-04-15 · resolved by [experiments-v2.md §v2.6-pair1 follow-up sweeps](../docs/chem-tape/experiments-v2.md) at commit `ef8f809` (BOTH_A=7, matched pre-reg `PASS — partial help from Arm A` row)
 
 Derived from [docs/chem-tape/experiments-v2.md §v2.6-pair1-scale](../docs/chem-tape/experiments-v2.md#v26-pair1-scale). The 4× BP_TOPK run showed that component presence and BOTH-solve coincide once components are found, suggesting that BP_TOPK's permeability may be absorbing tape-level assembly scatter rather than causing the main remaining bottleneck.
 
