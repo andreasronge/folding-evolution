@@ -1,6 +1,6 @@
 # Pre-registration: §v2.7 — Pair 1 partial→canonical assembly-transition rates
 
-**Status:** QUEUED · target commit `dbca965` · 2026-04-15
+**Status:** CONTROL-DEGENERATE · target commit `dbca965` · 2026-04-15 · resolved by [experiments-v2.md §v2.7](../docs/chem-tape/experiments-v2.md) at commit `73086c8` (pre-committed first-evaluated row: both triggers fired on `sum_gt_5_slot` — 15/20 seeds first-canonical-gen < 20 and avg gens-below-canonical = 27.2 < 50; ratio rows short-circuited; mutation-neighbor sampling not run per decision rule; §v2.7' re-prereg needed on a harder baseline)
 
 Derived from [docs/chem-tape/experiments-v2.md §v2.6 "Pair 1 compute-scaling"](../docs/chem-tape/experiments-v2.md#v26) and the open question in [findings.md#constant-slot-indirection](../docs/chem-tape/findings.md) "does Pair 1 resolve at 4× compute, separating search-landscape-difficulty from mechanism-absence on 6-token bodies?"
 

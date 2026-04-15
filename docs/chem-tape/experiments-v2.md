@@ -852,6 +852,107 @@ Not triggered (no BOTH ≥ 15/20). Per the prereg-required inspections:
 
 ---
 
+## §v2.7. Pair 1 partial→canonical assembly-transition rates (2026-04-15)
+
+**Status:** `CONTROL-DEGENERATE` · n=20 per task · commit `73086c8` · —
+
+**Pre-reg:** [Plans/prereg_pair1-transitions.md](../../Plans/prereg_pair1-transitions.md)
+**Analysis:** `experiments/chem_tape/analyses/milestone_trajectories.py`
+**Source data:** existing `experiments/output/2026-04-14/v2_3_fixed_baselines/` (n=40 across `sum_gt_{5,10}_slot`) and `experiments/output/2026-04-15/v2_6_fixed_baselines/` (n=120 across the six §v2.6 tasks). Zero new evolutionary compute.
+**Compute:** ~10 s for milestone classification across 160 runs × up to 1500 gens each.
+
+### Question
+
+Is Pair 1's 4/20 failure on `any_char_count_gt_1_slot` driven by a partial→canonical assembly bottleneck — a low per-generation transition rate to canonical, and/or a local mutation-neighbor cliff at near-canonical states — relative to §v2.3's `sum_gt_5_slot` which solves 20/20 at matched compute?
+
+### Hypothesis (pre-registered)
+
+If landscape-level cliff: `R_P1/R_23` ≤ 0.1 AND `M_near_P1/M_near_23` ≤ 0.1 with matching paired tests. If trajectory-level: `R_P1/R_23` ≤ 0.1 only; escape rate comparable. If neither: bottleneck is elsewhere.
+
+### Result
+
+**Primary outcome: CONTROL-DEGENERATE (first-evaluated row, pre-committed in Plans/prereg_pair1-transitions.md line 85).** Both triggers fire on the §v2.3 `sum_gt_5_slot` control:
+
+| trigger | criterion | observed | fires? |
+|---|---|---|---|
+| first-canonical-set-gen < 20 for ≥ 10/20 seeds | ≥ 10 | **15/20** | ✓ |
+| avg gens-below-canonical < 50 | < 50 | **27.2** | ✓ |
+
+**Per-prereg decision rule:** ratio-based rows (`PASS`/`PASS-partial`/`INCONCLUSIVE`) are short-circuited. No mechanism reading. No findings-level claim. Raw per-seed counts are reported for record.
+
+### Raw per-task data (decision-rule-mandated report)
+
+| task | n | reach canonical set | median first-canonical-set gen | median first-solve gen | R_seed mean | R_seed median | #seeds with R_seed=0 | ever reach near-canonical |
+|---|---|---|---|---|---|---|---|---|
+| `sum_gt_5_slot` (§v2.3 primary) | 20 | 17/20 | **0** | 6 | 0.051 | 0.000 | 12/20 | 11/20 |
+| `sum_gt_10_slot` (§v2.3 secondary) | 20 | 18/20 | 3 | 12 | 0.103 | 0.006 | 9/20 | 13/20 |
+| `any_char_count_gt_1_slot` (Pair 1 primary) | 20 | 10/20 | **43** | **372** | 0.006 | 0.000 | 13/20 | 11/20 |
+| `any_char_count_gt_3_slot` (Pair 1 secondary) | 20 | 11/20 | 80 | 358 | 0.027 | 0.001 | 9/20 | 17/20 |
+
+Raw (not-a-verdict) ratio for reference only: `R_P1_mean / R_23_mean` ≈ 0.006 / 0.051 ≈ **0.12** (this is division-noise under CONTROL-DEGENERATE; reported only to close the numeric loop, explicitly not to satisfy a PASS threshold).
+
+### Interpretation (no mechanism reading under this outcome)
+
+The §v2.3 4-token bodies are too easy: random initialization frequently (15/20 seeds) lands in canonical-set-present state within 20 generations, and the average trajectory spends only 27 generations below canonical. Under this distribution, the denominator of `R_23` is dominated by early-gen dynamics and the ratio `R_P1/R_23` is noise, as the prereg's codex reviewer pre-identified. Because the row-fire gating in the outcome table puts CONTROL-DEGENERATE first, the prereg's PASS/PASS-partial/INCONCLUSIVE rows are explicitly non-applicable.
+
+**What the data *does* show** (reported as raw counts only, not as a mechanism reading):
+
+- Pair 1 takes ~40× longer to first reach its canonical token-set (median 43 gens vs 0 gens on §v2.3).
+- Pair 1's token_set → solve delta is 0 gens (median) — when canonical is reached, solve follows immediately. §v2.3 shows a 2-gen delta. Token-set-first-encounter is tightly coupled to behavioral solve on Pair 1 — **the bottleneck is reaching the canonical token-set at all, not chaining it after reached**. This is consistent with §v2.6-pair1-scale's ADI=0 read and §v2.6-pair1 follow-up sweeps' "component-discovery-limited" interpretation. But per the decision rule, this is chronicle observation, **not a promoted mechanism claim**.
+- 13/20 Pair-1 primary seeds have `R_seed = 0` (never make a canonical-set transition in trajectory). This is the zero-dominated distribution the prereg's fallback-test protocol anticipated.
+
+**Secondary control (`sum_gt_10_slot`) does not rescue the baseline design:** 15/20 seeds still reach canonical before gen 20 (only avg gens-below-canonical differs: 108.2 vs 27.2). CONTROL-DEGENERATE fires on both §v2.3 tasks.
+
+### Standing diagnostic guards (all four, per prereg line 107-112)
+
+| guard | status |
+|---|---|
+| **1. Classifier strictness (strict vs permissive `MAP_EQ_R` ∨ `MAP_EQ_E`)** | **Pass** (no change in outcome). Permissive classification for Pair 1 shifts one seed's near-canonical first-gen from 80 to 45 on `gt_3_slot` and the near-canonical-reaching count from 11/20 to 18/20 on `gt_3_slot`, but **does not change any outcome-row trigger** nor any `R_seed` value (R_seed is computed on canonical-set transitions, not near-canonical). Strict classification remains primary. Note: the permissive sensitivity on near-canonical counts (11 → 18) is material enough that if §v2.7' runs on a non-degenerate baseline, the sensitivity should be reported prominently. |
+| **2. Stack-order invisibility (token-set → solve delta)** | **Flagged for Pair 1 (coupled)**, **pass for §v2.3 (slight decoupling)**. Pair 1 median delta = 0 gens (token-set reached ≈ solve gen). §v2.3 median delta = 2 gens (token-set reached ~2 gens before solve). The 100-gen prereg threshold for "decoupled" is not crossed by either task; stack-order invisibility is not the limiting factor on either. |
+| **3. Control-degenerate (§v2.3 saturates too early)** | **FIRES** — as reported above. Primary outcome. |
+| **4. Best-of-pop-trajectory scope caveat** | **Applied.** Whole analysis is best-of-pop only. Population-diversity or second-best-trajectory claims are out of scope. |
+
+### Caveats
+
+- **Seed count:** n=20 load-bearing but the CONTROL-DEGENERATE outcome means no statistical test is computed. Per-seed counts are the chronicle's only output.
+- **Overreach check:** "Pair 1 takes ~40× longer to reach canonical set" is a **raw count observation at best-of-pop granularity on one task pair** — not a generalisable mechanism claim. The prereg's decision rule explicitly blocks any mechanism reading under CONTROL-DEGENERATE.
+- **What was not done:** the expensive `mutation_neighbor_sampling.py` step (pre-reg-required only if the ratio-based rows applied). Per the decision rule's short-circuit, this saves ~200 s of CPU and ~20k one-step fitness evaluations that would have produced uninterpretable ratios.
+
+### Degenerate-success check
+
+Not triggered at any PASS row (no PASS row fired). The four standing diagnostic guards are reported above regardless of outcome, per the prereg's inspection commitment.
+
+### Findings this supports / narrows
+
+- **Does not support or narrow** `findings.md#constant-slot-indirection`. Per the prereg's downstream-commitment gate (line 169), no §v2.7 outcome promotes a claim in this pass.
+- **Methodology lesson (cross-cutting):** the pre-committed CONTROL-DEGENERATE row and pre-identification of the problem from the codex spot-check paid off. The prereg's decision-rule design prevented an hour of mutation-sampling compute that would have produced uninterpretable ratios. This is an example of principle 2 (pre-register 3+ outcomes including the degenerate case) doing real work.
+
+### Next steps
+
+Per the prereg's CONTROL-DEGENERATE decision rule (line 171): redesign the baseline. Two concrete options:
+
+1. **§v2.7'-a:** introduce a harder 4-token integer body where first-canonical-set reliably happens ≥ gen 50 on most seeds. Candidate: a task whose canonical body involves `CONST_1` or `CONST_2` arithmetic (e.g., `INPUT CONST_2 ADD SUM GT` with the constant absent from the baseline alphabet distribution). Requires new task builder + fixed-task sweep.
+2. **§v2.7'-b:** introduce a 6-token integer body as baseline (matched body-length to Pair 1, avoiding the body-length × input-domain confound flagged in the prereg). Candidate: `INPUT CONST_5 ADD SUM CONST_5 GT` or similar.
+
+Both options require a new sweep before §v2.7 can re-run with an interpretable baseline. No automatic queueing in this pass — deferred pending paper-scope review on whether the assembly-transition mechanism claim is worth the additional sweep budget.
+
+### Prereg-promise ledger (§v2.7, line-by-line)
+
+| prereg promise | reported in chronicle | status |
+|---|---|---|
+| Raw per-seed counts on both tasks under CONTROL-DEGENERATE | reported in Raw data table | ✓ |
+| First-gen-at-each-milestone per seed | exported to `output/v2_7_milestones/per_seed_summary.json` | ✓ |
+| Residence time per milestone per seed | exported | ✓ |
+| Missing-token identity at near-canonical (Pair 1) | in milestones.csv via `canonical_count` column | ✓ |
+| Token-set → solve delta per seed | reported in Raw data table + guard #2 | ✓ |
+| Mutation-neighbor sampling | **NOT RUN** (short-circuited by CONTROL-DEGENERATE, per decision rule) | ✓ (short-circuit) |
+| Statistical tests on R and M_near | **NOT RUN** (same reason) | ✓ (short-circuit) |
+| All four standing guards reported | reported in Standing diagnostic guards table | ✓ |
+| No findings-level claim in this pass | confirmed — no findings update | ✓ |
+| Re-prereg as §v2.7' as follow-up | flagged in Next steps | ✓ |
+
+---
+
 ## v2-suite combined verdict (updated 2026-04-15, post-baselines)
 
 The pre-registered v2-probe suite (§v2.1–§v2.5) landed at "Partial" earlier this session. The four follow-ups update the picture as follows:
