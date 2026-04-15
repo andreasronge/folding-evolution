@@ -1,0 +1,27 @@
+sweep_name: v2_4_compute_scaling
+# §v2.4 follow-up: compute-scaling diagnostic on F_AND.
+# Same task, same arm, same seeds — only pop (1024 → 2048) and
+# generations (1500 → 3000) increase. 4× the effective evolutionary
+# search budget. If F_AND rises materially (≥10/20), the 0/20 result
+# from the pre-reg run is compute-limited rather than structural.
+# If it stays near 0/20, compositional-depth scaling is genuinely
+# open at this mechanism.
+base:
+  alphabet: v2_probe
+  task: sum_gt_10_AND_max_gt_5
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 2048
+  generations: 3000
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 100
+  arm: BP_TOPK
+  topk: 3
+  bond_protection_ratio: 0.5
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]

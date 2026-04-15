@@ -255,7 +255,20 @@ Both `AND` and `OR` tasks are binary, IF_GT-based, same input distribution. They
 
 The F_AND = 0/20 vs F_OR = 9/20 asymmetry is consistent with a **decode-structure placement artifact**: evolution can find bodies where required tokens are *present* (OR) more easily than bodies where a specific token must land at a specific position within the extracted program (AND). This is a sharper failure-mode hypothesis than "compositional depth breaks the mechanism," and it has different paper implications.
 
-Follow-up queued: a compute-scaling diagnostic on `sum_gt_10_AND_max_gt_5` at pop=2048 and gens=3000. If F_AND rises materially (≥10/20), the 0/20 result is compute-limited rather than structural, and the compositional-depth failure softens. If it remains near 0/20, the structural read stands and the paper claim narrows honestly to "scales on op and constant indirection; does not extend to IF_GT-compositional bodies with stack-bottom placement constraints at this compute." Results will be appended here once complete.
+Follow-up queued: a compute-scaling diagnostic on `sum_gt_10_AND_max_gt_5` at pop=2048 and gens=3000 (4× the pre-reg search budget, single-variable change).
+
+**Pre-registered decision rule (recorded 2026-04-15 before results land):**
+- `F_AND_scaled ≥ 10/20` → compute-limited; §v2.4 softens to "mechanism extends with search budget." The paper claim becomes "scales to compositional depth with sufficient search."
+- `F_AND_scaled ≤ 3/20` → structural; narrow claim stands cleanly. The paper claim remains "scales on op and constant indirection; does not extend to IF_GT-compositional bodies at this compute."
+- `4/20 ≤ F_AND_scaled ≤ 9/20` → ambiguous; report as-is, no retconning either direction.
+
+**A-priori prediction (from existing F_AND baseline fitness distribution, n=20):** all 20 baseline seeds landed in 0.859–0.969 (mean 0.921, holdout 0.909). No flat basins; no canalisation on constant-output strategies. This is a refinement-bottleneck signature, not a search-trap. Under the decision rule above, this pre-data prediction weights toward `F_AND_scaled ≥ 10/20`. Recording the prediction now so the outcome can be compared to it honestly.
+
+**Watch-out applied regardless of outcome:** even if compute scaling lifts F_AND to ≥10/20, the matched-compute AND vs OR asymmetry at pre-reg (F_AND = 0/20 vs F_OR = 9/20) is itself a real finding. The softened claim would be "mechanism scales to compositional depth with sufficient search budget; matched-compute asymmetry across truth-table shapes is a characterizable limit of the pre-reg configuration" — not "no asymmetry exists." The asymmetry is not retconned by a positive follow-up.
+
+**Sanity check (2026-04-15, before compute-scaling run):** both the canonical `CONST_0`-first AND body (12 tokens) and an alternative middle-`CONST_0`-via-`SWAP` layout (13 tokens) produce **64/64 train and 256/256 holdout** correct labels under the v2 executor. The task is not impossible under v2 semantics; the failure is purely a search-discovery problem under BP_TOPK at pre-reg compute.
+
+Results will be appended here once the sweep completes.
 
 ---
 
