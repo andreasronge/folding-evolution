@@ -459,6 +459,290 @@ make_sum_gt_10_AND_max_gt_5_task = _make_compositional_task("AND", "sum_gt_10_AN
 make_sum_gt_10_OR_max_gt_5_task = _make_compositional_task("OR", "sum_gt_10_OR_max_gt_5")
 
 
+# §v2.4-alt: body-matched compositional AND pair. Both tasks use the identical
+# canonical body template
+#     CONST_0 INPUT REDUCE_MAX CONST_5 GT INPUT SUM THRESHOLD_SLOT GT IF_GT
+# and differ *only* in the task-bound `threshold` integer (5 vs 10). Disentangles
+# compositional-depth from decode-position hypotheses left open by §v2.4.
+# Label: 1 iff (max(input) > 5) AND (sum(input) > threshold).
+
+
+def _make_compound_and_slot_task(threshold: int, task_name: str):
+    def _label(xs: tuple[int, ...]) -> int:
+        return 1 if (max(xs, default=0) > 5 and sum(xs) > threshold) else 0
+
+    def _make(cfg: ChemTapeConfig, seed: int) -> Task:
+        def gen(rng):
+            return _rand_intlist(rng, length=4)
+        def positive(xs):
+            return _label(xs) == 1
+        train_inp, train_lab, hold_inp, hold_lab = _build_training_and_holdout(
+            seed, cfg.n_examples, cfg.holdout_size, gen, _label, positive
+        )
+        return Task(
+            name=task_name,
+            input_type="intlist",
+            inputs=train_inp,
+            labels=train_lab,
+            alphabet=alph.TaskAlphabet(
+                slot_12=alph.OP_NOP,
+                slot_13=alph.OP_NOP,
+                threshold=threshold,
+            ),
+            label_fn=_label,
+            holdout_inputs=hold_inp,
+            holdout_labels=hold_lab,
+        )
+
+    return _make
+
+
+make_compound_and_sum_gt_5_max_gt_5_slot_task = _make_compound_and_slot_task(
+    5, "compound_and_sum_gt_5_max_gt_5_slot"
+)
+make_compound_and_sum_gt_10_max_gt_5_slot_task = _make_compound_and_slot_task(
+    10, "compound_and_sum_gt_10_max_gt_5_slot"
+)
+
+
+# §v2.4-proxy: same AND label as §v2.4, but trained under a sampler that
+# decorrelates `max > 5` from the label. Four-way stratified balanced sampling
+# across (label, max>5) gives P(max>5|+) = P(max>5|−) = 0.5, so `max > 5`
+# alone is a 0.50 predictor (vs ~0.92 under §v2.4's natural sampling).
+
+
+def _sum_gt_10_and_max_gt_5(xs: tuple[int, ...]) -> int:
+    return 1 if (sum(xs) > 10 and max(xs, default=0) > 5) else 0
+
+
+def _sample_and_cohort_0_9(
+    rng: np.random.Generator,
+    cohort: str,
+    max_tries: int = 10_000,
+) -> tuple[int, ...]:
+    """Draw a length-4 intlist over [0,9] matching one of three cohorts:
+      "pos"          = sum>10 AND max>5        (label=1; all have max>5)
+      "neg_max_hi"   = sum≤10 AND max>5        (label=0; has max>5)
+      "neg_max_lo"   = max≤5                   (label=0; no max>5, sum any)
+    """
+    for _ in range(max_tries):
+        xs = tuple(int(x) for x in rng.integers(0, 10, size=4))
+        s = sum(xs)
+        m = max(xs)
+        if cohort == "pos" and s > 10 and m > 5:
+            return xs
+        if cohort == "neg_max_hi" and s <= 10 and m > 5:
+            return xs
+        if cohort == "neg_max_lo" and m <= 5:
+            return xs
+    raise RuntimeError(f"Failed cohort sample ({cohort}) in {max_tries} tries")
+
+
+def _build_decorrelated_and_training(
+    seed: int,
+    n_train: int,
+    n_holdout: int,
+) -> tuple[list, np.ndarray, list | None, np.ndarray | None]:
+    """Label-balanced 50/50 with max>5 decorrelated across negatives.
+
+    Target proportions: 50% positives (all with max>5 by AND construction),
+    25% neg_max_hi (max>5 AND sum≤10), 25% neg_max_lo (max≤5). Under this
+    sampler, P(max>5 | +) = 1.0 and P(max>5 | −) = 0.5, so the `max > 5`
+    predictor alone scores accuracy = 32/64 · 1.0 + 32/64 · 0.5 ≈ 0.75
+    vs ~0.92 under the natural sampler (§v2.4) — substantial weakening.
+    Perfect decorrelation (P(max>5|−) = 1.0) would collapse the task to
+    sum_gt_10_v2; this partial decorrelation preserves AND structure.
+    """
+    def _draw(rng_for, n: int, exclude: set) -> list[tuple[int, ...]]:
+        n_pos = n // 2
+        n_neg_hi = n // 4
+        n_neg_lo = n - n_pos - n_neg_hi
+        targets = [("pos", n_pos), ("neg_max_hi", n_neg_hi), ("neg_max_lo", n_neg_lo)]
+        out: list[tuple[int, ...]] = []
+        for cohort, want in targets:
+            got = 0
+            while got < want:
+                xs = _sample_and_cohort_0_9(rng_for, cohort)
+                key = repr(xs)
+                if key in exclude:
+                    continue
+                out.append(xs)
+                exclude.add(key)
+                got += 1
+        return out
+
+    train_rng = np.random.default_rng(seed)
+    exclude: set = set()
+    train_inputs = _draw(train_rng, n_train, exclude)
+    order = train_rng.permutation(len(train_inputs))
+    train_inputs = [train_inputs[i] for i in order]
+    train_labels = np.array(
+        [_sum_gt_10_and_max_gt_5(xs) for xs in train_inputs], dtype=np.int64
+    )
+    if n_holdout <= 0:
+        return train_inputs, train_labels, None, None
+    hold_rng = np.random.default_rng(seed ^ 0xABCDEF)
+    hold_inputs = _draw(hold_rng, n_holdout, exclude)
+    order = hold_rng.permutation(len(hold_inputs))
+    hold_inputs = [hold_inputs[i] for i in order]
+    hold_labels = np.array(
+        [_sum_gt_10_and_max_gt_5(xs) for xs in hold_inputs], dtype=np.int64
+    )
+    return train_inputs, train_labels, hold_inputs, hold_labels
+
+
+def make_sum_gt_10_AND_max_gt_5_decorr_task(cfg: ChemTapeConfig, seed: int) -> Task:
+    train_inp, train_lab, hold_inp, hold_lab = _build_decorrelated_and_training(
+        seed, cfg.n_examples, cfg.holdout_size
+    )
+    return Task(
+        name="sum_gt_10_AND_max_gt_5_decorr",
+        input_type="intlist",
+        inputs=train_inp,
+        labels=train_lab,
+        alphabet=alph.TaskAlphabet(slot_12=alph.OP_NOP, slot_13=alph.OP_NOP),
+        label_fn=_sum_gt_10_and_max_gt_5,
+        holdout_inputs=hold_inp,
+        holdout_labels=hold_lab,
+    )
+
+
+# §v2.6: three additional body-invariant constant-indirection pairs. Tests
+# whether §v2.3's 80/80 on sum_gt_{5,10}_slot generalises across task families.
+
+
+# Pair 1 — string-domain count. Body: INPUT CHARS MAP_EQ_R SUM THRESHOLD_SLOT GT.
+# Label: 1 iff count('R' in s) > threshold. Slot_12 = MAP_EQ_R.
+
+
+def _make_any_char_count_gt_slot_task(threshold: int, task_name: str, target: str):
+    _STR_NO_TARGET = [c for c in _STR_ALPHABET_STR if c != target]
+
+    def _label(s: str) -> int:
+        return 1 if s.count(target) > threshold else 0
+
+    def _make(cfg: ChemTapeConfig, seed: int) -> Task:
+        def gen(rng):
+            return _rand_str(rng, length=16)
+        def gen_neg(rng):
+            # Fast negatives: strings with count(target) ≤ threshold biased via
+            # sparser target injection. At threshold≥1 the natural sampler is
+            # already fine, but for very tight thresholds we still rejection-
+            # sample from it — simpler and threshold-robust.
+            return _rand_str(rng, length=16)
+        def positive(s):
+            return s.count(target) > threshold
+        train_inp, train_lab, hold_inp, hold_lab = _build_training_and_holdout(
+            seed, cfg.n_examples, cfg.holdout_size, gen, _label, positive,
+            gen_negative=gen_neg,
+        )
+        return Task(
+            name=task_name,
+            input_type="str",
+            inputs=train_inp,
+            labels=train_lab,
+            alphabet=alph.TaskAlphabet(
+                slot_12=alph.OP_MAP_EQ_R,
+                slot_13=alph.OP_NOP,
+                threshold=threshold,
+            ),
+            label_fn=_label,
+            holdout_inputs=hold_inp,
+            holdout_labels=hold_lab,
+        )
+
+    return _make
+
+
+make_any_char_count_gt_1_slot_task = _make_any_char_count_gt_slot_task(
+    1, "any_char_count_gt_1_slot", "R"
+)
+make_any_char_count_gt_3_slot_task = _make_any_char_count_gt_slot_task(
+    3, "any_char_count_gt_3_slot", "R"
+)
+
+
+# Pair 2 — wider integer range. Body: INPUT SUM THRESHOLD_SLOT GT on length-4
+# intlists over [0,12]. Thresholds {7, 13}. Factory mirrors _make_sum_gt_slot_task
+# but with configurable range.
+
+
+def _rand_intlist_range(rng: np.random.Generator, length: int, hi_exclusive: int) -> tuple[int, ...]:
+    return tuple(int(x) for x in rng.integers(0, hi_exclusive, size=length))
+
+
+def _make_sum_gt_slot_range_task(threshold: int, hi_exclusive: int, task_name: str):
+    def _label(xs: tuple[int, ...]) -> int:
+        return 1 if sum(xs) > threshold else 0
+
+    def _make(cfg: ChemTapeConfig, seed: int) -> Task:
+        def gen(rng):
+            return _rand_intlist_range(rng, 4, hi_exclusive)
+        def positive(xs):
+            return sum(xs) > threshold
+        train_inp, train_lab, hold_inp, hold_lab = _build_training_and_holdout(
+            seed, cfg.n_examples, cfg.holdout_size, gen, _label, positive
+        )
+        return Task(
+            name=task_name,
+            input_type="intlist",
+            inputs=train_inp,
+            labels=train_lab,
+            alphabet=alph.TaskAlphabet(
+                slot_12=alph.OP_NOP,
+                slot_13=alph.OP_NOP,
+                threshold=threshold,
+            ),
+            label_fn=_label,
+            holdout_inputs=hold_inp,
+            holdout_labels=hold_lab,
+        )
+
+    return _make
+
+
+make_sum_gt_7_slot_r12_task = _make_sum_gt_slot_range_task(7, 13, "sum_gt_7_slot_r12")
+make_sum_gt_13_slot_r12_task = _make_sum_gt_slot_range_task(13, 13, "sum_gt_13_slot_r12")
+
+
+# Pair 3 — aggregator variant. Body: INPUT REDUCE_MAX THRESHOLD_SLOT GT.
+# Thresholds {5, 7} on [0,9] (tightened from doc-draft {2,5} to avoid swamp).
+
+
+def _make_reduce_max_gt_slot_task(threshold: int, task_name: str):
+    def _label(xs: tuple[int, ...]) -> int:
+        return 1 if max(xs, default=0) > threshold else 0
+
+    def _make(cfg: ChemTapeConfig, seed: int) -> Task:
+        def gen(rng):
+            return _rand_intlist(rng, length=4)
+        def positive(xs):
+            return max(xs, default=0) > threshold
+        train_inp, train_lab, hold_inp, hold_lab = _build_training_and_holdout(
+            seed, cfg.n_examples, cfg.holdout_size, gen, _label, positive
+        )
+        return Task(
+            name=task_name,
+            input_type="intlist",
+            inputs=train_inp,
+            labels=train_lab,
+            alphabet=alph.TaskAlphabet(
+                slot_12=alph.OP_NOP,
+                slot_13=alph.OP_REDUCE_MAX,
+                threshold=threshold,
+            ),
+            label_fn=_label,
+            holdout_inputs=hold_inp,
+            holdout_labels=hold_lab,
+        )
+
+    return _make
+
+
+make_reduce_max_gt_5_slot_task = _make_reduce_max_gt_slot_task(5, "reduce_max_gt_5_slot")
+make_reduce_max_gt_7_slot_task = _make_reduce_max_gt_slot_task(7, "reduce_max_gt_7_slot")
+
+
 def _make_agg_task(
     aggregator_op: str,
     threshold: int,
@@ -521,6 +805,18 @@ TASK_REGISTRY = {
     "sum_gt_10_OR_max_gt_5": make_sum_gt_10_OR_max_gt_5_task,
     "agg_sum_gt_10": make_agg_sum_gt_10_task,
     "agg_max_gt_5": make_agg_max_gt_5_task,
+    # §v2.4-alt: body-matched compositional pair (shared IF_GT+CONST_0 body).
+    "compound_and_sum_gt_5_max_gt_5_slot": make_compound_and_sum_gt_5_max_gt_5_slot_task,
+    "compound_and_sum_gt_10_max_gt_5_slot": make_compound_and_sum_gt_10_max_gt_5_slot_task,
+    # §v2.4-proxy: max>5 decorrelated from label via stratified sampling.
+    "sum_gt_10_AND_max_gt_5_decorr": make_sum_gt_10_AND_max_gt_5_decorr_task,
+    # §v2.6: three body-invariant constant-indirection pairs.
+    "any_char_count_gt_1_slot": make_any_char_count_gt_1_slot_task,
+    "any_char_count_gt_3_slot": make_any_char_count_gt_3_slot_task,
+    "sum_gt_7_slot_r12": make_sum_gt_7_slot_r12_task,
+    "sum_gt_13_slot_r12": make_sum_gt_13_slot_r12_task,
+    "reduce_max_gt_5_slot": make_reduce_max_gt_5_slot_task,
+    "reduce_max_gt_7_slot": make_reduce_max_gt_7_slot_task,
 }
 
 
