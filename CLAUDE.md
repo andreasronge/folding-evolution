@@ -15,6 +15,8 @@ This project continues research started in Elixir/PTC-Lisp (`~/projects/ptc_runn
 - `docs/coevolution.md` — Four coevolution designs tested, lessons learned
 - `docs/theory.md` — Altenberg's constructional selection framework
 - `docs/methodology.md` — Cross-cutting experimental lessons (pre-registration patterns, statistical framing, scope-tagging, hash-stability, etc.) — read this before pre-registering a new experiment
+- `docs/_templates/` — Pre-registration, chronicle, and findings-entry templates that enforce methodology.md. See `docs/_templates/README.md` for the kit overview.
+- `.claude/skills/research-rigor/` — Project-local skill that triggers at pre-reg, result-logging, and findings-promotion. Invoke by saying "pre-register X", "log result of §Y", "promote to findings", "scope check", or "supersede §Z".
 - `Plans/` — Scoped plans for new directions (current: `psb2-sanity-probe.md`)
 
 ## Key Findings (current)

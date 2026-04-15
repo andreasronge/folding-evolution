@@ -50,6 +50,12 @@ Phrasing: a single run aligning with a hypothesis is "consistent with" — \
 not "supports." Contradicting is "contradicts pending replication" — not \
 "falsifies." One run is a data point.
 
+If the run's `notes` or sweep name matches a file under `Plans/prereg_*.md`, \
+read it and check whether the observed result falls in one of the \
+pre-registered outcome rows. Report the match (or absence of a matching row) \
+in `prereg_outcome` and the path in `prereg_path`. Don't invent a prereg if \
+none exists — leave both fields at their "no-prereg-found" defaults.
+
 Input — metadata (run config + timing + rusage profile):
 ```
 {metadata}
@@ -80,6 +86,8 @@ Return ONLY a JSON object:
 
 {{
   "hypothesis_under_test": "what this run was probing, per the track's docs. If you can't locate the run in experiments.md, say so plainly.",
+  "prereg_outcome": "one of: PASS-clean | PASS-partial | INCONCLUSIVE | FAIL | SWAMPED | no-matching-row | no-prereg-found",
+  "prereg_path": "Plans/prereg_<slug>.md or empty string",
   "one_line": "what ran, how it ended, the single most important number if applicable.",
   "headline_numbers": {{}},
   "anomalies": [],
