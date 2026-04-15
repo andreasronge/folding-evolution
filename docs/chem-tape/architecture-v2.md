@@ -97,6 +97,79 @@ The new primitives unlock roughly four new task classes useful for mechanism tes
 
 Detailed task specifications are in [experiments-v2.md](experiments-v2.md).
 
+## Example programs per experiment
+
+Illustrative solving programs for each v2-probe experiment. These are *reference* bodies — the scaffold shape a hand-written solution takes. GP may evolve token-equivalent alternatives (e.g., `CONST_1 CONST_1 ADD` in place of `CONST_2`). `slot_12` / `slot_13` / `THRESHOLD_SLOT` are *slot tokens* in the genome; the displayed comment shows what the task's `TaskAlphabet` binds them to at execute time.
+
+### §v2.1 — `sum_gt_10_v2` (K-alternation + swamp check)
+
+v1's `sum_gt_10` built `10` with a `CONST_1 + DUP + ADD` chain; v2 uses direct literals.
+
+```
+INPUT SUM CONST_5 CONST_5 ADD GT   # sum(input) > (5+5)   → {0,1}
+```
+
+Part A runs this at fixed K=3. Part B alternates K∈{3, 999}. The program text is identical across both parts — only the decode regime changes.
+
+### §v2.2 — multi-slot indirection (`any_char_is_*` family)
+
+All three tasks share the identical 4-token body `INPUT CHARS slot_12 ANY`; only `slot_12`'s binding varies per task:
+
+```
+INPUT CHARS slot_12 ANY
+   # any_char_is_R     : slot_12 → MAP_EQ_R
+   # any_char_is_E     : slot_12 → MAP_EQ_E       (new in v2)
+   # any_char_is_upper : slot_12 → MAP_IS_UPPER
+```
+
+Pair A alternates {R, E} (within MAP_EQ family); Pair B alternates {R, upper} (cross-family, v1's §v1.5a-binary replicated under v2 alphabet).
+
+### §v2.3 — constant-slot indirection (`sum_gt_*_slot`)
+
+The sharpest body-invariance test: two tasks, *token-sequence-identical* bodies, differing only in the integer bound to `THRESHOLD_SLOT`.
+
+```
+INPUT SUM THRESHOLD_SLOT GT
+   # sum_gt_5_slot  : TaskAlphabet.threshold = 5
+   # sum_gt_10_slot : TaskAlphabet.threshold = 10
+```
+
+Contrast with v1's §v1.5a-internal-control, which had to rebuild the threshold inline (distinct `CONST_*`/`ADD` subsequences) and scored 0/20 BOTH. §v2.3 tests whether slot-indirection absorbs that constant-construction difference.
+
+### §v2.4 — compositional depth (`sum_gt_10_{AND,OR}_max_gt_5`)
+
+Full programs in [experiments-v2.md §v2.4](experiments-v2.md); summary:
+
+```
+# Task A — AND
+CONST_0                             # seed else=0
+INPUT REDUCE_MAX CONST_5 GT         # mg = (max > 5)
+INPUT SUM CONST_5 CONST_5 ADD GT    # s  = (sum > 10)
+IF_GT                               # (else=0, then=mg, cond=s) → mg if s else 0
+
+# Task B — OR
+INPUT SUM CONST_5 CONST_5 ADD GT    # s  = (sum > 10)
+INPUT REDUCE_MAX CONST_5 GT         # mg = (max > 5)
+DUP                                 # (else=s, then=mg, cond=mg) → mg if mg else s
+IF_GT
+```
+
+Token multisets differ by exactly one token (`{CONST_0}` vs `{DUP}`) — minimal body-diff, not body-matched. §v2.4-alt would collapse the diff via `THRESHOLD_SLOT`-bound 0/1 if a cleaner test is warranted.
+
+### §v2.5 — aggregator-variation pair
+
+Implemented as slot-13 indirection (direct analogue of §v2.3's constant-slot design):
+
+```
+INPUT slot_13 THRESHOLD_SLOT GT
+   # agg_sum_gt_10 : slot_13 → REDUCE_ADD, threshold = 10
+   # agg_max_gt_5  : slot_13 → REDUCE_MAX, threshold = 5
+```
+
+This combines §v2.3's constant-slot channel with an aggregator-slot channel, so the two tasks remain token-identical in body and vary only via bindings.
+
+Exploratory: reports qualitative distributions, not a pass/fail bit.
+
 ## Implementation surface (executor changes)
 
 The v1 executor (`src/folding_evolution/chem_tape/executor.py`) dispatches on token id. Changes required:
@@ -112,6 +185,26 @@ The v1 executor (`src/folding_evolution/chem_tape/executor.py`) dispatches on to
 **Backend and compute.** v2-probe sweeps use the MLX backend + Rust executor path (`_folding_rust.rust_chem_execute_batch`) — same as current v1 sweeps. Experiment compute estimates in [experiments-v2.md](experiments-v2.md) assume 4-worker parallelism; empirical v1 reference sweep (`sum_gt_10_topk` at pop=1024, gens=1500, 20 seeds × 6 conditions) took ~17.6 min, which pins per-experiment expectations.
 
 **Estimated implementation effort:** 1-2 weeks for a focused push (executor dispatches, alphabet wiring, new task builders, tests). Full v2 would be months.
+
+## Where results live
+
+Per-seed artefacts for every v2-probe sweep are written under `experiments/output/YYYY-MM-DD/<entry_id>/` by `scripts/run_queue.py` (see [CLAUDE.md](../../CLAUDE.md) → Overnight Runs). The pre-reg suite ran on **2026-04-14**; the §v2.4 compute-scaling follow-up ran on **2026-04-15**.
+
+Layout per sweep:
+
+```
+experiments/output/2026-04-14/<entry_id>/
+├── sweep_index.json       # entry → {seed, config_hash, result_path} mapping
+├── metadata.json          # commit hash, start/end time, queue entry
+├── stdout.log, stderr.log # runner output
+└── <config_hash>/         # one dir per seed × condition combination
+    ├── config.yaml        # resolved config (task, K, period, seed, …)
+    ├── history.csv        # generation-by-generation best/mean fitness
+    ├── history.npz        # same data in numpy format
+    └── result.json        # final fitness, train/holdout, flip deltas, …
+```
+
+The `<entry_id>` ↔ `§v2.x` mapping is documented in [experiments-v2.md → Results → Output directory map](experiments-v2.md#output-directory-map). The authoritative queue definition is `queue.yaml` at repo root; `queue.status.json` tracks which entries have completed.
 
 ## Secondary direction: evolvable G→P mapping (exploratory)
 
