@@ -2,6 +2,12 @@
 
 **Status:** v1 experimental record, complete through §v1.5a-internal-control. Active experimental work has moved to the v2 probe; see [experiments-v2.md](experiments-v2.md) for the pre-registered v2 suite and [architecture-v2.md](architecture-v2.md) for the v2-probe north star and decision tree.
 
+> **Where to read what.**
+> - **Durable scope-tagged claims** consolidated from these chronicles → [`findings.md`](findings.md).
+> - **v2 probe lab notebook** (active work) → [`experiments-v2.md`](experiments-v2.md).
+> - **Architecture** → [`architecture.md`](architecture.md) (v1) and [`architecture-v2.md`](architecture-v2.md) (v2 alphabet expansion).
+> - **Methodology principles** referenced in interpretations → [`docs/methodology.md`](../methodology.md).
+
 Ordered by the question each one answers. Every experiment is a YAML sweep under `experiments/chem_tape/sweeps/`; results live under `experiments/chem_tape/output/<sweep>/`.
 
 See [architecture.md](architecture.md) for the v1 specification and the four-stage research ladder.

@@ -2,6 +2,12 @@
 
 **Scope:** pre-registered experimental suite for the v2 probe defined in [architecture-v2.md](architecture-v2.md). Each experiment has a sharp pre-registered outcome table before implementation, informed by what §v1.5a-internal-control taught us about overfit framings. v1 experimental record lives in [experiments.md](experiments.md) and is unchanged by this document.
 
+> **Where to read what.**
+> - **Durable scope-tagged claims** consolidated from these chronicles → [`findings.md`](findings.md) (op-slot-indirection, constant-slot-indirection, proxy-basin-attractor).
+> - **v1 lab notebook** → [`experiments.md`](experiments.md).
+> - **Architecture / decision tree** → [`architecture-v2.md`](architecture-v2.md) (and v1 in [`architecture.md`](architecture.md)).
+> - **Methodology principles** referenced in interpretations → [`docs/methodology.md`](../methodology.md).
+
 ### Quick gloss on the v1 sections referenced throughout
 
 - **[experiments.md §10](experiments.md) (K-alternation)**: K cycles between 3 and 999 on a single task; post-flip fitness drop exactly 0.000 on every flip; 7/20 solve rate. Established zero-cost cross-decode compatibility.
