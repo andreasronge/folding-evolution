@@ -53,6 +53,32 @@ An upcoming probe evaluates whether the project should reframe around **inductiv
 - **[Coevolution Designs](docs/coevolution.md)** — Four coevolution frameworks tested, what worked and what didn't
 - **[Theory](docs/theory.md)** — Altenberg's constructional selection and how it connects
 
+## Research Workflow (`/research-rigor`)
+
+The `research-rigor` skill (`.claude/skills/research-rigor/`) enforces [methodology.md](docs/methodology.md) at the three checkpoints where overreach silently accumulates. Invoke it by intent, not a literal command.
+
+Lifecycle for a new experiment:
+
+```
+  (1) prereg  →  [run sweep]  →  (2) log-result  →  [replicate/inspect]  →  (3) promote-finding
+                                        │
+                                        ↓
+                                 scope-check (inline)
+                                 supersession (when a later experiment narrows)
+```
+
+| mode | when | produces |
+|---|---|---|
+| **prereg** | *before* running — "pre-register X", "design experiment for Y" | `Plans/prereg_<slug>.md` with outcome table, decision rule, degenerate-success guards, sampler diagnostics |
+| **log-result** | *after* running — "log result of §X", "write up X" | section in `docs/<track>/experiments.md` matching a pre-registered outcome row |
+| **promote-finding** | only after replication + mechanism inspection — "promote §X to findings" | scope-tagged entry in `docs/<track>/findings.md` |
+| **scope-check** | any draft text — "review this claim", "is this overreaching" | diff of overreach phrases → scope-qualified rewrites |
+| **supersession** | when a later experiment narrows/falsifies an earlier one — "supersede §X", "retract §X" | explicit retraction block; original reasoning preserved |
+
+Not every run needs a new prereg. If a prior prereg already covers the work (e.g., its promised baseline sweep was skipped), skip straight to running the YAML and then **log-result** to discharge the outstanding promises. Genuinely new outcome tables / decision rules need their own prereg first.
+
+Templates that back the skill live in [docs/_templates/](docs/_templates/).
+
 ## Key References
 
 - Altenberg, L. (1995/2023). "Genome Growth and the Evolution of the Genotype-Phenotype Map." — Constructional selection, pleiotropy, genome-as-population
