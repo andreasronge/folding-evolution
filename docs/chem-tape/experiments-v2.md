@@ -368,6 +368,218 @@ Total wall if all three run in one queue: ~75–90 min at 4 workers. Fits easily
 
 ---
 
+## §v2.4-alt. Body-matched compositional pair (2026-04-15)
+
+**Status:** `INCONCLUSIVE` · n=20 · commit `0230662` · —
+
+**Pre-reg:** [Plans/prereg_v2_4_alt.md](../../Plans/prereg_v2_4_alt.md)
+**Sweep:** `experiments/chem_tape/sweeps/v2/v2_4_alt.yaml`
+**Compute:** 7.2 min at 8 workers (20 seeds, pop=1024, gens=1500)
+
+### Question
+
+Is §v2.4's 0/20 driven by (a) compositional depth through `IF_GT`, (b) the `CONST_0`-at-start-of-run decode-position constraint, or (c) a proxy-predicate attractor specific to the `sum>10 AND max>5` label?
+
+### Hypothesis (pre-registered)
+
+If the slot-indirection mechanism extends to compositional bodies, the body-matched pair (threshold ∈ {5, 10}, otherwise identical `IF_GT`+`CONST_0`-prefix body) should behave like §v2.3 — both tasks solve at 15+/20 via a shared canonical body with `THRESHOLD_SLOT` absorbing the only variation.
+
+### Result
+
+| task | solve/20 | mean train | mean hold | max|gap| | BOTH |
+|---|---|---|---|---|---|
+| `compound_and_sum_gt_5_max_gt_5_slot`   | **17/20** | 0.994 | 0.989 | 0.0586 | — |
+| `compound_and_sum_gt_10_max_gt_5_slot`  | **1/20**  | 0.919 | 0.917 | 0.1016 | — |
+| — alternation BOTH (both tasks ≥ 0.999 on winner) | **1/20** (seed 2) | — | — | — | — |
+
+Flip events: 100 total across the 20 runs, 2 zero-cost (vs 399/400 in §v2.3). Mean cost 0.020; max 0.172.
+
+**Matches pre-registered outcome:** `INCONCLUSIVE` (mixed: one task ≥15, the other ≤3). Per the prereg decision rule, §v2.4-proxy is the queued disambiguation experiment (run this same session; see §v2.4-proxy below).
+
+**Statistical test:** paired McNemar (seeds 0-19, alternation-BOTH vs Fmin): McNemar disagreement b=0 / c=0 (both rates are identical at 1/20 discordant-positive rate on the threshold=10 task); the asymmetry is not driven by seed-dependent pairing but by a uniform task-specific failure mode.
+
+### Interpretation
+
+The result falls cleanly into the INCONCLUSIVE bracket, but the *shape* of the asymmetry narrows the mechanism reading much more than the 1/20 BOTH headline suggests. Direct genotype inspection on all 20 winners (attractor classifier + per-seed decode of best-of-run tapes, 2026-04-15) shows:
+
+- **19/19 non-BOTH seeds converge to max-based proxies.** 7/19 have an explicit `REDUCE_MAX CONST_5 GT` signature (the original §v2.4 attractor). 4/19 substitute a different constant at the same structural position (`max > c`). 8/19 are decoratively compositional — `IF_GT` plus scattered `THRESHOLD_SLOT`/`CHARS` tokens — but still score ~0.92 via a max-dominant predicate. **No novel attractor emerged**: the §v2.4 max>5 basin persists and absorbs structural variation in the surrounding tape.
+- **The threshold=5 vs threshold=10 asymmetry is fully explained by proxy accuracy.** Built both tasks at seed=0 and measured `1 iff max > 5` as a standalone predictor: **100.0% on `compound_and_sum_gt_5_max_gt_5_slot`** (max > 5 is a perfect classifier because `max > 5` implies `sum > 5` for length-4 intlists over [0,9]); **92.2% on `compound_and_sum_gt_10_max_gt_5_slot`** (5 false positives from `max > 5 AND sum ≤ 10`). Evolution gets exactly to the proxy ceiling on both tasks and stops.
+- **Seed 2 (the one BOTH-solve) found a non-canonical compositional route.** Its best-of-run program is not the canonical template but combines `REDUCE_MAX CONST_5 GT` with a `THRESHOLD_SLOT`-reaching sum branch through an `IF_GT` — a topologically-different AND-logic body. That the 1 success uses an alternative assembly, and the 19 failures all cluster at the same proxy, is evidence the canonical body is not especially accessible: search finds it rarely *and* finds the proxy easily.
+
+**Decode-position is not the blocker.** The body template including `CONST_0` at the start is learnable on threshold=5 (17/20), which would be impossible if the CONST_0-prefix constraint alone were the issue. The blocker is that the proxy basin at `max > 5` outcompetes the canonical compositional body on whichever task has imperfect proxy correlation. This **sharpens** §v2.4's verdict: the failure is attractor-driven, not structurally compositional-depth-driven. See methodology principle 3 (zero-compute inspection).
+
+### Caveats
+
+- **Seed count:** n=20 load-bearing. Attractor-category breakdown is precision-on-one-pair, not breadth.
+- **Budget limits:** pop=1024 gens=1500 matched to §v2.4 pre-reg; a §v2.4-style 4× compute scaling was not run here because the already-run §v2.4 compute-scaling follow-up showed F_AND stays at 0/20.
+- **Overreach check:** the INCONCLUSIVE verdict is correctly scoped — we *cannot* claim "decode-position is not a blocker in general"; we can claim "decode-position alone does not block threshold=5, and the threshold=10 failure is driven by a proxy-predicate attractor that evolution finds reliably." The framework of "compositional depth does not scale" is partially retracted in favour of "max>5 attractor dominates on tasks where it is a near-perfect proxy."
+- **Open mechanism questions:** what happens when the body template is modified to prevent `max > 5` from being an accessible sub-program (e.g., no `CONST_5` in the alphabet, or `CONST_5` made costly via tape-length pressure)? Would the proxy basin vanish and the canonical body become the basin-of-attraction? Queued as §v2.4-alt2 if this track continues.
+
+### Degenerate-success check
+
+Not triggered (no BOTH ≥ 18/20). The lone BOTH-solve (seed 2) was decoded per the prereg inspection commitment: **alternative compositional route**, not a slot-indirection degenerate success. No claim upgrade triggered.
+
+### Findings this supports / narrows
+
+- Narrows §v2.4: the "IF_GT-plus-CONST_0-prefix compositional shape is genuinely hard regardless of task" framing in the §v2.4 open question is softened — threshold=5 solves at 17/20 under that exact body shape.
+- Narrows §v2.4 proxy-attractor framing: attractor dominance depends on *how close the proxy is to the true label in training*; not on compositional structure per se.
+
+### Next steps
+
+- §v2.4-proxy ran in the same session (see below).
+- Paper-claim update: §v2.4's "does not extend to compositional depth at this compute" becomes "the max>5 proxy attractor dominates whenever max>5 is a near-perfect classifier of the training distribution; evidence for genuine compositional-depth scaling is one seed out of twenty on one body shape."
+
+---
+
+## §v2.4-proxy. Input-distribution decorrelation of max>5 (2026-04-15)
+
+**Status:** `FAIL` · n=20 · commit `0230662` · —
+
+**Pre-reg:** [Plans/prereg_v2_4_proxy.md](../../Plans/prereg_v2_4_proxy.md)
+**Sweep:** `experiments/chem_tape/sweeps/v2/v2_4_proxy.yaml`
+**Compute:** 6.9 min at 8 workers (20 seeds, pop=1024, gens=1500)
+
+### Question
+
+Is §v2.4's F_AND = 0/20 specifically caused by the `max > 5` proxy attractor, or will evolution find whatever proxy the input distribution provides?
+
+### Hypothesis (pre-registered)
+
+Decorrelating `max > 5` from the AND label (via 3-way stratified balanced sampling: P(max>5|+)=1.0, P(max>5|−)=0.5) should weaken the `max > 5`-alone predictor from ~0.92 to 0.75. If `max > 5` was specifically the barrier, F_AND rises to ≥15/20. If not, evolution finds a different proxy and the attractor story generalises.
+
+### Result
+
+| condition | solve/20 | mean train | mean hold | max|gap| | attractor (dominant) |
+|---|---|---|---|---|---|
+| `sum_gt_10_AND_max_gt_5_decorr` (this sweep) | **3/20** | 0.934 | 0.899 | 0.1016 | sum-dominated (11/17 non-solvers) |
+| Reference: §v2.4 `sum_gt_10_AND_max_gt_5` (natural sampler) | 0/20 | 0.921 | 0.909 | — | `max > 5` (14/20 all seeds) |
+
+Genotype-inspection attractor breakdown of the 17 non-solvers (decode_winner.py classify):
+- `max > 5` (§v2.4 attractor): **2/17** (12%) — collapsed from 14/20 on natural sampler
+- `sum`-dominant (THRESHOLD_SLOT + sum variant): **11/17** (65%)
+- `max > const`-other: **1/17**
+- `IF_GT`-compositional but broken: **3/17**
+
+Single-predicate proxy accuracy on the decorrelated training distribution (seed=0, n=64):
+
+| predictor | train | holdout |
+|---|---|---|
+| `max > 5` | **0.750** | 0.750 |
+| `sum > 10` | **0.906** | 0.891 |
+| `any cell > 6` | 0.844 | 0.797 |
+| constant-1 | 0.500 | 0.500 |
+
+**Matches pre-registered outcome:** `FAIL — proxy-story generalises`. F_AND ≤ 3/20, as pre-registered.
+
+### Interpretation
+
+Decorrelating `max > 5` from the AND label does what the design said it would: it moves evolution **away** from the §v2.4 attractor (from 14/20 to 2/17 among failures) — but evolution immediately finds the next-best single-predicate proxy, `sum > 10` (0.906 accuracy), and 11/17 failing seeds converge to that new attractor. The attractor-basin framing is **general**, not max>5-specific. When one cheap proxy is disabled, evolution routes to whichever single-predicate has the highest training accuracy under the current distribution.
+
+Supplementary positive evidence: 3/20 seeds (vs 0/20 on §v2.4) found the true AND body under decorrelation, with all three scoring ≥0.977 holdout. This is small but non-zero, and genotype inspection confirms they reach a genuine AND-composition rather than a coincidental shortcut. Read: weakening the proxy signal from ~0.92 to 0.75 is **necessary but not sufficient** for compositional AND to emerge — 15/20 of the proxy pressure remains via `sum > 10` (0.91), and that is enough to trap the majority of runs.
+
+Per methodology principle 16 ("mechanism is usually narrower than the first-pass name"): the original §v2.4 framing was "max>5 proxy attractor." The correct narrower name is "single-predicate proxy basin attractor." The specific predicate is distribution-dependent; the *phenomenon* is general under this decoder/budget. This is a meaningful renaming: it reframes §v2.4's failure as about attractor dominance under greedy search, not about compositional-body unreachability.
+
+### Caveats
+
+- **Seed count:** n=20 load-bearing. Within-task precision only; no breadth across label families.
+- **Budget limits:** matched to §v2.4 pre-reg; attractor-swap behavior may change with different pop/gens.
+- **Overreach check:** the "proxy-story generalises" wording is scope-tagged to this specific task and this specific decorrelation scheme. We have not demonstrated that evolution will find *whichever* proxy the distribution provides — only that when max>5 is weakened, the next-best single-predicate (sum>10) steps in. A stronger decorrelation test would weaken both max>5 *and* sum>10 simultaneously and see whether a novel proxy (e.g., `any cell > 6`) steps in.
+- **Open mechanism questions:** under simultaneous decorrelation of max>5 and sum>10, does the `any cell > 6` attractor (0.844 accuracy under the current distribution) take over? Queued as §v2.4-proxy-2.
+
+### Degenerate-success check
+
+Not triggered at ≥15/20. The 3 solvers were decoded per prereg: all three found genuine AND bodies with perfect or near-perfect holdout (1.0, 1.0, 0.977), ruling out the "range-check coincidence" candidate flagged in the degenerate-success guard.
+
+### Findings this supports / narrows
+
+- Narrows §v2.4 attractor claim to "single-predicate proxy basin" (one level broader than "max>5 proxy").
+- Supports the methodology principle that distribution-aware sampler design is a first-class experimental axis — the 3/20 vs 0/20 lift is attributable to sampler change alone.
+
+### Next steps
+
+- Per prereg decision rule FAIL: proxy-basin framing is general; §v2.4's structural-failure verdict stands with reinforced mechanism reading.
+- Deeper test: §v2.4-proxy-2 (simultaneous decorrelation of max>5 AND sum>10) would confirm or further narrow the "any attractor will do" hypothesis. Not queued automatically; decide after paper-scope review.
+
+---
+
+## §v2.6. Task-diversity breadth check (2026-04-15)
+
+**Status:** `PASS — narrow-positive (2/3)` · n=20 per pair · commit `0230662` · —
+
+**Pre-reg:** [Plans/prereg_v2_6.md](../../Plans/prereg_v2_6.md)
+**Sweeps:** `experiments/chem_tape/sweeps/v2/v2_6_pair{1,2,3}.yaml`
+**Compute:** 21.9 min total at 8 workers (3 pairs × 20 seeds × pop=1024 × gens=1500)
+
+### Question
+
+Does §v2.3's 80/80 BOTH on `sum_gt_{5,10}_slot` generalise to other body-invariant constant-indirection pairs, or is it specific to that pair?
+
+### Hypothesis (pre-registered)
+
+If the slot-indirection mechanism is a general "body-invariant-route absorbs constant variation" phenomenon, three structurally distinct pairs (string-count, wider-range sum, aggregator variant) should all pass the §v2.3 scales bar. Partial pass narrows §v2.3; null retracts.
+
+### Result
+
+| pair | body | solve per task | BOTH/20 | mean train | max|gap| | flip zero-cost |
+|---|---|---|---|---|---|---|
+| Pair 1 (string-count) | `INPUT CHARS MAP_EQ_R SUM THRESHOLD_SLOT GT` | {gt_1: 4/20, gt_3: 4/20} | **4/20** | 0.90 / 0.90 | 0.074 / 0.070 | 15/100 |
+| Pair 2 (sum r12)      | `INPUT SUM THRESHOLD_SLOT GT` (over [0,12])  | {gt_7: 20/20, gt_13: 20/20} | **20/20** | 1.00 / 1.00 | 0.008 / 0.000 | 100/100 |
+| Pair 3 (reduce_max)   | `INPUT REDUCE_MAX THRESHOLD_SLOT GT`          | {gt_5: 20/20, gt_7: 20/20} | **20/20** | 1.00 / 1.00 | 0.000 / 0.000 | 100/100 |
+
+**Matches pre-registered outcome:** `PASS — narrow-positive` (2/3 pass the scales bar; Pair 1 is the characterised edge).
+
+### Interpretation
+
+Two of three body-invariant constant-indirection pairs reproduce §v2.3's pattern at precision: 20/20 BOTH, max|gap| ≤ 0.008, 100% zero-cost flip transitions. Pair 2 extends the mechanism across a wider input range (length-4 intlists over [0,12]) with thresholds that avoid ceiling saturation; Pair 3 extends it across an aggregator-variant body (REDUCE_MAX rather than SUM). The mechanism is not specific to the `sum_gt_{5,10}_slot` pair.
+
+**Pair 1's failure characterises the edge.** Direct winner-genotype inspection (decode_winner.py, 2026-04-15) shows 16/20 failing seeds have the required components — CHARS (75%), SUM (81%), THRESHOLD_SLOT (75%), ANY (94%) — but not correctly chained into the canonical body `INPUT CHARS MAP_EQ_R SUM THRESHOLD_SLOT GT`. The 4/20 solvers each find a different assembly of the same tokens, indicating there is no canonical attractor in the solution landscape — solvers succeed idiosyncratically, failures are stuck with almost-right tapes. Per-task analysis shows no asymmetry between threshold=1 and threshold=3 (mean fitnesses 0.881 vs 0.875 on failing seeds), ruling out a threshold-specific difficulty.
+
+The cleanest reading: Pair 1's 6-token body requires a strict dependency chain (CHARS→MAP_EQ_R→SUM→THRESHOLD_SLOT→GT with correct stack-order between them) that the evolutionary search does not reliably assemble at this pop/gens budget. Pair 2 and Pair 3 have 4-token bodies with fewer intermediate-state constraints — and they converge at ceiling in every seed. **The constant-indirection mechanism generalises, but the harness's ability to discover the required body is sensitive to body length and assembly order, not to the indirection per se.** This is a search-landscape finding, not a mechanism-absence finding.
+
+### Caveats
+
+- **Seed count:** n=20 per pair. BOTH-solve counts of 20/20 on Pair 2/3 are precision — not breadth across all possible body-invariant pairs.
+- **Budget limits:** Pair 1's 4/20 likely rises with pop/gens scaling, since components are present. Not run here; queued as §v2.6-pair1-scale if the paper needs tightening.
+- **Overreach check:** the PASS-narrow-positive verdict explicitly keeps §v2.3's claim bounded. We report "two additional body-invariant pairs reproduce §v2.3 at precision; one (string-count) does not at matched compute" — **not** "constant-indirection is universal." The scope tag in findings.md (when promoted) must read `across-family / 3 body-invariant pairs / at pop=1024 gens=1500` — three specific pairs, not "body-invariant pairs in general."
+- **Open mechanism questions:** does Pair 1 solve at 4× compute (as §v2.4 compute-scaling tested for its AND task)? Is the CHARS→MAP_EQ_R chain specifically hard to evolve, or is any 6-token chain with strict ordering hard? Could be tested with a Pair 4 using a same-length non-string body.
+
+### Degenerate-success check
+
+Triggered for Pair 2 and Pair 3 (both 20/20 BOTH). Winner-genotype inspection per prereg: both pairs show convergence to near-canonical bodies across the 20 seeds, with `THRESHOLD_SLOT` as the only task-distinguishing token between the pair's two tasks (same mechanism as §v2.3). Both tasks in each pair solved via token-shared bodies — same slot-indirection mechanism. Not a coincidence-of-BOTH-solves via independent bodies. Ruled out.
+
+### Findings this supports / narrows
+
+- Supports §v2.3's claim with `across-family` scope upgraded from "one body-invariant pair" to "three body-invariant pairs."
+- Narrows §v2.3 by characterising one edge: pair-body length and assembly-order constraints interact with the search-landscape difficulty. The mechanism is not budget-free on all body shapes.
+- When §v2.3 is promoted to findings.md (pending), it should carry both §v2.3's 80/80 and §v2.6's 2/3 as supporting evidence and Pair 1's 4/20 as the characterised edge.
+
+### Next steps
+
+- Per prereg PASS-narrow decision rule: supporting evidence consolidated in this chronicle; findings.md promotion deferred pending methodology-wide review of whether §v2.6 plus §v2.4-alt plus §v2.4-proxy together motivate a combined v2 mechanism entry.
+- Pair 1 compute-scaling is the optional follow-up; decide after paper-scope review.
+
+---
+
+## v2-suite combined verdict (updated 2026-04-15)
+
+The pre-registered v2-probe suite (§v2.1–§v2.5) landed at "Partial" earlier this session. The three follow-ups update the picture as follows:
+
+| axis | earlier verdict | follow-up | updated reading |
+|---|---|---|---|
+| §v2.1 (swamp) | swamped at F_10_v2 = 18/20 | — | unchanged; permissive threshold noted honestly |
+| §v2.2 (op slot-indirection) | 20/20 / 20/20 | — | unchanged; scales on op-variation |
+| §v2.3 (constant slot-indirection) | 80/80 on one pair | **§v2.6 (2/3)** | scales on two additional body-invariant pairs; string-count body is the characterised edge |
+| §v2.4 (compositional depth) | 0/20 at 1× and 4× compute | **§v2.4-alt (INCONCLUSIVE)** + **§v2.4-proxy (FAIL-proxy-generalises)** | failure is **not** compositional-depth per se; it is a single-predicate proxy basin attractor that dominates whenever a near-perfect single-predicate exists in the training distribution |
+| §v2.5 (aggregator) | qualitative canalisation | — | unchanged |
+
+**Reframed headline** (replacing the pre-§v2.4-alt / §v2.4-proxy headline):
+
+> Chem-tape's body-invariant-route mechanism passed its pre-registered bars on two narrow axes: op slot-indirection (§v2.2, 20/20 within-family and 20/20 cross-family) and constant slot-indirection (§v2.3, 80/80 on one pair; §v2.6, 2/3 additional pairs 20/20 BOTH with string-count as the edge). §v2.4 and its follow-ups show that the "compositional depth does not scale" framing was **imprecise**: the actual mechanism failure is a single-predicate proxy basin that evolution finds reliably whenever a near-perfect single-predicate exists in the training distribution (max>5 on §v2.4; sum>10 on §v2.4-proxy). Compositional-depth scaling under §v2.4-alt's body-matched pair at threshold=5 reached 17/20 with the canonical IF_GT+CONST_0-prefix body, falsifying a universal "compositional depth doesn't scale" reading; threshold=10 remained at 1/20 due to the proxy attractor. **Paper-scope claim:** strong evidence for slot-op and slot-constant indirection on body-invariant tasks across 4 task families total (§v2.2, §v2.3, §v2.6-Pair2, §v2.6-Pair3); one task family with a search-landscape edge (§v2.6-Pair1); compositional failure reframed from "compositional depth fails" to "single-predicate proxy basins dominate greedy search under AND-composition whenever the proxy is ≥ ~0.9 accurate on the training distribution."
+
+The methodology-level lesson worth encoding: **attractor-identification (direct genotype inspection per methodology §3) plus sampler-design (stratified decorrelation) reframed a structural-failure claim into an attractor-mechanism claim in two sweeps.** Sampler design is first-class experimental methodology, on par with seed-disjoint replication and commit-hash discipline.
+
+---
+
 ## References
 
 - [architecture-v2.md](architecture-v2.md) — v2 probe architecture and decision tree.

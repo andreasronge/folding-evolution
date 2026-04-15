@@ -121,6 +121,12 @@ Each refinement was driven by one specific experiment.
 
 **Takeaway.** First-pass mechanism names are correlates. The actual mechanism usually sits one level deeper. Treat the name as a working hypothesis and budget for at least one renaming cycle.
 
+### 16b. Sometimes the mechanism name needs to be *broader*, not narrower
+
+**Case.** §v2.4's "max > 5 proxy attractor" renamed to "single-predicate proxy basin attractor" after §v2.4-proxy showed that under decorrelation, evolution shifts from `max > 5` to `sum > 10` (whichever single-predicate is the next-most-accurate ≥ ~0.9 proxy on the current training distribution). The first-pass name was too specific; the mechanism is broader than the original predicate.
+
+**Takeaway.** Renaming can go in either direction. If an experiment shows the mechanism generalises beyond the original predicate/regime (not just narrows away from it), the rename is *broader*. The skill's log-result mode should prompt for both directions — "is the mechanism narrower than this claim?" and "is the mechanism broader than this specific predicate/condition?"
+
 ---
 
 ## Process
@@ -149,14 +155,31 @@ Each refinement was driven by one specific experiment.
 
 This isn't a checklist — it's a lessons ledger. Suggested usage:
 
-- **Before pre-registering an experiment:** read principles 1-4 and 6.
-- **After a surprising result:** read 3, 10, 14, 16.
+- **Before pre-registering an experiment:** read principles 1-4 and 6. If the prereg changes the training distribution, also read 20.
+- **After a surprising result:** read 3, 10, 14, 16, 16b, 21.
 - **When writing a summary bullet:** read 18.
 - **When reviewing your own claim language:** read 17.
 - **When adding a new config parameter:** read 11.
 - **When a previous claim needs revising:** read 13.
+- **When a result clusters near a pre-registered threshold (1/20, 3/20, etc.):** read 21 — attractor-category inspection is required, not optional.
 
 If a future experiment contributes a new lesson worth adding, update this document with a new case + takeaway pair. The point is to avoid re-learning.
+
+---
+
+## Design discipline (added 2026-04-15 from §v2.4-proxy experience)
+
+### 20. Sampler design is a first-class experimental axis
+
+**Case.** The §v2.4-proxy design went through three revisions before the sweep ran: (a) the original doc-draft ("change input range from [0,9] to [0,5]") would have collapsed the AND label to constant-False under the natural sampler — no positives exist. (b) A hybrid "positives from [0,9], negatives from [0,5]" made `max > 5` a **perfect** classifier (worse than the original). (c) A 3-way stratified sampler enforcing P(max>5|+)=1.0 and P(max>5|−)=0.5 achieved the intended ~0.75 proxy accuracy while preserving AND structure in training data. Only (c) was the correct design, and it was identified during scaffolding — not in the original pre-reg. An un-audited (a)/(b) run would have produced uninterpretable data.
+
+**Takeaway.** When a pre-reg changes the **training distribution** (not just hyperparameters or seeds), the degenerate-success guard must include: *(i)* "does the label function remain learnable under the new sampler?" *(ii)* "what does the primary proxy predictor score on the new sampler?" *(iii)* "does the new sampler preserve class balance?" The prereg should report these numbers *before* the sweep runs, on representative seeds. Sampler design deserves the same rigor as fixed-task baselines — the prereg's Gate 3 (degenerate-success) and Gate 6 (baseline-relative thresholds) both apply. Treat the sampler as a dependent-variable carrier, not a neutral backdrop.
+
+### 21. Attractor-category classification is the minimum inspection commitment for any "too clean" OR "near the threshold" outcome
+
+**Case.** §v2.4's 0/20 was initially explained as "refinement bottleneck under 4× compute" based on the 0.859–0.969 baseline fitness distribution. Direct genotype inspection then revealed the `max > 5` attractor (14/20 seeds exactly the same predicate), and the refinement-bottleneck framing was falsified. §v2.4-alt / §v2.4-proxy / §v2.6 all ran genotype-inspection on the best-of-run winners as a standing commitment, and every chronicle interpretation turned on what the classifier showed (same attractor vs new attractor vs distinct assembly).
+
+**Takeaway.** Zero-compute genotype inspection (methodology principle 3) is not optional for load-bearing chronicle entries — it's the difference between "we measured solve count" and "we understand what evolution is doing." Build or maintain a project-local classifier (`experiments/chem_tape/decode_winner.py` for chem-tape) that tags each winner with an attractor category, and run it on every n=20 sweep's winners before writing the interpretation. The classifier should be updated as new attractor categories emerge — it's a growing vocabulary, not a fixed taxonomy.
 
 ## References
 
