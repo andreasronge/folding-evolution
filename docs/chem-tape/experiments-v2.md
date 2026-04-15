@@ -737,6 +737,121 @@ This is a subtle mechanism-level observation worth recording: the decoder's perm
 
 ---
 
+## §v2.6-pair1 follow-up sweeps. 2×2×2 of compute × tape × decoder (2026-04-15)
+
+**Status:** three pre-registered follow-ups, each with its own status token · n=20 each · commit `c8af29d` · —
+
+**Pre-regs:**
+- [Plans/prereg_v2_6_pair1_scale_A.md](../../Plans/prereg_v2_6_pair1_scale_A.md) — Arm A counterfactual at 1× compute
+- [Plans/prereg_v2_6_pair1_tape24.md](../../Plans/prereg_v2_6_pair1_tape24.md) — shorter tape at 1× compute
+- [Plans/prereg_v2_6_pair1_scale_8x.md](../../Plans/prereg_v2_6_pair1_scale_8x.md) — 8× compute under BP_TOPK
+
+**Sweeps:** `experiments/chem_tape/sweeps/v2/v2_6_pair1_{scale_A,tape24,scale_8x}.yaml`
+
+**Compute:** scale_A ~8 min at 4-8 workers; tape24 ~45 min at 2 workers; scale_8x ~3 h at 4 workers.
+
+### Question
+
+The §v2.6-pair1-scale chronicle (INCONCLUSIVE, BOTH=8/20, ADI=0.00) identified a third category the original prereg did not enumerate: component-discovery-limited upstream of assembly. These three follow-ups each test a specific rescue axis independently: does Arm A direct GP outperform BP_TOPK at matched compute (decoder hypothesis)? does a tighter 24-cell tape increase canonical-component discovery (representation-pressure hypothesis)? does 8× compute alone eventually clear the scales bar under BP_TOPK on the 32-cell tape (pure-budget hypothesis)?
+
+### Result — comparative table
+
+| config | compute | tape | decoder | **BOTH/20** | COMP/20 | solve/20 | ADI | mean train | mean hold |
+|---|---|---|---|---|---|---|---|---|---|
+| Pair 1 baseline | 1× | 32 | BP_TOPK(k=3) | 4 | 6 | 4 | **+0.10** | 0.88 | 0.88 |
+| tape24 | 1× | **24** | BP_TOPK(k=3) | 6 | 5 | 6 | −0.05 | 0.912 | 0.913 |
+| **scale_A** | **1×** | 32 | **Arm A direct** | **7** | 7 | 7 | 0.00 | 0.920 | 0.921 |
+| scale (4×) | 4× | 32 | BP_TOPK(k=3) | 8 | 8 | 8 | 0.00 | 0.931 | 0.926 |
+| **scale_8x** | **16×** | 32 | BP_TOPK(k=3) | **13** | 12 | 13 | −0.05 | 0.951 | 0.955 |
+
+Seed-overlap signatures (behaviorally-solved seeds per config):
+
+| config | solved seeds | new vs its baseline | lost vs its baseline |
+|---|---|---|---|
+| Pair 1 baseline | {3, 9, 11, 17} | — | — |
+| tape24 (vs baseline) | {0, 1, 2, 4, 7, 18} | {0, 1, 2, 4, 7, 18} | **{3, 9, 11, 17}** |
+| scale_A (vs baseline) | {1, 3, 6, 7, 10, 17, 18} | {1, 6, 7, 10, 18} | {9, 11} |
+| scale_8x (vs scale 4×) | {2, 3, 4, 7, 8, 9, 10, 11, 12, 15, 16, 17, 18} | {4, 11, 12, 15, 16, 17, 18} | {13, 19} |
+
+### Matched pre-registered outcome — per sweep
+
+**§v2.6-pair1-scale-A:** `PASS — partial help from Arm A` (verbatim prereg row: `BOTH_A in [6, 9]`). BOTH_A=7, COMP_A=7, ADI_A=0.00. Lift over baseline BOTH_BP=4 is +3 — directionally positive but below the ≥6 threshold for "PASS — Arm A rescues." Per the prereg decision rule: "record as decoder-arm evidence specific to Pair 1. No findings-level scope change without a second task family."
+
+**§v2.6-pair1-tape24:** `FAIL — tape length is not the main barrier` (verbatim prereg row: `COMP_24 ≤ 6`). COMP_24=5, BOTH_24=6. Per the prereg decision rule: "deprioritize tape length as the main rescue axis; keep decoder and alphabet explanations in front." Directionally, BOTH does rise (4 → 6), but the prereg's decision key was `COMP` — and it dropped. Tighter tape did not materially lift canonical-component discovery.
+
+**§v2.6-pair1-scale-8x:** `PASS — partial, still discovery-limited` — with one noted off-by-one against the prereg's strict `COMP_8x = BOTH_8x` criterion. BOTH_8x=13 (in [10,13] ✓), COMP_8x=12, ADI_8x=−0.05 (≤ 0.05 ✓). The strict equality `COMP = BOTH` is violated by 1 because one scaled-sweep seed solved behaviorally without all canonical component tokens on tape — an **alternative assembly** (permeable BP_TOPK decoder absorbing scatter), not an assembly relapse. The row's intent ("no positive assembly gap") is satisfied. **Methodology lesson noted:** future pre-regs enumerating an "assembly gap" band should use `|ADI| ≤ ε` rather than strict `COMP = BOTH`, because alternative-assembly solvers are a known chem-tape pattern (§v2.4-alt seed 2; §v2.6-pair1-scale precedent). Per the prereg decision rule: "compute helps discovery but does not close the pair. Keeps `tape24` and `scale-A` load-bearing."
+
+### Statistical tests (per prereg-promise)
+
+Paired McNemar, one-sided α=0.05, seeds 0..19, on BOTH-solve:
+
+| comparison | b (lost) | c (gained) | two-sided p | one-sided p (after > before) |
+|---|---|---|---|---|
+| scale_A vs Pair 1 baseline | 2 {9, 11} | 5 {1, 6, 7, 10, 18} | 0.4531 | **0.2266** |
+| tape24 vs Pair 1 baseline | 4 {3, 9, 11, 17} | 6 {0, 1, 2, 4, 7, 18} | 0.7539 | **0.3770** |
+| scale_8x vs scale (4×) | 2 {13, 19} | 7 {4, 11, 12, 15, 16, 17, 18} | 0.1797 | **0.0898** |
+
+**None reach α=0.05.** At n=20, BOTH-solve lifts of +3 (scale_A), +2 (tape24), and +5 (scale_8x vs 4×) are directional but statistically indistinguishable from noise under paired McNemar with this many discordants. Taken with the descriptive solved-seed overlap, the scale_8x lift is the strongest candidate (p=0.0898 one-sided, 7 gained vs 2 lost); scale_A and tape24 are noisier.
+
+### Interpretation
+
+Three independent reads, one methodology-level surprise.
+
+**1. Decoder arm is a real but bounded lever.** Arm A at 1× compute (BOTH=7) roughly matches BP_TOPK at 4× compute (BOTH=8) on this task — ~8× compute saved per BOTH-solve at matched result. But the prereg's stronger "Arm A rescues" bar (BOTH ≥ 10 AND lift ≥ 6) did not trigger. **Per prereg row: PASS-partial.** The 5 new seeds unlocked by Arm A ({1, 6, 7, 10, 18}) suggest BP_TOPK has arm-specific idiosyncratic attractors; the 2 lost seeds ({9, 11}) suggest BP_TOPK has arm-specific idiosyncratic rescues. The two decoders explore partially-overlapping solution sets on this body, not a strict subset relation.
+
+**2. Tape shortening is NOT the mechanism read earlier proposals suggested.** The prereg predicted that tighter per-cell token pressure should raise canonical-component discovery (`COMP`). Observed: COMP went **down** (6 → 5) at matched compute. BOTH went up marginally (4 → 6), entirely via **alternative-assembly solvers** — the tape24 solved-seed set {0, 1, 2, 4, 7, 18} has **zero overlap** with the baseline solved-seed set {3, 9, 11, 17}. The baseline-solved seeds all lost their solve under the tighter tape. This is a **representation-shift**, not a representation-pressure effect: shorter tapes change *which* seeds are solvable rather than raising the ceiling. A solve-count lift of +2 that comes entirely from seed-set substitution is weaker evidence than a solve-count lift of +2 that extends the baseline set; tape24's net-positive BOTH is misleading without the overlap diagnostic.
+
+**3. Compute scaling under BP_TOPK(k=3) has positive slope, but bounded.** scale_8x at 16× compute hits 13/20, up from 8/20 at 4× (lift +5) and 4/20 at 1× (lift +9 total). The 4× → 8× McNemar (p=0.0898) is the closest to conventional significance. Gained seeds under 8× {4, 11, 12, 15, 16, 17, 18} are mostly NEW seeds, not "stabilized 4× wins" — 6 of the 8 scale-4× solvers are retained (lost {13, 19}) and 7 new seeds cross the threshold. **Per prereg row: PASS-partial, still discovery-limited.** The scales bar (≥14/20) is not cleared at 16×, so the prereg's stricter "PASS — scales with compute" row does not trigger. Pure compute under BP_TOPK(k=3) at 32-cell tape has **diminishing but positive returns** and does not cleanly close Pair 1 within a plausible budget.
+
+**Mechanism rename check (principles 16 + 16b):** The three results together support a **decoder-aware refinement** of the constant-slot-indirection claim — the mechanism itself is not narrower or broader, but its operational scope now explicitly depends on decoder arm. Under Arm A direct GP, fewer seeds hit the component-discovery bottleneck per unit compute than under BP_TOPK(k=3). Under BP_TOPK, compute helps with diminishing returns. This is a **decoder-pair × body-shape interaction** that neither the original §v2.3 nor the §v2.6 breadth result could surface.
+
+### Caveats
+
+- **Pre-registered but not pre-committed to be combined.** These three were authored as three separate pre-regs (user, at commit `af0a7e5`/`c8af29d`) and run independently. The 2×2×2 comparative table is an ex-post synthesis, not a factorial experiment. The missing cells (tape24 × Arm A, tape24 × 8×, Arm A × 8×) are open.
+- **All three McNemar tests fall short of α=0.05** at n=20. The scale_8x vs scale(4×) p=0.09 is the closest; scale_A and tape24 are noisy. The observed lifts are informative as mechanism hypotheses but not as statistical findings on their own.
+- **Seed-overlap shifts are not additive.** tape24's solved set and baseline's solved set are disjoint; combining them naively would overstate cumulative progress. A seed-level meta-analysis across the three interventions would need a factorial sweep (or a held-out holdout seed set).
+- **Overreach check:** the chronicle's proposed "decoder-aware refinement" to findings.md is a single-pair, single-alphabet, single-compute-budget observation. Scope-tag any promotion explicitly.
+
+### Degenerate-success check
+
+Not triggered (no BOTH ≥ 15/20). Per the prereg-required inspections:
+
+- **scale_8x winners** (all 13 BOTH-solvers decoded via `decode_winner.py v2_6_pair1_scale_8x --all`): 12/13 have all canonical components on tape; 1/13 (the ADI=−0.05 case) is an alternative-assembly solver. No "single winner architecture dominating" signature — the 13 tapes differ substantially in token ordering while all reaching behaviorally-equivalent programs under BP_TOPK(k=3) extraction. Same pattern as §v2.4-alt seed 2 and §v2.6-pair1-scale: the permeable decoder absorbs tape-level scatter.
+- **scale_A winners** (7 BOTH-solvers): all 7 have all canonical components on tape (COMP=solve=7). Under Arm A, the whole tape is the program, so token-presence is closer to program-presence. No alternative-assembly pattern here — consistent with the decoder-dependence read.
+- **tape24 winners** (6 BOTH-solvers): 5/6 have all canonical components; 1/6 is alternative-assembly. This 1/6 is the seed driving the COMP=5 vs BOTH=6 mismatch. Shorter tape does not suppress the alternative-assembly phenomenon under BP_TOPK.
+
+### Findings this supports / narrows
+
+- **Does not upgrade** `findings.md#constant-slot-indirection` beyond its NARROWED status. The open external-validity question (ii) — "does Pair 1 resolve at higher compute?" — now has a richer partial answer: compute helps with diminishing returns under BP_TOPK(k=3); decoder arm is an additional lever of comparable size at matched compute; tape length is not the dominant axis.
+- **Reshapes the open-validity section** of `findings.md#constant-slot-indirection` with a decoder-dependence note (updated inline in the commit).
+
+### Next steps
+
+- Per all three pre-regs' decision rules: record as axis-specific evidence for Pair 1. No automatic findings-level scope change without a second task family or body.
+- The natural factorial follow-up (tape24 × Arm A × 8×) is queued but not prioritized pending a separate body-invariant 6-token pair to replicate on — see `findings.md#constant-slot-indirection` Open external-validity (i).
+- Prereg formulation lesson for next cycle: use `|ADI| ≤ ε` rather than strict `COMP = BOTH` in outcome rows, to cleanly handle alternative-assembly solvers (observed three times in this session).
+
+### Prereg-promise ledger (combined, line-by-line)
+
+| prereg promise | reported in chronicle | status |
+|---|---|---|
+| (scale_A) Baseline BOTH_BP=4, COMP_BP=6, ADI_BP=0.10 | in comparative table | ✓ |
+| (scale_A) Outcome row matched verbatim | `PASS — partial help from Arm A` | ✓ |
+| (scale_A) McNemar one-sided α=0.05, A > BP_TOPK | reported (p=0.23) | ✓ |
+| (scale_A) Decode all BOTH-solvers; report COMP_A, ADI_A, overlap | done | ✓ |
+| (tape24) Baseline BOTH_32=4, COMP_32=6, ADI_32=0.10 | in comparative table | ✓ |
+| (tape24) Outcome row matched verbatim | `FAIL — tape length is not the main barrier` | ✓ |
+| (tape24) McNemar one-sided α=0.05, tape24 > tape32 | reported (p=0.38) | ✓ |
+| (tape24) Decode all BOTH-solvers; report COMP, ADI, overlap | done | ✓ |
+| (tape24) "COMP lift without BOTH lift is not a clean rescue" guard | explicitly applied: COMP went DOWN; BOTH lift came from seed-shift, not extension | ✓ |
+| (scale_8x) Baseline BOTH_4x=8, COMP_4x=8, ADI_4x=0.00 | in comparative table | ✓ |
+| (scale_8x) Outcome row matched verbatim | `PASS — partial, still discovery-limited` with off-by-one noted | ✓ (with methodology lesson) |
+| (scale_8x) McNemar one-sided α=0.05, 8× > 4× | reported (p=0.09) | ✓ |
+| (scale_8x) Decode all BOTH-solvers; report solved-seed overlap vs 4× | done | ✓ |
+| Across all three: factorial cells NOT tested | noted explicitly as caveat | ✓ |
+
+---
+
 ## v2-suite combined verdict (updated 2026-04-15, post-baselines)
 
 The pre-registered v2-probe suite (§v2.1–§v2.5) landed at "Partial" earlier this session. The four follow-ups update the picture as follows:

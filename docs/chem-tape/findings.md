@@ -121,15 +121,17 @@ and one pair (6-token string-count body) failed at 4/20.
   {5, 10}, `INPUT SUM THRESHOLD_SLOT GT` body.
 - Open external-validity questions: (i) does a redesigned §v2.6' with
   Fmin-intermediate thresholds on Pair 2 / Pair 3 bodies support the
-  mechanism? (ii) does Pair 1 resolve at 4× compute, separating
-  search-landscape-difficulty from mechanism-absence? **Partially answered
-  by [§v2.6-pair1-scale](experiments-v2.md#v26-pair1-scale) (INCONCLUSIVE,
-  commit `600ef20`):** 4× compute lifts BOTH from 4/20 → 8/20 and closes
-  the **assembly barrier** (ADI 0.10 → 0.00) but does not close the
-  **component-discovery barrier** (only 8/20 scaled-sweep seeds carry the
-  full required token set). The scales bar (≥15/20) is not met. Question
-  (ii) reshapes to: "would a shorter tape length or a decoder-arm change
-  close the component-discovery barrier?" — reformulated, not resolved.
+  mechanism? (ii) does Pair 1 resolve at higher compute / alternative
+  decoder / shorter tape, separating search-landscape-difficulty from
+  mechanism-absence? **Answered partially by four follow-ups (commit
+  `c8af29d`), see [§v2.6-pair1 follow-up sweeps](experiments-v2.md#v26-pair1-follow-up-sweeps-2×2×2-of-compute-×-tape-×-decoder):**
+  - **4× compute** ([§v2.6-pair1-scale](experiments-v2.md#v26-pair1-scale), INCONCLUSIVE at commit `600ef20`): 4/20 → 8/20, assembly barrier closes, component-discovery barrier remains.
+  - **16× compute** (§v2.6-pair1-scale-8x, PASS-partial, BOTH=13/20): compute helps with diminishing returns under BP_TOPK(k=3); does not cleanly clear the ≥14/20 scales bar at 16× either.
+  - **Arm A direct GP at 1× compute** (§v2.6-pair1-scale-A, PASS-partial, BOTH=7/20): ~matches BP_TOPK at 4× compute — decoder-arm is a real lever of comparable magnitude to 4× compute on this body.
+  - **Tape length 24 at 1× compute** (§v2.6-pair1-tape24, FAIL, COMP=5 → lower than baseline): shorter tape is *not* the mechanism it appeared; BOTH lift came entirely from seed-set substitution, not from extending baseline's solved seeds.
+
+  Reformulated open question: **"Is Pair 1's remaining discovery gap a joint function of decoder-arm × compute, with tape length secondary?"** Untested factorial cells (Arm A × 4× compute, Arm A × 16× compute, tape24 × Arm A) would settle this, but require a second 6-token body to avoid single-pair overfitting.
+- **Decoder-arm dependence caveat (added 2026-04-15):** on this specific 6-token body at pop=1024 gens=1500, Arm A direct GP achieves 7/20 BOTH while BP_TOPK(k=3,bp=0.5) achieves 4/20 at matched compute. The constant-slot-indirection finding should be read as **specific to the tested decoder arm** (BP_TOPK with these parameters) when the body shape demands ≥6 tokens in strict dependency order. On 4-token bodies (§v2.3), decoder choice did not matter because the search landscape was swamp-level easy; on 6-token bodies, it materially does.
 
 ### Mechanism reading (current)
 
