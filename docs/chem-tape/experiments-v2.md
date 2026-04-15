@@ -197,6 +197,68 @@ The suite has **four graded experiments** (§v2.1, §v2.2, §v2.3, §v2.4) with 
 
 Described in [architecture-v2.md §Secondary direction](architecture-v2.md#secondary-direction-evolvable-gp-mapping-exploratory). Waits on v2-probe mechanism-scaling result.
 
+---
+
+## Results (overnight run 2026-04-14 → 2026-04-15)
+
+**Commit:** `6f12a56` (alphabet + executor + Rust port + queue infra), `ff4d1b3` (train-holdout gap + overfit flagging).
+**Compute:** 14 sweep entries across the pre-reg suite + fixed-task baselines + §v2.3 seed expansion + tape-length headroom check. ~3h wall, MLX + Rust batch executor path, pop=1024, gens=1500, n_examples=64, holdout_size=256.
+
+All per-seed artefacts under `experiments/output/2026-04-14/<entry_id>/`.
+
+### Per-experiment outcomes
+
+| experiment | headline | verdict (pre-reg) |
+|---|---|---|
+| **§v2.1 Part A** (fixed baseline `sum_gt_10_v2`) | F_10_v2 = **18/20** train, 18/20 holdout | **Swamp gate tripped** |
+| **§v2.1 Part B** (K-alternation {3, 999}) | A_10_v2 = **15/20** = F_10_v2 − 3 | Partial (but measurement-limited by swamp) |
+| **§v2.1 tape=48 headroom** | 18/20 train (15/20 holdout) | Comparable to tape=32; alphabet density is not a confound |
+| **§v2.2 Pair A** {R, E} within-family | **20/20 BOTH** train, **20/20 BOTH holdout** | **Scales cleanly** |
+| **§v2.2 Pair B** {R, upper} cross-family | **20/20 BOTH** (v2 replication of §v1.5a-binary's 20/20) | **Scales cleanly** |
+| §v2.2 fixed baselines on string tasks | R / E / upper_v2 all **20/20** train and holdout | Swamp-check joint condition satisfied |
+| **§v2.3** constant-slot indirection | **20/20 BOTH** pre-reg; **80/80 BOTH** across 4 seed blocks (0-79); zero-cost transitions at 100/100 flip events; max gap 0.016 | **Scales cleanly — headline result** |
+| §v2.3 fixed baselines | `sum_gt_5_slot` 20/20, `sum_gt_10_slot` 19/20 (one stuck seed) | Strong |
+| **§v2.4** compositional {AND, OR} | 2/20 BOTH at ≥0.999; 12/20 at ≥0.90; F_AND fixed = **0/20** (mean 0.92), F_OR fixed = 9/20 | **Partial / does-not-scale** — AND is the bottleneck |
+| **§v2.5** aggregator variation (exploratory) | **20/20 perfect co-solve**, zero flip cost | Consistent with scaling |
+
+### Overfit audit
+
+Every entry's `train_holdout_gap` below the 0.05 threshold on > 95% of seeds; no entry crossed the attention bar (≥25% of seeds with gap > 0.05 or any single gap > 0.15). Details:
+
+| entry | overfit_seeds | max_gap | mean_gap |
+|---|---|---|---|
+| §v2.3 + 3 expansion blocks (80 seeds) | 0 / 80 | 0.016 | ≈0 |
+| §v2.2 (pair A, pair B, fixed baselines, 140 seeds) | 0 / 140 | 0.000 | 0 |
+| §v2.5 | 0 / 20 | 0.000 | 0 |
+| §v2.1 Part A / tape48 / Part B | 0 / 1 / 1 | 0.016 / 0.062 / 0.090 | ≈0 |
+| §v2.4 alternation / fixed baselines | 1 / 20 / 2 / 40 | 0.059 / 0.078 | 0.004 / 0.012 |
+
+**Interpretation:** train-fitness pre-reg verdicts are trustworthy. The holdout-enabled pre-registration worked as designed — the concern that 1500 generations on 64 training examples could produce memorised solutions did not materialise.
+
+### Combined verdict against the decision tree
+
+By the architecture-v2.md rubric — *≥3/4 graded in "scales" AND §v2.5 consistent* — the suite lands at **Partial**: two graded experiments scale (§v2.2, §v2.3), one swamps (§v2.1), one does-not-scale or partial (§v2.4). §v2.5 supports scaling.
+
+However, the Partial label understates what the data shows. The two axes that **directly extend §v1.5a's mechanism claim** — op variation (§v2.2) and constant variation (§v2.3) — both scaled cleanly. The failure is on a different dimension (compositional depth via `IF_GT`) that was a stretch of the mechanism, not a core test of it. The §v2.1 swamp was pre-registered explicitly to trigger when direct primitives (`CONST_5 CONST_5 ADD`) remove selection pressure; tripping it is evidence the pre-reg was well-calibrated, not evidence against the mechanism.
+
+### Headline framing for writeup
+
+> Chem-tape's body-invariant-route mechanism scales cleanly on its two native generalization axes — op slot-indirection (§v2.2, 20/20 within-family + 20/20 cross-family) and **constant slot-indirection (§v2.3, 80/80 BOTH across 4 seed blocks, zero train-holdout gap, 100% instant flip recovery)**. §v2.1's pre-registered swamp check fired at v2 expressivity, moving `sum_gt_10_v2` out of the mechanism-testing range at this primitive set. Compositional depth via `IF_GT` (§v2.4) is open pending layout follow-up; the AND-task asymmetry (F_AND = 0/20 vs F_OR = 9/20 at matched compute) suggests a decode-structure placement constraint rather than a fundamental depth limit, but this distinction has not yet been tested.
+
+The §v2.3 result is the strongest single mechanism claim in the suite. It directly recovers the §v1.5a-internal-control falsification at v2 scale: two tasks with **token-sequence-identical bodies** that differ only in a task-bound integer (`threshold = 5` vs `10`) produce 80/80 BOTH-solve with zero overfitting and zero-cost alternation transitions.
+
+### §v2.4 open question
+
+Both `AND` and `OR` tasks are binary, IF_GT-based, same input distribution. They differ only in the truth-table shape and — critically — the required body construction:
+- **OR body**: `[s_block] [mg_block] DUP IF_GT` — no specific token-at-start-of-run constraint.
+- **AND body**: `CONST_0 [mg_block] [s_block] IF_GT` — `CONST_0` must appear at the start of the extracted program (under BP_TOPK, this means start of the tape-earliest bonded run).
+
+The F_AND = 0/20 vs F_OR = 9/20 asymmetry is consistent with a **decode-structure placement artifact**: evolution can find bodies where required tokens are *present* (OR) more easily than bodies where a specific token must land at a specific position within the extracted program (AND). This is a sharper failure-mode hypothesis than "compositional depth breaks the mechanism," and it has different paper implications.
+
+Follow-up queued: a compute-scaling diagnostic on `sum_gt_10_AND_max_gt_5` at pop=2048 and gens=3000. If F_AND rises materially (≥10/20), the 0/20 result is compute-limited rather than structural, and the compositional-depth failure softens. If it remains near 0/20, the structural read stands and the paper claim narrows honestly to "scales on op and constant indirection; does not extend to IF_GT-compositional bodies with stack-bottom placement constraints at this compute." Results will be appended here once complete.
+
+---
+
 ## References
 
 - [architecture-v2.md](architecture-v2.md) — v2 probe architecture and decision tree.
