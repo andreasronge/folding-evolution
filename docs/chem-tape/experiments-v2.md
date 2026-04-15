@@ -268,7 +268,46 @@ Follow-up queued: a compute-scaling diagnostic on `sum_gt_10_AND_max_gt_5` at po
 
 **Sanity check (2026-04-15, before compute-scaling run):** both the canonical `CONST_0`-first AND body (12 tokens) and an alternative middle-`CONST_0`-via-`SWAP` layout (13 tokens) produce **64/64 train and 256/256 holdout** correct labels under the v2 executor. The task is not impossible under v2 semantics; the failure is purely a search-discovery problem under BP_TOPK at pre-reg compute.
 
-Results will be appended here once the sweep completes.
+### §v2.4 follow-up results (2026-04-15, commit `f806d04` → run)
+
+**Outcome: F_AND_scaled = 0/20 → STRUCTURAL** per the pre-committed decision rule.
+
+| metric | baseline (pop=1024, gens=1500) | scaled (pop=2048, gens=3000) | Δ |
+|---|---|---|---|
+| solve (≥0.999) | **0/20** | **0/20** | 0 |
+| near-solve (≥0.95) | 4/20 | 4/20 | 0 |
+| close (≥0.90) | 17/20 | 17/20 | 0 |
+| train mean | 0.921 | 0.923 | +0.002 |
+| train max | 0.969 | 0.969 | 0 |
+| holdout mean | 0.909 | 0.909 | 0 |
+| max train-holdout gap | 0.078 | 0.078 | 0 |
+| wall (mean per seed) | ~180s | 463s | +283s |
+
+4× the effective search budget produced **essentially zero movement** on every per-seed metric. Bucket distribution is identical (16 refinement-zone + 4 near-solve). No seed transitioned into a better bucket; no seed regressed. The means are within noise.
+
+**A-priori prediction: falsified.** The pre-committed prediction (recorded in commit `f806d04` before this sweep ran) was that the 0.85–0.97 baseline distribution indicated a refinement-bottleneck signature and compute scaling would help — weighted toward F_AND_scaled ≥ 10/20. The outcome (0/20) falsifies that prediction cleanly. Reporting this honestly: the refinement-zone distribution was a misleading surface signal. What looked like "seeds converging toward a solution and just needing more time" is actually "seeds converging to a **stable local optimum** at ~0.92 fitness that evolution cannot escape at 4× budget." That's a qualitatively different failure mode.
+
+**Mechanism interpretation.** The seeds are producing programs that solve ~59/64 training examples and ~232/256 holdout examples (roughly the same edge cases fail on both — gap is small and stable). To close the last ~5 examples per seed requires a non-local jump in token-sequence space: placing `CONST_0` (or equivalent) at a specific position within the top-K-extracted program, plus correctly chaining the remaining tokens. Mutation distance from the ~0.92 basin to a correct AND body is larger than what 1500 or 3000 generations of tournament evolution can cross, regardless of the specific decode-placement mechanism being the precise barrier.
+
+### Updated §v2.4 verdict
+
+**Does not scale on compositional depth at this mechanism.** The narrow claim stands:
+
+> Chem-tape's body-invariant-route mechanism scales cleanly on op slot-indirection (§v2.2, 20/20 both pairs) and constant slot-indirection (§v2.3, 80/80 BOTH across four seed blocks with zero train-holdout gap). It does not extend to `IF_GT`-compositional bodies at matched or 4×-matched compute (§v2.4, F_AND = 0/20 at both settings). The matched-compute truth-table asymmetry (F_AND = 0/20 vs F_OR = 9/20 at pre-reg; both unchanged at 4× budget) is a characterizable limit of compositional depth under BP_TOPK.
+
+### Combined decision-tree verdict (updated 2026-04-15)
+
+Still **Partial** per rubric, but now with a cleaner decomposition:
+- **Positive (two axes):** §v2.2 scales cleanly, §v2.3 scales cleanly — both directly extend §v1.5a's mechanism.
+- **Measurement-limited (one axis):** §v2.1 swamp gate fired as pre-registered.
+- **Confirmed does-not-scale (one axis, now with 4× compute evidence):** §v2.4 compositional depth.
+- **Supports scaling (exploratory):** §v2.5 at 20/20 perfect co-solve.
+
+The pre-committed decision rule + falsified a-priori prediction make the §v2.4 "does not scale" call unambiguous. No retconning path remains.
+
+### Headline framing for writeup (updated)
+
+> Chem-tape's body-invariant-route mechanism scales cleanly on its two native generalization axes — op slot-indirection (§v2.2, 20/20 within-family + 20/20 cross-family) and constant slot-indirection (§v2.3, 80/80 BOTH across four seed blocks, zero train-holdout gap, 100% instant flip recovery). §v2.1's pre-registered swamp check fired as designed at v2 expressivity. §v2.4 confirms the mechanism does not extend to `IF_GT`-compositional bodies: F_AND = 0/20 at pop=1024×gens=1500 and 0/20 at pop=2048×gens=3000, with an invariant ~0.92 local-optimum distribution. The AND-vs-OR truth-table asymmetry (0/20 vs 9/20 at matched compute, unchanged at 4×) is a characterizable limit. **Scope of the paper claim: the mechanism scales on op and constant indirection; compositional depth via `IF_GT` is outside its demonstrated range.**
 
 ---
 
