@@ -14,6 +14,7 @@ This project continues research started in Elixir/PTC-Lisp (`~/projects/ptc_runn
 - `docs/chem-tape/` and `docs/ca/` — Active research tracks (each has own architecture.md + experiments.md)
 - `docs/coevolution.md` — Four coevolution designs tested, lessons learned
 - `docs/theory.md` — Altenberg's constructional selection framework
+- `docs/methodology.md` — Cross-cutting experimental lessons (pre-registration patterns, statistical framing, scope-tagging, hash-stability, etc.) — read this before pre-registering a new experiment
 - `Plans/` — Scoped plans for new directions (current: `psb2-sanity-probe.md`)
 
 ## Key Findings (current)
