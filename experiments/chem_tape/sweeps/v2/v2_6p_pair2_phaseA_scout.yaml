@@ -1,0 +1,29 @@
+sweep_name: v2_6p_pair2_phaseA_scout
+# §v2.6'-Pair2 Phase A scout: 5-seed × 5 candidate tasks fixed-task on body
+# INPUT SUM THRESHOLD_SLOT GT over [0,12]. Candidate threshold pairs tested:
+# C1 = (18, 24), C2 = (22, 28), C3 = (24, 30). Selection rule: pick pair
+# whose Fmin lands in [1, 4]. See Plans/prereg_v2_6_pair2_redesigned.md.
+base:
+  alphabet: v2_probe
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  arm: BP_TOPK
+  topk: 3
+  bond_protection_ratio: 0.5
+grid:
+  task:
+    - sum_gt_18_slot_r12
+    - sum_gt_22_slot_r12
+    - sum_gt_24_slot_r12
+    - sum_gt_28_slot_r12
+    - sum_gt_30_slot_r12
+  seed: [0, 1, 2, 3, 4]

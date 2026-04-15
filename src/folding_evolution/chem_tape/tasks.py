@@ -704,6 +704,15 @@ def _make_sum_gt_slot_range_task(threshold: int, hi_exclusive: int, task_name: s
 make_sum_gt_7_slot_r12_task = _make_sum_gt_slot_range_task(7, 13, "sum_gt_7_slot_r12")
 make_sum_gt_13_slot_r12_task = _make_sum_gt_slot_range_task(13, 13, "sum_gt_13_slot_r12")
 
+# §v2.6'-Pair2 redesigned (Plans/prereg_v2_6_pair2_redesigned.md): same body shape
+# `INPUT SUM THRESHOLD_SLOT GT` over [0,12], thresholds picked to land Fmin
+# intermediate. Phase A scout chooses one of three candidate pairs.
+make_sum_gt_18_slot_r12_task = _make_sum_gt_slot_range_task(18, 13, "sum_gt_18_slot_r12")
+make_sum_gt_22_slot_r12_task = _make_sum_gt_slot_range_task(22, 13, "sum_gt_22_slot_r12")
+make_sum_gt_24_slot_r12_task = _make_sum_gt_slot_range_task(24, 13, "sum_gt_24_slot_r12")
+make_sum_gt_28_slot_r12_task = _make_sum_gt_slot_range_task(28, 13, "sum_gt_28_slot_r12")
+make_sum_gt_30_slot_r12_task = _make_sum_gt_slot_range_task(30, 13, "sum_gt_30_slot_r12")
+
 
 # Pair 3 — aggregator variant. Body: INPUT REDUCE_MAX THRESHOLD_SLOT GT.
 # Thresholds {5, 7} on [0,9] (tightened from doc-draft {2,5} to avoid swamp).
@@ -741,6 +750,51 @@ def _make_reduce_max_gt_slot_task(threshold: int, task_name: str):
 
 make_reduce_max_gt_5_slot_task = _make_reduce_max_gt_slot_task(5, "reduce_max_gt_5_slot")
 make_reduce_max_gt_7_slot_task = _make_reduce_max_gt_slot_task(7, "reduce_max_gt_7_slot")
+
+
+# §v2.8 (Plans/prereg_v2_8_integer_6token.md): 6-token integer-domain body to
+# disambiguate body-length from input-domain on Pair 1's failure. Canonical
+# body `INPUT SUM CONST_2 ADD THRESHOLD_SLOT GT` evaluates `(sum + 2) > t`
+# which equals `sum > t - 2`. The +2 offset forces the canonical body to be
+# 6 tokens AND use THRESHOLD_SLOT — the 4-token alternative `INPUT SUM
+# CONST_C GT` requires constructing constant `t-2` from {CONST_0,1,2,5},
+# which costs ≥ 4 additional ADD-chain tokens for the relevant thresholds
+# (15..25), making the 6-token slot body the cheapest path.
+def _make_sum_plus2_gt_slot_task(threshold: int, task_name: str):
+    def _label(xs: tuple[int, ...]) -> int:
+        return 1 if (sum(xs) + 2) > threshold else 0
+
+    def _make(cfg: ChemTapeConfig, seed: int) -> Task:
+        def gen(rng):
+            return _rand_intlist(rng, length=4)
+        def positive(xs):
+            return (sum(xs) + 2) > threshold
+        train_inp, train_lab, hold_inp, hold_lab = _build_training_and_holdout(
+            seed, cfg.n_examples, cfg.holdout_size, gen, _label, positive
+        )
+        return Task(
+            name=task_name,
+            input_type="intlist",
+            inputs=train_inp,
+            labels=train_lab,
+            alphabet=alph.TaskAlphabet(
+                slot_12=alph.OP_NOP,
+                slot_13=alph.OP_NOP,
+                threshold=threshold,
+            ),
+            label_fn=_label,
+            holdout_inputs=hold_inp,
+            holdout_labels=hold_lab,
+        )
+
+    return _make
+
+
+make_sum_plus2_gt_15_slot_task = _make_sum_plus2_gt_slot_task(15, "sum_plus2_gt_15_slot")
+make_sum_plus2_gt_17_slot_task = _make_sum_plus2_gt_slot_task(17, "sum_plus2_gt_17_slot")
+make_sum_plus2_gt_20_slot_task = _make_sum_plus2_gt_slot_task(20, "sum_plus2_gt_20_slot")
+make_sum_plus2_gt_22_slot_task = _make_sum_plus2_gt_slot_task(22, "sum_plus2_gt_22_slot")
+make_sum_plus2_gt_25_slot_task = _make_sum_plus2_gt_slot_task(25, "sum_plus2_gt_25_slot")
 
 
 def _make_agg_task(
@@ -817,6 +871,19 @@ TASK_REGISTRY = {
     "sum_gt_13_slot_r12": make_sum_gt_13_slot_r12_task,
     "reduce_max_gt_5_slot": make_reduce_max_gt_5_slot_task,
     "reduce_max_gt_7_slot": make_reduce_max_gt_7_slot_task,
+    # §v2.6'-Pair2 redesigned: same body shape as §v2.6 Pair 2, threshold pair
+    # picked by Phase A scout to land Fmin intermediate.
+    "sum_gt_18_slot_r12": make_sum_gt_18_slot_r12_task,
+    "sum_gt_22_slot_r12": make_sum_gt_22_slot_r12_task,
+    "sum_gt_24_slot_r12": make_sum_gt_24_slot_r12_task,
+    "sum_gt_28_slot_r12": make_sum_gt_28_slot_r12_task,
+    "sum_gt_30_slot_r12": make_sum_gt_30_slot_r12_task,
+    # §v2.8: 6-token integer body to disambiguate body-length vs input-domain.
+    "sum_plus2_gt_15_slot": make_sum_plus2_gt_15_slot_task,
+    "sum_plus2_gt_17_slot": make_sum_plus2_gt_17_slot_task,
+    "sum_plus2_gt_20_slot": make_sum_plus2_gt_20_slot_task,
+    "sum_plus2_gt_22_slot": make_sum_plus2_gt_22_slot_task,
+    "sum_plus2_gt_25_slot": make_sum_plus2_gt_25_slot_task,
 }
 
 

@@ -116,3 +116,72 @@
   expect_outputs: [sweep_index.json]
   track: chem-tape-v2
   notes: "Tape length=48 replication of §v2.1 Part A; settles the alphabet-density confound."
+
+# ============================================================================
+# Session 4 queue additions (2026-04-15) — decoder-variation batch
+# Driven by Plans/prereg_v2_{11,12,13}*.md. Estimated total wall: ~80-120 min.
+#
+# §v2.8 (prereg_v2_8_integer_6token.md) and §v2.6'-Pair2 (prereg_v2_6_pair2_redesigned.md)
+# Phase B sweeps are NOT queued — Phase A sampler audit FAILED on all candidate
+# tasks for both. See Plans/prereg_v2_{8,6_pair2}_phase_a_HALT_record.md.
+# Hard gate fired correctly; no compute wasted on swamped designs.
+# ============================================================================
+
+# §v2.11 — Arm A direct GP on §v2.3's load-bearing pair (highest priority)
+- id: v2_11_arm_A_alt
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_11_arm_A_alt.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 1800
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.11: Arm A alternation on sum_gt_{5,10}_slot. Tests load-bearing constant-slot-indirection mechanism survival under decoder variation."
+
+- id: v2_11_arm_A_fixed
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_11_arm_A_fixed.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.11: Arm A fixed-task baselines on sum_gt_5_slot and sum_gt_10_slot. Required for Fmin_A and decoder-main-effect computation."
+
+# §v2.12 — Arm A on proxy-basin tasks
+- id: v2_12_arm_A_v2_4_natural
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_12_arm_A_v2_4_natural.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 1800
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.12: Arm A on sum_gt_10_AND_max_gt_5 natural sampler. Tests whether max>5 proxy basin is BP_TOPK-specific."
+
+- id: v2_12_arm_A_v2_4_decorr
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_12_arm_A_v2_4_decorr.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 1800
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.12: Arm A on sum_gt_10_AND_max_gt_5_decorr (3-way stratified). Tests whether sum>10 next-best proxy basin is BP_TOPK-specific."
+
+# §v2.13 — BP_TOPK(k=5) parameter sweep on §v2.3 and Pair 1
+- id: v2_13_k5_v2_3_alt
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_13_k5_v2_3_alt.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 1800
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.13: BP_TOPK(k=5) alternation on sum_gt_{5,10}_slot. Within-decoder-family parameter sensitivity."
+
+- id: v2_13_k5_v2_3_fixed
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_13_k5_v2_3_fixed.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.13: BP_TOPK(k=5) fixed baselines on sum_gt_5_slot and sum_gt_10_slot."
+
+- id: v2_13_k5_pair1_alt
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_13_k5_pair1_alt.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 1800
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.13: BP_TOPK(k=5) alternation on Pair 1 (any_char_count_gt_{1,3}_slot)."
+
+- id: v2_13_k5_pair1_fixed
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_13_k5_pair1_fixed.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.13: BP_TOPK(k=5) fixed baselines on Pair 1."
