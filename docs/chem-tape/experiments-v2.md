@@ -216,7 +216,7 @@ All per-seed artefacts under `experiments/output/2026-04-14/<entry_id>/`.
 | **§v2.2 Pair A** {R, E} within-family | **20/20 BOTH** train, **20/20 BOTH holdout** | **Scales cleanly** |
 | **§v2.2 Pair B** {R, upper} cross-family | **20/20 BOTH** (v2 replication of §v1.5a-binary's 20/20) | **Scales cleanly** |
 | §v2.2 fixed baselines on string tasks | R / E / upper_v2 all **20/20** train and holdout | Swamp-check joint condition satisfied |
-| **§v2.3** constant-slot indirection | **20/20 BOTH** pre-reg; **80/80 BOTH** across 4 seed blocks (0-79); zero-cost transitions at 100/100 flip events; max gap 0.016 | **Scales cleanly — headline result** |
+| **§v2.3** constant-slot indirection | **20/20 BOTH** pre-reg; **80/80 BOTH** across 4 seed blocks (0-79); **399/400 flip events zero-cost** (one 5-generation recovery, seed 54); max |gap| = 0.0156 (≈ 1 holdout example out of 256) | **Strong evidence for slot-constant indirection on this body-invariant pair** |
 | §v2.3 fixed baselines | `sum_gt_5_slot` 20/20, `sum_gt_10_slot` 19/20 (one stuck seed) | Strong |
 | **§v2.4** compositional {AND, OR} | 2/20 BOTH at ≥0.999; 12/20 at ≥0.90; F_AND fixed = **0/20** (mean 0.92), F_OR fixed = 9/20 | **Partial / does-not-scale** — AND is the bottleneck |
 | **§v2.5** aggregator variation (exploratory) | **20/20 perfect co-solve**, zero flip cost | Consistent with scaling |
@@ -239,13 +239,15 @@ Every entry's `train_holdout_gap` below the 0.05 threshold on > 95% of seeds; no
 
 By the architecture-v2.md rubric — *≥3/4 graded in "scales" AND §v2.5 consistent* — the suite lands at **Partial**: two graded experiments scale (§v2.2, §v2.3), one swamps (§v2.1), one does-not-scale or partial (§v2.4). §v2.5 supports scaling.
 
-However, the Partial label understates what the data shows. The two axes that **directly extend §v1.5a's mechanism claim** — op variation (§v2.2) and constant variation (§v2.3) — both scaled cleanly. The failure is on a different dimension (compositional depth via `IF_GT`) that was a stretch of the mechanism, not a core test of it. The §v2.1 swamp was pre-registered explicitly to trigger when direct primitives (`CONST_5 CONST_5 ADD`) remove selection pressure; tripping it is evidence the pre-reg was well-calibrated, not evidence against the mechanism.
+However, the Partial label alone under-describes the result shape. The two axes extending §v1.5a's mechanism (op variation §v2.2 and constant variation §v2.3) both passed their pre-registered bars cleanly on body-invariant tasks. §v2.4 is the only axis where the mechanism failed, on a family that already acknowledged a known confound (compositional depth intertwined with a decode-position constraint — see §v2.4 body-diff framing).
+
+**Honest scope note.** The 15+/20 "scales" bar at n=20 is an operational gate, not a broad generalization claim. §v2.3's 80/80 across 4 seed blocks is **precision on one task pair**, not breadth across task families; it tightens the estimate for this specific body-invariant pair rather than buying external validity. The §v2.1 swamp gate trigger at F_10_v2 = 18/20 is arguably permissive — 2/20 failures is not ceiling saturation in an inferential sense, even though the pre-reg threshold was set before data. These are reviewer-facing concerns worth acknowledging rather than hiding behind pre-reg.
 
 ### Headline framing for writeup
 
-> Chem-tape's body-invariant-route mechanism scales cleanly on its two native generalization axes — op slot-indirection (§v2.2, 20/20 within-family + 20/20 cross-family) and **constant slot-indirection (§v2.3, 80/80 BOTH across 4 seed blocks, zero train-holdout gap, 100% instant flip recovery)**. §v2.1's pre-registered swamp check fired at v2 expressivity, moving `sum_gt_10_v2` out of the mechanism-testing range at this primitive set. Compositional depth via `IF_GT` (§v2.4) is open pending layout follow-up; the AND-task asymmetry (F_AND = 0/20 vs F_OR = 9/20 at matched compute) suggests a decode-structure placement constraint rather than a fundamental depth limit, but this distinction has not yet been tested.
+> Chem-tape's body-invariant-route mechanism passed its pre-registered bars on two narrow axes: op slot-indirection (§v2.2, 20/20 within-family and 20/20 cross-family) and constant slot-indirection (§v2.3, 80/80 BOTH across four seed blocks with max |train-holdout gap| = 0.0156 and 399/400 zero-cost flip transitions). §v2.1's pre-registered swamp gate fired at v2 expressivity, moving `sum_gt_10_v2` out of the mechanism-testing range at this primitive set — the pre-reg threshold at 18/20 is permissive and we note this honestly. §v2.4 (`IF_GT`-compositional AND task) failed at 0/20 both at pre-reg compute (pop=1024, gens=1500) and at 4× compute (pop=2048, gens=3000); the confound between compositional depth and the `CONST_0`-at-start-of-run decode-position constraint is not disentangled by this follow-up and is queued as §v2.4-alt.
 
-The §v2.3 result is the strongest single mechanism claim in the suite. It directly recovers the §v1.5a-internal-control falsification at v2 scale: two tasks with **token-sequence-identical bodies** that differ only in a task-bound integer (`threshold = 5` vs `10`) produce 80/80 BOTH-solve with zero overfitting and zero-cost alternation transitions.
+The §v2.3 result directly recovers §v1.5a-internal-control's falsification on this particular body-invariant pair: two tasks with **token-sequence-identical bodies** differing only in a task-bound integer (`threshold = 5` vs `10`) produce 80/80 BOTH-solve with near-zero within-distribution gap. This is the strongest single mechanism claim in the suite, and it is a narrow one by design.
 
 ### §v2.4 open question
 
@@ -270,44 +272,99 @@ Follow-up queued: a compute-scaling diagnostic on `sum_gt_10_AND_max_gt_5` at po
 
 ### §v2.4 follow-up results (2026-04-15, commit `f806d04` → run)
 
-**Outcome: F_AND_scaled = 0/20 → STRUCTURAL** per the pre-committed decision rule.
+**Outcome: F_AND_scaled = 0/20 → STRUCTURAL** per the pre-committed decision rule (≤ 3/20).
 
 | metric | baseline (pop=1024, gens=1500) | scaled (pop=2048, gens=3000) | Δ |
 |---|---|---|---|
 | solve (≥0.999) | **0/20** | **0/20** | 0 |
 | near-solve (≥0.95) | 4/20 | 4/20 | 0 |
-| close (≥0.90) | 17/20 | 17/20 | 0 |
+| close (≥0.90) | **16/20** | **17/20** | +1 |
 | train mean | 0.921 | 0.923 | +0.002 |
 | train max | 0.969 | 0.969 | 0 |
 | holdout mean | 0.909 | 0.909 | 0 |
-| max train-holdout gap | 0.078 | 0.078 | 0 |
+| max train-holdout gap | 0.0781 | 0.0781 | 0 |
 | wall (mean per seed) | ~180s | 463s | +283s |
 
-4× the effective search budget produced **essentially zero movement** on every per-seed metric. Bucket distribution is identical (16 refinement-zone + 4 near-solve). No seed transitioned into a better bucket; no seed regressed. The means are within noise.
+Aggregate solve count unchanged (0/20 → 0/20). At the per-seed level the picture is slightly richer: **17/20 seeds produced identical final fitness at 4× compute**, despite different starting populations (pop=1024 vs pop=2048). One seed moved up (seed 19: 0.9219 → 0.9688, refine→near-solve), one moved down (seed 7: 0.9531 → 0.9219, near-solve→refine), one crossed the 0.90 line without reaching near-solve (seed 9: 0.8906 → 0.9219). The ≥0.999 solve bar was not crossed by any seed in either setting.
 
-**A-priori prediction: falsified.** The pre-committed prediction (recorded in commit `f806d04` before this sweep ran) was that the 0.85–0.97 baseline distribution indicated a refinement-bottleneck signature and compute scaling would help — weighted toward F_AND_scaled ≥ 10/20. The outcome (0/20) falsifies that prediction cleanly. Reporting this honestly: the refinement-zone distribution was a misleading surface signal. What looked like "seeds converging toward a solution and just needing more time" is actually "seeds converging to a **stable local optimum** at ~0.92 fitness that evolution cannot escape at 4× budget." That's a qualitatively different failure mode.
+**A-priori prediction: falsified.** The pre-committed prediction (commit `f806d04`) weighted the 0.85–0.97 baseline distribution toward F_AND_scaled ≥ 10/20, reading it as a refinement-bottleneck signature. The outcome (0/20) falsifies that prediction. Reporting honestly: the refinement-zone surface signal was misleading, but the inferred "stable local optimum" framing in the initial writeup was story, not measurement. Direct inspection replaces it below.
 
-**Mechanism interpretation.** The seeds are producing programs that solve ~59/64 training examples and ~232/256 holdout examples (roughly the same edge cases fail on both — gap is small and stable). To close the last ~5 examples per seed requires a non-local jump in token-sequence space: placing `CONST_0` (or equivalent) at a specific position within the top-K-extracted program, plus correctly chaining the remaining tokens. Mutation distance from the ~0.92 basin to a correct AND body is larger than what 1500 or 3000 generations of tournament evolution can cross, regardless of the specific decode-placement mechanism being the precise barrier.
+**Mechanism interpretation (from direct genotype inspection, 2026-04-15).** Decoding the best-of-run genotypes from the 20 F_AND baseline seeds under BP_TOPK (k=3, bond_protection=0.5):
+
+- **14/20 seeds converge to `max > 5` exactly** — a simpler single-predicate function that agrees with AND on 64/64 balanced training examples only by coincidence of the input distribution. P(max > 5 | length-4 intlist over [0,9]) ≈ 0.87, and balanced-class sampling makes `max > 5` a ~92% proxy for AND on both train and holdout.
+- **6/20 seeds** produce AND-like behaviour with best-hypothesis fit against `AND` but miss exact match — these are closer to the target function but still not solving.
+- No seed collapses to a trivial constant-output strategy.
+
+This is not a refinement bottleneck. It is a **proxy-predicate attractor**: evolution finds `max > 5` (a 1–2 token computation: `INPUT REDUCE_MAX CONST_5 GT`) that already scores ~0.92 on both train and holdout, and the fitness gradient from there to actual AND (requiring the `sum > 10` branch + `IF_GT` with correctly-placed `CONST_0`) is not traversable at 4× compute. The 2/20 F_OR solves-vs-0/20 F_AND asymmetry is consistent: `max > 5` is also a proxy for OR, but the stepping-stones from the `max > 5` basin to exact OR (e.g., adding `DUP IF_GT` without stack-bottom constraints) are shorter than the stepping-stones to exact AND (requiring stack-bottom `CONST_0`).
 
 ### Updated §v2.4 verdict
 
-**Does not scale on compositional depth at this mechanism.** The narrow claim stands:
+**At this mechanism, compute budget, and task formulation, F_AND is not solvable.** The narrower, better-grounded claim:
 
-> Chem-tape's body-invariant-route mechanism scales cleanly on op slot-indirection (§v2.2, 20/20 both pairs) and constant slot-indirection (§v2.3, 80/80 BOTH across four seed blocks with zero train-holdout gap). It does not extend to `IF_GT`-compositional bodies at matched or 4×-matched compute (§v2.4, F_AND = 0/20 at both settings). The matched-compute truth-table asymmetry (F_AND = 0/20 vs F_OR = 9/20 at pre-reg; both unchanged at 4× budget) is a characterizable limit of compositional depth under BP_TOPK.
+> This specific AND formulation under BP_TOPK (k=3, bond_protection=0.5) was not rescued by 4× search budget (pop=2048, gens=3000). Best-of-run genotypes converged to a `max > 5` proxy-predicate attractor (14/20 seeds exactly, 6/20 AND-partial) rather than to the correct compositional body. The compositional-depth vs decode-position-fragility confound already noted in §v2.4's body-diff framing is **not** disentangled by this follow-up. "Mechanism does not extend to `IF_GT`-compositional bodies" is too broad a conclusion from this data alone; the correct narrow reading is "max > 5 is a local optimum that 4× compute cannot exit toward AND on this task formulation." §v2.4-alt (body-matched compositional pair that holds the `IF_GT`-with-`CONST_0`-prefix shape constant) is the cleaner follow-up to disentangle the two hypotheses.
 
 ### Combined decision-tree verdict (updated 2026-04-15)
 
-Still **Partial** per rubric, but now with a cleaner decomposition:
-- **Positive (two axes):** §v2.2 scales cleanly, §v2.3 scales cleanly — both directly extend §v1.5a's mechanism.
-- **Measurement-limited (one axis):** §v2.1 swamp gate fired as pre-registered.
-- **Confirmed does-not-scale (one axis, now with 4× compute evidence):** §v2.4 compositional depth.
-- **Supports scaling (exploratory):** §v2.5 at 20/20 perfect co-solve.
+Still **Partial** per rubric, with a narrower decomposition than the initial writeup implied:
+- **Positive (two body-invariant axes):** §v2.2 passed its pre-reg bar (20/20 within-family, 20/20 cross-family); §v2.3 passed with 80/80 BOTH across four seed blocks. Both are precision results on narrow body-invariant tasks, not broad scaling claims.
+- **Measurement-limited (one axis):** §v2.1 swamp gate fired; we note the 18/20 threshold is permissive.
+- **Confirmed does-not-scale at this compute on this task formulation (one axis):** §v2.4 F_AND = 0/20 at both 1× and 4× compute. Direct genotype inspection identifies a `max > 5` proxy-predicate attractor as the specific failure mode. The compositional-depth vs decode-position-fragility confound is **not** disentangled.
+- **Supports scaling (exploratory, within this task pair):** §v2.5 at 20/20 perfect co-solve.
 
-The pre-committed decision rule + falsified a-priori prediction make the §v2.4 "does not scale" call unambiguous. No retconning path remains.
+The pre-committed decision rule and the falsified a-priori prediction make the "F_AND not rescued by 4× compute" call clean. They do **not** justify the broader "mechanism does not extend to compositional depth" conclusion — that would require §v2.4-alt to run first.
 
-### Headline framing for writeup (updated)
+### Headline framing for writeup (updated 2026-04-15, post-codex-review)
 
-> Chem-tape's body-invariant-route mechanism scales cleanly on its two native generalization axes — op slot-indirection (§v2.2, 20/20 within-family + 20/20 cross-family) and constant slot-indirection (§v2.3, 80/80 BOTH across four seed blocks, zero train-holdout gap, 100% instant flip recovery). §v2.1's pre-registered swamp check fired as designed at v2 expressivity. §v2.4 confirms the mechanism does not extend to `IF_GT`-compositional bodies: F_AND = 0/20 at pop=1024×gens=1500 and 0/20 at pop=2048×gens=3000, with an invariant ~0.92 local-optimum distribution. The AND-vs-OR truth-table asymmetry (0/20 vs 9/20 at matched compute, unchanged at 4×) is a characterizable limit. **Scope of the paper claim: the mechanism scales on op and constant indirection; compositional depth via `IF_GT` is outside its demonstrated range.**
+> Chem-tape's body-invariant-route mechanism passed its pre-registered bars on two narrow axes: op slot-indirection (§v2.2, 20/20 within-family and 20/20 cross-family at matched compute) and constant slot-indirection (§v2.3, 80/80 BOTH across four seed blocks, max |train-holdout gap| = 0.0156, 399/400 zero-cost flip transitions with one 5-generation recovery on seed 54). §v2.3 is precision on one body-invariant task pair, not breadth across task families. §v2.1's pre-registered swamp gate fired at v2 expressivity (F_10_v2 = 18/20) — we note the 18/20 threshold is permissive and is a reviewer-facing concern. §v2.4 (`IF_GT`-compositional AND task) failed at 0/20 at pre-reg compute (pop=1024, gens=1500) and at 4× compute (pop=2048, gens=3000); direct genotype inspection shows 14/20 baseline seeds converge to a `max > 5` proxy-predicate attractor that achieves ~0.92 on both train and holdout by coincidence of the input distribution. The compositional-depth vs decode-position-fragility confound is not disentangled by this follow-up; §v2.4-alt (body-matched compositional pair) is queued. **Scope of the paper claim: strong evidence for slot-op and slot-constant indirection on body-invariant tasks; one task family made uninterpretable by expressivity; one confounded compositional formulation fails robustly under this decoder/search setup.**
+
+### Proposed follow-up experiments (2026-04-15, post-review)
+
+Three concrete, pre-registrable experiments that address the specific weaknesses a skeptical reviewer (including Codex) flagged on this dataset. Listed in priority order.
+
+#### §v2.4-alt — body-matched compositional pair (disentangles the §v2.4 confound)
+
+**Question.** Is §v2.4's 0/20 driven by (a) compositional depth through `IF_GT`, (b) the `CONST_0`-at-start-of-run decode-position constraint specific to the AND body, or (c) a proxy-predicate attractor specific to the `sum > 10 AND max > 5` label function?
+
+**Design.** Two new tasks whose canonical bodies share the **identical** `IF_GT`-compositional shape with `CONST_0` prefix — differing only in a `THRESHOLD_SLOT`-bound integer. Concretely, tasks of the form `label = (pred > threshold AND <fixed predicate>)` where both tasks use the same body template `CONST_0 INPUT REDUCE_MAX CONST_5 GT INPUT SUM THRESHOLD_SLOT GT IF_GT` and differ only in `threshold ∈ {5, 10}`. Requires two new task builders analogous to `sum_gt_{5,10}_slot` but wrapped in the `IF_GT`/`CONST_0`-prefix shape.
+
+**Pre-registered outcomes (n=20 seeds, pop=1024, gens=1500 — matched to §v2.4 pre-reg):**
+- Both solve ≥15/20 → decode-position constraint is **not** the blocker; §v2.4's failure is specific to the proxy-predicate attractor or the specific label function, and the "does not scale on compositional depth" reading falls apart.
+- Both fail ≤3/20 → the `IF_GT`-plus-`CONST_0`-prefix compositional shape is genuinely hard regardless of task; §v2.4's failure generalises to this mechanism.
+- Mixed → task-specific effects matter; specific subsequent follow-up required.
+
+**Compute:** ~15–20 min.
+
+#### §v2.4-proxy — shift the input distribution to break the `max > 5` attractor
+
+**Question.** Is the §v2.4 F_AND failure mode specifically the `max > 5` proxy, or will evolution find whatever proxy the input distribution provides?
+
+**Design.** Re-run the original `sum_gt_10_AND_max_gt_5` task at pre-reg compute, but with the input sampler generating length-4 intlists over [0,5] instead of [0,9]. Under the new distribution, `P(max > 5)` collapses to 0, so `max > 5` can no longer be a ~0.92 proxy for AND — the label becomes equivalent to `sum > 10` alone. If F_AND rises toward 15/20 on this variant, the `max > 5` attractor was the specific barrier. If F_AND remains near 0/20, evolution finds a different proxy and the "proxy-predicate basin" story generalises. If F_AND lands between, we learn something about how easily attractors form.
+
+**Pre-registered outcomes (n=20 seeds, matched compute):**
+- F_AND_[0,5] ≥ 15/20 → `max > 5` proxy was the specific barrier on the original task.
+- F_AND_[0,5] ≤ 3/20 → evolution finds a new proxy under the new distribution; attractor story is general.
+- 4–14/20 → report as-is.
+
+**Compute:** ~15 min (one sweep).
+
+#### §v2.6 — task-diversity breadth check for the constant-indirection claim
+
+**Question.** Does §v2.3's 80/80 result generalise beyond the `sum_gt_{5,10}_slot` pair to other body-invariant constant-indirection pairs, or is it specific to this pair?
+
+**Design.** Three additional body-invariant constant-indirection task pairs at matched compute (pop=1024, gens=1500, n=20):
+- `any_char_count_gt_{1,3}_slot` (string domain, `INPUT CHARS slot_12 SUM THRESHOLD_SLOT GT` with slot_12 = MAP_EQ_R)
+- `sum_gt_{7,13}_slot` (offset thresholds under wider input range, e.g. length-4 over [0,12])
+- `reduce_max_gt_{2,5}_slot` (aggregator-variant, slot_13 = REDUCE_MAX)
+
+**Pre-registered outcomes:** each pair scored independently (15+/20 BOTH = scales on that pair, 0-5/20 = doesn't, 6-14 = partial). Combined: 3/3 pass → §v2.3's claim has real breadth; 2/3 → narrow positive with characterizable edge; 1/3 or 0/3 → §v2.3 was specific to `sum_gt_{5,10}_slot` and the headline narrows sharply.
+
+**Compute:** ~45 min (three pairs, ~15 min each).
+
+#### Priority and sequencing
+
+Run **§v2.4-alt first** — it's the single experiment that could most change the current verdict (from "compositional depth doesn't scale" to "the mechanism scales on compositional depth when decode-position constraints are absent"). Run **§v2.6 second** — it's the breadth check that makes §v2.3's claim robust to the "narrow task diversity" reviewer pushback. Run **§v2.4-proxy third** — valuable but diagnostic rather than verdict-shifting.
+
+Total wall if all three run in one queue: ~75–90 min at 4 workers. Fits easily in a single overnight slot with headroom.
 
 ---
 
