@@ -1,0 +1,25 @@
+sweep_name: v2_6_pair1_scale_8x
+# §v2.6-pair1-scale-8x: Pair 1 at 8× compute after the 4× run landed
+# INCONCLUSIVE but closed the assembly barrier. Same tasks/decoder/tape;
+# only pop and gens scale again. See Plans/prereg_v2_6_pair1_scale_8x.md.
+base:
+  alphabet: v2_probe
+  task: any_char_count_gt_1_slot
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 4096
+  generations: 6000
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  arm: BP_TOPK
+  topk: 3
+  bond_protection_ratio: 0.5
+  task_alternating_period: 300
+  task_alternating_values: "any_char_count_gt_1_slot,any_char_count_gt_3_slot"
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
