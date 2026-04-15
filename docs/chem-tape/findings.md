@@ -84,80 +84,147 @@ finding below (different mechanism axis, not a narrowing of this claim).
 
 ---
 
-## constant-slot-indirection. Body-invariant route absorbs slot-bound integer-constant variation across multiple body shapes (n=20 per pair, across-family with characterised edge).
+## constant-slot-indirection. Body-invariant route absorbs slot-bound integer-constant variation on a single body shape at precision (n=80, within-family; §v2.6 breadth check failed).
 
-**Scope tag:** `across-family` · `n=20 per pair × 4 pairs (1 with seed expansion to n=80)` · `at pop=1024 gens=1500 BP_TOPK(k=3,bp=0.5) v2_probe alphabet` · `on body shapes` `INPUT SUM THRESHOLD_SLOT GT` `(integer)` `and` `INPUT REDUCE_MAX THRESHOLD_SLOT GT` `(aggregator)`
+**Scope tag:** `within-family` · `one body shape` · `n=20 (pre-reg) + 60 (seed expansion) = 80 on one pair` · `at pop=1024 gens=1500 BP_TOPK(k=3,bp=0.5) v2_probe alphabet` · `on body shape` `INPUT SUM THRESHOLD_SLOT GT` `with thresholds {5, 10} on intlists over [0,9]`
 
-**Status:** `ACTIVE` · last revised commit `320fc6b` · 2026-04-15
+**Status:** `NARROWED` · last revised commit `344e4de` · 2026-04-15 (narrowed from `ACTIVE` at commit `320fc6b` on the same date; §v2.6 baseline completion below)
+
+> **Narrowed by §v2.6 baseline completion (2026-04-15, commit `344e4de`).** The pre-baseline reading (ACTIVE; `across-family / 4 pairs`) cited §v2.6 Pair 2 (`sum_gt_{7,13}_slot_r12`) and Pair 3 (`reduce_max_gt_{5,7}_slot`) as 20/20 BOTH supporting evidence. The fixed-baseline sweep that the prereg required but the initial session skipped shows both pairs at Fmin = 20/20 — prereg-pre-accept swamp outcome (per `Plans/prereg_v2_6.md` outcome-table line 84). Swamped pairs provide **no evidence** for or against the mechanism: the 20/20 alternation BOTH is what two independently-easy tasks produce with or without slot-indirection. The entry narrows to §v2.3's one precision pair only. The pre-baseline claim and scope-tag text are preserved in the "Narrowing-history" block below (methodology §13 reasoning trail).
 
 ### Claim
 
-When two binary tasks share a token-identical body and differ only in a
-task-bound integer constant exposed via `THRESHOLD_SLOT`, evolution discovers
-the body once and solves both tasks via that body — extending the
-op-slot-indirection mechanism from operator variation to constant variation
-across at least three structurally distinct body shapes.
+When two binary tasks share the `INPUT SUM THRESHOLD_SLOT GT` body and differ
+only in a task-bound integer constant exposed via `THRESHOLD_SLOT`, evolution
+discovers the body once and solves both tasks via that body at 80/80 BOTH
+across 4 seed blocks at the tested budget. The mechanism is demonstrated at
+precision on one pair; the breadth check (§v2.6) across three additional
+body-invariant pairs did not extend the claim — two of the three pairs were
+swamped at Fmin = 20/20 (baseline too permissive to measure alternation lift)
+and one pair (6-token string-count body) failed at 4/20.
 
 ### Scope boundaries (what this claim does NOT say)
 
-- Does **not** claim "constant-indirection is universal" — the string-domain
-  body (`INPUT CHARS MAP_EQ_R SUM THRESHOLD_SLOT GT`, 6 tokens) failed at
-  4/20 BOTH despite components being present in 75-94% of evolved tapes.
-  See [§v2.6 Pair 1 chronicle](experiments-v2.md#v26).
-- Does not claim the mechanism is budget-free: failure on the 6-token body
-  may resolve at higher pop/gens, but that is **not** tested.
-- Tested only on intlist inputs of length 4 (over [0,9] and [0,12]) and one
-  string-domain attempt that failed.
-- Open external-validity question: does Pair 1 (string-count) solve at 4×
-  compute, the way §v2.4-alt's threshold=5 task did under matched compute?
+- Does **not** claim `across-family` — the across-family extension failed
+  its pre-registered breadth check (§v2.6 FAIL: 0/3 pairs scaled, two
+  swamped, one does-not-scale).
+- Does **not** claim the aggregator-variant body (`INPUT REDUCE_MAX
+  THRESHOLD_SLOT GT`) supports the mechanism — §v2.6 Pair 3 was swamped at
+  Fmin = 20/20 and is therefore uninformative for or against the mechanism
+  on that body.
+- Does **not** claim constant-indirection works at any wider input range
+  — §v2.6 Pair 2 over [0,12] was similarly swamped.
+- Does **not** claim the mechanism is budget-free: §v2.6 Pair 1 (6-token
+  body) failed at 4/20 at matched compute, possibly resolvable at higher
+  pop/gens but untested.
+- Tested only on intlist inputs of length 4 over [0,9] with thresholds
+  {5, 10}, `INPUT SUM THRESHOLD_SLOT GT` body.
+- Open external-validity questions: (i) does a redesigned §v2.6' with
+  Fmin-intermediate thresholds on Pair 2 / Pair 3 bodies support the
+  mechanism? (ii) does Pair 1 resolve at 4× compute, separating
+  search-landscape-difficulty from mechanism-absence?
 
 ### Mechanism reading (current)
 
-**Current name:** `body-invariant-route mechanism (constant-slot variant)`
+**Current name:** `body-invariant-route mechanism (constant-slot variant, one-pair precision)`
 
 **Naming history:**
 - Initial: extension of "body-invariant route" from op-slot to constant-slot,
   proposed pre-§v2.3 (commit `4f0fe94`).
 - Confirmed: §v2.3's 80/80 across 4 seed blocks demonstrates constant-slot
-  variant works on the canonical sum body.
-- Narrowed (Pair 1 edge): the mechanism's **discoverability** depends on
-  body-shape topology — the 4-token bodies (Pair 2 sum_r12, Pair 3
-  reduce_max) converge at ceiling, the 6-token CHARS-chain body
-  (Pair 1) does not. Renaming candidate: "body-invariant route, 4-token
-  shapes" — deferred until Pair 1's compute-scaling result decides whether
-  the edge is structural or budget-dependent.
+  variant works on the `INPUT SUM THRESHOLD_SLOT GT` body at thresholds {5, 10}.
+- *Provisionally-broadened (2026-04-15 morning, commit `320fc6b`, superseded):*
+  "body-invariant route, 4-token shapes." Reasoning was: §v2.6 Pair 2
+  (sum r12) and Pair 3 (reduce_max) hit 20/20 BOTH at alternation, suggesting
+  the mechanism extends to a wider input range and to an aggregator-variant
+  body. This framing was **narrowed on the same day** (commit `344e4de`)
+  when the §v2.6 fixed-baseline sweep showed both pairs swamped at
+  Fmin = 20/20 — the alternation 20/20 is indistinguishable from "tasks
+  independently easy" and provides no positive evidence for the mechanism.
+- Narrowed to one-pair precision (current, 2026-04-15 afternoon, commit
+  `344e4de`): the mechanism is demonstrated at precision on `{sum_gt_5_slot,
+  sum_gt_10_slot}` only. Whether it extends to other body shapes is
+  **open** — the breadth check did not land because of prereg-time
+  threshold choices that pre-accepted swamp on two of three target pairs.
+  Rename to "body-invariant route, one-pair precision (sum body, thresholds
+  {5, 10})" until a redesigned §v2.6' produces Fmin-intermediate breadth
+  evidence.
 
 ### Supporting experiments
 
 | experiment | commit | n | what it establishes |
 |---|---|---|---|
-| [§v2.3](experiments-v2.md#v23) | `e3d7e8a` | 20 (pre-reg) + 60 (expansion) = 80 | `{sum_gt_5_slot, sum_gt_10_slot}` 80/80 BOTH; max\|gap\| = 0.0156; 399/400 zero-cost flip transitions |
-| [§v2.6 Pair 2](experiments-v2.md#v26) | `0230662` | 20 | `{sum_gt_7_slot_r12, sum_gt_13_slot_r12}` 20/20 BOTH on length-4 intlists over [0,12] |
-| [§v2.6 Pair 3](experiments-v2.md#v26) | `0230662` | 20 | `{reduce_max_gt_5_slot, reduce_max_gt_7_slot}` 20/20 BOTH (slot_13 aggregator-variant body) |
+| [§v2.3](experiments-v2.md#v23) | `e3d7e8a` | 20 (pre-reg) + 60 (seed expansion) = 80 | `{sum_gt_5_slot, sum_gt_10_slot}` 80/80 BOTH; max\|gap\| = 0.0156; 399/400 zero-cost flip transitions; direct genotype decode confirms canonical-body convergence with THRESHOLD_SLOT as the only task-distinguishing token |
 
 ### Narrowing / falsifying experiments
 
 | experiment | commit | effect |
 |---|---|---|
-| [§v2.6 Pair 1](experiments-v2.md#v26) | `0230662` | narrowed scope: the 6-token `INPUT CHARS MAP_EQ_R SUM THRESHOLD_SLOT GT` body solves at only 4/20 BOTH at matched compute, despite 75-94% of failing winners having all required components present. Discoverability depends on body-shape topology, not just on the indirection mechanism. |
+| [§v2.6 Pair 1](experiments-v2.md#v26) | `0230662` / `344e4de` (baseline) | narrowed-and-baseline-confirmed: the 6-token `INPUT CHARS MAP_EQ_R SUM THRESHOLD_SLOT GT` body solves at only 4/20 BOTH alternation AND fixed-task solo `any_char_count_gt_1_slot` hits Fmin = 4/20 at matched compute. Fails both the scales-bar (4 < 12) and the baseline-fails check (min(F) ≤ 5). Candidate explanations (body-length, assembly-order, string-domain) are confounded by the current design. |
+| [§v2.6 Pair 2](experiments-v2.md#v26) | `344e4de` | narrowed: `{sum_gt_7_slot_r12, sum_gt_13_slot_r12}` alternation BOTH = 20/20, **but** fixed-task baselines show Fmin = 20/20 on the same pair — prereg-table row `swamped` (Fmin ≥ 19/20). The 20/20 alternation BOTH was originally read as supporting, but swamp means the result is mechanism-untested on this body. Moved from Supporting to Narrowing. |
+| [§v2.6 Pair 3](experiments-v2.md#v26) | `344e4de` | narrowed: `{reduce_max_gt_5_slot, reduce_max_gt_7_slot}` alternation BOTH = 20/20, with Fmin = 20/20 — prereg-table row `swamped` (explicitly pre-accepted in prereg lines 113-117 for aggregator thresholds). Aggregator-variant body therefore provides no evidence for or against the mechanism on this shape. Moved from Supporting to Narrowing. |
+
+### Narrowing-history (preserved per methodology §13)
+
+**Pre-narrowing claim text (2026-04-15 morning, commit `320fc6b`, superseded):**
+
+> "When two binary tasks share a token-identical body and differ only in a
+> task-bound integer constant exposed via `THRESHOLD_SLOT`, evolution discovers
+> the body once and solves both tasks via that body — extending the
+> op-slot-indirection mechanism from operator variation to constant variation
+> across at least three structurally distinct body shapes."
+
+**Pre-narrowing scope tag (2026-04-15 morning, commit `320fc6b`, superseded):**
+
+> `across-family · n=20 per pair × 4 pairs (1 with seed expansion to n=80) · at pop=1024 gens=1500 BP_TOPK(k=3,bp=0.5) v2_probe alphabet · on body shapes INPUT SUM THRESHOLD_SLOT GT (integer) and INPUT REDUCE_MAX THRESHOLD_SLOT GT (aggregator)`
+
+**Why narrowed:** the "three structurally distinct body shapes" and
+`across-family` claims rested on §v2.6 Pair 2 / Pair 3 alternation-level
+20/20 BOTH results. The prereg-required fixed-baseline sweep (initially
+skipped) was run later on commit `344e4de` and showed both pairs at
+Fmin = 20/20 — prereg-table `swamped` outcome. Swamped pairs are
+mechanism-untested; they cannot be counted as supporting evidence.
 
 ### Implications for downstream work
 
-- **Downstream experiments may assume:** any 4-token body of the form
-  `INPUT <unary op> THRESHOLD_SLOT GT` will solve cross-threshold at 20/20
-  BOTH at this budget.
-- **Downstream experiments must still test:** longer body shapes (≥6 tokens
-  with strict assembly order); higher search budgets to test whether Pair 1
-  is search-limited or structurally limited; non-integer constant types.
-- Any future paper-level claim of "constant-indirection" must cite both
-  §v2.3+§v2.6 supporting evidence **and** the §v2.6 Pair 1 edge —
-  consolidation here is what makes that traceability automatic.
+- **Downstream experiments may assume:** `{sum_gt_5_slot, sum_gt_10_slot}`
+  on the `INPUT SUM THRESHOLD_SLOT GT` body solves cross-threshold at
+  80/80 BOTH at the tested budget.
+- **Downstream experiments must still test (open questions):**
+  - whether the mechanism extends to any body shape other than
+    `INPUT SUM THRESHOLD_SLOT GT` — §v2.6 did not establish this;
+    needs a redesigned §v2.6' with Fmin-intermediate thresholds
+    (e.g., Pair 2 at thresholds {18, 24} over [0,12], Pair 3 at
+    structurally distinct r6 body) to avoid swamp pre-accept
+  - whether the mechanism extends to aggregator-variant bodies
+    (`INPUT REDUCE_MAX THRESHOLD_SLOT GT`) — §v2.6 Pair 3 was
+    uninformative (swamp); needs redesign at non-ceiling thresholds
+  - whether Pair 1 resolves at 4× or 8× compute, separating
+    search-landscape-difficulty from mechanism-absence on
+    6-token bodies
+  - non-integer constant types (floats, enumerations, ordinals)
+- Any future paper-level claim about constant-slot-indirection must
+  cite §v2.3's 80/80 on the one pair **and** §v2.6's FAIL on the
+  breadth check — consolidation here is what makes that
+  traceability automatic. **Not claimable:** "across-family",
+  "across multiple body shapes", "aggregator-variant confirmed",
+  "four task families." The breadth check did not land those.
 
 ### Review history
 
-- 2026-04-15 — initial promotion (commit `320fc6b`); §v2.6 ran in same
-  session, Pair 1 edge folded in as a narrowing entry rather than blocking
-  promotion.
+- 2026-04-15 morning (commit `320fc6b`) — initial promotion from
+  experiments-v2.md §v2.6 chronicle. §v2.6 ran in same session with
+  Pair 1 edge folded in; Pair 2 / Pair 3 counted as 20/20 BOTH
+  supporting evidence. This promotion was **premature** — the
+  prereg-required fixed-baseline sweep had not been run, so the
+  scales-vs-swamp row could not yet be picked for Pair 2 / Pair 3.
+- 2026-04-15 afternoon (commit `344e4de`) — **narrowed** by the
+  §v2.6 baseline-completion chronicle update. Pair 2 / Pair 3
+  reclassified from Supporting to Narrowing (swamp, uninformative
+  for the mechanism). Claim scope narrowed from `across-family /
+  4 pairs` to `within-family / one pair (§v2.3)`. Status flipped
+  from `ACTIVE` to `NARROWED`. Pre-narrowing text preserved
+  verbatim in Narrowing-history block above (methodology §13).
 
 ---
 

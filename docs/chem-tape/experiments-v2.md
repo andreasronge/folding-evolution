@@ -532,13 +532,13 @@ Not triggered at ≥15/20. The 3 solvers were decoded per prereg: all three foun
 
 ## §v2.6. Task-diversity breadth check (2026-04-15)
 
-**Status:** `PROVISIONAL — pending fixed-baseline sweep + decoded-winner inspection` · n=20 per pair · commit `0230662` · —
+**Status:** `FAIL` · n=20 per pair (+ 120-run fixed-baseline sweep) · commit `344e4de` · —
 
-> **Prereg-fidelity note (2026-04-15, added after research-rigor retro review).** The prereg required a fixed-task baseline sweep (six tasks × 20 seeds) *before* the alternation sweeps, so that per-pair `Fmin` could be computed and the "scales vs swamped" row chosen deterministically. The baseline sweep YAML exists (`experiments/chem_tape/sweeps/v2/v2_6_fixed_baselines.yaml`) but was not executed this session — only the three alternation sweeps ran. The per-task solve counts in the result table below are extracted from alternation runs, **not** from fixed-task baselines. Downstream consequences: (i) the pre-registered `scales` criterion (`BOTH fixed baselines ≥ 15/20 AND alternation BOTH ≥ max(Fmin−3, 12)`) cannot be evaluated from current data; (ii) Pair 2 and Pair 3's 20/20 BOTH cannot be distinguished from a `swamped` outcome without fixed baselines; (iii) the `PASS — narrow-positive` verdict recorded below is therefore **provisional**. Remediation queued: run `v2_6_fixed_baselines.yaml`, add Fmin + McNemar rows, and promote decoded-winner inspection from prose-level to per-seed category table.
+> **Prereg-fidelity note (2026-04-15, added after research-rigor retro review).** The prereg required a fixed-task baseline sweep (six tasks × 20 seeds) *before* the alternation sweeps, so that per-pair `Fmin` could be computed and the "scales vs swamped" row chosen deterministically. The baseline sweep YAML exists (`experiments/chem_tape/sweeps/v2/v2_6_fixed_baselines.yaml`) but was not executed in the initial session — only the three alternation sweeps ran. The Appendix at the bottom of this section preserves the pre-baseline provisional verdict and its reasoning trail (methodology §13). The Final update below reports the baseline sweep that was run later, on commit `344e4de`, and the verdict it produces.
 
 **Pre-reg:** [Plans/prereg_v2_6.md](../../Plans/prereg_v2_6.md)
-**Sweeps:** `experiments/chem_tape/sweeps/v2/v2_6_pair{1,2,3}.yaml`
-**Compute:** 21.9 min total at 8 workers (3 pairs × 20 seeds × pop=1024 × gens=1500)
+**Sweeps:** `experiments/chem_tape/sweeps/v2/v2_6_pair{1,2,3}.yaml` (alternation) + `experiments/chem_tape/sweeps/v2/v2_6_fixed_baselines.yaml` (baselines)
+**Compute:** 21.9 min (alternation, 60 runs, 8 workers) + 12.3 min (baselines, 120 runs, 10 workers)
 
 ### Question
 
@@ -548,73 +548,120 @@ Does §v2.3's 80/80 BOTH on `sum_gt_{5,10}_slot` generalise to other body-invari
 
 If the slot-indirection mechanism is a general "body-invariant-route absorbs constant variation" phenomenon, three structurally distinct pairs (string-count, wider-range sum, aggregator variant) should all pass the §v2.3 scales bar. Partial pass narrows §v2.3; null retracts.
 
-### Result
+### Result (final — with fixed baselines)
 
-| pair | body | solve per task | BOTH/20 | mean train | max|gap| | flip zero-cost |
+Fixed-task baselines (n=20 each, 120 runs, commit `344e4de`):
+
+| pair | task | F_task (solve/20) | mean train | mean hold | max\|gap\| |
+|---|---|---|---|---|---|
+| Pair 1 (string-count) | `any_char_count_gt_1_slot` | **4/20** | 0.905 | 0.905 | 0.074 |
+| Pair 1 (string-count) | `any_char_count_gt_3_slot` | **10/20** | 0.938 | 0.932 | 0.055 |
+| Pair 2 (sum r12) | `sum_gt_7_slot_r12` | **20/20** | 1.000 | 0.997 | 0.027 |
+| Pair 2 (sum r12) | `sum_gt_13_slot_r12` | **20/20** | 1.000 | 1.000 | 0.008 |
+| Pair 3 (reduce_max) | `reduce_max_gt_5_slot` | **20/20** | 1.000 | 1.000 | 0.000 |
+| Pair 3 (reduce_max) | `reduce_max_gt_7_slot` | **20/20** | 1.000 | 1.000 | 0.000 |
+
+Per-pair verdict against the prereg outcome table (`Fmin = min(F_task_a, F_task_b)`; scales-bar = `max(Fmin − 3, 12)`; swamp pre-accept if `Fmin ≥ 19/20`):
+
+| pair | Fmin | scales-bar | alternation BOTH | outcome row | notes |
+|---|---|---|---|---|---|
+| Pair 1 | 4 | 12 | 4/20 | **does-not-scale** | Alternation BOTH ≤ 5/20 per prereg table (`does-not-scale`). Alternative: `baseline-fails` triggers at min(F) ≤ 5, so Pair 1 also qualifies as baseline-fails on `any_char_count_gt_1_slot` (4/20). Both rows land the same bottom-line: pair does not support the mechanism at matched compute. |
+| Pair 2 | **20** | 17 | 20/20 | **swamped** | Fmin ≥ 19/20 pre-accepts swamp. The 20/20 alternation BOTH is exactly what two independently-easy tasks produce with or without slot-indirection; the mechanism is **untested** by this pair. |
+| Pair 3 | **20** | 17 | 20/20 | **swamped** | Same as Pair 2. Prereg explicitly pre-accepted this swamp for Pair 3 (line 115-117 of `prereg_v2_6.md`) because thresholds {5, 7} over [0,9] are permissive; baseline confirmed the pre-acceptance. |
+
+**Combined verdict:** `0/3 pairs scale` → **FAIL** per prereg decision rule (line 163-165): *"§v2.3's result was pair-specific. The 'body-invariant-route absorbs constant variation' framing is retracted; the claim narrows to 'a single body-invariant pair produces 80/80.'"*
+
+**Matches pre-registered outcome:** `FAIL` (combined-verdict row; per-pair: 1× does-not-scale, 2× swamped). The provisional "PASS — narrow-positive" reading recorded before the baselines ran was wrong: the 20/20 BOTH on Pair 2 / Pair 3 alternation looked like scaling but is indistinguishable from swamp absent the baseline. This is exactly the gap the prereg flagged (principle 21 + the scoring table): threshold-adjacent/too-clean results must be measured against baselines to pick the outcome row.
+
+**Statistical test:** paired McNemar per pair, alternation BOTH vs Fmin on shared seeds 0..19. Pair 1: disagreement b=0 / c=0 (both 4/20). Pair 2: b=0 / c=0 (20/20 = 20/20). Pair 3: b=0 / c=0 (20/20 = 20/20). **The test is not informative on any pair — no discordant pairs to test.** This is not evidence against alternation lift; it is a degenerate condition of the test. The reason the alternation result does not support the mechanism is the per-pair outcome-row assignment (Pair 1 does-not-scale / baseline-fails; Pairs 2 and 3 swamped per prereg pre-accept), not the McNemar null.
+
+**Training-set label balance (diagnostic required by prereg line 135).** All six tasks, seed=0, measured via `build_task(...).labels`: `p_positive = 32/64 = 0.500` on training and `128/256 = 0.500` on holdout for every task. Stratified-balanced samplers produce exactly 50/50 class balance by construction; no imbalance flag triggered for any of the six tasks.
+
+### Interpretation
+
+The three pairs split into two distinct failure modes, and neither supports constant-slot-indirection as an `across-family` mechanism at this budget.
+
+**Pairs 2 and 3 are swamped.** Each task solves 20/20 at the matched budget *without* alternation pressure. Decoded winners of the fixed-task sweeps (inline script on the 120 runs, 2026-04-15) confirm this is the mechanism of the swamp: 18/20 winners for `sum_gt_7_slot_r12`, 16/20 for `sum_gt_13_slot_r12`, 14/20 for `reduce_max_gt_5_slot`, and 19/20 for `reduce_max_gt_7_slot` contain the full canonical body token set (`INPUT SUM THRESHOLD_SLOT GT` or `INPUT REDUCE_MAX THRESHOLD_SLOT GT`). Solo training on these 4-token bodies hits the body reliably. Under the prereg's swamp-row reading this means **the alternation BOTH = 20/20 results (originally read as "body-invariant-route scales") are mechanism-untested** — they are consistent with either real slot-indirection OR with two independently-easy tasks that happen to share a body coincidentally. The baselines prove the latter is sufficient, so the alternation result cannot be attributed to the mechanism.
+
+**Pair 1 fails both the scales-bar and the baseline-fails check.** `any_char_count_gt_1_slot` solves at 4/20 solo; `any_char_count_gt_3_slot` at 10/20 solo. The body requires a 6-token chain (`INPUT CHARS MAP_EQ_R SUM THRESHOLD_SLOT GT`) that evolution does not reliably assemble at this budget. Decoded winners show **0/20 canonical-body winners** on `any_char_count_gt_1_slot` and likewise on `any_char_count_gt_3_slot`; 8/20 and 9/20 respectively are near-canonical-missing-MAP_EQ_R (the specific step that makes the chain string-aware). The Pair-1 failure is compatible with either a search-landscape difficulty (too-long body) *or* a string-domain-specific difficulty (MAP_EQ_R chain); the current design does not separate these (noted in the initial chronicle, stands here).
+
+**Retraction of the "body-invariant-route absorbs constant variation (across-family)" framing.** The initial (pre-baseline) reading of §v2.6 claimed "two additional body-invariant pairs reproduce §v2.3's pattern at precision" and promoted Pair 2 / Pair 3 as supporting the across-family extension of §v2.3's constant-slot-indirection claim. With baselines in: this claim is false as stated. Pair 2 and Pair 3 do not provide evidence that the slot-indirection mechanism extends to these bodies — they provide evidence that these bodies are independently easy. Methodology §20 (sampler / threshold design as dependent-variable carrier) and §21 (threshold-adjacent results require attractor-category inspection) both apply: the permissive thresholds chosen for Pair 2 (r12 range, thresholds {7, 13}) and Pair 3 (r9 range, thresholds {5, 7}) put Fmin at ceiling, which turns the scales bar into a swamp pre-accept. Rerunning these pairs with Fmin-intermediate thresholds is the redesign needed to actually test the mechanism on these body shapes.
+
+**Mechanism rename check (principle 16, both directions).** The constant-slot-indirection entry in `findings.md` currently reads "extending the op-slot-indirection mechanism from operator variation to constant variation across at least three structurally distinct body shapes." Narrower direction: the evidence only supports the single `INPUT SUM THRESHOLD_SLOT GT` body at thresholds {5, 10} (§v2.3) — the "three body shapes" is not supported. Broader direction: is there a more general name like "threshold-slot canalisation" that would survive this retraction? No — the §v2.3 evidence is still a single pair at one body, so there is nothing broader to rename to. The correct action is narrowing to "one pair (§v2.3)".
+
+### Caveats
+
+- **Seed count:** n=20 per task on both alternation (60 runs) and fixed baselines (120 runs). Load-bearing, not preview.
+- **Budget limits:** Pair 1 could conceivably pass the scales bar at 4× or 8× compute. Not tested here. Pair 2 / Pair 3 are at ceiling at matched compute, so compute scaling cannot rescue them — only threshold redesign can.
+- **Overreach check (principle 17).** The retracted language is listed verbatim above. The revised headline uses "one body-invariant pair at precision (§v2.3)" as the load-bearing constant-indirection evidence; it does NOT say "three pairs" or "across-family." The combined-verdict table and headline below the per-experiment sections have been updated in the same commit.
+- **Prereg-as-threshold-design lesson.** The prereg's own swamp-pre-accept clause for Pair 3 (line 115-117) foresaw this risk and still allowed the permissive thresholds to proceed. The lesson is to tighten threshold selection *before* committing the prereg, not after running the sweep.
+- **Open mechanism questions:** (i) does Pair 2 redesigned at thresholds {e.g., 18, 24} over [0,12] — pushed onto the ascending shoulder of the sum-CDF — pass the scales bar? (ii) does Pair 3 redesigned at thresholds {e.g., 8} (single permissive) paired with {e.g., 8 on shorter r6} (structurally distinct) produce Fmin-intermediate baselines? (iii) does Pair 1 at 4× compute pass the scales bar, separating search-landscape-difficulty from mechanism-absence?
+
+### Degenerate-success check
+
+**Prereg-named guards (two — from `Plans/prereg_v2_6.md` section "Degenerate-success guard", lines 96-117):**
+
+**Pair 2 range-limit trick** (prereg line 109-112: "check whether evolution exploits a range-limit trick, e.g., `any cell > 9` correlating with sum-gt-threshold under this distribution"). **Discharged — ruled out.** Decoded winners on fixed-task `sum_gt_7_slot_r12` (n=20) and `sum_gt_13_slot_r12` (n=20) show THRESHOLD_SLOT present in **20/20 and 20/20** extracted programs respectively (classify_proxy category inventory: every winner's category string contains `uses_THRESHOLD_SLOT`). Canonical-body match (full `INPUT SUM THRESHOLD_SLOT GT` token set in extracted program): 18/20 on `sum_gt_7_slot_r12`, 16/20 on `sum_gt_13_slot_r12`; the remaining seeds are near-canonical-missing-SUM (still containing THRESHOLD_SLOT). No seed's winner fits a single-predicate `any cell > c` shortcut pattern as a standalone classifier. The range-limit trick is not what evolution is doing on these tasks.
+
+**Pair 3 aggregator swamp** (prereg outcome-table row at line 84: "**swamped** | Fmin ≥ 19/20 AND alternation BOTH in [Fmin−1, Fmin]"; additional per-pair pre-accept clause at lines 113-117, written originally for thresholds `{2,5}` which were later tightened to `{5,7}` per the prereg's "Setup" section at line 40-43 — the pre-accept logic is threshold-independent and remains valid). **Discharged — swamp confirmed.** Fmin = 20/20, alternation BOTH = 20/20. The pair provides no evidence for or against slot-indirection on this body; the outcome-table row is read, per prereg instruction, as "baseline too high to measure alternation lift."
+
+**Mid-session concern (one — not in the original prereg; raised after §v2.4-alt/proxy landed):**
+
+**Pair 3 max-attractor exposure** (concern that `reduce_max_gt_5` overlaps the `REDUCE_MAX CONST_5 GT` attractor family that dominated §v2.4-alt greedy search, and that 20/20 solve could be the max-attractor rather than threshold-slot-canalisation). **Discharged for the specific concern; but the point is moot for the outcome-row assignment.** Decoded winners on fixed-task `reduce_max_gt_5_slot` (n=20): 14/20 canonical-body (full `INPUT REDUCE_MAX THRESHOLD_SLOT GT`), 4/20 near-canonical-missing-REDUCE_MAX, 2/20 near-canonical-missing-THRESHOLD_SLOT. Only 1/20 has the "max_gt_5_attractor" classifier signature. THRESHOLD_SLOT is present in 18/20 winners — this is not the §v2.4-alt attractor family. The mid-session concern is discharged. But it is moot for the scales-vs-swamp decision: because Fmin = 20/20 pre-accepts swamp, neither "canonical body" nor "max-attractor" is evidence for slot-indirection when the tasks solve independently.
+
+### Findings this supports / narrows
+
+- **Narrows `findings.md#constant-slot-indirection`** (currently `ACTIVE`). The claim's scope tag says "n=20 per pair × 4 pairs (1 with seed expansion to n=80)" and cites §v2.6 Pair 2 and Pair 3 as 20/20 BOTH supporting evidence. With baselines: §v2.6 Pair 2 and Pair 3 are `swamped` per the prereg's own outcome table and provide no evidence for the mechanism. Only §v2.3 (one pair, 80/80) remains. **Action required: supersession pass on `findings.md#constant-slot-indirection`** — narrow scope tag to `one pair (§v2.3) at one body shape` OR retract the consolidation pending a within-Fmin-range replication on a second body. See Pass 2 (supersession mode) queued for this session.
+- Does **not** narrow `findings.md#op-slot-indirection` — that entry rests on §v1.5a-binary and §v2.2, neither of which is touched by this result.
+- Does **not** narrow `findings.md#proxy-basin-attractor` — that entry is about a different axis (AND-composition failure mode), not touched by this result.
+
+### Next steps
+
+- Per prereg FAIL decision rule: **run Pass 2 (supersession mode) on `findings.md#constant-slot-indirection`** — narrow the scope tag and update the claim sentence; add a `Narrowing / falsifying experiments` row pointing to this chronicle update.
+- Queue a redesigned §v2.6' at Fmin-intermediate thresholds per the open mechanism questions above. Explicit prereg required; not auto-run.
+- Pair 1 compute-scaling remains an optional follow-up if the paper-scope review wants to pin down search-landscape-vs-string-domain for the 6-token body.
+
+### Appendix — initial provisional verdict (pre-baselines, 2026-04-15, superseded by Final Result above)
+
+The following blocks record the chronicle's state before the fixed-baseline sweep ran. They are preserved per methodology §13 (reasoning trail is not edited when a later pass narrows a claim). The verdict in the Appendix is **not** the current chronicle verdict — see the Final Result section above.
+
+**Appendix-initial result (alternation-only, pre-baselines):**
+
+| pair | body | solve per task | BOTH/20 | mean train | max\|gap\| | flip zero-cost |
 |---|---|---|---|---|---|---|
 | Pair 1 (string-count) | `INPUT CHARS MAP_EQ_R SUM THRESHOLD_SLOT GT` | {gt_1: 4/20, gt_3: 4/20} | **4/20** | 0.90 / 0.90 | 0.074 / 0.070 | 15/100 |
 | Pair 2 (sum r12)      | `INPUT SUM THRESHOLD_SLOT GT` (over [0,12])  | {gt_7: 20/20, gt_13: 20/20} | **20/20** | 1.00 / 1.00 | 0.008 / 0.000 | 100/100 |
 | Pair 3 (reduce_max)   | `INPUT REDUCE_MAX THRESHOLD_SLOT GT`          | {gt_5: 20/20, gt_7: 20/20} | **20/20** | 1.00 / 1.00 | 0.000 / 0.000 | 100/100 |
 
-**Matches pre-registered outcome:** `PROVISIONAL — likely PASS-narrow-positive pending baselines` (2/3 appear to pass the scales bar at alternation level; Pair 1 is the candidate characterised edge). Final row assignment deferred until `v2_6_fixed_baselines.yaml` runs and `Fmin` is computed per pair. Specifically: Pair 2 and Pair 3's 20/20 BOTH with max|gap| ≤ 0.008 and 100% zero-cost flips is the *signature* of either `scales` or `swamped` — the scoring table requires the baseline counts to pick the row.
+**Appendix-initial matches-pre-reg:** `PROVISIONAL — likely PASS-narrow-positive pending baselines`. This reading was wrong; baselines reclassify Pair 2/3 as swamped, not scaling. Kept here verbatim.
 
-### Interpretation
+**Appendix-initial interpretation (superseded).** Read this for the reasoning that was done before the baselines arrived, not for the current claim. The line "The mechanism is not specific to the `sum_gt_{5,10}_slot` pair" in the original interpretation is retracted; the baselines show the opposite. The "Pair 1's failure characterises the edge" reading is unchanged (Pair 1's 4/20 is still real); what changes is that there is no longer a positive Pair-2/Pair-3 result for the edge to characterise against — so Pair-1-as-edge is no longer a meaningful framing either.
 
-Two of three body-invariant constant-indirection pairs reproduce §v2.3's pattern at precision: 20/20 BOTH, max|gap| ≤ 0.008, 100% zero-cost flip transitions. Pair 2 extends the mechanism across a wider input range (length-4 intlists over [0,12]) with thresholds that avoid ceiling saturation; Pair 3 extends it across an aggregator-variant body (REDUCE_MAX rather than SUM). The mechanism is not specific to the `sum_gt_{5,10}_slot` pair.
+**Appendix-initial caveats (superseded).** The "Overreach check: scope tag in findings.md (when promoted) must read `across-family / 3 body-invariant pairs`" language was itself an overreach; the revised Caveats section above gives the narrower claim.
 
-**Pair 1's failure characterises the edge.** Direct winner-genotype inspection (decode_winner.py, 2026-04-15) shows 16/20 failing seeds have the required components — CHARS (75%), SUM (81%), THRESHOLD_SLOT (75%), ANY (94%) — but not correctly chained into the canonical body `INPUT CHARS MAP_EQ_R SUM THRESHOLD_SLOT GT`. The 4/20 solvers each find a different assembly of the same tokens, indicating there is no canonical attractor in the solution landscape — solvers succeed idiosyncratically, failures are stuck with almost-right tapes. Per-task analysis shows no asymmetry between threshold=1 and threshold=3 (mean fitnesses 0.881 vs 0.875 on failing seeds), ruling out a threshold-specific difficulty.
+**Appendix-initial degenerate-success check (incomplete).** Had three guards listed as "not yet discharged" / "cannot be evaluated" — now all three are discharged; see the Degenerate-success check section above.
 
-The cleanest reading: Pair 1's 6-token body requires a strict dependency chain (CHARS→MAP_EQ_R→SUM→THRESHOLD_SLOT→GT with correct stack-order between them) that the evolutionary search does not reliably assemble at this pop/gens budget. Pair 2 and Pair 3 have 4-token bodies with fewer intermediate-state constraints — and they converge at ceiling in every seed. **The constant-indirection mechanism generalises, but the harness's ability to discover the required body is sensitive to body length and assembly order, not to the indirection per se.** This is a search-landscape finding, not a mechanism-absence finding.
-
-### Caveats
-
-- **Seed count:** n=20 per pair. BOTH-solve counts of 20/20 on Pair 2/3 are precision — not breadth across all possible body-invariant pairs.
-- **Budget limits:** Pair 1's 4/20 likely rises with pop/gens scaling, since components are present. Not run here; queued as §v2.6-pair1-scale if the paper needs tightening.
-- **Overreach check:** the PASS-narrow-positive verdict explicitly keeps §v2.3's claim bounded. We report "two additional body-invariant pairs reproduce §v2.3 at precision; one (string-count) does not at matched compute" — **not** "constant-indirection is universal." The scope tag in findings.md (when promoted) must read `across-family / 3 body-invariant pairs / at pop=1024 gens=1500` — three specific pairs, not "body-invariant pairs in general."
-- **Open mechanism questions:** does Pair 1 solve at 4× compute (as §v2.4 compute-scaling tested for its AND task)? Is the CHARS→MAP_EQ_R chain specifically hard to evolve, or is any 6-token chain with strict ordering hard? Could be tested with a Pair 4 using a same-length non-string body.
-
-### Degenerate-success check
-
-Triggered for Pair 2 and Pair 3 (both 20/20 BOTH). Winner-genotype inspection per prereg: both pairs show convergence to near-canonical bodies across the 20 seeds, with `THRESHOLD_SLOT` as the only task-distinguishing token between the pair's two tasks (same mechanism as §v2.3). Both tasks in each pair solved via token-shared bodies — same slot-indirection mechanism. Not a coincidence-of-BOTH-solves via independent bodies. Ruled out.
-
-**Per-pair guard discharge (2026-04-15 follow-up — incomplete; added after research-rigor retro review).** The prereg listed three pair-specific degenerate-success candidates; each needs an individual discharge, not a single generic sentence. Current status:
-
-- **Pair 2 range-limit trick** (prereg: "check whether evolution exploits a range-limit trick, e.g., `any cell > 9` correlating with sum-gt-threshold under this distribution"). **Not yet discharged.** Requires printing the per-seed decoded body and confirming absence of single-predicate range-shortcuts (`any cell > c`-style). Queued.
-- **Pair 3 aggregator swamp** (prereg: "pre-accept swamp if `Fmin ≥ 19/20`"). **Cannot be evaluated** — fixed baselines not run. Current evidence (20/20 BOTH, max|gap|=0.000, 100% zero-cost flips) is consistent with either a real scales outcome or a swamp.
-- **Pair 3 max-attractor exposure** (new, raised by §v2.4-alt/proxy findings in this same session). `reduce_max_gt_{5,7}` overlaps the `REDUCE_MAX CONST_5 GT` attractor family that §v2.4-alt showed dominates greedy search. **Not yet discharged.** Requires printing the actual decoded bodies for each seed, not narrating "near-canonical." Queued.
-
-Until these three are discharged, the ruling "same slot-indirection mechanism, not a BOTH-coincidence" is not fully supported for Pair 2 and Pair 3.
-
-### Findings this supports / narrows
-
-- Supports §v2.3's claim with `across-family` scope upgraded from "one body-invariant pair" to "three body-invariant pairs."
-- Narrows §v2.3 by characterising one edge: pair-body length and assembly-order constraints interact with the search-landscape difficulty. The mechanism is not budget-free on all body shapes.
-- When §v2.3 is promoted to findings.md (pending), it should carry both §v2.3's 80/80 and §v2.6's 2/3 as supporting evidence and Pair 1's 4/20 as the characterised edge.
-
-### Next steps
-
-- Per prereg PASS-narrow decision rule: supporting evidence consolidated in this chronicle; findings.md promotion deferred pending methodology-wide review of whether §v2.6 plus §v2.4-alt plus §v2.4-proxy together motivate a combined v2 mechanism entry.
-- Pair 1 compute-scaling is the optional follow-up; decide after paper-scope review.
+**Appendix-initial findings-this-supports (superseded).** Originally said "Supports §v2.3's claim with `across-family` scope upgraded from 'one body-invariant pair' to 'three body-invariant pairs.'" The current reading (Narrows §v2.3 rather than supports; scope drops back to one pair) is in the Findings section above.
 
 ---
 
-## v2-suite combined verdict (updated 2026-04-15)
+## v2-suite combined verdict (updated 2026-04-15, post-baselines)
 
-The pre-registered v2-probe suite (§v2.1–§v2.5) landed at "Partial" earlier this session. The three follow-ups update the picture as follows:
+The pre-registered v2-probe suite (§v2.1–§v2.5) landed at "Partial" earlier this session. The four follow-ups update the picture as follows:
 
 | axis | earlier verdict | follow-up | updated reading |
 |---|---|---|---|
 | §v2.1 (swamp) | swamped at F_10_v2 = 18/20 | — | unchanged; permissive threshold noted honestly |
 | §v2.2 (op slot-indirection) | 20/20 / 20/20 | — | unchanged; scales on op-variation |
-| §v2.3 (constant slot-indirection) | 80/80 on one pair | **§v2.6 (2/3 PROVISIONAL)** | at alternation level, two additional body-invariant pairs hit 20/20 BOTH and one (the 6-token `CHARS·MAP_EQ_R·SUM·THRESHOLD_SLOT·GT` body) hits 4/20; scales-vs-swamp row for the 20/20 pairs deferred pending fixed-baseline sweep + decoded-winner inspection. The characterised edge is body-length / assembly-order (one pair only, candidate explanation; stringness is confounded with 6-token-length in the current design) |
-| §v2.4 (compositional depth) | 0/20 at 1× and 4× compute | **§v2.4-alt (INCONCLUSIVE)** + **§v2.4-proxy (FAIL-proxy-generalises)** | failure is **not** compositional-depth per se; it is a single-predicate proxy basin attractor that dominates whenever a near-perfect single-predicate exists in the training distribution |
+| §v2.3 (constant slot-indirection) | 80/80 on one pair | **§v2.6 FAIL (0/3 pairs scale; Pair 1 does-not-scale, Pair 2 & Pair 3 swamped)** | §v2.3's 80/80 stands **as a one-pair precision result** — the breadth check did not extend the claim. Pair 2 / Pair 3 baselines are at ceiling (Fmin = 20/20), so alternation BOTH = 20/20 is a swamp, not scaling; Pair 1 (6-token string-count body) fails the scales-bar at matched compute. Claim narrows back from `across-family / 4 pairs` to `one pair (§v2.3) at one body shape`. |
+| §v2.4 (compositional depth) | 0/20 at 1× and 4× compute | **§v2.4-alt (INCONCLUSIVE)** + **§v2.4-proxy (FAIL-proxy-generalises)** | failure is **not** compositional-depth per se; it is a single-predicate proxy basin attractor that dominates whenever a ≥~0.90-accurate single-predicate exists in the training distribution (per §v2.4/§v2.4-proxy, scope `findings.md#proxy-basin-attractor`) |
 | §v2.5 (aggregator) | qualitative canalisation | — | unchanged |
 
-**Reframed headline** (replacing the pre-§v2.4-alt / §v2.4-proxy headline):
+**Reframed headline** (replacing the pre-§v2.6-baseline headline):
 
-> Chem-tape's body-invariant-route mechanism passed its pre-registered bars on op slot-indirection (§v2.2, 20/20 within-family and 20/20 cross-family) and, on one body-invariant constant-indirection pair at precision, §v2.3's 80/80. The breadth check §v2.6 is **PROVISIONAL**: two additional body-invariant pairs (wider-range sum, aggregator variant) produced 20/20 BOTH at alternation level, but the required fixed-task baselines were not run this session, so scales-vs-swamp determination and decoded-winner evidence for the 20/20 pairs are deferred. A third pair (string-count, 6-token body) produced 4/20 — candidate explanations are body-length / assembly-order constraints (not cleanly separable from string-domain effects in the current design). §v2.4 and its follow-ups show that the "compositional depth does not scale" framing was **imprecise**: the actual mechanism failure is a single-predicate proxy basin that evolution finds reliably whenever a near-perfect single-predicate exists in the training distribution (max>5 on §v2.4; sum>10 on §v2.4-proxy). Compositional-depth scaling under §v2.4-alt's body-matched pair at threshold=5 reached 17/20 with the canonical IF_GT+CONST_0-prefix body, falsifying a universal "compositional depth doesn't scale" reading; threshold=10 remained at 1/20 due to the proxy attractor. **Paper-scope claim (provisional, pending §v2.6 remediation):** evidence for slot-op indirection (§v2.2) and slot-constant indirection on one precision pair (§v2.3); supporting alternation-level evidence on two additional body-invariant pairs (§v2.6-Pair2, §v2.6-Pair3) with scales-vs-swamp determination deferred; one pair at search-landscape-failure (§v2.6-Pair1); compositional failure reframed from "compositional depth fails" to "single-predicate proxy basins dominate greedy search under AND-composition whenever the proxy is ≥ ~0.9 accurate on the training distribution." Not claimed: "four task families confirmed" or "string-count as THE edge" — the baseline sweep and decoded-body inspection must land before the pair2/pair3 contribution upgrades from supporting to supporting-confirmed.
+> Chem-tape's body-invariant-route mechanism passed its pre-registered bar on **op slot-indirection** (§v2.2, 20/20 within-MAP-family and 20/20 cross-MAP-family). On **constant slot-indirection**, the mechanism passed **one precision pair** (§v2.3, 80/80 on `sum_gt_{5,10}_slot` over [0,9]). The §v2.6 breadth check across three additional body shapes returned **FAIL** against its own pre-registered decision rule: two pairs swamped at Fmin = 20/20 (thresholds {7,13} over [0,12] and {5,7} over [0,9] are both too permissive to measure alternation lift), one pair failed the scales bar at 4/20 BOTH for reasons confounded between body-length, assembly-order, and string-domain specifics. This **does not refute** §v2.3 — it refutes the "across-family" breadth extension that §v2.6 was supposed to establish. §v2.4 and its follow-ups show that the earlier "compositional depth does not scale" framing was imprecise: the actual mechanism failure is a single-predicate proxy basin that evolution finds reliably whenever a ≥~0.90-accurate single-predicate exists in the training distribution (per §v2.4/§v2.4-proxy, scope `findings.md#proxy-basin-attractor`) (max>5 on §v2.4; sum>10 on §v2.4-proxy); compositional-depth scaling under §v2.4-alt's body-matched pair at threshold=5 reached 17/20, falsifying a universal "compositional depth doesn't scale" reading. **Paper-scope claim:** evidence for slot-op indirection (§v2.2) and slot-constant indirection at one precision pair (§v2.3); one §v2.6 pair at search-landscape failure (Pair 1); two §v2.6 pairs at swamp-pre-accept (Pair 2, Pair 3) — neither supporting nor refuting the mechanism on those bodies; compositional failure reframed from "compositional depth fails" to "single-predicate proxy basins dominate greedy search under AND-composition whenever the proxy is ≥ ~0.9 accurate on the training distribution." **Not claimed:** "three additional body-invariant pairs", "four task families confirmed", "across-family constant-slot-indirection", or "string-count as THE edge" — the breadth check did not land those, and a redesigned §v2.6' at Fmin-intermediate thresholds is needed before any of them can be reclaimed.
 
-The methodology-level lesson worth encoding: **attractor-identification (direct genotype inspection per methodology §3) plus sampler-design (stratified decorrelation) reframed a structural-failure claim into an attractor-mechanism claim in two sweeps.** Sampler design is first-class experimental methodology, on par with seed-disjoint replication and commit-hash discipline.
+The methodology-level lesson worth encoding: **attractor-identification (direct genotype inspection per methodology §3) plus sampler-design (stratified decorrelation per §20) reframed a structural-failure claim into an attractor-mechanism claim in two sweeps, and a baseline sweep reframed a "provisional PASS-narrow" into a FAIL.** Threshold design is a dependent-variable carrier (§20): permissive thresholds that pre-accept swamp turn "scales" into "unknown" — a test that cannot fail is not a test. Pre-reg-time threshold calibration against expected Fmin is a first-class experimental methodology concern, on par with seed-disjoint replication and commit-hash discipline.
 
 ---
 
