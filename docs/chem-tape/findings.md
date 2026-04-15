@@ -122,7 +122,14 @@ and one pair (6-token string-count body) failed at 4/20.
 - Open external-validity questions: (i) does a redesigned §v2.6' with
   Fmin-intermediate thresholds on Pair 2 / Pair 3 bodies support the
   mechanism? (ii) does Pair 1 resolve at 4× compute, separating
-  search-landscape-difficulty from mechanism-absence?
+  search-landscape-difficulty from mechanism-absence? **Partially answered
+  by [§v2.6-pair1-scale](experiments-v2.md#v26-pair1-scale) (INCONCLUSIVE,
+  commit `600ef20`):** 4× compute lifts BOTH from 4/20 → 8/20 and closes
+  the **assembly barrier** (ADI 0.10 → 0.00) but does not close the
+  **component-discovery barrier** (only 8/20 scaled-sweep seeds carry the
+  full required token set). The scales bar (≥15/20) is not met. Question
+  (ii) reshapes to: "would a shorter tape length or a decoder-arm change
+  close the component-discovery barrier?" — reformulated, not resolved.
 
 ### Mechanism reading (current)
 

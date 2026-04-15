@@ -645,6 +645,98 @@ The following blocks record the chronicle's state before the fixed-baseline swee
 
 ---
 
+## §v2.6-pair1-scale. Pair 1 compute-scaling (4× pop × gens) (2026-04-15)
+
+**Status:** `INCONCLUSIVE` · n=20 · commit `600ef20` · —
+
+**Pre-reg:** [Plans/prereg_v2_6_pair1_scale.md](../../Plans/prereg_v2_6_pair1_scale.md)
+**Sweep:** `experiments/chem_tape/sweeps/v2/v2_6_pair1_scale.yaml`
+**Compute:** 29.6 min at 8 workers (20 seeds · pop=2048 · gens=3000 · 4× the §v2.6 Pair 1 baseline budget)
+
+### Question
+
+Does §v2.6 Pair 1's 4/20 BOTH at pop=1024 gens=1500 rise to ≥ 15/20 at 4× compute, mirroring scales-with-compute on simpler 4-token body-invariant pairs?
+
+### Hypothesis (pre-registered)
+
+If the Pair 1 baseline failure is search-landscape-limited (high epistasis around the 6-token `INPUT CHARS MAP_EQ_R SUM THRESHOLD_SLOT GT` assembly), 4× compute should close the gap. If structural at this BP_TOPK(k=3) decoder, BOTH stays near floor.
+
+### Result
+
+| condition | compute | F_gt_1 | F_gt_3 | **BOTH** | mean train | max\|gap\| |
+|---|---|---|---|---|---|---|
+| §v2.6 Pair 1 baseline | pop=1024, gens=1500 | 4/20 | 4/20 | **4/20** | 0.88 / 0.88 | 0.074 |
+| §v2.6-pair1-scale (this sweep) | pop=2048, gens=3000 | 8/20 | 8/20 | **8/20** | 0.936 / 0.925 | 0.086 |
+
+Flips: 200 total, 75 zero-cost (vs 15/100 at baseline — proportional 3× rise in alternation-stable solutions).
+
+**Matches pre-registered outcome:** `INCONCLUSIVE` (BOTH = 8/20 ∈ [6, 9] per the pre-reg's INCONCLUSIVE row, line 83 of `prereg_v2_6_pair1_scale.md`).
+
+**Statistical test (per prereg-promise, line 127 of prereg):** paired McNemar on shared seeds 0..19, baseline BOTH-solve vs scaled BOTH-solve. Discordants: **b=2, c=6** (2 seeds lost BOTH under scaling; 6 gained it); two-sided exact binomial **p = 0.289**. The +4 net gain is directional but not significant at α=0.05 at this n. This is weaker pairing than ideal — pop_size changes perturb the population-init RNG stream, so "shared seed" controls task data but not evolutionary trajectory.
+
+**Training-set label balance (sanity check):** unchanged from §v2.6 Pair 1 baseline (50/50 per task). No sampler change in this experiment; Gate 20 trivially satisfied.
+
+### Interpretation
+
+The ADI diagnostic (see **Degenerate-success check** below) is the informative part of this result, not the 8/20 headline. At baseline: 6/20 seeds had all required tokens on tape, but only 4/20 chained them — **assembly gap = 2**, ADI = 0.10 (mild assembly barrier). At scaled compute: 8/20 seeds have all required tokens, and **all 8 chained them** — assembly gap = 0, ADI = 0.00.
+
+This decomposes the baseline 4/20 into two additive barriers:
+
+1. **Component-discovery barrier** (6 → 8 seeds, +2 under 4× compute): finding the full {INPUT, CHARS, MAP_EQ_R/SLOT_12, SUM, THRESHOLD_SLOT, GT} token multiset on a 32-cell tape at 6-token density is the dominant bottleneck. Scaling helps modestly but does not close it — 12/20 scaled-sweep seeds still don't carry all required tokens.
+2. **Assembly barrier** (2 → 0 seeds): the "components present but not correctly chained" gap **vanishes** at 4× compute. When a scaled-sweep run discovers the token set, it reliably chains it into an executable body.
+
+Per the prereg decision rule for INCONCLUSIVE ("run ADI diagnostic to decide between assembly-limited and mechanism-absent readings"): ADI says **neither**. The observed pattern is a third category the prereg's outcome table did not enumerate: **component-discovery-limited at tape-length / alphabet pressure** — which sits upstream of assembly and would need decoder-arm variation or tape-length extension to probe further. Per methodology principle 2 (pre-register 3-4 outcomes): the outcome table was incomplete; this category deserves a row in future pre-regs on assembly.
+
+**Mechanism rename check (principle 16 + 16b, both directions):**
+- *Narrower?* No. `body-invariant route mechanism (constant-slot variant)` is neither extended nor refuted here. The 8/20 scaled solve rate is consistent with the mechanism applying to 6-token bodies when components are discovered; the 12/20 non-solvers are upstream-of-mechanism (component set absent, not route broken).
+- *Broader?* No. The result does not widen the scope beyond the NARROWED `findings.md#constant-slot-indirection` claim (one body shape, within-family).
+
+**Pre-registered outcome match is honest INCONCLUSIVE.** The scales bar (≥ 15/20) is not met; the FAIL floor (≤ 5/20) is also not met. The result is a partial-progress signal with a specific mechanism read (component-discovery upstream of assembly) — but **without** a scope change to findings.md per the decision rule.
+
+### Caveats
+
+- **Seed count:** n=20 load-bearing but the McNemar pairing is degraded by pop-size-dependent RNG streams. The +4 lift is directional at p=0.29, not a statistically robust scaling signal.
+- **Budget limits:** tested at 4×; no 8× or 16× run. The scaling slope (1× → 4×: +4 BOTH) does not project linearly to scales-bar attainment within a plausible budget ceiling.
+- **Overreach check:** this result does NOT say "6-token bodies scale with compute" — it says "at 4× compute on this specific 6-token CHARS-chain body, BOTH rises from 4/20 to 8/20 while the assembly barrier closes and the component-discovery barrier becomes the dominant bottleneck." The decision rule for future scope-change commits to §v2.6-pair1-scale-8x (not run).
+- **Open mechanism question:** would a shorter tape (length 24 instead of 32, tightening the per-cell token pressure) close the component-discovery gap? Would Arm A (direct GP, no BP_TOPK filtering) discover the components differently? Both queued as decoder-variation follow-ups under the FAIL-row decision rule in the original prereg; promoted here to "worth running even under INCONCLUSIVE" because the ADI diagnostic identifies the specific upstream bottleneck they'd probe.
+
+### Degenerate-success check (inspection commitment from prereg)
+
+Pre-reg required: *"If a too-clean PASS, run `decode_winner.py v2_6_pair1_scale --all` and classify each winner's body — canonical chain or alternative assembly?"* Not triggered at 8/20 (not too-clean), but the threshold-adjacency trigger per the updated skill (principle 21) applies, so inspection done:
+
+**Winner decode on the 8 scaled-sweep BOTH-solvers (seeds 2, 3, 7, 8, 9, 10, 13, 19):** none of the 8 winners has the *contiguous substring* `INPUT CHARS SLOT_12 SUM THRESHOLD_SLOT GT` on their raw tape. The required tokens are present in each (component-presence check passes), but with interleaved tokens (SEP_A/SEP_B, NOP, DUP, CONST_*, secondary copies of the slot/aggregator) — the **permeable BP_TOPK** decoder extracts a valid executable body by skipping non-contributing cells. This is the same pattern §v2.4-alt seed 2 showed: **multiple tape-level assemblies map to the same behavioral body under BP_TOPK(k=3)**. No novel attractor category emerged; all 8 solvers reach behaviorally-equivalent bodies via tape-level assembly diversity. ADI = 0 is consistent with this: component-presence and behavioral-solve coincide because the decoder tolerates assembly scatter.
+
+This is a subtle mechanism-level observation worth recording: the decoder's permeability (BP's "NOP passes through bonded runs" semantics, extended to top-K in BP_TOPK) **absorbs** tape-level assembly scatter and is part of why "components present ⇒ behavioral solve" holds at scaled compute. Under Arm A (direct GP, no permeability), we would expect a different picture.
+
+### Findings this supports / narrows
+
+- Does **not** upgrade `findings.md#constant-slot-indirection` (still NARROWED/within-family/one-pair). The INCONCLUSIVE outcome per prereg line 159 means no automatic scope upgrade.
+- Narrows `findings.md#constant-slot-indirection` **Open external-validity questions** slightly: question (ii) from that entry ("does Pair 1 resolve at 4× compute?") is now answered as "partially — assembly barrier closes but component-discovery remains; scales-bar not met at 4× on a 32-cell tape." The open question reshapes rather than resolves.
+- Supports the methodology-level **ADI metric** as a first-class diagnostic (methodology §21): at baseline, ADI=0.10 flagged a small assembly barrier; at scaled compute, ADI=0 shows the barrier closed — a clean decomposition of the failure mode that the aggregate BOTH-solve count alone would have missed.
+
+### Next steps
+
+- Per prereg decision rule (INCONCLUSIVE): report as-is; no automatic follow-up. Queued-but-optional:
+  - **§v2.6-pair1-scale-8x** (pop=4096, gens=6000) — if paper needs tightening on the scaling slope.
+  - **§v2.6-pair1-scale-A** (Arm A direct GP, same task, pop=1024 gens=1500) — the decoder-variation counterfactual. Would distinguish "BP_TOPK absorbs assembly scatter" from "components present implies solve under any decoder."
+  - **§v2.6-pair1-tape24** (same task, tape_length=24) — would the tighter per-cell pressure close the component-discovery barrier?
+- No scope change to findings.md pending.
+
+### Prereg-promise ledger (§v2.6-pair1-scale, line-by-line against `Plans/prereg_v2_6_pair1_scale.md`)
+
+| prereg promise | reported in chronicle | status |
+|---|---|---|
+| Baseline F_pair1_baseline = 4/20 BOTH at commit `0230662` | reported verbatim in Result table | ✓ |
+| Threshold calibration: scales bar at ≥ 15/20 (§v2.3 bar) | used as PASS-scales criterion | ✓ |
+| Sampler audit (principle 20): no change, class balance 50/50, proxy accuracy recorded | reported in Result / Caveats | ✓ |
+| Statistical test: paired McNemar, one-sided α=0.05 | reported in Result (b=2 c=6 p=0.29); pairing caveat recorded | ✓ |
+| Diagnostics: fixed-task solve counts, ADI per seed, winner decode on ≥0.999, trajectory plot | all reported | ✓ |
+| Degenerate-success inspection on ≥15/20 outcome | not triggered at 8/20; threshold-adjacency trigger applied instead | ✓ |
+| Decision rule for INCONCLUSIVE: "run ADI diagnostic" | done; ADI = 0 at scaled compute → component-discovery-limited | ✓ |
+| Scope tag if PASS (upgrade to across-family / 2 body shapes) | not triggered; scope unchanged | n/a |
+
+---
+
 ## v2-suite combined verdict (updated 2026-04-15, post-baselines)
 
 The pre-registered v2-probe suite (§v2.1–§v2.5) landed at "Partial" earlier this session. The four follow-ups update the picture as follows:
