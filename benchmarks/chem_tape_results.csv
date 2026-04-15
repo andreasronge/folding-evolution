@@ -1,0 +1,10 @@
+timestamp,git_hash,phase,pop_size,generations_run,task,arm,alphabet,pop_eval_sec,mutate_sec,gen_total_sec,pyo3_crossings_per_gen,notes
+2026-04-15T09:53:18,cd01d6e,baseline,1024,50,sum_gt_10_v2,BP_TOPK,v2_probe,0.0365,0.0289,0.0719,1024,"pre-optimization baseline, v2 hot path"
+2026-04-15T10:04:29,cd01d6e,phase2,1024,50,sum_gt_10_v2,BP_TOPK,v2_probe,0.0244,0.0295,0.0613,1,pop-batch Rust executor
+2026-04-15T11:09:42,07489bb,phase2-fixed-bench,1024,50,sum_gt_10_v2,BP_TOPK,v2_probe,0.0248,0.0294,0.0603,1,"rev bench: fixed-seed, snapshotted RNG, crossings from gen path"
+2026-04-15T09:40:00,cd01d6e,sweep-baseline,1024,1500,sum_gt_10_v2,BP_TOPK,v2_probe,,,13.35,,"v2_1_partA_fixed_baseline @ workers=4 default_rayon: 267.0s/20 seeds"
+2026-04-15T09:45:00,cd01d6e,sweep-w8,1024,1500,sum_gt_10_v2,BP_TOPK,v2_probe,,,9.73,,"v2_1_partA_fixed_baseline @ workers=8 default_rayon: 194.7s/20 seeds"
+2026-04-15T10:10:00,cd01d6e,sweep-w8-popbatch,1024,1500,sum_gt_10_v2,BP_TOPK,v2_probe,,,9.35,1,"v2_1_partA_fixed_baseline @ workers=8 + pop_batch: 187.0s/20 seeds"
+2026-04-15T10:20:00,cd01d6e,sweep-w8-popbatch-rayon1,1024,1500,sum_gt_10_v2,BP_TOPK,v2_probe,,,8.79,1,"v2_1_partA_fixed_baseline @ workers=8 + pop_batch + RAYON=1: 175.9s/20 seeds"
+2026-04-15T10:30:00,cd01d6e,sweep-w10-popbatch-rayon1-SHIPPED,1024,1500,sum_gt_10_v2,BP_TOPK,v2_probe,,,7.76,1,"SHIPPED: workers=10 + pop_batch + RAYON=1: 155.2s/20 seeds = 1.72x baseline"
+2026-04-15T10:35:00,cd01d6e,sweep-w20-popbatch-rayon1,1024,1500,sum_gt_10_v2,BP_TOPK,v2_probe,,,7.41,1,"workers=20 + pop_batch + RAYON=1: 148.2s/20 seeds (only +5% over shipped, 2x process count)"

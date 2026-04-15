@@ -24,6 +24,12 @@ try:
 except ImportError:
     _HAS_RUST_EXECUTOR = False
 
+try:
+    from _folding_rust import rust_chem_execute_pop_batch as _rust_exec_pop_batch  # type: ignore
+    _HAS_POP_BATCH = True
+except ImportError:
+    _HAS_POP_BATCH = False
+
 
 def _tapes_from_population(population: list[np.ndarray]) -> np.ndarray:
     """Stack P individual tapes into a (P, L) uint8 array."""
@@ -90,8 +96,17 @@ def evaluate_population(
     tapes = _tapes_from_population(population)                   # (P, L) uint8
     programs = _programs_for_arm(cfg, tapes, topk_override=topk_override)
 
-    predictions = np.zeros((P, E), dtype=np.int64)
-    if _HAS_RUST_EXECUTOR:
+    if _HAS_POP_BATCH:
+        s12 = task.alphabet.slot_12
+        s13 = task.alphabet.slot_13
+        threshold = int(task.alphabet.threshold)
+        flat = _rust_exec_pop_batch(
+            programs, s12, s13, task.inputs, task.input_type,
+            alphabet_name=cfg.alphabet, threshold=threshold,
+        )
+        predictions = np.asarray(flat, dtype=np.int64).reshape(P, E)
+    elif _HAS_RUST_EXECUTOR:
+        predictions = np.zeros((P, E), dtype=np.int64)
         s12 = task.alphabet.slot_12
         s13 = task.alphabet.slot_13
         threshold = int(task.alphabet.threshold)
@@ -101,6 +116,7 @@ def evaluate_population(
                 alphabet_name=cfg.alphabet, threshold=threshold,
             )
     else:
+        predictions = np.zeros((P, E), dtype=np.int64)
         for p in range(P):
             prog = programs[p]
             for e in range(E):

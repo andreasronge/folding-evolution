@@ -17,6 +17,7 @@
 //! on the PyO3 boundary. Default "v1" preserves the pre-v2 behaviour.
 
 use pyo3::prelude::*;
+use rayon::prelude::*;
 
 // ---------- Token ids ----------
 // Shared core (ids 0..13) — identical between v1 and v2_probe.
@@ -441,5 +442,59 @@ pub fn rust_chem_execute_batch(
         };
         out.push(execute_inner(&tokens, &ctx));
     }
+    Ok(out)
+}
+
+/// Population-batch executor: many programs × many inputs. Folds the
+/// per-individual Python loop from `evaluate.py` into Rust and parallelises
+/// over programs with Rayon. Inputs are converted once under the GIL, then
+/// the compute phase runs with GIL released.
+///
+/// Returns a flat Vec<i64> of length P*E (row-major: program p's result on
+/// input e is at index p*E + e). Python reshapes to (P, E) in one alloc.
+#[pyfunction]
+#[pyo3(signature = (programs, slot_12, slot_13, input_values, input_type, alphabet_name=None, threshold=None))]
+pub fn rust_chem_execute_pop_batch(
+    py: Python<'_>,
+    programs: Vec<Vec<u8>>,
+    slot_12: &str,
+    slot_13: &str,
+    input_values: &Bound<'_, pyo3::types::PyList>,
+    input_type: &str,
+    alphabet_name: Option<&str>,
+    threshold: Option<i64>,
+) -> PyResult<Vec<i64>> {
+    let s12 = resolve_slot_op(slot_12);
+    let s13 = resolve_slot_op(slot_13);
+    let thr = threshold.unwrap_or(0);
+    let abc = parse_alphabet(alphabet_name);
+
+    // Convert inputs once, under the GIL, before releasing for parallel compute.
+    let inputs: Vec<Value> = input_values
+        .iter()
+        .map(|item| py_to_value(&item, input_type))
+        .collect::<PyResult<_>>()?;
+
+    let e = inputs.len();
+    let p = programs.len();
+    let mut out: Vec<i64> = vec![0i64; p * e];
+
+    py.allow_threads(|| {
+        out.par_chunks_mut(e.max(1))
+            .zip(programs.par_iter())
+            .for_each(|(row, tokens)| {
+                for (j, inp) in inputs.iter().enumerate() {
+                    let ctx = ExecCtx {
+                        slot_12_fn: s12,
+                        slot_13_fn: s13,
+                        threshold: thr,
+                        alphabet: abc,
+                        input: inp,
+                    };
+                    row[j] = execute_inner(tokens, &ctx);
+                }
+            });
+    });
+
     Ok(out)
 }

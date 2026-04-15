@@ -185,6 +185,11 @@ def _run_entry(
 
     env = dict(os.environ)
     env.setdefault("PYTHONUNBUFFERED", "1")
+    # Pin Rayon to one thread per worker. With multi-worker sweeps each
+    # Python worker otherwise spawns num_cpus Rayon threads, and N workers
+    # × num_cpus threads oversubscribe the cores. One thread per worker
+    # lets the outer Pool provide the parallelism.
+    env.setdefault("RAYON_NUM_THREADS", "1")
     # Experiments should write outputs (result.json, plots, etc.) into
     # $RUN_DIR. The runner checks expect_outputs relative to run_dir.
     env["RUN_DIR"] = str(run_dir.resolve())

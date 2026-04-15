@@ -221,6 +221,7 @@ fn _folding_rust(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(rust_assemble_debug, m)?)?;
     m.add_function(wrap_pyfunction!(chem_tape::rust_chem_execute, m)?)?;
     m.add_function(wrap_pyfunction!(chem_tape::rust_chem_execute_batch, m)?)?;
+    m.add_function(wrap_pyfunction!(chem_tape::rust_chem_execute_pop_batch, m)?)?;
     m.add_class::<RustContexts>()?;
     m.add_class::<RustTargetOutputs>()?;
     Ok(())
