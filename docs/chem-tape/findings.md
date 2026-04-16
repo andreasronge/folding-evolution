@@ -241,7 +241,7 @@ mechanism-untested; they cannot be counted as supporting evidence.
 
 **Scope tag:** `within-family / cross-axis on AND-composition` · `n=20 each on 7 sweeps × ≥4 attractor reframings` · `at pop=1024 gens=1500 (and 4× scaled to pop=2048 gens=3000) v2_probe alphabet` · `across decoder arms {BP_TOPK(k=3,bp=0.5), Arm A direct GP}` · `across sampler conditions {natural, single-decorr, dual-decorr}` · `on integer-list AND-composition labels of the form` `(sum > t1) AND (max > t2)`
 
-**Status:** `ACTIVE` · last revised commit `92b3325` · 2026-04-16 (broadened twice: decoder-general by §v2.12, proxy-accuracy threshold relaxed from ≥~0.90 to ≥~0.85 by §v2.4-proxy-2)
+**Status:** `ACTIVE` · last revised commit `cac7537` · 2026-04-17 (narrowed at the mechanism layer by §v2.4-proxy-4b — best-of-run vs full-population retention dissociate; basin still active as a greedy-convergence claim but its mechanism is not pure discoverability-limited)
 
 ### Claim
 
@@ -268,6 +268,7 @@ categories).
 - Does not claim the basin is the only failure mode — the §v2.6 Pair 1
   failure (different track, body topology issue) is a distinct mechanism.
 - ~~Tested only at BP_TOPK(k=3, bp=0.5); other arms not characterised.~~ **Updated 2026-04-16:** §v2.12 tested Arm A direct GP on both samplers; Arm A traps in the same basin categories (attractor_share 0.80 natural, 0.84 decorr). Decoder-arm is no longer an open scope boundary on this task family. (Pending principle-20 audit discharge for paper-grade.)
+- **Best-of-run vs full-population retention dissociate (§v2.4-proxy-4b, 2026-04-17):** when the canonical AND body is seeded into the initial population at `seed_fraction ∈ {0.001, 0.01}`, 20/20 runs achieve full solve with the canonical body retained at best-of-run across the full 1500 gens. **But the full-population retention** (fraction of final-pop matching canonical at exact-match) is ≤ 0.036, below the prereg's PASS 0.3 threshold and even the PARTIAL 0.05 floor. Selection preserves the canonical body at the top of the population but does not propagate it through the population under standard mutation rates. This **does not falsify** the top-line claim (greedy evolution still converges to the proxy under uniform-random initialization); it **narrows the mechanism** from "pure discoverability-limited (selection would hold canonical if only search could reach it)" to "best-of-run canonical attractor without population propagation under mutation pressure." Edit-distance-2 R_2 remains unmeasured pending a sweep-infra extension to dump final populations.
 
 ### Mechanism reading (current)
 
@@ -285,6 +286,23 @@ categories).
   `max > 5` did not free the search — evolution shifted to `sum > 10`
   (the next-best ≥0.90 predicate). The mechanism is the **basin shape**,
   not the specific predicate.
+- Narrowed at the mechanism layer (§v2.4-proxy-4b, experiment commit
+  `f10b066`; findings-revision commit `cac7537`): the prior
+  discoverability-limited framing implied "selection would hold
+  canonical if only search could reach it." §v2.4-proxy-4b's seeded-init
+  probe shows selection does hold canonical at best-of-run (20/20
+  across full 1500 gens on seeded arms under BP_TOPK(k=3,bp=0.5)
+  preserve on `sum_gt_10_AND_max_gt_5` natural sampler), but an
+  **exact-match upper bound** on full-population retention inferred
+  from `history.npz` aggregate stats (mean_fitness 0.845, unique
+  genotypes 987/1024) places exact-match R_2 ≤ 0.036 — below the
+  prereg's 0.3 PASS threshold. The prereg's actual R_2 metric is
+  **edit-distance ≤ 2**, which is unmeasured here (sweep.py does
+  not serialize final populations). Working mechanism name:
+  `best-of-run canonical retention with exact-match final-pop R ≤ 0.04
+  under seeded §v2.4 BP_TOPK-preserve runs`. Edit-distance-2 R_2
+  remains unmeasured; the mechanism name is expected to narrow
+  further once that measurement lands.
 
 ### Supporting experiments
 
@@ -302,10 +320,11 @@ categories).
 
 ### Narrowing / falsifying experiments
 
-None yet. One queued candidate that could narrow further:
-- §v2.4-proxy-2 (simultaneous decorrelation of `max > 5` and `sum > 10`): if
-  evolution still finds a 0.84-accuracy `any cell > 6` proxy, the basin
-  story is fully general; if a novel attractor emerges, the claim narrows.
+| experiment | commit | effect |
+|---|---|---|
+| [§v2.4-proxy-4b](experiments-v2.md#v24-proxy-4b-seeded-initialization-maintainability-probe--full-horizon-2026-04-16) | experiment commit `f10b066` (findings-revision commit `cac7537`) | Narrowed-at-mechanism-layer. Seeded-init at `seed_fraction ∈ {0.001, 0.01}` under BP_TOPK(k=3,bp=0.5) preserve on `sum_gt_10_AND_max_gt_5` achieves 20/20 solve with exact-canonical best-of-run retained across full 1500 gens; exact-match full-population retention bounded at R_2 ≤ 0.036 via proxy from final-gen aggregate stats (`mean_fitness=0.845`, `unique_genotypes=987/1024`). Edit-distance-2 R_2 (the prereg's actual metric) is unmeasured — `sweep.py` does not serialize final populations. The observed (F=20/20, R≤0.04) pattern did not match any pre-registered outcome row; the prereg's outcome table assumed F and R would correlate. Mechanism narrows from "pure discoverability-limited" to a scope-qualified reading of best-of-run retention with unmeasured edit-distance-2 propagation. Direct full-population decode deferred pending `sweep.py` dump_final_population flag. |
+
+Other narrowing candidates (informational):
 - ~~Different decoder arms: if BP (k=1) or A (direct GP) escape the basin
   while BP_TOPK does not, the claim narrows from "greedy search" to
   "BP_TOPK-specific."~~ **Resolved by §v2.12 (2026-04-16):** Arm A does
@@ -313,10 +332,18 @@ None yet. One queued candidate that could narrow further:
 
 ### Implications for downstream work
 
-- **Downstream experiments may assume:** any AND-composition task with a
-  single-predicate-correlation ≥ ~0.90 in training will *fail* the
-  compositional body discovery at this budget — and the failure is *not*
-  diagnostic of the mechanism's compositional reach.
+- **Downstream experiments may assume (within the tested intlist AND-
+  composition family `(sum > t1) AND (max > t2)` plus closely adjacent
+  proxy-basin probes within this track):** a single-predicate-correlation
+  ≥ ~0.85 in training will *fail* the compositional body discovery at
+  this budget — and the failure is *not* diagnostic of the mechanism's
+  compositional reach. Extending this assumption to arbitrary AND-
+  composition tasks beyond the tested family is untested and must go
+  through a fresh replication sweep.
+- **Downstream experiments may also assume (§v2.4-proxy-4b, 2026-04-17):**
+  seeding the canonical body into initial population produces 20/20
+  solves with canonical best-of-run retained across 1500 gens. Best-of-run
+  displacement-from-canonical is ruled out under BP_TOPK preserve.
 - **Downstream experiments must still test:** ~~the basin's robustness to
   decoder-arm changes;~~ (resolved by §v2.12: decoder-general)
   ~~whether decorrelating the next-best predicate also gets shifted-to
@@ -324,10 +351,23 @@ None yet. One queued candidate that could narrow further:
   proxies take over — cascade confirmed) whether the basin exists for
   OR/XOR/larger-k compositions; whether a sampler that eliminates ALL
   single-predicates above ~0.80 frees AND-composition (may require a
-  different input domain).
+  different input domain); **whether the F/R dissociation reproduces
+  under Arm A / consume / higher bond_protection — and what edit-
+  distance-2 R_2 actually looks like directly-measured** (pending
+  sweep.py final-population-dump infra extension).
+- **Part-1 meta-learning direction (revised 2026-04-17):** the F/R
+  dissociation re-opens mutation-robustness operators as a candidate
+  alongside exploration / diverse-initialization operators. Pre-§v2.4-
+  proxy-4b the strong discoverability-limited reading narrowed Part-1
+  to exploration only; the narrowed mechanism re-opens both.
 - **Methodology consequence:** sampler design (methodology §20) is now
   load-bearing for any AND-composition follow-up — class-balanced and
   proxy-decorrelation-aware sampling must be specified in the prereg.
+- **Outcome-table lesson (methodology §2):** pre-registration outcome
+  tables on seeded-init probes must separate F (solve rate) from R
+  (full-population retention) as **independent** axes, not assume they
+  correlate. §v2.4-proxy-4b's (F=20, R≤0.04) pattern would have fit a
+  row the prereg did not contain.
 
 ### Review history
 
@@ -349,6 +389,20 @@ None yet. One queued candidate that could narrow further:
   at 0.91, any_cell>7 at 0.86). Trapping threshold relaxed from "≥ ~0.90"
   to "≥ ~0.85" in claim sentence. Scope tag updated to include
   dual-decorr sampler condition. Headline updated.
+- 2026-04-17 — **narrowed at mechanism layer** by §v2.4-proxy-4b
+  (experiment commit `f10b066`; findings-revision commit `cac7537`).
+  Seeded-init probe reveals best-of-run retention (20/20 across 1500
+  gens under BP_TOPK(k=3,bp=0.5) preserve) dissociates from an exact-
+  match upper bound on full-population retention (R_2 ≤ 0.036 via
+  aggregate-stats proxy; edit-distance-2 R_2 unmeasured). Top-line
+  claim (greedy evolution converges to ≥~0.85 proxy) remains ACTIVE.
+  Mechanism reading narrows from pure discoverability-limited to the
+  scope-qualified best-of-run retention reading described above.
+  Scope-boundary section adds the F/R dissociation note. Outcome-table
+  lesson added to "Implications for downstream work." Pending follow-
+  ups: direct edit-distance-2 R_2 measurement via `sweep.py` final-
+  population-dump extension; cross-decoder / cross-executor replication
+  of the F/R pattern.
 
 ---
 
@@ -414,3 +468,59 @@ Switching the executor's safe-pop rule from "preserve wrong-typed values on stac
 
 - 2026-04-16 — initial promotion from §v2.14 (PASS, commit `cdf9c39`) + §v2.14b (PARTIAL, commit `1fc51c5`). Codex adversarial review on §v2.14 chronicle addressed all P1 findings (full 2×2 McNemar, per-seed tables, scope tags, mechanism language). Codex confirmed §v2.14b classification as PARTIAL. Codex adversarial review on findings draft addressed 2 P1s (mechanism name too narrow for entry-wide label; "mediated by" overstates causality) and 4 P2s (scope tag detail, downstream non-test, two-layer mechanism split, overreach softening).
 - 2026-04-16 — **updated** with §v2.14c (PASS, R-count stacking), §v2.14d (INCONCLUSIVE/off-grid, Arm A no-lift), §v2.14e (PASS, E-count replication at 1x). Scope broadened to two MAP-family slot bindings at 1x and R-count compute stacking at 4x. Scope narrowed by Arm A non-lift. Headline updated. Codex adversarial review on findings diff: 2 P1s addressed (Arm A language softened from "does not help" to "shows no lift at 1x"; 1x replication vs 4x stacking scopes separated in tag and assumption bullet), 4 P2s acknowledged (n tag tightened to "per comparison"; causal language in stacking softened; downstream assumptions narrowed to match scope; no contradictions with neighboring entries).
+
+---
+
+## decoder-knob-leverage-null. The (K, bond_protection_ratio) decoder-knob axes do not simultaneously preserve the §v2.3 4-token body ceiling AND lift §v2.6 Pair 1 6-token body discovery above the 60% JOINT-LIFT threshold at the tested pop=1024 gens=1500 budget.
+
+**Scope tag:** `within-decoder-family` · `n=20 per cell (6 cells) + n=60 on the one INTERMEDIATE cell` · `at BP_TOPK v2_probe alphabet` · `pop=1024 gens=1500 tape_length=32 preserve executor` · `on §v2.3 sum_gt_{5,10}_slot alternation and §v2.6 Pair 1 any_char_count_gt_{1,3}_slot alternation` · `NULL-at-budget within the tested (K, bond_protection_ratio) grid`
+
+**Status:** `NULL` · last revised commit `abb46d8` · 2026-04-17
+
+### Claim (null)
+
+Within the tested 2×3 decoder-knob grid {K ∈ {3, 5}, bond_protection_ratio ∈ {0.0, 0.5, 1.0}} on §v2.3 and §v2.6 Pair 1 at pop=1024 gens=1500, **no cell** simultaneously preserves the §v2.3 ceiling (≥18/20 BOTH) and lifts Pair 1 above the pre-registered 60% JOINT-LIFT threshold (≥12/20 BOTH at n=20 / ≥36/60 at n=60). The (K=3, bp=1.0) cell produces a **directional / exploratory sub-gate lift** (25/60 = 41.7% combined across §v2.15 n=20 and §v2.15-bp1-k3-nexp n=40, vs 4/20 = 20% at bp=0.5 reference); the confirmatory test was pre-registered as rejection of the 60% JOINT-LIFT floor (cleared), not confirmation of the lift-over-bp=0.5 contrast, which remains exploratory. The (K=3, bp=0.0) and (K=5, bp=0.0) cells **collapse** both tasks (4/20 and 3/20 on §v2.3 respectively) because bond_protection_ratio=0.0 sets mutation rate on bonded cells to exactly zero. The NULL holds at the pre-registered gate; the partial-lift at bp=1.0 is informative as a directional mechanism signal but does not clear the gate.
+
+### Scope boundaries (what this NULL does NOT say)
+
+- Does NOT claim chemistry-knob leverage is universally absent. The grid covers only (K, bond_protection_ratio); untested decoder knobs — `min_run_length`, `tape_length`, alphabet extensions, executor-rule interactions (bp × consume), per-cell compute scaling — could surface JOINT-LIFT cells outside the tested 2×3 box.
+- Does NOT claim bond_protection is ineffective. The (K=3, bp=1.0) cell produces a +22 percentage-point directional lift on Pair 1 over the bp=0.5 default (42% vs 20%) — directional/exploratory, not confirmatory — but below the 60% gate threshold. The partial-lift signal may be a useful secondary axis in combination with other interventions.
+- Does NOT claim the NULL holds at higher compute. 4× compute (§v2.14c analog) was not tested inside this grid; it is plausible that a JOINT-LIFT cell exists at 4× and was missed at 1× pop=1024 gens=1500.
+- Does NOT claim the NULL generalises off the §v2.3 / Pair 1 task pair. The gate is task-specific to these two pairs.
+- Does NOT claim the NULL holds under Arm A or under the `consume` executor rule. Both were held fixed at BP_TOPK preserve during the grid.
+- **Mechanism caveat on bp=0.0 collapse:** the collapse is not a "chemistry-knob result" per se — it is a direct consequence of `bp=0.0` zeroing the effective mutation rate on bonded cells in this codebase's mutation operator. That cell mostly measures the mutation operator's degenerate regime, not a chemistry-knob failure mode.
+
+### Mechanism reading (current)
+
+**Current name:** `decoder-knob-leverage-null on (K, bond_protection_ratio) at 1× compute`
+
+**Naming history:**
+- Initial: `Part-1-Phase-0-diagnostic-gate-outcome` (§v2.15 chronicle, commit `9455d04`) — role-named rather than mechanism-named.
+- Narrowed to `decoder-knob-leverage-null` (this promotion, 2026-04-17). The mechanism reading is: within the tested box, the (K, bond_protection_ratio) axes cannot be tuned to simultaneously preserve easy-task ceiling and lift hard-task floor above the 60% threshold. The partial-lift at bp=1.0 is consistent with a "reduced mutation on bonded cells hurts hard-body discovery" reading; the bp=0.0 collapse is consistent with "zero-mutation on bonded cells breaks search entirely." Both are narrow mechanism observations, not the JOINT-LIFT leverage the gate was designed to test.
+
+### Supporting experiments
+
+| experiment | commit | n | what it establishes |
+|---|---|---|---|
+| [§v2.15 grid](experiments-v2.md#v215-decoder-ablation-grid-k--bond_protection_ratio-on-v23-and-v26-pair-1-2026-04-16) | `9455d04` | 20 per cell × 6 cells × 2 tasks | 2×3 grid on §v2.3 + Pair 1. §v2.3: bp∈{0.5, 1.0} at both K hit 20/20 ceiling; bp=0.0 collapses to 3-4/20. Pair 1: (K=3, bp=1.0) = 10/20 (INTERMEDIATE triggered n-expansion); all other cells ≤ 8/20 (CEILING-STABLE-NULL or GLOBAL-COLLAPSE). Zero JOINT-LIFT cells at n=20. |
+| [§v2.15-bp1-k3-nexp](experiments-v2.md#v215-bp1-k3-nexp-n-expansion-of-intermediate-k3-bp10-cell-on-pair-1-2026-04-16) | `b179b50` | 40 (combined 60 with §v2.15) | n-expansion of the one INTERMEDIATE cell (K=3, bp=1.0) on Pair 1. Combined 25/60 = 41.7% BOTH. Exact-binomial test cleanly rejects 60% JOINT-LIFT floor (P(X≤25 \| true=0.60) = 0.0014). Confirmatory test in prereg-defined family size 1 (§v2.15 decoder-grid family); corrected α = 0.05 clears easily. Attractor inspection on new block: 9/15 solvers canonical-6tok (60%, below the ≥70% mechanism-coherent PASS guard). The INTERMEDIATE signal was upper-tail noise on a true rate of ~42%. |
+
+### Narrowing / falsifying experiments
+
+No falsifying experiments — the NULL is at its first promotion. Candidates that could narrow or partially falsify:
+- JOINT-LIFT cell found at 4× or higher compute on any grid cell (would narrow NULL from "at 1× budget" to "at 1× only").
+- JOINT-LIFT cell found at a finer bp or K grid inside the tested box that this 2×3 grid missed (would narrow the grid specificity).
+- Alphabet extensions (e.g., v2_probe_filter for §v2.14f) that change the search landscape enough to make bp=1.0 cross the gate threshold.
+
+### Implications for downstream work
+
+- **Downstream experiments may assume:** Part-1 meta-learning ES over the (K, bond_protection_ratio) axes specifically is **deprioritized at pop=1024 gens=1500 on these tasks**. The chemistry-knob search space does not have enough leverage to authorize full ES machinery over just these two knobs at this budget.
+- **Downstream experiments may also assume:** within this grid, the project default (K=3, bond_protection_ratio=0.5) is on the ceiling-preserving side; no grid cell found that beats it on the joint criterion. Changing the project default based on this grid alone is not warranted.
+- **Downstream experiments must still test:** JOINT-LIFT at other decoder axes (`min_run_length`, `tape_length`, alphabet extensions); at 4× or higher compute; at Arm A or under consume; in combined cells (bp × executor_rule or bp × tape_length). The NULL is strictly within the tested 2×3 box.
+- **Part-1 meta-learning redirection:** the Part-1 Phase 1 mainline (§Approach 5+1 ES + soft bonds in future-experiments.md) needs either a broader decoder-axis search surface OR a pivot toward executor-rule / body-topology interventions. Documented in future-experiments.md Part 1 Phase 0 diagnostic gate section.
+- **Methodology consequence:** future decoder-grid preregs on adjacent tasks must carry a per-cell classification table that explicitly includes INTERMEDIATE as an outcome with a pre-committed n-expansion recipe. This grid's prereg had this structure and the n-expansion worked as designed — it is a replication-ready pattern.
+
+### Review history
+
+- 2026-04-17 — initial promotion from §v2.15 (NULL, commit `9455d04`) + §v2.15-bp1-k3-nexp (INCONCLUSIVE per prereg — within-noise, commit `b179b50`). First-class NULL entry per methodology §24. Top-line claim sentence is narrow-scoped to the tested 2×3 box at 1× compute. Codex adversarial review pending (required before final write).
+
