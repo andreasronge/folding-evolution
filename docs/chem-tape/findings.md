@@ -349,3 +349,58 @@ None yet. One queued candidate that could narrow further:
   at 0.91, any_cell>7 at 0.86). Trapping threshold relaxed from "≥ ~0.90"
   to "≥ ~0.85" in claim sentence. Scope tag updated to include
   dual-decorr sampler condition. Headline updated.
+
+---
+
+## safe-pop-consume-effect. Safe-pop consume rule lifts mixed-type chain assembly on the 6-token string-count body and shifts attractor categories on intlist AND-composition tasks (n=20, within-family, executor-rule ablation, single hard pair + easy control).
+
+**Scope tag:** `within-family` · `n=20` · `at BP_TOPK(k=3,bp=0.5) v2_probe alphabet pop=1024 gens=1500` · `executor-rule ablation / single hard pair + easy control` · `on 6-token string-count body under task alternation (solve-rate claim) and intlist AND-composition (landscape-shift observation)`
+
+**Status:** `ACTIVE` · last revised commit `ff3a7b3` · 2026-04-16
+
+### Claim
+
+Switching the executor's safe-pop rule from "preserve wrong-typed values on stack" to "consume wrong-typed values" doubles the BOTH-solve rate on the 6-token mixed-type string-count body from 4/20 to 8/20 at matched compute, while leaving the 4-token all-int body at 20/20, accompanied by a shift from partial-assembly attractor states (6→1/20) to canonical-6-token assembly (3→9/20) at the tested budget and decoder configuration. On intlist-only AND-composition tasks, consume does not produce additional solves but shifts the dominant attractor category from single-predicate proxies toward compound AND-composition attempts (0→10/20 on natural sampler).
+
+### Scope boundaries (what this claim does NOT say)
+
+- Does not claim the consume rule is universally better — on the 4-token all-int body the rule is irrelevant (20/20 under both).
+- Does not claim the consume rule helps escape the proxy-basin-attractor — §v2.14b showed consume shifts the attractor landscape but does not produce additional solves on intlist-only AND-composition tasks.
+- Does not claim a causal mechanism — the attractor-category shift is consistent with a "stack jam" / type-barrier reading but the causal chain is not experimentally isolated.
+- Does not generalize to other 6-token body shapes — tested only on the string-count body (`INPUT CHARS MAP_EQ_R SUM THRESHOLD_SLOT GT`) with task-bound slot_12 = MAP_EQ_R. Not replicated on a second slot binding or second mixed-type body.
+- Does not generalize to other decoder arms — tested only under BP_TOPK(k=3, bp=0.5). Not tested on Arm A.
+- McNemar p=0.157 at n=20 — the solve-rate effect does not reach inferential significance. The evidence is descriptive (solve count + seed overlap + attractor-category inspection), not statistically confirmed.
+- Open external-validity questions: (i) replication on a second 6-token mixed-type body; (ii) consume at 4× compute; (iii) interaction with Arm A; (iv) effect on other task families.
+
+### Mechanism reading (current)
+
+**Current name:** `safe-pop consume executor-rule effect`
+
+**Naming history:**
+- Initial: "safe-pop consume lifts mixed-type chain assembly" (§v2.14 PASS, commit `cdf9c39`). First-pass name based on the solve-rate lift and attractor shift on the string-count body. The "stack jam" hypothesis (Codex independent review) motivated the experiment: wrong-typed values persist on the stack under preserve, blocking downstream typed ops.
+- Broadened observation (§v2.14b PARTIAL, commit `1fc51c5`): consume also shifts attractor categories on intlist-only tasks (0→10/20 AND-composition attempts without additional solves). The effect extends beyond multi-type-boundary chains at the landscape level. Name broadened from "type-barrier clearance" to the neutral "executor-rule effect" to cover both manifestations.
+- Current: `safe-pop consume executor-rule effect` — two layers: (a) solve-rate lift on mixed-type chains (§v2.14), (b) landscape-level attractor shift on all-int tasks (§v2.14b). Name expected to narrow after replication on a second 6-token body clarifies whether the solve-rate layer is chain-specific or generalizes.
+
+### Supporting experiments
+
+| experiment | commit | n | what it establishes |
+|---|---|---|---|
+| [§v2.14](experiments-v2.md#v214-safe-pop-executor-rule-ablation-kuyucu-inspired-decoder-micro-ablation-2026-04-16) | `cdf9c39` | 20 | PASS: consume 8/20 vs preserve 4/20 on hard pair; 20/20 vs 20/20 on easy pair. Attractor shift: canonical-6tok 3→9/20, partial-assembly 6→1/20. McNemar p=0.157. |
+| [§v2.14b](experiments-v2.md#v214b-safe-pop-consume-on-proxy-basin-and-composition-tasks-2026-04-16) | `1fc51c5` | 20 per sampler | PARTIAL: consume does not escape proxy basin (F_AND=0/20 natural, 1/20 decorr) but shifts attractor categories (0→10/20 AND-composition attempts on natural sampler). |
+
+### Narrowing / falsifying experiments
+
+None to date. The most likely narrowing vector is replication failure on a second 6-token mixed-type body.
+
+### Implications for downstream work
+
+- **Downstream experiments may assume:** on the 6-token string-count body under BP_TOPK(k=3,bp=0.5) at pop=1024 gens=1500, the consume rule approximately doubles BOTH-solve rate and triples canonical-assembly rate compared to preserve.
+- **Downstream experiments must still test:**
+  - Replication on a second 6-token mixed-type body AND a second slot binding (current evidence is tied to MAP_EQ_R at slot 12).
+  - Whether consume at 4× compute further improves the hard pair (consume at 1× matches preserve at 4× = 8/20; does consume at 4× push beyond?).
+  - Whether the effect extends to Arm A direct GP.
+  - Whether changing the project default to consume causes regressions on any existing task family beyond the two tested.
+
+### Review history
+
+- 2026-04-16 — initial promotion from §v2.14 (PASS, commit `cdf9c39`) + §v2.14b (PARTIAL, commit `1fc51c5`). Codex adversarial review on §v2.14 chronicle addressed all P1 findings (full 2×2 McNemar, per-seed tables, scope tags, mechanism language). Codex confirmed §v2.14b classification as PARTIAL. Codex adversarial review on findings draft addressed 2 P1s (mechanism name too narrow for entry-wide label; "mediated by" overstates causality) and 4 P2s (scope tag detail, downstream non-test, two-layer mechanism split, overreach softening).
