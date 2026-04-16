@@ -518,12 +518,14 @@ def _sum_gt_10_and_max_gt_5(xs: tuple[int, ...]) -> int:
 def _sample_and_cohort_0_9(
     rng: np.random.Generator,
     cohort: str,
-    max_tries: int = 10_000,
+    max_tries: int = 100_000,
 ) -> tuple[int, ...]:
-    """Draw a length-4 intlist over [0,9] matching one of three cohorts:
+    """Draw a length-4 intlist over [0,9] matching one of five cohorts:
       "pos"          = sum>10 AND max>5        (label=1; all have max>5)
       "neg_max_hi"   = sum≤10 AND max>5        (label=0; has max>5)
       "neg_max_lo"   = max≤5                   (label=0; no max>5, sum any)
+      "neg_hi_lo"    = sum>10 AND max≤5        (label=0; §v2.4-proxy-2 dual-decorr)
+      "neg_lo_hi"    = sum≤10 AND max>5        (label=0; alias for neg_max_hi)
     """
     for _ in range(max_tries):
         xs = tuple(int(x) for x in rng.integers(0, 10, size=4))
@@ -534,6 +536,10 @@ def _sample_and_cohort_0_9(
         if cohort == "neg_max_hi" and s <= 10 and m > 5:
             return xs
         if cohort == "neg_max_lo" and m <= 5:
+            return xs
+        if cohort == "neg_hi_lo" and s > 10 and m <= 5:
+            return xs
+        if cohort == "neg_lo_hi" and s <= 10 and m > 5:
             return xs
     raise RuntimeError(f"Failed cohort sample ({cohort}) in {max_tries} tries")
 
@@ -597,6 +603,86 @@ def make_sum_gt_10_AND_max_gt_5_decorr_task(cfg: ChemTapeConfig, seed: int) -> T
     )
     return Task(
         name="sum_gt_10_AND_max_gt_5_decorr",
+        input_type="intlist",
+        inputs=train_inp,
+        labels=train_lab,
+        alphabet=alph.TaskAlphabet(slot_12=alph.OP_NOP, slot_13=alph.OP_NOP),
+        label_fn=_sum_gt_10_and_max_gt_5,
+        holdout_inputs=hold_inp,
+        holdout_labels=hold_lab,
+    )
+
+
+# §v2.4-proxy-2: dual-proxy decorrelation. Simultaneous weakening of both
+# `max > 5` and `sum > 10` from ~0.92/0.91 accuracy to 0.75. Negatives are
+# split 50/50 between neg_hi_lo (sum>10, max≤5) and neg_lo_hi (max>5, sum≤10).
+# No neg_lo_lo (max≤5 AND sum≤10) examples — by design to maximize
+# decorrelation of both top-2 proxies simultaneously.
+
+
+def _build_dual_decorr_and_training(
+    seed: int,
+    n_train: int,
+    n_holdout: int,
+) -> tuple[list, np.ndarray, list | None, np.ndarray | None]:
+    """Label-balanced 50/50 with BOTH max>5 and sum>10 decorrelated.
+
+    Target proportions: 50% positives (sum>10 AND max>5),
+    25% neg_hi_lo (sum>10 AND max≤5), 25% neg_lo_hi (max>5 AND sum≤10).
+    Under this sampler:
+      P(max>5 | neg) = 0.50 → `max > 5` predictor accuracy ≈ 0.75
+      P(sum>10 | neg) = 0.50 → `sum > 10` predictor accuracy ≈ 0.75
+    """
+    def _draw(rng_for, n: int, exclude: set) -> list[tuple[int, ...]]:
+        n_pos = n // 2
+        n_neg_hi_lo = n // 4
+        n_neg_lo_hi = n - n_pos - n_neg_hi_lo
+        targets = [
+            ("pos", n_pos),
+            ("neg_hi_lo", n_neg_hi_lo),
+            ("neg_lo_hi", n_neg_lo_hi),
+        ]
+        out: list[tuple[int, ...]] = []
+        for cohort, want in targets:
+            got = 0
+            while got < want:
+                xs = _sample_and_cohort_0_9(rng_for, cohort)
+                key = repr(xs)
+                if key in exclude:
+                    continue
+                out.append(xs)
+                exclude.add(key)
+                got += 1
+        return out
+
+    train_rng = np.random.default_rng(seed)
+    exclude: set = set()
+    train_inputs = _draw(train_rng, n_train, exclude)
+    order = train_rng.permutation(len(train_inputs))
+    train_inputs = [train_inputs[i] for i in order]
+    train_labels = np.array(
+        [_sum_gt_10_and_max_gt_5(xs) for xs in train_inputs], dtype=np.int64
+    )
+    if n_holdout <= 0:
+        return train_inputs, train_labels, None, None
+    hold_rng = np.random.default_rng(seed ^ 0xABCDEF)
+    hold_inputs = _draw(hold_rng, n_holdout, exclude)
+    order = hold_rng.permutation(len(hold_inputs))
+    hold_inputs = [hold_inputs[i] for i in order]
+    hold_labels = np.array(
+        [_sum_gt_10_and_max_gt_5(xs) for xs in hold_inputs], dtype=np.int64
+    )
+    return train_inputs, train_labels, hold_inputs, hold_labels
+
+
+def make_sum_gt_10_AND_max_gt_5_dual_decorr_task(
+    cfg: ChemTapeConfig, seed: int
+) -> Task:
+    train_inp, train_lab, hold_inp, hold_lab = _build_dual_decorr_and_training(
+        seed, cfg.n_examples, cfg.holdout_size
+    )
+    return Task(
+        name="sum_gt_10_AND_max_gt_5_dual_decorr",
         input_type="intlist",
         inputs=train_inp,
         labels=train_lab,
@@ -864,6 +950,8 @@ TASK_REGISTRY = {
     "compound_and_sum_gt_10_max_gt_5_slot": make_compound_and_sum_gt_10_max_gt_5_slot_task,
     # §v2.4-proxy: max>5 decorrelated from label via stratified sampling.
     "sum_gt_10_AND_max_gt_5_decorr": make_sum_gt_10_AND_max_gt_5_decorr_task,
+    # §v2.4-proxy-2: both max>5 AND sum>10 decorrelated simultaneously.
+    "sum_gt_10_AND_max_gt_5_dual_decorr": make_sum_gt_10_AND_max_gt_5_dual_decorr_task,
     # §v2.6: three body-invariant constant-indirection pairs.
     "any_char_count_gt_1_slot": make_any_char_count_gt_1_slot_task,
     "any_char_count_gt_3_slot": make_any_char_count_gt_3_slot_task,
