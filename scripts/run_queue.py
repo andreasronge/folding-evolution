@@ -38,6 +38,7 @@ from queue_lib import (  # noqa: E402
     LockError,
     QueueEntry,
     acquire_lock,
+    group_entries,
     load_queue,
     load_status,
     pending_entries,
@@ -302,10 +303,20 @@ def _validate(queue_path: Path, status_path: Path) -> int:
     print(f"[validate] {queue_path}: {len(queue)} entries, {done_count} already done, "
           f"{len(pending)} pending")
     if pending:
-        print("[validate] would run:")
-        for e in pending:
-            track = f" [{e.track}]" if e.track else ""
-            print(f"  - {e.id}{track}  (timeout {e.timeout_seconds}s)")
+        groups = group_entries(pending)
+        print(f"[validate] would run ({len(groups)} group(s)):")
+        for group in groups:
+            if len(group) == 1:
+                e = group[0]
+                track = f" [{e.track}]" if e.track else ""
+                print(f"  - {e.id}{track}  (timeout {e.timeout_seconds}s)")
+            else:
+                pg = group[0].parallel_group
+                print(f"  ┌ parallel_group={pg}:")
+                for e in group:
+                    track = f" [{e.track}]" if e.track else ""
+                    print(f"  │ {e.id}{track}  (timeout {e.timeout_seconds}s)")
+                print(f"  └ ({len(group)} entries run concurrently)")
 
     if issues:
         print(f"[validate] FAIL: {len(issues)} issue(s):", file=sys.stderr)
@@ -363,38 +374,91 @@ def main() -> int:
     _install_signal_handlers(state)
 
     date_dir = args.output_root / dt.date.today().isoformat()
-    print(f"[run_queue] {len(pending)} entries; output root: {date_dir}")
+    groups = group_entries(pending)
+    parallel_count = sum(1 for g in groups if len(g) > 1)
+    print(
+        f"[run_queue] {len(pending)} entries in {len(groups)} group(s) "
+        f"({parallel_count} parallel); output root: {date_dir}"
+    )
 
     try:
-        for entry in pending:
+        for group in groups:
             if state.interrupts_received > 0:
                 print("[run_queue] interrupt seen, stopping queue", file=sys.stderr)
                 break
 
-            run_dir = date_dir / entry.id
-            status[entry.id] = {
-                "status": "running",
-                "run_dir": _display_path(run_dir),
-                "started_at": dt.datetime.now(dt.timezone.utc).isoformat(),
-            }
-            save_status(args.status, status)
+            if len(group) == 1:
+                # --- Sequential (single entry) ---
+                entry = group[0]
+                run_dir = date_dir / entry.id
+                status[entry.id] = {
+                    "status": "running",
+                    "run_dir": _display_path(run_dir),
+                    "started_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+                }
+                save_status(args.status, status)
 
-            print(f"[run_queue] START {entry.id}  ({entry.cmd})")
-            metadata = _run_entry(entry, run_dir, state)
+                print(f"[run_queue] START {entry.id}  ({entry.cmd})")
+                metadata = _run_entry(entry, run_dir, state)
 
-            status[entry.id] = {
-                "status": metadata["status"],
-                "run_dir": _display_path(run_dir),
-                "started_at": metadata["started_at"],
-                "ended_at": metadata["ended_at"],
-                "wall_seconds": metadata["wall_seconds"],
-                "exit_code": metadata["exit_code"],
-            }
-            save_status(args.status, status)
-            print(
-                f"[run_queue] END   {entry.id}  status={metadata['status']}  "
-                f"wall={metadata['wall_seconds']}s  exit={metadata['exit_code']}"
-            )
+                status[entry.id] = {
+                    "status": metadata["status"],
+                    "run_dir": _display_path(run_dir),
+                    "started_at": metadata["started_at"],
+                    "ended_at": metadata["ended_at"],
+                    "wall_seconds": metadata["wall_seconds"],
+                    "exit_code": metadata["exit_code"],
+                }
+                save_status(args.status, status)
+                print(
+                    f"[run_queue] END   {entry.id}  status={metadata['status']}  "
+                    f"wall={metadata['wall_seconds']}s  exit={metadata['exit_code']}"
+                )
+            else:
+                # --- Parallel (multiple entries in same group) ---
+                pg = group[0].parallel_group
+                ids = [e.id for e in group]
+                print(
+                    f"[run_queue] PARALLEL GROUP {pg}: starting {len(group)} entries "
+                    f"concurrently: {ids}"
+                )
+                import concurrent.futures
+
+                for entry in group:
+                    status[entry.id] = {
+                        "status": "running",
+                        "run_dir": _display_path(date_dir / entry.id),
+                        "started_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+                    }
+                save_status(args.status, status)
+
+                with concurrent.futures.ThreadPoolExecutor(
+                    max_workers=len(group)
+                ) as pool:
+                    futures = {
+                        pool.submit(
+                            _run_entry, entry, date_dir / entry.id, state
+                        ): entry
+                        for entry in group
+                    }
+                    for future in concurrent.futures.as_completed(futures):
+                        entry = futures[future]
+                        metadata = future.result()
+                        status[entry.id] = {
+                            "status": metadata["status"],
+                            "run_dir": _display_path(date_dir / entry.id),
+                            "started_at": metadata["started_at"],
+                            "ended_at": metadata["ended_at"],
+                            "wall_seconds": metadata["wall_seconds"],
+                            "exit_code": metadata["exit_code"],
+                        }
+                        save_status(args.status, status)
+                        print(
+                            f"[run_queue] END   {entry.id}  status={metadata['status']}  "
+                            f"wall={metadata['wall_seconds']}s  exit={metadata['exit_code']}"
+                        )
+
+                print(f"[run_queue] PARALLEL GROUP {pg}: all {len(group)} entries complete")
     finally:
         release_lock(args.lock)
 

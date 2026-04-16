@@ -1,6 +1,9 @@
-# Overnight queue — chem-tape v2 probe (Session 3 output).
+# Overnight queue — chem-tape v2 probe.
 #
-# Entries are executed in order. `expect_outputs` is relative to $RUN_DIR.
+# Entries are executed in order unless they share a `parallel_group` number,
+# in which case all entries in the same group run concurrently. Entries
+# without parallel_group run sequentially as before.
+# `expect_outputs` is relative to $RUN_DIR.
 # Each sweep command invokes sweep.py with --output-root $RUN_DIR so all
 # outputs land under the queue's per-entry directory. sweep.py writes
 # sweep_index.json at the root of its output dir — that's our "done"
@@ -185,3 +188,36 @@
   expect_outputs: [sweep_index.json]
   track: chem-tape-v2
   notes: "§v2.13: BP_TOPK(k=5) fixed baselines on Pair 1."
+
+# §v2.14 follow-ups — all independent, run in parallel_group 14.
+- id: v2_14d_consume_arm_a
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_14d_consume_arm_a.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 1800
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  parallel_group: 14
+  notes: "§v2.14d: consume rule under Arm A on Pair 1 (~15 min)."
+
+- id: v2_14e_consume_E_preserve
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_14e_consume_E_preserve.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 1800
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  parallel_group: 14
+  notes: "§v2.14e: E-count pair preserve baseline (~15 min)."
+
+- id: v2_14e_consume_E_consume
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_14e_consume_E_consume.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 1800
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  parallel_group: 14
+  notes: "§v2.14e: E-count pair consume ablation (~15 min)."
+
+# §v2.14c runs alone after the group — it's 4× compute and heavier.
+- id: v2_14c_consume_4x
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_14c_consume_4x.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 7200
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.14c: consume + 4× compute on Pair 1 (~60 min)."

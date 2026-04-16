@@ -33,11 +33,13 @@ class QueueEntry:
     expect_outputs: list[str] = field(default_factory=list)
     track: str | None = None
     notes: str | None = None
+    parallel_group: int | None = None  # entries with same group run concurrently
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> "QueueEntry":
         if "id" not in d or "cmd" not in d:
             raise ValueError(f"queue entry missing required id/cmd: {d!r}")
+        pg = d.get("parallel_group")
         return cls(
             id=str(d["id"]),
             cmd=str(d["cmd"]),
@@ -45,6 +47,7 @@ class QueueEntry:
             expect_outputs=list(d.get("expect_outputs", []) or []),
             track=d.get("track"),
             notes=d.get("notes"),
+            parallel_group=int(pg) if pg is not None else None,
         )
 
 
@@ -96,6 +99,39 @@ def pending_entries(
     """
     terminal = {"done", "failed", "timeout", "interrupted", "suspicious"}
     return [e for e in queue if status.get(e.id, {}).get("status") not in terminal]
+
+
+def group_entries(entries: list[QueueEntry]) -> list[list[QueueEntry]]:
+    """Group entries by parallel_group. Entries with no group each form a
+    solo group. Consecutive entries with the same group number are batched
+    together. Non-consecutive entries with the same group number form
+    separate batches (preserves queue ordering intent)."""
+    groups: list[list[QueueEntry]] = []
+    current_group: list[QueueEntry] = []
+    current_pg: int | None = None
+
+    for entry in entries:
+        if entry.parallel_group is None:
+            # Solo entry — flush any current group first
+            if current_group:
+                groups.append(current_group)
+                current_group = []
+                current_pg = None
+            groups.append([entry])
+        elif entry.parallel_group == current_pg:
+            # Same group — accumulate
+            current_group.append(entry)
+        else:
+            # New group — flush previous
+            if current_group:
+                groups.append(current_group)
+            current_group = [entry]
+            current_pg = entry.parallel_group
+
+    if current_group:
+        groups.append(current_group)
+
+    return groups
 
 
 def reclassify_running(status: dict[str, dict[str, Any]]) -> list[str]:
