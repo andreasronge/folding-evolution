@@ -352,55 +352,65 @@ None yet. One queued candidate that could narrow further:
 
 ---
 
-## safe-pop-consume-effect. Safe-pop consume rule lifts mixed-type chain assembly on the 6-token string-count body and shifts attractor categories on intlist AND-composition tasks (n=20, within-family, executor-rule ablation, single hard pair + easy control).
+## safe-pop-consume-effect. Safe-pop consume rule lifts mixed-type chain assembly on the 6-token string-count body across two MAP-family slot bindings under BP_TOPK, stacks with 4x compute on R-count body, shows no lift under Arm A at 1x, and shifts attractor categories on intlist AND-composition tasks (n=20 per comparison, within-family, executor-rule ablation).
 
-**Scope tag:** `within-family` · `n=20` · `at BP_TOPK(k=3,bp=0.5) v2_probe alphabet pop=1024 gens=1500` · `executor-rule ablation / single hard pair + easy control` · `on 6-token string-count body under task alternation (solve-rate claim) and intlist AND-composition (landscape-shift observation)`
+**Scope tag:** `within-family` · `n=20 per comparison` · `at BP_TOPK(k=3,bp=0.5) v2_probe alphabet` · `executor-rule ablation` · `1x solve-rate lift on 6-token string-count body with slot_12 in {MAP_EQ_R, MAP_EQ_E} under task alternation` · `4x compute stacking confirmed on R-count body only (MAP_EQ_R)` · `no lift observed under Arm A at 1x compute` · `intlist AND-composition (landscape-shift observation only)`
 
-**Status:** `ACTIVE` · last revised commit `ff3a7b3` · 2026-04-16
+**Status:** `ACTIVE` · last revised commit `76bb58f` · 2026-04-16
 
 ### Claim
 
-Switching the executor's safe-pop rule from "preserve wrong-typed values on stack" to "consume wrong-typed values" doubles the BOTH-solve rate on the 6-token mixed-type string-count body from 4/20 to 8/20 at matched compute, while leaving the 4-token all-int body at 20/20, accompanied by a shift from partial-assembly attractor states (6→1/20) to canonical-6-token assembly (3→9/20) at the tested budget and decoder configuration. On intlist-only AND-composition tasks, consume does not produce additional solves but shifts the dominant attractor category from single-predicate proxies toward compound AND-composition attempts (0→10/20 on natural sampler).
+Switching the executor's safe-pop rule from "preserve wrong-typed values on stack" to "consume wrong-typed values" doubles the BOTH-solve rate on the 6-token mixed-type string-count body from 4/20 to 8/20 at matched 1x compute under BP_TOPK(k=3,bp=0.5), replicated on two MAP-family slot bindings (MAP_EQ_R and MAP_EQ_E) with identical effect size and identical solver seeds. On the R-count body specifically, the effect stacks with 4x compute: consume-4x reaches 14/20 BOTH, exceeding both consume-1x (8/20) and preserve-4x (8/20). The consume rule shows no lift under Arm A direct GP at 1x compute (5/20 vs 7/20 preserve, off-grid between prereg INCONCLUSIVE and FAIL bands; §v2.14d). On intlist-only AND-composition tasks, consume does not produce additional solves but shifts the dominant attractor category from single-predicate proxies toward compound AND-composition attempts (0→10/20 on natural sampler).
 
 ### Scope boundaries (what this claim does NOT say)
 
 - Does not claim the consume rule is universally better — on the 4-token all-int body the rule is irrelevant (20/20 under both).
 - Does not claim the consume rule helps escape the proxy-basin-attractor — §v2.14b showed consume shifts the attractor landscape but does not produce additional solves on intlist-only AND-composition tasks.
 - Does not claim a causal mechanism — the attractor-category shift is consistent with a "stack jam" / type-barrier reading but the causal chain is not experimentally isolated.
-- Does not generalize to other 6-token body shapes — tested only on the string-count body (`INPUT CHARS MAP_EQ_R SUM THRESHOLD_SLOT GT`) with task-bound slot_12 = MAP_EQ_R. Not replicated on a second slot binding or second mixed-type body.
-- Does not generalize to other decoder arms — tested only under BP_TOPK(k=3, bp=0.5). Not tested on Arm A.
-- McNemar p=0.157 at n=20 — the solve-rate effect does not reach inferential significance. The evidence is descriptive (solve count + seed overlap + attractor-category inspection), not statistically confirmed.
-- Open external-validity questions: (i) replication on a second 6-token mixed-type body; (ii) consume at 4× compute; (iii) interaction with Arm A; (iv) effect on other task families.
+- **Slot-binding scope (updated):** replicated on two MAP-family slot bindings (MAP_EQ_R, MAP_EQ_E) with identical solver sets at 1x compute. Not tested on non-MAP ops or ops producing a different type chain. The identical solver sets under consume are consistent with a type-chain-driven reading but also with shared-RNG correlation on near-isomorphic tasks (§v2.14e caveat). Broadening beyond "MAP-family slot bindings" is not supported.
+- **Decoder-arm scope (updated):** the solve-rate lift is BP_TOPK-specific. Under Arm A at 1x compute, consume shows 5/20 vs 7/20 preserve — no evidence of lift, direction mildly negative but within noise (§v2.14d, off-grid between prereg bands). The consume solve-rate lift should not be assumed to extend to Arm A at this budget.
+- **Compute stacking scope (updated):** consume and compute show additive improvement under BP_TOPK on the R-count body: consume-4x (14/20) exceeds both consume-1x and preserve-4x (both 8/20) and exceeds preserve-16x (13/20). Whether stacking continues at 8x or 16x compute is untested. Whether stacking holds on the E-count body or under Arm A is untested.
+- McNemar p=0.157 (§v2.14 R-count) and p=0.102 (§v2.14e E-count) at n=20 — the solve-rate effect does not reach inferential significance on either pair individually. The evidence is descriptive (solve count + seed overlap + attractor-category inspection), not statistically confirmed.
+- Open external-validity questions: (i) effect on other task families beyond string-count and AND-composition; (ii) non-MAP slot bindings with different type chains; (iii) consume x Arm A interaction at higher compute; (iv) whether stacking replicates on the E-count body.
 
 ### Mechanism reading (current)
 
-**Current name:** `safe-pop consume executor-rule effect`
+**Current name:** `safe-pop consume executor-rule effect (BP_TOPK-specific solve-rate lift)`
 
 **Naming history:**
 - Initial: "safe-pop consume lifts mixed-type chain assembly" (§v2.14 PASS, commit `cdf9c39`). First-pass name based on the solve-rate lift and attractor shift on the string-count body. The "stack jam" hypothesis (Codex independent review) motivated the experiment: wrong-typed values persist on the stack under preserve, blocking downstream typed ops.
 - Broadened observation (§v2.14b PARTIAL, commit `1fc51c5`): consume also shifts attractor categories on intlist-only tasks (0→10/20 AND-composition attempts without additional solves). The effect extends beyond multi-type-boundary chains at the landscape level. Name broadened from "type-barrier clearance" to the neutral "executor-rule effect" to cover both manifestations.
-- Current: `safe-pop consume executor-rule effect` — two layers: (a) solve-rate lift on mixed-type chains (§v2.14), (b) landscape-level attractor shift on all-int tasks (§v2.14b). Name expected to narrow after replication on a second 6-token body clarifies whether the solve-rate layer is chain-specific or generalizes.
+- Compute stacking confirmed on R-count body (§v2.14c PASS, commit `76bb58f`): consume-4x reaches 14/20, exceeding both single levers. Attractor classification: 10/20 canonical-6tok (9 BOTH-solvers), 9/20 partial-5tok (5 BOTH-solvers). Consume and compute appear to address different aspects of the assembly problem at this scope.
+- Replication on second slot binding at 1x (§v2.14e PASS, commit `76bb58f`): E-count body (MAP_EQ_E) replicates R-count exactly — P_E=4/20, C_E=8/20, identical consume solver sets (8/8 overlap). Effect spans two MAP-family slot bindings at 1x compute. Under consume, canonical-6tok assembly rises from 7→13/20 (same qualitative pattern as R-count).
+- No Arm A lift observed at 1x (§v2.14d INCONCLUSIVE/off-grid, commit `76bb58f`): consume shows 5/20 vs 7/20 preserve under Arm A — no evidence of lift, mildly negative direction within noise. The solve-rate lift is at minimum decoder-arm-dependent. Name updated to note "BP_TOPK-specific solve-rate lift."
+- Current: `safe-pop consume executor-rule effect (BP_TOPK-specific solve-rate lift)` — three layers: (a) solve-rate lift on mixed-type chains under BP_TOPK, replicated on two MAP-family bindings (§v2.14, §v2.14e), (b) additive improvement with compute under BP_TOPK on R-count body (§v2.14c), (c) landscape-level attractor shift on all-int tasks (§v2.14b). Arm A shows no lift at 1x (§v2.14d).
 
 ### Supporting experiments
 
 | experiment | commit | n | what it establishes |
 |---|---|---|---|
-| [§v2.14](experiments-v2.md#v214-safe-pop-executor-rule-ablation-kuyucu-inspired-decoder-micro-ablation-2026-04-16) | `cdf9c39` | 20 | PASS: consume 8/20 vs preserve 4/20 on hard pair; 20/20 vs 20/20 on easy pair. Attractor shift: canonical-6tok 3→9/20, partial-assembly 6→1/20. McNemar p=0.157. |
+| [§v2.14](experiments-v2.md#v214-safe-pop-executor-rule-ablation-kuyucu-inspired-decoder-micro-ablation-2026-04-16) | `cdf9c39` | 20 | PASS: consume 8/20 vs preserve 4/20 on R-count hard pair; 20/20 vs 20/20 on easy pair. Attractor shift: canonical-6tok 3→9/20, partial-assembly 6→1/20. McNemar p=0.157. |
 | [§v2.14b](experiments-v2.md#v214b-safe-pop-consume-on-proxy-basin-and-composition-tasks-2026-04-16) | `1fc51c5` | 20 per sampler | PARTIAL: consume does not escape proxy basin (F_AND=0/20 natural, 1/20 decorr) but shifts attractor categories (0→10/20 AND-composition attempts on natural sampler). |
+| [§v2.14c](experiments-v2.md#v214c-consume--4-compute-interaction-on-6-token-string-count-body-2026-04-16) | `76bb58f` | 20 | PASS: consume-4x 14/20 BOTH on R-count body, exceeding consume-1x (8/20) and preserve-4x (8/20). Attractor: 10/20 canonical-6tok (9 BOTH), 9/20 partial-5tok (5 BOTH). Levers stack on this body. |
+| [§v2.14e](experiments-v2.md#v214e-safe-pop-consume-replication-on-e-count-body-second-slot-binding-2026-04-16) | `76bb58f` | 20 | PASS: E-count replicates R-count exactly at 1x (P_E=4/20, C_E=8/20, 8/8 consume solver overlap). Consume canonical-6tok 7→13/20. Broadens 1x lift to two MAP-family slot bindings. |
 
 ### Narrowing / falsifying experiments
 
-None to date. The most likely narrowing vector is replication failure on a second 6-token mixed-type body.
+| experiment | commit | effect |
+|---|---|---|
+| [§v2.14d](experiments-v2.md#v214d-safe-pop-consume-under-arm-a-direct-gp-on-6-token-string-count-body-2026-04-16) | `76bb58f` | Narrowing: consume shows no lift under Arm A at 1x compute (5/20 vs 7/20 preserve, off-grid between prereg INCONCLUSIVE and FAIL bands). The solve-rate lift is at minimum decoder-arm-dependent. Scope boundary "not tested on Arm A" resolved: no evidence of benefit at this budget. |
 
 ### Implications for downstream work
 
-- **Downstream experiments may assume:** on the 6-token string-count body under BP_TOPK(k=3,bp=0.5) at pop=1024 gens=1500, the consume rule approximately doubles BOTH-solve rate and triples canonical-assembly rate compared to preserve.
+- **Downstream experiments may assume:** on the 6-token string-count body under BP_TOPK(k=3,bp=0.5), the consume rule approximately doubles BOTH-solve rate at 1x compute (replicated on MAP_EQ_R and MAP_EQ_E), and reaches 14/20 at 4x compute on the R-count body.
 - **Downstream experiments must still test:**
-  - Replication on a second 6-token mixed-type body AND a second slot binding (current evidence is tied to MAP_EQ_R at slot 12).
-  - Whether consume at 4× compute further improves the hard pair (consume at 1× matches preserve at 4× = 8/20; does consume at 4× push beyond?).
-  - Whether the effect extends to Arm A direct GP.
-  - Whether changing the project default to consume causes regressions on any existing task family beyond the two tested.
+  - Whether the effect extends to non-MAP slot bindings or ops producing a different type chain (current evidence spans two MAP-family ops with identical type signatures).
+  - Whether consume x Arm A interaction changes at higher compute (§v2.14d tested only at 1x).
+  - Whether 4x stacking replicates on the E-count body (currently confirmed only on R-count).
+  - Whether changing the project default to consume under BP_TOPK causes regressions on any existing task family beyond the three tested (R-count, E-count, AND-composition).
+  - Effect on other task families or body shapes entirely.
 
 ### Review history
 
 - 2026-04-16 — initial promotion from §v2.14 (PASS, commit `cdf9c39`) + §v2.14b (PARTIAL, commit `1fc51c5`). Codex adversarial review on §v2.14 chronicle addressed all P1 findings (full 2×2 McNemar, per-seed tables, scope tags, mechanism language). Codex confirmed §v2.14b classification as PARTIAL. Codex adversarial review on findings draft addressed 2 P1s (mechanism name too narrow for entry-wide label; "mediated by" overstates causality) and 4 P2s (scope tag detail, downstream non-test, two-layer mechanism split, overreach softening).
+- 2026-04-16 — **updated** with §v2.14c (PASS, R-count stacking), §v2.14d (INCONCLUSIVE/off-grid, Arm A no-lift), §v2.14e (PASS, E-count replication at 1x). Scope broadened to two MAP-family slot bindings at 1x and R-count compute stacking at 4x. Scope narrowed by Arm A non-lift. Headline updated. Codex adversarial review on findings diff: 2 P1s addressed (Arm A language softened from "does not help" to "shows no lift at 1x"; 1x replication vs 4x stacking scopes separated in tag and assumption bullet), 4 P2s acknowledged (n tag tightened to "per comparison"; causal language in stacking softened; downstream assumptions narrowed to match scope; no contradictions with neighboring entries).
