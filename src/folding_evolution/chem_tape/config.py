@@ -109,6 +109,18 @@ class ChemTapeConfig:
     # typed values on the stack; "consume" always pops regardless of type.
     safe_pop_mode: str = "preserve"
 
+    # §v2.4-proxy-4: seeded-initialization hook. When non-empty, seed_tapes
+    # is a comma-separated list of hex strings (one tape per entry, one byte
+    # per token). seed_fraction ∈ [0.0, 1.0] specifies the fraction of the
+    # initial population drawn (with replacement) from this seed pool; the
+    # remainder are uniform-random. Seeds shorter than tape_length are
+    # zero-padded on the right (NOP tail); longer seeds raise ValueError.
+    # Incompatible with evolve_k / island_k_priors (which overwrite cell 0
+    # post-seeding) — validated in build_initial_population. Excluded from
+    # hash at defaults so pre-§v2.4-proxy-4 sweeps remain addressable.
+    seed_tapes: str = ""
+    seed_fraction: float = 0.0
+
     # Infra
     seed: int = 0
     backend: str = "mlx"            # "numpy" | "mlx"
@@ -155,6 +167,10 @@ class ChemTapeConfig:
         # §v2.14 safe-pop mode: excluded at default "preserve".
         if self.safe_pop_mode == "preserve":
             d.pop("safe_pop_mode", None)
+        # §v2.4-proxy-4 seeded-init: excluded at defaults.
+        if self.seed_tapes == "" and self.seed_fraction == 0.0:
+            d.pop("seed_tapes", None)
+            d.pop("seed_fraction", None)
         blob = json.dumps(d, sort_keys=True).encode()
         return hashlib.sha1(blob).hexdigest()[:12]
 

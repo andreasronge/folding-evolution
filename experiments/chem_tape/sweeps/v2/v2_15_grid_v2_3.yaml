@@ -1,0 +1,27 @@
+sweep_name: v2_15_grid_v2_3
+# §v2.15: decoder-ablation grid on §v2.3 task pair (sum_gt_{5,10}_slot).
+# 2×3 grid over (topk, bond_protection_ratio) = 6 cells × 20 seeds = 120 runs.
+# Tests whether any cell preserves §v2.3 20/20 ceiling (Part 1 gate cond A).
+# Reference cell K=3 bp=0.5 is INCLUDED in the grid for matched-commit anchor.
+base:
+  alphabet: v2_probe
+  task: sum_gt_5_slot
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  arm: BP_TOPK
+  safe_pop_mode: preserve
+  task_alternating_period: 300
+  task_alternating_values: "sum_gt_5_slot,sum_gt_10_slot"
+grid:
+  topk: [3, 5]
+  bond_protection_ratio: [0.0, 0.5, 1.0]
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]

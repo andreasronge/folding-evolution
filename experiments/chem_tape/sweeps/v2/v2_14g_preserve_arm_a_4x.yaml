@@ -1,0 +1,24 @@
+sweep_name: v2_14g_preserve_arm_a_4x
+# §v2.14g companion: preserve-Arm-A-4× baseline (Option A).
+# Matches v2_14g_consume_arm_a_4x exactly except safe_pop_mode=preserve.
+# This is the matched-commit preserve/consume contrast at 4× compute.
+base:
+  alphabet: v2_probe
+  task: any_char_count_gt_1_slot
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 2048
+  generations: 3000
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  arm: A
+  safe_pop_mode: preserve
+  task_alternating_period: 600
+  task_alternating_values: "any_char_count_gt_1_slot,any_char_count_gt_3_slot"
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]

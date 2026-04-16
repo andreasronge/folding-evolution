@@ -63,6 +63,84 @@ def random_genotype(cfg: ChemTapeConfig, rng: random.Random) -> np.ndarray:
     )
 
 
+def _parse_seed_tapes(cfg: ChemTapeConfig) -> list[np.ndarray]:
+    """§v2.4-proxy-4: parse cfg.seed_tapes into length-tape_length uint8 arrays.
+
+    Each comma-separated entry is a hex string (one byte per token). Shorter
+    seeds are zero-padded on the right (NOP tail); longer seeds raise
+    ValueError. Returns [] when seed_tapes is empty.
+    """
+    if not cfg.seed_tapes:
+        return []
+    hi = _token_max(cfg)
+    L = cfg.tape_length
+    out: list[np.ndarray] = []
+    for s in cfg.seed_tapes.split(","):
+        s = s.strip()
+        if not s:
+            continue
+        try:
+            raw = bytes.fromhex(s)
+        except ValueError as e:
+            raise ValueError(f"seed_tapes entry is not valid hex: {s!r}") from e
+        if len(raw) > L:
+            raise ValueError(
+                f"seed_tapes entry has {len(raw)} bytes > tape_length={L}; "
+                "longer seeds are not truncated. Trim the seed explicitly."
+            )
+        arr = np.zeros(L, dtype=np.uint8)
+        arr[: len(raw)] = np.frombuffer(raw, dtype=np.uint8)
+        if int(arr.max()) > hi:
+            raise ValueError(
+                f"seed_tapes entry contains token id > token_max={hi} "
+                f"for alphabet={cfg.alphabet!r}: {s!r}"
+            )
+        out.append(arr)
+    return out
+
+
+def build_initial_population(
+    cfg: ChemTapeConfig,
+    rng: random.Random,
+    size: int,
+) -> list[np.ndarray]:
+    """Build an initial population of `size` genotypes with optional seeding.
+
+    When cfg.seed_fraction > 0 and cfg.seed_tapes is non-empty, ``round(size *
+    seed_fraction)`` individuals are copies drawn uniformly-with-replacement
+    from the parsed seed pool; the remainder are uniform-random. The combined
+    population is shuffled so seeded individuals do not cluster at the start.
+
+    Raises if seeded-init is requested alongside evolve_k or island_k_priors,
+    because those paths overwrite cell 0 after init and would silently clobber
+    the seed's first byte.
+    """
+    seeds = _parse_seed_tapes(cfg)
+    if not seeds or cfg.seed_fraction <= 0.0:
+        return [random_genotype(cfg, rng) for _ in range(size)]
+
+    if cfg.evolve_k or cfg.island_k_priors:
+        raise ValueError(
+            "seeded-init (seed_fraction > 0) is incompatible with evolve_k "
+            "or island_k_priors — cell 0 would be overwritten after seeding."
+        )
+    if not (0.0 < cfg.seed_fraction <= 1.0):
+        raise ValueError(
+            f"seed_fraction must be in (0.0, 1.0], got {cfg.seed_fraction}"
+        )
+
+    n_seed = int(round(cfg.seed_fraction * size))
+    n_random = size - n_seed
+    pop: list[np.ndarray] = []
+    for _ in range(n_seed):
+        idx = rng.randint(0, len(seeds) - 1)
+        pop.append(seeds[idx].copy())
+    for _ in range(n_random):
+        pop.append(random_genotype(cfg, rng))
+    rng.shuffle(pop)
+    return pop
+
+
 def mutate(
     tape: np.ndarray,
     cfg: ChemTapeConfig,
@@ -294,7 +372,7 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
     task_alt = _is_task_alternating(cfg)
     alternating = k_alt or task_alt
 
-    population = [random_genotype(cfg, rng) for _ in range(cfg.pop_size)]
+    population = build_initial_population(cfg, rng, cfg.pop_size)
     current_k_0 = cfg.current_k(0)
     current_task_0 = cfg.current_task(0)
     task_0 = tasks_by_name[current_task_0]
@@ -431,7 +509,7 @@ def _run_evolution_islands(cfg: ChemTapeConfig) -> EvolutionResult:
         )
     islands: list[list[np.ndarray]] = []
     for i in range(n_islands):
-        pop = [random_genotype(cfg, rng) for _ in range(island_size)]
+        pop = build_initial_population(cfg, rng, island_size)
         if k_priors:
             header = cfg.header_cell_for_k(k_priors[i])
             for g in pop:
