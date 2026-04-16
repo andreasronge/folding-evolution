@@ -1,6 +1,6 @@
 # Pre-registration: §v2.13 — BP_TOPK(k=5) parameter sweep on §v2.3 and §v2.6 Pair 1
 
-**Status:** QUEUED · target commit `75ab827` · 2026-04-15
+**Status:** DONE · INCONCLUSIVE · run commit `29c524e` · chronicle commit `1cfe7d5` · 2026-04-16
 
 Derived from the §v2.6-pair1 follow-up sweeps' observation that BP_TOPK's
 **permeability absorbs tape-level scatter** ([`docs/chem-tape/experiments-v2.md

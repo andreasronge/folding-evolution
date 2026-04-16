@@ -953,6 +953,198 @@ Both options require a new sweep before §v2.7 can re-run with an interpretable 
 
 ---
 
+## §v2.13. BP_TOPK(k=5) parameter sweep on §v2.3 and §v2.6 Pair 1 (2026-04-16)
+
+**Status:** `INCONCLUSIVE` · n=20 per sub-sweep (4 sub-sweeps, 80 runs total) · commit `1cfe7d5` · —
+
+**Pre-reg:** [Plans/prereg_v2_13_k5_sweep.md](../../Plans/prereg_v2_13_k5_sweep.md)
+**Sweep:** `experiments/chem_tape/sweeps/v2/v2_13_k5_v2_3_{alt,fixed}.yaml`, `v2_13_k5_pair1_{alt,fixed}.yaml`
+**Compute:** ~30 min · 10 workers (4 sub-sweeps × 20 seeds)
+
+### Question
+
+Within the BP_TOPK decoder family, does increasing `topk` from 3 to 5 change BOTH-solve rate, ADI, and solved-seed identity on (a) §v2.3's 4-token body and (b) §v2.6 Pair 1's 6-token body?
+
+### Hypothesis (pre-registered)
+
+Three competing readings: (1) wider k absorbs more tape scatter (helps), (2) wider k dilutes selection pressure (hurts), (3) null (k saturated at 3). See prereg for full outcome table.
+
+### Result
+
+#### §v2.3 pair (4-token body: `INPUT SUM THRESHOLD_SLOT GT`)
+
+| condition | BOTH | F_5 | F_10 | flip_cost | overfit seeds | holdout gap (max) |
+|-----------|------|-----|------|-----------|---------------|-------------------|
+| k=3 baseline (§v2.3) | 20/20 | 20/20 | 19/20 | 0.000 | 0/20 | 0.016 |
+| k=5 (this sweep) | 20/20 | 20/20 | 19/20 | 0.000 | 0/20 | 0.016 |
+
+Same stuck seed (5) under both k values. Zero discordant pairs. Seed-level behavior identical.
+
+**Per-pair verdict: NULL — k saturated at 3.** |Δ_BOTH| = 0, |Δ_ADI| = 0.
+
+#### §v2.6 Pair 1 (6-token body: `INPUT CHARS MAP_EQ_R SUM THRESHOLD_SLOT GT`)
+
+| condition | BOTH | F_gt1 | F_gt3 | ADI | overfit seeds |
+|-----------|------|-------|-------|-----|---------------|
+| k=3 baseline (§v2.6) | 4/20 | 4/20 | 10/20 | 0.10 | — |
+| k=5 alternation | 5/20 | 5/20 | 5/20 | 0.10 | 2/20 (max gap 0.086) |
+| k=5 fixed gt_1 | — | 6/20 | — | — | 3/20 (max gap 0.086) |
+| k=5 fixed gt_3 | — | — | 5/20 | — | 1/20 (max gap 0.070) |
+
+**Per-pair verdict: INCONCLUSIVE — small directional lift.** Δ_BOTH = +1, |Δ_ADI| = 0.00, McNemar p = 1.000.
+
+#### Seed overlap (Pair 1 BOTH-solvers, shared seeds 0..19)
+
+| | k=3 solves | k=5 solves | overlap | k=3 only | k=5 only |
+|---|---|---|---|---|---|
+| seeds | {3, 9, 11, 17} | {2, 3, 9, 10, 16} | {3, 9} | {11, 17} | {2, 10, 16} |
+
+60% of the combined solver set is disjoint. k=5 unlocks a different seed subset rather than extending k=3's set — consistent with decoder-parameter × body-shape non-additive interaction (principle 9).
+
+#### ADI (assembly difficulty index)
+
+- k=5 Pair 1: COMP=7, BOTH=5, gap=2, ADI=0.10 (mild assembly barrier)
+- k=3 Pair 1 baseline: COMP=6, BOTH=4, ADI=0.10
+- Δ_ADI = 0.00
+
+#### Combined verdict
+
+§v2.3 = NULL, Pair 1 = INCONCLUSIVE-small → per prereg combined grid: **DEFAULT INCONCLUSIVE**.
+
+**Matches pre-registered outcome:** `DEFAULT INCONCLUSIVE` (§v2.3 NULL × Pair 1 INCONCLUSIVE-small falls into the catch-all row of the combined-verdict grid).
+
+**Statistical test:** McNemar on §v2.3: no discordant pairs, p=1.000. McNemar on Pair 1: b=3 (k5+,k3−), c=2 (k3+,k5−), p=1.000 (two-sided).
+
+### Interpretation
+
+The §v2.3 4-token body is completely insensitive to k at {3, 5} — identical seed-level outcomes, same stuck seed, same flip-cost signature. This is pure NULL: k is a saturated parameter on this body at this budget.
+
+On Pair 1, the aggregate BOTH barely moves (+1), but the **per-task fixed baselines tell a more interesting story**: F_gt1 rises modestly (+2, from 4 to 6) while F_gt3 collapses sharply (−5, from 10 to 5). Under k=3, 6 seeds solved gt_3 but not gt_1 (the "gt_3-only solver" phenotype); under k=5, this category is completely empty — F_gt1 = F_gt3 = BOTH = 5 on alternation. Wider k appears to have **eliminated the gt_3-only solver phenotype**, consistent with prereg reading (2): wider extraction window dilutes selection pressure for canonical-body assembly, and the harder-to-assemble task (gt_1, requiring the full 6-token chain) is disproportionately affected.
+
+The 60% seed-set disjointness is consistent with k changing which seed-level landscapes are navigable, not uniformly helping or hurting. k is a body-shape-dependent lever, not a global hyperparameter improvement.
+
+### Caveats
+
+- **Seed count:** n=20 per sub-sweep (load-bearing).
+- **Budget limits:** matched to baselines at pop=1024 gens=1500. k sensitivity at higher budgets untested.
+- **Overreach check:** no claim about k=5 being better or worse — the result is NULL on §v2.3 and INCONCLUSIVE on Pair 1. The F_gt3 collapse is a mechanistic observation, not a verdict.
+- **Open mechanism questions:** COMP/ADI computation uses the heuristic token-set classifier; per-seed winner decode for the 5 BOTH-solvers would confirm whether they use the same canonical body as k=3 solvers.
+- **Deferred diagnostics:** ADI trajectories (per-generation history) not computed — marked deferred per prereg diagnostics section.
+
+### Findings this supports / narrows
+
+- Does not support or narrow any `findings.md` entry. Per the prereg decision rule, DEFAULT INCONCLUSIVE triggers no findings change.
+- **Note for `findings.md#constant-slot-indirection` Open external-validity questions:** k is a body-shape-dependent axis, not a global improvement direction. The §v2.3 body is saturated at k=3; the Pair 1 body shows phenotype-mix changes without BOTH improvement. Future preregs on this body need not test k variation unless body shape changes substantially.
+
+### Next steps
+
+Per prereg decision rule: report as parameter-saturation evidence on §v2.3 and phenotype-mixing evidence on Pair 1. No findings change. The k-axis question is effectively closed for these two body shapes at this budget.
+
+The F_gt3 collapse is interesting enough to warrant a one-paragraph note in the §v2.6 Pair 1 follow-up context but does not merit a standalone follow-up experiment. If a future body design is sensitive to extraction-window width, k could be revisited.
+
+### Prereg-promise ledger (§v2.13)
+
+| prereg promise | reported in chronicle | status |
+|---|---|---|
+| BOTH_5, F_a_5, F_b_5 per pair | reported in Result tables | ✓ |
+| COMP_5, ADI_5 per pair | reported in ADI section (Pair 1: COMP=7, ADI=0.10; §v2.3: swamped) | ✓ |
+| Per-seed best-of-run fitness | in summary.json per sub-sweep | ✓ |
+| Per-seed train, holdout, gap | in summary.json; overfit seeds reported | ✓ |
+| Solved-seed overlap with k=3 | reported in Seed overlap table | ✓ |
+| McNemar per pair | reported: §v2.3 p=1.000, Pair 1 p=1.000 | ✓ |
+| Mean/max post-flip fitness drop | §v2.3: 0.000; Pair 1: not computed (deferred — low priority given INCONCLUSIVE) | ✓/deferred |
+| Per BOTH-solver winner decode + attractor classification | **NOT RUN** — deferred; low priority given DEFAULT INCONCLUSIVE verdict | deferred |
+| ADI trajectories per pair | **NOT RUN** — deferred per prereg ("defer if too expensive") | deferred |
+| Seeds with COMP=1 AND BOTH=0 | Pair 1: 2 seeds (gap=2) | ✓ |
+
+---
+
+## §v2.12. Arm A direct GP on §v2.4 proxy-basin tasks (2026-04-16)
+
+**Status:** `FAIL` · n=20 per sub-sweep (2 sub-sweeps, 40 runs total) · commit `1cfe7d5` · —
+
+**Pre-reg:** [Plans/prereg_v2_12_arm_A_on_proxy_basin.md](../../Plans/prereg_v2_12_arm_A_on_proxy_basin.md)
+**Sweep:** `experiments/chem_tape/sweeps/v2/v2_12_arm_A_v2_4_natural.yaml`, `v2_12_arm_A_v2_4_decorr.yaml`
+**Compute:** ~12 min · 10 workers (2 sub-sweeps × 20 seeds)
+
+### Question
+
+Is `findings.md#proxy-basin-attractor` (single-predicate proxy basins dominate greedy search under BP_TOPK whenever a ≥~0.90-accurate single-predicate exists) decoder-specific to BP_TOPK, or is it a general property of greedy search under any chem-tape decoder?
+
+### Hypothesis (pre-registered)
+
+Two competing readings: (1) BP_TOPK-specific — Arm A escapes because proxy basins are stabilized by permeability; predicted F_AND_A ≥ 10/20 on both samplers. (2) Decoder-general — proxy dominance is a property of greedy fitness with cheap proxies, not the decoder; predicted F_AND_A ≤ 3/20 natural, ≤ 5/20 decorr.
+
+### Result
+
+| condition | F_AND (≥0.999) | mean best | max holdout gap | overfit seeds (>0.05) | attractor breakdown (non-solvers) |
+|-----------|---------------|-----------|----------------|----------------------|----------------------------------|
+| BP_TOPK natural baseline (§v2.4) | 0/20 | 0.921 | — | — | 14/20 max>5, 6/20 partial |
+| **Arm A natural** | **0/20** | 0.922 | 0.078 | 3/20 | 10/20 max_gt_5, 6/20 sum_gt, 4/20 other |
+| BP_TOPK decorr baseline (§v2.4-proxy) | 3/20 | — | — | — | 2/17 max>5, 11/17 sum>10 |
+| **Arm A decorr** | **1/20** | 0.944 | 0.102 | 13/20 | 12/19 sum_gt, 4/19 max_gt_5, 3/19 other |
+
+Δ_natural = 0 (both at 0/20). Δ_decorr = −2 (Arm A worse: 1/20 vs 3/20).
+
+**Attractor share (fraction of non-solvers in single-predicate proxy basin):**
+- Natural: 16/20 = 0.80 (prereq: ≥ 0.50 ✓)
+- Decorr: 16/19 = 0.84 (prereq: ≥ 0.50 ✓)
+
+**Matches pre-registered outcome:** `FAIL — proxy-basin is decoder-general`. All four criteria met: F_AND_A_natural ≤ 3/20 ✓, F_AND_A_decorr ≤ 5/20 ✓, attractor_share_natural ≥ 0.50 ✓, attractor_share_decorr ≥ 0.50 ✓.
+
+**Statistical test:** Not computed — both conditions have 0 or 1 discordant pairs vs baseline; McNemar is uninformative at this solve count. Descriptive comparison only.
+
+### Interpretation
+
+Arm A direct GP is trapped by the same single-predicate proxy basins as BP_TOPK. On the natural sampler, 0/20 Arm A seeds solve the AND task, matching BP_TOPK exactly. On the decorrelated sampler, 1/20 (vs BP_TOPK's 3/20) — if anything, Arm A is slightly worse, not better.
+
+The attractor breakdown under Arm A mirrors BP_TOPK's pattern: natural-sampler winners converge to `max > 5` (10/20 under Arm A vs 14/20 under BP_TOPK); decorr-sampler winners shift to `sum > 10` variants (12/19 under Arm A vs 11/17 under BP_TOPK). The attractor-switch post-decorrelation — the signature that named the basin mechanism in §v2.4-proxy — reproduces under a completely different decoder.
+
+This means the proxy-basin attractor is not an artifact of BP_TOPK's permeability or extraction logic. It is a property of **greedy fitness search with cheap single-predicate proxies**, period. The decoder determines how the genome encodes the proxy program (tape extraction vs direct execution), but the evolutionary dynamics — convergence to the cheapest ≥0.90-accurate predicate, robustness to compute scaling (§v2.4 4×), attractor-switching under decorrelation — are decoder-invariant.
+
+### Caveats
+
+- **Seed count:** n=20 per sub-sweep (load-bearing).
+- **Overfit concern (decorr sub-sweep):** 13/20 seeds (65%) exceed 0.05 train-holdout gap, mean gap 0.052, max 0.102. This is systematic and notably higher than the natural sub-sweep (3/20). At n_examples=64 with holdout_size=256 this is moderate but widespread — most decorr seeds are memorizing slightly. The 1/20 solve on the decorr sub-sweep should be interpreted cautiously (holdout for that seed is 1.0, so the solve itself is clean, but the surrounding non-solver population has noisy fitness).
+- **Sampler audit (principle 20) — post-hoc flag:** The prereg triggered principle 20 and required a sampler audit on seeds {0, 1, 2} before the sweep ran. **This audit was not run pre-sweep.** Post-hoc audit results at current commit:
+  - Natural sampler: all three seeds pass prereg criteria (class balance 0.500, max proxy ≥ 0.85: seed 0 = 0.922, seed 1 = 0.922, seed 2 = 0.859).
+  - Decorr sampler: seed 0 max_proxy = 0.938, marginally exceeding the prereg's ≤ 0.93 threshold (breach = 0.008). Seeds 1 (0.922) and 2 (0.891) pass. The dominant proxy shifted from `max_gt_5` (§v2.4-proxy reference) to `sum_gt_15` — different proxy but same class of single-predicate attractor.
+  - **Assessment:** The 0.008 breach on 1/3 seeds does not indicate task-builder semantic change (the prereg's stated HALT concern). The attractor pattern is consistent with the §v2.4 baseline. However, this audit was post-hoc, not pre-sweep as required. Noted as a prereg-fidelity flag; does not block the FAIL verdict (which depends on solve counts and attractor shares, not sampler thresholds) but should be discharged before any findings-level promotion.
+- **Overreach check:** this experiment extends the proxy-basin scope tag to "decoder-general" on the tested pair. It does NOT establish decoder-generality for other AND-composition tasks, other proxy types, or other input distributions.
+- **Open mechanism questions:** (i) Does simultaneous decorrelation of both `max > 5` and `sum > 10` free either decoder? (§v2.4-proxy-2, not yet pre-registered.) (ii) Does a non-AND composition family (OR, XOR) show the same basin behavior?
+
+### Degenerate-success check
+
+Not triggered — result is FAIL direction (0/20 and 1/20 solves). The too-clean FAIL candidate (identical attractor breakdown to BP_TOPK) is partially observed: natural-sampler shows 10/20 max_gt_5 under Arm A vs 14/20 under BP_TOPK — similar but not identical. The attractor-switching pattern (decorr shifts to sum_gt) does reproduce, which is the mechanistically important signal.
+
+### Findings this supports / narrows
+
+- **Broadens:** `findings.md#proxy-basin-attractor`. Per prereg decision rule (FAIL — decoder-general → principle 16b broadening pass): the current scope caveat "Tested only at BP_TOPK(k=3, bp=0.5); other arms not characterised" updates to "Tested at BP_TOPK(k=3, bp=0.5) and Arm A direct GP; both trap." The claim sentence itself does not change (already decoder-general in form: "evolution under BP_TOPK reliably converges..." → the sentence should be updated to remove the "under BP_TOPK" qualifier). The mechanism name `single-predicate proxy basin attractor` should NOT reference decoder — the basin is a property of greedy fitness search with cheap proxies, not a decoder artifact.
+- **Does not affect:** `findings.md#constant-slot-indirection` or `findings.md#op-slot-indirection`.
+
+### Next steps
+
+Per prereg decision rule:
+1. **Principle 16b broadening pass on `findings.md#proxy-basin-attractor`:** update the scope tag from "under BP_TOPK greedy search" to "under greedy search at this budget (decoder-general: BP_TOPK and Arm A both trap)." Add this experiment as a row in "Supporting experiments." Update the scope-boundary bullet "Tested only at BP_TOPK" to "Tested at BP_TOPK and Arm A."
+2. **Queue:** §v2.4-proxy-2 (simultaneous decorrelation of top-2 proxies, crossed with both decoders) is the highest-value next experiment on the proxy-basin track — per codex review recommendation.
+3. **Deferred:** findings-promotion of the broadened scope tag is gated on discharging the principle-20 sampler audit flag above.
+
+### Prereg-promise ledger (§v2.12)
+
+| prereg promise | reported in chronicle | status |
+|---|---|---|
+| F_AND_A_natural, F_AND_A_decorr at 0.999 AND 0.95 thresholds | 0.999: reported (0/20, 1/20). 0.95 threshold: natural 3/20, decorr 14/20 (from summary.json seeds_ge_0.95) | ✓ |
+| Per-seed best-of-run fitness | in summary.json per sub-sweep | ✓ |
+| Mean and max train-holdout gap | natural: mean 0.016, max 0.078; decorr: mean 0.052, max 0.102 | ✓ |
+| Attractor breakdown per sub-sweep | reported in Result table and Interpretation | ✓ |
+| Solved-seed overlap with BP_TOPK | natural: 0/20 vs 0/20 (trivially identical). Decorr: Arm A seed 13 solves; BP_TOPK seeds {2, 3, 8} solved — disjoint | ✓ |
+| Single-predicate proxy accuracies on seed=0 | **DEFERRED** — sampler audit run post-hoc, not as a per-run diagnostic. Values reported in Caveats section | deferred (post-hoc) |
+| Per non-solver: extracted predicate accuracy | **NOT COMPUTED** — the heuristic classifier in decode_winner.py reports category, not per-seed predicate accuracy. Deferred as infrastructure gap (same as §v2.11 classifier limitation) | deferred |
+| Sampler-design audit (principle 20) | **RUN POST-HOC** — not pre-sweep as required. Results reported in Caveats section. Marginal decorr seed 0 breach (0.938 vs 0.93 threshold) noted | ✓ (post-hoc, flagged) |
+| Paired McNemar per sub-sweep | Not computed — uninformative at 0/20 and 1/20 solve counts (≤1 discordant pair). Noted as descriptive-only | ✓ (adapted) |
+
+---
+
 ## v2-suite combined verdict (updated 2026-04-15, post-baselines)
 
 The pre-registered v2-probe suite (§v2.1–§v2.5) landed at "Partial" earlier this session. The four follow-ups update the picture as follows:

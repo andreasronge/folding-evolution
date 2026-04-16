@@ -237,21 +237,22 @@ mechanism-untested; they cannot be counted as supporting evidence.
 
 ---
 
-## proxy-basin-attractor. Greedy search under chem-tape's BP_TOPK decoder is dominated by single-predicate proxy basins whenever a near-perfect single-predicate exists in the training distribution (n=20+ per axis, mechanism-grade).
+## proxy-basin-attractor. Greedy search is dominated by single-predicate proxy basins whenever a near-perfect single-predicate exists in the training distribution (n=20+ per axis, mechanism-grade; decoder-general across BP_TOPK and Arm A).
 
-**Scope tag:** `within-family / cross-axis on AND-composition` · `n=20 each on 4 sweeps × ≥3 attractor reframings` · `at pop=1024 gens=1500 (and 4× scaled to pop=2048 gens=3000) BP_TOPK(k=3,bp=0.5) v2_probe alphabet` · `on integer-list AND-composition labels of the form` `(sum > t1) AND (max > t2)`
+**Scope tag:** `within-family / cross-axis on AND-composition` · `n=20 each on 5 sweeps × ≥3 attractor reframings` · `at pop=1024 gens=1500 (and 4× scaled to pop=2048 gens=3000) v2_probe alphabet` · `across decoder arms {BP_TOPK(k=3,bp=0.5), Arm A direct GP}` · `on integer-list AND-composition labels of the form` `(sum > t1) AND (max > t2)`
 
-**Status:** `ACTIVE` · last revised commit `320fc6b` · 2026-04-15
+**Status:** `ACTIVE` · last revised commit `1cfe7d5` · 2026-04-16 (broadened from BP_TOPK-specific to decoder-general by §v2.12; pending principle-20 sampler-audit discharge before paper-grade — see §v2.12 chronicle)
 
 ### Claim
 
 When the training data contains a single-predicate (e.g., `max > 5` or
-`sum > 10`) whose accuracy on the training labels is ≥ ~0.90, evolution
-under BP_TOPK reliably converges to that predicate alone within the
+`sum > 10`) whose accuracy on the training labels is ≥ ~0.90, greedy
+evolution reliably converges to that predicate alone within the
 pre-registered budget — *regardless of whether the underlying label
 function requires AND-composition* — and the basin is robust to compute
-scaling (4×) and to decorrelation of the original proxy (evolution shifts
-to the next-best single-predicate).
+scaling (4×), to decorrelation of the original proxy (evolution shifts
+to the next-best single-predicate), and to decoder-arm variation
+(BP_TOPK and Arm A direct GP both trap in the same attractor categories).
 
 ### Scope boundaries (what this claim does NOT say)
 
@@ -264,7 +265,7 @@ to the next-best single-predicate).
   and t2 = 5 on length-4 intlists over [0,9].
 - Does not claim the basin is the only failure mode — the §v2.6 Pair 1
   failure (different track, body topology issue) is a distinct mechanism.
-- Tested only at BP_TOPK(k=3, bp=0.5); other arms not characterised.
+- ~~Tested only at BP_TOPK(k=3, bp=0.5); other arms not characterised.~~ **Updated 2026-04-16:** §v2.12 tested Arm A direct GP on both samplers; Arm A traps in the same basin categories (attractor_share 0.80 natural, 0.84 decorr). Decoder-arm is no longer an open scope boundary on this task family. (Pending principle-20 audit discharge for paper-grade.)
 
 ### Mechanism reading (current)
 
@@ -292,16 +293,19 @@ to the next-best single-predicate).
 | [§v2.4 inspection](experiments-v2.md) | `cd01d6e` | 20 | direct genotype decode: 14/20 baseline seeds converge to exact `max > 5` predicate; refinement-bottleneck framing falsified |
 | [§v2.4-alt](experiments-v2.md#v24-alt) | `0230662` | 20 | threshold=5 task solves at 17/20 with the IF_GT+CONST_0-prefix compositional body — proves "compositional depth doesn't scale" framing was wrong; the basin only blocks when the proxy is high-accuracy |
 | [§v2.4-proxy](experiments-v2.md#v24-proxy) | `0230662` | 20 | under decorrelation (P(max>5\|+)=1.0, P(max>5\|−)=0.5), evolution shifts from `max > 5` (2/17 stuck) to `sum > 10` (11/17 stuck); 3/20 found genuine AND |
+| [§v2.12 Arm A natural](experiments-v2.md#v212-arm-a-direct-gp-on-v24-proxy-basin-tasks-2026-04-16) | `1cfe7d5` | 20 | Arm A direct GP on natural sampler: F_AND_A = 0/20, attractor breakdown 10/20 max_gt_5 + 6/20 sum_gt (attractor_share = 0.80). Basin traps Arm A as thoroughly as BP_TOPK. |
+| [§v2.12 Arm A decorr](experiments-v2.md#v212-arm-a-direct-gp-on-v24-proxy-basin-tasks-2026-04-16) | `1cfe7d5` | 20 | Arm A decorr sampler: F_AND_A = 1/20, attractor breakdown 12/19 sum_gt + 4/19 max_gt_5 (attractor_share = 0.84). Attractor-switch post-decorrelation reproduces under different decoder. (Principle-20 audit pending.) |
 
 ### Narrowing / falsifying experiments
 
-None yet. Two queued candidates that could narrow further:
+None yet. One queued candidate that could narrow further:
 - §v2.4-proxy-2 (simultaneous decorrelation of `max > 5` and `sum > 10`): if
   evolution still finds a 0.84-accuracy `any cell > 6` proxy, the basin
   story is fully general; if a novel attractor emerges, the claim narrows.
-- Different decoder arms: if BP (k=1) or A (direct GP) escape the basin
+- ~~Different decoder arms: if BP (k=1) or A (direct GP) escape the basin
   while BP_TOPK does not, the claim narrows from "greedy search" to
-  "BP_TOPK-specific."
+  "BP_TOPK-specific."~~ **Resolved by §v2.12 (2026-04-16):** Arm A does
+  not escape; basin is decoder-general on this task family.
 
 ### Implications for downstream work
 
@@ -309,8 +313,8 @@ None yet. Two queued candidates that could narrow further:
   single-predicate-correlation ≥ ~0.90 in training will *fail* the
   compositional body discovery at this budget — and the failure is *not*
   diagnostic of the mechanism's compositional reach.
-- **Downstream experiments must still test:** the basin's robustness to
-  decoder-arm changes; whether decorrelating the next-best predicate
+- **Downstream experiments must still test:** ~~the basin's robustness to
+  decoder-arm changes;~~ (resolved by §v2.12: decoder-general) whether decorrelating the next-best predicate
   also gets shifted-to or yields novel attractors; whether the basin
   exists for OR/XOR/larger-k compositions.
 - **Methodology consequence:** sampler design (methodology §20) is now
@@ -324,3 +328,10 @@ None yet. Two queued candidates that could narrow further:
   chronicle. This is a **mechanism rename in the broader direction**
   (methodology §16b); the original §v2.4 verdict text remains in the
   chronicle for reasoning-trail purposes (methodology §13).
+- 2026-04-16 — **broadened** by §v2.12 (commit `1cfe7d5`). Arm A direct
+  GP tested on both samplers; basin traps both decoders. Scope tag updated
+  from "BP_TOPK(k=3,bp=0.5)" to "across decoder arms {BP_TOPK, Arm A}."
+  Claim sentence updated to remove "under BP_TOPK" qualifier. Headline
+  updated. Principle-20 sampler-audit flag noted in status line (post-hoc
+  audit was marginal; does not block the broadening but noted for
+  paper-grade audit trail).

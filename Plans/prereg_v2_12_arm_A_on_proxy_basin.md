@@ -1,6 +1,6 @@
 # Pre-registration: §v2.12 — Arm A direct GP on §v2.4 and §v2.4-proxy AND tasks
 
-**Status:** QUEUED · target commit `75ab827` · 2026-04-15
+**Status:** DONE · FAIL (decoder-general) · run commit `29c524e` · chronicle commit `1cfe7d5` · 2026-04-16
 
 Derived from [`docs/chem-tape/findings.md#proxy-basin-attractor`](../docs/chem-tape/findings.md)
 (`ACTIVE` · scope-tagged "Tested only at BP_TOPK(k=3, bp=0.5); other arms
