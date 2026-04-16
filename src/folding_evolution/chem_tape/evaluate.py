@@ -96,6 +96,7 @@ def evaluate_population(
     tapes = _tapes_from_population(population)                   # (P, L) uint8
     programs = _programs_for_arm(cfg, tapes, topk_override=topk_override)
 
+    consume = cfg.safe_pop_mode == "consume"
     if _HAS_POP_BATCH:
         s12 = task.alphabet.slot_12
         s13 = task.alphabet.slot_13
@@ -103,6 +104,7 @@ def evaluate_population(
         flat = _rust_exec_pop_batch(
             programs, s12, s13, task.inputs, task.input_type,
             alphabet_name=cfg.alphabet, threshold=threshold,
+            safe_pop_consume=consume,
         )
         predictions = np.asarray(flat, dtype=np.int64).reshape(P, E)
     elif _HAS_RUST_EXECUTOR:
@@ -114,6 +116,7 @@ def evaluate_population(
             predictions[p] = _rust_exec_batch(
                 programs[p], s12, s13, task.inputs, task.input_type,
                 alphabet_name=cfg.alphabet, threshold=threshold,
+                safe_pop_consume=consume,
             )
     else:
         predictions = np.zeros((P, E), dtype=np.int64)
@@ -123,6 +126,7 @@ def evaluate_population(
                 predictions[p, e] = executor.execute_program(
                     prog, task.alphabet, task.inputs[e], task.input_type,
                     alphabet_name=cfg.alphabet,
+                    safe_pop_consume=consume,
                 )
 
     fitnesses = (predictions == task.labels[None, :]).mean(axis=1).astype(np.float64)
@@ -142,10 +146,12 @@ def evaluate_on_inputs(
     tape = genotype.astype(np.uint8).reshape(1, -1)
     programs = _programs_for_arm(cfg, tape, topk_override=topk_override)
     prog = programs[0]
+    consume = cfg.safe_pop_mode == "consume"
     correct = 0
     for e, x in enumerate(inputs):
         pred = executor.execute_program(
             prog, task.alphabet, x, task.input_type, alphabet_name=cfg.alphabet,
+            safe_pop_consume=consume,
         )
         if pred == int(labels[e]):
             correct += 1

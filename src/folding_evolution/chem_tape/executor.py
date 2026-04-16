@@ -35,6 +35,10 @@ DEFAULTS: dict[str, object] = {
 
 OP_CAP = 256
 
+# §v2.14: module-level flag controlling safe-pop semantics. Set by
+# execute_program() from ChemTapeConfig.safe_pop_mode before each call.
+_SAFE_POP_CONSUME: bool = False
+
 
 def safe_pop(stack: list, expected_type: str):
     """Pop a value of `expected_type` from the stack.
@@ -43,6 +47,9 @@ def safe_pop(stack: list, expected_type: str):
     declared type's default *without consuming* the mismatched top (so the
     caller can't get stuck peeling off values of the wrong type). The "any"
     sentinel matches any type.
+
+    §v2.14: when _SAFE_POP_CONSUME is True, wrong-typed values ARE consumed
+    (popped and discarded) rather than preserved.
     """
     if not stack:
         return DEFAULTS[expected_type] if expected_type != "any" else DEFAULTS["int"]
@@ -51,6 +58,8 @@ def safe_pop(stack: list, expected_type: str):
         return (ttag, payload)
     ttag, payload = stack[-1]
     if ttag != expected_type:
+        if _SAFE_POP_CONSUME:
+            stack.pop()
         return DEFAULTS[expected_type]
     stack.pop()
     return payload
@@ -327,13 +336,18 @@ def execute_program(
     input_value,
     input_type: str,
     alphabet_name: str = "v1",
+    safe_pop_consume: bool = False,
 ) -> int:
     """Run `tokens` as an RPN program against `input_value` (typed by input_type).
 
     Returns an integer; non-int tops are coerced to 0 (spec §Layer 3: "top of
     stack is the output" — v1 tasks always expect int labels, so non-int tops
     are treated as a failed program).
+
+    §v2.14: `safe_pop_consume` selects consume-on-mismatch semantics.
     """
+    global _SAFE_POP_CONSUME
+    _SAFE_POP_CONSUME = safe_pop_consume
     stack: list = []
     ops_run = 0
     table = _dispatch_table(alphabet_name)

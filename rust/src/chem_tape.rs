@@ -96,9 +96,11 @@ fn default_of(t: TypeTag) -> Value {
     }
 }
 
-/// Spec §Layer 3: empty → default; wrong type → default WITHOUT consuming.
+/// Spec §Layer 3: empty → default; wrong type → default WITHOUT consuming
+/// (preserve mode). §v2.14: when `consume` is true, wrong-typed values ARE
+/// popped and discarded.
 #[inline]
-fn safe_pop(stack: &mut Vec<Value>, expected: TypeTag) -> Value {
+fn safe_pop(stack: &mut Vec<Value>, expected: TypeTag, consume: bool) -> Value {
     match stack.last() {
         None => default_of(expected),
         Some(top) => {
@@ -106,6 +108,9 @@ fn safe_pop(stack: &mut Vec<Value>, expected: TypeTag) -> Value {
                 return stack.pop().unwrap();
             }
             if top.tag() != expected {
+                if consume {
+                    stack.pop();
+                }
                 return default_of(expected);
             }
             stack.pop().unwrap()
@@ -125,6 +130,7 @@ struct ExecCtx<'a> {
     threshold: i64,
     alphabet: Alphabet,
     input: &'a Value,
+    safe_pop_consume: bool,
 }
 
 type OpFn = fn(&mut Vec<Value>, &ExecCtx<'_>);
@@ -157,16 +163,16 @@ fn op_const_5(stack: &mut Vec<Value>, _ctx: &ExecCtx<'_>) {
     stack.push(Value::Int(5));
 }
 
-fn op_chars(stack: &mut Vec<Value>, _ctx: &ExecCtx<'_>) {
-    let s = match safe_pop(stack, TypeTag::Str) {
+fn op_chars(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
+    let s = match safe_pop(stack, TypeTag::Str, ctx.safe_pop_consume) {
         Value::Str(s) => s,
         _ => String::new(),
     };
     stack.push(Value::CharList(s.chars().collect()));
 }
 
-fn op_sum(stack: &mut Vec<Value>, _ctx: &ExecCtx<'_>) {
-    let xs = match safe_pop(stack, TypeTag::IntList) {
+fn op_sum(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
+    let xs = match safe_pop(stack, TypeTag::IntList, ctx.safe_pop_consume) {
         Value::IntList(v) => v,
         _ => Vec::new(),
     };
@@ -175,8 +181,8 @@ fn op_sum(stack: &mut Vec<Value>, _ctx: &ExecCtx<'_>) {
     stack.push(Value::Int(acc));
 }
 
-fn op_any(stack: &mut Vec<Value>, _ctx: &ExecCtx<'_>) {
-    let xs = match safe_pop(stack, TypeTag::IntList) {
+fn op_any(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
+    let xs = match safe_pop(stack, TypeTag::IntList, ctx.safe_pop_consume) {
         Value::IntList(v) => v,
         _ => Vec::new(),
     };
@@ -184,24 +190,24 @@ fn op_any(stack: &mut Vec<Value>, _ctx: &ExecCtx<'_>) {
     stack.push(Value::Int(r));
 }
 
-fn op_add(stack: &mut Vec<Value>, _ctx: &ExecCtx<'_>) {
-    let b = match safe_pop(stack, TypeTag::Int) {
+fn op_add(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
+    let b = match safe_pop(stack, TypeTag::Int, ctx.safe_pop_consume) {
         Value::Int(v) => v,
         _ => 0,
     };
-    let a = match safe_pop(stack, TypeTag::Int) {
+    let a = match safe_pop(stack, TypeTag::Int, ctx.safe_pop_consume) {
         Value::Int(v) => v,
         _ => 0,
     };
     stack.push(Value::Int(a.wrapping_add(b)));
 }
 
-fn op_gt(stack: &mut Vec<Value>, _ctx: &ExecCtx<'_>) {
-    let b = match safe_pop(stack, TypeTag::Int) {
+fn op_gt(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
+    let b = match safe_pop(stack, TypeTag::Int, ctx.safe_pop_consume) {
         Value::Int(v) => v,
         _ => 0,
     };
-    let a = match safe_pop(stack, TypeTag::Int) {
+    let a = match safe_pop(stack, TypeTag::Int, ctx.safe_pop_consume) {
         Value::Int(v) => v,
         _ => 0,
     };
@@ -232,8 +238,8 @@ fn op_reduce_add(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
     op_sum(stack, ctx);
 }
 
-fn op_map_eq_r(stack: &mut Vec<Value>, _ctx: &ExecCtx<'_>) {
-    let xs = match safe_pop(stack, TypeTag::CharList) {
+fn op_map_eq_r(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
+    let xs = match safe_pop(stack, TypeTag::CharList, ctx.safe_pop_consume) {
         Value::CharList(v) => v,
         _ => Vec::new(),
     };
@@ -242,8 +248,8 @@ fn op_map_eq_r(stack: &mut Vec<Value>, _ctx: &ExecCtx<'_>) {
     ));
 }
 
-fn op_map_is_upper(stack: &mut Vec<Value>, _ctx: &ExecCtx<'_>) {
-    let xs = match safe_pop(stack, TypeTag::CharList) {
+fn op_map_is_upper(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
+    let xs = match safe_pop(stack, TypeTag::CharList, ctx.safe_pop_consume) {
         Value::CharList(v) => v,
         _ => Vec::new(),
     };
@@ -254,8 +260,8 @@ fn op_map_is_upper(stack: &mut Vec<Value>, _ctx: &ExecCtx<'_>) {
 
 // --- v2-probe new ops (architecture-v2.md §Proposed alphabet expansion) ---
 
-fn op_map_eq_e(stack: &mut Vec<Value>, _ctx: &ExecCtx<'_>) {
-    let xs = match safe_pop(stack, TypeTag::CharList) {
+fn op_map_eq_e(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
+    let xs = match safe_pop(stack, TypeTag::CharList, ctx.safe_pop_consume) {
         Value::CharList(v) => v,
         _ => Vec::new(),
     };
@@ -264,35 +270,35 @@ fn op_map_eq_e(stack: &mut Vec<Value>, _ctx: &ExecCtx<'_>) {
     ));
 }
 
-fn op_if_gt(stack: &mut Vec<Value>, _ctx: &ExecCtx<'_>) {
+fn op_if_gt(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
     // Architecture-v2: pops (else_val, then_val, cond) with cond on top.
     // Pushes then_val if cond > 0 else else_val. Any underflow → push 0.
     // Matches Python semantics in executor._op_if_gt: if fewer than three
     // values on the stack, drain available ints and push 0.
     if stack.len() < 3 {
-        let _ = safe_pop(stack, TypeTag::Int);
-        let _ = safe_pop(stack, TypeTag::Int);
-        let _ = safe_pop(stack, TypeTag::Int);
+        let _ = safe_pop(stack, TypeTag::Int, ctx.safe_pop_consume);
+        let _ = safe_pop(stack, TypeTag::Int, ctx.safe_pop_consume);
+        let _ = safe_pop(stack, TypeTag::Int, ctx.safe_pop_consume);
         stack.push(Value::Int(0));
         return;
     }
-    let cond = match safe_pop(stack, TypeTag::Int) {
+    let cond = match safe_pop(stack, TypeTag::Int, ctx.safe_pop_consume) {
         Value::Int(v) => v,
         _ => 0,
     };
-    let then_val = match safe_pop(stack, TypeTag::Int) {
+    let then_val = match safe_pop(stack, TypeTag::Int, ctx.safe_pop_consume) {
         Value::Int(v) => v,
         _ => 0,
     };
-    let else_val = match safe_pop(stack, TypeTag::Int) {
+    let else_val = match safe_pop(stack, TypeTag::Int, ctx.safe_pop_consume) {
         Value::Int(v) => v,
         _ => 0,
     };
     stack.push(Value::Int(if cond > 0 { then_val } else { else_val }));
 }
 
-fn op_reduce_max(stack: &mut Vec<Value>, _ctx: &ExecCtx<'_>) {
-    let xs = match safe_pop(stack, TypeTag::IntList) {
+fn op_reduce_max(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
+    let xs = match safe_pop(stack, TypeTag::IntList, ctx.safe_pop_consume) {
         Value::IntList(v) => v,
         _ => Vec::new(),
     };
@@ -392,7 +398,7 @@ fn py_to_value(obj: &Bound<'_, PyAny>, input_type: &str) -> PyResult<Value> {
 /// `alphabet_name` and `threshold` are optional with v1 defaults, so existing
 /// v1 callers can continue to invoke this with 5 positional args.
 #[pyfunction]
-#[pyo3(signature = (tokens, slot_12, slot_13, input_value, input_type, alphabet_name=None, threshold=None))]
+#[pyo3(signature = (tokens, slot_12, slot_13, input_value, input_type, alphabet_name=None, threshold=None, safe_pop_consume=false))]
 pub fn rust_chem_execute(
     tokens: Vec<u8>,
     slot_12: &str,
@@ -401,6 +407,7 @@ pub fn rust_chem_execute(
     input_type: &str,
     alphabet_name: Option<&str>,
     threshold: Option<i64>,
+    safe_pop_consume: bool,
 ) -> PyResult<i64> {
     let input = py_to_value(input_value, input_type)?;
     let ctx = ExecCtx {
@@ -409,6 +416,7 @@ pub fn rust_chem_execute(
         threshold: threshold.unwrap_or(0),
         alphabet: parse_alphabet(alphabet_name),
         input: &input,
+        safe_pop_consume,
     };
     Ok(execute_inner(&tokens, &ctx))
 }
@@ -416,7 +424,7 @@ pub fn rust_chem_execute(
 /// Batched executor: one program, many inputs. Main speedup path — amortizes
 /// PyO3 crossing cost and input conversion over E examples.
 #[pyfunction]
-#[pyo3(signature = (tokens, slot_12, slot_13, input_values, input_type, alphabet_name=None, threshold=None))]
+#[pyo3(signature = (tokens, slot_12, slot_13, input_values, input_type, alphabet_name=None, threshold=None, safe_pop_consume=false))]
 pub fn rust_chem_execute_batch(
     tokens: Vec<u8>,
     slot_12: &str,
@@ -425,6 +433,7 @@ pub fn rust_chem_execute_batch(
     input_type: &str,
     alphabet_name: Option<&str>,
     threshold: Option<i64>,
+    safe_pop_consume: bool,
 ) -> PyResult<Vec<i64>> {
     let s12 = resolve_slot_op(slot_12);
     let s13 = resolve_slot_op(slot_13);
@@ -439,6 +448,7 @@ pub fn rust_chem_execute_batch(
             threshold: thr,
             alphabet: abc,
             input: &v,
+            safe_pop_consume,
         };
         out.push(execute_inner(&tokens, &ctx));
     }
@@ -453,7 +463,7 @@ pub fn rust_chem_execute_batch(
 /// Returns a flat Vec<i64> of length P*E (row-major: program p's result on
 /// input e is at index p*E + e). Python reshapes to (P, E) in one alloc.
 #[pyfunction]
-#[pyo3(signature = (programs, slot_12, slot_13, input_values, input_type, alphabet_name=None, threshold=None))]
+#[pyo3(signature = (programs, slot_12, slot_13, input_values, input_type, alphabet_name=None, threshold=None, safe_pop_consume=false))]
 pub fn rust_chem_execute_pop_batch(
     py: Python<'_>,
     programs: Vec<Vec<u8>>,
@@ -463,6 +473,7 @@ pub fn rust_chem_execute_pop_batch(
     input_type: &str,
     alphabet_name: Option<&str>,
     threshold: Option<i64>,
+    safe_pop_consume: bool,
 ) -> PyResult<Vec<i64>> {
     let s12 = resolve_slot_op(slot_12);
     let s13 = resolve_slot_op(slot_13);
@@ -490,6 +501,7 @@ pub fn rust_chem_execute_pop_batch(
                         threshold: thr,
                         alphabet: abc,
                         input: inp,
+                        safe_pop_consume,
                     };
                     row[j] = execute_inner(tokens, &ctx);
                 }

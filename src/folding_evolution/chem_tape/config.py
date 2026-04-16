@@ -105,6 +105,10 @@ class ChemTapeConfig:
     # enables ids 14..19 as new primitives and shifts separators to 20/21.
     alphabet: str = "v1"
 
+    # §v2.14: safe-pop executor semantics. "preserve" (default) leaves wrong-
+    # typed values on the stack; "consume" always pops regardless of type.
+    safe_pop_mode: str = "preserve"
+
     # Infra
     seed: int = 0
     backend: str = "mlx"            # "numpy" | "mlx"
@@ -148,6 +152,9 @@ class ChemTapeConfig:
         # v1 sweep hashes are unchanged.
         if self.alphabet == "v1":
             d.pop("alphabet", None)
+        # §v2.14 safe-pop mode: excluded at default "preserve".
+        if self.safe_pop_mode == "preserve":
+            d.pop("safe_pop_mode", None)
         blob = json.dumps(d, sort_keys=True).encode()
         return hashlib.sha1(blob).hexdigest()[:12]
 
