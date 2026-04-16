@@ -2106,7 +2106,311 @@ Per prereg:
 
 ---
 
-## References
+## §v2.14g. Consume × Arm A × 4× compute on 6-token string-count body (2026-04-16)
+
+**Status:** `INCONCLUSIVE` · n=20 per arm · commit `9455d04` · —
+
+**Pre-reg:** [Plans/prereg_v2-14g-consume-arm-a-4x.md](../../Plans/prereg_v2-14g-consume-arm-a-4x.md)
+**Sweeps:** `experiments/chem_tape/sweeps/v2/v2_14g_consume_arm_a_4x.yaml` + companion `v2_14g_preserve_arm_a_4x.yaml`
+**Compute:** ~10 min per sweep at 10-worker M1 (4× compute = pop=2048, gens=3000)
+
+### Question
+
+Is the §v2.14d Arm A consume null result (5/20 vs preserve 7/20 at 1× compute) rescued by 4× compute, mirroring the §v2.14c BP_TOPK consume × compute stacking (consume-4× = 14/20 > preserve-4× = 8/20)?
+
+### Hypothesis (pre-registered)
+
+Three non-overlapping readings consistent with current evidence: (1) decoder-arm-dependent at any compute; (2) compute-threshold effect — consume rescued by 4× compute on Arm A; (3) consume uniformly hurts Arm A. Prereg favored no direction.
+
+### Result
+
+| Condition | BOTH solved | vs §v2.14d 1× | vs §v2.14c BP_TOPK 4× |
+|---|---|---|---|
+| **Preserve Arm A 4×** (this expt, companion baseline) | **11/20** | +4 vs §v2.6-pair1-scale-A 7/20 (cross-commit) | Arm A preserve-4× (11) > BP_TOPK preserve-4× (8) |
+| **Consume Arm A 4×** (this expt) | **11/20** | +6 vs §v2.14d 5/20 (cross-commit) | Arm A consume-4× (11) < BP_TOPK consume-4× (14) |
+| **Δ (C − P) at matched 4× compute** | **0** | — | BP_TOPK had +6 here |
+
+Per-seed BOTH-solvers:
+- Preserve: {3, 4, 5, 7, 8, 9, 10, 12, 16, 17, 18}
+- Consume: {2, 3, 5, 6, 7, 8, 9, 10, 12, 15, 16}
+- Shared (both arms solve): {3, 5, 7, 8, 9, 10, 12, 16} (8 seeds)
+- Preserve-only: {4, 17, 18} (3 seeds)
+- Consume-only: {2, 6, 15} (3 seeds)
+
+**Matches pre-registered outcome:** `INCONCLUSIVE` — `|C_A_4x − P_A_4x| ≤ 1` (exact Δ=0) per prereg decision table.
+
+**Statistical test:** paired McNemar on seeds 0-19. Discordant pairs: b=3 (preserve solved, consume didn't), c=3 (consume solved, preserve didn't). χ² = (|b-c|)²/(b+c) = 0/6 = 0. p=1.00. **Classification:** confirmatory; family "`safe-pop-consume-effect` decoder-arm scope" (§v2.14, §v2.14b–e, this). Corrected α at family size ≥ 6 is ≤ 0.0083; the delta=0 result is not remotely near significance, so FWER correction is moot for this test but named for audit-trail completeness.
+
+### Pre-registration fidelity checklist (principle 23)
+
+- [x] Every outcome row from the prereg was tested (PASS-rescued, PASS-compute-both, INCONCLUSIVE, FAIL-damages, SWAMPED). The observed Δ=0 at 11/20 both arms maps cleanly onto the INCONCLUSIVE row — no rows silently added or removed.
+- [x] Sweep execution: consume sweep + companion preserve sweep (Option A baseline) at matched commit, seeds 0-19 both. Attractor inspection ran on both arms (§Attractor inspection below).
+- [~] Diagnostics partially completed: per-seed BOTH-solve reported (solver sets); attractor-category classification reported; `program effective-length distribution (NOP count under Arm A)` **deferred**; `holdout gap` **deferred**. See Diagnostics ledger below for reasons. Per §23, these are explicit deferrals, not silent skips.
+- [x] No mid-run parameter / sampler / seed changes. Both sweeps use the YAMLs committed at `9455d04`.
+- [x] Every statistical test and diagnostic named in the prereg appears below or is explicitly deferred.
+
+### Attractor-category inspection (principle 21 — threshold-adjacent result)
+
+Arm A executes the full 32-token tape linearly, so the "extracted program" is the full non-NOP non-separator token sequence. Classifier matches against the canonical Pair 1 body `INPUT CHARS SLOT_12 SUM THRESHOLD_SLOT GT`.
+
+| Category | preserve total → BOTH | consume total → BOTH |
+|---|---|---|
+| canonical-6tok | 5/20 → **5 BOTH** | **8/20 → 8 BOTH** |
+| partial-5tok | 7/20 → 1 BOTH | 9/20 → 2 BOTH |
+| partial-4tok | 1/20 → 0 | 1/20 → 0 |
+| partial-scan | 7/20 → 5 BOTH | 2/20 → 1 BOTH |
+
+**Mechanism signal even at Δ=0:** under consume, canonical-6tok assembly rises 5→8 and partial-scan route falls 7→2. The same BOTH count (11/20 each) is achieved through **different attractor distributions** — consume concentrates on compact canonical assemblies; preserve distributes across canonical + partial-scan routes. This matches the §v2.14b attractor-shift pattern under consume on intlist tasks.
+
+### Interpretation
+
+Scope: `within-family · n=20 per arm · at Arm A 4× compute v2_probe · on 6-token string-count body · executor-rule × decoder-arm × compute three-way`.
+
+**The solve-rate null is robust.** At matched commit and matched 4× compute, preserve and consume yield identical BOTH counts (11/20 each). The 3 preserve-only solvers and 3 consume-only solvers are orthogonal — no lift in either direction. The 1× Arm A null (§v2.14d: 5 vs 7) is thus **not** a compute-threshold effect; 4× compute does not rescue consume on Arm A. This tightens the `safe-pop-consume-effect` findings.md scope boundary from "not tested at 4× compute on Arm A" to "null at 4× compute on Arm A as well — decoder-arm dependence persists at the tested 1× and 4× compute tiers."
+
+**Compute alone helps Arm A.** The preserve arm lifts from 7/20 at 1× (§v2.6-pair1-scale-A) to 11/20 at 4× — a +4 compute-only effect on Pair 1 under Arm A. Consume neither adds to nor subtracts from this compute lift at matched 4× budget. This mirrors the preserve side of §v2.14c (BP_TOPK 4→8 preserve from 1× → 4×) but lacks the consume multiplier that §v2.14c found (8→14 under consume at 4×).
+
+**But the attractor-level signal is real.** Even at identical solve counts, consume redistributes winner-genotype categories: canonical-6tok 5→8, partial-scan 7→2. This is a mechanism-level effect that the aggregate solve-rate metric hides. It means consume under Arm A is **doing something** to the search trajectory — pushing toward compact canonical assemblies — but that "something" does not translate to additional solves at this compute tier. The effect is decoder-arm-dependent at the solve-rate layer and decoder-arm-moderated at the attractor layer.
+
+**Mechanism rename check (principles 16 + 16b):**
+- (a) Narrower than "BP_TOPK-specific solve-rate lift"? No — this confirms the existing narrow scope.
+- (b) Broader than "consume concentrates on canonical-6tok assembly"? Possibly — if the attractor-redistribution pattern holds across non-MAP bindings / non-string bodies, the effect is broader than solve-rate-specific. Untested here; flagged as open.
+
+### Caveats
+
+- **Seed count:** n=20 per arm (load-bearing). McNemar p=1.00 — no near-significant signal in the solve-rate axis.
+- **Budget limits:** 4× compute (pop=2048, gens=3000). Whether consume × Arm A interacts differently at 8× or 16× compute is untested.
+- **Overreach check:** "decoder-arm dependence persists at the tested 1× and 4× compute tiers" is the supported narrowing; extending to "structural at any compute" overreaches the tested range. The attractor-redistribution claim is descriptive; mechanism-level interpretation (why canonical-6tok concentrates under consume without a solve-rate lift) requires further inspection — possibly at per-gen trajectory resolution.
+- **Cross-commit comparison caveats:** §v2.14d's 5/20 and §v2.6-pair1-scale-A's 7/20 are cross-commit (`76bb58f` / `c8af29d`) — the "consume at 1× Arm A = 5" and "preserve at 1× Arm A = 7" anchors are from different commits. The internal 1× baseline for this sweep is §v2.14d's 5/20, and the 4× lift (+6 consume, +4 preserve) is computed against it.
+- **Cross-decoder 4× comparison:** §v2.14c BP_TOPK at 4× had preserve=8, consume=14 (Δ=+6). This sweep's Arm A at 4× has preserve=11, consume=11 (Δ=0). The decoder-arm dependence of the Δ is the clearest signal in the two sweeps together.
+
+### Diagnostics (prereg-promise ledger)
+
+| Prereg item | Status |
+|---|---|
+| Per-seed BOTH-solve (both rules) | Reported (solver sets above) |
+| Per-seed best-fitness (both rules) | Deferred — not extracted from per-run result.json; verdict rests on solve counts + attractor structure. |
+| Winner-genotype attractor-category classification (both arms) | Reported (Attractor inspection table) |
+| Program effective-length distribution (NOP count under Arm A) | Deferred — expected high NOP count under Arm A is a known property; did not drive interpretation at this verdict. |
+| Seed overlap with §v2.14d (Arm-A-1× consume) and §v2.14c (BP_TOPK-4× consume) | §v2.14d 1× consume solvers {2, 3, 4, 10, 18}: overlap with this sweep's consume-Arm-A-4× solvers {2, 3, 5, 6, 7, 8, 9, 10, 12, 15, 16} = {2, 3, 10} (3/5). §v2.14c BP_TOPK-4× consume solvers: cross-decoder comparison is qualitative only (no shared seeds-with-same-decoder). |
+| Holdout gap | Deferred — not extracted from per-run result.json; verdict rests on solve rates + attractor structure. |
+
+### Findings this supports / narrows
+
+- Narrows: `safe-pop-consume-effect` ([findings.md](findings.md#safe-pop-consume-effect)) — the 1× decoder-arm-dependence caveat (§v2.14d) is confirmed at 4× compute. The "BP_TOPK-specific solve-rate lift" scope tightens from "1× only" to "persists at 1× and 4× — decoder-arm dependence on solve rate is not a compute-threshold effect within the tested range." The attractor-redistribution signal under consume is a new, narrower finding about Arm A's search trajectory that the solve-rate metric alone hides.
+
+### Next steps (per prereg decision rule)
+
+- **INCONCLUSIVE →** Strengthen findings.md `safe-pop-consume-effect` scope boundary: decoder-arm dependence on solve rate persists at 1× and 4× compute (both null for Arm A). BP_TOPK-specific solve-rate claim becomes firmer within the tested compute range. Do NOT change the project default to consume at any decoder arm without decoder-specific evidence. The attractor-redistribution observation is flagged for later: if the effect replicates on a non-MAP slot binding or under a different body topology, it becomes a separate sub-finding about consume's landscape-level behavior independent of solve rate.
+
+---
+
+## §v2.15. Decoder-ablation grid (K × bond_protection_ratio) on §v2.3 and §v2.6 Pair 1 (2026-04-16)
+
+**Status:** `NULL` · n=20 per cell · commit `9455d04` · Part-1 meta-learning gate (see [future-experiments.md](future-experiments.md) Part 1 Phase 0 diagnostic gate)
+
+**Pre-reg:** [Plans/prereg_v2-15-decoder-grid.md](../../Plans/prereg_v2-15-decoder-grid.md)
+**Sweeps:** `experiments/chem_tape/sweeps/v2/v2_15_grid_v2_3.yaml` + `v2_15_grid_pair1.yaml`
+**Compute:** 43 min (§v2.3 grid, 120 configs) + 33 min (Pair 1 grid, 120 configs) = ~76 min total at 10 workers
+
+### Question
+
+Does any parameterization of the BP_TOPK decoder's (K, bond_protection_ratio) knobs lift §v2.6 Pair 1 measurably toward the §v2.3 ceiling without losing §v2.3's 20/20 BOTH — establishing whether the chemistry-knob search space has useful structure before committing to Part 1 meta-learning ES machinery?
+
+### Hypothesis (pre-registered)
+
+Three disjoint outcomes: (1) leverage exists — at least one JOINT-LIFT cell (§v2.3 ≥ 18 AND Pair 1 ≥ 12) → Part 1 ES worth building; (2) no joint cell — knobs trade ceiling for floor; (3) uniform null — knobs lack leverage → redirect Part 1 away from bonding parameters.
+
+### Result
+
+§v2.3 BOTH-solve grid (sum_gt_{5,10}_slot alternation):
+
+|       | bp=0.0 | bp=0.5 (ref) | bp=1.0 |
+|-------|--------|--------------|--------|
+| **K=3** | 4/20  | 20/20        | 20/20  |
+| **K=5** | 3/20  | 20/20        | 20/20  |
+
+§v2.6 Pair 1 BOTH-solve grid (any_char_count_gt_{1,3}_slot alternation):
+
+|       | bp=0.0 | bp=0.5 (ref) | bp=1.0 |
+|-------|--------|--------------|--------|
+| **K=3** | 1/20  | 4/20         | **10/20 (INTERMEDIATE)** |
+| **K=5** | 1/20  | 5/20         | 8/20   |
+
+Cell classification (per prereg):
+
+| cell (K, bp) | §v2.3 | Pair 1 | classification |
+|---|---|---|---|
+| (3, 0.0) | 4/20 | 1/20 | GLOBAL-COLLAPSE |
+| (3, 0.5) | 20/20 | 4/20 | CEILING-STABLE-NULL (reference anchor) |
+| (3, 1.0) | 20/20 | 10/20 | **INTERMEDIATE** (Pair 1 ∈ [9, 11]) |
+| (5, 0.0) | 3/20 | 1/20 | GLOBAL-COLLAPSE |
+| (5, 0.5) | 20/20 | 5/20 | CEILING-STABLE-NULL |
+| (5, 1.0) | 20/20 | 8/20 | CEILING-STABLE-NULL |
+
+**Matches pre-registered outcome:** `NULL — uniform no-lift` — no cell hit JOINT-LIFT (Pair 1 ≥ 12). One INTERMEDIATE cell (K=3, bp=1.0) triggered the prereg's commitment to n-expansion, executed as §v2.15-bp1-k3-nexp (below).
+
+**Statistical tests:** descriptive cell counts. No confirmatory McNemar per cell (parent prereg flagged the multiple-testing load: "require at least two LIFT categorizations for a finding claim"). Zero JOINT-LIFTs found → no McNemar runs this round.
+
+### Pre-registration fidelity checklist (principle 23)
+
+- [x] Every outcome row tested (JOINT-LIFT, LIFT-AT-COST, CEILING-STABLE-NULL, GLOBAL-COLLAPSE, INTERMEDIATE). Observed 0 JOINT-LIFT, 0 LIFT-AT-COST, 3 CEILING-STABLE-NULL, 2 GLOBAL-COLLAPSE, 1 INTERMEDIATE maps cleanly onto the NULL aggregate row with the INTERMEDIATE cell triggering the pre-registered "one more block" commitment.
+- [x] Sweep execution: §v2.3 grid (120 configs) + Pair 1 grid (120 configs) ran as committed at `9455d04`. No mid-run deferrals at the grid level. (min_run_length axis was dropped at design time — documented as "future grid extension" in the resolved-decisions note; NOT silently skipped.)
+- [x] No mid-run parameter changes. Grid = {K ∈ {3, 5}, bp ∈ {0.0, 0.5, 1.0}} × n=20 as pre-registered.
+- [~] Diagnostics partially completed: aggregate per-cell BOTH counts reported; per-seed BOTH-solve tables **deferred**; per-seed best-fitness **deferred**; per-cell attractor-category classification reported only for the INTERMEDIATE cell (K=3, bp=1.0) via §v2.15-bp1-k3-nexp below, **deferred** for the other 5 cells; population-entropy trajectory and diversity-collapse guard (prereg's `bond_protection=1.0 artifact` check) **deferred**; mean program length **deferred**; per-cell solver seed-overlap **deferred**. The aggregate counts are sufficient to reach the NULL verdict at the pre-registered gate; mechanism-dynamics interpretation (why bp=0.0 collapses vs bp=1.0 partially lifts) is therefore limited to outcome-level reasoning, not search-trajectory explanation. See Diagnostics ledger below for per-item reasons.
+
+### Attractor-category inspection (principle 21 — triggered by INTERMEDIATE classification)
+
+See §v2.15-bp1-k3-nexp below for the attractor inspection on (K=3, bp=1.0) expanded seeds.
+
+### Interpretation
+
+Scope: `within-decoder-family · n=20 per cell · at BP_TOPK v2_probe with grid {K ∈ {3, 5}, bp ∈ {0.0, 0.5, 1.0}} · on §v2.3 alt + §v2.6 Pair 1 alt`.
+
+**The grid has no JOINT-LIFT cell at the pre-registered threshold.** Four cells preserve §v2.3's ceiling (both bp≥0.5 rows at both K); two cells collapse both tasks at bp=0.0; one cell (K=3, bp=1.0) hits Pair 1 = 10/20, just 2 seeds shy of the JOINT-LIFT bar. Per the prereg decision rule, this is **NULL — uniform no-lift**: chemistry-knob leverage across the (K, bond_protection_ratio) axes is bounded within the tested range. The Part 1 meta-learning ES over these two knobs specifically is **deprioritized** per the committed decision rule.
+
+**The bp=0.0 collapse is a cleanly-identified failure mode.** At bp=0.0, mutation rate on bonded cells is zero (`mu * 0.0 = 0`) — the search cannot modify the extracted program at all, only non-bonded tape padding. The §v2.3 4-token body collapses to 3-4/20; Pair 1 collapses to 1/20. This is structural, not noisy: bond protection at its maximum strength is incompatible with useful search. Worth documenting as a project-wide mutation-design constraint.
+
+**The bp=1.0 K=3 INTERMEDIATE signal is suggestive of an inverted mechanism.** bp=1.0 is the **no-protection / uniform-mutation** setting (bonded cells mutate at full rate); bp=0.5 is half-rate on bonded cells. The INTERMEDIATE signal suggests stronger protection than bp=1.0's uniform rate (i.e., the default bp=0.5, which reduces mutation on extracted cells) may hinder Pair 1 discovery, counter to the naive prior that "protection preserves useful structure." This signal triggered the pre-committed n-expansion §v2.15-bp1-k3-nexp.
+
+**Mechanism rename check (principles 16 + 16b):**
+- (a) Narrower than "chemistry-knob space has bounded leverage"? The claim is narrow by construction — scoped to (K, bp) only. Adding tape_length or min_run_length axes would test different knobs.
+- (b) Broader than "bp=0.5 is the sweet spot"? The ceiling at bp=0.5 and bp=1.0 is identical on §v2.3 — the default isn't uniquely good, it's just one of two cells that preserve the ceiling. The narrower reading would be "(K, bp) direction doesn't produce a lift on Pair 1 without collapsing §v2.3."
+
+### Caveats
+
+- **Seed count:** n=20 per cell (load-bearing). The INTERMEDIATE cell at 10/20 received pre-committed n-expansion (§v2.15-bp1-k3-nexp).
+- **Budget limits:** 1× compute (pop=1024, gens=1500). Whether a JOINT-LIFT cell emerges at 4× compute (parallel to §v2.14c stacking) is untested — and out of scope for this gate-experiment.
+- **Grid coverage:** 2×3 = 6 cells; only two K values and three bp values. Finer K sweeps (K ∈ {1, 3, 5, 10}) or finer bp sweeps (bp ∈ {0.25, 0.5, 0.75}) could surface JOINT-LIFT cells inside the tested box that this grid missed. Deferred as a "future grid extension" per the prereg.
+- **Overreach check:** The supported claim is "no JOINT-LIFT at the tested 6 cells." Claiming that "chemistry-knob leverage is universally bounded" would overreach. Claiming that "reduced mutation on bonded cells (bp<1.0) hinders hard-body discovery" would require the INTERMEDIATE n-expansion to confirm — see §v2.15-bp1-k3-nexp. Note that `bp=1.0` is the **no-protection / uniform-mutation** setting in this codebase's convention (bonded cells mutate at full rate), so the direction of the claim must track the parameter semantics carefully.
+- **Open mechanism question:** the K=3 bp=1.0 partial lift (10→42% at n=60 combined, see below) is a real sub-gate mechanism signal. A finer bp sweep near 1.0 — or combining bp=1.0 with other decoder interventions (consume executor rule, tape_length) — might surface a JOINT-LIFT cell on a different axis.
+
+### Diagnostics (prereg-promise ledger)
+
+| Prereg item | Status |
+|---|---|
+| Per-cell aggregate BOTH-solve counts (both tasks) | Reported (per-cell tables) |
+| Per-cell × per-seed BOTH-solve table | Deferred — aggregate counts suffice for the NULL verdict; per-seed tables unnecessary for the gate decision and not extracted at chronicle time. |
+| Per-cell × per-seed best-fitness | Deferred — same reason. |
+| Attractor-category classification per cell per task | Reported for INTERMEDIATE cell (K=3, bp=1.0) in §v2.15-bp1-k3-nexp; **deferred** for the other 5 cells. The CEILING-STABLE-NULL and GLOBAL-COLLAPSE verdicts do not hinge on per-winner genotype inspection at this scope. |
+| Canonical-body-family rate per cell | Deferred except for (K=3, bp=1.0) n-expansion (see §v2.15-bp1-k3-nexp). |
+| Generation-0 vs final population-entropy (diversity-collapse guard) | Deferred — the prereg listed this as the detection for the bp=1.0 diversity-collapse artifact. The §v2.3 ceiling at bp=1.0 (20/20) argues against diversity collapse at K=3/5; no direct measurement was made. Flagged here so future bp=1.0 mechanism claims must include this measurement. |
+| Mean program length per cell | Deferred |
+| Seed overlap with §v2.3 / §v2.6 Pair 1 reference solvers per cell | Deferred — bp=0.5 cells at K=3 and K=5 reproduce 20/20 on §v2.3 and 4–5/20 on Pair 1 within ±1 of committed references. Aggregate match is informative enough for the NULL verdict. |
+
+### Findings this supports / narrows
+
+- This result is itself a candidate for first-class `NULL` promotion to findings.md (principle 24) — it closes the Part 1 meta-learning gate on (K, bond_protection) axes and changes what downstream experiments should assume.
+- Narrows: future Part 1 ES prereg (TBD) — the mainline §Approach 5+1 (ES + soft bonds) cannot use (K, bond_protection_ratio) as its starting-point search surface; either the grid must be expanded to new axes (tape_length, min_run_length, alphabet) or the Part 1 machinery must redirect toward executor-rule / body-topology interventions.
+
+### Next steps (per prereg decision rule)
+
+- **NULL (PASS rule inverted) →** chronicle the null; redirect Part 1 roadmap toward executor-rule interventions (§v2.14 arc continuation) and body-topology interventions (alphabet extension, e.g. §v2.14f's deferred FILTER_EQ proposal). ES machinery over (K, bp) is explicitly deprioritized. The INTERMEDIATE cell's n-expansion (§v2.15-bp1-k3-nexp below) is the pre-committed follow-up.
+- **INTERMEDIATE n-expansion →** executed as §v2.15-bp1-k3-nexp.
+
+---
+
+## §v2.15-bp1-k3-nexp. n-expansion of INTERMEDIATE (K=3, bp=1.0) cell on Pair 1 (2026-04-16)
+
+**Status:** `INCONCLUSIVE` · n=60 combined · commit `b179b50` (new block) + `9455d04` (existing 0-19 block) · confirms §v2.15 NULL verdict
+
+**Pre-reg:** [Plans/prereg_v2-15-bp1-k3-nexp.md](../../Plans/prereg_v2-15-bp1-k3-nexp.md)
+**Sweep:** `experiments/chem_tape/sweeps/v2/v2_15_nexp_pair1_k3_bp1.yaml`
+**Compute:** ~9 min at 10-worker M1 (40 new configs)
+
+### Question
+
+Does the §v2.15 INTERMEDIATE cell (K=3, bp=1.0) on Pair 1 — measured at 10/20 BOTH — cross the JOINT-LIFT threshold (≥60% BOTH) when combined with a disjoint n=40 seed block, confirming or falsifying the §v2.15 Part-1 meta-learning gate outcome?
+
+### Hypothesis (pre-registered)
+
+Three disjoint outcomes: (1) JOINT-LIFT confirmed — §v2.15 grid flips from NULL to PASS at this cell → Part-1 ES over bond_protection gains a starting point; (2) NULL confirmed — the initial 10/20 was upper-tail noise; (3) borderline — one more expansion block.
+
+### Result
+
+| Block | BOTH solved | rate |
+|---|---|---|
+| Seeds 0-19 (existing, from §v2.15 grid_pair1) | 10/20 | 50% |
+| Seeds 20-59 (new, this expansion) | 15/40 | 37.5% |
+| **Combined n=60** | **25/60** | **41.7%** |
+
+95% Wilson CI: (30.1%, 54.3%). Binomial tests (one-sided):
+- P(X ≥ 25 \| true rate = 0.40) = 0.44 → **cannot reject** CEILING-STABLE-NULL floor
+- P(X ≤ 25 \| true rate = 0.60) = 0.0014 → **cleanly rejects** JOINT-LIFT floor
+
+**Matches pre-registered outcome:** `INCONCLUSIVE — within-noise` (24-29/60 band per prereg). 25/60 = 41.7% sits inside the pre-registered 40-48% window; the initial 10/20 was upper-tail noise on a true rate around 40-42%, above the bp=0.5 reference (20%) but below the JOINT-LIFT gate (60%).
+
+**Statistical test:** exact binomial, two-threshold. Classification: **confirmatory**; family "§v2.15 decoder-grid family" at size 1 for this prereg → corrected α = 0.05 (no multiplicity penalty). The binomial rejection of the JOINT-LIFT floor at p = 0.0014 clears the α = 0.05 threshold and even the most aggressive FWER correction one could reasonably apply to this experiment family.
+
+### Pre-registration fidelity checklist (principle 23)
+
+- [x] Every outcome row tested (JOINT-LIFT, borderline, INCONCLUSIVE, NULL). Combined 25/60 maps cleanly onto INCONCLUSIVE.
+- [x] Sweep execution: 40 new seeds 20-59 on exact pre-registered configuration; combined analysis over 0-59. §v2.3 ceiling re-measurement was explicitly skipped per the prereg's pre-declared scope (§v2.3 cell at (K=3, bp=1.0) was 20/20 in §v2.15 grid_v2_3 — not re-run here).
+- [x] No mid-run parameter changes. Configuration matches the (K=3, bp=1.0) cell of §v2.15 exactly; only seed range differs.
+- [~] Every statistical test and diagnostic named in the prereg appears below **or is explicitly deferred** in the ledger. The preregged **exact-binomial JOINT-LIFT-floor test** (confirmatory) is reported. The preregged **secondary exploratory McNemar** (bp=1.0 vs bp=0.5 on shared seeds 0-19) is **deferred** — raw discordance counts and effect-size would require loading §v2.15 grid_pair1 (K=3, bp=0.5) per-seed results and were not extracted at chronicle time. The bp=0.5 aggregate 4/20 reference is used for descriptive comparison only.
+
+### Attractor-category inspection (principle 21 — mandatory per prereg)
+
+Seeds 20-59 (n=40 new):
+
+| Category | total | BOTH-solvers |
+|---|---|---|
+| canonical-6tok (has INPUT CHARS SLOT_12 SUM THRESHOLD_SLOT GT in order) | 9/40 | **9/40** (100% of category solve) |
+| tokens-present-out-of-order (all 6 canonical tokens, wrong order) | 6/40 | 4/40 |
+| has-threshold-slot-gt (partial structure) | 7/40 | 1/40 |
+| IF_GT-compositional only (no THRESHOLD_SLOT) | 13/40 | 0 |
+| Other (reduce_max paths, etc.) | 5/40 | 1/40 |
+| **Total solvers in new block** | **15/40** | — |
+
+**Canonical-6tok dominance among solvers: 9/15 = 60%.** This is **below** the prereg's ≥70% mechanism-coherent PASS guard. Non-canonical assemblies (6 of 15 solvers) — including 4 tokens-present-out-of-order and 1 other — contribute to the observed lift. The mechanism is not a clean "bp=1.0 → more mutation → cleaner canonical assembly"; some of the lift comes from alternative-assembly routes that bypass the canonical body structure.
+
+### Interpretation
+
+Scope: `within-decoder-family · n=60 (20 prior + 40 new) · at BP_TOPK(K=3, bond_protection=1.0) v2_probe tape=32 gens=1500 pop=1024 · on §v2.6 Pair 1 any_char_count_gt_{1,3}_slot alternation`.
+
+**The 10/20 initial read was upper-tail noise.** At n=60 the solve rate lands at 41.7% with 95% Wilson CI (30.1%, 54.3%) — a tight window that cleanly excludes the 60% JOINT-LIFT threshold. §v2.15's NULL verdict stands firmly at the pre-registered gate.
+
+**But the effect over reference is real, just sub-gate (exploratory observation).** bp=0.5 reference at K=3 on Pair 1 is 4/20 = 20% (n=20); bp=1.0 at combined n=60 is 41.7%. Relative to this 20% reference, the bp=1.0 combined rate is **directionally higher**. An exploratory reference-null calculation (`P(X ≥ 25 | true rate = 0.20) < 0.001`) suggests the lift over reference is unlikely to be chance, but this comparison is **not the pre-registered confirmatory test** — it uses a cross-block reference (§v2.15 bp=0.5 n=20) rather than matched new-seed bp=0.5 controls, and is therefore exploratory only. It does not alter the pre-registered NULL gate outcome. The bp=1.0 direction *does appear to help* Pair 1 relative to bp=0.5 reference, but not enough to clear the gate threshold the prereg set.
+
+**The mechanism reading is narrower than the initial INTERMEDIATE signal suggested.** Only 60% of bp=1.0 solvers assemble the canonical 6-token body (vs the ≥70% prereg guard for mechanism-coherent PASS). 40% of solvers reach solve via non-canonical assemblies — scattered canonical tokens, compositional IF_GT routes, or alternative structures. "bp=1.0 = more mutation = more exploration" is partially validated, but the exploration includes non-canonical detours, not just cleaner canonical discovery.
+
+**Per pre-registered decision rule for INCONCLUSIVE:** "Do NOT re-expand further — the 10/20 was noise. §v2.15 NULL stands. Part-1 deprioritization of (K, bond_protection) axes remains in effect." This commitment is honored.
+
+**Mechanism rename check (principles 16 + 16b):**
+- (a) Narrower than "bond_protection hurts hard-body discovery"? Yes — the effect is real but sub-gate, and the direction needs care about parameter semantics. The narrower statement is: "at K=3, setting bp=1.0 (no protection / uniform mutation) yields a measurable but modest (~20 percentage-point) lift on Pair 1 BOTH-solve relative to bp=0.5 reference, partially driven by non-canonical assembly routes. Insufficient to authorize meta-learning over (K, bond_protection) axes."
+- (b) Broader? Not at this scope. The effect is specific to Pair 1's 6-token body and the tested (K, bp) cell.
+
+### Caveats
+
+- **Seed count:** n=60 combined (load-bearing). n-expansion was the pre-committed follow-up for the INTERMEDIATE classification; the verdict is load-bearing per principle 8.
+- **Budget limits:** 1× compute (pop=1024, gens=1500) throughout. Whether bp=1.0 interacts with 4× compute on Pair 1 is untested.
+- **Overreach check:** "bond_protection hurts hard-body discovery" was the initial tentative mechanism reading on 10/20. The n-expanded evidence supports a narrower "reduced mutation on bonded cells (bp<1.0) yields a sub-gate solve-rate deficit on Pair 1, partially via non-canonical assembly routes under bp=1.0." This narrower reading does NOT authorize the stronger claim. Parameter semantics matter: bp=1.0 is the no-protection / uniform-mutation setting, bp=0.5 is the default reduced-mutation setting on bonded cells.
+- **Part-1 implications:** the NULL verdict at this cell does not preclude JOINT-LIFT on other decoder axes — tape_length, min_run_length, alphabet extension, or combined (bp × executor_rule) cells remain untested and could surface leverage.
+
+### Diagnostics (prereg-promise ledger)
+
+| Prereg item | Status |
+|---|---|
+| Per-seed BOTH-solve under (K=3, bp=1.0) seeds 20-59 | Reported (15/40; solver seeds: {21, 22, 28, 31, 33, 35, 39, 42, 43, 47, 49, 52, 53, 55, 57}) |
+| Combined (0-59) per-seed solve matrix | Reported aggregate 25/60; seeds 0-19 solvers: {3, 5, 6, 10, 12, 13, 15, 16, 18, 19} |
+| Winner-genotype attractor-category classification (seeds 20-59) | Reported (full table above) — canonical-6tok = 9, tokens-out-of-order = 6, partial = 8, IF_GT-only = 13, other = 5 |
+| Preregged confirmatory test: exact-binomial JOINT-LIFT-floor | Reported (P(X ≤ 25 \| 0.60) = 0.0014, rejects JOINT-LIFT floor) |
+| Preregged secondary exploratory McNemar (bp=1.0 vs bp=0.5 on shared seeds 0-19) | **Deferred** — raw per-seed disagreement counts would require loading §v2.15 grid_pair1 (K=3, bp=0.5) per-seed results and were not extracted at chronicle time. Aggregate comparison (10/20 vs 4/20 at n=20) is exploratory descriptive only. |
+| Solver seed-set overlap analysis vs (K=3, bp=0.5) at n=20 | Deferred — as above; the prereg's subset-relationship mechanism-coherence check (bp=1.0 solvers ⊇ bp=0.5 solvers) is consequently unresolved. |
+| Train-holdout gap | Deferred — §v2.15's grid showed near-zero gaps across all cells; extrapolated to hold. Not directly measured on the new block. |
+| Mean best-fitness and mean-final-fitness per seed | Deferred — solve classification (≥0.999) is the primary metric; partial fitness does not change the verdict. |
+| Wall time per run (drift check vs §v2.15) | ~13s per config — consistent with §v2.15 grid_pair1 throughput. No drift. |
+
+### Findings this supports / narrows
+
+- Confirms the §v2.15 **NULL — uniform no-lift** classification at the (K, bond_protection) axes. No JOINT-LIFT cell exists in the tested 2×3 grid at the pre-registered 60% threshold.
+- Open (not yet consolidated): a narrower `bond_protection=1.0 partial-lift` observation — bp=1.0 at K=3 gives ~+20 percentage points over bp=0.5 reference on Pair 1 at n=60, partially via non-canonical assembly routes. This is a sub-gate mechanism signal worth chronicling but not worth promoting to findings.md at this scope.
+
+### Next steps (per prereg decision rule)
+
+- **INCONCLUSIVE — within-noise →** chronicle the cell classification at n=60 (done above). **Do NOT re-expand further** — prereg commitment honored. §v2.15 NULL stands. Part-1 deprioritization of (K, bond_protection) axes remains in effect. The narrower "partial-lift" observation may inform later decoder-axis exploration but does not change the gate outcome.
+
+
 
 - [architecture-v2.md](architecture-v2.md) — v2 probe architecture and decision tree.
 - [architecture.md](architecture.md) — v1 specification.
