@@ -2410,8 +2410,133 @@ Scope: `within-decoder-family · n=60 (20 prior + 40 new) · at BP_TOPK(K=3, bon
 
 - **INCONCLUSIVE — within-noise →** chronicle the cell classification at n=60 (done above). **Do NOT re-expand further** — prereg commitment honored. §v2.15 NULL stands. Part-1 deprioritization of (K, bond_protection) axes remains in effect. The narrower "partial-lift" observation may inform later decoder-axis exploration but does not change the gate outcome.
 
+---
+
+## §v2.4-proxy-4. Seeded-initialization probe on §v2.4 AND — design-flawed original (2026-04-16)
+
+**Status:** `SUPERSEDED` · n=20 per arm · commit `9455d04` · superseded by §v2.4-proxy-4b
+
+> **Superseded by §v2.4-proxy-4b (2026-04-16).** The seeded arms (seed_fraction ∈ {0.001, 0.01}) hit fitness 1.0 at gen 0 and triggered `run_evolution`'s early-termination guard (`fitness.max() >= 1.0 and not alternating`) at gen 1, so the GA never exercised mutation + selection over the full 1500-gen horizon. The result as-run tests **gen-0 dominance**, not the pre-registered **multi-generation maintainability** that distinguishes discoverability-limited from maintainability-limited readings. §v2.4-proxy-4b reruns with `disable_early_termination=true` and is the authoritative sweep. The analysis below is preserved for the reasoning trail; read §v2.4-proxy-4b for the current claim.
+
+**Pre-reg:** [Plans/prereg_v2-4-proxy-4-seeded.md](../../Plans/prereg_v2-4-proxy-4-seeded.md)
+**Sweep:** `experiments/chem_tape/sweeps/v2/v2_4_proxy4_seeded.yaml`
+**Compute:** 5 min 8s at 10-worker M1
+
+### Result (preserved for reasoning trail)
+
+| seed_fraction | n | solve ≥.999 | mean_best | mean_hold | min..max gen |
+|---|---|---|---|---|---|
+| 0.0 | 20 | 0/20 | 0.921 | 0.909 | **1500..1500** (full) |
+| 0.001 | 20 | 20/20 | 1.000 | 1.000 | **1..1** (early-term) |
+| 0.01 | 20 | 20/20 | 1.000 | 1.000 | **1..1** (early-term) |
+
+All 40 seeded arm winners' `best_genotype_hex` is **byte-for-byte identical** to the injected canonical 12-token CONST_0-first AND body — no evolution occurred.
+
+### Design flaw (discovered post-run)
+
+`evolve.py` lines 436–437 (panmictic) and 554–555 (island) break out of the generation loop when `fitnesses.max() >= 1.0` under non-alternating tasks. §v2.4's `sum_gt_10_AND_max_gt_5` is fixed (no alternation), so the guard fires. For §v2.4-proxy-4's seeded arms, `fitnesses.max()` hits 1.0 at gen 0 (the injected canonical body solves the task perfectly), triggering the break at gen 1. Arm 0 (no seeds) ran the full horizon normally and produced a clean drift check vs §v2.4's 0/20.
+
+**What §v2.4-proxy-4 did measure (minor salvage):** Arm 0 reproduces §v2.4 baseline exactly (0/20, mean best 0.921, matching commit `e3d7e8a`). The seeded-init infra itself works as specified — 10 copies of the canonical tape at `seed_fraction=0.01` yielded 20/20 gen-0 dominance. The failure mode is an interaction between seeded-init and the early-term guard, not a bug in either individually.
+
+**Fix in §v2.4-proxy-4b:** add `ChemTapeConfig.disable_early_termination` field (default `False` for hash stability), guard the two `break` statements with `and not cfg.disable_early_termination`. Commit `f10b066`.
+
+### Findings this supports / narrows
+
+- The infra works: seeded-init at `seed_fraction ∈ {0.001, 0.01}` reliably introduces the canonical body and selection picks it up at gen 0. This precondition holds for §v2.4-proxy-4b's maintainability test.
+- Arm 0 is a matched-commit drift-check replication of §v2.4 baseline — documents that the seeded-init infra is hash-neutral at `seed_fraction=0.0` (pre-reg principle 11 preserved).
+
+### Next steps
+
+See §v2.4-proxy-4b below.
+
+---
+
+## §v2.4-proxy-4b. Seeded-initialization maintainability probe — full-horizon (2026-04-16)
+
+**Status:** `PASS` (partial — R_2 full-population criterion deferred) · n=20 per arm · commit `f10b066` · supersedes §v2.4-proxy-4
+
+**Pre-reg:** [Plans/prereg_v2-4-proxy-4b-seeded.md](../../Plans/prereg_v2-4-proxy-4b-seeded.md)
+**Sweep:** `experiments/chem_tape/sweeps/v2/v2_4_proxy4b_seeded.yaml`
+**Compute:** ~15.5 min (931s) at 10-worker M1
+
+### Question
+
+When the §v2.4 canonical 12-token AND body is injected into the initial population at fractions {0, 0.001, 0.01} and the GA runs the **full 1500 gens without early-termination**, is the canonical body retained (discoverability-limited) or displaced by the single-predicate proxy basin (maintainability-limited)?
+
+### Hypothesis (pre-registered)
+
+Three disjoint readings: (1) discoverability-limited — seeded bodies retained; §v2.4's 0/20 is a reachability failure; (2) maintainability-limited — seeded bodies displaced; basin is selection-level; (3) both — partial retention.
+
+### Result
+
+| seed_fraction | n | solve ≥.999 | mean_best | mean_hold | gens run | best-of-run ≡ canonical |
+|---|---|---|---|---|---|---|
+| 0.0 | 20 | **0/20** | 0.921 | 0.909 | 1500 (full) | 0/20 |
+| 0.001 | 20 | **20/20** | 1.000 | 1.000 | **1500 (full)** | **20/20 exact match** |
+| 0.01 | 20 | **20/20** | 1.000 | 1.000 | **1500 (full)** | **20/20 exact match** |
+
+All 40 seeded runs completed the full 1500 generations under mutation + tournament selection, and **every single final-gen best-of-run genotype is byte-for-byte identical to the injected canonical 12-token AND body**. Arm 0 reproduces §v2.4 = 0/20 (drift check ✓).
+
+**Matches pre-registered outcome:** `PASS — discoverability-limited` **at 2 of 3 criteria**; the third criterion is **partial**. `F_1 ≥ 15/20` (✓ 20/20), `F_2 ≥ 18/20` (✓ 20/20), `R_2 ≥ 0.3` — **partial discharge**: best-of-run layer trivially satisfies this (20/20 exact canonical across all 40 seeded runs), but the prereg defines `R_i` as **final-population retention rate** ("fraction of the final pop whose extracted program matches the canonical body within edit-distance ≤ 2"), which requires `decode_winner.py` on each run's final population — not extracted at chronicle time. The PASS verdict here is therefore **provisional** at the population-retention layer; full-population inspection is a queued follow-up. Per principle 2 follow-up, this technically does not match any pre-registered outcome row verbatim; it matches the F_1/F_2 components of PASS while deferring R_2.
+
+**Statistical test:** paired McNemar Arm 0 vs Arm 1 and Arm 0 vs Arm 2 on shared seeds. Arm 0 = 0/20 across all seeds; Arm 1 = 20/20; Arm 2 = 20/20. Discordance: b=0 (Arm-0 solved, seeded didn't), c=20 (seeded solved, Arm-0 didn't). χ² with continuity correction = (|0-20|−1)²/20 = 361/20 = 18.05. p < 0.0001 two-sided. **Classification:** confirmatory; family **"proxy-basin family"**. Current family-size count is **deferred to a separate FWER audit** (see task #19) because several adjacent experiments in the arc were run without explicit confirmatory/exploratory classification (§v2.4-proxy, §v2.4-proxy-2, §v2.12) and cannot be retroactively counted as confirmatory without a compliance recommit per principle 22. Raw McNemar p < 0.0001 clears α=0.05 comfortably and would clear any plausibly-sized family (family size up to 50 would keep corrected α ≥ 0.001).
+
+### Pre-registration fidelity checklist (principle 23)
+
+- [~] Every outcome row from the prereg was tested for its F_i components (PASS-discoverability, PARTIAL-leaky, FAIL-maintainability, ARM-0-DRIFT). **Partial**: the PASS row's `R_2 ≥ 0.3` (final-population retention) criterion was not executed — only best-of-run was inspected. The verdict is therefore a partial discharge of the PASS row, not a full match; principle 2 follow-up applies.
+- [x] Sweep execution: all 3 arms × 20 seeds ran the full 1500 gens as committed at `f10b066`. No mid-run deferrals.
+- [x] No parameter / sampler / seed changes after prereg commit.
+- [~] Diagnostics partially completed: per-seed best-of-run reported (20/20 exact canonical in both seeded arms); per-seed best-fitness reported (all 1.000 in seeded arms); **deferred**: per-gen population-entropy trajectory, lineage tree-distance sample on retained canonical bodies, and `decode_winner.py` on final-population individuals (only best-of-run inspected). The deferred population-layer items are what the prereg's `R_i` criterion actually requires; the current PASS verdict is provisional on best-of-run and has not yet discharged the population-layer criterion.
+
+### Attractor-category inspection (principle 21 — triggered by too-clean signature 20/20)
+
+The best-of-run on **every single seeded run** is the exact canonical tape (hex `0201121008010510100708110000000000000000000000000000000000000000`). No byte-level drift over 1500 gens of mutation at rate 0.03 × 32 cells per individual × pop=1024 individuals. This is a strong-attractor signature at the top of the distribution.
+
+**Interpretation at the best-of-run layer:** the canonical 12-token body with 20 NOP tail is an **absorbing state for best-of-run** under BP_TOPK preserve selection on `sum_gt_10_AND_max_gt_5`. Any mutated descendant of a seeded canonical body that produces fitness < 1.000 loses tournament selection to an unmutated canonical copy elsewhere in the population (seeded at ~1 or ~10 individuals per gen-0 population). The attractor holds at the best-of-run level throughout the horizon.
+
+**What best-of-run dominance does NOT tell us:** the **full-population retention rate** `R` (fraction of final-population individuals whose extracted program matches the canonical body within edit-distance ≤ 2). Mutations accumulate in non-best individuals; `R` in the full population could be <1.0 even when best-of-run is always canonical. This is the deferred `decode_winner.py on full population` inspection. For the PASS-discoverability verdict the best-of-run layer is sufficient (it demonstrates selection preserves the canonical body at the top of the distribution, which is what "maintainability" means operationally), but the narrower mechanism reading about *full-population* retention dynamics is open.
+
+### Interpretation
+
+Scope: `within-family · n=20 per arm · at pop=1024 gens=1500 BP_TOPK(k=3,bp=0.5) v2_probe disable_early_termination=true preserve · on sum_gt_10_AND_max_gt_5 natural sampler · seeded canonical body retained at best-of-run layer under full-horizon mutation + selection pressure`.
+
+**At the best-of-run layer, §v2.4's 0/20 looks like a discoverability failure.** When the canonical AND body is present in the initial population — even as 1/1024 (0.1%) — selection fixates on it at gen 0 and retains it at best-of-run for the full 1500 gens. The proxy basin does not displace the best-of-run individual. At this layer, the basin prevents *reaching* the canonical body under uniform-random initialization; it does not appear to dislodge the best individual once one is present. **This reading is provisional on the best-of-run layer only** — the prereg's `R_2 ≥ 0.3` criterion for population-level retention is deferred, and a full-population `decode_winner.py` inspection could still reveal that the canonical body does not spread beyond the seeded individuals under drift, which would weaken the "search-trajectory phenomenon" framing into a narrower "best-of-run absorbing state" framing.
+
+**Implication for Part-1 meta-learning direction (contingent on full-population confirmation).** Under `proxy-basin-attractor` (as understood pre-§v2.4-proxy-4b) the basin could have been either: (i) an unreachable region that selection can't steer toward; or (ii) a region selection actively steers *away from* even when the canonical body is present. §v2.4-proxy-4b's best-of-run evidence rules out the strong form of (ii) — selection does not displace the canonical body from the top of the population under BP_TOPK preserve. If full-population retention confirms, Part-1 meta-learning should therefore prioritise **exploration / diverse initialization** operators over **selection-pressure interventions**. This directional conclusion holds under best-of-run evidence; population-level confirmation tightens it.
+
+**Mechanism rename check (principles 16 + 16b):**
+- (a) Narrower than "discoverability-limited"? Yes — the verdict is at best-of-run layer. A broader / stronger claim ("the canonical body dominates the full population under mutation") would require the deferred full-population retention measurement. The current claim is narrow-best-of-run.
+- (b) Broader than "on this specific task + decoder"? Potentially — the reading motivates analogous seeded-init probes on other `proxy-basin-attractor` family members (§v2.4-proxy, §v2.4-proxy-2, §v2.12, §v2.14b all show basin-trapping under random-init on similar AND-composition tasks). Whether those probes would replicate the best-of-run retention pattern is an open question this experiment does not settle.
+
+### Caveats
+
+- **Seed count:** n=20 per arm (load-bearing; matches parent §v2.4-proxy-4's seed block for cross-sweep comparability).
+- **Budget limits:** pop=1024, gens=1500, BP_TOPK preserve, k=3, bp=0.5. Whether the PASS holds under Arm A (no extraction), consume executor rule, or decorr samplers (§v2.4-proxy-2 setup) is untested. Each could in principle flip the verdict.
+- **Overreach check:** the supported claim is "best-of-run canonical body retained under full horizon at BP_TOPK(k=3,bp=0.5)". The implicit stronger claim "selection-pressure is uniformly non-adversarial to the canonical body" overreaches — the best-of-run measurement does not settle full-population dynamics.
+- **Cross-commit baseline:** Arm 0 at 0/20 with mean best 0.921 matches §v2.4 baseline (commit `e3d7e8a`) within ±0.001. No drift.
+- **Shared-seed-RNG signature:** all 20 seeds produce identical best-of-run across both seeded arms. This is the **expected** pattern when the seeded individual has fitness 1.000 at gen 0 and mutation is unable to improve it — it is not a confound for the PASS verdict, but it is also not additional evidence beyond "the seeded individual dominates."
+
+### Diagnostics (prereg-promise ledger)
+
+| Prereg item | Status |
+|---|---|
+| Per-seed × per-arm F_AND + best-of-run fitness + holdout gap | Reported (per-arm table above; all seeded arms 20/20 with holdout 1.000, gap 0.000) |
+| Retention rate per arm (final-pop canonical-body match within edit-distance ≤ 2) | **Deferred at full-population layer**; reported at best-of-run layer (20/20 exact match for both seeded arms). Full-population retention requires `decode_winner.py` on each run's final population — not extracted at chronicle time. |
+| Population-entropy trajectory per arm (gen 0 / 100 / 500 / 1000 / 1500) | **Deferred** — not extracted from history.npz at chronicle time. The best-of-run signature is sufficient for the PASS verdict; entropy trajectory would sharpen the full-population-retention mechanism reading. |
+| Winner-genotype attractor-category classification per arm | Reported (best-of-run is exact canonical across both seeded arms; Arm 0 at 0/20 solvers). |
+| Lineage tree-distance sample on retained canonical bodies | **Deferred** — would require per-gen tracking; the zero-mutation best-of-run signature is prima facie evidence that the canonical body is in a mutation-viable neighborhood smaller than the mutation operator can cross in one step (mutations that move off canonical almost always reduce fitness, and uniform tournament selection filters them out). |
+| Per-run wall time (drift check vs §v2.4-proxy-4) | ~15.5 s per run vs §v2.4-proxy-4's 0.2 s for seeded arms — ~77× longer, consistent with running 1500 gens instead of 1 gen. Arm 0 at ~150 s per run matches §v2.4-proxy-4's Arm 0 (full 1500 gens). Drift check ✓. |
+| Solver seed overlap with §v2.4-proxy-4 Arms 1/2 | 20/20 overlap (both sweeps have all 20 seeds solving on both seeded arms; the difference is only in whether the run continued past gen 1). |
+
+### Findings this supports / narrows
+
+- **Narrows:** `proxy-basin-attractor` ([findings.md](findings.md#proxy-basin-attractor)) — scope boundary adds: "at the best-of-run layer, the basin does not displace the canonical AND body once seeded: selection maintains it at best-of-run across 1500 gens of mutation pressure. The basin prevents reaching the canonical body under uniform-random initialization; best-of-run displacement-from-canonical is ruled out at this scope. Whether full-population retention follows the same pattern is deferred to a queued `decode_winner.py` inspection." This narrowing rules out best-of-run displacement as the mechanism; it does not yet rule out the stronger population-drift reading.
+- **Re-scopes Part-1 meta-learning direction (directional, contingent):** best-of-run evidence favors exploration / diverse-initialization operators over selection-pressure interventions. Population-layer confirmation tightens the commitment.
+
+### Next steps (per prereg decision rule)
+
+- **PASS (provisional at best-of-run) →** `/research-rigor promote-finding` to narrow `findings.md#proxy-basin-attractor` scope with the best-of-run evidence and the population-layer-deferral noted in the claim header. Queue the population-layer `decode_winner.py` inspection on this sweep's final-population output to discharge the `R_2 ≥ 0.3` criterion (no new sweep needed — analysis on existing `history.npz` / `result.json` artifacts only). Draft Part-1 Phase 1 prereg focused on exploration operators. E-count / Arm A replication queued as a cross-decoder probe.
 
 
-- [architecture-v2.md](architecture-v2.md) — v2 probe architecture and decision tree.
 - [architecture.md](architecture.md) — v1 specification.
 - [experiments.md](experiments.md) — v1 experimental record (§10, §v1.5a-binary, §v1.5a-internal-control referenced throughout).
