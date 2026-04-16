@@ -270,3 +270,14 @@
   expect_outputs: [sweep_index.json]
   track: chem-tape-v2
   notes: "§v2.15 Part 2: decoder-ablation grid on §v2.6 Pair 1 (2×3 = 6 cells × 20 seeds = 120 runs, ~3h). Part 1 meta-learning gate."
+
+# §v2.15-bp1-k3-nexp: n-expansion of the INTERMEDIATE cell (K=3, bp=1.0) on Pair 1.
+# §v2.15 grid_pair1 landed this cell at 10/20 BOTH — INTERMEDIATE per prereg (9-11/20 band).
+# Parent prereg commits to n-expansion for INTERMEDIATE cells. This sweep runs seeds 20-59
+# (n=40) on the single cell; combined n=60 classification against ≥36/60 JOINT-LIFT threshold.
+- id: v2_15_nexp_pair1_k3_bp1
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_15_nexp_pair1_k3_bp1.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.15-bp1-k3-nexp: n-expansion on INTERMEDIATE cell (K=3, bp=1.0) Pair 1 — seeds 20-59, ~8 min."
