@@ -203,6 +203,13 @@ The suite has **four graded experiments** (§v2.1, §v2.2, §v2.3, §v2.4) with 
 
 Described in [architecture-v2.md §Secondary direction](architecture-v2.md#secondary-direction-evolvable-gp-mapping-exploratory). Waits on v2-probe mechanism-scaling result.
 
+For the broader meta-learning design space (six approaches including
+morphogen chemistry, population-based meta-learning, and self-referential
+chemistry programs), see
+[meta-learning-design-space.md](meta-learning-design-space.md). The
+header-cell probe here is the narrowest entry point; that document covers
+the full range from diagnostic gate through ES+morphogen hybrids.
+
 ---
 
 ## Results (overnight run 2026-04-14 → 2026-04-15)
@@ -1479,6 +1486,157 @@ The pre-registered v2-probe suite (§v2.1–§v2.5) landed at "Partial" earlier 
 > Chem-tape's body-invariant-route mechanism passed its pre-registered bar on **op slot-indirection** (§v2.2, 20/20 within-MAP-family and 20/20 cross-MAP-family). On **constant slot-indirection**, the mechanism passed **one precision pair** (§v2.3, 80/80 on `sum_gt_{5,10}_slot` over [0,9]). The §v2.6 breadth check across three additional body shapes returned **FAIL** against its own pre-registered decision rule: two pairs swamped at Fmin = 20/20 (thresholds {7,13} over [0,12] and {5,7} over [0,9] are both too permissive to measure alternation lift), one pair failed the scales bar at 4/20 BOTH for reasons confounded between body-length, assembly-order, and string-domain specifics. This **does not refute** §v2.3 — it refutes the "across-family" breadth extension that §v2.6 was supposed to establish. §v2.4 and its follow-ups show that the earlier "compositional depth does not scale" framing was imprecise: the actual mechanism failure is a single-predicate proxy basin that evolution finds reliably whenever a ≥~0.90-accurate single-predicate exists in the training distribution (per §v2.4/§v2.4-proxy, scope `findings.md#proxy-basin-attractor`) (max>5 on §v2.4; sum>10 on §v2.4-proxy); compositional-depth scaling under §v2.4-alt's body-matched pair at threshold=5 reached 17/20, falsifying a universal "compositional depth doesn't scale" reading. **Paper-scope claim:** evidence for slot-op indirection (§v2.2) and slot-constant indirection at one precision pair (§v2.3); one §v2.6 pair at search-landscape failure (Pair 1); two §v2.6 pairs at swamp-pre-accept (Pair 2, Pair 3) — neither supporting nor refuting the mechanism on those bodies; compositional failure reframed from "compositional depth fails" to "single-predicate proxy basins dominate greedy search under AND-composition whenever the proxy is ≥ ~0.9 accurate on the training distribution." **Not claimed:** "three additional body-invariant pairs", "four task families confirmed", "across-family constant-slot-indirection", or "string-count as THE edge" — the breadth check did not land those, and a redesigned §v2.6' at Fmin-intermediate thresholds is needed before any of them can be reclaimed.
 
 The methodology-level lesson worth encoding: **attractor-identification (direct genotype inspection per methodology §3) plus sampler-design (stratified decorrelation per §20) reframed a structural-failure claim into an attractor-mechanism claim in two sweeps, and a baseline sweep reframed a "provisional PASS-narrow" into a FAIL.** Threshold design is a dependent-variable carrier (§20): permissive thresholds that pre-accept swamp turn "scales" into "unknown" — a test that cannot fail is not a test. Pre-reg-time threshold calibration against expected Fmin is a first-class experimental methodology concern, on par with seed-disjoint replication and commit-hash discipline.
+
+---
+
+## §v2.14. Safe-pop executor-rule ablation (Kuyucu-inspired decoder micro-ablation) (2026-04-16)
+
+**Status:** `PASS` · n=20 · commit `cdf9c39` · —
+
+**Pre-reg:** [Plans/prereg_v2-14-safe-pop.md](../../Plans/prereg_v2-14-safe-pop.md)
+**Sweep:** `experiments/chem_tape/sweeps/v2/v2_14_safe_pop_{easy,hard}_{preserve,consume}.yaml`
+**Compute:** ~90 min total (4 sweeps × ~22 min at 4-worker M1)
+
+### Question
+
+Does the executor's safe-pop rule (preserve-on-type-mismatch vs consume-on-type-mismatch) measurably affect evolutionary outcomes on body assembly tasks of different typed-chain lengths?
+
+### Hypothesis (pre-registered)
+
+The current "preserve" rule leaves wrong-typed values on the stack, creating type barriers. On the 6-token mixed-type dependency chain (`INPUT CHARS MAP_EQ_R SUM THRESHOLD_SLOT GT`), these barriers may suppress assembly. The alternative "consume" rule pops regardless of type. Directional prediction was genuinely uncertain — this was an exploratory ablation inspired by Kuyucu et al. (2011, `docs/theory.md` §6).
+
+### Result
+
+**Easy pair** (`sum_gt_{5,10}_slot`, 4-token body `INPUT SUM THRESHOLD_SLOT GT`):
+
+| Rule | BOTH | Mean best fitness | Mean flip-drop |
+|------|------|-------------------|----------------|
+| preserve | 20/20 | 1.0000 | 0.0000 |
+| consume | 20/20 | 1.0000 | 0.0000 |
+
+Complete identity. Every seed solves both tasks under both rules. Zero flip cost. Safe-pop mode is irrelevant on the 4-token all-int chain.
+
+**Hard pair** (`any_char_count_gt_{1,3}_slot`, 6-token body `INPUT CHARS MAP_EQ_R SUM THRESHOLD_SLOT GT`; note: `MAP_EQ_R` is the task-bound op at slot id 12):
+
+| Rule | BOTH | Mean best fitness | Mean flip-drop |
+|------|------|-------------------|----------------|
+| preserve | 4/20 | 0.9000 | 0.0009 |
+| consume | **8/20** | **0.9234** | 0.0020 |
+
+Per-seed BOTH-solve and best-fitness:
+
+| Seed | Preserve BOTH | Consume BOTH | P best_fit | C best_fit |
+|------|----------|---------|------------|------------|
+| 0 | -- | -- | 0.906 | 0.906 |
+| 1 | -- | -- | 0.875 | 0.875 |
+| 2 | -- | -- | 0.891 | 0.891 |
+| 3 | BOTH | BOTH | 1.000 | 1.000 |
+| 4 | -- | BOTH | 0.906 | 1.000 |
+| 5 | -- | BOTH | 0.828 | 1.000 |
+| 6 | -- | -- | 0.844 | 0.844 |
+| 7 | -- | BOTH | 0.906 | 1.000 |
+| 8 | -- | -- | 0.859 | 0.859 |
+| 9 | BOTH | -- | 1.000 | 0.859 |
+| 10 | -- | -- | 0.844 | 0.844 |
+| 11 | BOTH | -- | 1.000 | 0.875 |
+| 12 | -- | BOTH | 0.906 | 1.000 |
+| 13 | -- | -- | 0.828 | 0.828 |
+| 14 | -- | -- | 0.844 | 0.844 |
+| 15 | -- | BOTH | 0.828 | 1.000 |
+| 16 | -- | -- | 0.953 | 0.953 |
+| 17 | BOTH | BOTH | 1.000 | 1.000 |
+| 18 | -- | -- | 0.891 | 0.891 |
+| 19 | -- | BOTH | 0.891 | 1.000 |
+
+Seed-overlap: overlap={3, 17}, preserve-only={9, 11}, consume-only={4, 5, 7, 12, 15, 19}.
+
+**Matches pre-registered outcome:** `PASS — consume helps hard pair`
+Criterion: `C_hard (8) > P_hard (4) + 3` AND `C_easy (20) >= P_easy (20) − 2`. Both satisfied.
+
+**Statistical test (paired McNemar, seeds 0-19):**
+
+Easy pair: 0 discordant pairs (all 20 seeds solve under both rules). McNemar is degenerate — perfect agreement. No test needed.
+
+Hard pair 2×2 table:
+
+|  | Consume BOTH | Consume not-BOTH |
+|---|---|---|
+| **Preserve BOTH** | 2 | 2 |
+| **Preserve not-BOTH** | 6 | 10 |
+
+Discordant: 2 preserve-only + 6 consume-only = 8. McNemar χ² = (6−2)²/(6+2) = 2.0, p = 0.157 (two-sided). Not significant at α=0.05. As noted in the prereg, McNemar is underpowered at n=20 with this effect size. The primary analysis is descriptive (solve count + seed overlap + attractor-category inspection).
+
+Fisher exact test on the 2×2: p = 0.301 (two-sided). Also not significant.
+
+### Attractor-category inspection (principle 21)
+
+Hard pair C_hard=8/20 is at the pre-registered PASS boundary. Winner-genotype inspection on all 40 hard-pair runs (20 preserve + 20 consume). Token id 12 (`SLOT12` in decoded output) is the task-bound slot that binds to `MAP_EQ_R` on this pair — it is the same token as `MAP_EQ_R` in the canonical body.
+
+**Attractor-category breakdown (hard pair):**
+
+| Category | Preserve | Consume | Δ |
+|---|---|---|---|
+| canonical-6tok (full `INPUT CHARS SLOT12 SUM THR_SLOT GT` chain present) | 3/20 | **9/20** | +6 |
+| partial-assembly (CHARS + SUM present, chain incomplete) | 6/20 | 1/20 | −5 |
+| sum-only (SUM/RED_ADD without CHARS) | 6/20 | 3/20 | −3 |
+| alt-aggregator (ANY, RED_MAX without SUM) | 5/20 | 7/20 | +2 |
+
+The consume rule triples the canonical-6-token assembly rate (3 → 9) while draining the partial-assembly category (6 → 1). This is consistent with the "stack jam" reading: under preserve, programs reach partial assembly but wrong-typed values (str from INPUT, charlist from CHARS) persist on the stack and block downstream int-consuming ops. Under consume, those barriers are cleared, allowing more seeds to complete the full typed dependency chain.
+
+### Interpretation
+
+The safe-pop rule is a detectable lever on 6-token mixed-type body assembly at this budget (`within-family / n=20 / at BP_TOPK(k=3,bp=0.5) v2_probe / on {sum-body 4-token, string-count-body 6-token} pairs / executor-rule ablation`). The effect is task-dependent: on the 4-token all-int body, the rule is irrelevant (20/20 under both); on the 6-token mixed-type body, consume doubles the BOTH-solve rate from 4/20 to 8/20.
+
+A plausible mechanism is the "stack jam" effect: the 6-token canonical body (`INPUT CHARS MAP_EQ_R SUM THRESHOLD_SLOT GT`) crosses four type boundaries (intlist→str→charlist→intlist→int). Under preserve, a wrong-typed value left on the stack after a type mismatch persists through subsequent ops, forcing them to see defaults. Under consume, wrong-typed values are popped, unblocking the chain. The attractor-category shift from partial-assembly (6→1) to canonical-6tok (3→9) supports this reading at this scope.
+
+The seed-overlap pattern (2/10 overlap, 6 consume-only, 2 preserve-only) shows a net positive direction, not mere seed substitution. The consume-only seeds decode to canonical or near-canonical programs, not noise.
+
+This finding was inspired by Kuyucu et al. (2011, `docs/theory.md` §6), who showed that small decision rules in developmental systems can have disproportionate effects on evolvability at their tested scope.
+
+**Mechanism rename check (principles 16 + 16b):**
+- (a) Narrower than "safe-pop consume helps assembly"? Yes — it helps assembly of mixed-type chains (6-token body with str→charlist→intlist→int transitions) at this budget. No effect on all-int chains. Working name: "safe-pop consume lifts mixed-type chain assembly (one body, n=20)."
+- (b) Broader? Possibly — the stack-jam effect could apply to any mixed-type chain longer than ~4 tokens. But only one pair tested, so the name stays narrow.
+
+### Caveats
+
+- **Seed count:** n=20 per arm per pair (load-bearing, but McNemar p=0.157 does not reach significance).
+- **Budget limits:** At pop=1024, gens=1500 only. The §v2.6-pair1-scale follow-ups showed that 4× compute lifts preserve from 4/20 to 8/20 — consume at 1× matches preserve at 4×. Whether consume at 4× would further improve is untested.
+- **Overreach check:** "consume helps" is scoped to this one 6-token body shape on string-count tasks at this budget. Not tested on other mixed-type chains, other body lengths, other decoder arms, or Arm A.
+- **Open mechanism questions:** (i) Does consume help on other 6-token bodies (e.g., integer-domain with IF_GT)? (ii) Does the effect scale with body length? (iii) Does consume affect the proxy-basin-attractor finding (§v2.4 arc)?
+
+### Degenerate-success check
+
+Per prereg, three candidates were enumerated:
+
+1. **Constant-output degeneracy:** DISCHARGED — consume-arm BOTH-solvers show fitness 1.000 on both tasks with canonical 6-token body programs, not constant-output programs.
+
+2. **Near-threshold seed substitution:** C_hard=8/20 exceeds the prereg's near-threshold trigger range (3-7/20), so this guard was not formally triggered. As extra inspection: 6 consume-only seeds vs 2 preserve-only, net +4 direction. Consume-only seeds decode to canonical-6tok programs. Not mere substitution.
+
+3. **Preserve-arm replication failure:** DISCHARGED — P_easy=20/20 (matches §v2.3 baseline), P_hard=4/20 (matches §v2.6 Pair 1 baseline exactly).
+
+### Diagnostics (prereg-promise ledger)
+
+| Prereg item | Status |
+|---|---|
+| Per-seed BOTH-solve table | Reported above (full table) |
+| Per-seed best-fitness | Reported above (full table) |
+| Winner-genotype decoded programs (hard pair, both rules) | Reported in attractor-category section (aggregated by category; full per-seed decoded programs available in sweep output `best_tape.txt` files) |
+| Holdout gap | Deferred — holdout_fitness available in result.json. Easy pair gap = 0.0 (all seeds). Hard pair not extracted; low priority given attractor analysis is the primary signal. |
+| Flip-transition cost | Reported (means: preserve=0.0009, consume=0.0020) |
+| Stack-depth statistics | Deferred — requires new instrumentation on the executor. Not blocking for the PASS verdict. |
+| Paired McNemar (easy pair) | Reported: degenerate (0 discordant), no test needed |
+| Paired McNemar (hard pair) | Reported: full 2×2 table, χ²=2.0, p=0.157 |
+| Fisher exact test (hard pair) | Reported: p=0.301 |
+
+### Findings this supports / narrows
+
+- Supports (new, pending promotion after replication): safe-pop consume lifts mixed-type chain assembly on the 6-token string-count body (`within-family / n=20 / at BP_TOPK(k=3,bp=0.5) v2_probe / executor-rule ablation / exploratory`).
+- Narrows: `constant-slot-indirection` ([findings.md](findings.md#constant-slot-indirection)) — the §v2.6 Pair 1 failure at 4/20 is partially attributable to the preserve rule's type barriers at this budget, not solely to body length or string-domain difficulty. Consume at 1× compute (8/20) matches preserve at 4× compute (8/20 from §v2.6-pair1-scale). The decoder-arm caveat on the 6-token body should note that executor semantics are a confound of comparable magnitude to decoder-arm and compute-scaling at this scope.
+
+### Next steps (per prereg decision rule)
+
+- **PASS-clean →** Queue §v2.14b: consume rule on §v2.4 proxy-basin tasks to test whether consume also affects proxy-basin trapping (different mechanism axis).
+- Consider promoting "safe-pop consume lifts mixed-type chain assembly" to findings.md after §v2.14b provides cross-axis evidence or after replication on a second 6-token body.
 
 ---
 
