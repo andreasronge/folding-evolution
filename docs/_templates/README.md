@@ -20,9 +20,9 @@ Each template is short and opinionated. Fields that are not optional are the loa
 
 | file | when to use | enforces |
 |------|-------------|----------|
-| `prereg.md` | before any new sweep | methodology principles 1, 2, 4, 6 |
-| `experiment_section.md` | when a sweep finishes | principles 3, 10, 12, 13, 18 |
-| `findings_entry.md` | when promoting a claim to a findings ledger | principles 5, 16, 17, 18 |
+| `prereg.md` | before any new sweep | methodology principles 1, 2, 4, 6, 20, 22 |
+| `experiment_section.md` | when a sweep finishes | principles 3, 10, 12, 13, 18, 23 |
+| `findings_entry.md` | when promoting a claim (positive or null) to a findings ledger | principles 5, 16, 17, 18, 24 |
 
 ## Status vocabulary (standardized)
 
@@ -37,6 +37,8 @@ Use exactly one of these tokens in every status line. Do not invent new ones.
 | `INCONCLUSIVE` | neither criterion met (usually budget-limited or ambiguous) |
 | `SUPERSEDED` | result still stands but a later experiment has narrowed or replaced the claim |
 | `FALSIFIED` | a later experiment has shown the claim is wrong |
+
+**Findings entries** use a narrower vocabulary: `ACTIVE`, `NARROWED`, `NULL`, or `FALSIFIED`. `NULL` is for first-class negative claims ("X does not Y under Z") — principle 24 requires them to be promoted on equal footing with positives.
 
 `SUPERSEDED` and `FALSIFIED` always carry a forward link to the superseding experiment (methodology §13).
 

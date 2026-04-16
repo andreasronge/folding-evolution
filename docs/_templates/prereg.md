@@ -90,10 +90,17 @@ BEFORE running, so the post-hoc rationalization pressure is lower.
 Principle 7: paired McNemar on shared seeds. Fixed-null p-values
 against historical means are overstatement. If conditions share seeds,
 the pairing structure is the test.
+
+Principle 22: classify every test as confirmatory (gates a claim,
+enters a FWER family) or exploratory (effect-size only, no p-value
+gate). Family-wise correction protects paper-level inference.
 -->
 
 - **Test:** {paired McNemar on seeds {0..19} / two-proportion z on disjoint seeds / none — mechanism inspection only}
-- **Significance threshold:** {α = 0.05, one-sided / two-sided}
+- **Classification:** `confirmatory` or `exploratory` (principle 22)
+- **Family (if confirmatory):** {e.g., "proxy-basin family", "constant-slot-indirection family"} — name the claim this test would gate
+- **Current family size:** {n_confirmatory_in_family — run research-rigor mode:fwer-audit if uncertain}
+- **Significance threshold:** {raw α = 0.05 one-/two-sided; corrected α_FWER = 0.05 / n_family}
 
 ## Diagnostics to log (beyond fitness)
 

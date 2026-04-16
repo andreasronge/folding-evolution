@@ -10,17 +10,18 @@ description: |
 
   Use when the user says: "pre-register", "prereg", "design this experiment",
   "write up the result", "record this sweep", "log to experiments.md",
-  "promote to findings", "scope check", "review my claim language", "narrow
-  this", "supersede §X", or "retract §X".
+  "promote to findings", "promote this null", "record a negative finding",
+  "scope check", "review my claim language", "narrow this", "supersede §X",
+  "retract §X", or "family-wise correction / FWER audit".
 ---
 
 # research-rigor
 
 Project-local skill that enforces `docs/methodology.md` at the three checkpoints where overreach silently accumulates:
 
-1. **Before running** — pre-registration (principles 1, 2, 4, 6)
-2. **After running** — chronicle entry (principles 3, 10, 12, 13, 18)
-3. **When consolidating** — findings-ledger promotion (principles 5, 16, 17, 18, 19)
+1. **Before running** — pre-registration (principles 1, 2, 4, 6, 22)
+2. **After running** — chronicle entry (principles 3, 10, 12, 13, 18, 23)
+3. **When consolidating** — findings-ledger promotion (principles 5, 16, 17, 18, 19, 24 — null results promote on equal footing)
 
 Plus two maintenance modes:
 - **Scope check** — scan draft text for overreach (principle 17)
@@ -34,9 +35,10 @@ The skill triggers on intent, not a literal command. Match the user's phrasing t
 |-------------|------|
 | "pre-register X", "new experiment on X", "design experiment for Y" | **prereg** |
 | "record result of §X", "log the sweep", "write up X", "add §X to experiments.md" | **log-result** |
-| "promote §X to findings", "consolidate this claim", "add to findings.md" | **promote-finding** |
+| "promote §X to findings", "consolidate this claim", "add to findings.md", "record a null finding", "promote this FAIL" | **promote-finding** |
 | "scope check", "review this claim", "is this overreaching", "check my language" | **scope-check** |
 | "supersede §X", "retract §X", "narrow §X based on §Y" | **supersession** |
+| "FWER audit", "family-wise correction", "how many tests are open" | **fwer-audit** |
 
 If the user's intent is ambiguous between modes, ask which one — do not guess.
 
@@ -62,6 +64,7 @@ If the user's intent is ambiguous between modes, ask which one — do not guess.
      - (iii) at least one verification that the label function is non-degenerate under the new sampler (positives exist; predicting constant-0 doesn't trivially win)
 
      If any of (i)–(iii) is missing, the prereg fails this gate. Sampler design is a dependent-variable carrier, not a neutral backdrop.
+   - **Family-wise test classification (principle 22).** If the prereg includes a statistical test, classify it explicitly as either **confirmatory** (enters the FWER family — its p-value gates a claim and must be compared against a Bonferroni-corrected α) or **exploratory** (effect-size only, no p-value gate, used for hypothesis generation). Confirmatory tests must name the family they belong to (e.g., "proxy-basin family", "constant-slot-indirection family") and the current corrected α = 0.05 / n_family. Run the **fwer-audit** mode if the family size isn't obvious. A prereg with a test but no classification fails this gate.
 5. **Capture the decision rule.** Under each outcome row, what experiment runs next? This is the commitment that prevents post-hoc rerouting (principle 19).
 6. **Commit the prereg.** `git add Plans/prereg_<slug>.md` and ask the user whether to commit now or after the sweep finishes. A prereg committed after the sweep is no longer a prereg.
 
@@ -82,6 +85,7 @@ If the user's intent is ambiguous between modes, ask which one — do not guess.
    - explicitly mark the section as "not pre-registered" in the chronicle so principle 2 is visible to future readers.
 4. **Read `docs/_templates/experiment_section.md`**. Fill fields in order with the user.
 5. **Enforce the hard gates:**
+   - **Pre-registration execution fidelity (principle 23).** Before writing interpretation, verify explicitly: *(i)* every outcome row in the prereg was tested (none silently added, none silently removed), *(ii)* every part of the plan (Part A baseline, Part B main, degenerate-success checks, etc.) was completed or explicitly deferred with a dated one-line reason in the chronicle, *(iii)* if any parameter, sampler, or seed block was changed mid-run, the new plan was re-pre-registered in a separate commit *before* this chronicle was drafted. Silent partial execution fails the gate. The fidelity checklist must appear as its own block in the chronicle; the user cannot skip it because "it all ran as planned" — if it did, say so explicitly on each of (i)–(iii).
    - **Status is one of**: `PASS | FAIL | INCONCLUSIVE | SUPERSEDED | FALSIFIED` (no prose variants like "REJECTED" or "CONFIRMED"). If the result doesn't fit, the outcome table was incomplete — note that and use the closest token.
    - **Observed outcome matches a pre-registered row** verbatim, or the section explicitly says "did not match any pre-registered outcome" (principle 2 follow-up).
    - **n is stated explicitly.** n<20 must carry the "hypothesis-generating only" tag (principle 8).
@@ -105,19 +109,22 @@ If the user's intent is ambiguous between modes, ask which one — do not guess.
 
 ## Mode: promote-finding
 
-**Goal:** move a replicated, load-bearing claim from experiments.md into `docs/<track>/findings.md` using `findings_entry.md`. If the track has no findings.md yet, create it and link from the track's architecture.md.
+**Goal:** move a replicated, load-bearing claim — positive *or* null — from experiments.md into `docs/<track>/findings.md` using `findings_entry.md`. If the track has no findings.md yet, create it and link from the track's architecture.md.
+
+**Null results promote on equal footing (principle 24).** A major FAIL or INCONCLUSIVE outcome that changes what downstream experiments should assume is itself a finding. Promote it with the same template, status token `FALSIFIED` or `NULL`, and the scope tag documenting *where the claim does not hold*. Do not hide nulls in the chronicle layer — findings.md is the claim layer and both positive and negative claims belong there.
 
 **Steps:**
 
-1. **Read `docs/methodology.md` sections 5, 16, 17, 18, 19** — these bound the consolidation.
+1. **Read `docs/methodology.md` sections 5, 16, 17, 18, 19, 24** — these bound the consolidation.
 2. **Verify preconditions before promoting:**
-   - **Replicated or load-bearing:** at least one n≥20 experiment OR multiple independent experiments pointing at the same claim. A single n=10 preview is not eligible (principle 8).
-   - **Mechanism inspection exists:** at least one zero-compute inspection (principle 3) or per-subgroup diagnostic (principle 10) has surfaced a mechanism-level reading, not just an aggregate solve count.
+   - **Replicated or load-bearing:** at least one n≥20 experiment OR multiple independent experiments pointing at the same claim (positive or null). A single n=10 preview is not eligible (principle 8). For null findings, the same bar applies — a single n=20 FAIL is enough if it is load-bearing (downstream experiments were going to assume the inverse).
+   - **Mechanism inspection exists:** at least one zero-compute inspection (principle 3) or per-subgroup diagnostic (principle 10) has surfaced a mechanism-level reading, not just an aggregate solve count. For a null finding, the inspection must rule out the mundane failure modes (budget ceiling, sampler degeneracy, decoder-arm confound) so the null is genuinely about the claim, not about the setup.
    - If either precondition fails, refuse to promote and name the missing experiment.
 3. **Read `docs/_templates/findings_entry.md`.** Fill with the user.
 4. **Enforce the hard gates:**
-   - **Scope tag is in the claim header** (principle 18). One of: `within-family | across-family | universal-at-budget`, combined with an `n=…` tag and a regime tag.
-   - **Scope boundaries section is non-empty** (principle 17). What does the claim NOT say? What is the open external-validity question?
+   - **Status token matches claim polarity.** `ACTIVE` or `NARROWED` for a positive claim; `FALSIFIED` or `NULL` for a null claim. A null entry's one-sentence claim reads "Intervention X does NOT Y under regime Z" — not a softened positive.
+   - **Scope tag is in the claim header** (principle 18). One of: `within-family | across-family | universal-at-budget`, combined with an `n=…` tag and a regime tag. For null claims the scope tag documents *where the null holds* — which is the honest mirror of where a positive would hold.
+   - **Scope boundaries section is non-empty** (principle 17). What does the claim NOT say? What is the open external-validity question? For nulls: what setup changes might flip the null (e.g., "does not hold under BP_TOPK at 4× compute — open whether 16× compute changes this").
    - **Mechanism name has a renaming history** or an explicit "name expected to narrow after §X" line (principle 16). First-pass names are correlates; budget for at least one cycle.
    - **Supporting experiments are linked with commit hashes** (principle 12).
 5. **Run scope-check on the claim sentence.** The one-sentence claim is the thing that will propagate. It must survive the overreach-phrase sweep.
@@ -178,11 +185,28 @@ If the user's intent is ambiguous between modes, ask which one — do not guess.
 
 ---
 
+## Mode: fwer-audit
+
+**Goal:** enforce principle 22 (family-wise error rate) across the active sweep portfolio. Answers the question "how many confirmatory tests are open, and what is the corrected α today?"
+
+**Steps:**
+
+1. **Scan `Plans/prereg_*.md`** for prereg files whose status line is `QUEUED` or `RUNNING`, plus any chronicled experiments in `docs/<track>/experiments*.md` in the last 30 days whose status is not yet `PASS`/`FAIL`/`SUPERSEDED`/`FALSIFIED` with all downstream commitments discharged.
+2. **Group by test family.** A family is the set of tests whose p-values would jointly feed a single findings.md claim (e.g., "constant-slot-indirection family" = §v2.3 main + §v2.6 baseline + §v2.11 decoder-arm). Ask the user to confirm family assignments; do not guess silently.
+3. **Classify each test** as confirmatory (family member, gates a claim) or exploratory (effect size only, no claim gate). If the prereg did not make this classification, flag the prereg as out-of-compliance with principle 22 and require a retroactive classification commit.
+4. **Compute Bonferroni-corrected α per family:** α_corrected = 0.05 / n_confirmatory_in_family. Report the family, its current member list, the corrected α, and which members have p-values already reported.
+5. **Flag at-risk claims** — any finding that currently rests on a p-value that would no longer clear the corrected α. These must either gain a new confirmatory experiment, be re-scoped as effect-size-only, or have the finding narrowed.
+6. **Emit a short digest** (≤1 screen) the user can paste into the morning briefing or a methodology audit note. Do not write to disk unless explicitly asked.
+
+**Output:** family breakdown with corrected α per family, at-risk claim list, and a suggested next action per family.
+
+---
+
 ## Reference material loaded by this skill
 
 These files are the skill's backing reference. Read the relevant ones when entering a mode — do not operate from memory, since methodology.md is actively revised.
 
-- `docs/methodology.md` — the 19-principle ledger.
+- `docs/methodology.md` — the 24-principle ledger.
 - `docs/_templates/README.md` — kit overview and status vocabulary.
 - `docs/_templates/prereg.md` — pre-registration template.
 - `docs/_templates/experiment_section.md` — chronicle entry template.

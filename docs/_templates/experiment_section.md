@@ -40,7 +40,22 @@ that the outcome table was incomplete (methodology §2).
 
 **Matches pre-registered outcome:** `{PASS-clean / PASS-partial / INCONCLUSIVE / FAIL / none — see interpretation}`
 
-**Statistical test:** {e.g., paired McNemar on seeds 0-19: p = 0.035}
+**Statistical test:** {e.g., paired McNemar on seeds 0-19: p = 0.035; classification: confirmatory/exploratory; corrected α_FWER = 0.05/n_family}
+
+### Pre-registration fidelity checklist (required, principle 23)
+
+<!--
+Silent partial execution fails the gate. Say explicitly on each line
+whether the pre-registered element was done, deferred, or changed.
+If any parameter/sampler/seed was changed mid-run, the new plan must
+have been re-pre-registered in a separate commit BEFORE this chronicle
+was drafted.
+-->
+
+- [ ] Every outcome row from the prereg was tested (none silently added, none silently removed). {note additions/removals here, or "all tested as pre-registered"}
+- [ ] Every part of the plan (Part A baseline, Part B main, degenerate-success probes, diagnostics) ran to completion. {note deferrals with date + one-line reason, or "all parts ran"}
+- [ ] No parameters, sampler settings, or seed blocks were changed mid-run. {if changed: link to the re-prereg commit `sha`}
+- [ ] Every statistical test and diagnostic named in the prereg appears in the Result/Interpretation above, or is explicitly marked deferred below.
 
 ### Interpretation
 

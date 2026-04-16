@@ -6,16 +6,28 @@ here only from experiments with n ≥ 20 OR load-bearing claims that
 downstream experiments will build on. See methodology §18 (scope tags)
 and §19 (review loop is load-bearing).
 
+POSITIVE AND NULL CLAIMS BOTH BELONG HERE (principle 24). A major FAIL
+or INCONCLUSIVE result that changes downstream assumptions is itself a
+finding — use status token NULL or FALSIFIED and write the claim as
+"Intervention X does NOT Y under regime Z" (not a softened positive).
+
 Copy the block below. Every field is required unless marked optional.
 -->
 
 ---
 
-## {claim-slug}. {One-sentence claim — scope-tagged}
+## {claim-slug}. {One-sentence claim — scope-tagged. For a null, lead with "does NOT" / "fails to"}
 
 **Scope tag:** `{within-family | across-family | universal-at-budget}` · `{n=20 | n=20+}` · `{at <regime> | <task-family>}`
 
-**Status:** `{ACTIVE | NARROWED | FALSIFIED}` · last revised commit `{short-sha}` · {YYYY-MM-DD}
+**Status:** `{ACTIVE | NARROWED | NULL | FALSIFIED}` · last revised commit `{short-sha}` · {YYYY-MM-DD}
+
+<!--
+ACTIVE / NARROWED → positive claim, still standing (possibly narrowed).
+NULL              → first-class negative claim ("X does not Y under Z").
+FALSIFIED         → previously-positive claim that a later experiment disproved.
+-->
+
 
 ### Claim
 

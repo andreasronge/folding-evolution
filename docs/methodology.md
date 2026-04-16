@@ -155,13 +155,15 @@ Each refinement was driven by one specific experiment.
 
 This isn't a checklist — it's a lessons ledger. Suggested usage:
 
-- **Before pre-registering an experiment:** read principles 1-4 and 6. If the prereg changes the training distribution, also read 20.
+- **Before pre-registering an experiment:** read principles 1-4 and 6. If the prereg changes the training distribution, also read 20. If the sweep's test will enter a family of related tests, read 22.
 - **After a surprising result:** read 3, 10, 14, 16, 16b, 21.
+- **Before writing a chronicle:** read 23 — verify every pre-registered outcome row and plan-part was actually executed, or explicitly deferred.
 - **When writing a summary bullet:** read 18.
 - **When reviewing your own claim language:** read 17.
 - **When adding a new config parameter:** read 11.
 - **When a previous claim needs revising:** read 13.
 - **When a result clusters near a pre-registered threshold (1/20, 3/20, etc.):** read 21 — attractor-category inspection is required, not optional.
+- **When a FAIL or INCONCLUSIVE result is load-bearing for scope:** read 24 — null results get their own findings.md entry, not just a chronicle paragraph.
 
 If a future experiment contributes a new lesson worth adding, update this document with a new case + takeaway pair. The point is to avoid re-learning.
 
@@ -180,6 +182,28 @@ If a future experiment contributes a new lesson worth adding, update this docume
 **Case.** §v2.4's 0/20 was initially explained as "refinement bottleneck under 4× compute" based on the 0.859–0.969 baseline fitness distribution. Direct genotype inspection then revealed the `max > 5` attractor (14/20 seeds exactly the same predicate), and the refinement-bottleneck framing was falsified. §v2.4-alt / §v2.4-proxy / §v2.6 all ran genotype-inspection on the best-of-run winners as a standing commitment, and every chronicle interpretation turned on what the classifier showed (same attractor vs new attractor vs distinct assembly).
 
 **Takeaway.** Zero-compute genotype inspection (methodology principle 3) is not optional for load-bearing chronicle entries — it's the difference between "we measured solve count" and "we understand what evolution is doing." Build or maintain a project-local classifier (`experiments/chem_tape/decode_winner.py` for chem-tape) that tags each winner with an attractor category, and run it on every n=20 sweep's winners before writing the interpretation. The classifier should be updated as new attractor categories emerge — it's a growing vocabulary, not a fixed taxonomy.
+
+## Scientific rigor (added 2026-04-16 from project audit)
+
+### 22. Family-wise error rate correction across the sweep portfolio
+
+**Case.** As of 2026-04-16 the chem-tape v2 line had ~16 active §v2.* experiments, each running ≥1 statistical test (paired McNemar, holdout gaps, baseline-vs-intervention solve counts). At α=0.05 per test, the expected false-positive count across the suite is ~0.8 — a coin-flip probability of at least one unearned significant result. No family-wise correction was applied; each test stood alone. Paper-level claims that aggregate across sweeps ("constant-slot-indirection robustly scales across N conditions," "proxy-basin attractor appears under M decorrelation regimes") would overstate significance under uncorrected inference. Principle 7 fixed the *pairing* problem for a single test; this principle fixes the *multiplicity* problem across tests.
+
+**Takeaway.** Treat the active sweep portfolio as a test family. At pre-registration time, classify each planned test as either **confirmatory** (enters the FWER family with Bonferroni α = 0.05 / n_family_tests) or **exploratory** (reported as effect size only, no p-value gate). At promotion time, if a finding rests on multiple tests, compute the corrected α before the chronicler step and include it in the findings.md scope block. Individual exploratory p-values remain fine for hypothesis generation; family-level claims need family-level correction. An `fwer-audit` mode on the research-rigor skill should count outstanding confirmatory tests in queue.yaml and surface the corrected α in the morning digest.
+
+### 23. Pre-registration execution fidelity
+
+**Case.** §v2.6's prereg included a fixed-task baseline sweep that was not executed in the initial session — only the three alternation sweeps ran. The provisional interpretation was corrected in a later commit (`344e4de`) when the baseline was completed and narrowed the claim from "4 pairs" to "1 pair." The research-rigor skill gated *commitment before a run* but had no gate for "did every pre-registered part of the plan actually execute?" This is the **skipped-but-rationalized** pattern: an honest deferral can look identical to a post-hoc redesign from the commit log. The prereg-time gates catch overreach in design; the chronicle-time gate catches overreach in execution.
+
+**Takeaway.** At chronicle time, before writing interpretation, explicitly verify: *(i)* every outcome row in the prereg was tested (none silently added, none silently removed), *(ii)* every part of the plan (Part A baseline, Part B main, etc.) was completed or explicitly deferred with date and reason, *(iii)* if any parameter or sampler was changed mid-run, the new plan was re-pre-registered in a separate commit before interpretation. Add this checklist as a mandatory block to the chronicle template, and enforce it in the research-rigor skill's `log-result` mode. Partial execution is acceptable; silent partial execution is not.
+
+### 24. Null results deserve first-class findings.md entries
+
+**Case.** As of 2026-04-16, findings.md held 4 positive entries and 1 narrowed entry. The major FAIL / INCONCLUSIVE results — §v2.6 (0/3 pairs scale beyond Pair 1), §v2.7 (CONTROL-DEGENERATE), §v2.4-proxy-3 (INCONCLUSIVE split-halves), §v2.12 (FAIL decoder-general) — lived only in experiments-v2.md. A reader scanning findings.md saw the scope where interventions worked but not the matched scope where they didn't. This asymmetry risks paper-level aggregation that cites positive findings against under-weighted nulls, and undercuts principle 13's supersession trail by hiding falsifications in the chronicle layer instead of the claim layer.
+
+**Takeaway.** Promote major FAIL / INCONCLUSIVE results as first-class findings.md entries using the same template as positive findings — status token `FALSIFIED` or `NULL` in the header, scope tag documenting *where the claim does not hold*, supporting-experiments table with commit hashes of the falsification evidence, and a downstream-commitments line documenting what future work should *not* assume. "This doesn't work under X" is a finding. Positive and negative findings belong on equal documentary footing; the research-rigor skill's `promote-finding` mode should accept FAIL/NULL status tokens, not only PASS.
+
+---
 
 ## References
 
