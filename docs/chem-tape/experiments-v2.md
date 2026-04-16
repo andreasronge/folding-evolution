@@ -953,6 +953,140 @@ Both options require a new sweep before §v2.7 can re-run with an interpretable 
 
 ---
 
+## §v2.11. Arm A direct GP on §v2.3's `sum_gt_{5,10}_slot` pair (2026-04-16)
+
+**Status:** `PASS` · n=20 (alternation) + 40 (fixed) · commit `23826da` · —
+
+**Pre-reg:** [Plans/prereg_v2_11_arm_A_on_v2_3.md](../../Plans/prereg_v2_11_arm_A_on_v2_3.md)
+**Sweep:** `experiments/chem_tape/sweeps/v2/v2_11_arm_A_{alt,fixed}.yaml`
+**Compute:** ~5 min · 10 workers (60 runs: 20 alt + 20 fixed×2)
+
+### Question
+
+On §v2.3's `sum_gt_{5,10}_slot` pair — the only body where `constant-slot-indirection` is demonstrated at precision — does Arm A direct GP reproduce the BOTH-solve, or is the mechanism decoder-specific?
+
+### Hypothesis (pre-registered)
+
+The decoder-arm dependence caveat in `findings.md#constant-slot-indirection` is untested on the §v2.3 body. Three plausible outcomes: (1) Arm A reproduces ≈80/80 → decoder-independence on 4-token bodies, (2) Arm A materially less → §v2.3's 80/80 is partly BP_TOPK's permeability, (3) Arm A materially more → unlikely but possible.
+
+### Result
+
+#### Fixed-task baselines (Arm A)
+
+| task | F (≥0.999) | stuck seeds | max holdout gap |
+|------|-----------|-------------|-----------------|
+| sum_gt_5_slot | 18/20 | {3, 14} at 0.516 | 0.009 |
+| sum_gt_10_slot | 20/20 | — | 0.000 |
+
+Fmin_A = 18. Δ_F vs BP_TOPK = (20+19)/2 − (18+20)/2 = 19.5 − 19.0 = 0.5 (negligible).
+
+#### Alternation (Arm A)
+
+| metric | Arm A (this sweep) | BP_TOPK baseline (§v2.3) |
+|--------|-------------------|--------------------------|
+| BOTH | **20/20** | 20/20 |
+| flip_cost (mean) | **0.000** | 0.000 |
+| zero-cost flips | **100/100** transitions | 100/100 |
+| max train-holdout gap | **0.000** | 0.000 |
+| alt_cost (Fmin − BOTH) | **−2** (alternation outperforms fixed!) | 1 |
+
+#### Counterfactual slot-indirection test (Gate 4)
+
+For each of the 20 BOTH-solvers: re-evaluate with the **wrong** threshold (threshold=10 on gt5 labels; threshold=5 on gt10 labels). If fitness breaks, the solve **causally depends** on THRESHOLD_SLOT.
+
+| seed | ok_gt5 | ok_gt10 | wrong_gt5 | wrong_gt10 | verdict |
+|------|--------|---------|-----------|------------|---------|
+| 0 | 1.000 | 1.000 | 0.984 | 0.531 | CAUSAL |
+| 1 | 1.000 | 1.000 | 0.953 | 0.609 | CAUSAL |
+| 2 | 1.000 | 1.000 | 0.969 | 0.562 | CAUSAL |
+| 3 | 1.000 | 1.000 | 0.969 | 0.562 | CAUSAL |
+| 4 | 1.000 | 1.000 | 0.969 | 0.578 | CAUSAL |
+| 5 | 1.000 | 1.000 | 0.953 | 0.562 | CAUSAL |
+| 6 | 1.000 | 1.000 | 0.984 | 0.562 | CAUSAL |
+| 7 | 1.000 | 1.000 | 0.953 | 0.578 | CAUSAL |
+| 8 | 1.000 | 1.000 | 0.969 | 0.547 | CAUSAL |
+| 9 | 1.000 | 1.000 | 0.969 | 0.531 | CAUSAL |
+| 10 | 1.000 | 1.000 | 0.969 | 0.547 | CAUSAL |
+| 11 | 1.000 | 1.000 | 0.953 | 0.547 | CAUSAL |
+| 12 | 1.000 | 1.000 | 0.969 | 0.578 | CAUSAL |
+| 13 | 1.000 | 1.000 | 0.969 | 0.516 | CAUSAL |
+| 14 | 1.000 | 1.000 | 0.984 | 0.578 | CAUSAL |
+| 15 | 1.000 | 1.000 | 0.953 | 0.547 | CAUSAL |
+| 16 | 1.000 | 1.000 | 0.953 | 0.562 | CAUSAL |
+| 17 | 1.000 | 1.000 | 0.953 | 0.562 | CAUSAL |
+| 18 | 1.000 | 1.000 | 0.953 | 0.594 | CAUSAL |
+| 19 | 1.000 | 1.000 | 0.969 | 0.562 | CAUSAL |
+
+**attractor_PASS_share = 20/20 = 1.00** (prereg threshold: ≥ 0.85)
+
+The asymmetry is mechanistically correct: swapping threshold from 10→5 on gt10 labels drops fitness to ~0.55 (threshold=5 classifies most inputs as positive, breaking gt10's label structure). Swapping 5→10 on gt5 labels drops only to ~0.96 (threshold=10 is more restrictive, so gt5's "sum>5" still mostly holds when checked at "sum>10", except for the 5<sum≤10 band).
+
+#### Solved-seed overlap with BP_TOPK
+
+| | BP_TOPK (§v2.3) | Arm A (this sweep) | overlap |
+|---|---|---|---|
+| BOTH-solve | 20/20 | 20/20 | 20/20 (perfect) |
+
+**Matches pre-registered outcome:** `PASS — decoder-robust`. All six criteria met: BOTH_A ≥ 18 ✓, F_5_A ≥ 18 ✓, F_10_A ≥ 17 ✓, flip_cost < 0.05 ✓, alt_cost ≤ 1 ✓, attractor_PASS_share ≥ 0.85 ✓.
+
+**Statistical test:** Paired McNemar on BOTH-solve, Arm A vs BP_TOPK, seeds 0..19: b=0, c=0, no discordant pairs. Both at 20/20 on all shared seeds.
+
+### Interpretation
+
+Arm A direct GP reproduces §v2.3's BOTH-solve at 20/20 with zero flip cost and zero overfit — matching BP_TOPK exactly on this 4-token body. The counterfactual test confirms that all 20 BOTH-solvers use the slot-indirection mechanism causally: swapping THRESHOLD_SLOT to the wrong task's value breaks the solve, proving the body routes through THRESHOLD_SLOT for task discrimination.
+
+The constant-slot-indirection mechanism on the `INPUT SUM THRESHOLD_SLOT GT` body is **decoder-robust**: it works under both BP_TOPK (top-K permeable extraction) and Arm A (direct stack execution of the full 32-byte tape). This is consistent with the prereg's reading (1): on 4-token bodies, the search landscape is easy enough that decoder choice does not matter. The mechanism is a property of the body and the fitness landscape, not of the decoder.
+
+The BOTH_A > Fmin_A anomaly (20/20 alternation vs 18/20 fixed on gt5) is worth noting: alternation appears to act as a mild curriculum/regularizer, helping the 2 stuck fixed-task seeds (3, 14) find the body. This is consistent with alternation providing search-path diversity that single-task fixed search lacks — but at n=2 stuck seeds, this is an observation, not a claim.
+
+**Mechanism rename check (principle 16 + 16b):** (a) Is the claimed mechanism narrower than the name "decoder-robust constant-slot-indirection"? No — the counterfactual test confirms it's the same slot-indirection mechanism under both decoders. (b) Is the mechanism broader? Not from this experiment alone — this only tests the easy 4-token body. The name is accurate for this scope.
+
+### Caveats
+
+- **Seed count:** n=20 (load-bearing).
+- **Budget limits:** matched to §v2.3 at pop=1024 gens=1500. Decoder-robustness at higher budgets untested but irrelevant — the body is at ceiling.
+- **Overreach check:** decoder-robustness is demonstrated on this one body shape only. The §v2.6 Pair 1 6-token body showed decoder-arm IS a real lever (Arm A 7/20 vs BP_TOPK 4/20 at matched compute). This result does NOT extend decoder-robustness to harder bodies — it confirms the prereg's prior that "on 4-token bodies, decoder choice did not matter."
+- **Open mechanism questions:** whether the mechanism is decoder-robust on harder bodies (6-token) remains the open question, addressable via Arm A × 4× compute on Pair 1.
+
+### Degenerate-success check
+
+**Triggered** (BOTH_A = 20/20, flip_cost = 0.000 — too-clean guard per prereg line 149).
+
+- **Candidate: parallel per-task bodies.** RULED OUT by counterfactual test — all 20 winners break under wrong-threshold swap, proving the body uses THRESHOLD_SLOT causally (not separate per-task programs).
+- **Candidate: token-as-passive-junk.** RULED OUT — same counterfactual evidence. If THRESHOLD_SLOT were in a no-effect position, swapping its value wouldn't change fitness.
+- **Candidate: body-irrelevant attractor.** RULED OUT — zero holdout gap (all winners score 1.0 on both train and holdout on both tasks).
+
+**Inspection-tooling note:** The prereg's causal-slot-indirection classifier (lines 166-193) was implemented as an automated counterfactual evaluation rather than manual classification. The counterfactual test is stronger than the prereg's manual classification plan: it directly verifies that THRESHOLD_SLOT's value is causally load-bearing, rather than relying on pattern-matching on the tape. The ~20-30 min manual classification estimate in the prereg is superseded by this ~2-min automated test.
+
+### Findings this supports / narrows
+
+- **Narrows:** `findings.md#constant-slot-indirection` decoder-arm dependence caveat. Per the prereg's PASS-decoder-robust decision rule: rewrite the caveat to scope decoder-dependence to Pair 1's body only. On §v2.3's 4-token body, the mechanism is decoder-robust (Arm A 20/20 with causal slot-indirection confirmed).
+- **Does not affect:** `findings.md#op-slot-indirection`, `findings.md#proxy-basin-attractor`.
+
+### Next steps
+
+Per prereg decision rule (PASS-decoder-robust):
+1. Rewrite the decoder-arm caveat in `findings.md#constant-slot-indirection` to scope decoder-dependence to Pair 1's body only. This is a caveat-narrowing pass, not a new claim promotion.
+2. No new findings entry — the §v2.3 claim remains at its current scope; this just narrows one of its caveats.
+
+### Prereg-promise ledger (§v2.11)
+
+| prereg promise | reported in chronicle | status |
+|---|---|---|
+| BOTH_A, F_5_A, F_10_A raw counts | BOTH=20/20, F_5=18/20, F_10=20/20 | ✓ |
+| Per-seed best-of-run fitness | in summary.json per sub-sweep | ✓ |
+| Mean/max train-holdout gap | alternation: 0.000; fixed: max 0.009 | ✓ |
+| Mean/max post-flip fitness drop + distribution | all 100/100 transitions zero-cost; mean=0.000 | ✓ |
+| Flip-event count + zero-cost count | 100/100 zero-cost | ✓ |
+| decode_winner.py on all BOTH-solvers | counterfactual test run on all 20 (stronger than manual decode) | ✓ (superseded by automated counterfactual) |
+| Solved-seed overlap with §v2.3 BP_TOPK | 20/20 perfect overlap | ✓ |
+| ADI per condition | not computed — uninformative at 20/20 BOTH (swamped) | ✓ (noted as swamped) |
+| Paired McNemar | b=0, c=0, no discordant pairs | ✓ |
+| attractor_PASS_share (Gate 4) | 20/20 = 1.00 via counterfactual test | ✓ |
+| Per-task McNemar (secondary) | F_5: b=0, c=2 (Arm A loses 2 seeds); F_10: b=1, c=0 (Arm A gains 1). Descriptive only | ✓ |
+
+---
+
 ## §v2.13. BP_TOPK(k=5) parameter sweep on §v2.3 and §v2.6 Pair 1 (2026-04-16)
 
 **Status:** `INCONCLUSIVE` · n=20 per sub-sweep (4 sub-sweeps, 80 runs total) · commit `1cfe7d5` · —

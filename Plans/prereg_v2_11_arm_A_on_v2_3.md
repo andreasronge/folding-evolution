@@ -1,6 +1,6 @@
 # Pre-registration: §v2.11 — Arm A direct GP on §v2.3's `sum_gt_{5,10}_slot` pair
 
-**Status:** RAN · PASS-partial (pending Gate 4 inspection) · run commit `29c524e` · 2026-04-16
+**Status:** DONE · PASS (decoder-robust) · run commit `29c524e` · chronicle commit `23826da` · 2026-04-16
 
 Derived from the decoder-arm dependence caveat added to
 [`docs/chem-tape/findings.md#constant-slot-indirection`](../docs/chem-tape/findings.md)
