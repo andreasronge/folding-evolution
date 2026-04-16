@@ -221,3 +221,52 @@
   expect_outputs: [sweep_index.json]
   track: chem-tape-v2
   notes: "§v2.14c: consume + 4× compute on Pair 1 (~60 min)."
+
+# ============================================================================
+# Session 5 queue additions (2026-04-16) — Phase 1 batch
+# Driven by:
+#   Plans/prereg_v2-4-proxy-4-seeded.md    (§v2.4-proxy-4)
+#   Plans/prereg_v2-14g-consume-arm-a-4x.md (§v2.14g)
+#   Plans/prereg_v2-15-decoder-grid.md     (§v2.15)
+# Target commit: 9455d04 (seeded-init infra + preregs + sweep YAMLs).
+# Total estimated wall time: ~7-8h sequential.
+#
+# §v2.14f (non-MAP slot binding, alphabet extension needed) and §v2.16
+# (regime-shift, DEAP infra needed) are DEFERRED — see their prereg files.
+# ============================================================================
+
+# Smallest first — fastest feedback + lowest risk.
+- id: v2_4_proxy4_seeded
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_4_proxy4_seeded.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.4-proxy-4: seeded-init probe on §v2.4 AND (3 arms × 20 seeds = 60 runs, ~45 min). Splits 0/20 into discoverability vs maintainability."
+
+- id: v2_14g_consume_arm_a_4x
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_14g_consume_arm_a_4x.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.14g: consume × Arm A × 4× compute on Pair 1 (~40 min). Tests whether Arm A null (§v2.14d) is rescued by compute."
+
+- id: v2_14g_preserve_arm_a_4x
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_14g_preserve_arm_a_4x.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.14g companion: preserve-Arm-A-4× baseline (Option A, matched-commit contrast)."
+
+- id: v2_15_grid_v2_3
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_15_grid_v2_3.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 14400
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.15 Part 1: decoder-ablation grid on §v2.3 pair (2×3 = 6 cells × 20 seeds = 120 runs, ~2-3h)."
+
+- id: v2_15_grid_pair1
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_15_grid_pair1.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 14400
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.15 Part 2: decoder-ablation grid on §v2.6 Pair 1 (2×3 = 6 cells × 20 seeds = 120 runs, ~3h). Part 1 meta-learning gate."
