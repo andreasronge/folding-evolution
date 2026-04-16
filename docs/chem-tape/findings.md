@@ -237,22 +237,24 @@ mechanism-untested; they cannot be counted as supporting evidence.
 
 ---
 
-## proxy-basin-attractor. Greedy search is dominated by single-predicate proxy basins whenever a near-perfect single-predicate exists in the training distribution (n=20+ per axis, mechanism-grade; decoder-general across BP_TOPK and Arm A).
+## proxy-basin-attractor. Greedy search is dominated by single-predicate proxy basins whenever a ≥~0.85-accurate single-predicate exists in the training distribution (n=20+ per axis, mechanism-grade; decoder-general across BP_TOPK and Arm A; proxy-cascade confirmed under dual-decorrelation).
 
-**Scope tag:** `within-family / cross-axis on AND-composition` · `n=20 each on 5 sweeps × ≥3 attractor reframings` · `at pop=1024 gens=1500 (and 4× scaled to pop=2048 gens=3000) v2_probe alphabet` · `across decoder arms {BP_TOPK(k=3,bp=0.5), Arm A direct GP}` · `on integer-list AND-composition labels of the form` `(sum > t1) AND (max > t2)`
+**Scope tag:** `within-family / cross-axis on AND-composition` · `n=20 each on 7 sweeps × ≥4 attractor reframings` · `at pop=1024 gens=1500 (and 4× scaled to pop=2048 gens=3000) v2_probe alphabet` · `across decoder arms {BP_TOPK(k=3,bp=0.5), Arm A direct GP}` · `across sampler conditions {natural, single-decorr, dual-decorr}` · `on integer-list AND-composition labels of the form` `(sum > t1) AND (max > t2)`
 
-**Status:** `ACTIVE` · last revised commit `1cfe7d5` · 2026-04-16 (broadened from BP_TOPK-specific to decoder-general by §v2.12; pending principle-20 sampler-audit discharge before paper-grade — see §v2.12 chronicle)
+**Status:** `ACTIVE` · last revised commit `92b3325` · 2026-04-16 (broadened twice: decoder-general by §v2.12, proxy-accuracy threshold relaxed from ≥~0.90 to ≥~0.85 by §v2.4-proxy-2)
 
 ### Claim
 
-When the training data contains a single-predicate (e.g., `max > 5` or
-`sum > 10`) whose accuracy on the training labels is ≥ ~0.90, greedy
-evolution reliably converges to that predicate alone within the
-pre-registered budget — *regardless of whether the underlying label
-function requires AND-composition* — and the basin is robust to compute
-scaling (4×), to decorrelation of the original proxy (evolution shifts
-to the next-best single-predicate), and to decoder-arm variation
-(BP_TOPK and Arm A direct GP both trap in the same attractor categories).
+When the training data contains a single-predicate (e.g., `max > 5`,
+`sum > 10`, `sum > 15`, `any cell > 7`) whose accuracy on the training
+labels is ≥ ~0.85, greedy evolution reliably converges to that predicate
+alone within the pre-registered budget — *regardless of whether the
+underlying label function requires AND-composition* — and the basin is
+robust to compute scaling (4×), to decorrelation of the top-1 proxy
+(evolution shifts to the next-best), to simultaneous decorrelation of
+the top-2 proxies (evolution cascades to third-best), and to decoder-arm
+variation (BP_TOPK and Arm A direct GP both trap in the same attractor
+categories).
 
 ### Scope boundaries (what this claim does NOT say)
 
@@ -295,6 +297,8 @@ to the next-best single-predicate), and to decoder-arm variation
 | [§v2.4-proxy](experiments-v2.md#v24-proxy) | `0230662` | 20 | under decorrelation (P(max>5\|+)=1.0, P(max>5\|−)=0.5), evolution shifts from `max > 5` (2/17 stuck) to `sum > 10` (11/17 stuck); 3/20 found genuine AND |
 | [§v2.12 Arm A natural](experiments-v2.md#v212-arm-a-direct-gp-on-v24-proxy-basin-tasks-2026-04-16) | `1cfe7d5` | 20 | Arm A direct GP on natural sampler: F_AND_A = 0/20, attractor breakdown 10/20 max_gt_5 + 6/20 sum_gt (attractor_share = 0.80). Basin traps Arm A as thoroughly as BP_TOPK. |
 | [§v2.12 Arm A decorr](experiments-v2.md#v212-arm-a-direct-gp-on-v24-proxy-basin-tasks-2026-04-16) | `1cfe7d5` | 20 | Arm A decorr sampler: F_AND_A = 1/20, attractor breakdown 12/19 sum_gt + 4/19 max_gt_5 (attractor_share = 0.84). Attractor-switch post-decorrelation reproduces under different decoder. (Principle-20 audit pending.) |
+| [§v2.4-proxy-2 BP_TOPK dual-decorr](experiments-v2.md#v24-proxy-2-simultaneous-dual-proxy-decorrelation-on-and-composition-2026-04-16) | `92b3325` | 20 | BP_TOPK under dual-decorrelation (max>5 AND sum>10 both at 0.75): F_AND = 0/20. Evolution cascades to third-tier proxies (sum>15 at 0.91, max>7/any_cell>7 at ~0.86). attractor_3rd = 0.75. |
+| [§v2.4-proxy-2 Arm A dual-decorr](experiments-v2.md#v24-proxy-2-simultaneous-dual-proxy-decorrelation-on-and-composition-2026-04-16) | `92b3325` | 20 | Arm A under dual-decorrelation: F_AND = 1/20. Same cascade pattern (attractor_3rd = 0.68). Decoder-general proxy cascade confirmed. |
 
 ### Narrowing / falsifying experiments
 
@@ -314,9 +318,13 @@ None yet. One queued candidate that could narrow further:
   compositional body discovery at this budget — and the failure is *not*
   diagnostic of the mechanism's compositional reach.
 - **Downstream experiments must still test:** ~~the basin's robustness to
-  decoder-arm changes;~~ (resolved by §v2.12: decoder-general) whether decorrelating the next-best predicate
-  also gets shifted-to or yields novel attractors; whether the basin
-  exists for OR/XOR/larger-k compositions.
+  decoder-arm changes;~~ (resolved by §v2.12: decoder-general)
+  ~~whether decorrelating the next-best predicate also gets shifted-to
+  or yields novel attractors;~~ (resolved by §v2.4-proxy-2: yes, third-tier
+  proxies take over — cascade confirmed) whether the basin exists for
+  OR/XOR/larger-k compositions; whether a sampler that eliminates ALL
+  single-predicates above ~0.80 frees AND-composition (may require a
+  different input domain).
 - **Methodology consequence:** sampler design (methodology §20) is now
   load-bearing for any AND-composition follow-up — class-balanced and
   proxy-decorrelation-aware sampling must be specified in the prereg.
@@ -335,3 +343,9 @@ None yet. One queued candidate that could narrow further:
   updated. Principle-20 sampler-audit flag noted in status line (post-hoc
   audit was marginal; does not block the broadening but noted for
   paper-grade audit trail).
+- 2026-04-16 — **broadened** by §v2.4-proxy-2 (commit `92b3325`).
+  Dual-decorrelation (max>5 AND sum>10 simultaneously weakened to 0.75)
+  confirms proxy cascade: evolution shifts to third-tier proxies (sum>15
+  at 0.91, any_cell>7 at 0.86). Trapping threshold relaxed from "≥ ~0.90"
+  to "≥ ~0.85" in claim sentence. Scope tag updated to include
+  dual-decorr sampler condition. Headline updated.

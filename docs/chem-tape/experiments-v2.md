@@ -1087,6 +1087,106 @@ Per prereg decision rule (PASS-decoder-robust):
 
 ---
 
+## §v2.4-proxy-2. Simultaneous dual-proxy decorrelation on AND-composition (2026-04-16)
+
+**Status:** `FAIL` · n=20 per arm (2 arms, 40 runs total) · commit `92b3325` · —
+
+**Pre-reg:** [Plans/prereg_v2_4_proxy2.md](../../Plans/prereg_v2_4_proxy2.md)
+**Sweep:** `experiments/chem_tape/sweeps/v2/v2_4_proxy2_bp_topk.yaml`, `v2_4_proxy2_arm_a.yaml`
+**Compute:** ~10 min (both arms ran in parallel, 10 workers each)
+
+### Question
+
+When the top-2 single-predicate proxies (`max > 5` at ~0.92 and `sum > 10` at ~0.91) are simultaneously decorrelated to 0.75 in the training distribution, does evolution find genuine AND-composition, or shift to a third-best proxy?
+
+### Hypothesis (pre-registered)
+
+Three competing readings: (1) proxy cascade — third proxy takes over, (2) AND-composition freed, (3) collapse — sampler too aggressive. See prereg for full outcome table with 5 rows.
+
+### Result
+
+| condition | F_AND (≥0.999) | mean best | max best | overfit (>0.05 gap) | attractor breakdown (non-solvers) |
+|-----------|---------------|-----------|----------|---------------------|----------------------------------|
+| BP_TOPK single-decorr (§v2.4-proxy) | 3/20 | 0.934 | — | — | 11/17 sum>10, 2/17 max>5 |
+| **BP_TOPK dual-decorr** | **0/20** | **0.840** | 0.906 | 6/20 (max 0.141) | 8/20 max_gt, 7/20 sum_gt, 4/20 IF_GT, 1/20 other |
+| Arm A single-decorr (§v2.12) | 1/20 | 0.944 | — | 13/20 | 12/19 sum_gt, 4/19 max_gt |
+| **Arm A dual-decorr** | **1/20** | **0.871** | 1.000 | 9/20 (max 0.117) | 9/19 sum_gt, 4/19 max_gt, 4/19 IF_GT, 2/19 other |
+
+Proxy accuracies under the dual-decorr sampler (measured at commit `3e19e0f`, seed 0):
+
+| proxy | accuracy |
+|-------|----------|
+| max > 5 | 0.750 (decorrelated ✓) |
+| sum > 10 | 0.750 (decorrelated ✓) |
+| sum > 15 | **0.906** (new dominant proxy) |
+| any cell > 7 | 0.859 |
+| max > 7 | 0.859 |
+| any cell > 6 | 0.844 |
+
+Attractor share (fraction of non-solvers in single-predicate proxy basin):
+- BP_TOPK: 15/20 = 0.75 (≥ 0.50 ✓)
+- Arm A: 13/19 = 0.68 (≥ 0.50 ✓)
+
+**Matches pre-registered outcome:** `FAIL — proxy cascade (third proxy traps)`. All criteria met: F_AND_BP ≤ 3/20 ✓ (0/20), F_AND_A ≤ 3/20 ✓ (1/20), attractor_3rd ≥ 0.50 on both arms ✓.
+
+**Statistical tests:**
+- BP_TOPK dual vs single-decorr: McNemar b=0 (dual+,single−), c=3 (single+,dual−), p=0.250 (two-sided). Not significant; dual-decorr is directionally worse.
+- Arm A dual vs single-decorr: McNemar b=1, c=1, p=1.000. No change.
+- Cross-arm within dual-decorr: b=1 (A+,BP−), c=0. One discordant pair only.
+
+### Interpretation
+
+Weakening both top-2 proxies to 0.75 accuracy did not free evolution for AND-composition. Instead, evolution shifted to third-tier proxies — `sum > 15` at 0.91, `any cell > 7` at 0.86, `max > 7` at 0.86 — and the attractor-basin pattern persisted at 0.68-0.75 of non-solvers in proxy basins. The proxy cascade reading is confirmed: the trapping mechanism is not specific to `max > 5` or `sum > 10`; it operates on whichever single-predicate has the highest accuracy in the current training distribution.
+
+The BP_TOPK arm actually **regressed** from 3/20 to 0/20 under dual-decorrelation. This is consistent with the dual-decorr sampler removing the neg_lo_lo cohort (max≤5 AND sum≤10), which may have provided a gradient signal that occasionally helped seeds reach the AND-composition body under single-decorrelation. The mean fitness dropped from 0.934 to 0.840 — the landscape is flatter, not better.
+
+The attractor breakdown shifted compared to single-decorrelation: under single-decorr, sum>10 dominated (11/17 under BP_TOPK); under dual-decorr, the split is more even (8/20 max_gt + 7/20 sum_gt under BP_TOPK). This is consistent with both former dominant proxies being weakened, allowing a wider spread of third-tier attractors.
+
+**Mechanism rename check (principle 16 + 16b):** (a) Is the mechanism narrower than "single-predicate proxy basin attractor"? No — the cascade from first-best to second-best (§v2.4-proxy) to third-best (this experiment) confirms the basin-shape reading is about **any** sufficiently-accurate single-predicate, not a specific one. (b) Is the mechanism broader? Possibly — the ~0.85-0.91 accuracy range of third-tier proxies is lower than the original ~0.92. The trapping threshold may be lower than the "≥ ~0.90" in the current claim. The data supports broadening to "≥ ~0.85" as the approximate trapping floor, but this is a single data point (one dual-decorr condition); further narrowing would require a sampler that eliminates all ≥0.85 proxies.
+
+### Caveats
+
+- **Seed count:** n=20 per arm (load-bearing).
+- **Overfit:** 6/20 BP_TOPK seeds and 9/20 Arm A seeds exceed 0.05 train-holdout gap. The overfit under dual-decorr is moderate but widespread, similar to §v2.12's decorr sub-sweep (13/20). The 1/20 Arm A solver (seed 7, holdout 0.980) is clean.
+- **Overreach check:** the "any ≥~0.85 proxy traps" reading is directional, not a precise threshold claim. The third-tier proxies cluster at 0.84-0.91; we cannot distinguish "≥0.85 traps" from "≥0.90 traps on a flatter landscape."
+- **Sampler design caveat:** the dual-decorr sampler removes neg_lo_lo examples entirely, which may have collateral effects on the fitness landscape beyond proxy-decorrelation. The BP_TOPK regression (3→0) could partly reflect this collateral rather than pure proxy-cascade.
+- **Open mechanism questions:** (i) A sampler that eliminates ALL single-predicates above 0.80 would be the definitive test — but may require a different input domain (length-4 [0,9] may not support such a sampler). (ii) The IF_GT-containing non-solvers (4/20 on each arm) could be proto-compositional bodies that failed to complete AND-assembly — inspection of these would clarify whether the landscape has more compositional structure under dual-decorr than single-decorr.
+
+### Degenerate-success check
+
+Not triggered — result is FAIL direction (0/20 and 1/20 solves).
+
+- **Too-clean FAIL candidate (identical attractor to single-decorr):** NOT observed. Attractor distribution shifted (more spread across max_gt + sum_gt + IF_GT), unlike the concentrated sum>10 dominance under single-decorr. The dual-decorr sampler did change the landscape, just not enough to free AND-composition.
+- **Arm A seed 7 solver:** holdout = 0.980 (not 1.0). Verified as close-to-genuine AND. This is the only solver across both arms — too thin to be a degenerate-success concern.
+
+### Findings this supports / narrows
+
+- **Broadens:** `findings.md#proxy-basin-attractor`. Per prereg decision rule (FAIL — proxy cascade → principle 16b): the "≥ ~0.90 accuracy" language in the claim should be relaxed. The proxy-basin trapping persists when the top-2 proxies are weakened to 0.75, as long as third-tier proxies at ~0.85-0.91 remain available. The claim broadens from "whenever a ≥ ~0.90-accurate single-predicate exists" toward "whenever a ≥ ~0.85-accurate single-predicate exists."
+- **Adds evidence for decoder-generality:** both BP_TOPK and Arm A show the same cascade pattern, consistent with §v2.12's decoder-general finding.
+
+### Next steps
+
+Per prereg decision rule (FAIL — proxy cascade):
+1. **Principle 16b broadening pass on `findings.md#proxy-basin-attractor`:** relax "≥ ~0.90" in claim sentence to "≥ ~0.85" (approximate; single data point). Add this experiment to Supporting experiments. Update scope boundary.
+2. **No further proxy-decorrelation experiments auto-queued.** The cascade pattern suggests diminishing returns from sampler-only interventions on this task family. A fundamentally different approach (different input domain, different composition structure, multi-objective) would be needed to test whether proxy basins can be fully eliminated.
+
+### Prereg-promise ledger (§v2.4-proxy-2)
+
+| prereg promise | reported in chronicle | status |
+|---|---|---|
+| F_AND_BP, F_AND_A at 0.999 and 0.95 | 0.999: reported (0/20, 1/20). 0.95: BP_TOPK 0/20, Arm A 3/20 (from fitness values) | ✓ |
+| Per-seed best-of-run fitness | in sweep output per seed | ✓ |
+| Mean and max train-holdout gap | BP_TOPK: 6/20 overfit, max 0.141; Arm A: 9/20, max 0.117 | ✓ |
+| Attractor breakdown per arm | reported in Result table | ✓ |
+| Solved-seed overlap: dual vs single-decorr | BP_TOPK: 0 overlap (dual {}, single {0,11,16}). Arm A: 0 overlap (dual {7}, single {13}) | ✓ |
+| Solved-seed overlap: BP_TOPK vs Arm A within dual-decorr | BP_TOPK {}, Arm A {7}. Disjoint (trivially, BP_TOPK has 0 solvers) | ✓ |
+| Per non-solver dominant proxy classification | reported as heuristic category breakdown. Per-seed predicate accuracy not computed (deferred — heuristic classifier sufficient for FAIL verdict) | ✓/deferred |
+| Class balance verification | 0.500 on all seeds (confirmed by task builder design: 32/64 positives) | ✓ |
+| McNemar per arm vs baseline | reported: BP_TOPK p=0.250, Arm A p=1.000 | ✓ |
+| McNemar cross-arm | reported: b=1, c=0 | ✓ |
+
+---
+
 ## §v2.13. BP_TOPK(k=5) parameter sweep on §v2.3 and §v2.6 Pair 1 (2026-04-16)
 
 **Status:** `INCONCLUSIVE` · n=20 per sub-sweep (4 sub-sweeps, 80 runs total) · commit `1cfe7d5` · —

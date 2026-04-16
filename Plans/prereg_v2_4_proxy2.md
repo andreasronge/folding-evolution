@@ -1,6 +1,6 @@
 # Pre-registration: §v2.4-proxy-2 — Simultaneous dual-proxy decorrelation on AND-composition
 
-**Status:** QUEUED · target commit `3e19e0f` · 2026-04-16
+**Status:** DONE · FAIL (proxy cascade) · run commit `92b3325` · chronicle commit `92b3325` · 2026-04-16
 
 Derived from [`docs/chem-tape/findings.md#proxy-basin-attractor`](../docs/chem-tape/findings.md)
 (now `ACTIVE · decoder-general`) and from §v2.4-proxy's open question
