@@ -195,3 +195,67 @@ def test_seeded_run_evolution_smoke():
     result = run_evolution(cfg)
     assert result.generations_run == 4
     assert len(result.stats.history) == 5  # gen 0 + 4 evolved
+
+
+def test_disable_early_termination_default_behavior():
+    # §v2.4-proxy-4b: with seeded canonical body and default disable_early_termination=False,
+    # the GA terminates at gen 1 (current §v2.4-proxy-4 signature).
+    cfg = ChemTapeConfig(
+        task="sum_gt_10_AND_max_gt_5",
+        n_examples=16,
+        holdout_size=0,
+        alphabet="v2_probe",
+        tape_length=32,
+        pop_size=16,
+        generations=10,
+        backend="numpy",
+        arm="BP_TOPK",
+        topk=3,
+        bond_protection_ratio=0.5,
+        seed=0,
+        seed_tapes=CANONICAL_AND_12TOK_HEX,
+        seed_fraction=1.0,  # every individual is the canonical body
+    )
+    result = run_evolution(cfg)
+    # Early-term triggers at gen 1 with default disable_early_termination=False
+    assert result.generations_run == 1, f"expected early-term at gen 1, got {result.generations_run}"
+
+
+def test_disable_early_termination_runs_full_horizon():
+    # §v2.4-proxy-4b: with disable_early_termination=True, GA runs all `generations`
+    # even when fitness hits 1.0 at gen 0.
+    cfg = ChemTapeConfig(
+        task="sum_gt_10_AND_max_gt_5",
+        n_examples=16,
+        holdout_size=0,
+        alphabet="v2_probe",
+        tape_length=32,
+        pop_size=16,
+        generations=10,
+        backend="numpy",
+        arm="BP_TOPK",
+        topk=3,
+        bond_protection_ratio=0.5,
+        seed=0,
+        seed_tapes=CANONICAL_AND_12TOK_HEX,
+        seed_fraction=1.0,
+        disable_early_termination=True,
+    )
+    result = run_evolution(cfg)
+    assert result.generations_run == 10, f"expected full 10 gens, got {result.generations_run}"
+    # History should have gen 0 + 10 evolved gens
+    assert len(result.stats.history) == 11
+
+
+def test_hash_stable_when_disable_early_term_off():
+    # Regression: pre-v2.4-proxy-4b configs must produce identical hashes with the
+    # new field at default.
+    a = ChemTapeConfig(alphabet="v2_probe", tape_length=32)
+    b = ChemTapeConfig(alphabet="v2_probe", tape_length=32, disable_early_termination=False)
+    assert a.hash() == b.hash()
+
+
+def test_hash_changes_when_disable_early_term_on():
+    a = ChemTapeConfig(alphabet="v2_probe", tape_length=32)
+    b = ChemTapeConfig(alphabet="v2_probe", tape_length=32, disable_early_termination=True)
+    assert a.hash() != b.hash()

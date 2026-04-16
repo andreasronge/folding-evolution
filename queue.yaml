@@ -281,3 +281,14 @@
   expect_outputs: [sweep_index.json]
   track: chem-tape-v2
   notes: "§v2.15-bp1-k3-nexp: n-expansion on INTERMEDIATE cell (K=3, bp=1.0) Pair 1 — seeds 20-59, ~8 min."
+
+# §v2.4-proxy-4b: supersedes §v2.4-proxy-4 (which early-terminated at gen 1
+# and so measured gen-0 dominance, not multi-generation maintainability).
+# Adds disable_early_termination=true so the GA runs full 1500 gens
+# regardless of gen-0 perfect-fitness individuals.
+- id: v2_4_proxy4b_seeded
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_4_proxy4b_seeded.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 7200
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.4-proxy-4b: full-horizon maintainability probe (60 runs, ~30-45 min)."

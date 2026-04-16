@@ -121,6 +121,14 @@ class ChemTapeConfig:
     seed_tapes: str = ""
     seed_fraction: float = 0.0
 
+    # §v2.4-proxy-4b: when True, the GA runs the full `generations` count
+    # regardless of max-fitness — early termination at fitness >= 1.0 is
+    # suppressed. Required for maintainability probes where a perfect-
+    # fitness individual is injected at gen 0 (§v2.4-proxy-4) and we need
+    # to observe whether selection drifts away from or stabilises the
+    # canonical solution under mutation pressure across all 1500 gens.
+    disable_early_termination: bool = False
+
     # Infra
     seed: int = 0
     backend: str = "mlx"            # "numpy" | "mlx"
@@ -171,6 +179,9 @@ class ChemTapeConfig:
         if self.seed_tapes == "" and self.seed_fraction == 0.0:
             d.pop("seed_tapes", None)
             d.pop("seed_fraction", None)
+        # §v2.4-proxy-4b disable_early_termination: excluded at default.
+        if not self.disable_early_termination:
+            d.pop("disable_early_termination", None)
         blob = json.dumps(d, sort_keys=True).encode()
         return hashlib.sha1(blob).hexdigest()[:12]
 

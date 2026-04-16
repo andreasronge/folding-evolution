@@ -433,7 +433,13 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
 
         # Early termination only if no alternation is active (would cut a run
         # short mid-regime, skipping the interesting post-flip dynamics).
-        if fitnesses.max() >= 1.0 and not alternating:
+        # §v2.4-proxy-4b: also suppressed when disable_early_termination is set,
+        # so maintainability probes can observe full-horizon drift.
+        if (
+            fitnesses.max() >= 1.0
+            and not alternating
+            and not cfg.disable_early_termination
+        ):
             break
 
     best_idx = int(np.argmax(fitnesses))
@@ -551,7 +557,7 @@ def _run_evolution_islands(cfg: ChemTapeConfig) -> EvolutionResult:
         stats.record(gen, all_fitnesses, flat_pop, arm=cfg.arm,
                      island_fits=island_fits, evolve_k_values=evolve_k_values_list)
 
-        if all_fitnesses.max() >= 1.0:
+        if all_fitnesses.max() >= 1.0 and not cfg.disable_early_termination:
             break
 
     flat_pop = [g for isl in islands for g in isl]
