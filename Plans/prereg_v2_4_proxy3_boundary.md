@@ -1,6 +1,6 @@
 # Pre-registration: §v2.4-proxy-3 — Split-halves AND proxy-basin boundary sweep
 
-**Status:** QUEUED · target commit `070def5` · 2026-04-16
+**Status:** DONE · INCONCLUSIVE (all COLLAPSE — search-space expansion failure, not proxy test) · run commit `b5ffbd4` · 2026-04-16
 
 Derived from the proxy-basin finding (`findings.md#proxy-basin-attractor`, now at
 "≥~0.85 trapping threshold") and the structural insight that whole-list predicates

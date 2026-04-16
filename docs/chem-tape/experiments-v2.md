@@ -1187,6 +1187,89 @@ Per prereg decision rule (FAIL — proxy cascade):
 
 ---
 
+## §v2.4-proxy-3. Split-halves AND proxy-basin boundary sweep (2026-04-16)
+
+**Status:** `INCONCLUSIVE` · n=20 per arm per threshold (6 sub-sweeps, 120 runs total) · commit `b5ffbd4` · —
+
+**Pre-reg:** [Plans/prereg_v2_4_proxy3_boundary.md](../../Plans/prereg_v2_4_proxy3_boundary.md)
+**Sweep:** `experiments/chem_tape/sweeps/v2/v2_4_proxy3_gt{6,7,8}_{bp_topk,arm_a}.yaml`
+**Compute:** ~15 min (6 sweeps in parallel, 5 workers each)
+
+### Question
+
+At what single-predicate proxy accuracy does the proxy-basin attractor stop trapping greedy evolution? Does a split-halves AND task with independent conjuncts and population-level best proxy at ~0.79-0.86 escape the basin?
+
+### Hypothesis (pre-registered)
+
+Three thresholds tested as a gradient: >6 (population best proxy ~0.79), >7 (~0.81), >8 (~0.86). Crossed with BP_TOPK and Arm A. See prereg for 5 combined-gradient outcome rows.
+
+### Result
+
+| threshold | arm | F_AND | mean best | ≥0.95 | overfit (>0.05) |
+|-----------|-----|-------|-----------|-------|-----------------|
+| >6 | BP_TOPK | **0/20** | 0.502 | 0/20 | 12/20 |
+| >6 | Arm A | **0/20** | 0.536 | 0/20 | 11/20 |
+| >7 | BP_TOPK | **0/20** | 0.500 | 0/20 | 12/20 |
+| >7 | Arm A | **0/20** | 0.520 | 0/20 | 10/20 |
+| >8 | BP_TOPK | **0/20** | 0.500 | 0/20 | 12/20 |
+| >8 | Arm A | **0/20** | 0.500 | 0/20 | 11/20 |
+
+**0/120 solvers across all 6 conditions.** No seed reaches ≥0.95 fitness. Mean fitness ~0.50 across all conditions (constant-output territory on balanced 50/50 task).
+
+**Matches pre-registered outcome:** All three thresholds match the per-threshold **COLLAPSE** row: "F_AND ≤ 2/20 AND mean best < 0.80." Combined verdict: **All COLLAPSE** — not covered by any explicit combined-gradient row. Closest match: "All TRAP" row from the prereg, but the mechanism is different (collapse, not proxy-basin trapping).
+
+**Statistical tests:** Not computed — all conditions at 0/20; no discordant pairs exist for McNemar.
+
+### Interpretation
+
+This is not proxy-basin trapping. The mean fitness of ~0.50 on a balanced task means evolution is stuck at constant-output programs, not converging to a single-predicate proxy. The signature of proxy-basin trapping is mean fitness ≥0.85 with the best-of-run converging to a recognizable predicate (as in §v2.4 at 0.92 mean, §v2.4-proxy at 0.93, §v2.4-proxy-2 at 0.84-0.87). Here, evolution cannot even discover that the input carries learnable signal.
+
+The root cause is **search-space expansion with novel tokens.** The `v2_split` alphabet has 24 tokens (vs v2_probe's 22). The required compositional body is 9 tokens: `SUM_LEFT2 THRESHOLD_SLOT GT SUM_RIGHT2 THRESHOLD_SLOT GT ADD CONST_1 GT`. Each of `SUM_LEFT2` and `SUM_RIGHT2` appears at only 1/24 ≈ 4.2% frequency per random tape position. The probability of assembling even a partial body with both novel tokens in useful positions is extremely low at pop=1024 × gens=1500.
+
+**Verification that the task IS solvable:** The handcrafted 9-token body scores 1.000 on both train and holdout for all three thresholds. The task is perfectly learnable — evolution just cannot find the body at this budget with this alphabet size.
+
+**Mechanism rename check (principle 16 + 16b):** (a) Is "search-space expansion failure" narrower than this name? No — the description matches. (b) Is it broader? Possibly — the failure could be specific to the 9-token body length and 2-new-token rarity, not general to any novel-token introduction. The name should be scoped: "search-space expansion failure at 9-token body with 2 novel tokens in 24-token alphabet."
+
+### Caveats
+
+- **Seed count:** n=20 per arm per threshold (load-bearing).
+- **Budget limits:** pop=1024 × gens=1500 may be insufficient for this body. Higher compute could rescue — but this is the same budget used for all prior experiments, so the comparison is fair.
+- **Overreach check:** this result says NOTHING about the proxy-basin trapping threshold. The experiment was designed to probe the ~0.80 proxy boundary, but it failed for reasons unrelated to proxies (novel-token discovery). The proxy-basin claim in findings.md is neither narrowed nor broadened by this result.
+- **Design limitation (acknowledged pre-run in prereg):** per-seed proxy variance at n=64 was flagged as a concern, but the actual failure mode was more fundamental — evolution never got far enough to encounter ANY proxy.
+- **Open question:** could a seeded-initialization strategy (injecting a few tapes containing SUM_LEFT2/SUM_RIGHT2) bootstrap discovery? Or does the body require too many interdependent tokens for mutation-crossover to assemble at any reasonable budget?
+
+### Degenerate-success check
+
+Not triggered — no solvers exist.
+
+### Findings this supports / narrows
+
+- **Does not affect** `findings.md#proxy-basin-attractor`. The proxy-basin claim stands as-is. This experiment failed to test the boundary because of a search-space confound (novel-token discovery), not because the proxy-basin claim is wrong. The "≥~0.85" trapping threshold remains the best estimate from prior experiments.
+- **Methodology lesson:** testing a proxy-accuracy boundary requires holding the search difficulty constant. Introducing new tokens changes the search landscape so dramatically that the proxy question is confounded. Future attempts to test the boundary should use tokens already present in the alphabet (e.g., repurposing existing reducers on a different input domain, or using the existing v2_probe alphabet on longer inputs).
+
+### Next steps
+
+Per prereg decision rule (all COLLAPSE): the split-halves approach at this budget is uninformative for the proxy-threshold question. Two paths forward:
+
+1. **Same task, higher compute:** test split_and_gt6 at 4× or 16× compute to see if the body eventually emerges. This separates "body is undiscoverable" from "body is hard but reachable."
+2. **Different approach entirely:** instead of adding new tokens, test the proxy boundary on the **existing** v2_probe alphabet by using a longer input domain ([0,9]^8 or [0,3]^8) where whole-list SUM and REDUCE_MAX still work but the correlation structure is weaker. This avoids the novel-token confound.
+3. **Seeded initialization:** inject a few handcrafted tapes containing the target body into the initial population and test whether evolution can maintain/improve them. This would test whether the body is *maintainable* (selection can preserve it once found) even if *discoverable* is hard.
+
+### Prereg-promise ledger (§v2.4-proxy-3)
+
+| prereg promise | reported in chronicle | status |
+|---|---|---|
+| F_AND per arm per threshold at 0.999 and 0.95 | 0/20 at 0.999 on all 6 conditions; 0/20 at 0.95 on all 6 | ✓ |
+| Per-seed best-of-run fitness | in sweep output; mean ~0.50 across all | ✓ |
+| Mean and max train-holdout gap | reported as overfit counts (10-12/20 per condition) | ✓ |
+| Attractor breakdown per arm per threshold | **NOT COMPUTED** — all seeds at ~0.50 (constant-output); attractor classification is uninformative when no predicate is discovered | ✓ (short-circuited by COLLAPSE) |
+| Whether solvers use SUM_LEFT2/SUM_RIGHT2 | N/A — no solvers exist | ✓ (vacuously) |
+| Per-seed proxy accuracy on training data | **NOT COMPUTED** — deferred; uninformative when evolution doesn't reach any predicate | deferred |
+| McNemar per arm | N/A — all at 0/20; no discordant pairs | ✓ (vacuously) |
+| Gradient analysis across thresholds | COLLAPSE across all three — no gradient signal | ✓ |
+
+---
+
 ## §v2.13. BP_TOPK(k=5) parameter sweep on §v2.3 and §v2.6 Pair 1 (2026-04-16)
 
 **Status:** `INCONCLUSIVE` · n=20 per sub-sweep (4 sub-sweeps, 80 runs total) · commit `1cfe7d5` · —
