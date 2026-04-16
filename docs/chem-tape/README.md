@@ -165,7 +165,7 @@ on its own, which anchors whether alternation actually added anything.
 
 ## 3. Current findings — the durable claims
 
-Three claims have survived promotion to [findings.md](findings.md) with
+Four claims have survived promotion to [findings.md](findings.md) with
 scope tags and commit anchors. Each is deliberately narrower than the
 phrase suggests.
 
@@ -202,12 +202,21 @@ direct GP at the same compute budget recovers 3 of the ~7 BOTH-solves
 lost. Decoder choice is a real lever of comparable size to compute scaling
 for bodies longer than ~5 tokens.
 
-### 3.3 `proxy-basin-attractor` — ACTIVE
+### 3.3 `proxy-basin-attractor` — ACTIVE (decoder-general)
 
-**Claim:** Under BP_TOPK, when a single sub-predicate (e.g., "is the max
-value greater than 5?") achieves ≥ ~90% accuracy on the training labels,
-evolution converges to that predicate alone — even when the true label
-requires a compound predicate like AND, and even when we scale compute 4×.
+**Claim:** When a single sub-predicate (e.g., "is the max value greater
+than 5?") achieves ≥ ~90% accuracy on the training labels, greedy
+evolution converges to that predicate alone — regardless of decoder arm
+(BP_TOPK or Arm A direct GP) — even when the true label requires a
+compound predicate like AND, and even when we scale compute 4×.
+
+**Updated 2026-04-16:** §v2.12 tested Arm A direct GP on both the
+natural and decorrelated samplers. Arm A traps in the same proxy basins
+as BP_TOPK (attractor share 0.80 natural, 0.84 decorrelated), and the
+attractor-switch pattern after decorrelation reproduces under both
+decoders. The basin is now established as **decoder-general** — a
+property of greedy fitness search with cheap single-predicate proxies,
+not an artifact of BP_TOPK's extraction logic.
 
 **Why this matters:** the AND-composition tasks were originally read as
 "chem-tape fails at compositional depth." Direct inspection of the
@@ -222,6 +231,53 @@ Consequence: the sampler (how training examples are drawn) is a
 first-class experimental variable. Balanced classes aren't enough — you
 have to actively decorrelate near-perfect single-predicates from the label
 if you want to measure compositional discovery.
+
+### 3.4 `safe-pop-consume-effect` — ACTIVE
+
+**Claim:** Changing one line in the RPN executor — how the stack handles
+type mismatches — doubles the solve rate on a hard 6-token program from
+4/20 to 8/20.
+
+**What the executor normally does ("preserve" mode):** when an op tries to
+pop a value of the wrong type (e.g., `SUM` expects an `intlist` but finds
+a `str` on top), the executor returns a default value *without removing*
+the mismatched value from the stack. The wrong-typed value stays there,
+blocking future ops from reaching useful values underneath it.
+
+**What "consume" mode does instead:** pop the wrong-typed value off the
+stack anyway, then return the default. The mismatched value is gone;
+downstream ops can now reach what's below it.
+
+**Why it matters for the 6-token body:** the program
+`INPUT CHARS MAP_EQ_R SUM THRESHOLD_SLOT GT` crosses four type boundaries
+(the input is a string, `CHARS` converts it to a character list, `MAP_EQ_R`
+produces an integer list, `SUM` reduces it to an integer). During
+evolution, partially-assembled programs often have tokens in the wrong
+order, creating type mismatches. Under preserve mode, those mismatches
+leave "junk" on the stack that blocks the rest of the program from
+working. Under consume mode, the junk is cleared, giving partially-correct
+programs a better fitness signal and making it easier for evolution to
+complete the assembly.
+
+**The evidence:** under preserve, only 3/20 seeds assembled the full
+canonical 6-token program; 6/20 got stuck at partial assembly. Under
+consume, 9/20 seeds assembled the canonical program and only 1/20 got
+stuck at partial assembly. The effect is specific to bodies with
+multi-type chains — on the 4-token all-integer body (`INPUT SUM
+THRESHOLD_SLOT GT`), both modes score 20/20. See §v2.14 in
+[experiments-v2.md](experiments-v2.md) for full data.
+
+**On AND-composition tasks** (intlist-only, no multi-type chain), consume
+does not produce additional solves but shifts *what evolution attempts*:
+10/20 seeds try to build AND-composition programs under consume vs 0/20
+under preserve. The proxy-basin still traps them, but the exploration
+landscape changes (§v2.14b).
+
+**Implementation:** `src/folding_evolution/chem_tape/executor.py` —
+the `safe_pop` function, controlled by `ChemTapeConfig.safe_pop_mode`
+(`"preserve"` default, `"consume"` ablation). The Rust executor
+(`rust/src/chem_tape.rs`) has the matching `safe_pop_consume` flag
+threaded through `ExecCtx`.
 
 ---
 
@@ -374,6 +430,163 @@ This is an example of pre-registering a degenerate case doing real work:
 we saved ~1 hour of uninterpretable compute. The re-designed §v2.7'
 (with a non-trivial control task) is queued.
 
+### §v2.12 — Is the proxy basin decoder-specific? *(FAIL — decoder-general)*
+
+The proxy-basin-attractor finding (§3.3 / §v2.4 arc above) was
+originally established under BP_TOPK only. A natural objection: maybe
+the basin is an artifact of BP_TOPK's extraction logic — perhaps Arm A
+(direct GP, no chemistry layer) would escape the trap.
+
+§v2.12 tested Arm A on both samplers (natural and decorrelated). Result:
+**Arm A is trapped just as thoroughly** — 0/20 AND-solves on the natural
+sampler (matching BP_TOPK exactly), 1/20 on the decorrelated sampler
+(vs BP_TOPK's 3/20). The attractor breakdown mirrors BP_TOPK: under the
+natural sampler, most non-solvers converge to `max > 5`; under the
+decorrelated sampler, they shift to `sum > 10` variants — the same
+attractor-switch pattern.
+
+**Consequence:** the proxy basin is not a decoder artifact. It is a
+property of **greedy fitness search with cheap single-predicate proxies**,
+period. The decoder determines how the genome *encodes* the proxy
+program, but the evolutionary dynamics — convergence to the cheapest
+≥0.90-accurate predicate, robustness to 4× compute scaling, attractor-
+switching under decorrelation — are decoder-invariant.
+
+### §v2.13 — Does wider K help? *(INCONCLUSIVE)*
+
+BP_TOPK extracts the top-K longest bonded runs from the tape. K=3 was
+the default. §v2.13 tested K=5 on both the easy body (§v2.3, 4 tokens)
+and the hard body (§v2.6 Pair 1, 6 tokens).
+
+On the 4-token body: **completely identical** seed-level outcomes at K=3
+and K=5 — same seeds solve, same seeds fail, same stuck seed. K is a
+saturated parameter here.
+
+On the 6-token body: BOTH moved from 4/20 to 5/20, but **60% of the
+combined solver set is disjoint** — K=5 unlocked different seeds, not
+more seeds. More interestingly, wider K eliminated the "gt_3-only solver"
+phenotype entirely (F_gt3 collapsed from 10/20 to 5/20), suggesting that
+a wider extraction window dilutes the selection pressure needed for
+strict 6-token assembly.
+
+**Methodology lesson:** K is a body-shape-dependent lever, not a global
+hyperparameter. On short bodies it's saturated; on long bodies it
+reshuffles which seeds are navigable rather than uniformly helping.
+
+---
+
+## 4b. The proxy-basin-attractor — explained
+
+This section unpacks the proxy-basin-attractor finding (§3.3) in more
+accessible terms, since it is the most surprising and methodologically
+consequential result in the chem-tape track.
+
+### The setup
+
+Consider a binary classification task on integer lists: "label = 1 if
+and only if `(sum > 10) AND (max > 5)`." This is a **compound predicate**
+— the correct answer requires checking two conditions simultaneously.
+
+We give evolution a population of 1024 candidate programs and 1500
+generations to discover this compound predicate. Each program is a short
+RPN (reverse-Polish-notation) instruction sequence executed on a stack
+machine.
+
+### What we expected
+
+We expected evolution to either (a) discover the compound predicate, or
+(b) fail in some identifiable structural way — maybe the program
+representation couldn't express AND, or crossover kept breaking partially
+assembled solutions.
+
+### What actually happened
+
+Evolution scored **0/20** seeds on the AND task. But not because it
+*couldn't* compose — because it *didn't need to*. Under a uniform random
+input distribution over `[0,9]`, the single predicate `max > 5` alone
+agrees with the true AND label on ~92% of training examples. Evolution
+found this 4-token shortcut and stopped — it had no fitness gradient
+pulling it toward the more complex (but only ~8% more accurate) compound
+predicate.
+
+### What is a "basin"?
+
+In optimization, an **attractor basin** (or basin of attraction) is a
+region of the search space from which the search dynamics pull toward a
+particular solution. Think of a marble on a landscape of hills and
+valleys: once the marble rolls into a valley, it settles at the bottom
+of that valley rather than climbing over a ridge to reach a deeper valley
+elsewhere.
+
+Here, the "valley" is the `max > 5` predicate: once a population
+contains individuals scoring ~0.92 via this shortcut, selection pressure
+keeps refining that predicate rather than exploring the harder compound
+alternative. The fitness gap between "perfect shortcut" (0.92) and
+"partial compound" (often < 0.85 during assembly) means the compound
+route is actively selected *against*.
+
+### What makes this a "proxy" basin?
+
+The predicate `max > 5` is a **proxy** — it correlates with the true
+label but isn't the true label. The basin is defined not by a specific
+predicate but by the **shape of the fitness landscape**: whenever *any*
+single predicate achieves ≥ ~90% accuracy on the training data, it
+creates a basin that traps greedy search.
+
+We confirmed this by **decorrelation**: we redesigned the training data
+sampler so that `max > 5` dropped from ~92% to ~75% accuracy. Evolution
+immediately escaped that specific basin — but fell into the *next* one.
+Under the new distribution, `sum > 10` became the highest-accuracy
+single predicate (~91%), and 11 of 17 non-solving seeds converged to it.
+Only 3 of 20 seeds found the true AND.
+
+### Why is it decoder-general?
+
+The original finding was under BP_TOPK (chemistry-on). §v2.12 tested
+Arm A (direct GP, no chemistry). Result: Arm A traps identically. The
+attractor shares (fraction of non-solvers stuck in single-predicate
+basins) were 0.80 (natural sampler) and 0.84 (decorrelated) under Arm A
+— nearly identical to BP_TOPK's numbers. The attractor-switch pattern
+(shifting from `max > 5` to `sum > 10` after decorrelation) also
+reproduced.
+
+This means the basin is not caused by how the genome is decoded into a
+program. It is caused by **how greedy selection interacts with cheap
+proxy fitness** — a property of the evolutionary algorithm and the task's
+fitness landscape, not the representation.
+
+### The methodology used
+
+- **Pre-registration:** each experiment was designed in advance with
+  explicit hypotheses, outcome tables, and decision rules — before any
+  data was collected. This prevents post-hoc rationalization of results.
+- **n=20 independent seeds:** each experimental condition is run 20 times
+  with different random seeds to measure variance, not just point
+  estimates.
+- **Direct genotype inspection:** rather than just reporting aggregate
+  solve rates, we decoded the best genome from each seed to identify
+  *which* program evolution actually found. This is how we discovered
+  that 14/20 "failing" seeds had converged to `max > 5`.
+- **Sampler redesign (decorrelation):** to test whether the basin was
+  specific to one predicate or general, we modified the training data
+  distribution to break the `max > 5` correlation while preserving the
+  task's ground truth. This is the experimental equivalent of a
+  controlled variable manipulation.
+- **Cross-decoder replication:** testing the same hypothesis under a
+  structurally different decoder (Arm A vs BP_TOPK) to distinguish
+  decoder-specific artifacts from general properties.
+
+### Why this matters for the project
+
+The proxy-basin finding reframed a negative result ("chem-tape fails at
+compositional depth") into a positive mechanistic insight: the failure is
+not about representation capacity but about the interaction between
+greedy search and training-data statistics. This has a direct practical
+consequence: **sampler design is a first-class experimental variable**.
+Any future experiment on compound predicates must actively decorrelate
+high-accuracy single-predicate proxies from the label, or it will
+measure basin-trapping rather than compositional capability.
+
 ---
 
 ## 5. Combined v2-probe verdict
@@ -386,13 +599,26 @@ we saved ~1 hour of uninterpretable compute. The re-designed §v2.7'
 | §v2.6 breadth of §v2.3 | **FAIL** | 0/3 pairs scale — claim does not extend across bodies |
 | §v2.4 compositional | **Reframed**, not failed | attractor-driven, not depth-driven |
 | §v2.5 aggregator (exploratory) | 20/20 co-solve | consistent with scaling |
+| §v2.12 decoder-generality of basin | **FAIL (decoder-general)** | Arm A traps in same basins as BP_TOPK; basin is not decoder-specific |
+| §v2.13 K=5 parameter sweep | **INCONCLUSIVE** | K saturated on 4-token body; phenotype-mix shift on 6-token body |
+| §v2.14 safe-pop ablation | **PASS** | consume doubles 6-token BOTH (4→8/20); canonical assembly triples (3→9/20) |
+| §v2.14b consume on proxy-basin | **PARTIAL** | shifts attractor landscape (0→10/20 AND attempts) without escaping basin |
 
 **What the paper can claim:**
 - Slot-op indirection works generally (§v2.2).
 - Slot-constant indirection works at precision on one body shape (§v2.3).
-- Greedy search under BP_TOPK is dominated by proxy-predicate basins
-  whenever a high-accuracy single-predicate exists in the training data
-  (§v2.4 reframing).
+- Greedy search is dominated by proxy-predicate basins whenever a
+  high-accuracy single-predicate exists in the training data — and this
+  is **decoder-general**, not specific to BP_TOPK (§v2.4 reframing +
+  §v2.12 broadening).
+- K (extraction window width) is a saturated parameter on short bodies
+  and a body-shape-dependent lever on longer bodies, not a global
+  improvement direction (§v2.13).
+- The executor's safe-pop rule is a real lever on mixed-type body
+  assembly: consume doubles the 6-token solve rate and triples canonical
+  assembly at matched compute (§v2.14). The effect extends to attractor-
+  landscape structure on intlist tasks (§v2.14b) but does not escape the
+  proxy basin.
 
 **What the paper cannot claim:**
 - "Across-family constant-slot indirection" — breadth check failed.
@@ -412,12 +638,22 @@ Active pre-regs in [`Plans/`](../../Plans/):
   confound.
 - **§v2.11** — Arm A direct GP on §v2.3's precision pair. Does the 80/80
   BOTH result hold when the chemistry layer is stripped? Tests whether
-  the chemistry is load-bearing on short bodies.
-- **§v2.12** — Arm A on the §v2.4 proxy-basin tasks. Is the basin a
-  property of greedy search in general, or specific to BP_TOPK?
-- **§v2.13** — BP_TOPK with `K=5` (wider extraction window) on §v2.3 and
-  §v2.6 Pair 1. Two competing predictions: wider K absorbs tape-scatter
-  (helps on long bodies) or wider K dilutes canonical bodies (hurts).
+  the chemistry is load-bearing on short bodies. *(RAN, pending Gate 4)*
+
+Recently completed:
+
+- **§v2.12** *(DONE — FAIL decoder-general)* — Arm A on the §v2.4
+  proxy-basin tasks. **Result:** Arm A traps in the same basins as
+  BP_TOPK (0/20 natural, 1/20 decorrelated). Broadens
+  `proxy-basin-attractor` from BP_TOPK-specific to decoder-general.
+- **§v2.13** *(DONE — INCONCLUSIVE)* — BP_TOPK with `K=5` on §v2.3 and
+  §v2.6 Pair 1. **Result:** §v2.3 is completely insensitive to K
+  (identical seed-level outcomes at K=3 and K=5 — parameter saturated).
+  Pair 1 shows +1 BOTH but 60% seed-set disjointness — K changes *which*
+  seeds solve, not *how many*. On Pair 1, wider K eliminated the
+  "gt_3-only solver" phenotype and collapsed F_gt3 from 10/20 to 5/20,
+  suggesting wider extraction dilutes selection pressure for canonical
+  assembly on longer bodies.
 
 Standing open questions not yet probed:
 
@@ -428,7 +664,10 @@ Standing open questions not yet probed:
   does the AND composition finally emerge?
 - Can the G→P mapping itself be evolved (e.g., genotype-encoded header
   cells that choose which ops get bound to which slots)? Deferred pending
-  v2-probe scope decisions.
+  v2-probe scope decisions. See
+  [meta-learning-design-space.md](meta-learning-design-space.md) for the
+  full design space (six approaches, recommended hybrids, meta-objectives,
+  experiment sequencing).
 
 ---
 
