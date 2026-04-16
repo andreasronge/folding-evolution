@@ -292,3 +292,18 @@
   expect_outputs: [sweep_index.json]
   track: chem-tape-v2
   notes: "§v2.4-proxy-4b: full-horizon maintainability probe (60 runs, ~30-45 min)."
+
+# §v2.4-proxy-4c: cross-decoder / cross-executor replication of §v2.4-proxy-4b's F/R dissociation.
+- id: v2_4_proxy4c_arm_a
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_4_proxy4c_arm_a.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.4-proxy-4c Arm A: F/R dissociation under direct GP (60 runs, ~20 min)."
+
+- id: v2_4_proxy4c_consume
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_4_proxy4c_consume.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.4-proxy-4c consume: F/R dissociation under consume executor (60 runs, ~20 min)."
