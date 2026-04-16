@@ -452,6 +452,62 @@ program, but the evolutionary dynamics — convergence to the cheapest
 ≥0.90-accurate predicate, robustness to 4× compute scaling, attractor-
 switching under decorrelation — are decoder-invariant.
 
+### §v2.11 — Is the chemistry load-bearing on the easy body? *(PASS — decoder-robust)*
+
+§v2.3's 80/80 BOTH was under BP_TOPK. A natural worry: is the chemistry
+layer (bonding + run extraction) doing the work, or would Arm A (direct
+GP, no chemistry) achieve the same result?
+
+**Result: 20/20 BOTH under Arm A**, with a counterfactual threshold-swap
+test confirming genuine slot-indirection (not an artifact). On the
+4-token all-int body, decoder choice simply doesn't matter — the body is
+short enough that both decoders find it easily. This **narrows** the
+decoder-arm caveat from the constant-slot-indirection finding: decoder
+dependence only kicks in on bodies demanding ≥6 tokens.
+
+### §v2.12 — Is the proxy basin decoder-specific? *(FAIL — decoder-general)*
+
+The proxy-basin-attractor finding (§3.3 / §v2.4 arc above) was
+originally established under BP_TOPK only. A natural objection: maybe
+the basin is an artifact of BP_TOPK's extraction logic — perhaps Arm A
+(direct GP, no chemistry layer) would escape the trap.
+
+§v2.12 tested Arm A on both samplers (natural and decorrelated). Result:
+**Arm A is trapped just as thoroughly** — 0/20 AND-solves on the natural
+sampler (matching BP_TOPK exactly), 1/20 on the decorrelated sampler
+(vs BP_TOPK's 3/20). The attractor breakdown mirrors BP_TOPK: under the
+natural sampler, most non-solvers converge to `max > 5`; under the
+decorrelated sampler, they shift to `sum > 10` variants — the same
+attractor-switch pattern.
+
+**Consequence:** the proxy basin is not a decoder artifact. It is a
+property of **greedy fitness search with cheap single-predicate proxies**,
+period. The decoder determines how the genome *encodes* the proxy
+program, but the evolutionary dynamics — convergence to the cheapest
+≥0.90-accurate predicate, robustness to 4× compute scaling, attractor-
+switching under decorrelation — are decoder-invariant.
+
+### §v2.4-proxy-2 — Dual decorrelation *(FAIL — proxy cascade)*
+
+After §v2.4-proxy broke `max > 5` and evolution shifted to `sum > 10`,
+the natural next step: decorrelate **both** simultaneously. Drop both to
+~0.75 accuracy on training.
+
+**Result: 0/20 AND-solves.** Evolution cascaded to third-tier proxies
+(`sum > 15` at 0.91 accuracy, `any cell > 7` at ~0.86). The basin is
+not a two-predicate phenomenon — it's a landscape property: whenever
+*any* single-predicate achieves ≥~0.85 accuracy, it creates a basin.
+Trapping threshold relaxed from ≥~0.90 to ≥~0.85 based on this data.
+
+### §v2.4-proxy-3 — Split-halves boundary probe *(INCONCLUSIVE)*
+
+Attempted to measure the exact proxy-accuracy threshold at which the
+basin releases, using a split-halves AND task with independently
+controllable conjunct thresholds. All conditions collapsed to trivial
+solutions due to a search-space confound — the split-halves design made
+the task too easy for single-element predicates. Inconclusive by its own
+pre-registered rules.
+
 ### §v2.13 — Does wider K help? *(INCONCLUSIVE)*
 
 BP_TOPK extracts the top-K longest bonded runs from the tape. K=3 was
@@ -472,6 +528,27 @@ strict 6-token assembly.
 **Methodology lesson:** K is a body-shape-dependent lever, not a global
 hyperparameter. On short bodies it's saturated; on long bodies it
 reshuffles which seeds are navigable rather than uniformly helping.
+
+### §v2.14 / §v2.14b — Safe-pop executor-rule ablation *(PASS + PARTIAL)*
+
+Inspired by Kuyucu et al. (2011), who showed that small decision rules
+in developmental systems can reshape evolvability. The ablation changes
+one line in the RPN executor: how type mismatches are handled during
+stack pops (see §3.4 above for the full explanation).
+
+**§v2.14 (hard pair):** consume doubles BOTH-solve from 4/20 to 8/20
+on the 6-token mixed-type body. Attractor inspection reveals the
+mechanism: canonical 6-token assembly triples (3→9/20) while partial-
+assembly drains (6→1/20). On the 4-token body: 20/20 under both rules.
+
+**§v2.14b (AND-composition):** consume shifts the attractor landscape
+dramatically (0→10/20 seeds now attempt AND-composition vs 0/20 under
+preserve on the natural sampler) but does not produce additional solves.
+The proxy basin holds, but what evolution *tries* changes.
+
+**Combined reading:** the consume rule is a real executor-level lever
+that affects both assembly (§v2.14) and exploration dynamics (§v2.14b),
+but its solve-rate benefit is specific to multi-type-boundary chains.
 
 ---
 
@@ -599,8 +676,11 @@ measure basin-trapping rather than compositional capability.
 | §v2.6 breadth of §v2.3 | **FAIL** | 0/3 pairs scale — claim does not extend across bodies |
 | §v2.4 compositional | **Reframed**, not failed | attractor-driven, not depth-driven |
 | §v2.5 aggregator (exploratory) | 20/20 co-solve | consistent with scaling |
+| §v2.11 Arm A on §v2.3 pair | **PASS (decoder-robust)** | Arm A reproduces 20/20 BOTH on 4-token body; decoder choice doesn't matter on short bodies |
 | §v2.12 decoder-generality of basin | **FAIL (decoder-general)** | Arm A traps in same basins as BP_TOPK; basin is not decoder-specific |
 | §v2.13 K=5 parameter sweep | **INCONCLUSIVE** | K saturated on 4-token body; phenotype-mix shift on 6-token body |
+| §v2.4-proxy-2 dual-decorrelation | **FAIL (proxy cascade)** | decorrelating top-2 proxies → evolution cascades to third-tier; basin threshold relaxed to ≥~0.85 |
+| §v2.4-proxy-3 split-halves boundary | **INCONCLUSIVE** | all conditions collapse; search-space confound prevents boundary measurement |
 | §v2.14 safe-pop ablation | **PASS** | consume doubles 6-token BOTH (4→8/20); canonical assembly triples (3→9/20) |
 | §v2.14b consume on proxy-basin | **PARTIAL** | shifts attractor landscape (0→10/20 AND attempts) without escaping basin |
 
@@ -620,12 +700,22 @@ measure basin-trapping rather than compositional capability.
   landscape structure on intlist tasks (§v2.14b) but does not escape the
   proxy basin.
 
+**What the paper can also claim:**
+- Constant-slot indirection on the 4-token body is **decoder-robust**:
+  Arm A reproduces 20/20 BOTH (§v2.11). Decoder-arm dependence only
+  matters on ≥6-token bodies.
+- The proxy-basin cascades through at least three tiers of single-
+  predicate proxies under dual-decorrelation, with a trapping threshold
+  at ≥~0.85 accuracy (§v2.4-proxy-2).
+
 **What the paper cannot claim:**
 - "Across-family constant-slot indirection" — breadth check failed.
 - "Compositional depth fails under chem-tape" — directly falsified by
   §v2.4-alt threshold=5 = 17/20.
 - "Constant-slot indirection works on any body" — tested only on
   `INPUT SUM THRESHOLD_SLOT GT` at thresholds {5, 10}.
+- "Safe-pop consume helps on all task types" — it helps on mixed-type
+  chains but does not escape the proxy basin on intlist-only tasks.
 
 ---
 
@@ -636,38 +726,43 @@ Active pre-regs in [`Plans/`](../../Plans/):
 - **§v2.8** — 6-token *integer* body with no `CHARS`/`MAP_EQ_R`, at same
   budget as §v2.6 Pair 1. Isolates body-length from string-domain
   confound.
-- **§v2.11** — Arm A direct GP on §v2.3's precision pair. Does the 80/80
-  BOTH result hold when the chemistry layer is stripped? Tests whether
-  the chemistry is load-bearing on short bodies. *(RAN, pending Gate 4)*
+- **§v2.14c** — consume + 4× compute on Pair 1. Do the two levers stack
+  (both relieve different bottlenecks) or substitute (same bottleneck)?
+- **§v2.14d** — consume under Arm A on Pair 1. Does the safe-pop effect
+  generalize beyond BP_TOPK?
+- **§v2.14e** — consume on a second slot binding (MAP_EQ_E instead of
+  MAP_EQ_R). Tests whether the effect is type-chain-driven or op-specific.
 
 Recently completed:
 
-- **§v2.12** *(DONE — FAIL decoder-general)* — Arm A on the §v2.4
-  proxy-basin tasks. **Result:** Arm A traps in the same basins as
-  BP_TOPK (0/20 natural, 1/20 decorrelated). Broadens
-  `proxy-basin-attractor` from BP_TOPK-specific to decoder-general.
-- **§v2.13** *(DONE — INCONCLUSIVE)* — BP_TOPK with `K=5` on §v2.3 and
-  §v2.6 Pair 1. **Result:** §v2.3 is completely insensitive to K
-  (identical seed-level outcomes at K=3 and K=5 — parameter saturated).
-  Pair 1 shows +1 BOTH but 60% seed-set disjointness — K changes *which*
-  seeds solve, not *how many*. On Pair 1, wider K eliminated the
-  "gt_3-only solver" phenotype and collapsed F_gt3 from 10/20 to 5/20,
-  suggesting wider extraction dilutes selection pressure for canonical
-  assembly on longer bodies.
+- **§v2.11** *(DONE — PASS decoder-robust)* — Arm A reproduces 20/20 BOTH
+  on §v2.3's 4-token pair. Decoder choice doesn't matter on short bodies.
+- **§v2.12** *(DONE — FAIL decoder-general)* — Arm A traps in the same
+  proxy basins as BP_TOPK (0/20 natural, 1/20 decorrelated).
+- **§v2.13** *(DONE — INCONCLUSIVE)* — K=5 is saturated on 4-token body;
+  reshuffles seeds on 6-token body without lifting the ceiling.
+- **§v2.4-proxy-2** *(DONE — FAIL proxy cascade)* — dual-decorrelation
+  confirms proxy cascade to third-tier predictors. Basin threshold
+  relaxed to ≥~0.85.
+- **§v2.4-proxy-3** *(DONE — INCONCLUSIVE)* — split-halves boundary probe
+  collapsed due to search-space confound.
+- **§v2.14** *(DONE — PASS)* — consume doubles 6-token BOTH (4→8/20);
+  canonical assembly triples (3→9/20). Promoted to findings.md.
+- **§v2.14b** *(DONE — PARTIAL)* — consume shifts attractor landscape on
+  AND-composition (0→10/20 AND attempts) without escaping basin.
 
 Standing open questions not yet probed:
 
 - Does a redesigned §v2.6' with Fmin-intermediate thresholds recover an
   across-body constant-indirection claim?
-- Under simultaneous decorrelation of both `max > 5` and `sum > 10`
-  (§v2.4-proxy-2), does a novel proxy like `any cell > 6` step in, or
-  does the AND composition finally emerge?
 - Can the G→P mapping itself be evolved (e.g., genotype-encoded header
   cells that choose which ops get bound to which slots)? Deferred pending
   v2-probe scope decisions. See
   [meta-learning-design-space.md](meta-learning-design-space.md) for the
   full design space (six approaches, recommended hybrids, meta-objectives,
   experiment sequencing).
+- If §v2.14c shows consume + compute stack, should consume become the
+  project default?
 
 ---
 
