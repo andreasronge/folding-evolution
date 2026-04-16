@@ -65,6 +65,7 @@ This project sits at the intersection of five research threads. The specific com
 - **Wagner, G.P. (1989)**. "The origin of morphological characters and the biological basis of homology." — Linear G-P map model. Three-layer model (genotype → phenotype → fitness) predicts low pleiotropy wins under stabilizing selection — confirmed by our static metrics. The right G-P map depends on environmental stability.
 - **Bonner, J.T. (1974)**. *On Development*. — Low pleiotropy principle. Our static metrics confirmed Bonner's prediction; our dynamic results show it fails under directional selection.
 - **Manrubia et al., Nichol et al.** — Reviews on GP-map structure emphasizing that neutrality, phenotypic bias, robustness, and accessibility of variation shape evolutionary dynamics. Supports measuring these as properties of the map, not just of individual programs.
+- **Pigozzi et al. (2024)**. "Quality-Diversity with Limited Resources." — Meta-learned developmental systems where evolution optimizes the G→P map itself for evolvability. Learned developmental processes produced more diverse artifacts and faster search. Direct computational evidence for Altenberg's thesis that the G-P map is a target of selection, not a fixed channel. Motivates our evolvable-chemistry direction (Direction 4 in `docs/future-directions.md`).
 
 ### 2. GP-Map Structure: RNA and Neutral Networks
 
@@ -97,6 +98,10 @@ The strongest biological analogue to our folding layer. In RNA, a linear sequenc
 - **Fontana & Buss — Algorithmic Chemistry (AlChemy)**. Molecules are computational objects whose interactions generate new computational objects. Strong precedent for our "chemistry yields computation" framing, but not spatial in the same way and does not use folding-derived geometry to assemble programs.
 - **Buliga — chemlambda / molecular computers**. Molecules as graphs of atoms and bonds, computation via local graph rewrites interpreted as chemical reactions. Close to our "chemistry rules assemble behavior" intuition, but the executable structure is already graph-like, whereas our system starts from a 1D sequence that must first acquire geometry through folding.
 
+### 6. Developmental System Design: Mechanism Ablation
+
+- **Kuyucu, Trefzer, Miller & Tyrrell (2011)**. "An Investigation of the Importance of Mechanisms and Parameters in a Multicellular Developmental System." *IEEE Trans. Evolutionary Computation*. — Systematic ablation study of a GRN-based multicellular developmental system across six pattern-formation tasks. Key results relevant to chem-tape and folding: (1) Local contact signaling is essential; removing it collapsed performance to 0/50 on some tasks. (2) Constant diffusion is harmful; the best diffusion mechanism was an evolvable diffusion protein (gene-controlled, not hard-wired). (3) Extra chemicals and mechanisms (local proteins, messenger molecules, food, unproductive genes) did *not* produce overall improvement — minimality may be an advantage. (4) Parameter optima (production/consumption rates, activation thresholds) are problem-dependent; evolving them per gene was the best compromise. (5) The structuring-protein phenotype mapping (reading transient developmental dynamics) significantly outperformed reading final chemical concentrations. (6) Switching the gene activation decision rule from conjunctive to voter caused large negative effects — small logic choices reshape the search landscape. (7) Results from one task family do not generalize; testing across multiple pattern classes is necessary for credible claims. Methodological takeaway for chem-tape: systematic micro-ablation of decoder rules (bonding logic, run termination, malformed-fragment handling) across multiple task families, following this paper's approach, is a concrete research direction. The paper's strongest chem-tape parallel is that local adjacency structure is the key signal carrier; its weakest is the temporal-dynamics finding, since chem-tape's single-pass decoder lacks the iterative developmental steps that make transient behavior informative in their GRN system.
+
 ### Novelty Assessment
 
 The general idea is not unprecedented; the nearest ancestor is Typogenetics. But the specific use of protein-like folding as a genotype-phenotype map that assembles runnable symbolic programs appears to be a novel combination. No prior system we found implements the full chain: string genome → fold into space → adjacency/bond rules → assembled executable symbolic program. The literature has pieces in separate traditions: folding and binding in artificial genetics (Typogenetics), chemistry as computation (AlChemy), local graph rewrites (chemlambda), digital organism dynamics (Avida).
@@ -113,6 +118,38 @@ This project is closest to RNA-style genotype-phenotype map research and indirec
 | Coevolution for escaping plateaus | Hillis, Zaman/Avida, Gupta |
 | Complexity ceiling as map property | Lenski/Avida scaffolding, Zaman complexity trajectories |
 | Fold-dependent program assembly | Typogenetics, AlChemy, chemlambda |
+
+## Meta-Learned Developmental Systems
+
+Recent work on meta-learning evolvability provides a modern computational frame for Altenberg's constructional selection. Instead of evolving solutions directly, evolution learns *how to generate solutions* via developmental systems (e.g., neural cellular automata). The developmental system itself is optimized to maximize evolvability — producing more diverse artifacts and enabling faster, more robust search.
+
+- **Pigozzi et al. (2024)**. "Quality-Diversity with Limited Resources." — Demonstrates that learned developmental systems (genome → developmental process → phenotype) outperform direct encodings on diversity and search efficiency when the developmental process is itself under selection pressure. The key insight: optimizing the G→P map *for the quality of variation it produces* — not just for the fitness of its current output — yields representations that are inherently more evolvable. (See `private/meta-learner.pdf` for extended analysis.)
+
+### Connection to Altenberg
+
+This is a computational realization of Altenberg's core thesis: the G-P map is not a fixed channel but a target of selection. Altenberg's Type I effects (genic selection — genes that produce good duplicates proliferate) predict exactly what meta-learned developmental systems achieve: the developmental rules that produce diverse, fit offspring are the rules that survive. The difference is resolution — Altenberg analyzed this at the level of individual genes within a genome; meta-learner architectures optimize the entire developmental pipeline as a unit.
+
+### Connection to Chem-Tape
+
+Chem-tape is a fixed developmental system: token tape → bonding rule → run segmentation → postfix program. The bonding rule, extraction logic (top-K), and bond-protection parameter are hand-designed constants. This meta-learner framing suggests a natural experiment: **evolve the developmental rules themselves**.
+
+The architecture becomes two-level:
+
+```
+meta-genome  →  chem-tape decoder (bonding threshold, K, bond-protection, min-run-length, ...)
+genome       →  phenotype (via the decoded rules)
+```
+
+The 1.8-era `DevGenome` experiment (see `docs/folding/findings.md` §Evolvable Chemistry) attempted this with population-level chemistry parameters but failed to improve fitness. Two design flaws explain the gap:
+
+1. **Granularity.** DevGenome was shared across the entire population. Meta-learner architectures attach developmental parameters to each individual, so chemistry variation is heritable and subject to individual-level selection.
+2. **Selection target.** DevGenome was selected on immediate fitness only. The meta-learner insight is to select for *evolvability* — e.g., offspring diversity, adaptation speed after task switches, or Pareto criteria on (fitness, variation-quality). A chemistry that produces diverse offspring survives environmental shifts even if its peak fitness is slightly lower.
+
+The proxy-basin-attractor finding (§v2.4 arc in `docs/chem-tape/README.md`) provides a concrete test case: both BP_TOPK and Arm A get trapped in single-predicate basins. An evolvable chemistry that biases against easy-to-assemble proxy programs — or that favors multi-chunk compositions — could reshape the fitness landscape to escape these basins, addressing the trap at the representation level rather than through sampler redesign.
+
+**Risk:** Chem-tape's bonding rules are discrete and combinatorial, unlike the smooth differentiable developmental systems in neural-CA meta-learners. The selection signal for evolvability (offspring diversity → better long-term fitness) is noisier with discrete rules. The DevGenome negative result is consistent with this concern. A diagnostic grid sweep over chemistry parameters on existing tasks (does *any* parameterization lift §v2.6 Pair 1 from 4/20?) would test whether the chemistry search space has enough useful structure before committing to full meta-learning machinery.
+
+See `docs/future-directions.md` Direction 4 for the engineering plan.
 
 ## Open Theoretical Questions
 
