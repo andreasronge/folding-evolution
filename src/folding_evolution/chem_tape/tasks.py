@@ -749,7 +749,10 @@ make_split_and_gt8_task = _make_split_and_task(8, "split_and_gt8")
 # Label: 1 iff count('R' in s) > threshold. Slot_12 = MAP_EQ_R.
 
 
-def _make_any_char_count_gt_slot_task(threshold: int, task_name: str, target: str):
+def _make_any_char_count_gt_slot_task(
+    threshold: int, task_name: str, target: str,
+    slot_12_op: str = alph.OP_MAP_EQ_R,
+):
     _STR_NO_TARGET = [c for c in _STR_ALPHABET_STR if c != target]
 
     def _label(s: str) -> int:
@@ -776,7 +779,7 @@ def _make_any_char_count_gt_slot_task(threshold: int, task_name: str, target: st
             inputs=train_inp,
             labels=train_lab,
             alphabet=alph.TaskAlphabet(
-                slot_12=alph.OP_MAP_EQ_R,
+                slot_12=slot_12_op,
                 slot_13=alph.OP_NOP,
                 threshold=threshold,
             ),
@@ -793,6 +796,14 @@ make_any_char_count_gt_1_slot_task = _make_any_char_count_gt_slot_task(
 )
 make_any_char_count_gt_3_slot_task = _make_any_char_count_gt_slot_task(
     3, "any_char_count_gt_3_slot", "R"
+)
+
+# §v2.14e: E-count variants — same body shape, slot_12=MAP_EQ_E.
+make_any_char_count_E_gt_1_slot_task = _make_any_char_count_gt_slot_task(
+    1, "any_char_count_E_gt_1_slot", "E", slot_12_op=alph.OP_MAP_EQ_E,
+)
+make_any_char_count_E_gt_3_slot_task = _make_any_char_count_gt_slot_task(
+    3, "any_char_count_E_gt_3_slot", "E", slot_12_op=alph.OP_MAP_EQ_E,
 )
 
 
@@ -1024,6 +1035,9 @@ TASK_REGISTRY = {
     "sum_plus2_gt_20_slot": make_sum_plus2_gt_20_slot_task,
     "sum_plus2_gt_22_slot": make_sum_plus2_gt_22_slot_task,
     "sum_plus2_gt_25_slot": make_sum_plus2_gt_25_slot_task,
+    # §v2.14e: E-count replication pair (same body shape as Pair 1, slot_12=MAP_EQ_E).
+    "any_char_count_E_gt_1_slot": make_any_char_count_E_gt_1_slot_task,
+    "any_char_count_E_gt_3_slot": make_any_char_count_E_gt_3_slot_task,
 }
 
 
