@@ -67,12 +67,18 @@ THRESHOLD_SLOT = 19
 SEP_A = 20
 SEP_B = 21
 
+# v2-split extension: masked-sum reducers for independent-half AND tasks.
+# SUM_LEFT2 sums input[0:2], SUM_RIGHT2 sums input[2:4] (length-4 intlists).
+SUM_LEFT2 = 22
+SUM_RIGHT2 = 23
+
 N_TOKENS_V1 = 16
 N_TOKENS_V2 = 22
+N_TOKENS_V2_SPLIT = 24
 # Legacy alias — existing v1 code paths (engine_numpy, engine_mlx) import
 # N_TOKENS; keep it pointing at the widest mask so lookup-table indexing stays
-# in-bounds when a v2 token appears on a tape.
-N_TOKENS = N_TOKENS_V2
+# in-bounds when a v2_split token appears on a tape.
+N_TOKENS = N_TOKENS_V2_SPLIT
 
 # Task-specific op names that slots 12/13 may bind to.
 OP_NOP = "NOP"
@@ -89,15 +95,15 @@ OP_REDUCE_MAX = "REDUCE_MAX"
 # "inactive" for the v2-only ids) -----
 
 # Active: ids 1..13 only. Ids 0, 14..21 inactive.
-ACTIVE_MASK_V1: np.ndarray = np.zeros(N_TOKENS_V2, dtype=bool)
+ACTIVE_MASK_V1: np.ndarray = np.zeros(N_TOKENS_V2_SPLIT, dtype=bool)
 ACTIVE_MASK_V1[1:14] = True
 
 # Separators (v1): 14, 15.
-SEPARATOR_MASK_V1: np.ndarray = np.zeros(N_TOKENS_V2, dtype=bool)
+SEPARATOR_MASK_V1: np.ndarray = np.zeros(N_TOKENS_V2_SPLIT, dtype=bool)
 SEPARATOR_MASK_V1[14:16] = True
 
 # Transparent (Arm BP): id 0 only.
-TRANSPARENT_MASK_V1: np.ndarray = np.zeros(N_TOKENS_V2, dtype=bool)
+TRANSPARENT_MASK_V1: np.ndarray = np.zeros(N_TOKENS_V2_SPLIT, dtype=bool)
 TRANSPARENT_MASK_V1[0] = True
 
 NON_SEPARATOR_MASK_V1: np.ndarray = ~SEPARATOR_MASK_V1
@@ -106,18 +112,35 @@ NON_SEPARATOR_MASK_V1: np.ndarray = ~SEPARATOR_MASK_V1
 # ----- v2-probe masks -----
 
 # Active: ids 1..19. Id 0 inactive; 20, 21 separators.
-ACTIVE_MASK_V2: np.ndarray = np.zeros(N_TOKENS_V2, dtype=bool)
+ACTIVE_MASK_V2: np.ndarray = np.zeros(N_TOKENS_V2_SPLIT, dtype=bool)
 ACTIVE_MASK_V2[1:20] = True
 
 # Separators (v2): 20, 21.
-SEPARATOR_MASK_V2: np.ndarray = np.zeros(N_TOKENS_V2, dtype=bool)
+SEPARATOR_MASK_V2: np.ndarray = np.zeros(N_TOKENS_V2_SPLIT, dtype=bool)
 SEPARATOR_MASK_V2[20:22] = True
 
 # Transparent (Arm BP): id 0 only — unchanged across alphabets.
-TRANSPARENT_MASK_V2: np.ndarray = np.zeros(N_TOKENS_V2, dtype=bool)
+TRANSPARENT_MASK_V2: np.ndarray = np.zeros(N_TOKENS_V2_SPLIT, dtype=bool)
 TRANSPARENT_MASK_V2[0] = True
 
 NON_SEPARATOR_MASK_V2: np.ndarray = ~SEPARATOR_MASK_V2
+
+
+# ----- v2-split masks (extends v2-probe with SUM_LEFT2/SUM_RIGHT2) -----
+
+# Active: ids 1..19 plus 22, 23. Id 0 inactive; 20, 21 separators.
+ACTIVE_MASK_V2_SPLIT: np.ndarray = np.zeros(N_TOKENS_V2_SPLIT, dtype=bool)
+ACTIVE_MASK_V2_SPLIT[1:20] = True
+ACTIVE_MASK_V2_SPLIT[22:24] = True
+
+# Separators same as v2: 20, 21.
+SEPARATOR_MASK_V2_SPLIT: np.ndarray = np.zeros(N_TOKENS_V2_SPLIT, dtype=bool)
+SEPARATOR_MASK_V2_SPLIT[20:22] = True
+
+TRANSPARENT_MASK_V2_SPLIT: np.ndarray = np.zeros(N_TOKENS_V2_SPLIT, dtype=bool)
+TRANSPARENT_MASK_V2_SPLIT[0] = True
+
+NON_SEPARATOR_MASK_V2_SPLIT: np.ndarray = ~SEPARATOR_MASK_V2_SPLIT
 
 
 # ----- Legacy (v1) module-level aliases -----
@@ -135,9 +158,16 @@ NON_SEPARATOR_MASK = NON_SEPARATOR_MASK_V1
 def masks_for(alphabet_name: str) -> dict[str, np.ndarray]:
     """Return the mask set for a given alphabet name.
 
-    `alphabet_name` is one of "v1" (default) or "v2_probe". Keys:
+    `alphabet_name` is one of "v1", "v2_probe", or "v2_split". Keys:
     `active`, `separator`, `transparent`, `non_separator`.
     """
+    if alphabet_name == "v2_split":
+        return {
+            "active": ACTIVE_MASK_V2_SPLIT,
+            "separator": SEPARATOR_MASK_V2_SPLIT,
+            "transparent": TRANSPARENT_MASK_V2_SPLIT,
+            "non_separator": NON_SEPARATOR_MASK_V2_SPLIT,
+        }
     if alphabet_name == "v2_probe":
         return {
             "active": ACTIVE_MASK_V2,
@@ -154,13 +184,15 @@ def masks_for(alphabet_name: str) -> dict[str, np.ndarray]:
 
 
 def is_active(tid: int, alphabet_name: str = "v1") -> bool:
+    if alphabet_name == "v2_split":
+        return (1 <= tid <= 19) or (22 <= tid <= 23)
     if alphabet_name == "v2_probe":
         return 1 <= tid <= 19
     return 1 <= tid <= 13
 
 
 def is_separator(tid: int, alphabet_name: str = "v1") -> bool:
-    if alphabet_name == "v2_probe":
+    if alphabet_name in ("v2_probe", "v2_split"):
         return tid in (20, 21)
     return tid in (14, 15)
 

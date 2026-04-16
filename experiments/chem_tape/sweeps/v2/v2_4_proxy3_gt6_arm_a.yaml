@@ -1,0 +1,22 @@
+sweep_name: v2_4_proxy3_gt6_arm_a
+# §v2.4-proxy-3: split-halves AND boundary sweep at threshold >6.
+# A on split_and_gt6 (independent left/right halves).
+# See Plans/prereg_v2_4_proxy3_boundary.md.
+base:
+  alphabet: v2_split
+  task: split_and_gt6
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  arm: A
+
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]

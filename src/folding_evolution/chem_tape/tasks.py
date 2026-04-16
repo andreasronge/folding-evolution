@@ -693,6 +693,54 @@ def make_sum_gt_10_AND_max_gt_5_dual_decorr_task(
     )
 
 
+# §v2.4-proxy-3: split-halves AND with independent conjuncts. Tests the
+# proxy-basin trapping threshold boundary. Body: SUM_LEFT2 CONST_T GT ...
+# SUM_RIGHT2 CONST_T GT AND — the two halves of a length-4 intlist are
+# independent, so no single whole-list predicate can achieve >~0.82 accuracy
+# at threshold >6 or >7.
+
+
+def _split_and_label(xs: tuple[int, ...], threshold: int) -> int:
+    """AND(sum(x[0:2]) > threshold, sum(x[2:4]) > threshold)."""
+    return 1 if (xs[0] + xs[1] > threshold and xs[2] + xs[3] > threshold) else 0
+
+
+def _make_split_and_task(threshold: int, task_name: str):
+    """Factory for split-halves AND tasks on [0,9]^4."""
+    def _label(xs: tuple[int, ...]) -> int:
+        return _split_and_label(xs, threshold)
+
+    def _make(cfg: ChemTapeConfig, seed: int) -> Task:
+        def gen(rng):
+            return _rand_intlist(rng, length=4)
+        def positive(xs):
+            return xs[0] + xs[1] > threshold and xs[2] + xs[3] > threshold
+        train_inp, train_lab, hold_inp, hold_lab = _build_training_and_holdout(
+            seed, cfg.n_examples, cfg.holdout_size, gen, _label, positive
+        )
+        return Task(
+            name=task_name,
+            input_type="intlist",
+            inputs=train_inp,
+            labels=train_lab,
+            alphabet=alph.TaskAlphabet(
+                slot_12=alph.OP_NOP,
+                slot_13=alph.OP_NOP,
+                threshold=threshold,
+            ),
+            label_fn=_label,
+            holdout_inputs=hold_inp,
+            holdout_labels=hold_lab,
+        )
+
+    return _make
+
+
+make_split_and_gt6_task = _make_split_and_task(6, "split_and_gt6")
+make_split_and_gt7_task = _make_split_and_task(7, "split_and_gt7")
+make_split_and_gt8_task = _make_split_and_task(8, "split_and_gt8")
+
+
 # §v2.6: three additional body-invariant constant-indirection pairs. Tests
 # whether §v2.3's 80/80 on sum_gt_{5,10}_slot generalises across task families.
 
@@ -952,6 +1000,10 @@ TASK_REGISTRY = {
     "sum_gt_10_AND_max_gt_5_decorr": make_sum_gt_10_AND_max_gt_5_decorr_task,
     # §v2.4-proxy-2: both max>5 AND sum>10 decorrelated simultaneously.
     "sum_gt_10_AND_max_gt_5_dual_decorr": make_sum_gt_10_AND_max_gt_5_dual_decorr_task,
+    # §v2.4-proxy-3: split-halves AND with independent conjuncts.
+    "split_and_gt6": make_split_and_gt6_task,
+    "split_and_gt7": make_split_and_gt7_task,
+    "split_and_gt8": make_split_and_gt8_task,
     # §v2.6: three body-invariant constant-indirection pairs.
     "any_char_count_gt_1_slot": make_any_char_count_gt_1_slot_task,
     "any_char_count_gt_3_slot": make_any_char_count_gt_3_slot_task,

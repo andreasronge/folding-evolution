@@ -211,6 +211,22 @@ def _op_threshold_slot(stack: list, inp_value, inp_type: str, ta: alph.TaskAlpha
     push_int(stack, int(ta.threshold))
 
 
+def _op_sum_left2(stack: list, inp_value, inp_type: str, ta: alph.TaskAlphabet) -> None:
+    """Push sum of input[0:2] (first two elements of intlist). §v2.4-proxy-3."""
+    if inp_type == "intlist" and isinstance(inp_value, (list, tuple)) and len(inp_value) >= 2:
+        push_int(stack, int(inp_value[0]) + int(inp_value[1]))
+    else:
+        push_int(stack, 0)
+
+
+def _op_sum_right2(stack: list, inp_value, inp_type: str, ta: alph.TaskAlphabet) -> None:
+    """Push sum of input[2:4] (last two elements of length-4 intlist). §v2.4-proxy-3."""
+    if inp_type == "intlist" and isinstance(inp_value, (list, tuple)) and len(inp_value) >= 4:
+        push_int(stack, int(inp_value[2]) + int(inp_value[3]))
+    else:
+        push_int(stack, 0)
+
+
 # ---------------- Op tables indexed by token id ----------------
 
 OpFn = Callable[[list, object, str, alph.TaskAlphabet], None]
@@ -259,6 +275,12 @@ _OPS_V2: dict[int, OpFn] = {
     alph.SEP_B:      _op_nop,
 }
 
+# v2-split dispatch: extends v2 with SUM_LEFT2/SUM_RIGHT2.
+_OPS_V2_SPLIT: dict[int, OpFn] = {**_OPS_V2,
+    alph.SUM_LEFT2:  _op_sum_left2,
+    alph.SUM_RIGHT2: _op_sum_right2,
+}
+
 # Slot-name → op function. Extended from v1 set with MAP_EQ_E and REDUCE_MAX
 # (architecture-v2.md §Slot-binding generalization). REDUCE_ADD is also
 # exposed as a slot binding for §v2.5's aggregator-variation design.
@@ -273,6 +295,8 @@ _SLOT_OPS: dict[str, OpFn] = {
 
 
 def _dispatch_table(alphabet_name: str) -> dict[int, OpFn]:
+    if alphabet_name == "v2_split":
+        return _OPS_V2_SPLIT
     if alphabet_name == "v2_probe":
         return _OPS_V2
     return _OPS_V1
