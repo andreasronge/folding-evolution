@@ -1,6 +1,6 @@
 # Pre-registration: §v2.14b
 
-**Status:** QUEUED · target commit `TBD` · 2026-04-16
+**Status:** PARTIAL · commit `1fc51c5` · 2026-04-16
 
 ## Question (one sentence)
 

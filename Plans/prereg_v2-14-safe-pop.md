@@ -1,6 +1,6 @@
 # Pre-registration: §v2.14
 
-**Status:** QUEUED · target commit `TBD` · 2026-04-16
+**Status:** PASS · commit `cdf9c39` · 2026-04-16
 
 ## Question (one sentence)
 
