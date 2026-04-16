@@ -1642,6 +1642,105 @@ Per prereg, three candidates were enumerated:
 
 ## References
 
+---
+
+## §v2.14b. Safe-pop consume on proxy-basin AND-composition tasks (2026-04-16)
+
+**Status:** `PARTIAL` · n=20 per sampler · commit `1fc51c5` · —
+
+**Pre-reg:** [Plans/prereg_v2-14b-consume-proxy.md](../../Plans/prereg_v2-14b-consume-proxy.md)
+**Sweep:** `experiments/chem_tape/sweeps/v2/v2_14b_consume_proxy_{natural,decorr}.yaml`
+**Compute:** ~27 min total (2 sweeps × ~13.5 min at 4-worker M1)
+
+### Question
+
+Does the safe-pop consume rule (which lifted 6-token mixed-type assembly in §v2.14) also affect proxy-basin-attractor dynamics on intlist-only AND-composition tasks?
+
+### Hypothesis (pre-registered)
+
+Predicted neutral — the type barriers that mattered in §v2.14 (str→charlist→intlist→int on the 6-token string-count body) don't exist on intlist-only inputs. The AND-composition tasks use intlist inputs; after the first SUM/REDUCE_MAX pop, the chain is all-int.
+
+### Result
+
+| Condition | F_AND (≥0.999) | Mean best fitness |
+|-----------|---------------|-------------------|
+| Preserve natural (§v2.4 baseline) | 0/20 | 0.921 |
+| **Consume natural** | **0/20** | **0.921** |
+| Preserve decorr (§v2.4-proxy baseline) | 3/20 | — |
+| **Consume decorr** | **1/20** | **0.937** |
+
+**Matches pre-registered outcome:** `PARTIAL — attractor shift without escape`
+Criterion: `C_nat (0) ≤ 3` AND `C_dec (1) ≤ 7` AND attractor breakdown differs from preserve. The `C_dec` value (1/20) is within ±2 of `P_dec` (3/20), satisfying the quantitative band, but the INCONCLUSIVE row also requires attractor breakdown to match preserve (±10%), which it does not. Codex review confirmed PARTIAL as the correct classification.
+
+### Attractor-category inspection (principle 21)
+
+Required for all results since baseline is 0/20.
+
+**Natural sampler attractor breakdown:**
+
+| Category | Preserve (§v2.4) | Consume |
+|---|---|---|
+| max_gt_proxy (REDUCE_MAX + GT, no SUM) | 14/20 | 8/20 |
+| and_composition (SUM + RED_MAX + IF_GT all present) | 0/20 | **10/20** |
+| sum_gt_proxy (SUM + GT, no RED_MAX) | 0/20 | 0/20 |
+| partial (SUM or RED_MAX without GT) | 6/20 | 2/20 |
+
+The consume rule dramatically shifts the attractor landscape: 10/20 seeds now attempt AND-composition (vs 0/20 under preserve), and max_gt_proxy dominance drops from 14/20 to 8/20. But none of the 10 and_composition seeds reach 0.999 — they are assembling the compound structure but failing to complete it to solve accuracy. The proxy basin is not escaped; evolution is reaching a different region of the fitness landscape but still not solving.
+
+**Decorrelated sampler attractor breakdown:**
+
+| Category | Preserve (§v2.4-proxy) | Consume |
+|---|---|---|
+| max_gt_proxy | ~2/17 non-solvers | 2/20 |
+| sum_gt_proxy | ~11/17 non-solvers | 4/20 |
+| and_composition | — | 9/20 |
+| partial | — | 3/20 |
+| other | — | 2/20 |
+
+Similar pattern: consume pushes more seeds toward and_composition attempts (9/20 vs ~0 under preserve), but only 1/20 reaches solve (seed 7, a max_gt_proxy program that happens to correlate well, not a genuine AND).
+
+### Interpretation
+
+The safe-pop consume rule reshapes the proxy-basin attractor landscape at this scope (`within-family / n=20 / at BP_TOPK(k=3,bp=0.5) v2_probe / on AND-composition intlist tasks`): it shifts the dominant attractor category from single-predicate proxy programs (max>5) toward compound AND-composition attempts. However, it does not help evolution escape the basin — none of the newly-accessible AND-composition programs reach solve accuracy.
+
+This is a genuinely informative PARTIAL result. It shows that the consume rule's effect extends beyond the multi-type-boundary chains where §v2.14 found it — even on all-int tasks, consume changes which program architectures evolution explores. The mechanism is plausibly broader than "clearing type barriers": consume may also affect how partially-assembled multi-component programs compete during selection (by simplifying the stack state of incomplete programs, making their fitness signal less noisy).
+
+**Mechanism rename check (principles 16 + 16b):**
+- (a) Narrower than "consume shifts attractor landscape"? The shift is specifically from single-predicate to multi-component programs at this scope. But none of the multi-component programs solve, so the shift is in exploration, not in outcome.
+- (b) Broader than §v2.14's "mixed-type chain assembly"? Yes — §v2.14b shows the consume effect extends to all-int tasks at the landscape level, even though it doesn't produce additional solves. The §v2.14 naming should note that the consume effect has been observed on two task families, not one, though its character differs (assembly lift on mixed-type, attractor shift on all-int).
+
+### Caveats
+
+- **Seed count:** n=20 per sampler (load-bearing).
+- **Baseline reuse:** preserve baselines from §v2.4 (commit `e3d7e8a`) and §v2.4-proxy (commit `0230662`), not fresh runs. §v2.14's replication check (P_easy=20/20, P_hard=4/20) validates that the preserve codepath is unchanged.
+- **Overreach check:** the attractor shift is real but does not translate to additional solves. "Consume helps AND-composition" would be overreach — consume shifts exploration toward AND-composition without completing it.
+
+### Degenerate-success check
+
+1. **Constant-output degeneracy:** Not triggered — no seeds approach 0.999 via degenerate programs.
+2. **Attractor inspection:** Reported above (principle 21). Seed 7 on decorr sampler solves at 1.000 but decodes as a max_gt_proxy program, not genuine AND-composition.
+
+### Diagnostics (prereg-promise ledger)
+
+| Prereg item | Status |
+|---|---|
+| Per-seed best-fitness | Reported (full per-seed tables above) |
+| Winner-genotype decoded programs + attractor classification | Reported (both samplers, all 40 seeds) |
+| Holdout gap | Available in result.json; seed 7 decorr: holdout=1.000 (not overfitting). Mean holdout gaps: natural 0.029, decorr 0.064. |
+
+### Findings this supports / narrows
+
+- Supports: `proxy-basin-attractor` ([findings.md](findings.md#proxy-basin-attractor)) — the basin is now confirmed robust to executor-rule variation (adding to decoder-general from §v2.12 and compute-robust from §v2.4). Consume shifts the attractor landscape but does not enable basin escape.
+- Narrows (mildly): §v2.14's scope — the consume effect is not strictly limited to multi-type-boundary chains. It also shifts attractor categories on all-int tasks, though without producing additional solves on that family.
+
+### Next steps (per prereg decision rule)
+
+- **PARTIAL →** Document the attractor shift. The consume rule reshapes the proxy landscape without escaping it. Promote §v2.14 to findings.md scoped to mixed-type body assembly (where it produces additional solves). Note §v2.14b as a broadening observation (consume affects landscape structure beyond type barriers) without a solve-rate claim.
+
+---
+
+## References
+
 - [architecture-v2.md](architecture-v2.md) — v2 probe architecture and decision tree.
 - [architecture.md](architecture.md) — v1 specification.
 - [experiments.md](experiments.md) — v1 experimental record (§10, §v1.5a-binary, §v1.5a-internal-control referenced throughout).
