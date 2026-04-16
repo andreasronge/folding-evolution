@@ -303,6 +303,15 @@ categories).
   under seeded §v2.4 BP_TOPK-preserve runs`. Edit-distance-2 R_2
   remains unmeasured; the mechanism name is expected to narrow
   further once that measurement lands.
+- Broadened-at-mechanism-scope (§v2.4-proxy-4c, experiment commit
+  `9135345`, 2026-04-17): F/R dissociation replicates across three
+  decoder × executor cells on the same task — BP_TOPK preserve,
+  Arm A preserve, BP_TOPK consume. All three produce 20/20 seeded
+  solve with exact-canonical best-of-run and R_exact ≤ 0.037. Mechanism
+  name scope qualifier broadens from "BP_TOPK-preserve-specific" to
+  "across three decoder × executor cells on this task family; common
+  ingredient: tournament selection." Non-tournament selection regimes
+  remain untested and are the natural next probe.
 
 ### Supporting experiments
 
@@ -323,6 +332,7 @@ categories).
 | experiment | commit | effect |
 |---|---|---|
 | [§v2.4-proxy-4b](experiments-v2.md#v24-proxy-4b-seeded-initialization-maintainability-probe--full-horizon-2026-04-16) | experiment commit `f10b066` (findings-revision commit `cac7537`) | Narrowed-at-mechanism-layer. Seeded-init at `seed_fraction ∈ {0.001, 0.01}` under BP_TOPK(k=3,bp=0.5) preserve on `sum_gt_10_AND_max_gt_5` achieves 20/20 solve with exact-canonical best-of-run retained across full 1500 gens; exact-match full-population retention bounded at R_2 ≤ 0.036 via proxy from final-gen aggregate stats (`mean_fitness=0.845`, `unique_genotypes=987/1024`). Edit-distance-2 R_2 (the prereg's actual metric) is unmeasured — `sweep.py` does not serialize final populations. The observed (F=20/20, R≤0.04) pattern did not match any pre-registered outcome row; the prereg's outcome table assumed F and R would correlate. Mechanism narrows from "pure discoverability-limited" to a scope-qualified reading of best-of-run retention with unmeasured edit-distance-2 propagation. Direct full-population decode deferred pending `sweep.py` dump_final_population flag. |
+| [§v2.4-proxy-4c](experiments-v2.md#v24-proxy-4c-cross-decoder--cross-executor-replication-of-fr-dissociation-2026-04-17) | experiment commit `9135345` | Cross-decoder / cross-executor replication of §v2.4-proxy-4b. Two sweeps on same task: (a) Arm A preserve — 20/20 seeded solve with R_exact ≤ 0.015; (b) BP_TOPK consume — 20/20 seeded solve with R_exact ≤ 0.037. All 40 seeded runs in both sweeps reach exact-canonical best-of-run; drift checks (0/20 at sf=0.0) reproduce §v2.12 and §v2.14b baselines under random-init. **The F/R dissociation is not BP_TOPK-preserve-specific**: it holds across three decoder × executor cells on this task (BP_TOPK preserve / Arm A preserve / BP_TOPK consume). Common ingredient: tournament selection. Edit-distance-2 R_2 remains unmeasured under all three cells. |
 
 Other narrowing candidates (informational):
 - ~~Different decoder arms: if BP (k=1) or A (direct GP) escape the basin
@@ -403,6 +413,16 @@ Other narrowing candidates (informational):
   ups: direct edit-distance-2 R_2 measurement via `sweep.py` final-
   population-dump extension; cross-decoder / cross-executor replication
   of the F/R pattern.
+- 2026-04-17 — **mechanism-scope broadened** by §v2.4-proxy-4c
+  (experiment commit `9135345`). F/R dissociation replicates on the
+  same task under Arm A preserve (20/20 seeded solve, R_exact ≤ 0.015)
+  and under BP_TOPK consume (20/20 seeded solve, R_exact ≤ 0.037).
+  Three decoder × executor cells all show the same qualitative F/R
+  dissociation. Mechanism name scope broadens from BP_TOPK-preserve-
+  specific to "three tested cells on this task; common ingredient:
+  tournament selection." Top-line claim and status unchanged. Pending
+  follow-up: non-tournament-selection probe; edit-distance-2 R_2
+  measurement across all three cells.
 
 ---
 
