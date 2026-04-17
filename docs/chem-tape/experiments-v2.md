@@ -2796,6 +2796,38 @@ Scope: `within-family / cross-decoder × cross-executor · n=20 per arm per cell
 - **Decode-consistent retention follow-up (zero-compute; data on disk):** queue a zero-compute inspection that runs the actual BP_TOPK top-3-longest-permeable-run decode (via `engine.compute_topk_runnable_mask` and the BP_TOPK extraction path in `evaluate._programs_for_arm`) on every dumped final-population genotype, computes edit distance on the decoded view, and reports per-cell `R₂_decode`. This is the measurement that will distinguish the two `R_fit` readings. No new sweep compute required — `final_population.npz` is on disk.
 - **Non-tournament-selection probe (new prereg required, fresh compute):** all three 4b/4c/4d cells share `tournament_size=3, elite_count=2`. Rerunning under ranking or Pareto selection would test whether the F/R dissociation is tournament-selection-specific. Fresh pre-registration required; not implied by this chronicle.
 
+### Decode-consistent follow-up (2026-04-17 evening, commit `cca2323`)
+
+The decode-consistent retention follow-up flagged above ran on the dumped `final_population.npz` — zero new compute, pure post-processing. `analyze_retention.py` was extended with `extract_decoded(tape, topk)` mirroring `evaluate._programs_for_arm`'s BP_TOPK path exactly (`engine.compute_topk_runnable_mask` + tape[mask] in tape order), plus a `METRIC_DEFINITIONS` dict per methodology §27 so downstream preregs can cite metric specifications verbatim rather than paraphrasing.
+
+**Decoded-view result at `seed_fraction = 0.01` (bootstrap 95% CI over 20 seeds, same bootstrap spec as the active-view columns):**
+
+| cell | R₂_active [95% CI] | **R₂_decoded [95% CI]** | R_fit (≥0.999) |
+|---|---|---|---|
+| BP_TOPK preserve | 0.0025 [0.0020, 0.0031] | **0.0024 [0.0019, 0.0030]** | 0.723 |
+| Arm A *(topk=1 per cfg default; informational — VM executes raw tape)* | 0.0053 [0.0043, 0.0063] | **0.0046 [0.0036, 0.0056]** | 0.004 |
+| BP_TOPK consume | 0.0025 [0.0018, 0.0032] | **0.0025 [0.0018, 0.0032]** | 0.730 |
+
+Decoded-view R₂ tracks active-view R₂ within ~0.001 in every cell; 95% CIs overlap heavily. Drift checks (sf=0.0) R₂_decoded = 0.000 across all three cells, matching R₂_active.
+
+**Resolves the candidate decoder-specific re-narrowing named in the main chronicle's "Mechanism rename check" section** in favour of the "alternative solver cloud" reading: under BP_TOPK the 72% R_fit majority comprises decoded programs that are **structurally distinct from canonical**, not canonical-equivalents recovered through top-K filtering. If reading (b) — "decoded-view retention through filtering" — were correct, BP_TOPK R₂_decoded would have been substantially higher than R₂_active (top-K would recover canonical-equivalent programs from tapes whose permeable-all view looked canonical-distant). Instead R₂_decoded tracks R₂_active. The BP_TOPK decoder's many-to-one mapping creates a genuine solver neutral network; canonical is one point in that network, and the majority-solver cloud is laterally distant from canonical in decoded-program space.
+
+**Mechanism split applied at findings-layer and arc-layer in the same commit batch:**
+- Arc doc `docs/chem-tape/arcs/proxy-basin-attractor-arc.md` — Open Q #1 (decoded-view disambiguation) moved to Closed table; superseded-readings entry added for the decoder-specific split; live next question advanced to "is the split tournament-selection-specific?"
+- `findings.md#proxy-basin-attractor` — status line updated to cite `cca2323`; scope-boundary F/R bullet rewritten to split per decoder (BP_TOPK "wide solver neutral network with canonical off-center" vs Arm A "classical proxy-basin population dynamics"); mechanism naming history extended; narrowing/falsifying table adds a follow-up row; implications-downstream updated.
+- Methodology §2b case-list update (flagged by the main 4d chronicle) is discharged by methodology commit `4f98e77` adding §26 ("diagnostic axes can become load-bearing — grid them at coarse bins"), which codifies the 4d lesson as its own principle.
+
+**Caveats carried forward:**
+- Arm A runs use `topk=1` (ChemTapeConfig default for `arm='A'`), so the Arm A decoded column is informational — "what would this tape decode to under BP_TOPK(k=1)?" — not what the Arm A VM executes. The Arm A mechanism reading (classical proxy-basin with canonical elite-preserved) rests on R_fit = 0.004 and final_mean ≈ 0.836, not on the decoded-view column.
+- `R_fit` cross-cell differential is now mechanism-supported (not just diagnostic) under the decoder-specific reading, but `R_fit` was not pre-registered as an outcome-grid axis. Per methodology §26 (added post-4d by commit `4f98e77`), any downstream prereg that measures `R_fit` at per-seed resolution must grid it at coarse bins in the outcome table rather than demote it to diagnostic-only.
+- Tournament selection remains the common ingredient across all three 4b/4c/4d cells. Whether either decoder-specific mechanism dissolves under ranking / Pareto / (µ,λ) selection is untested; this is the live next question on the arc doc.
+
+### Next steps (decoder-specific framing)
+
+- **Non-tournament-selection probe** — fresh prereg, both decoder arms so each mechanism is tested separately.
+- **Tier-1 preregs** — `bond_protection_ratio` sweep (BP_TOPK cells only; bp is ignored for Arm A per `config.py:28`) and `mutation_rate` sweep (both arms). Outcome grids under §26 treat (R₂_decoded, R_fit, F) as independent axes.
+- **Arm A plasticity probe** — `docs/chem-tape/runtime-plasticity-direction.md` §v2.5-plasticity-1a, scoped to Arm A where the plateau is genuinely narrow (R_fit = 0.004). Needs METRIC_DEFINITIONS entries per §27 before the prereg can cite them.
+
 ---
 
 

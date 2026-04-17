@@ -241,7 +241,7 @@ mechanism-untested; they cannot be counted as supporting evidence.
 
 **Scope tag:** `within-family / cross-axis on AND-composition` · `n=20 each on 7 sweeps × ≥4 attractor reframings` · `at pop=1024 gens=1500 (and 4× scaled to pop=2048 gens=3000) v2_probe alphabet` · `across decoder arms {BP_TOPK(k=3,bp=0.5), Arm A direct GP}` · `across sampler conditions {natural, single-decorr, dual-decorr}` · `on integer-list AND-composition labels of the form` `(sum > t1) AND (max > t2)`
 
-**Status:** `ACTIVE` · last revised commit `a8a1e6d` · 2026-04-17 (narrowed at the mechanism layer by §v2.4-proxy-4b/4c/4d — best-of-run vs full-population retention dissociate; active-view edit-distance-2 retention now directly measured ≤ 0.0053 per cell; decoded-view retention under BP_TOPK remains an open principle-25 gap; basin still ACTIVE as a greedy-convergence claim under uniform-random init)
+**Status:** `ACTIVE` · last revised commit `cca2323` · 2026-04-17 evening (narrowed at the mechanism layer by §v2.4-proxy-4b/4c/4d + §v2.4-proxy-4d decode-consistent follow-up — best-of-run vs full-population retention dissociate under a **decoder-specific mechanism split**: BP_TOPK = canonical off-center in a wide solver neutral network; Arm A = classical proxy-basin population dynamics with canonical elite-preserved only. Basin still ACTIVE as a greedy-convergence claim under uniform-random init)
 
 ### Claim
 
@@ -268,7 +268,10 @@ categories).
 - Does not claim the basin is the only failure mode — the §v2.6 Pair 1
   failure (different track, body topology issue) is a distinct mechanism.
 - ~~Tested only at BP_TOPK(k=3, bp=0.5); other arms not characterised.~~ **Updated 2026-04-16:** §v2.12 tested Arm A direct GP on both samplers; Arm A traps in the same basin categories (attractor_share 0.80 natural, 0.84 decorr). Decoder-arm is no longer an open scope boundary on this task family. (Pending principle-20 audit discharge for paper-grade.)
-- **Best-of-run vs full-population retention dissociate (§v2.4-proxy-4b, 2026-04-17; directly measured §v2.4-proxy-4d, 2026-04-17):** when the canonical AND body is seeded into the initial population at `seed_fraction ∈ {0.001, 0.01}`, 20/20 runs achieve full solve with the canonical body retained at best-of-run across the full 1500 gens. **But the full-population retention** is below the PARTIAL floor across three decoder × executor cells (BP_TOPK preserve, Arm A preserve, BP_TOPK consume): exact-match upper bound R_exact ≤ 0.037 and directly-measured permeable-all active-view R₂_active ≤ 0.0053 (95% CI ≤ 0.007) per cell at commit `a8a1e6d`. Selection preserves the canonical body at the top of the population but does not propagate it through the population under standard mutation rates on the active-view metric. This **does not falsify** the top-line claim (greedy evolution still converges to the proxy under uniform-random initialization); it **narrows the mechanism** from "pure discoverability-limited (selection would hold canonical if only search could reach it)" to "best-of-run canonical attractor with active-view erosion under mutation pressure." Under Arm A the active-view metric approximates execution-trace drift, so the narrowing is directionally solid. **Under BP_TOPK the narrowing is scope-limited to the active view** — because Levenshtein edit distance is not monotone under the top-K-longest-run subsequence restriction, active-view R₂_active does not bound decoded-view R₂_decode in either direction. A zero-compute decode-consistent follow-up on the dumped final populations (via `engine.compute_topk_runnable_mask` on `final_population.npz`) is open. A separately surfaced cross-cell R_fit differential (≥0.999-fitness fraction ~0.72 under BP_TOPK vs ~0.004 under Arm A) is flagged as diagnostic but not promoted — its mechanism interpretation is ambiguous between an "alternative solver cloud" reading and a "decoded-view retention through filtering" reading that only the decode-consistent follow-up can distinguish.
+- **Best-of-run vs full-population retention dissociate under a decoder-specific mechanism split (§v2.4-proxy-4b, §v2.4-proxy-4c, §v2.4-proxy-4d, §v2.4-proxy-4d decode-consistent follow-up, 2026-04-17):** when the canonical AND body is seeded into the initial population at `seed_fraction ∈ {0.001, 0.01}`, 20/20 runs achieve full solve with the canonical body retained at best-of-run across the full 1500 gens across all three tested decoder × executor cells (BP_TOPK preserve, Arm A preserve, BP_TOPK consume). **But the full-population retention** is below the PARTIAL floor in every cell: exact-match upper bound R_exact ≤ 0.037; directly-measured permeable-all active-view R₂_active ≤ 0.0053 (95% CI ≤ 0.007) per cell (commit `a8a1e6d`); decode-consistent BP_TOPK view R₂_decoded ≈ 0.0024-0.0025 per BP_TOPK cell, tracking active-view R₂ within ~0.001 (commit `cca2323`, §v2.4-proxy-4d follow-up). This **does not falsify** the top-line claim (greedy evolution still converges to the proxy under uniform-random initialization); it **narrows the mechanism** into two decoder-specific readings under the same F/R dissociation header:
+  - **BP_TOPK (preserve + consume):** the population sits on a **wide solver neutral network with canonical off-center**. At `seed_fraction=0.01`, 72-73% of the final population solves at fitness ≥ 0.999, but decoded programs across that majority-solver cloud are **structurally distinct from canonical** (R₂_decoded ≈ 0.002). Selection preserves canonical at the elite slot via seeding; population drifts laterally across the decoded-solver network rather than off-plateau. The chem-tape BP_TOPK decoder's many-to-one mapping creates this network structurally.
+  - **Arm A (direct GP):** the population sits in a **classical proxy basin** with canonical elite-preserved only. At `seed_fraction=0.01`, only ~0.4% of the final population solves at fitness ≥ 0.999; mean fitness ≈ 0.836 matches the proxy-basin anchor from §v2.12 descriptive counts. Selection preserves canonical at the elite slot; non-elite slots saturate in the proxy basin.
+  The common-ingredient "tournament selection" observation carries forward to both cells but is no longer a sufficient mechanism description — the decoder arm is itself load-bearing. Whether the two decoder-specific mechanisms dissolve under non-tournament selection is an open probe (all three 4b/4c/4d cells share `tournament_size=3, elite_count=2`).
 
 ### Mechanism reading (current)
 
@@ -328,6 +331,26 @@ categories).
   cells vs ~0.004 under Arm A — was observed but is flagged as
   diagnostic, not as a mechanism narrowing, pending the decode-consistent
   follow-up.
+- Decoder-specific re-narrowing (§v2.4-proxy-4d decode-consistent
+  follow-up, commit `cca2323`, 2026-04-17 evening): `analyze_retention.py`
+  extended with `extract_decoded(tape, topk)` mirroring
+  `evaluate._programs_for_arm`'s BP_TOPK path. Decoded-view R₂ at
+  `seed_fraction=0.01` tracks active-view R₂ within ~0.001 in every
+  cell (BP_TOPK preserve: R₂_decoded = 0.0024 95% CI [0.0019, 0.0030];
+  BP_TOPK consume: 0.0025 95% CI [0.0018, 0.0032]; Arm A informational
+  at topk=1: 0.0046 95% CI [0.0036, 0.0056]). This resolves the two
+  candidate interpretations of the R_fit cross-cell differential in
+  favour of the "alternative solver cloud" reading: under BP_TOPK the
+  72% R_fit majority comprises decoded programs that are **structurally
+  distinct from canonical**, not canonical-equivalents recovered by
+  top-K filtering. The §v2.4-proxy-4c broadening ("across three
+  decoder × executor cells, common ingredient: tournament selection")
+  is re-narrowed per decoder (methodology §16 / §16b — broadening-
+  then-narrowing): BP_TOPK = "canonical off-center in wide solver
+  neutral network"; Arm A = "classical proxy-basin population dynamics
+  with canonical elite-preserved only." The common tournament-selection
+  ingredient carries forward but is no longer a sufficient mechanism
+  description.
 
 ### Supporting experiments
 
@@ -350,6 +373,7 @@ categories).
 | [§v2.4-proxy-4b](experiments-v2.md#v24-proxy-4b-seeded-initialization-maintainability-probe--full-horizon-2026-04-16) | experiment commit `f10b066` (findings-revision commit `cac7537`) | Narrowed-at-mechanism-layer. Seeded-init at `seed_fraction ∈ {0.001, 0.01}` under BP_TOPK(k=3,bp=0.5) preserve on `sum_gt_10_AND_max_gt_5` achieves 20/20 solve with exact-canonical best-of-run retained across full 1500 gens; exact-match full-population retention bounded at R_2 ≤ 0.036 via proxy from final-gen aggregate stats (`mean_fitness=0.845`, `unique_genotypes=987/1024`). Edit-distance-2 R_2 (the prereg's actual metric) is unmeasured — `sweep.py` does not serialize final populations. The observed (F=20/20, R≤0.04) pattern did not match any pre-registered outcome row; the prereg's outcome table assumed F and R would correlate. Mechanism narrows from "pure discoverability-limited" to a scope-qualified reading of best-of-run retention with unmeasured edit-distance-2 propagation. Direct full-population decode deferred pending `sweep.py` dump_final_population flag. |
 | [§v2.4-proxy-4c](experiments-v2.md#v24-proxy-4c-cross-decoder--cross-executor-replication-of-fr-dissociation-2026-04-17) | experiment commit `9135345` | Cross-decoder / cross-executor replication of §v2.4-proxy-4b. Two sweeps on same task: (a) Arm A preserve — 20/20 seeded solve with R_exact ≤ 0.015; (b) BP_TOPK consume — 20/20 seeded solve with R_exact ≤ 0.037. All 40 seeded runs in both sweeps reach exact-canonical best-of-run; drift checks (0/20 at sf=0.0) reproduce §v2.12 and §v2.14b baselines under random-init. **The F/R dissociation is not BP_TOPK-preserve-specific**: it holds across three decoder × executor cells on this task (BP_TOPK preserve / Arm A preserve / BP_TOPK consume). Common ingredient: tournament selection. Edit-distance-2 R_2 remains unmeasured under all three cells. |
 | [§v2.4-proxy-4d](experiments-v2.md#v24-proxy-4d-active-view-edit-distance-2-retention-measurement-across-the-three-v24-proxy-4b4c-seeded-cells-2026-04-17) | experiment + findings-revision commit `a8a1e6d` | Active-view edit-distance-2 retention directly measured across the three §v2.4-proxy-4b/4c seeded cells at `seed_fraction=0.01`, after extending `sweep.py` with a `dump_final_population` flag and adding `analyze_retention.py`. Permeable-all active-view R₂_active ≤ 0.0053 (95% CI ≤ 0.007) per cell, matching the pre-registered CONFIRM-erosion row. No near-canonical active-view shell was hiding behind §v2.4-proxy-4b/4c's exact-match upper bound. Baseline comparability check passes in every cell (unique_genotypes + final_mean_fitness match 4b/4c anchors to < 0.001). Under Arm A the metric approximates execution-trace drift, so the narrowing is directly supported. **Under BP_TOPK, R₂_active does not bound the decoded-view retention in either direction** — Levenshtein is not monotone under the top-K-longest-run subsequence restriction, so a decoded-view canonical shell is not ruled out. A zero-compute decode-consistent retention follow-up (`engine.compute_topk_runnable_mask` on `final_population.npz`) is queued. Incidental observation: cross-cell R_fit(≥0.999) differential — ~0.72 under BP_TOPK cells vs ~0.004 under Arm A — is flagged as diagnostic only, not promoted. |
+| [§v2.4-proxy-4d decode-consistent follow-up](experiments-v2.md#v24-proxy-4d-active-view-edit-distance-2-retention-measurement-across-the-three-v24-proxy-4b4c-seeded-cells-2026-04-17) | `cca2323` | Decode-consistent BP_TOPK retention directly measured on the dumped `final_population.npz` via `engine.compute_topk_runnable_mask`. `analyze_retention.py` extended with `extract_decoded(tape, topk)` mirroring `evaluate._programs_for_arm`'s BP_TOPK path + `METRIC_DEFINITIONS` dict per methodology §27. R₂_decoded at `seed_fraction=0.01`: BP_TOPK preserve 0.0024 95% CI [0.0019, 0.0030]; BP_TOPK consume 0.0025 95% CI [0.0018, 0.0032]; Arm A (topk=1 per cfg default, informational) 0.0046 95% CI [0.0036, 0.0056]. Decoded-view R₂ tracks active-view R₂ within ~0.001 in every cell. **Resolves the candidate decoder-specific re-narrowing flagged by §v2.4-proxy-4d** in favour of the "alternative solver cloud" reading: under BP_TOPK the 72% R_fit majority comprises decoded programs structurally distinct from canonical, not canonical-equivalents recovered by top-K filtering. Mechanism scope is now decoder-specific (see Mechanism reading § naming history). |
 
 Other narrowing candidates (informational):
 - ~~Different decoder arms: if BP (k=1) or A (direct GP) escape the basin
@@ -383,11 +407,18 @@ Other narrowing candidates (informational):
   distance-2 R_2 actually looks like directly-measured**~~ (resolved by
   §v2.4-proxy-4c and §v2.4-proxy-4d: F/R dissociation reproduces under
   Arm A preserve and BP_TOPK consume; permeable-all active-view R₂_active
-  ≤ 0.0053 per cell across all three 4b/4c/4d cells); **the decoded-view
-  retention under BP_TOPK remains open** — a zero-compute decode-consistent
-  post-processor run against the dumped `final_population.npz` is the
-  next step and will also disambiguate the incidental R_fit cross-cell
-  differential surfaced by §v2.4-proxy-4d.
+  ≤ 0.0053 per cell across all three 4b/4c/4d cells); ~~**the decoded-view
+  retention under BP_TOPK remains open**~~ (resolved by §v2.4-proxy-4d
+  decode-consistent follow-up, commit `cca2323`: R₂_decoded tracks
+  R₂_active within ~0.001 per cell; BP_TOPK R_fit majority is an
+  alternative solver cloud, not canonical-equivalent recovered through
+  top-K filtering); whether either decoder-specific mechanism (BP_TOPK
+  wide-solver-network or Arm A classical-proxy-basin) dissolves under
+  non-tournament selection (all three 4b/4c/4d cells share
+  `tournament_size=3, elite_count=2`); whether runtime plasticity at
+  execution time (see `docs/chem-tape/runtime-plasticity-direction.md`)
+  narrows Arm A's proxy basin toward canonical in a way that structural
+  decoder smoothing (BP_TOPK) does not.
 - **Part-1 meta-learning direction (revised 2026-04-17):** the F/R
   dissociation re-opens mutation-robustness operators as a candidate
   alongside exploration / diverse-initialization operators. Pre-§v2.4-
@@ -476,6 +507,34 @@ Other narrowing candidates (informational):
   consistent follow-up will confirm or refute whether those are
   mechanistically distinct (solver-neutral-network asymmetry) or a
   measurement-infrastructure asymmetry.
+- 2026-04-17 evening — **decoder-specific re-narrowing applied** by
+  §v2.4-proxy-4d decode-consistent follow-up (commit `cca2323`).
+  `analyze_retention.py` extended with `extract_decoded(tape, topk)`
+  mirroring `evaluate._programs_for_arm`'s BP_TOPK path + `METRIC_DEFINITIONS`
+  dict per methodology §27. Decoded-view R₂ at `seed_fraction=0.01`
+  tracks active-view R₂ within ~0.001 in every cell (BP_TOPK preserve
+  0.0024, BP_TOPK consume 0.0025, Arm A informational at topk=1: 0.0046).
+  Resolves the decoder-specific-narrowing candidate flagged by 4d in
+  favour of the "alternative solver cloud" reading: under BP_TOPK the
+  72% R_fit majority comprises decoded programs structurally distinct
+  from canonical, not canonical-equivalents recovered through top-K
+  filtering. Mechanism scope re-narrowed per decoder (methodology §16 /
+  §16b — broadening-then-narrowing applied to the §v2.4-proxy-4c
+  broadening): BP_TOPK = "canonical off-center in wide solver neutral
+  network"; Arm A = "classical proxy-basin population dynamics with
+  canonical elite-preserved only." Status line updated; claim sentence
+  unchanged (top-line greedy-convergence claim is about uniform-random
+  init, unaffected by the seeded-init mechanism split). Scope-boundary
+  bullet and mechanism naming history updated to cite `cca2323`.
+  Principle-2b methodology case-list update (carried over from 4d's
+  review-history note) is **resolved** by the user's methodology commit
+  `4f98e77` adding §26 (diagnostic axes can become load-bearing — grid
+  them at coarse bins), which codifies the lesson as its own principle.
+  Pending follow-ups: non-tournament-selection probe (carried forward
+  from 4c/4d); Tier-1 preregs on (bond_protection_ratio, mutation_rate)
+  sweeps under the new decoder-specific framing with §26-compliant
+  3-axis outcome grids; Arm A plasticity probe per
+  `docs/chem-tape/runtime-plasticity-direction.md`.
 
 ---
 
