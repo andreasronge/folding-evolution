@@ -5,8 +5,7 @@ Reads `final_population.npz` (genotypes, fitnesses) from every run under
 a sweep directory, computes edit-distance-k retention R_k against a
 canonical target tape, and emits a per-run CSV + per-arm summary JSON.
 
-Two edit-distance views. IMPORTANT: neither is the BP_TOPK decode view
-(top-3 longest permeable runs). The two views here are:
+Three edit-distance views:
 
 - **active** (permeable-all) — token-level Levenshtein on the sequence of
   non-NOP, non-separator tokens in tape order. This is a **superset** of
@@ -15,10 +14,14 @@ Two edit-distance views. IMPORTANT: neither is the BP_TOPK decode view
   Arm A the VM runs the raw tape, so active drift approximates
   execution-trace drift up to NOP/separator no-op reorderings.
 - **raw** — Levenshtein on the full 32-token tape.
-
-A decode-consistent measurement against the actual top-K longest
-permeable-run extraction (`compute_topk_runnable_mask`) is a follow-up
-that operates on the same `final_population.npz` on disk.
+- **decoded** (BP_TOPK-decode-consistent) — Levenshtein on the tokens
+  that the BP_TOPK(k=topk) decoder actually passes to the VM: top-K
+  longest non-separator runs concatenated in tape order. Mirrors
+  `evaluate._programs_for_arm`'s BP_TOPK path exactly. For BP_TOPK
+  runs this is the execution-semantic view. For Arm A runs the VM
+  executes the raw tape, so the decoded column is informational
+  ("what would this tape decode to if passed through BP_TOPK(k)?")
+  rather than execution-semantic.
 
 Usage:
     python experiments/chem_tape/analyze_retention.py <sweep_name>
@@ -43,6 +46,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
 from folding_evolution.chem_tape import alphabet as alph  # noqa: E402
+from folding_evolution.chem_tape import engine  # noqa: E402
 
 OUTPUT_ROOT = REPO_ROOT / "experiments" / "chem_tape" / "output"
 
@@ -70,6 +74,21 @@ def extract_active(tape: np.ndarray, alphabet: str) -> tuple[int, ...]:
             continue  # separator
         out.append(ti)
     return tuple(out)
+
+
+def extract_decoded(tape: np.ndarray, topk: int) -> tuple[int, ...]:
+    """Return the BP_TOPK(k=topk) decode-consistent view: tokens under the
+    top-K longest non-separator runs, concatenated in tape order. Mirrors
+    `evaluate._programs_for_arm`'s BP_TOPK path — the exact sequence of
+    tokens the VM executes for arm=BP_TOPK.
+
+    For an Arm A run this is informational only: the VM executes the raw
+    tape, so the decoded view answers "what would this tape decode to
+    under BP_TOPK(k)?" rather than reporting what actually ran.
+    """
+    tapes = tape.reshape(1, -1)
+    mask = engine.compute_topk_runnable_mask(tapes, topk, backend="numpy")
+    return tuple(int(t) for t in tape[mask[0]].tolist())
 
 
 def levenshtein(a: tuple[int, ...], b: tuple[int, ...], cap: int | None = None) -> int:
@@ -123,24 +142,35 @@ def analyze_run(
     P, L = genotypes.shape
     unique_genotypes = len({bytes(g) for g in genotypes})
 
+    # Decode-consistent K: read from cfg; 4d sweeps use K=3 per base.
+    # For Arm A runs, topk defaults to 1 in ChemTapeConfig but is
+    # informational here (not execution semantics) — see extract_decoded.
+    topk_val = int(cfg.get("topk", 3))
+    arm_val = str(cfg.get("arm", result.get("arm", "")))
+
     can_active = extract_active(canonical_tape, alphabet)
     can_raw = tuple(int(t) for t in canonical_tape.tolist())
+    can_decoded = extract_decoded(canonical_tape, topk_val)
 
-    # Cap edit-distance computation at 3 (we care about R_0..R_3 buckets only).
+    # Cap edit-distance computation at 4 (we care about R_0..R_3 buckets only).
     dist_active = np.empty(P, dtype=np.int16)
     dist_raw = np.empty(P, dtype=np.int16)
+    dist_decoded = np.empty(P, dtype=np.int16)
     for i in range(P):
         tape = genotypes[i]
         act = extract_active(tape, alphabet)
         dist_active[i] = levenshtein(act, can_active, cap=4)
         raw = tuple(int(t) for t in tape.tolist())
         dist_raw[i] = levenshtein(raw, can_raw, cap=4)
+        dec = extract_decoded(tape, topk_val)
+        dist_decoded[i] = levenshtein(dec, can_decoded, cap=4)
 
     def frac_le(arr: np.ndarray, k: int) -> float:
         return float(np.mean(arr <= k))
 
     R_active = {k: frac_le(dist_active, k) for k in range(4)}
     R_raw = {k: frac_le(dist_raw, k) for k in range(4)}
+    R_decoded = {k: frac_le(dist_decoded, k) for k in range(4)}
 
     # R_fit: fraction with fitness ≥ 0.999 (near-canonical fitness proxy).
     R_fit = float(np.mean(fitnesses >= 0.999))
@@ -154,7 +184,8 @@ def analyze_run(
     return {
         "config_hash": result.get("config_hash", run_dir.name),
         "seed": int(cfg.get("seed", result.get("seed", -1))),
-        "arm": str(cfg.get("arm", result.get("arm", ""))),
+        "arm": arm_val,
+        "topk": topk_val,
         "seed_fraction": float(cfg.get("seed_fraction", 0.0)),
         "safe_pop_mode": str(cfg.get("safe_pop_mode", "preserve")),
         "pop_size": P,
@@ -170,6 +201,10 @@ def analyze_run(
         "R1_raw": R_raw[1],
         "R2_raw": R_raw[2],
         "R3_raw": R_raw[3],
+        "R0_decoded": R_decoded[0],
+        "R1_decoded": R_decoded[1],
+        "R2_decoded": R_decoded[2],
+        "R3_decoded": R_decoded[3],
         "R_fit_999": R_fit,
         "hist_active_0_1_2_3_ge4": hist_active,
     }
@@ -196,13 +231,16 @@ def summarize_arm(rows: list[dict]) -> dict:
         arm, spm, sf = key
         r2a = np.array([r["R2_active"] for r in grp])
         r2r = np.array([r["R2_raw"] for r in grp])
+        r2d = np.array([r["R2_decoded"] for r in grp])
         r0a = np.array([r["R0_active"] for r in grp])
+        r0d = np.array([r["R0_decoded"] for r in grp])
         rfit = np.array([r["R_fit_999"] for r in grp])
         uniq = np.array([r["unique_genotypes"] for r in grp])
         fmean = np.array([r["final_generation_mean"] for r in grp])
         bfit = np.array([r["best_fitness"] for r in grp])
         solve = int(np.sum(bfit >= 0.999))
         r2a_lo, r2a_hi = bootstrap_ci(r2a)
+        r2d_lo, r2d_hi = bootstrap_ci(r2d)
         summary.append({
             "arm": arm,
             "safe_pop_mode": spm,
@@ -215,7 +253,14 @@ def summarize_arm(rows: list[dict]) -> dict:
             "R2_active_min": float(r2a.min()),
             "R2_active_max": float(r2a.max()),
             "R2_raw_mean": float(r2r.mean()),
+            "R2_decoded_mean": float(r2d.mean()),
+            "R2_decoded_ci95_lo": r2d_lo,
+            "R2_decoded_ci95_hi": r2d_hi,
+            "R2_decoded_median": float(np.median(r2d)),
+            "R2_decoded_min": float(r2d.min()),
+            "R2_decoded_max": float(r2d.max()),
             "R0_active_mean": float(r0a.mean()),
+            "R0_decoded_mean": float(r0d.mean()),
             "R_fit_999_mean": float(rfit.mean()),
             "unique_genotypes_mean": float(uniq.mean()),
             "final_mean_fitness_mean": float(fmean.mean()),
@@ -277,6 +322,8 @@ def main() -> int:
             f"sf={cell['seed_fraction']:.3f}  n={cell['n_seeds']:>2}  "
             f"R2_active={cell['R2_active_mean']:.4f} "
             f"CI95=[{cell['R2_active_ci95_lo']:.4f},{cell['R2_active_ci95_hi']:.4f}]  "
+            f"R2_decoded={cell['R2_decoded_mean']:.4f} "
+            f"CI95=[{cell['R2_decoded_ci95_lo']:.4f},{cell['R2_decoded_ci95_hi']:.4f}]  "
             f"R_fit={cell['R_fit_999_mean']:.3f}  "
             f"uniq={cell['unique_genotypes_mean']:.1f}  "
             f"final_mean={cell['final_mean_fitness_mean']:.3f}  "
