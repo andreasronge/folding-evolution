@@ -2657,7 +2657,144 @@ Scope: `cross-decoder / cross-executor · n=20 per arm per sweep (60 per sweep, 
 
 - **Both sweeps PASS →** update `findings.md#proxy-basin-attractor` narrowing row and scope tags to reflect cross-decoder/cross-executor generalization. Update review history. (Done in same overnight commit batch.)
 - **Natural follow-up (queued for user review):** replicate under non-tournament selection (ranking or Pareto) to test the one remaining single-knob variable. Extend the narrowing or narrow it if F/R co-move under alternative selection regimes.
-- **Infra follow-up (carried from §v2.4-proxy-4b):** extend `sweep.py` to dump final populations so edit-distance-2 R_2 can be measured directly across all three cells.
+- **Infra follow-up (carried from §v2.4-proxy-4b):** extend `sweep.py` to dump final populations so edit-distance-2 R_2 can be measured directly across all three cells. _(Discharged by §v2.4-proxy-4d, commit `a8a1e6d`.)_
+
+---
+
+## §v2.4-proxy-4d. Active-view edit-distance-2 retention measurement across the three §v2.4-proxy-4b/4c seeded cells (2026-04-17)
+
+**Status:** `PASS` — observed outcome matches the pre-registered `CONFIRM — erosion across all cells` row: permeable-all active-view `R₂` < 0.05 in every cell. Interpretation scope-limited to the active-view metric; a decode-consistent BP_TOPK retention measurement remains pending · n=20 per arm per cell · commit `a8a1e6d` · —
+
+**Pre-reg:** [Plans/prereg_v2-4-proxy-4d-retention.md](../../Plans/prereg_v2-4-proxy-4d-retention.md)
+**Sweeps:** `experiments/chem_tape/sweeps/v2/v2_4_proxy4d_bp_topk_preserve.yaml` + `v2_4_proxy4d_arm_a.yaml` + `v2_4_proxy4d_consume.yaml`
+**Compute:** 19 min 14s (BP_TOPK preserve) + 8 min 47s (Arm A) + 19 min 25s (consume) = 47 min 26s at 10-worker M-series.
+
+### Question
+
+Across the three §v2.4-proxy-4b/4c seeded cells (BP_TOPK preserve, Arm A, consume) at `seed_fraction=0.01` on `sum_gt_10_AND_max_gt_5` natural sampler, what is the directly-measured edit-distance-2 retention rate `R_2` in the final population at gen 1500, and does it satisfy the original preregs' PASS/PARTIAL/FAIL criteria or remain below floor?
+
+### Hypothesis (pre-registered)
+
+Strong prior for `R_2 < 0.05` in all three cells (erosion reading), based on `final_mean = 0.845` being inconsistent with a large edit-distance-2 shell around canonical. Three readings enumerated: CONFIRM-erosion, NARROW-shell-in-≥1-cell, PARTIAL-leaky-shell. Also a DIFFERENTIAL row for cross-cell divergence and a SWAMPED row for commit-drift.
+
+### Metric definition and scope caveat (principle 25)
+
+The pre-registered primary metric `R₂_active` is the fraction of the final population whose **active-view** token sequence is within Levenshtein edit distance 2 of canonical's 12-token active program, where the active view is "non-NOP, non-separator tokens in tape order." This implementation matches the prereg's definition and is what [`experiments/chem_tape/analyze_retention.py`](../../experiments/chem_tape/analyze_retention.py) computes.
+
+**The active view is NOT the BP_TOPK decode.** The BP_TOPK(k=3) decoder selects the top-3 longest permeable runs and concatenates them in tape order (via `compute_topk_runnable_mask` in `engine.py` and the BP_TOPK extraction path in `evaluate._programs_for_arm`); the active view is the permeable-all superset of that decode. Even though the BP_TOPK-decoded token sequence is a subsequence of the active view, Levenshtein edit distance is **not monotone under subsequence restriction** — the two distances (active-view-to-canonical and decoded-view-to-canonical) are not strictly ordered and can disagree in either direction. Example: a tape whose top-1-longest-permeable run is the canonical 12-token body surrounded by many short junk runs has decoded-view distance 0 but a much larger active-view distance; conversely, a tape with a single mutated canonical prefix that breaks the long run may have small active-view distance but a much-larger decoded distance because the decode selects different runs. Low `R₂_active` under BP_TOPK proves that the permeable-all view has drifted; it does **not** imply anything — either directionally or as a bound — about `R₂_decode`. A decode-consistent retention measurement is required to settle the BP_TOPK decoded-view question and is queued as a zero-compute follow-up (data on disk). Under Arm A, the VM executes the raw tape linearly; active-view drift corresponds more directly to execution-trace drift up to NOP/separator no-op reorderings, and the BP_TOPK gap does not apply.
+
+This caveat is load-bearing for every BP_TOPK interpretation below. A decode-consistent follow-up measurement (running the actual top-3-longest-permeable-run decode on the dumped final populations and recomputing edit distance on *that* view) is flagged in Next Steps as zero-compute and data-on-disk.
+
+### Result
+
+**Primary metric: `R₂_active` (permeable-all active-view Levenshtein). Secondary: `R₂_raw` (full 32-token tape Levenshtein). Bootstrap 95% CIs over seeds.**
+
+| sweep | sf | F_AND | exact-canonical best-of-run | unique_genotypes / 1024 | `R₀_active` mean | `R₂_active` mean [95% CI] | `R₂_raw` mean | `R_fit≥0.999` mean | final_mean |
+|---|---|---|---|---|---|---|---|---|---|
+| BP_TOPK preserve | 0.0 | 0/20 | 0/20 | 998.7 | 0.0000 | **0.0000** [0.0000, 0.0000] | 0.0000 | 0.000 | 0.864 |
+| BP_TOPK preserve | 0.001 | 20/20 | 20/20 | 986.9 | 0.0012 | **0.0026** [0.0019, 0.0037] | 0.0025 | 0.723 | 0.844 |
+| BP_TOPK preserve | 0.01 | 20/20 | 20/20 | 987.0 | 0.0015 | **0.0025** [0.0020, 0.0031] | 0.0024 | 0.723 | 0.845 |
+| Arm A | 0.0 | 0/20 | 0/20 | 1011.9 | 0.0000 | **0.0000** [0.0000, 0.0000] | 0.0000 | 0.000 | 0.835 |
+| Arm A | 0.001 | 20/20 | 20/20 | 1010.2 | 0.0023 | **0.0053** [0.0040, 0.0066] | 0.0046 | 0.004 | 0.829 |
+| Arm A | 0.01 | 20/20 | 20/20 | 1008.6 | 0.0027 | **0.0053** [0.0043, 0.0063] | 0.0048 | 0.004 | 0.836 |
+| consume | 0.0 | 0/20 | 0/20 | 999.0 | 0.0000 | **0.0000** [0.0000, 0.0000] | 0.0000 | 0.000 | 0.865 |
+| consume | 0.001 | 20/20 | 20/20 | 987.0 | 0.0012 | **0.0024** [0.0019, 0.0031] | 0.0024 | 0.728 | 0.854 |
+| consume | 0.01 | 20/20 | 20/20 | 985.8 | 0.0015 | **0.0025** [0.0018, 0.0032] | 0.0025 | 0.730 | 0.856 |
+
+Baseline comparability check vs §v2.4-proxy-4b/4c anchors at `seed_fraction=0.01`:
+
+| cell | §v2.4-proxy-4b/4c anchor | §v2.4-proxy-4d measured | drift |
+|---|---|---|---|
+| BP_TOPK preserve `unique_genotypes` | 987.0 | 987.0 | **0.0** ✓ |
+| BP_TOPK preserve `final_mean_fitness` | 0.845 | 0.845 | **0.000** ✓ |
+| Arm A `unique_genotypes` | 1008.6 | 1008.6 | **0.0** ✓ |
+| Arm A `final_mean_fitness` | 0.836 | 0.836 | **0.000** ✓ |
+| consume `unique_genotypes` | 985.8 | 985.8 | **0.0** ✓ |
+| consume `final_mean_fitness` | 0.856 | 0.856 | **0.000** ✓ |
+
+All three cells match the 4b/4c anchors to < 0.001 — no commit-level drift. SWAMPED row not triggered.
+
+**Matches pre-registered outcome:** **CONFIRM — erosion across all three cells** on the active-view metric (all `R₂_active < 0.05`, 95% CIs strictly below 0.007 in every seeded cell). The observed pattern lands cleanly in the pre-registered CONFIRM row; no cell shows a shell above the PARTIAL floor; Arm-0 sanity is clean (R₂ = 0.000 in all three drift-check cells); no cross-cell bin divergence forcing DIFFERENTIAL.
+
+**Statistical test:** per-cell R₂_active mean + nonparametric bootstrap 95% CI over seeds (10 000 resamples, `numpy.random.default_rng(42)`). No new p-value gate (principle 22): this prereg was pre-registered as **exploratory** — a closure measurement of a pre-committed descriptive metric. The confirmatory McNemar tests on F already exist at §v2.4-proxy-4b (χ²=18.05, p<0.0001, BP_TOPK preserve) and §v2.4-proxy-4c (χ²=18.05 each for Arm A and consume). Proxy-basin FWER family size stays at 3; corrected α = 0.05/3 ≈ 0.017. §v2.4-proxy-4d does not grow the family.
+
+### Pre-registration fidelity checklist (principle 23)
+
+- [x] Every outcome row tested — CONFIRM, NARROW, PARTIAL, DIFFERENTIAL, SWAMPED. Observation lands cleanly in CONFIRM.
+- [x] Every part of the plan ran: infra extension (`dump_final_population` in `ChemTapeConfig`, `EvolutionResult`, `run.py`; `analyze_retention.py` post-processor) merged at commit `a8a1e6d` before the sweep; three sweep YAMLs × 60 configs each = 180 configs, all completed; post-processor run on all three sweep output dirs.
+- [x] No parameters, sampler settings, or seed blocks changed mid-run. The three 4d sweep YAMLs are byte-identical to their 4b/4c counterparts except for `dump_final_population: true`.
+- [x] Every statistical test named in the prereg is reported above.
+- [~] Diagnostics partially completed as specified; explicit changes from the prereg, acknowledged (not silent):
+    - **Edit-distance histogram:** prereg promised "distribution of edit-distance-to-canonical across the final population (histogram 0..32)." Implementation collapsed to 5 bins `{0, 1, 2, 3, ≥4}` in `retention.csv:hist_active_0_1_2_3_ge4` because bins 4-12 are each <1% of the population in every seeded run (the long tail ≥4 dominates); full-resolution histograms are recoverable on-disk from `final_population.npz` if needed. Resolution change acknowledged; bimodality question addressed by the collapsed bin (clear concentration at ≥4).
+    - **Per-seed × per-arm best-of-run canonical-exact-match rate:** verified across all 120 seeded runs — every best-of-run hex is byte-for-byte canonical. Reported inline in the attractor-category inspection below.
+    - **Cross-sweep seed overlap on R₂ ≥ 0.3:** vacuous — no cell has any seed with R₂ ≥ 0.3. Explicitly discharged rather than skipped.
+
+### Degenerate-success check (principle 4, per prereg)
+
+- **Classifier-permissiveness artifact (`R₂ → 1.0`):** ruled out. All three cells have `R₂_active < 0.01` at seed_fraction=0.01, well below the "shell would be real" threshold. The conditional "decode 10 shell members and confirm canonical-equivalent" branch of the guard is not triggered (no cell has a shell).
+- **Zero-retention / dump bug artifact (`R₂ = 0` while best-of-run canonical is preserved):** ruled out. `R₀_active` ≈ 0.002 per cell at sf=0.01 (~2/1024 canonical-exact copies), consistent with `elite_count=2` preserving canonical-exact in the top slots each generation. Best-of-run hex is byte-for-byte canonical in all 120 seeded runs. `R₀_active` > 0 with best-of-run count = 20 implies population-dump collection captures at least the elite slot.
+- **Arm-0 classifier false-positive check:** all three Arm-0 runs show `R₂_active = 0.000` (no canonical in init, no classifier false positives). Classifier is tight.
+- **Active vs raw discrepancy:** `R₂_active` and `R₂_raw` agree to < 0.001 in every seeded cell. No active-vs-raw definitional inconsistency at the observed scale.
+
+### Attractor-category inspection (principle 21)
+
+All 120 best-of-run genotypes at `seed_fraction∈{0.001, 0.01}` across the three cells are **byte-for-byte identical to the canonical 32-token tape** (canonical 12-token AND body + 20-NOP tail). Zero drift at the best-of-run layer under any of the three decoder/executor combinations. This replicates the best-of-run observation from §v2.4-proxy-4b/4c directly.
+
+### Interpretation
+
+Scope: `within-family / cross-decoder × cross-executor · n=20 per arm per cell · at pop=1024 gens=1500 v2_probe disable_early_termination=true tape=32 · on sum_gt_10_AND_max_gt_5 natural sampler · seed_tapes = canonical 12-token CONST_0-first AND body · metric = permeable-all active-view Levenshtein`.
+
+**Active-view retention is below floor in every cell.** Under all three decoder × executor combinations, less than 0.7% of the final population (95% CI upper bound) lies within edit-distance-2 of canonical's 12-token active program on the permeable-all view. The §v2.4-proxy-4b/4c exact-match upper bound is directly consistent with the pre-registered active-view `R₂` — there was no near-canonical permeable-all shell hiding behind the aggregate-stats bound. The `proxy-basin-attractor` narrowing row is backed by a direct active-view measurement at this commit.
+
+**Arm A reading is unambiguous.** Arm A executes the raw tape linearly, so the active view approximates the execution-trace space up to reorderings of inert tokens. Active-view R₂ ≤ 0.7% in Arm A is a reasonably-direct statement that the population's execution-trace structure has drifted away from canonical. Combined with R_fit ≈ 0.4%, the Arm A picture is the classical "canonical preserved only via elitism; non-elite slots sit in the proxy basin at fitness ~0.84" dynamic.
+
+**BP_TOPK readings are scope-limited to the active view.** Under BP_TOPK preserve and BP_TOPK consume, the active-view R₂ being below floor means the permeable-all view has drifted. It does **not** imply that the BP_TOPK-decoded view has drifted (in either direction): active-view and decoded-view Levenshtein distances can disagree because Levenshtein is not monotone under the subsequence restriction that top-K-longest-run decoding performs. What the CONFIRM row rules out under BP_TOPK is an active-view canonical shell; it does **not** rule out a decoded-view canonical shell, and it does **not** bound decoded-view retention in either direction.
+
+**Secondary observation (diagnostic; explicitly flagged, not promoted).** At `seed_fraction=0.01`, the fraction of the final population with fitness ≥ 0.999 differs sharply between cells: ~72% under BP_TOPK preserve, ~73% under BP_TOPK consume, ~0.4% under Arm A. This cross-cell `R_fit` differential was **not pre-registered** as part of the outcome grid; it is a diagnostic observation surfaced by the final-population dump. Two readings are consistent with the data and cannot be distinguished without a decode-consistent retention measurement: (a) under BP_TOPK, many final-population tapes carry structurally-distinct alternative solvers that clear fit=1.0; (b) under BP_TOPK, the top-3-longest-permeable-run decode recovers canonical-equivalent programs from tapes whose permeable-all view looks canonical-distant, so "decoded-view retention" is high even though "permeable-all-view retention" is low. (a) is an "alternative solver cloud" reading; (b) is a "decoded-view retention through filtering" reading. Both are consistent with every number reported in this chronicle. **Mechanism interpretation is deferred pending the decode-consistent follow-up flagged in Next Steps.**
+
+**Principle-2b observation — this chronicle is itself a methodology-2b cautionary case.** The §v2.4-proxy-4b chronicle taught that when a sweep measures two independent axes (F, R), the outcome grid must be a cross-product, not paired rows — because paired rows silently smuggle a correlation prior into the outcome space. §v2.4-proxy-4d's prereg fell into the same failure on a *different* axis pair: (R₂_active, R_fit) were both measured, but only R₂_active entered the outcome grid — R_fit was demoted to "Diagnostics to log." The observed cell (R₂_active low, R_fit high under BP_TOPK; R₂_active low, R_fit low under Arm A) does not correspond to any pre-registered outcome row on the R_fit dimension. Had the prereg gridded (R₂_active, R_fit) explicitly, the (low, high) and (low, low) cells would have entered the outcome table with pre-committed mechanism interpretations, and the "alternative-solver-cloud vs decoded-view-retention-through-filtering" question would have been a pre-registered decision branch rather than a post-hoc observation. This is principle 2b recurring — R_fit was diagnostically co-measured but axially under-scoped, and the principle-2b correction (grid the axes) applies to the *next* prereg, not this chronicle's interpretation. **Adding this note to methodology §2b's case list is a follow-up.**
+
+**Mechanism rename check (principles 16 + 16b):** no rename at this chronicle, but a decoder-specific narrowing is now a **named candidate** that the decode-consistent follow-up will confirm or refute.
+- (a) Narrower candidate: the §v2.4-proxy-4c mechanism-scope broadening to "across three decoder × executor cells, common ingredient: tournament selection" may itself need a 4d-driven re-narrowing if the decode-consistent follow-up shows the tail structure differs mechanistically by decoder. Under Arm A the tail is "proxy-basin-saturated non-elite slots" (R_fit ≈ 0.004); under BP_TOPK the tail is "fitness-≥-0.999 majority whose active view is not canonical-adjacent" (R_fit ≈ 0.72). If the decode-consistent follow-up shows those BP_TOPK majority-solvers are structurally distinct from canonical (the "alternative-solver-cloud" reading), the proper naming would be decoder-specific: the "F/R dissociation" under Arm A is classical elitism-preservation-plus-proxy-tail, but under BP_TOPK it is something closer to a *solver-neutral-network asymmetry* where many decoded programs cluster near canonical-in-fitness-space but not in the measured-active-view. That would be a 16/16b broadening-then-re-narrowing move: 4c broadened to three cells; 4d's decode-consistent follow-up re-narrows per decoder. If instead the follow-up shows the BP_TOPK majority-solvers *are* decoded-view-equivalent to canonical (the "decoded-view retention through filtering" reading), then no rename is needed and the active-view-vs-decoded-view gap is purely a measurement-infrastructure asymmetry across decoders rather than a mechanism asymmetry. The candidate rename is **flagged but not applied** — the decode-consistent measurement is the disambiguator, and the rename follows the data, not the other way around.
+- (b) Broader candidate: not on this chronicle's data. Cross-task replication remains the natural broadening probe and is untouched here.
+- **Status:** working mechanism description unchanged (§v2.4-proxy-4c's wording stands); one decoder-specific-narrowing candidate named; decision deferred to the decode-consistent follow-up.
+
+### Caveats
+
+- **Seed count:** n=20 per arm per cell = 180 runs (load-bearing).
+- **Budget limits:** pop=1024, gens=1500 throughout (unchanged from 4b/4c).
+- **Tournament-selection confound:** all three cells still use `tournament_size=3, elite_count=2`. Whether `R₂_active` stays below floor under ranking or Pareto selection is not tested.
+- **Active-view vs BP_TOPK-decode-view:** under BP_TOPK, `R₂_active` and `R₂_decode` are not strictly ordered (Levenshtein is not monotone under subsequence-restriction); low `R₂_active` does not bound decoded-view retention in either direction. Under Arm A, this gap does not apply because the VM runs the raw tape.
+- **R_fit differential is diagnostic, not pre-registered.** It is not a mechanism claim; it must not enter findings.md without a decode-consistent follow-up and a fresh prereg.
+- **Cross-task scope:** one task family (`sum_gt_10_AND_max_gt_5` natural sampler). Extension untested.
+
+### Diagnostics (prereg-promise ledger)
+
+| Prereg item | Status |
+|---|---|
+| Final-generation full population (pop_size × tape_length uint8) + per-individual fitness | Reported (`final_population.npz` per run) |
+| `R_k` for `k ∈ {0, 1, 2, 3}` over active 12-token prefix | Reported (per-run CSV + per-cell summary) |
+| `R₂_raw` (full 32-token tape) as secondary sanity | Reported |
+| Edit-distance histogram 0..32 active per seed per arm | **Partial** — collapsed to 5 bins `{0,1,2,3,≥4}` in CSV; full-resolution recoverable from `final_population.npz` on-disk |
+| Fraction of final-pop with fitness ≥ 0.999 (R_fit) | Reported |
+| Per-seed × per-arm best-of-run canonical-exact-match rate | All 120 seeded runs exact-canonical byte-for-byte |
+| Cross-sweep seed overlap on R₂ ≥ 0.3 | Vacuous — no cell has any seed with R₂ ≥ 0.3 |
+| Arm-0 sanity check (R₂_active < 0.005) | Passes — all three Arm-0 cells at 0.000 |
+| Baseline comparability (unique_genotypes + final_mean_fitness vs 4b/4c anchors) | All three cells match to < 0.001; no drift |
+| 95% bootstrap CI over seeds on per-cell R₂_active | Reported (10 000 resamples, `rng=default_rng(42)`) |
+| Paired McNemar on F | Not re-run — the §v2.4-proxy-4b/4c McNemar tests already gate F; §v2.4-proxy-4d is a closure measurement of R₂, classified exploratory |
+
+### Findings this supports / narrows
+
+- **Strengthens the §v2.4-proxy-4b/4c narrowing row in** [findings.md#proxy-basin-attractor](findings.md#proxy-basin-attractor) — the aggregate-stats exact-match upper bound is now backed by a direct active-view edit-distance-2 measurement with 95% CIs below 0.007 in every seeded cell. The principle-25 measurement gap flagged in §v2.4-proxy-4b and §v2.4-proxy-4c is closed for the active-view metric; it remains **open for the BP_TOPK decoded-view metric**, which active-view retention does not bound in either direction. The narrowing-row wording, mechanism-scope wording, and downstream-open-questions bullet in findings.md update accordingly in the same commit as this chronicle.
+- **No change to the top-line `proxy-basin-attractor` claim sentence.**
+- **New observation NOT promoted to findings.md:** the `R_fit` cross-cell differential (BP_TOPK ~0.72 vs Arm A ~0.004 at seed_fraction=0.01) is flagged as diagnostic. Its mechanism interpretation is ambiguous between the "alternative solver cloud" and "decoded-view retention through filtering" readings; promotion would require a pre-registered decode-consistent measurement that resolves the two.
+
+### Next steps (per prereg decision rule)
+
+- **CONFIRM erosion →** update `findings.md#proxy-basin-attractor` narrowing row and downstream-open-questions bullet to cite the direct active-view measurement and to carry the BP_TOPK-decode-view gap forward as the remaining principle-25 open item. Clear Task #20 (population-layer retention analysis) from the morning briefing. _(Intended to land in the same commit batch as this chronicle; if it does not, that becomes a principle-23 overstatement and this sentence must be revised.)_
+- **Decode-consistent retention follow-up (zero-compute; data on disk):** queue a zero-compute inspection that runs the actual BP_TOPK top-3-longest-permeable-run decode (via `engine.compute_topk_runnable_mask` and the BP_TOPK extraction path in `evaluate._programs_for_arm`) on every dumped final-population genotype, computes edit distance on the decoded view, and reports per-cell `R₂_decode`. This is the measurement that will distinguish the two `R_fit` readings. No new sweep compute required — `final_population.npz` is on disk.
+- **Non-tournament-selection probe (new prereg required, fresh compute):** all three 4b/4c/4d cells share `tournament_size=3, elite_count=2`. Rerunning under ranking or Pareto selection would test whether the F/R dissociation is tournament-selection-specific. Fresh pre-registration required; not implied by this chronicle.
 
 ---
 

@@ -5,15 +5,20 @@ Reads `final_population.npz` (genotypes, fitnesses) from every run under
 a sweep directory, computes edit-distance-k retention R_k against a
 canonical target tape, and emits a per-run CSV + per-arm summary JSON.
 
-Two edit-distance views:
+Two edit-distance views. IMPORTANT: neither is the BP_TOPK decode view
+(top-3 longest permeable runs). The two views here are:
 
-- **extracted** — token-level Levenshtein on the `extract_bp_topk_program`
-  view (NOPs and separators skipped). This is the semantically-meaningful
-  retention metric under BP/BP_TOPK decode, since NOP-tail variation does
-  not change what the VM executes.
-- **raw** — Levenshtein on the full 32-token tape. Appropriate cross-check
-  under Arm A, where the VM runs the raw tape; NOP-tail variation can
-  still matter because stack effects can change.
+- **active** (permeable-all) — token-level Levenshtein on the sequence of
+  non-NOP, non-separator tokens in tape order. This is a **superset** of
+  the BP_TOPK decode, so active-view distance and BP_TOPK-decode-view
+  distance can disagree in either direction (not a strict bound). Under
+  Arm A the VM runs the raw tape, so active drift approximates
+  execution-trace drift up to NOP/separator no-op reorderings.
+- **raw** — Levenshtein on the full 32-token tape.
+
+A decode-consistent measurement against the actual top-K longest
+permeable-run extraction (`compute_topk_runnable_mask`) is a follow-up
+that operates on the same `final_population.npz` on disk.
 
 Usage:
     python experiments/chem_tape/analyze_retention.py <sweep_name>
@@ -116,6 +121,7 @@ def analyze_run(
     genotypes = data["genotypes"]         # (P, L) uint8
     fitnesses = data["fitnesses"]          # (P,) float32
     P, L = genotypes.shape
+    unique_genotypes = len({bytes(g) for g in genotypes})
 
     can_active = extract_active(canonical_tape, alphabet)
     can_raw = tuple(int(t) for t in canonical_tape.tolist())
@@ -153,6 +159,7 @@ def analyze_run(
         "safe_pop_mode": str(cfg.get("safe_pop_mode", "preserve")),
         "pop_size": P,
         "tape_length": L,
+        "unique_genotypes": unique_genotypes,
         "best_fitness": float(result.get("best_fitness", -1.0)),
         "final_generation_mean": float(result.get("final_generation_mean", -1.0)),
         "R0_active": R_active[0],
@@ -168,6 +175,16 @@ def analyze_run(
     }
 
 
+def bootstrap_ci(
+    xs: np.ndarray, n_boot: int = 10_000, alpha: float = 0.05, seed: int = 42
+) -> tuple[float, float]:
+    """Nonparametric bootstrap 95% CI on the mean. Fixed seed for
+    reproducibility; recorded in the summary for audit."""
+    rng = np.random.default_rng(seed)
+    boots = rng.choice(xs, size=(n_boot, len(xs)), replace=True).mean(axis=1)
+    return float(np.quantile(boots, alpha / 2)), float(np.quantile(boots, 1 - alpha / 2))
+
+
 def summarize_arm(rows: list[dict]) -> dict:
     """Aggregate per-arm (keyed by seed_fraction, safe_pop_mode, arm)."""
     groups: dict[tuple, list[dict]] = defaultdict(list)
@@ -181,25 +198,33 @@ def summarize_arm(rows: list[dict]) -> dict:
         r2r = np.array([r["R2_raw"] for r in grp])
         r0a = np.array([r["R0_active"] for r in grp])
         rfit = np.array([r["R_fit_999"] for r in grp])
+        uniq = np.array([r["unique_genotypes"] for r in grp])
         fmean = np.array([r["final_generation_mean"] for r in grp])
         bfit = np.array([r["best_fitness"] for r in grp])
         solve = int(np.sum(bfit >= 0.999))
+        r2a_lo, r2a_hi = bootstrap_ci(r2a)
         summary.append({
             "arm": arm,
             "safe_pop_mode": spm,
             "seed_fraction": sf,
             "n_seeds": len(grp),
             "R2_active_mean": float(r2a.mean()),
+            "R2_active_ci95_lo": r2a_lo,
+            "R2_active_ci95_hi": r2a_hi,
             "R2_active_median": float(np.median(r2a)),
             "R2_active_min": float(r2a.min()),
             "R2_active_max": float(r2a.max()),
             "R2_raw_mean": float(r2r.mean()),
             "R0_active_mean": float(r0a.mean()),
             "R_fit_999_mean": float(rfit.mean()),
+            "unique_genotypes_mean": float(uniq.mean()),
             "final_mean_fitness_mean": float(fmean.mean()),
             "solve_count": solve,
         })
-    return {"per_cell": summary}
+    return {
+        "per_cell": summary,
+        "bootstrap_spec": {"n_boot": 10_000, "alpha": 0.05, "rng_seed": 42},
+    }
 
 
 def main() -> int:
@@ -250,9 +275,10 @@ def main() -> int:
         print(
             f"  arm={cell['arm']:<8s} spm={cell['safe_pop_mode']:<8s} "
             f"sf={cell['seed_fraction']:.3f}  n={cell['n_seeds']:>2}  "
-            f"R2_active={cell['R2_active_mean']:.3f} "
-            f"R0_active={cell['R0_active_mean']:.3f} "
+            f"R2_active={cell['R2_active_mean']:.4f} "
+            f"CI95=[{cell['R2_active_ci95_lo']:.4f},{cell['R2_active_ci95_hi']:.4f}]  "
             f"R_fit={cell['R_fit_999_mean']:.3f}  "
+            f"uniq={cell['unique_genotypes_mean']:.1f}  "
             f"final_mean={cell['final_mean_fitness_mean']:.3f}  "
             f"solve={cell['solve_count']}/{cell['n_seeds']}"
         )
