@@ -19,7 +19,7 @@ description: |
 
 Project-local skill that enforces `docs/methodology.md` at the three checkpoints where overreach silently accumulates:
 
-1. **Before running** — pre-registration (principles 1, 2, 4, 6, 22)
+1. **Before running** — pre-registration (principles 1, 2, 2b, 4, 6, 22, 25)
 2. **After running** — chronicle entry (principles 3, 10, 12, 13, 18, 23)
 3. **When consolidating** — findings-ledger promotion (principles 5, 16, 17, 18, 19, 24 — null results promote on equal footing)
 
@@ -46,15 +46,16 @@ If the user's intent is ambiguous between modes, ask which one — do not guess.
 
 ## Mode: prereg
 
-**Goal:** produce `Plans/prereg_<slug>.md` that could not pass review without enforcing principles 1, 2, 4, 6, and 20.
+**Goal:** produce `Plans/prereg_<slug>.md` that could not pass review without enforcing principles 1, 2, 2b, 4, 6, 20, 22, and 25.
 
 **Steps:**
 
-1. **Read `docs/methodology.md` sections 1, 2, 4, 6, and 20** to refresh the binding principles.
+1. **Read `docs/methodology.md` sections 1, 2, 2b, 4, 6, 20, 22, and 25** to refresh the binding principles.
 2. **Read `docs/_templates/prereg.md`** and copy it to `Plans/prereg_<short-slug>.md`. Slug should be kebab-case, ≤30 chars.
 3. **Fill with the user** — section by section, in order. Do not skip ahead.
 4. **Enforce the hard gates** (refuse to finish until satisfied):
    - **Outcome table has ≥3 rows** including at least one "partial" outcome (principle 2). If the user proposes only pass/fail, ask: "what would a *partial* result look like on this experiment, and what would it mean?" If they insist it's pass/fail, flag that the outcome table is incomplete and record that explicitly.
+   - **Outcome table is a grid when ≥2 axes are measured (principle 2b).** List the independent quantities the prereg will measure (e.g., F = solve rate, R = population retention; or solve rate × attractor-category mix; or fitness × diversity). If there are two or more, the outcome table must be the **cross-product** of each axis's coarse bins — not paired rows that move together. Ask: "what is the outcome if axis A is high and axis B is low?" If the user's table does not have a row for that cell, the table is incomplete. Cells that are genuinely excluded by physics still need an explicit `IMPOSSIBLE` or `INCONCLUSIVE` token — they must not be left blank, because blank cells are where surprising results land. Paired rows (A_high+B_high = PASS, A_low = FAIL) silently smuggle a correlation prior into the outcome space; decompose them.
    - **Thresholds are baseline-relative** (principle 6). If an absolute number appears without a `F_baseline`-style referent, challenge it.
    - **Internal-control contrast is identified** (principle 1). If the user plans external-validity work without a tighter internal contrast, ask why the internal contrast isn't run first.
    - **Degenerate-success candidates are enumerated** (principle 4). What would a 20/20 / zero-drop / too-clean signature mean mechanistically? This must be written before running, not after.
@@ -65,6 +66,7 @@ If the user's intent is ambiguous between modes, ask which one — do not guess.
 
      If any of (i)–(iii) is missing, the prereg fails this gate. Sampler design is a dependent-variable carrier, not a neutral backdrop.
    - **Family-wise test classification (principle 22).** If the prereg includes a statistical test, classify it explicitly as either **confirmatory** (enters the FWER family — its p-value gates a claim and must be compared against a Bonferroni-corrected α) or **exploratory** (effect-size only, no p-value gate, used for hypothesis generation). Confirmatory tests must name the family they belong to (e.g., "proxy-basin family", "constant-slot-indirection family") and the current corrected α = 0.05 / n_family. Run the **fwer-audit** mode if the family size isn't obvious. A prereg with a test but no classification fails this gate.
+   - **Measurement-infrastructure gate (principle 25).** For every metric the prereg commits to — solve rate, retention, fitness curves, attractor category shares, diversity indices, whatever — the prereg must record one of three states: *(i)* **produced directly** (name the file / column / routine that emits it — e.g., "`history.npz:final_pop_edit_dist_2` via `sweep.py:dump_final_population=True`"); *(ii)* **produced as an explicitly-labeled bound or proxy** (name the proxy, the direction of the bound, and why the bound is informative for the claim — e.g., "R_exact is an upper bound on R_edit_2; low values are conclusive, high values are not"); *(iii)* **pending an infra extension** (name the extension, rough effort estimate, and commit to either completing it before the sweep or re-scoping the metric to what current code emits). A metric named without one of these three labels — i.e., the producing code may or may not exist — fails this gate. The test is a 5-minute grep at prereg time; skipping it produces expensive chronicle-time rework.
 5. **Capture the decision rule.** Under each outcome row, what experiment runs next? This is the commitment that prevents post-hoc rerouting (principle 19).
 6. **Commit the prereg.** `git add Plans/prereg_<slug>.md` and ask the user whether to commit now or after the sweep finishes. A prereg committed after the sweep is no longer a prereg.
 
@@ -86,6 +88,7 @@ If the user's intent is ambiguous between modes, ask which one — do not guess.
 4. **Read `docs/_templates/experiment_section.md`**. Fill fields in order with the user.
 5. **Enforce the hard gates:**
    - **Pre-registration execution fidelity (principle 23).** Before writing interpretation, verify explicitly: *(i)* every outcome row in the prereg was tested (none silently added, none silently removed), *(ii)* every part of the plan (Part A baseline, Part B main, degenerate-success checks, etc.) was completed or explicitly deferred with a dated one-line reason in the chronicle, *(iii)* if any parameter, sampler, or seed block was changed mid-run, the new plan was re-pre-registered in a separate commit *before* this chronicle was drafted. Silent partial execution fails the gate. The fidelity checklist must appear as its own block in the chronicle; the user cannot skip it because "it all ran as planned" — if it did, say so explicitly on each of (i)–(iii).
+   - **Metric fidelity (principle 25, chronicle-time mirror).** For each metric the prereg named, verify that the number reported in the chronicle is *the metric the prereg asked for*, not a relabeled proxy. The three valid states are the same as at prereg-time: (i) the metric was produced directly as committed; (ii) the metric was produced as a labeled bound/proxy and the chronicle says so *explicitly in the reported-number's caption* (not just a footnote — e.g., "R_exact ≤ 0.036 (upper bound on R_edit_2; the prereg's actual R_edit_2 metric is unmeasured)"); (iii) the prereg's metric was not produced and a proxy was substituted — this requires an explicit "prereg's metric X is DEFERRED / UNMEASURED; the chronicle reports proxy Y instead" sentence. Silent reinterpretation of a bound as satisfying a prereg that asked for the quantity itself fails the gate. When this gate catches a mismatch, it also flags principle 23-(i) — the prereg's outcome row corresponding to the unmeasured metric has not actually been tested, so the status token must reflect that ambiguity (typically `INCONCLUSIVE`, not `PASS`).
    - **Status is one of**: `PASS | FAIL | INCONCLUSIVE | SUPERSEDED | FALSIFIED` (no prose variants like "REJECTED" or "CONFIRMED"). If the result doesn't fit, the outcome table was incomplete — note that and use the closest token.
    - **Observed outcome matches a pre-registered row** verbatim, or the section explicitly says "did not match any pre-registered outcome" (principle 2 follow-up).
    - **n is stated explicitly.** n<20 must carry the "hypothesis-generating only" tag (principle 8).
@@ -206,7 +209,7 @@ If the user's intent is ambiguous between modes, ask which one — do not guess.
 
 These files are the skill's backing reference. Read the relevant ones when entering a mode — do not operate from memory, since methodology.md is actively revised.
 
-- `docs/methodology.md` — the 24-principle ledger.
+- `docs/methodology.md` — the 25-principle ledger (plus sub-principles 2b and 16b).
 - `docs/_templates/README.md` — kit overview and status vocabulary.
 - `docs/_templates/prereg.md` — pre-registration template.
 - `docs/_templates/experiment_section.md` — chronicle entry template.

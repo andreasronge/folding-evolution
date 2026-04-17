@@ -20,6 +20,12 @@ Each principle is paired with the specific case that taught it and a one-line ta
 
 **Takeaway.** Enumerate three to four distinct outcome regimes with pre-committed interpretations *before* running the experiment. "Partial" and "swamped" are usually the overlooked categories.
 
+### 2b. Outcome tables are grids, not paired rows, when you measure ≥2 axes
+
+**Case.** §v2.4-proxy-4b (2026-04-17) pre-registered a seeded-init probe measuring two axes: F (best-of-run solve rate) and R (full-population canonical retention). The outcome table encoded PASS as "F high AND R ≥ 0.3," PARTIAL as "F high AND R ≥ 0.05," FAIL as "F low." The rows silently assumed F and R would move together (a discoverability-limited mechanism prior: "if selection can reach canonical, it will propagate"). The actual result was (F=20/20, R_exact ≤ 0.036) — F maxed, R below even the PARTIAL floor. No row covered this cell. The overnight write-up initially labeled it PASS; the revision re-read it as INCONCLUSIVE per principle 2 outcome-table incompleteness, and the mechanism narrowed from "pure discoverability-limited" to "best-of-run canonical attractor without population propagation."
+
+**Takeaway.** When a prereg measures two or more independent axes, the outcome table is the **cross-product grid** of those axes' coarse bins, not a stack of paired rows. Every cell needs an assigned outcome token — including the ones you expect not to hit. If you find yourself writing rows where both axes move together, stop and ask whether you are measuring one quantity or two: correlated rows silently smuggle a mechanism hypothesis into what is supposed to be an outcome-space enumeration, and the "impossible" cell is where a falsifying result most often lands. A cleanly enumerated grid has a separate entry for every (A_high, A_low) × (B_high, B_mid, B_low) combination, or an explicit `IMPOSSIBLE/INCONCLUSIVE` token where a cell is genuinely excluded by physics.
+
 ### 3. Zero-compute inspection is routinely the highest-leverage next step
 
 **Case.** §8a (inspect K=3 winners' architectures), §9d (inspect protection-specific winners), §11a (per-island fitness trajectories from existing NPZ files), §v1.5a-scaffold winner-architecture inspection. Each took ~30 minutes of analysis on already-on-disk data and produced mechanism-level findings worth more than any single additional sweep.
@@ -155,8 +161,8 @@ Each refinement was driven by one specific experiment.
 
 This isn't a checklist — it's a lessons ledger. Suggested usage:
 
-- **Before pre-registering an experiment:** read principles 1-4 and 6. If the prereg changes the training distribution, also read 20. If the sweep's test will enter a family of related tests, read 22.
-- **After a surprising result:** read 3, 10, 14, 16, 16b, 21.
+- **Before pre-registering an experiment:** read principles 1-4 and 6. If the prereg measures ≥2 independent outcome axes (e.g., solve-rate AND retention), also read 2b — the outcome table is a grid, not paired rows. For every metric the prereg commits to, read 25 — verify the producing code actually exists. If the prereg changes the training distribution, also read 20. If the sweep's test will enter a family of related tests, read 22.
+- **After a surprising result:** read 3, 10, 14, 16, 16b, 21. If the result doesn't match any pre-registered outcome row, also read 2b — the outcome table was probably missing the cell you landed in.
 - **Before writing a chronicle:** read 23 — verify every pre-registered outcome row and plan-part was actually executed, or explicitly deferred.
 - **When writing a summary bullet:** read 18.
 - **When reviewing your own claim language:** read 17.
@@ -202,6 +208,14 @@ If a future experiment contributes a new lesson worth adding, update this docume
 **Case.** As of 2026-04-16, findings.md held 4 positive entries and 1 narrowed entry. The major FAIL / INCONCLUSIVE results — §v2.6 (0/3 pairs scale beyond Pair 1), §v2.7 (CONTROL-DEGENERATE), §v2.4-proxy-3 (INCONCLUSIVE split-halves), §v2.12 (FAIL decoder-general) — lived only in experiments-v2.md. A reader scanning findings.md saw the scope where interventions worked but not the matched scope where they didn't. This asymmetry risks paper-level aggregation that cites positive findings against under-weighted nulls, and undercuts principle 13's supersession trail by hiding falsifications in the chronicle layer instead of the claim layer.
 
 **Takeaway.** Promote major FAIL / INCONCLUSIVE results as first-class findings.md entries using the same template as positive findings — status token `FALSIFIED` or `NULL` in the header, scope tag documenting *where the claim does not hold*, supporting-experiments table with commit hashes of the falsification evidence, and a downstream-commitments line documenting what future work should *not* assume. "This doesn't work under X" is a finding. Positive and negative findings belong on equal documentary footing; the research-rigor skill's `promote-finding` mode should accept FAIL/NULL status tokens, not only PASS.
+
+## Measurement fidelity (added 2026-04-17 from §v2.4-proxy-4b experience)
+
+### 25. Measurement-infrastructure gate: a metric is only as real as the code that produces it
+
+**Case.** §v2.4-proxy-4b's prereg committed `R_2` as "full-population retention at edit-distance ≤ 2 from canonical." But `sweep.py` serializes only per-generation aggregate stats to `history.npz` — it does not dump final populations. When the chronicle was written, the actually-reportable quantity was an **exact-match upper bound** on R inferred indirectly from `mean_fitness=0.845` and `unique_genotypes=987/1024`, giving `R_exact ≤ 0.036`. The prereg's nominal edit-distance-2 metric was unmeasured and remains unmeasured. The initial overnight write-up reported the bound as if it satisfied the prereg; the revision had to explicitly label the reading as a bound-from-aggregate-stats and mark the prereg's actual R_2 as "pending a `sweep.py dump_final_population` extension." The misclassification was not a scope-tag issue (principle 17) or an execution-fidelity issue (principle 23) but a **metric-fidelity** issue — the code that produces the committed metric did not exist at prereg time, and nobody checked.
+
+**Takeaway.** Before a prereg commits to a metric, verify the infrastructure can actually produce it at the committed resolution. Every metric named in the prereg must record one of three states: *(i)* **produced directly** — name the file, column, or routine that emits the metric (e.g., "`history.npz:final_pop_exact_match` emitted by `sweep.py:dump_final_population=True`"); *(ii)* **produced as an explicitly-labeled bound or proxy** — name the proxy, the direction of the bound, and why the bound is informative (e.g., "R_exact ≤ (pop − unique_genotypes)/pop is an *upper* bound; a low value is conclusive, a high value is not"); *(iii)* **pending an infra extension** — name the extension, rough effort estimate, and commit to either completing it before the sweep or re-scoping the prereg's metric to what the current code can emit. A prereg that names a metric whose producing code does not exist, without one of these three labels, fails this gate. The check is cheap at prereg time (5 minutes of grep); silent reinterpretation at chronicle time is expensive — either the sweep has to be rerun, or the claim has to be weakened, and both carry review-cost that the prereg exists to prevent.
 
 ---
 
