@@ -13,3 +13,5 @@ private/
 queue.lock
 queue.status.json
 .context
+# scheduled-tasks harness runtime lock
+.claude/scheduled_tasks.lock
