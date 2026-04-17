@@ -52,6 +52,59 @@ OUTPUT_ROOT = REPO_ROOT / "experiments" / "chem_tape" / "output"
 
 CANONICAL_AND_BODY_HEX = "0201121008010510100708110000000000000000000000000000000000000000"
 
+# --- METRIC_DEFINITIONS (principle 27) ---
+#
+# One-line specifications of what THIS module computes. Prereg metric
+# declarations and chronicle metric-definition blocks cite these entries
+# verbatim (copy/paste, not paraphrase). Keeping the definitions in code
+# lets prereg-time and chronicle-time gates both verify that the metric
+# named in prose matches the metric the code actually produces. See
+# docs/methodology.md §27.
+METRIC_DEFINITIONS: dict[str, str] = {
+    "R0_active": (
+        "Fraction of final-population tapes whose permeable-all active view "
+        "(non-NOP, non-separator tokens in tape order, alphabet-aware separators) "
+        "is byte-for-byte identical to canonical's 12-token active program."
+    ),
+    "R2_active": (
+        "Fraction of final-population tapes whose permeable-all active view "
+        "(non-NOP, non-separator tokens in tape order) is within Levenshtein "
+        "edit distance 2 of canonical's 12-token active program. This view "
+        "is a SUPERSET of the BP_TOPK(k) decode; active-view and decoded-view "
+        "distances can disagree in either direction (Levenshtein is not "
+        "monotone under the top-K-longest-run subsequence restriction)."
+    ),
+    "R2_raw": (
+        "Fraction of final-population tapes whose full 32-token tape is "
+        "within Levenshtein edit distance 2 of canonical's full 32-token tape "
+        "(canonical 12-token AND body + 20-NOP tail)."
+    ),
+    "R2_decoded": (
+        "Fraction of final-population tapes whose BP_TOPK(k=topk) decoded "
+        "view — the exact token sequence passed to the VM under arm=BP_TOPK, "
+        "computed as the top-K longest non-separator runs concatenated in "
+        "tape order via engine.compute_topk_runnable_mask — is within "
+        "Levenshtein edit distance 2 of canonical's decoded view. For "
+        "arm=A runs this view is informational (the VM executes the raw "
+        "tape), not execution-semantic."
+    ),
+    "R_fit_999": (
+        "Fraction of final-population individuals whose training-task "
+        "fitness is >= 0.999 (near-canonical fitness proxy, independent "
+        "of structural distance from canonical)."
+    ),
+    "unique_genotypes": (
+        "Count of distinct 32-token tapes in the final population, by "
+        "raw byte equality. Upper-bounds full-population exact-match "
+        "retention: R_exact <= (pop_size - unique_genotypes) / pop_size."
+    ),
+    "bootstrap_ci_spec": (
+        "Nonparametric bootstrap over per-seed values: 10 000 resamples "
+        "with replacement via numpy.random.default_rng(seed=42); 95% CI "
+        "is the [2.5%, 97.5%] empirical quantile of the resampled means."
+    ),
+}
+
 
 def hex_to_tape(hex_str: str) -> np.ndarray:
     raw = bytes.fromhex(hex_str)

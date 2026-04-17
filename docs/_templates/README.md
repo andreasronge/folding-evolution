@@ -2,17 +2,19 @@
 
 Small templates for the folding-evolution research lifecycle. Each template enforces the lessons in [`../methodology.md`](../methodology.md) by making the required fields part of the structure.
 
-## The three-stage document flow
+## The four-document flow
 
 ```
-Plans/prereg_<name>.md           docs/<track>/experiments.md         docs/<track>/findings.md
-──────────────────────          ────────────────────────────         ──────────────────────
-pre-registration                 chronicle entry (per run)            durable claim (scope-tagged)
-[prereg.md]                      [experiment_section.md]              [findings_entry.md]
+Plans/prereg_<name>.md       docs/<track>/experiments.md    docs/<track>/arcs/<arc>.md    docs/<track>/findings.md
+──────────────────────       ────────────────────────────   ────────────────────────      ──────────────────────
+pre-registration              chronicle entry (per run)      reasoning trail (live)         durable claim (scope-tagged)
+[prereg.md]                   [experiment_section.md]        [arc.md]                       [findings_entry.md]
 
-    pre-register  ───────run────▶  record result  ───promote────▶  consolidate claim
-    (before compute)                (after compute)                   (after replication)
+    pre-register  ──run──▶   record result  ──refresh arc──▶   promote claim when ready
+    (before compute)          (after compute)                    (after replication)
 ```
+
+The arc doc is the scaling layer between chronicle (one experiment, frozen) and findings.md (one consolidated claim). It carries the reasoning trail across a chain of related experiments so readers can reconstruct the state of an inquiry without re-reading every chronicle. Arc docs are **intentionally live** — rewritten in place as the arc narrows — unlike chronicles and findings.md entries, which are append-only with supersession markers. Keep each arc doc ≤ 1-2 screens; when it grows past that, either consolidate to findings.md or split the arc.
 
 Each template is short and opinionated. Fields that are not optional are the load-bearing lessons from methodology.md — remove them and the lesson silently decays.
 
@@ -20,8 +22,9 @@ Each template is short and opinionated. Fields that are not optional are the loa
 
 | file | when to use | enforces |
 |------|-------------|----------|
-| `prereg.md` | before any new sweep | methodology principles 1, 2, 4, 6, 20, 22 |
-| `experiment_section.md` | when a sweep finishes | principles 3, 10, 12, 13, 18, 23 |
+| `prereg.md` | before any new sweep | methodology principles 1, 2, 2b, 4, 6, 20, 22, 25, 26, 27 |
+| `experiment_section.md` | when a sweep finishes | principles 3, 10, 12, 13, 18, 21, 23, 25 |
+| `arc.md` | when a mechanism question spans ≥ 2 related experiments; refresh on every chronicle that touches the arc | principles 5 (narrowing trail), 13 (supersession visibility), 19 (live-next commitments) |
 | `findings_entry.md` | when promoting a claim (positive or null) to a findings ledger | principles 5, 16, 17, 18, 24 |
 
 ## Status vocabulary (standardized)
