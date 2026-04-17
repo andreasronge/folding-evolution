@@ -1,0 +1,34 @@
+sweep_name: v2_4_proxy5b_mutation_rate_bp_topk
+# §v2.4-proxy-5b (BP_TOPK half): mutation_rate sweep on BP_TOPK preserve.
+# Tests whether the BP_TOPK wide solver neutral network is kinetic
+# (erosion scales with mutation rate) or structural (rate-insensitive).
+# See Plans/prereg_v2-4-proxy-5b-mutation-rate.md for outcome grid +
+# decision rule. The Arm A half is v2_4_proxy5b_mutation_rate_arm_a.yaml;
+# together they test reading (3) — decoder-specific kinetic profile.
+# Identical to v2_4_proxy4d_bp_topk_preserve.yaml except:
+#   - mutation_rate axis in grid (was fixed 0.03)
+#   - seed_fraction axis drops 0.001 (only 0.0 drift-check and 0.01 seeded)
+base:
+  alphabet: v2_probe
+  task: sum_gt_10_AND_max_gt_5
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  arm: BP_TOPK
+  topk: 3
+  bond_protection_ratio: 0.5
+  safe_pop_mode: preserve
+  disable_early_termination: true
+  dump_final_population: true
+  seed_tapes: "0201121008010510100708110000000000000000000000000000000000000000"
+grid:
+  mutation_rate: [0.005, 0.015, 0.03]
+  seed_fraction: [0.0, 0.01]
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
