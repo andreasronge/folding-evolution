@@ -76,6 +76,16 @@ def execute(cfg: ChemTapeConfig, output_root: Path) -> Path:
         npz_data["k_distribution"] = np.stack([s.k_distribution for s in history])
     np.savez(run_dir / "history.npz", **npz_data)
 
+    # §v2.4-proxy-4d: dump final-gen population when the flag is set.
+    # final_population shape: (pop_size, tape_length) uint8.
+    # final_population_fitness shape: (pop_size,) float32.
+    if result.final_population is not None:
+        np.savez(
+            run_dir / "final_population.npz",
+            genotypes=result.final_population,
+            fitnesses=result.final_population_fitness,
+        )
+
     holdout = result.holdout_fitness
     gap = None if holdout is None else float(result.best_fitness) - float(holdout)
     summary = {

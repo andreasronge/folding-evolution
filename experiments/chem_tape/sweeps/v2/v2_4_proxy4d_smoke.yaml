@@ -1,0 +1,27 @@
+sweep_name: v2_4_proxy4d_smoke
+# Smoke test: tiny pop/gens to verify the dump_final_population +
+# analyze_retention.py pipeline end-to-end.
+base:
+  alphabet: v2_probe
+  task: sum_gt_10_AND_max_gt_5
+  tape_length: 32
+  n_examples: 32
+  holdout_size: 64
+  pop_size: 64
+  generations: 30
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: numpy
+  log_every: 10
+  arm: BP_TOPK
+  topk: 3
+  bond_protection_ratio: 0.5
+  safe_pop_mode: preserve
+  disable_early_termination: true
+  dump_final_population: true
+  seed_tapes: "0201121008010510100708110000000000000000000000000000000000000000"
+grid:
+  seed_fraction: [0.0, 0.01]
+  seed: [0, 1]

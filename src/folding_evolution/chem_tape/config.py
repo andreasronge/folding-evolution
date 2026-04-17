@@ -129,6 +129,15 @@ class ChemTapeConfig:
     # canonical solution under mutation pressure across all 1500 gens.
     disable_early_termination: bool = False
 
+    # §v2.4-proxy-4d: when True, the final generation's full population
+    # (genotypes + per-individual fitnesses) is attached to EvolutionResult
+    # and serialized to `final_population.npz` in the run directory. Used
+    # by analyze_retention.py to compute edit-distance-2 retention R_2
+    # directly, instead of inferring an exact-match upper bound from
+    # aggregate unique_genotypes stats. Included in hash when True so the
+    # rerun produces a fresh run dir; existing hashes are unaffected.
+    dump_final_population: bool = False
+
     # Infra
     seed: int = 0
     backend: str = "mlx"            # "numpy" | "mlx"
@@ -182,6 +191,11 @@ class ChemTapeConfig:
         # §v2.4-proxy-4b disable_early_termination: excluded at default.
         if not self.disable_early_termination:
             d.pop("disable_early_termination", None)
+        # §v2.4-proxy-4d dump_final_population: excluded at default so
+        # prior sweep hashes are unaffected; included when True so the
+        # rerun produces a fresh run dir with the dump file.
+        if not self.dump_final_population:
+            d.pop("dump_final_population", None)
         blob = json.dumps(d, sort_keys=True).encode()
         return hashlib.sha1(blob).hexdigest()[:12]
 

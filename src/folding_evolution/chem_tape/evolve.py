@@ -38,6 +38,12 @@ class EvolutionResult:
     # each task in task_alternating_values. None when task-alternating is off.
     # Dict of task_name → {fitness, holdout_fitness}.
     cross_task_fitness: dict | None = None
+    # §v2.4-proxy-4d: when cfg.dump_final_population is True, these hold the
+    # final-generation population (genotypes stacked as (pop_size, tape_length)
+    # uint8) and the per-individual fitness (pop_size,) float32. None when
+    # the flag is off, so existing callers are unaffected.
+    final_population: np.ndarray | None = None
+    final_population_fitness: np.ndarray | None = None
 
 
 def _token_max(cfg: ChemTapeConfig) -> int:
@@ -474,6 +480,12 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
                 "gap": gap,
             }
 
+    final_pop_arr: np.ndarray | None = None
+    final_pop_fit: np.ndarray | None = None
+    if cfg.dump_final_population:
+        final_pop_arr = np.stack(population).astype(np.uint8, copy=False)
+        final_pop_fit = np.asarray(fitnesses, dtype=np.float32)
+
     return EvolutionResult(
         best_genotype=best,
         best_fitness=float(fitnesses[best_idx]),
@@ -482,6 +494,8 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
         holdout_fitness=holdout_fitness,
         flip_events=flip_events if alternating else None,
         cross_task_fitness=cross_task_fitness,
+        final_population=final_pop_arr,
+        final_population_fitness=final_pop_fit,
     )
 
 
@@ -570,12 +584,20 @@ def _run_evolution_islands(cfg: ChemTapeConfig) -> EvolutionResult:
             best, task.holdout_inputs, task.holdout_labels, task, cfg
         )
 
+    final_pop_arr: np.ndarray | None = None
+    final_pop_fit: np.ndarray | None = None
+    if cfg.dump_final_population:
+        final_pop_arr = np.stack(flat_pop).astype(np.uint8, copy=False)
+        final_pop_fit = np.asarray(all_fitnesses, dtype=np.float32)
+
     return EvolutionResult(
         best_genotype=best,
         best_fitness=float(all_fitnesses[best_idx]),
         stats=stats,
         generations_run=gen,
         holdout_fitness=holdout_fitness,
+        final_population=final_pop_arr,
+        final_population_fitness=final_pop_fit,
     )
 
 
