@@ -307,3 +307,46 @@
   expect_outputs: [sweep_index.json]
   track: chem-tape-v2
   notes: "§v2.4-proxy-4c consume: F/R dissociation under consume executor (60 runs, ~20 min)."
+
+# ============================================================================
+# Session 6 queue additions (2026-04-17 evening) — Tier-1 post-4d batch
+# Driven by:
+#   Plans/prereg_v2-4-proxy-5a-bp-sweep.md      (§v2.4-proxy-5a)
+#   Plans/prereg_v2-4-proxy-5b-mutation-rate.md (§v2.4-proxy-5b)
+# Decision tree at Plans/post-4d-experiment-decision-tree.md — Tier-2
+# preregs deliberately held pending Tier-1 results (principle 2b).
+# All three YAMLs verified carrying disable_early_termination=true and
+# dump_final_population=true (closes the §v2.4-proxy-4 early-termination
+# trap and satisfies §25 measurement-infra gate for decoded-view R_k).
+#
+# §v2.5-plasticity-1a NOT queued — BLOCKED on ~2-4h engineering per its
+# prereg (plastic VM path, ChemTapeConfig fields, METRIC_DEFINITIONS,
+# analysis pipeline, pytest). A YAML without the config fields would be
+# a §25 (measurement-infra) failure at prereg-authoring time.
+# ============================================================================
+
+# §v2.4-proxy-5a — bp sweep on BP_TOPK seeded cell.
+# 3 bp × 2 sf × 20 seeds = 120 runs. Tests cliff-flattening vs decoder-structural.
+- id: v2_4_proxy5a_bp_sweep
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_4_proxy5a_bp_sweep.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.4-proxy-5a: bond_protection_ratio ∈ {0.5,0.7,0.9} × sf ∈ {0.0,0.01} on BP_TOPK preserve (120 runs, ~30-45 min). Exploratory; tests whether wide solver cloud compresses under bp pressure."
+
+# §v2.4-proxy-5b — mutation_rate sweep on both decoder arms.
+# Split across two YAMLs (one per arm) so each arm gets its own sweep hash.
+# Sequential, not parallel — each sweep saturates 10 workers.
+- id: v2_4_proxy5b_mutation_rate_bp_topk
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_4_proxy5b_mutation_rate_bp_topk.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.4-proxy-5b (BP_TOPK arm): mutation_rate ∈ {0.005,0.015,0.03} × sf ∈ {0.0,0.01} (120 runs, ~25-30 min). Exploratory; tests kinetic vs structural under BP_TOPK."
+
+- id: v2_4_proxy5b_mutation_rate_arm_a
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_4_proxy5b_mutation_rate_arm_a.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.4-proxy-5b (Arm A arm): mutation_rate ∈ {0.005,0.015,0.03} × sf ∈ {0.0,0.01} (120 runs, ~25-30 min). Exploratory; principal comparison row is DIVERGE (A-KINETIC + BP-STRUCTURAL)."
