@@ -1,6 +1,8 @@
 # Pre-registration: §v2.5-plasticity-1a — Arm A operator-threshold plasticity probe (Baldwin diagnostic on the narrow-plateau decoder)
 
-**Status:** QUEUED — **BLOCKED on engineering + METRIC_DEFINITIONS additions (see "Engineering prerequisites" below)** · target commit `TBD` · 2026-04-17 evening
+**Status:** RUNNING · engineering prerequisites 1–6 discharged at commits `d735e5e` (config fields + hash exclusion), `758e175` (rank-1 plastic VM path + evaluate.py gate + evolve.py per-individual dump), `feae431` (analyze_plasticity.py METRIC_DEFINITIONS + pytest) · reviewer audit 2026-04-18 (research-rigor skill): principle 11 passes (`test_plasticity_hash_stability_at_defaults`); principle 23 byte-identity passes via `evaluate.py:104 if cfg.plasticity_enabled:` gate; principle 27 METRIC_DEFINITIONS live in `experiments/chem_tape/analyze_plasticity.py` · sweep YAML `experiments/chem_tape/sweeps/v2/v2_5_plasticity_1a.yaml` (12 cells × 20 seeds = 240 configs, all unique hashes) · launched via overnight queue 2026-04-18
+
+**Historical (pre-2026-04-18):** QUEUED — **BLOCKED on engineering + METRIC_DEFINITIONS additions (see "Engineering prerequisites" below)** · target commit `TBD` · 2026-04-17 evening
 
 ## Supersession / upstream context
 

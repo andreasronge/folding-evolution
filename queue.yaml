@@ -402,3 +402,18 @@
   expect_outputs: [sweep_index.json]
   track: chem-tape-v2
   notes: "§v2.4-proxy-5d v1: bp ∈ {0.65,0.70,0.75} × sf=0.01 × seeds 20..39 (60 runs, ~15 min). Confirmatory replication of non-monotone dip-recovery (P-1). Discharges P-1 if shape replicates; supersedes upstream if it doesn't (principle 13)."
+
+# §v2.5-plasticity-1a — rank-1 operator-threshold plasticity probe.
+# Arm A (confirmatory, narrow plateau, gens=1500) + BP_TOPK (exploratory,
+# wide plateau, gens=500) × budget ∈ {1,2,3,5} + frozen control + sf=0.0
+# drift = 12 cells × 20 seeds = 240 runs. Prereg estimate ~90-120 min at
+# 10 workers; timeout=14400s (4h) gives comfortable headroom. Arm A plastic
+# budget=5 is the longest single-run bound (~7 min). Engineering discharged
+# at d735e5e/758e175/feae431; prereg Plans/prereg_v2-5-plasticity-1a.md
+# flipped BLOCKED→RUNNING 2026-04-18 after research-rigor audit.
+- id: v2_5_plasticity_1a
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_5_plasticity_1a.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 14400
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.5-plasticity-1a: rank-1 operator-threshold plasticity on Arm A (confirmatory, gens=1500, per-tape budget matched to §v2.4-proxy-4c) + BP_TOPK (exploratory, gens=500) × budget ∈ {1,2,3,5} + frozen control + sf=0.0 drift (240 runs). Baldwin_slope CI founds plasticity-narrow-plateau FWER family at size 1 (α=0.05)."
