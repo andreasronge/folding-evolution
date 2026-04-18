@@ -103,6 +103,36 @@ METRIC_DEFINITIONS: dict[str, str] = {
         "with replacement via numpy.random.default_rng(seed=42); 95% CI "
         "is the [2.5%, 97.5%] empirical quantile of the resampled means."
     ),
+    "selection_mode": (
+        "Parent selection algorithm used during reproduction. 'tournament': "
+        "k-way tournament selection (k=cfg.tournament_size, default 3); "
+        "'ranking': linear-rank selection over the full population (probability "
+        "proportional to fitness rank, best individual has rank N); "
+        "'truncation': (µ,λ) truncation selection, parent pool restricted to "
+        "top selection_top_fraction (default 0.5) of population by fitness, "
+        "sampled uniformly. Hash-excluded at default 'tournament' so all "
+        "prior sweep hashes are unchanged."
+    ),
+    "R_fit_holdout_999": (
+        "Fraction of final-population individuals whose HOLDOUT-task fitness "
+        "is >= 0.999 (holdout generalization analogue of R_fit_999). Computed "
+        "by evaluating every tape in final_population.npz against the task's "
+        "holdout inputs/labels (reconstructed from config.yaml + seed via "
+        "tasks.build_task). For BP_TOPK runs the VM executes the BP_TOPK(k) "
+        "decoded view; for Arm A runs the VM executes the raw tape — same "
+        "arm semantics as the training-task fitness column. Sensitive to "
+        "train/holdout divergence: when R_fit_999 > R_fit_holdout_999 by a "
+        "substantial margin, the training-fitness plateau contains solvers "
+        "that do not generalise (candidate train-proxy overfitting)."
+    ),
+    "R_fit_holdout_mean": (
+        "Mean holdout-task fitness across the full final population (1024 "
+        "individuals for standard sweeps). Companion metric to "
+        "R_fit_holdout_999; captures population-average holdout accuracy "
+        "independent of the near-canonical 0.999 threshold. Useful when "
+        "the R_fit_holdout_999 cell is saturated (all above or below 0.999) "
+        "but the populations still differ on mean holdout accuracy."
+    ),
 }
 
 
@@ -176,8 +206,77 @@ def levenshtein(a: tuple[int, ...], b: tuple[int, ...], cap: int | None = None) 
     return prev[lb]
 
 
+def evaluate_holdout_population(run_dir: Path) -> tuple[np.ndarray | None, dict]:
+    """Evaluate every final-population tape on the run's holdout inputs.
+
+    Returns (fitnesses, meta). fitnesses is (P,) float64 if holdout evaluation
+    succeeded, else None. meta carries: holdout_size, arm, topk, and any
+    error message explaining why evaluation was skipped.
+
+    Reconstructs the Task deterministically via `tasks.build_task(cfg, seed)`
+    so the same holdout inputs used during training are reproduced. The
+    function is intentionally tolerant of missing holdout: not every task
+    declares a holdout, and not every run's config is complete enough to
+    rebuild the task — in those cases it returns (None, meta) and the
+    caller should treat R_fit_holdout_* as unmeasured for that run.
+    """
+    fp = run_dir / "final_population.npz"
+    cfg_path = run_dir / "config.yaml"
+    if not fp.exists() or not cfg_path.exists():
+        return None, {"error": "missing final_population.npz or config.yaml"}
+
+    cfg_dict = yaml.safe_load(cfg_path.read_text()) or {}
+    seed = int(cfg_dict.get("seed", 0))
+
+    from folding_evolution.chem_tape.config import ChemTapeConfig  # noqa: E402
+    from folding_evolution.chem_tape.tasks import build_task  # noqa: E402
+    from folding_evolution.chem_tape.evaluate import evaluate_population  # noqa: E402
+
+    known_fields = set(ChemTapeConfig.__dataclass_fields__.keys())
+    sanitized = {k: v for k, v in cfg_dict.items() if k in known_fields}
+    try:
+        cfg = ChemTapeConfig(**sanitized)
+    except TypeError as e:
+        return None, {"error": f"ChemTapeConfig reconstruction failed: {e}"}
+
+    try:
+        task = build_task(cfg, seed)
+    except Exception as e:
+        return None, {"error": f"build_task failed: {e}"}
+
+    if task.holdout_inputs is None or task.holdout_labels is None:
+        return None, {"error": "task has no holdout", "task": cfg.task}
+
+    import dataclasses  # noqa: E402
+
+    data = np.load(fp)
+    genotypes = data["genotypes"]
+
+    holdout_task = dataclasses.replace(
+        task,
+        inputs=task.holdout_inputs,
+        labels=task.holdout_labels,
+        holdout_inputs=None,
+        holdout_labels=None,
+    )
+    population = [genotypes[i].astype(np.uint8) for i in range(len(genotypes))]
+    try:
+        fitnesses, _ = evaluate_population(population, holdout_task, cfg)
+    except Exception as e:
+        return None, {"error": f"evaluate_population failed: {e}"}
+
+    return fitnesses.astype(np.float64), {
+        "holdout_size": int(len(task.holdout_inputs)),
+        "arm": cfg.arm,
+        "topk": int(cfg.topk),
+    }
+
+
 def analyze_run(
-    run_dir: Path, canonical_tape: np.ndarray, alphabet: str
+    run_dir: Path,
+    canonical_tape: np.ndarray,
+    alphabet: str,
+    include_holdout: bool = False,
 ) -> dict | None:
     fp = run_dir / "final_population.npz"
     if not fp.exists():
@@ -234,6 +333,19 @@ def analyze_run(
         int(np.sum(dist_active >= 4))
     ]
 
+    # Optional holdout-task fitness evaluation (principle 25: separate
+    # metric, own METRIC_DEFINITIONS entry, opt-in so the fast path stays
+    # fast). Missing/failed evaluation is represented as None — downstream
+    # aggregation must exclude None rows, not treat them as 0.
+    R_fit_holdout_999: float | None = None
+    R_fit_holdout_mean: float | None = None
+    holdout_meta: dict = {}
+    if include_holdout:
+        holdout_fits, holdout_meta = evaluate_holdout_population(run_dir)
+        if holdout_fits is not None:
+            R_fit_holdout_999 = float(np.mean(holdout_fits >= 0.999))
+            R_fit_holdout_mean = float(np.mean(holdout_fits))
+
     return {
         "config_hash": result.get("config_hash", run_dir.name),
         "seed": int(cfg.get("seed", result.get("seed", -1))),
@@ -259,6 +371,9 @@ def analyze_run(
         "R2_decoded": R_decoded[2],
         "R3_decoded": R_decoded[3],
         "R_fit_999": R_fit,
+        "R_fit_holdout_999": R_fit_holdout_999,
+        "R_fit_holdout_mean": R_fit_holdout_mean,
+        "holdout_meta": holdout_meta,
         "hist_active_0_1_2_3_ge4": hist_active,
     }
 
@@ -294,6 +409,21 @@ def summarize_arm(rows: list[dict]) -> dict:
         solve = int(np.sum(bfit >= 0.999))
         r2a_lo, r2a_hi = bootstrap_ci(r2a)
         r2d_lo, r2d_hi = bootstrap_ci(r2d)
+
+        # Holdout metrics: aggregate only non-None rows; if all rows are
+        # None (holdout not evaluated or unavailable), omit the keys.
+        hfit_vals = [r.get("R_fit_holdout_999") for r in grp if r.get("R_fit_holdout_999") is not None]
+        hmean_vals = [r.get("R_fit_holdout_mean") for r in grp if r.get("R_fit_holdout_mean") is not None]
+        holdout_extra: dict[str, float | int] = {}
+        if hfit_vals:
+            arr = np.array(hfit_vals)
+            hf_lo, hf_hi = bootstrap_ci(arr)
+            holdout_extra["R_fit_holdout_999_mean"] = float(arr.mean())
+            holdout_extra["R_fit_holdout_999_ci95_lo"] = hf_lo
+            holdout_extra["R_fit_holdout_999_ci95_hi"] = hf_hi
+            holdout_extra["R_fit_holdout_999_n"] = len(hfit_vals)
+        if hmean_vals:
+            holdout_extra["R_fit_holdout_mean_mean"] = float(np.mean(hmean_vals))
         summary.append({
             "arm": arm,
             "safe_pop_mode": spm,
@@ -318,6 +448,7 @@ def summarize_arm(rows: list[dict]) -> dict:
             "unique_genotypes_mean": float(uniq.mean()),
             "final_mean_fitness_mean": float(fmean.mean()),
             "solve_count": solve,
+            **holdout_extra,
         })
     return {
         "per_cell": summary,
@@ -331,6 +462,14 @@ def main() -> int:
     ap.add_argument("--canonical-hex", default=CANONICAL_AND_BODY_HEX)
     ap.add_argument("--alphabet", default="v2_probe")
     ap.add_argument("--out", type=Path, default=None)
+    ap.add_argument(
+        "--include-holdout",
+        action="store_true",
+        help="Re-evaluate each final-population tape on the task's holdout "
+             "inputs and emit R_fit_holdout_999 / R_fit_holdout_mean. Adds "
+             "~15-30s per run (batched); off by default so the fast path "
+             "over existing NPZ metrics stays fast.",
+    )
     args = ap.parse_args()
 
     sw_dir = OUTPUT_ROOT / args.sweep
@@ -344,7 +483,7 @@ def main() -> int:
     for d in sorted(sw_dir.iterdir()):
         if not d.is_dir():
             continue
-        r = analyze_run(d, canonical, args.alphabet)
+        r = analyze_run(d, canonical, args.alphabet, include_holdout=args.include_holdout)
         if r is None:
             missing += 1
             continue
@@ -358,11 +497,16 @@ def main() -> int:
     summary_path = out_dir / "retention_summary.json"
 
     if rows:
-        keys = list(rows[0].keys())
+        # Exclude nested dict fields from CSV (commas would break it);
+        # they remain in the JSON summary's per-run payload.
+        csv_keys = [k for k in rows[0].keys() if not isinstance(rows[0][k], (dict, list))]
         with csv_path.open("w") as f:
-            f.write(",".join(keys) + "\n")
+            f.write(",".join(csv_keys) + "\n")
             for r in rows:
-                f.write(",".join(str(r[k]) for k in keys) + "\n")
+                f.write(",".join(
+                    "" if r[k] is None else str(r[k])
+                    for k in csv_keys
+                ) + "\n")
     summary = summarize_arm(rows)
     summary_path.write_text(json.dumps(summary, indent=2))
 
@@ -370,6 +514,8 @@ def main() -> int:
     print(f"  summary JSON: {summary_path}")
     print()
     for cell in summary.get("per_cell", []):
+        hf = cell.get("R_fit_holdout_999_mean")
+        hf_str = f"  R_fit_holdout={hf:.3f}" if hf is not None else ""
         print(
             f"  arm={cell['arm']:<8s} spm={cell['safe_pop_mode']:<8s} "
             f"sf={cell['seed_fraction']:.3f}  n={cell['n_seeds']:>2}  "
@@ -377,7 +523,8 @@ def main() -> int:
             f"CI95=[{cell['R2_active_ci95_lo']:.4f},{cell['R2_active_ci95_hi']:.4f}]  "
             f"R2_decoded={cell['R2_decoded_mean']:.4f} "
             f"CI95=[{cell['R2_decoded_ci95_lo']:.4f},{cell['R2_decoded_ci95_hi']:.4f}]  "
-            f"R_fit={cell['R_fit_999_mean']:.3f}  "
+            f"R_fit={cell['R_fit_999_mean']:.3f}"
+            f"{hf_str}  "
             f"uniq={cell['unique_genotypes_mean']:.1f}  "
             f"final_mean={cell['final_mean_fitness_mean']:.3f}  "
             f"solve={cell['solve_count']}/{cell['n_seeds']}"

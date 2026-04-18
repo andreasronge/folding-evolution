@@ -219,6 +219,44 @@ def _tournament_select(
     return max(competitors, key=lambda i: fitnesses[i])
 
 
+def _ranking_select(
+    indices: list[int],
+    fitnesses: np.ndarray,
+    rng: random.Random,
+) -> int:
+    """Linear-rank selection over `indices`. Assigns selection probability
+    proportional to rank (rank 1 = worst, rank N = best). Does not use
+    tournament_size — the whole pool is ranked."""
+    if len(indices) == 1:
+        return indices[0]
+    ranked = sorted(indices, key=lambda i: fitnesses[i])  # ascending rank
+    n = len(ranked)
+    weights = list(range(1, n + 1))  # rank 1..n, higher = better
+    total = n * (n + 1) // 2
+    r = rng.random() * total
+    cumulative = 0
+    for rank_idx, idx in enumerate(ranked):
+        cumulative += weights[rank_idx]
+        if cumulative >= r:
+            return idx
+    return ranked[-1]
+
+
+def _truncation_select(
+    indices: list[int],
+    fitnesses: np.ndarray,
+    top_fraction: float,
+    rng: random.Random,
+) -> int:
+    """Truncation / (µ,λ) selection. Restricts the parent pool to the top
+    `top_fraction` of `indices` by fitness, then samples uniformly from that
+    pool. When fewer than 2 individuals qualify, falls back to the full pool."""
+    n_keep = max(2, int(round(len(indices) * top_fraction)))
+    ranked = sorted(indices, key=lambda i: fitnesses[i], reverse=True)
+    pool = ranked[:n_keep]
+    return rng.choice(pool)
+
+
 def _compute_niched_fitnesses(
     raw: np.ndarray, population: list[np.ndarray], cfg: ChemTapeConfig
 ) -> np.ndarray:
@@ -263,13 +301,29 @@ def _reproduce_one_island(
     new_pop: list[np.ndarray] = list(elites)
     pop_idx = list(range(len(population)))
     sel_fitnesses = _compute_niched_fitnesses(fitnesses, population, cfg)
+
+    # §v2.4-proxy-5c: dispatch by selection_mode. At default "tournament"
+    # the RNG sequence is byte-identical to the pre-5c implementation
+    # (same _tournament_select calls in the same order).
+    def _select() -> int:
+        if cfg.selection_mode == "ranking":
+            return _ranking_select(pop_idx, sel_fitnesses, rng)
+        elif cfg.selection_mode == "truncation":
+            return _truncation_select(
+                pop_idx, sel_fitnesses, cfg.selection_top_fraction, rng
+            )
+        else:  # "tournament" (default)
+            return _tournament_select(
+                pop_idx, sel_fitnesses, cfg.tournament_size, rng
+            )
+
     while len(new_pop) < len(population):
         if rng.random() < cfg.crossover_rate:
-            i = _tournament_select(pop_idx, sel_fitnesses, cfg.tournament_size, rng)
-            j = _tournament_select(pop_idx, sel_fitnesses, cfg.tournament_size, rng)
+            i = _select()
+            j = _select()
             child = crossover(population[i], population[j], cfg, rng)
         else:
-            i = _tournament_select(pop_idx, sel_fitnesses, cfg.tournament_size, rng)
+            i = _select()
             child = population[i].copy()
         child = mutate(child, cfg, rng, topk_override=topk_override)
         new_pop.append(child)

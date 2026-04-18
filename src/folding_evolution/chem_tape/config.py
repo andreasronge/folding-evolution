@@ -138,6 +138,19 @@ class ChemTapeConfig:
     # rerun produces a fresh run dir; existing hashes are unaffected.
     dump_final_population: bool = False
 
+    # §v2.4-proxy-5c: non-tournament selection mode.
+    # "tournament" (default) is the existing behaviour, byte-identical to all
+    # prior sweeps. "ranking" uses linear-rank selection over the full
+    # population (parents sampled proportional to rank index). "truncation"
+    # uses (µ,λ) truncation: top `selection_top_fraction` of population
+    # are the parent pool, sampled uniformly.
+    selection_mode: str = "tournament"
+
+    # Fraction of population used as parent pool for "ranking" and "truncation"
+    # selection modes. Ignored when selection_mode="tournament".
+    # At default 0.5 excluded from hash.
+    selection_top_fraction: float = 0.5
+
     # Infra
     seed: int = 0
     backend: str = "mlx"            # "numpy" | "mlx"
@@ -196,6 +209,12 @@ class ChemTapeConfig:
         # rerun produces a fresh run dir with the dump file.
         if not self.dump_final_population:
             d.pop("dump_final_population", None)
+        # §v2.4-proxy-5c: selection_mode excluded at default "tournament";
+        # selection_top_fraction excluded at default 0.5.
+        if self.selection_mode == "tournament":
+            d.pop("selection_mode", None)
+        if self.selection_top_fraction == 0.5:
+            d.pop("selection_top_fraction", None)
         blob = json.dumps(d, sort_keys=True).encode()
         return hashlib.sha1(blob).hexdigest()[:12]
 
