@@ -1,36 +1,66 @@
 # Folding Evolution
 
-Protein-inspired genotype-phenotype mapping for genetic programming research.
+GP/ALife research project: protein-inspired genotype-phenotype mapping for genetic programming.
 
-A linear genotype string folds onto a 2D grid. Characters that land adjacent bond according to fixed chemistry rules, assembling into executable program ASTs. The folding is the development process — it creates a non-linear mapping between sequence position and program structure.
+**Active track:** chem-tape v2 probe — testing whether the body-invariant-route mechanism scales with expressivity.
 
-## Research Question
+## Core Question
 
-**Does a developmental encoding (folding) enable qualitatively different evolutionary dynamics than direct encoding?**
+Does a developmental encoding enable qualitatively different evolutionary dynamics than direct encoding — specifically, the ability to discover and propagate rare compositional structures that direct GP cannot reach?
 
-Prior work (in Elixir/PTC-Lisp) established:
-- Folding loses on static metrics (lower neutrality, more catastrophic mutations, worse crossover preservation)
-- Folding wins on dynamic metrics (discovers solutions direct encoding cannot reach, adapts to regime shifts, exhibits punctuated fitness dynamics)
-- Coevolution finds equilibria quickly but hits a complexity ceiling at 3-bond programs
+## Prior Results (Folding Track — Complete)
 
-This project continues the research in Python for faster experimentation and access to the GP/ALife ecosystem.
+The original 2D-grid folding track established the foundational answer:
+
+- Folding loses on static metrics (neutrality, crossover preservation) vs. direct encoding
+- Folding wins on evolutionary dynamics: discovers solutions direct GP cannot reach, recovers under fitness-regime shifts
+- The 3-bond complexity ceiling was broken via Pareto scaffold preservation (§1.11/§1.13): S5 reached in 78–92% of seeds
+- **Key mechanism:** Altenberg's constructional selection — the static/dynamic discrepancy is explained by pleiotropy enabling structural reorganization under selection pressure, not by neutrality per se
+
+Full results: [docs/folding/findings.md](docs/folding/findings.md).
+
+## Active Track: Chem-tape v2
+
+Chem-tape is a 1D redesign: a token tape with per-cell bond bits, decoded as a postfix (RPN) stack program. The v1 experiments established a **body-invariant-route** mechanism — when two tasks share a token-identical body and differ only in a single slot binding, evolution discovers the body once and absorbs task variation through slot indirection.
+
+**v2 north star:** Does this mechanism scale with expressivity, or is it a v1-scale artifact?
+
+v2 adds an extended alphabet (~30 tokens: MAP-family ops, IF_GT, quotation tokens, field-access), matching folding-Lisp's problem domain. The v2 probe runs five pre-registered experiments (§v2.1–§v2.5); total compute ~1.5 hrs on M1.
+
+Durable findings so far: [docs/chem-tape/findings.md](docs/chem-tape/findings.md) — `op-slot-indirection` (ACTIVE), `constant-slot-indirection`, `proxy-basin-attractor`.
+
+Active lab notebook: [docs/chem-tape/experiments-v2.md](docs/chem-tape/experiments-v2.md).
+
+## Research Tracks
+
+| Track | Status | Architecture | Experiments |
+|---|---|---|---|
+| **Chem-tape** | **Active (v2 probe)** | [architecture-v2.md](docs/chem-tape/architecture-v2.md) | [experiments-v2.md](docs/chem-tape/experiments-v2.md) |
+| Folding | Complete | [architecture.md](docs/folding/architecture.md) | [findings.md](docs/folding/findings.md) |
+| CA | Paused | [architecture.md](docs/ca/architecture.md) | [experiments.md](docs/ca/experiments.md) |
+
+## Next Direction Candidate
+
+**Runtime plasticity (Baldwin-style evaluation)** — if v2 probes pass, the next candidate is adding within-lifetime adaptation to the phenotype. The motivation: under Arm A (direct GP), the canonical solution plateau is narrow (R_fit ≈ 0.004); plasticity could smooth it without requiring an explicit descriptor. The cheapest probe is operator-threshold plasticity (one float per op, adapts on train rows, frozen at test). Design note and suggested first experiment: [docs/chem-tape/runtime-plasticity-direction.md](docs/chem-tape/runtime-plasticity-direction.md). Not yet pre-registered.
+
+## Performance Notes
+
+- **Rust backend:** `_folding_rust` provides `rust_develop_batch` (Rayon parallel) and `rust_chem_execute_batch` for full VM scoring. The Python `develop()` auto-detects and uses Rust.
+- **Batch evaluation:** use `develop_batch(genotypes)` for population loops — 2–3× faster than per-individual calls. The `dynamics.py` engine already does this; prefer reusing it over custom eval loops.
 
 ## Running Overnight Experiments
 
-The nightly queue runner (`scripts/run_queue.py`) runs every entry in `queue.yaml` whose id isn't already terminal in `queue.status.json`. Per-run output lands in `experiments/output/YYYY-MM-DD/<id>/` with stdout/stderr logs, rusage profile, and metadata. Experiments must write their outputs under `$RUN_DIR` (exported to the child environment) for `expect_outputs` checks to pass.
-
-```
-# before bed: lint your queue, then kick off
+```bash
+# validate queue, then launch
 uv run python scripts/run_queue.py --validate
 caffeinate -s uv run python scripts/run_queue.py
 
-# morning: Claude-CLI summaries
+# morning: summarize
 uv run python scripts/summarize_runs.py
 ```
 
-For a pre-bed smoke test, maintain a `smoke.yaml` with short-budget variants of tonight's runs (e.g. 2 seeds, 10 generations) and run it against disposable state:
-
-```
+Pre-bed smoke test with short-budget variants:
+```bash
 uv run python scripts/run_queue.py \
   --queue smoke.yaml \
   --status /tmp/smoke.status.json \
@@ -38,50 +68,34 @@ uv run python scripts/run_queue.py \
   --output-root /tmp/smoke_out
 ```
 
-Full design: [Plans/overnight-queue-runner.md](Plans/overnight-queue-runner.md).
-
-## Direction
-
-An upcoming probe evaluates whether the project should reframe around **inductive program synthesis from input-output examples** (PBE) using [PSB2](https://arxiv.org/abs/2106.06086) as an external benchmark. The hypothesis is that the chem-tape + folding representation, combined with Pareto scaffold preservation (see [Findings §1.11/§1.13](docs/folding/findings.md)), produces a smaller train→held-out generalization gap than direct-encoding GP at matched compute. Plan: [Plans/psb2-sanity-probe.md](Plans/psb2-sanity-probe.md). This is a scoped probe, not yet a committed pivot — the decision rule is in the plan.
-
-## Documentation
-
-- **Research Tracks** — Each track has its own architecture + experiments:
-  - [Folding](docs/folding/architecture.md) — original 2D-grid folding chemistry ([experiments](docs/folding/experiments.md), [findings](docs/folding/findings.md))
-  - [Chem-tape](docs/chem-tape/architecture.md) — 1D token tape with bond bits ([experiments](docs/chem-tape/experiments.md))
-  - [CA](docs/ca/architecture.md) — cellular-automata development ([experiments](docs/ca/experiments.md))
-- **[Coevolution Designs](docs/coevolution.md)** — Four coevolution frameworks tested, what worked and what didn't
-- **[Theory](docs/theory.md)** — Altenberg's constructional selection and how it connects
+Experiments must write outputs under `$RUN_DIR` (exported to child env) for `expect_outputs` checks to pass. Full design: [Plans/overnight-queue-runner.md](Plans/overnight-queue-runner.md).
 
 ## Research Workflow (`/research-rigor`)
 
-The `research-rigor` skill (`.claude/skills/research-rigor/`) enforces [methodology.md](docs/methodology.md) at the three checkpoints where overreach silently accumulates. Invoke it by intent, not a literal command.
-
-Lifecycle for a new experiment:
+The `research-rigor` skill enforces [docs/methodology.md](docs/methodology.md) at the three checkpoints where overreach silently accumulates.
 
 ```
-  (1) prereg  →  [run sweep]  →  (2) log-result  →  [replicate/inspect]  →  (3) promote-finding
-                                        │
-                                        ↓
-                                 scope-check (inline)
-                                 supersession (when a later experiment narrows)
+(1) prereg  →  [run sweep]  →  (2) log-result  →  [replicate/inspect]  →  (3) promote-finding
+                                      │
+                                      ↓
+                               scope-check (inline)
+                               supersession (when a later experiment narrows)
 ```
 
 | mode | when | produces |
 |---|---|---|
-| **prereg** | *before* running — "pre-register X", "design experiment for Y" | `Plans/prereg_<slug>.md` with outcome table, decision rule, degenerate-success guards, sampler diagnostics |
-| **log-result** | *after* running — "log result of §X", "write up X" | section in `docs/<track>/experiments.md` matching a pre-registered outcome row |
-| **promote-finding** | only after replication + mechanism inspection — "promote §X to findings" | scope-tagged entry in `docs/<track>/findings.md` |
-| **scope-check** | any draft text — "review this claim", "is this overreaching" | diff of overreach phrases → scope-qualified rewrites |
-| **supersession** | when a later experiment narrows/falsifies an earlier one — "supersede §X", "retract §X" | explicit retraction block; original reasoning preserved |
+| **prereg** | before running | `Plans/prereg_<slug>.md` with outcome table, decision rule, degenerate-success guards |
+| **log-result** | after running | section in `docs/<track>/experiments.md` matching a pre-registered outcome row |
+| **promote-finding** | after replication + mechanism inspection | scope-tagged entry in `docs/<track>/findings.md` |
+| **scope-check** | any draft text | overreach phrases → scope-qualified rewrites |
+| **supersession** | when a later experiment narrows an earlier one | retraction block; original reasoning preserved |
 
-Not every run needs a new prereg. If a prior prereg already covers the work (e.g., its promised baseline sweep was skipped), skip straight to running the YAML and then **log-result** to discharge the outstanding promises. Genuinely new outcome tables / decision rules need their own prereg first.
-
-Templates that back the skill live in [docs/_templates/](docs/_templates/).
+Templates: [docs/_templates/](docs/_templates/).
 
 ## Key References
 
-- Altenberg, L. (1995/2023). "Genome Growth and the Evolution of the Genotype-Phenotype Map." — Constructional selection, pleiotropy, genome-as-population
+- Altenberg, L. (1995/2023). "Genome Growth and the Evolution of the Genotype-Phenotype Map." — Constructional selection; why developmental encodings create different fitness landscapes
+- Hinton, G.E. & Nowlan, S.J. (1987). "How Learning Can Guide Evolution." — Baldwin effect; needle-in-haystack proof that within-lifetime adaptation creates selection gradients on flat landscapes
+- Kauffman, S.A. (1989). "Adaptation on rugged fitness landscapes." — NK model; epistasis and evolvability
 - Hillis, W.D. (1990). "Co-evolving parasites improve simulated evolution as an optimization procedure."
-- Bonner, J.T. (1974). *On Development*. — Low pleiotropy principle
-- Kauffman, S.A. (1989). "Adaptation on rugged fitness landscapes." — NK model
+- Bonner, J.T. (1974). *On Development.* — Low-pleiotropy principle
