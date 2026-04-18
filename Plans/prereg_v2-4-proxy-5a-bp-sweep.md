@@ -1,6 +1,6 @@
 # Pre-registration: §v2.4-proxy-5a — `bond_protection_ratio` sweep on the BP_TOPK seeded cell (decoder-specific mechanism probe)
 
-**Status:** QUEUED · target commit `TBD` · 2026-04-17 evening
+**Status:** INCONCLUSIVE (matched DISSOLVE row; mechanism reading deferred per decision rule) · commit `c3bd8eb` · 2026-04-18 · chronicled at [docs/chem-tape/experiments-v2.md §v2.4-proxy-5a](../docs/chem-tape/experiments-v2.md)
 
 ## Supersession / upstream context
 

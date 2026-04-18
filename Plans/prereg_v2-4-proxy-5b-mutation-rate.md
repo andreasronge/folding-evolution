@@ -1,6 +1,6 @@
 # Pre-registration: §v2.4-proxy-5b — `mutation_rate` sweep on BP_TOPK preserve + Arm A seeded cells (kinetic-vs-structural mechanism probe)
 
-**Status:** QUEUED · target commit `TBD` · 2026-04-17 evening
+**Status:** INCONCLUSIVE (no grid row matched; held for principle-2b grid amendment + re-chronicle) · commit `c3bd8eb` · 2026-04-18 · chronicled at [docs/chem-tape/experiments-v2.md §v2.4-proxy-5b](../docs/chem-tape/experiments-v2.md)
 
 ## Supersession / upstream context
 

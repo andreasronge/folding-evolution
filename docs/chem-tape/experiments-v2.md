@@ -2830,6 +2830,258 @@ Decoded-view R₂ tracks active-view R₂ within ~0.001 in every cell; 95% CIs o
 
 ---
 
+## §v2.4-proxy-5a. `bond_protection_ratio` sweep on the BP_TOPK seeded cell — decoder-specific mechanism probe (2026-04-18)
+
+**Status:** `INCONCLUSIVE` — observed outcome matches the pre-registered `DISSOLVE — cloud collapse without canonical gain` row: `R₂_decoded` remains below the 0.05 floor at all three bp values AND `R_fit_999` drops monotonically below 0.3 at `bp=0.9`. Decision rule for DISSOLVE is explicit: *stop and inspect; do not apply any findings-layer update until genotype inspection confirms the mechanism; likely requires a mid-bp localisation sweep*. The status token reflects that the observed row is non-conclusive for the kinetic-vs-structural question and triggers a follow-up, not a claim · n=20 per cell (6 cells) · commit `c3bd8eb` · —
+
+**Pre-reg:** [Plans/prereg_v2-4-proxy-5a-bp-sweep.md](../../Plans/prereg_v2-4-proxy-5a-bp-sweep.md)
+**Sweep:** `experiments/chem_tape/sweeps/v2/v2_4_proxy5a_bp_sweep.yaml`
+**Compute:** 34 min 14s at 10-worker M-series.
+
+### Question
+
+Under BP_TOPK(k=3) preserve on `sum_gt_10_AND_max_gt_5` natural sampler with `seed_fraction=0.01`, does raising `bond_protection_ratio` from 0.5 toward 0.9 compress the final-population decoded-view retention `R₂_decoded` toward canonical (cliff-flattening), hold it at the wide-solver-cloud baseline (decoder-structural), or dissolve the cloud without compression?
+
+### Hypothesis (pre-registered)
+
+Two competing mechanism readings for the BP_TOPK post-4d solver neutral network: **cliff-flattening** predicts `R₂_decoded` lifts monotonically with bp; **decoder-structural** predicts `R₂_decoded` rate-insensitive. A third (degenerate) scenario — freezing artefact at bp=0.9 — was ruled in prospectively by the guard.
+
+### Result
+
+**Primary metrics: `R₂_decoded` (BP_TOPK-decode-consistent), `R_fit_999` (co-primary per §26). Bootstrap 95% CIs over seeds (n_boot=10 000, `numpy.random.default_rng(42)`).**
+
+| cell | F | unique_genotypes | `R₀_decoded` | `R₂_decoded` [95% CI] | `R₂_active` | `R_fit_999` | `final_mean` |
+|---|---|---|---|---|---|---|---|
+| bp=0.5 × sf=0.0 | 0/20 | 998.7 | 0.0000 | **0.0000** [0.0000, 0.0000] | 0.0000 | 0.000 | 0.864 |
+| bp=0.5 × sf=0.01 | 20/20 | 987.0 | 0.0015 | **0.0024** [0.0019, 0.0030] | 0.0025 | 0.723 | 0.845 |
+| bp=0.7 × sf=0.0 | 1/20 | 1004.8 | 0.0000 | **0.0000** [0.0000, 0.0000] | 0.0000 | 0.037 | 0.843 |
+| bp=0.7 × sf=0.01 | 20/20 | 999.6 | 0.0024 | **0.0046** [0.0032, 0.0062] | 0.0049 | 0.375 | 0.822 |
+| bp=0.9 × sf=0.0 | 1/20 | 1009.6 | 0.0000 | **0.0000** [0.0000, 0.0000] | 0.0000 | 0.025 | 0.836 |
+| bp=0.9 × sf=0.01 | 20/20 | 1005.2 | 0.0021 | **0.0045** [0.0034, 0.0057] | 0.0046 | 0.177 | 0.800 |
+
+Baseline comparability check (principle 23 gate) vs §v2.4-proxy-4d decode-consistent follow-up (commit `cca2323`) anchors at BP_TOPK preserve × sf=0.01:
+
+| cell | §v2.4-proxy-4d anchor | §v2.4-proxy-5a measured | drift |
+|---|---|---|---|
+| `R₂_decoded` | 0.0024 | 0.0024 | **0.000** ✓ |
+| `R_fit_999` | 0.723 | 0.723 | **0.000** ✓ |
+| `R₂_active` | 0.0025 | 0.0025 | **0.000** ✓ |
+| `unique_genotypes` | 987.0 | 987.0 | **0.0** ✓ |
+| `final_mean_fitness` | 0.845 | 0.845 | **0.000** ✓ |
+
+Baseline reproduces byte-identical at bp=0.5 × sf=0.01. BASELINE-DRIFT row not triggered.
+
+**Matches pre-registered outcome:** **DISSOLVE — cloud collapse without canonical gain**. The grid's DISSOLVE row requires `R₂_decoded < 0.05` AND `R_fit drops to < 0.3 at high bp` AND `F_AND = 20/20`. All three conditions fire cleanly: `R₂_decoded` stays at 0.0024-0.0046 across all three bp values (no cell approaches the 0.05 PARTIAL floor, ruling out PASS/PARTIAL); `R_fit_999` drops monotonically from 0.723 → 0.375 → 0.177, with the bp=0.9 cell below the 0.3 DISSOLVE threshold; `F_AND = 20/20` at every sf=0.01 cell. FAIL (decoder-structural) row is not the match because it requires `R_fit` *held* at 0.5-0.8 across bp cells — R_fit clearly does not hold. CLIFF-FLATTENING (PASS) row requires `R₂_decoded ≥ 0.3` at bp ∈ {0.7, 0.9} — no cell approaches this. SWAMPED row not triggered (see degenerate-success check below).
+
+**Statistical test:** per-cell bootstrap 95% CI on `R₂_decoded`, `R₂_active`, `R_fit_999` reported in the table. Paired McNemar on `F_AND` across bp values is vacuous — `F_AND = 20/20` in every sf=0.01 cell; no disagreement pairs exist. Classification: **exploratory** (per prereg). Does not gate a new findings.md claim; does not grow the proxy-basin FWER family (stays at 3; corrected α ≈ 0.017).
+
+### Pre-registration fidelity checklist (principle 23)
+
+- [x] **Every outcome row tested.** All six pre-registered rows (PASS, PARTIAL, FAIL, DISSOLVE, SWAMPED, INCONCLUSIVE) were evaluated against the 6-cell grid. Observation lands cleanly in DISSOLVE; no post-hoc row was added or removed.
+- [~] **Every part of the plan ran — with two partial items.** 120 runs across 6 cells (3 bp × 2 sf × 20 seeds) all completed at commit `c3bd8eb`. Partial items: (a) per-cell aggregated edit-distance histogram `{0,1,2,3,≥4}` is not emitted by [`analyze_5ab.py`](../../experiments/chem_tape/analyze_5ab.py) (only per-run bins in the CSV via the shared `analyze_retention.py`); per-cell aggregation deferred. (b) `R₂_raw` bootstrap 95% CI is computable from per-run values but not printed by the wrapper; R₂_decoded and R₂_active CIs are reported. See Diagnostics ledger below.
+- [x] **No parameters, sampler settings, or seed blocks were changed mid-run.** YAML byte-frozen from template; only `bond_protection_ratio` and `seed_fraction` vary across cells per the prereg setup section.
+- [~] **Every statistical test named in the prereg appears above — one partial.** Bootstrap 95% CIs reported for R₂_decoded, R₂_active, R_fit_999; R₂_raw CI deferred per (b) above. McNemar on F_AND vacuous (F=20/20 every sf=0.01 cell, no disagreement pairs) and reported as such.
+
+### Degenerate-success check (principle 4, per prereg)
+
+All three freezing-artefact detection conditions clear at `bp=0.9`:
+
+1. `unique_genotypes` at bp=0.9 × sf=0.01: **1005.2 / 1024** (prereg required > 800). Well above threshold. Population is actively exploring; not frozen near initial conditions.
+2. `F_AND` at bp=0.9 × sf=0.01: **20/20** (prereg required ≥ 18/20). GA converges productively.
+3. `R₀_decoded` at bp=0.9 × sf=0.0 (drift check): **0.0000** (prereg required < 0.05). No canonical-like genotype arising under random init; seeded signal is genuinely seed-driven.
+
+**Zero-retention artefact:** `R₀_decoded` at sf=0.01 is 0.00147 / 0.00239 / 0.00210 across bp ∈ {0.5, 0.7, 0.9} (~1.5-2.4 / 1024 canonical-exact copies). Values are consistent with `elite_count=2` preserving canonical-exact in some top slots; the final-population dump captures at least part of the elite. Not a zero-retention infrastructure bug.
+
+**Off-plateau canonical shell artefact (non-monotone signature):** the prereg flagged that if `R₂_decoded` lifts at bp=0.7 but falls at bp=0.9 that is DISSOLVE, not PASS. Our `R₂_decoded` at bp=0.7 (0.0046) is marginally higher than at bp=0.5 (0.0024) and approximately equal to bp=0.9 (0.0045). The bp=0.7 lift above bp=0.5 is ~2× the bp=0.5 CI width (0.0011) — directional, but not monotonic-with-bp because bp=0.9 is not strictly higher than bp=0.7. This is consistent with R₂_decoded being approximately bp-invariant above bp=0.5; it is not the cliff-flattening monotone lift. The decisive DISSOLVE evidence is R_fit monotone drop, not R₂_decoded non-monotonicity.
+
+### Attractor-category inspection (principle 21)
+
+**Seeded cells (sf=0.01) — all 60 best-of-run genotypes are byte-for-byte canonical** (verified via `check_canonical.py`): canonical 12-token AND body + 20-NOP tail identical across every seed, every bp. Best-of-run layer is insensitive to bp; the cloud-collapse signal lives in the *population-level* `R_fit_999` metric, not in best-of-run.
+
+**Drift checks (sf=0.0) — 2 unseeded discoveries at bp > 0.5.** At bp=0.5 × sf=0.0, 0/20 seeds solve (baseline). At bp=0.7 × sf=0.0, seed 1 discovered a non-canonical solver `14111507...`; at bp=0.9 × sf=0.0, seed 15 discovered a different non-canonical solver `0d15010d...`. Both reach `best_fitness = 1.0` without seeded init. Reported as a raw observation; not a confounding signal for the DISSOLVE verdict because drift-check solves do not enter the sf=0.01 R_fit computation. Any mechanism reading of this bp-correlated discovery rate is deferred to the inspection queued below (same gate as the main DISSOLVE verdict).
+
+### Interpretation
+
+Scope: `within-family · n=20 per cell (6 cells) · at BP_TOPK(k=3) preserve v2_probe pop=1024 gens=1500 tournament_size=3 elite_count=2 mutation_rate=0.03 disable_early_termination=true · on sum_gt_10_AND_max_gt_5 natural sampler seeded canonical 12-token AND body · bond_protection_ratio ∈ {0.5, 0.7, 0.9}`.
+
+**Grid-letter verdict is DISSOLVE. Mechanism reading is deferred per the prereg's decision rule.** The DISSOLVE row's decision rule is explicit (`Plans/prereg_v2-4-proxy-5a-bp-sweep.md` decision rule): *"unexpected; stop and inspect. Do not apply any findings-layer update until genotype inspection confirms the mechanism. Likely requires a follow-up mid-bp sweep (e.g., bp ∈ {0.6, 0.65, 0.75, 0.85}) to localise the non-monotonicity."* This chronicle honors that gate. No mechanism claim, narrower or broader, is asserted at this chronicle. The two facts to carry forward — both grid-row-level observations, not mechanism claims — are: (i) R₂_decoded stays below the 0.05 PARTIAL floor at all three bp values (no cliff-flattening); (ii) R_fit monotonically drops from 0.723 at bp=0.5 to 0.177 at bp=0.9 (cloud destabilisation under raised bp). Whether these two facts reflect one mechanism, two, or a pre-/post-plateau transition is the question the follow-up inspection + mid-bp sweep exists to answer, not this chronicle.
+
+**What DISSOLVE rules out at this chronicle:** PASS (cliff-flattening) and the pre-registered FAIL row (pure decoder-structural with R_fit held within the 0.5-0.8 band across bp cells). Both require patterns the data do not show. SWAMPED is ruled out by the degenerate-success guard above. BASELINE-DRIFT is ruled out by the bp=0.5 anchor reproduction.
+
+**Mechanism rename check (principles 16 + 16b) — flagged, not applied.** (a) Narrower candidate: the §v2.4-proxy-4d decoder-specific naming "canonical off-center in a wide solver neutral network" may or may not survive a bp-conditional narrowing; the data are consistent with bp-conditional cloud width, but the DISSOLVE gate prohibits the chronicle from doing that narrowing here. (b) Broader candidate: whether bp-destabilisability is a property of BP_TOPK specifically or of bonded-cell mutation protection across arms has not been tested (no Arm A bp sweep). The name may be simultaneously too narrow along the bp-cross-arm axis and too broad along the bp-within-arm axis. Both candidates are registered as open; neither is applied. Naming decision deferred to post-inspection + mid-bp localisation.
+
+**Why the status token is INCONCLUSIVE, not FAIL or PASS.** DISSOLVE is, by prereg construction, explicitly a non-conclusive grid row that triggers "stop and inspect" rather than committing to a mechanism reading. Under the skill's status vocabulary (PASS | FAIL | INCONCLUSIVE | SUPERSEDED | FALSIFIED), INCONCLUSIVE is the correct top-level token for a grid row that itself defers the mechanism claim. FAIL would misread the prereg — the FAIL row is "decoder-structural confirmed", which requires R_fit held across bp cells, and our R_fit does not hold. The chronicle status reads more precisely as "INCONCLUSIVE (matched DISSOLVE row; mechanism reading deferred)".
+
+### Caveats
+
+- **Seed count:** n=20 per cell, 6 cells = 120 runs (load-bearing).
+- **Budget limits:** 1500 generations at `mutation_rate=0.03` (fixed from prereg); bp-conditional kinetics not decoupled from mutation-rate kinetics (see §v2.4-proxy-5b for mutation-rate axis).
+- **Overreach check:** the data do not support any universal claim about bp; the DISSOLVE reading is scope-limited to BP_TOPK(k=3) preserve on this task family at `mutation_rate=0.03`.
+- **Open mechanism questions:** (i) does the R_fit collapse localise non-monotonically in bp ∈ (0.5, 0.9) (mid-bp localisation sweep)? (ii) is the dissolved mass at bp=0.9 a different attractor, or dispersed noise? (iii) does bp interact multiplicatively with mutation rate (combined §v2.4-proxy-5a × §v2.4-proxy-5b sweep)? (iv) does the drift-check discovery rate rise smoothly with bp or threshold at bp=0.7?
+- **Infra note:** `analyze_retention.py`'s `summarize_arm` groups by `(arm, safe_pop_mode, seed_fraction)` only; this chronicle's per-cell grid required a bp-axis grouping added in [`analyze_5ab.py`](../../experiments/chem_tape/analyze_5ab.py) (thin wrapper re-using `analyze_run`). Both scripts produce byte-identical numbers on the shared (arm, spm, sf) keys. Prereg principle-25 language ("via existing analyze_retention.py path") was optimistic; the one-file wrapper is the minimum gap-closer and reports the prereg's committed metrics verbatim.
+
+### Findings this supports / narrows
+
+- Supports: nothing new. Does *not* update any findings.md entry this cycle — DISSOLVE decision rule requires inspection + mid-bp localisation before any finding-layer change.
+- Narrows / broadens: **none asserted at this chronicle.** The mechanism rename candidates listed above are open questions for the follow-up, not rename commitments.
+
+### Next steps (from decision rule)
+
+1. **Genotype inspection of the R_fit-collapsed population at bp=0.9** (zero-compute — `final_population.npz` is on disk). Questions: is the collapsed mass one alternative attractor, many, or dispersed noise? Is there a tell in `active_view` token-histograms that predicts the collapse direction?
+2. **Mid-bp localisation sweep** `bp ∈ {0.6, 0.65, 0.75, 0.85}` to identify whether R_fit drops monotonically or threshold-steps (prereg decision rule requires this before any findings-layer update).
+3. **Queue as separate preregs** (not folded into 5a or 5b):
+   - `Plans/prereg_v2-4-proxy-5a-followup-bp-inspection.md` — zero-compute inspection on the bp=0.9 dumped populations.
+   - `Plans/prereg_v2-4-proxy-5a-followup-mid-bp.md` — 4-bp localisation sweep.
+4. **Defer the decoder-structural claim rename.** "Wide solver neutral network" stays as-is in findings.md until the inspection + mid-bp sweep disambiguates the bp-conditional narrowing.
+
+### Diagnostics (prereg-promise ledger)
+
+| Prereg item | Status |
+|---|---|
+| Per-seed × per-cell F_AND, best-of-run fitness | Reported (F_AND = 20/20 at sf=0.01 every cell; best_fitness = 1.0 at every seeded run) |
+| Per-cell R₂_decoded, R₂_active, R₂_raw, R_fit_999, unique_genotypes, final_generation_mean | Reported (grid table + [retention_grid_bp.json](../../experiments/output/2026-04-17/v2_4_proxy5a_bp_sweep/retention_grid_bp.json)) |
+| Edit-distance histogram `{0, 1, 2, 3, ≥4}` active-view per cell | **Partial** — per-run CSV bins recoverable via `analyze_retention.py` when run without the 5ab wrapper; per-cell aggregated histogram not in the wrapper's output. Full-resolution distribution recoverable on-disk from `final_population.npz`. Resolution gap flagged. |
+| Per-cell bootstrap 95% CI on all three R₂ views | Reported for R₂_decoded and R₂_active; R₂_raw CI computable but not printed by the wrapper (per-run values recoverable) |
+| Per-seed best-of-run hex at sf=0.01 — byte-for-byte canonical across all 60 seeded runs | **60/60 canonical** (verified via `check_canonical.py`) |
+| Bootstrap 95% CI on `R_fit_999` per cell | Reported (`retention_grid_bp.json`) |
+| Arm-0 sanity check (R₀_decoded at sf=0.0 < 0.05) | All three bp × sf=0.0 cells at 0.0000 ✓ |
+
+---
+
+## §v2.4-proxy-5b. `mutation_rate` sweep on BP_TOPK preserve + Arm A seeded cells — kinetic-vs-structural mechanism probe (2026-04-18)
+
+**Status:** `INCONCLUSIVE` — the observed outcome pattern does not match any pre-registered row verbatim under the grid's literal column thresholds (row-by-row walk in Result below). The grid contains an internal inconsistency (R₂_decoded-gated KINETIC rows vs. degenerate-success-guard statement that Arm A's primary mechanism metric is R_fit_999) that only became visible once the data landed. Per principle 2b the correct action is *update the outcome grid, then re-interpret* before any finding-layer change. Mechanism reading held for a grid-amendment re-pre-registration + re-chronicle · n=20 per cell (12 cells) · commit `c3bd8eb` · —
+
+**Pre-reg:** [Plans/prereg_v2-4-proxy-5b-mutation-rate.md](../../Plans/prereg_v2-4-proxy-5b-mutation-rate.md)
+**Sweeps:** `experiments/chem_tape/sweeps/v2/v2_4_proxy5b_mutation_rate_bp_topk.yaml` + `v2_4_proxy5b_mutation_rate_arm_a.yaml`
+**Compute:** 30 min 12s (BP_TOPK) + 11 min 1s (Arm A) = 41 min 13s at 10-worker M-series.
+
+### Question
+
+Under `seed_fraction=0.01` on `sum_gt_10_AND_max_gt_5` natural sampler, does the decoder-specific F/R dissociation measured at `mutation_rate=0.03` scale with mutation rate (kinetic lift of R₂_decoded and/or R_fit at lower rates), hold rate-insensitive (structural), or differ between BP_TOPK preserve and Arm A?
+
+### Hypothesis (pre-registered)
+
+Three readings per decoder arm × a cross-arm differential: **kinetic under both arms**, **structural under both arms**, or **decoder-specific (A-kinetic + BP-structural)** — the last being the theoretically most-informative DIVERGE row.
+
+### Result
+
+**Primary metrics: `R₂_decoded` (primary mechanism axis; decoder-specific meaning), `R_fit_999` (co-primary per §26). Per-arm × per-mutation_rate bootstrap 95% CIs.**
+
+| arm | mr | sf | F | unique_genotypes | `R₂_decoded` [95% CI] | `R₂_active` | `R_fit_999` | `final_mean` |
+|---|---|---|---|---|---|---|---|---|
+| BP_TOPK | 0.005 | 0.0 | 0/20 | 963.2 | **0.0000** [0.0000, 0.0000] | 0.0000 | 0.000 | 0.900 |
+| BP_TOPK | 0.005 | 0.01 | 20/20 | 908.5 | **0.0041** [0.0029, 0.0056] | 0.0071 | **0.949** | 0.970 |
+| BP_TOPK | 0.015 | 0.0 | 0/20 | 981.1 | **0.0000** [0.0000, 0.0000] | 0.0000 | 0.000 | 0.890 |
+| BP_TOPK | 0.015 | 0.01 | 20/20 | 959.2 | **0.0032** [0.0023, 0.0042] | 0.0033 | 0.863 | 0.924 |
+| BP_TOPK | 0.030 | 0.0 | 0/20 | 998.7 | **0.0000** [0.0000, 0.0000] | 0.0000 | 0.000 | 0.864 |
+| BP_TOPK | 0.030 | 0.01 | 20/20 | 987.0 | **0.0024** [0.0019, 0.0030] | 0.0025 | 0.723 | 0.845 |
+| A | 0.005 | 0.0 | 0/20 | 969.8 | **0.0000** [0.0000, 0.0000] | 0.0000 | 0.000 | 0.896 |
+| A | 0.005 | 0.01 | 20/20 | 941.8 | **0.0025** [0.0021, 0.0031] | 0.0026 | **0.902** | 0.942 |
+| A | 0.015 | 0.0 | 0/20 | 993.6 | **0.0000** [0.0000, 0.0000] | 0.0000 | 0.000 | 0.869 |
+| A | 0.015 | 0.01 | 20/20 | 980.7 | **0.0023** [0.0018, 0.0029] | 0.0026 | 0.703 | 0.841 |
+| A | 0.030 | 0.0 | 0/20 | 1011.9 | **0.0000** [0.0000, 0.0000] | 0.0000 | 0.000 | 0.835 |
+| A | 0.030 | 0.01 | 20/20 | 1008.6 | **0.0046** [0.0036, 0.0056] | 0.0053 | 0.004 | 0.836 |
+
+Baseline comparability check (principle 23 gate) at mr=0.03 × sf=0.01 vs §v2.4-proxy-4d decode-consistent follow-up (commit `cca2323`):
+
+| cell | §v2.4-proxy-4d anchor | §v2.4-proxy-5b measured | drift |
+|---|---|---|---|
+| BP_TOPK `R₂_decoded` | 0.0024 | 0.0024 | **0.000** ✓ |
+| BP_TOPK `R_fit_999` | 0.723 | 0.723 | **0.000** ✓ |
+| BP_TOPK `unique_genotypes` | 987.0 | 987.0 | **0.0** ✓ |
+| Arm A `R₂_decoded` | 0.0046 | 0.0046 | **0.000** ✓ |
+| Arm A `R_fit_999` | 0.004 | 0.004 | **0.000** ✓ |
+| Arm A `unique_genotypes` | 1008.6 | 1008.6 | **0.0** ✓ |
+
+Both arms reproduce §v2.4-proxy-4d numbers byte-identical at the mr=0.03 anchor. BASELINE-DRIFT row not triggered.
+
+**Matches pre-registered outcome: none, verbatim.** Walking the grid:
+
+| row | condition | observed | matches? |
+|---|---|---|---|
+| A-KINETIC | `R₂_decoded ≥ 0.05 at mr=0.005` AND `R_fit any shift` | Arm A `R₂_decoded = 0.0025` (< 0.05), `R_fit = 0.902` (massive shift) | **no** — R_decoded fails threshold |
+| A-STRUCTURAL | `R₂_decoded < 0.05 across rates` AND `R_fit ≤ 0.05 across rates` | `R₂_decoded` ok; `R_fit` = {0.004, 0.703, 0.902} (far from held-low) | **no** — R_fit fails "held low" |
+| BP-KINETIC | `R₂_decoded ≥ 0.05 at mr=0.005` AND `R_fit ≥ 0.7 held` | BP `R₂_decoded = 0.0041` (< 0.05), `R_fit = 0.949` (lifted, not held) | **no** — R_decoded fails threshold |
+| BP-STRUCTURAL | `R₂_decoded < 0.05` AND `R_fit held within 95% CI of 0.72` | `R₂_decoded` ok; `R_fit` = {0.723, 0.863, 0.949} (clearly outside baseline CI) | **no** — R_fit fails "held within CI" |
+| DIVERGE | A-KINETIC + BP-STRUCTURAL | both component rows fail | **no** |
+| CONVERGE | A-STRUCTURAL + BP-STRUCTURAL | both component rows fail | **no** |
+| BOTH-KINETIC | A-KINETIC + BP-KINETIC | both component rows fail on R_decoded | **no** |
+| SWAMPED | `F < 18/20 at mr=0.005` | F=20/20 at mr=0.005 both arms | **no** |
+| BASELINE-DRIFT | mr=0.03 deviates from §v2.4-proxy-4d | mr=0.03 cells reproduce exactly | **no** |
+| INCONCLUSIVE | any pattern not fitting above | ← this | **yes** |
+
+**The outcome grid contains an internal inconsistency that principle 2b flags.** The per-arm rows gate on `R₂_decoded` as column 1, but the prereg's own degenerate-success guard states: *"Arm A decoded-view (topk=1) is informational only; the primary Arm A signal is `R_fit_999` for mechanism reading and `R₂_active` for population-layer erosion. Do not promote any Arm A claim resting solely on the decoded column."* The grid's R₂_decoded thresholds for Arm A rows are therefore non-binding on the metric the prereg itself identified as the Arm A mechanism signal. This is not a data problem; it is an outcome-grid spec mismatch. Per principle 2b the correction is **update the grid and re-interpret**, not silently remap Arm A's R_decoded threshold to R_fit at chronicle time.
+
+**Statistical test:** per-cell bootstrap 95% CIs on `R₂_decoded`, `R₂_active`, `R_fit_999` reported. Paired McNemar on `F_AND` across mutation_rate values on shared seeds is vacuous — F=20/20 in every sf=0.01 cell both arms; no disagreement pairs. Classification: **exploratory** (per prereg). Does not gate a findings.md claim; does not grow the proxy-basin FWER family.
+
+### Pre-registration fidelity checklist (principle 23)
+
+- [x] **Every outcome row tested.** All ten pre-registered rows were evaluated against the 12-cell grid. Observation matches INCONCLUSIVE (see row-by-row walk above); no row was silently added or removed.
+- [~] **Every part of the plan ran — with two partial items.** 240 runs across 12 cells (2 arms × 3 mr × 2 sf × 20 seeds) all completed at commit `c3bd8eb`. BP_TOPK cells and Arm A cells ran from byte-separate sweep YAMLs for distinct sweep hashes (one prereg → two sweeps is a documented execution convenience, not a data split). Partial items: (a) per-cell aggregated edit-distance histogram `{0,1,2,3,≥4}` not emitted by the wrapper. (b) `R₂_raw` bootstrap 95% CI computable from per-run values but not printed. See Diagnostics ledger.
+- [x] **No parameters, sampler settings, or seed blocks were changed mid-run.**
+- [~] **Every statistical test named in the prereg appears above — two partial.** Bootstrap 95% CIs reported for R₂_decoded, R₂_active, R_fit_999 per cell per arm; R₂_raw CI deferred. McNemar on F_AND across mutation_rate values on shared seeds is vacuous (F=20/20 every sf=0.01 cell in both arms; no disagreement pairs) and reported as such. The prereg's "paired-seed R₂_decoded lift magnitude by arm" diagnostic is reported as a per-cell paired difference in the Diagnostics ledger below, flagged as a numeric observation rather than a mechanism-level claim.
+
+### Degenerate-success check (principle 4, per prereg)
+
+All three SWAMPED-row detection conditions clear at `mr=0.005`:
+
+1. `F_AND` at mr=0.005 × sf=0.01: **20/20 in both arms** (prereg required ≥ 18/20). Slower mutation does not break the GA's ability to solve from the seeded init.
+2. `unique_genotypes` at mr=0.005 × sf=0.01: **908.5 (BP_TOPK) / 941.8 (Arm A)** (prereg required > 500). Population remains diverse; not frozen.
+3. `R₀_decoded` at mr=0.005 × sf=0.0: **0.0000 in both arms** (prereg required 0.000). No canonical-like arising under random init at low mutation.
+
+**Arm A decoded-view interpretation artefact:** acknowledged per guard — Arm A R₂_decoded values (0.0023-0.0046) are informational, not mechanism-semantic. The Arm A mechanism signal for this chronicle is R_fit_999.
+
+**Cross-cell mutation-rate monotonicity:** R_fit_999 lifts monotonically with decreasing mutation rate in both arms: BP_TOPK {0.723, 0.863, 0.949}; Arm A {0.004, 0.703, 0.902}. No non-monotone signature — the INCONCLUSIVE verdict is not driven by monotonicity failure.
+
+### Attractor-category inspection (principle 21)
+
+All 120 best-of-run genotypes at sf=0.01 across both arms × three mutation rates are **byte-for-byte identical to the canonical 32-token tape** (verified via `check_canonical.py`). No drift at the best-of-run layer under any cell. Zero unseeded discoveries at sf=0.0 under any cell in either arm — matches the mr=0.03 baseline behaviour from 4b/4c/4d. (Contrasts with §v2.4-proxy-5a bp=0.7/0.9 sf=0.0 where 1/20 unseeded discoveries occurred.)
+
+### Interpretation
+
+Scope: `within-family · n=20 per cell (12 cells) · at pop=1024 gens=1500 tournament_size=3 elite_count=2 crossover_rate=0.7 v2_probe disable_early_termination=true · on sum_gt_10_AND_max_gt_5 natural sampler · BP_TOPK(k=3, bp=0.5) preserve + Arm A direct GP · mutation_rate ∈ {0.005, 0.015, 0.03} · seeded canonical 12-token AND body at sf ∈ {0.0, 0.01}`.
+
+**Grid-letter verdict is INCONCLUSIVE. Mechanism reading is deferred per principle 2b.** The observed pattern does not match any of the prereg's ten rows under their literal threshold specifications (row-by-row walk in Result above). Per principle 2b — *"update the outcome grid, then re-interpret"* — the correct action is a re-pre-registration with a properly-specified grid, followed by a re-chronicle against the amended grid, before any findings-layer claim. No narrowing, broadening, or mechanism reading is asserted at this chronicle. The data are on disk; the chronicle records the grid-letter verdict and the measured numbers; interpretation is held.
+
+**What the grid mismatch reveals (prereg defect, not a mechanism claim).** The prereg's outcome grid gates Arm A rows on `R₂_decoded` as column 1, while its own degenerate-success guard simultaneously states that `R₂_decoded` for Arm A is informational-only and the primary mechanism signal is `R_fit_999`. That is a prereg-spec defect that only became visible once the data landed — the grid's R_decoded thresholds for Arm A are non-binding on the metric the prereg identified as Arm A's mechanism signal. This is what the re-pre-registration must repair. Designing the amended grid around the observed pattern would itself be principle-2b smuggling — "paired rows silently smuggle a correlation prior into the outcome space." The amended grid must be constructed as a proper cross-product over the measured axes (R_decoded, R_fit, F_AND) at coarse bins, per §26, without pre-committing to any particular row as the PASS/FAIL target.
+
+**What can be said at chronicle time, grid-free.** Three observations are grid-letter-independent and safe to record: (i) baseline reproduction at mr=0.03 is byte-identical to §v2.4-proxy-4d for both arms (principle 23 gate clears; BASELINE-DRIFT ruled out); (ii) all 120 best-of-run seeded genotypes are byte-for-byte canonical (attractor-category inspection clears, principle 21); (iii) the SWAMPED row at mr=0.005 is ruled out by the degenerate-success guard in both arms (F=20/20, uniq > 500, drift-check R₀=0). None of these are mechanism claims; all three are gate-clearance statements.
+
+**Mechanism rename check (principles 16 + 16b) — flagged, not applied.** (a) Narrower candidate: whether the findings.md#proxy-basin-attractor decoder-specific reading is mutation-rate-conditional is an open question the measured numbers speak to, but principle 2b prohibits this chronicle from doing that narrowing before the grid is amended. (b) Broader candidate: whether the common-ingredient observation cuts across both arms along a variation-layer axis is also an open question with the same gate. Both candidates are registered as open; neither is applied.
+
+### Caveats
+
+- **Seed count:** n=20 per cell × 12 cells = 240 runs (load-bearing per cell, exploratory across cells per prereg classification).
+- **Budget-vs-rate confound at low mr.** 1500 generations at all mutation rates. At mr=0.005 the expected per-tape mutation count over 1500 gens is ~7.5 (vs ~45 at mr=0.03); this is still above the "exploration-starved" threshold per the prereg setup but confounds a "rate" reading with a "total mutation budget" reading at the low-rate end. Any follow-up kinetic claim must decouple these two via either a gen-scaled rate sweep or a fixed-mutation-budget variant.
+- **Overreach check:** no mechanism claim (kinetic, structural, or otherwise) is asserted at this chronicle. Interpretation is held pending a principle-2b grid amendment + re-chronicle. The data are on disk.
+- **Cross-task scope:** one task family (`sum_gt_10_AND_max_gt_5` natural sampler). Extension untested.
+- **Decoder-specific consume cell untested.** 4b/4c/4d covered BP_TOPK consume; this prereg did not probe consume × mutation_rate orthogonality.
+
+### Findings this supports / narrows
+
+- Supports: nothing new this cycle. Does *not* update any findings.md entry — finding-layer narrowing held pending principle-2b grid amendment + re-chronicle.
+- Narrows / broadens: **none asserted at this chronicle.** Any scope change to [findings.md#proxy-basin-attractor](findings.md#proxy-basin-attractor) must come from the re-chronicle against an amended grid, not from this chronicle's interpretation.
+
+### Next steps (from principle-2b repair path)
+
+1. **Grid amendment re-pre-registration** — `Plans/prereg_v2-4-proxy-5b-amended.md`. Design the amended grid as a proper cross-product over the measured axes at coarse bins per §26, with explicit per-arm primary-metric declarations reconciled against the degenerate-success guard. Specifically: the amendment must NOT pre-specify a row tailored to the observed (R_decoded, R_fit) pattern — that would be principle-2b smuggling. The amendment must pre-specify rows for every cell of the cross-product (including cells the observed data do not occupy), then re-classify the observed numbers against that amended grid.
+2. **Re-chronicle 5b against the amended grid.** Mechanical rewrite pointing at the same sweep outputs; no re-run. The numbers anchor to commit `c3bd8eb`; interpretation anchors to the amended grid.
+3. **Cross-task scope test.** Queue mr orthogonality on an independent load-bearing task (e.g., §v2.3's constant-slot-indirection pair) — prereg + sweep, not folded into the amendment.
+4. **Defer all decoder-specific claim renames.** findings.md#proxy-basin-attractor stays as-is until the amendment re-chronicle + cross-task test discharge principle 2b and principle 17's scope-boundary requirement.
+
+### Diagnostics (prereg-promise ledger)
+
+| Prereg item | Status |
+|---|---|
+| Per-seed × per-cell F_AND, best-of-run fitness | Reported (F_AND = 20/20 at sf=0.01 every cell; best_fitness = 1.0 at every seeded run) |
+| Per-cell R₂_decoded, R₂_active, R₂_raw, R_fit_999, unique_genotypes, final_generation_mean | Reported (grid tables + [retention_grid_mr.json](../../experiments/output/2026-04-17/v2_4_proxy5b_mutation_rate_bp_topk/retention_grid_mr.json) and [retention_grid_mr.json](../../experiments/output/2026-04-17/v2_4_proxy5b_mutation_rate_arm_a/retention_grid_mr.json)) |
+| Edit-distance histogram `{0, 1, 2, 3, ≥4}` active-view per cell | **Partial** — per-run CSV bins recoverable via `analyze_retention.py`; per-cell aggregated histogram not in the wrapper. Full-resolution recoverable on-disk from `final_population.npz`. Resolution gap flagged. |
+| Per-cell bootstrap 95% CI on all three R₂ views + R_fit_999 | Reported for R₂_decoded, R₂_active, R_fit_999 |
+| Per-seed best-of-run hex at sf=0.01 per arm — byte-for-byte canonical across 120 seeded runs | **120/120 canonical** (verified via `check_canonical.py`) |
+| Paired-seed R₂_decoded lift magnitude by arm at mr=0.005 vs mr=0.03 | Reported as per-cell mean differences (mr=0.005 minus mr=0.03): R₂_decoded: BP_TOPK +0.0017, Arm A −0.0021. R_fit_999: BP_TOPK +0.226, Arm A +0.898. Per-seed paired bootstrap CIs not printed by the wrapper. Raw numbers only — mechanism interpretation deferred per principle 2b to the amended-grid re-chronicle. |
+
+---
 
 
 - [architecture.md](architecture.md) — v1 specification.
