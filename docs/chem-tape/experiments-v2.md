@@ -3255,7 +3255,9 @@ The `findings.md#proxy-basin-attractor` entry receives a new row in "Narrowing /
 
 ## §v2.4-proxy-5a-followup-mid-bp. Mid-range `bond_protection_ratio` localisation + plateau-edge inspection — PLATEAU-MID with two-mechanism reading falsified (2026-04-18)
 
-**Status:** `INCONCLUSIVE` · n=20 per cell (8 cells, 160 runs) · data commit `5c6c539` · PLATEAU-MID pre-registered row matched; its two-mechanism interpretation falsified by plateau-edge inspection · narrowed follow-up prereg pending
+> **Superseded by [§v2.4-proxy-5d v1](#v24-proxy-5d-v1-independent-seed-replication-on-bp--065-070-075--seeds-2039--fail-to-replicate-supersedes-the-non-monotone-reading-of-v24-proxy-5a-followup-mid-bp-2026-04-18) (2026-04-18, later same day).** The "non-monotone single-mechanism cloud-destabilisation" tentative mechanism name and prediction P-1 (non-monotone shape survives replication) introduced in this chronicle are falsified by the independent-seed replication: on seeds 20..39 at bp ∈ {0.65, 0.70, 0.75}, the profile is {0.483, 0.526, 0.353} — bp=0.70 is *higher* than bp=0.65 (no dip) and bp=0.75 is *lower* than bp=0.70 (no recovery, opposite-direction). Pooled across 40 seeds, the profile is weakly monotonically decreasing, consistent with within-CI noise. Principle 8 ("n=20 is hypothesis-generating, not load-bearing until disjoint-seed replicated") exactly anticipated this. **The surviving mechanism name is "monotone single-mechanism cloud-destabilisation under BP_TOPK preserve at selection pressure ≥ tournament_size=3" (the ts qualifier added by §v2.4-proxy-5c-tournament-size chronicled same day).** Predictions P-2 through P-5 are unaffected by this supersession; P-2 was already discharged on existing data (holdout == train) and remains solid. The analysis below is preserved for the reasoning trail (principle 13); read §v2.4-proxy-5d v1 + §v2.4-proxy-5c-tournament-size for the current mechanism reading.
+
+**Status:** `SUPERSEDED` · n=20 per cell (8 cells, 160 runs) · data commit `5c6c539` · PLATEAU-MID pre-registered row matched on prose only (not on numeric tightness clause — see the "matches" row explanation in the Result section for the principle-2b grid-miss) · supersession 2026-04-18 same-day by §v2.4-proxy-5d v1 (non-monotone reading falsified) + §v2.4-proxy-5c-tournament-size (ts-floor qualifier added)
 
 **Pre-reg:** [Plans/prereg_v2-4-proxy-5a-followup-mid-bp.md](../../Plans/prereg_v2-4-proxy-5a-followup-mid-bp.md)
 **Sweep:** `experiments/chem_tape/sweeps/v2/v2_4_proxy5a_mid_bp.yaml`
@@ -3421,6 +3423,263 @@ Surviving predictions to test: P-1 (replication on seeds 20..39), P-3 (tournamen
 1. **Draft §v2.4-proxy-5d-followup-cloud-reexpansion prereg** (this week). Pre-register: (i) independent-seed replication on seeds 20..39 at bp ∈ {0.65, 0.70, 0.75} to test whether the non-monotone dip-and-recovery survives paired replication (principle 8); (ii) R_fit_holdout_999 alongside R_fit_999 (engineering gate on `analyze_retention.py` pending) to test whether the bp=0.75 off-center recovery is a train-only overfit or a genuine generalizing solver cloud; (iii) per-generation R_fit_999 trajectory checkpoints at {gen=500, 1000, 1500} to test whether bp=0.75 is converging slower or equilibrating at a different point; (iv) explicit R₂_decoded grid-axis treatment to catch the bp=0.85 secondary lift as an outcome cell.
 2. **Do NOT update findings.md** from this chronicle. The PLATEAU-MID decision rule blocks it.
 3. **Note in §v2.4-proxy-5b-crosstask prereg** (when unblocked) that a 3-point mr grid is at risk of the same undiscovered non-monotone shape the 3-point bp grid missed; if compute budget allows, add a 4th intermediate mr value.
+
+---
+
+## §v2.4-proxy-5d v1. Independent-seed replication on `bp ∈ {0.65, 0.70, 0.75}` × seeds 20..39 — **FAIL-TO-REPLICATE; supersedes the non-monotone reading of §v2.4-proxy-5a-followup-mid-bp** (2026-04-18)
+
+**Status:** `FAIL` · n=20 per cell (3 cells, 60 runs) · data commit `bfef15a` (working tree dirty at sweep time — dirty state was methodology-TODO doc only, not executable code; sweep code at `bfef15a` unchanged from `3bf1ba7`) · supersedes the non-monotone-single-mechanism mechanism-reading of [§v2.4-proxy-5a-followup-mid-bp](#v24-proxy-5a-followup-mid-bp-mid-range-bond_protection_ratio-localisation--plateau-edge-inspection--plateau-mid-with-two-mechanism-reading-falsified-2026-04-18)
+
+**Pre-reg:** [Plans/prereg_v2-4-proxy-5d-followup-cloud-reexpansion.md](../../Plans/prereg_v2-4-proxy-5d-followup-cloud-reexpansion.md) (v1 — endpoint-only; trajectory axis deferred to v2)
+**Sweep:** `experiments/chem_tape/sweeps/v2/v2_4_proxy5d_replication.yaml`
+**Compute:** 14 min 45s at 10-worker M-series (queue entry `v2_4_proxy5d_replication`, wall=885s).
+
+### Question
+
+Does the R_fit_999 non-monotone dip (bp=0.70) followed by recovery (bp=0.75) observed on seeds 0..19 replicate on independent seeds 20..39, and does the bp=0.75 recovery correspond to `R_fit_holdout_999` lift (generalizing) or not (train-only proxy overfit)?
+
+### Hypothesis (pre-registered)
+
+Four competing readings: REPLICATE-AND-GENERALIZING / REPLICATE-AND-TRAIN-ONLY / FAIL-TO-REPLICATE / PARTIAL-REPLICATE. The "non-monotone single-mechanism cloud-destabilisation" tentative mechanism name from upstream depended on at least one of the two REPLICATE-* readings.
+
+### Result
+
+**Primary metrics (per `analyze_5ab.py bp --include-holdout`; principle-27 METRIC_DEFINITIONS cited verbatim in sibling sections).**
+
+| bp | R_fit_999 [95% CI] | R_fit_holdout_999 | R₂_decoded [95% CI] | unique_genotypes | solve_count |
+|---|---|---|---|---|---|
+| 0.65 | 0.483 [0.392, 0.613] | 0.483 | 0.0034 [0.0025, 0.0044] | 995.4 | 20/20 |
+| 0.70 | 0.526 [0.442, 0.614] | 0.526 | 0.0034 [0.0026, 0.0042] | 995.0 | 20/20 |
+| 0.75 | 0.353 [0.210, 0.465] | 0.353 | 0.0047 [0.0031, 0.0066] | 1000.7 | 20/20 |
+
+**Cross-block comparison (seeds 0..19 vs seeds 20..39 at matched cells):**
+
+| bp | seeds 0..19 R_fit_999 | seeds 20..39 R_fit_999 | delta | pooled n=40 |
+|---|---|---|---|---|
+| 0.65 | 0.519 | 0.483 | −0.036 | 0.501 |
+| 0.70 | **0.375** (local min in 0..19) | **0.526** (not a min in 20..39) | **+0.151** | 0.451 |
+| 0.75 | **0.467** (apparent recovery in 0..19) | **0.353** (lower than 0.70 in 20..39) | **−0.114** | 0.410 |
+
+**Dip-and-recovery criteria evaluation (prereg principle-2b grid-miss check, applied per methodology §23 sub-principle candidate — see `Plans/methodology_improvements_2026-04-18.md` gap 1):**
+
+| prereg row | criterion (literal numeric clause) | observed on seeds 20..39 | matches? |
+|---|---|---|---|
+| REPLICATE-AND-GENERALIZING | bp=0.70 < 0.4 AND (bp=0.75 − bp=0.70) > 0.05 AND holdout-train divergence ≤ 0.1 | bp=0.70 = **0.526** (not < 0.4) ✗; (bp=0.75 − bp=0.70) = **−0.173** (not > 0.05) ✗ | no |
+| REPLICATE-AND-TRAIN-ONLY | (bp=0.75 − bp=0.70) > 0.05 AND holdout-train divergence > 0.1 | recovery criterion fails ✗; holdout tracks train exactly (divergence = 0.000) ✗ | no |
+| **FAIL-TO-REPLICATE** | bp=0.70 NOT < bp=0.65 (no dip) OR bp=0.75 NOT > bp=0.70 by 0.05 (no recovery) | bp=0.70 (0.526) > bp=0.65 (0.483) → no dip ✓; (bp=0.75 − bp=0.70) = −0.173 < 0.05 → no recovery ✓. **Both sub-conditions met.** | **YES** |
+| PARTIAL-REPLICATE | one feature replicates (dip OR recovery) but not both | neither feature replicates | no |
+| R₂_DECODED-LIFT (sub-outcome) | R₂_decoded at bp=0.75 ≥ 0.006 | R₂_decoded at bp=0.75 = 0.0047 (< 0.006) ✗ | no |
+| SWAMPED | F_AND < 18/20 | F=20/20 throughout ✗ | no |
+| INCONCLUSIVE | any other pattern | — | no |
+
+**Matches pre-registered outcome:** `FAIL-TO-REPLICATE`. Both numeric sub-conditions of the row are satisfied literally; the prose and clauses agree. Prediction **P-1** of the tentative mechanism name ("Non-monotone shape survives on independent seeds 20..39") is **falsified**.
+
+**Statistical test (principle 22, pre-committed in prereg).**
+
+Paired bootstrap 95% CI on the per-seed `R_fit_999(bp=0.75) − R_fit_999(bp=0.70)` difference:
+- On seeds 20..39 only (the independent block): observed mean difference = **−0.173**, 95% CI excludes 0 in the *negative* direction (recovery is not just absent — bp=0.75 is significantly *below* bp=0.70 on these seeds). Opposite-direction-significant.
+- Pooled across both blocks (40 pairs): observed mean difference ≈ −0.041. 95% CI straddles zero. Not statistically distinguishable from 0 at α = 0.0125 (the corrected FWER α at family size 4 — see §22 compliance block below).
+
+**Classification:** confirmatory. Family: `proxy-basin family`. **This confirmatory test consumed α budget: the family grows from size 3 to size 4; corrected α = 0.05/4 = 0.0125.** Per methodology §22 sub-principle candidate (Gap 7 in `Plans/methodology_improvements_2026-04-18.md`), a confirmatory test that ran and failed to reject its null still counts as a family member — it does not get removed on non-rejection. All three previously-promoted F1 tests (§v2.4-proxy-4b, §v2.4-proxy-4c Arm A preserve, §v2.4-proxy-4c BP_TOPK consume) clear the tightened α = 0.0125 by > 3 orders of magnitude; no claim integrity impact.
+
+### Pre-registration fidelity checklist (principle 23)
+
+- [x] **Every outcome row from the prereg was tested.** All 7 rows (REPLICATE-AND-GENERALIZING, REPLICATE-AND-TRAIN-ONLY, FAIL-TO-REPLICATE, PARTIAL-REPLICATE, R₂_DECODED-LIFT sub-outcome, SWAMPED, INCONCLUSIVE) evaluated against observed data. FAIL-TO-REPLICATE matches on both numeric clauses (no dip AND no recovery). Principle 2b check (self-applied per Gap 1 in `Plans/methodology_improvements_2026-04-18.md`): prose and numeric clauses agree for the matched row; no "prose-match × clause-fail" drift.
+- [x] **Every part of the plan ran.** All 60 runs completed at commit `bfef15a`. Pre-sweep checklist item (seeds 0..19 holdout baseline re-evaluation) discharged in commit `87d5607`; P-2 discharge carried forward. Post-sweep `analyze_5ab.py bp --include-holdout` executed on the new data.
+- [x] **No parameters, sampler settings, or seed blocks were changed mid-run.** Sweep yaml specified seeds 20..39 disjoint from upstream 0..19, bp ∈ {0.65, 0.70, 0.75}, all other parameters identical to §v2.4-proxy-5a / mid-bp. No mid-run changes.
+- [x] **Every statistical test and diagnostic named in the prereg appears above or is explicitly deferred.** Paired bootstrap on recovery magnitude: reported. Per-cell bootstrap 95% CIs: reported (table above). R_fit_holdout_999 axis: reported; tracks R_fit_999 exactly. Per-seed best-of-run hex inspection: **deferred** — upstream §v2.4-proxy-5a-followup-mid-bp's attractor-category inspection (all DISPERSED at sf=0.01) is carried forward; no new attractor-category analysis needed given the FAIL verdict. The trajectory axis (pre-registered as DEFERRED TO v2) is not reported (as committed).
+
+### Degenerate-success check (principle 4)
+
+All three prereg guards clear:
+
+1. **Seed-block-shift artefact.** Per-seed best-of-run fitness on 20..39 is 20/20 across all bp cells. Combined with the F=20/20 on 0..19, there is no evidence that 20..39 contains persistently-unsolved seeds analogous to {4, 11, 17} in 0..19. Seed block effects in unique_genotypes are within 10/1024 across 0..19 vs 20..39 at matched cells (within CI). Not artefactual.
+2. **Monotone-replicate-but-trivial.** All three 20..39 cells have R_fit_999 > 0.35 — above the 0.2 "collapse floor" threshold. Results are informative, not below-floor.
+3. **Holdout-evaluation staleness.** Best-of-run `holdout_fitness` in `result.json` matches `analyze_5ab.py --include-holdout` re-evaluation within rounding; task registry has not drifted between the mid-bp commit (`5c6c539`) and this replication's commit (`bfef15a`).
+
+### Interpretation
+
+Scope: `within-family · n=20 per cell per seed block × 2 disjoint blocks (0..19, 20..39) · at BP_TOPK(k=3) preserve v2_probe pop=1024 gens=1500 tournament_size=3 elite_count=2 mutation_rate=0.03 disable_early_termination=true · on sum_gt_10_AND_max_gt_5 natural sampler seeded canonical 12-token AND body · bond_protection_ratio ∈ {0.65, 0.70, 0.75} at sf=0.01`.
+
+**The non-monotone dip-and-recovery was a single-seed-block artefact.** On seeds 20..39 the R_fit_999 profile at bp ∈ {0.65, 0.70, 0.75} is {0.483, 0.526, 0.353} — bp=0.70 is *higher* than both neighbours (not a local minimum), and bp=0.75 is *lower* than bp=0.70 (not a recovery, an opposite-direction drop). Pooled across 40 seeds at the same three bp cells, the profile {0.501, 0.451, 0.410} is weakly monotonically decreasing, entirely consistent with the within-CI-noise null hypothesis. Methodology principle 8 ("n=10 is for hypothesis generation; load-bearing mechanism claims need n=20+ on disjoint seed sets before they enter summary bullets") exactly anticipated this: the upstream §v2.4-proxy-5a-followup-mid-bp chronicle interpreted a 0.092-absolute non-monotonicity at n=20 as mechanism signal when the per-cell bootstrap CI half-widths were ~0.10 — right at the edge of significance. Replication on an independent seed block was the pre-committed test for that edge-of-significance reading, and the replication falsified it.
+
+**Mechanism-name consequence (principle 16 rename, bidirectional per 16b).** The tentative rename from upstream, "non-monotone single-mechanism cloud-destabilisation," is **dead**. The surviving name, pending further evidence:
+
+**"Monotone single-mechanism cloud-destabilisation under BP_TOPK preserve at selection pressure ≥ tournament_size=3"** — narrower than the upstream tentative name on two axes:
+- "monotone" (not non-monotone) — 5d v1 falsifies non-monotonicity.
+- "at selection pressure ≥ ts=3" — adds a pressure-floor qualifier from §v2.4-proxy-5c-tournament-size (chronicled separately in this session; below), which shows ts=2 produces R_fit_999 ≈ 0.005 (cloud fails to form under weak tournament).
+
+Surviving falsifiable predictions (updated from upstream's P-1..P-5):
+- **P-1 DISCHARGED (FALSIFIED).** The non-monotone-shape prediction is rejected.
+- **P-2 DISCHARGED (HOLDS).** R_fit_holdout_999 tracks R_fit_999 at every cell on both seed blocks. The wide solver cloud is genuinely generalizing, not train-proxy overfit.
+- **P-3 PARTIALLY DISCHARGED.** §v2.4-proxy-5c-tournament-size (tournament_size ∈ {2, 3, 5, 8}) shows R_fit_999 is flat at ts ∈ {3, 5, 8} (within 0.023) but collapses at ts=2 (0.005). Selection-pressure invariance holds at working pressures; the mechanism requires ts ≥ 3.
+- **P-4 UNTESTED.** Cross-probe attractor-shared-with-mr comparison awaits a matched-R_fit mr cell sweep.
+- **P-5 UNTESTED.** Tighter attractor-slice thresholds on `inspect_plateau_edge.py` — pending engineering.
+
+**Multi-variable-confound check (self-applied per Gap 2 in `Plans/methodology_improvements_2026-04-18.md`):** this sweep varies `bond_protection_ratio` and `seed` (20..39 disjoint block) relative to the upstream. No other derived process variable shifts. The FAIL-TO-REPLICATE conclusion is attributable to the seed-block variation (the independent-replication axis) under fixed bp at matched cells; no hidden process-variable confound.
+
+**Why the non-monotone shape appeared on 0..19 specifically.** Two candidate explanations, both consistent with within-CI noise:
+- Individual seeds 4, 11, 17 (methodology principle 15 "hard-floor seeds" on sum-gt-10) are unsolved across many chem-tape sweeps. Their R_fit_999 behaviour at high bp may be systematically lower or zero, pulling the 0..19 bp=0.70 mean down specifically. A per-seed inspection at the bp=0.70 cell on 0..19 would confirm; **deferred** as this FAIL outcome discharges the upstream reading regardless of the per-seed attribution.
+- Pure sampling variance: with per-cell CI half-widths ≈ 0.10, a cross-cell difference of 0.092 at n=20 is within one-sigma under the null of smooth monotone decay. Replication on an independent block with different seed-level dynamics moved the per-cell means within noise, producing the observed "opposite direction" Pair B delta on 20..39.
+
+### Caveats
+
+- **Seed count:** n=20 per cell per block. 5d v1's 3 cells × 20 seeds is load-bearing at confirmatory-test classification; combined with the upstream 7 cells × 20 seeds at overlapping bp, the pooled evidence base is substantial.
+- **Overreach check.** "Monotone single-mechanism cloud-destabilisation at ts ≥ 3" is scoped strictly to `within-family · BP_TOPK preserve · sum_gt_10_AND_max_gt_5 natural sampler · bp ∈ {0.50..0.90} at sf=0.01 · at selection pressure ≥ tournament_size=3`. NOT claimed: universality across decoder arms (Arm A not tested at this bp range); cross-task (sum_gt_5_slot or similar untested); smaller pop/gens budget; different mutation_rate; ranking/truncation selection regimes (§v2.4-proxy-5c-nontournament timed out and its retry is now lower priority given the ts={3,5,8} plateau).
+- **Confirmatory-test-that-didn't-reject.** This is the first confirmatory test in F1 history that failed to reach significance. It still counts in the family (methodology §22 per self-applied Gap 7). FWER is robust because the other three F1 tests cite p<0.0001 each; corrected α = 0.0125 is cleared by 3+ orders of magnitude. The finding of this chronicle itself is a null in the sense of methodology §24 — worth acknowledging in findings.md that the non-monotone subsidiary reading was tested and rejected.
+- **Open mechanism questions.** (a) Do individual hard-floor seeds (e.g., {4, 11, 17}) account for the 0..19 bp=0.70 low cell? Per-seed inspection deferred. (b) Does the monotone decay shape hold at bp ∈ {0.5, 0.55, 0.60, 0.62, ...} under denser bp gridding, or are there finer-grained inflections not captured by the 5-7 point grids used so far? A finer bp grid would settle the non-monotonicity question at tighter resolution, but the marginal value vs the now-solid monotone reading is low.
+
+### Diagnostics (prereg-promise ledger)
+
+| Prereg item | Status |
+|---|---|
+| Per-cell R_fit_999, R_fit_holdout_999, R_fit_holdout_mean, R₂_decoded, R₂_active, unique_genotypes, final_generation_mean | All reported in Result table ✓ |
+| Per-cell bootstrap 95% CI on R_fit_999, R_fit_holdout_999, R₂_decoded | Reported ✓ |
+| Paired bootstrap 95% CI on per-seed (bp=0.75 − bp=0.70) difference (within 20..39 and pooled across blocks) | Reported in Statistical test section ✓ |
+| Holdout-evaluation staleness check (sample of 5 seeds per cell) | `result.json:holdout_fitness` matches `--include-holdout` re-evaluation on sampled cells; no staleness ✓ |
+| Per-generation R_fit_999 trajectory | **DEFERRED to v2 prereg** (as pre-registered in v1 scope; sweep.py snapshot infrastructure pending) |
+
+### Findings this supports / narrows
+
+- **Narrows:** [findings.md#proxy-basin-attractor](findings.md#proxy-basin-attractor) — mechanism reading narrowed from the upstream chronicle's tentative "non-monotone single-mechanism cloud-destabilisation" back to "monotone single-mechanism cloud-destabilisation" at the ts-qualified scope. See findings.md update in this session's commit.
+- **Supersedes (principle 13):** §v2.4-proxy-5a-followup-mid-bp chronicle's non-monotone mechanism reading. See supersession block at the head of that chronicle, added in this session.
+
+### Next steps (from prereg decision rule, FAIL-TO-REPLICATE branch)
+
+1. **Supersession block added** to §v2.4-proxy-5a-followup-mid-bp chronicle per methodology §13 (this session).
+2. **findings.md mechanism language updated** from "non-monotone" to "monotone" + "selection-pressure-floor ts ≥ 3" qualifier (this session).
+3. **FWER audit updated** to F1 size 4, α = 0.0125 (this session — see `Plans/fwer_audit_2026-04-18.md` amendment note in the next revision; current chronicle supersedes the "would grow to 4" projection into "has grown to 4" reality).
+4. **Promote the null** (principle 24)? Defer — the null is about a subsidiary mechanism-name component (non-monotone shape specifically), not about the top-line `proxy-basin-attractor` claim. The claim itself narrows rather than falsifies. A NULL findings.md entry for "non-monotone-bp-response does not hold" would be redundant with the narrowed ACTIVE entry; record in the narrowed claim's review-history bullet instead.
+5. **§v2.4-proxy-5d v2 trajectory prereg** is still worth writing when the `sweep.py` snapshot infrastructure lands, but its mechanism-discrimination value has dropped. The monotone reading does not require trajectory-shape discrimination. Move to a lower priority tier.
+
+---
+
+## §v2.4-proxy-5c-tournament-size. Selection-pressure axis probe `tournament_size ∈ {2, 3, 5, 8}` on BP_TOPK preserve — **PRESSURE-MONOTONE-R_FIT (cliff+plateau shape); ts=2 weak-selection pathology** (2026-04-18)
+
+**Status:** `PASS` · n=20 per cell (8 cells, 160 runs) · data commit `bfef15a` (working tree dirty — methodology TODO only, not executable code) · tests prediction P-3 (selection-pressure invariance) from the chronicle's tentative mechanism name — **partially discharged (holds within ts ∈ {3, 5, 8} plateau; fails at ts=2 cliff)**
+
+**Pre-reg:** [Plans/prereg_v2-4-proxy-5c-tournament-size.md](../../Plans/prereg_v2-4-proxy-5c-tournament-size.md)
+**Sweep:** `experiments/chem_tape/sweeps/v2/v2_4_proxy5c_tournament_size.yaml`
+**Compute:** 40 min 9s at 10-worker M-series (queue entry `v2_4_proxy5c_tournament_size`, wall=2409s).
+
+### Question
+
+Under `seed_fraction=0.01` on `sum_gt_10_AND_max_gt_5` natural sampler with BP_TOPK preserve, does varying `tournament_size` ∈ {2, 3, 5, 8} (selection pressure from weakest to strongest) shift `R_fit_999` or `R₂_decoded` beyond bootstrap CI?
+
+### Hypothesis (pre-registered)
+
+Two competing readings: SELECTION-PRESSURE-SENSITIVE (R_fit or R₂ shifts ≥ 0.1 across ts values) vs SELECTION-PRESSURE-INSENSITIVE (all four cells within CI of baseline). Reading (2) was expected to strengthen the DECODER-INTRINSIC interpretation of the wide solver neutral network; reading (1) would require selection-layer probes as a Tier-2 direction.
+
+### Result
+
+**Primary metrics (per `analyze_5ab.py ts --include-holdout`; principle-27 METRIC_DEFINITIONS cited verbatim in sibling sections).**
+
+| tournament_size | sf | R_fit_999 [95% CI] | R_fit_holdout_999 | R₂_decoded [95% CI] | unique_genotypes | solve_count |
+|---|---|---|---|---|---|---|
+| 2 | 0.0 | 0.000 | 0.000 | 0.0000 | 997.4 | 0/20 |
+| 2 | 0.01 | **0.005 [0.000, 0.018]** | **0.005** | 0.0050 [0.0040, 0.0062] | 993.8 | 20/20 |
+| 3 | 0.0 | 0.000 | 0.000 | 0.0000 | 998.7 | 0/20 |
+| 3 | 0.01 | 0.723 | 0.723 | 0.0024 [0.0019, 0.0030] | 987.0 | 20/20 |
+| 5 | 0.0 | 0.000 | 0.000 | 0.0000 | 999.6 | 0/20 |
+| 5 | 0.01 | 0.740 [0.638, 0.835] | 0.740 | 0.0027 [0.0020, 0.0035] | 987.4 | 20/20 |
+| 8 | 0.0 | 0.000 | 0.000 | 0.0000 | 999.1 | 0/20 |
+| 8 | 0.01 | 0.746 [0.652, 0.841] | 0.746 | 0.0029 [0.0023, 0.0036] | 984.4 | 20/20 |
+
+**Selection-pressure profile at sf=0.01 (the load-bearing axis):**
+
+| ts | R_fit_999 | delta vs ts=3 baseline | shape feature |
+|---|---|---|---|
+| 2 | 0.005 | **−0.718** (cliff) | cloud fails to form |
+| 3 | 0.723 | 0.000 (baseline) | plateau start |
+| 5 | 0.740 | +0.017 | plateau |
+| 8 | 0.746 | +0.023 | plateau |
+
+**Shape:** **cliff between ts=2 and ts=3, then flat plateau from ts=3 through ts=8.** The ts ∈ {3, 5, 8} cells are within 0.023 of each other (well within per-cell bootstrap CI half-widths of ~0.05-0.10); the ts=2 cell is 0.72 absolute below the plateau.
+
+**Pre-registered outcome-row evaluation (principle-2b row-clause check, self-applied per Gap 1 in `Plans/methodology_improvements_2026-04-18.md`):**
+
+| prereg row | criterion (all numeric clauses) | observed | matches? |
+|---|---|---|---|
+| SELECTION-INSENSITIVE | All four cells within ±0.05 of baseline (0.723) AND R₂_decoded within CI of 0.0024 AND F ≥ 18/20 | ts=2 is 0.718 below baseline (far outside ±0.05) ✗ | no |
+| **PRESSURE-MONOTONE-R_FIT** | R_fit_999 monotone across ts AND ts=2 vs ts=8 differs by > 0.1 AND F ≥ 18/20 | Monotone: {0.005, 0.723, 0.740, 0.746} — strictly increasing ✓. ts=2 vs ts=8 = 0.741 > 0.1 ✓. F = 20/20 at every cell ✓. | **YES (on letter of clauses)** |
+| PRESSURE-MONOTONE-R₂ | R₂_decoded monotone across ts AND ts=2 vs ts=8 differs by ≥ 0.05 | R₂_decoded: {0.0050, 0.0024, 0.0027, 0.0029} — NOT monotone (highest at ts=2); ts=2 vs ts=8 = 0.0021 < 0.05 | no |
+| PRESSURE-NONMONOTONE | R_fit_999 non-monotone (dip or spike) across ts | R_fit_999 is strictly monotone | no |
+| SWAMPED | F < 18/20 under any ts | F = 20/20 at every cell ✗ | no (but see Principle-4 revision below) |
+| BASELINE-DRIFT | ts=3 cell does not reproduce §v2.4-proxy-4d within CI | ts=3 R_fit_999 = 0.723 matches §v2.4-proxy-4d commit `cca2323` baseline byte-identically ✓ | no |
+
+**Matches pre-registered outcome:** `PRESSURE-MONOTONE-R_FIT` on the literal conjunction of the row's numeric clauses (monotone + > 0.1 span + F ≥ 18/20 all satisfied). **However, the row's name and interpretation anticipate a *smooth* monotone profile across the full ts range, not a cliff+plateau signature.** The observed shape is {ts=2: cliff (R_fit ≈ 0); ts ∈ {3,5,8}: plateau at 0.72-0.75}. The row matches the letter of the clauses but misses the shape's structure. Principle 2b candidate for the next prereg: add a PRESSURE-CLIFF-WITH-PLATEAU row that decomposes "monotone across full range" from "structural cliff at one endpoint + plateau elsewhere."
+
+**Statistical test:** per-cell bootstrap 95% CIs reported. Paired within-sweep differences (ts=2 − ts=3, ts=5 − ts=3, ts=8 − ts=3) per seed: the ts=2 − ts=3 difference is approximately −0.72 with 95% CI excluding 0 by a wide margin (ts=2 R_fit_999 ≤ 0.05 in 19/20 seeds; ts=3 ≥ 0.50 in 19/20 seeds; disagreement count essentially 20 paired seeds). The ts=5 − ts=3 and ts=8 − ts=3 differences have 95% CIs overlapping 0 (−0.023 to +0.063). **Classification: exploratory** (per prereg) — does not grow the proxy-basin FWER family. Corrected α for F1 stays at 0.0125 post-5d (see §v2.4-proxy-5d v1 chronicle).
+
+### Pre-registration fidelity checklist (principle 23)
+
+- [x] **Every outcome row from the prereg was tested.** All 7 rows evaluated; PRESSURE-MONOTONE-R_FIT matches on the letter of its clauses; SWAMPED does NOT match on its letter (F = 20/20) but does match on the *intent* the guard was designed to catch — see Degenerate-success check below for the principle-4 / methodology-Gap-5 reconciliation.
+- [x] **Every part of the plan ran.** All 160 runs completed at commit `bfef15a`. Per-seed best-of-run hex at sf=0.01 inspected via `sweep_index.json:best_genotype_hex` — canonical body dominates at every ts cell with > 0.80 seed-share (consistent with §v2.4-proxy-4d's attractor category for the ts=3 baseline).
+- [x] **No parameters, sampler settings, or seed blocks were changed mid-run.** Sweep yaml specified tournament_size ∈ {2, 3, 5, 8} × seed_fraction ∈ {0.0, 0.01} × seeds 0..19. All other parameters identical to §v2.4-proxy-4d baseline. No mid-run changes.
+- [x] **Every statistical test and diagnostic named in the prereg appears above or is explicitly deferred.** Per-cell bootstrap 95% CIs: reported. Paired within-sweep differences: reported. Edit-distance histogram per cell: **deferred** — histogram is computable from `analyze_retention.py` CSV but not printed in this chronicle; available from the `retention_grid_ts.json` output if needed for follow-up. Per-generation R_fit_999 trajectory (first 100 generations): **deferred** — `sweep.py` snapshot infrastructure pending (same blocker as §v2.4-proxy-5d v2).
+
+### Degenerate-success check (principle 4) — revised per methodology-Gap-5 self-application
+
+The prereg's three guards:
+
+1. **tournament_size=8 freeze artefact.** Expected `unique_genotypes` at ts=8 × sf=0.01 > 800. **Observed: 984.4.** Guard cleared. Not a freeze.
+2. **tournament_size=2 exploration starvation.** **Prereg's letter-only criterion (F ≥ 18/20) passes: F = 20/20 at ts=2. BUT the guard's intent — "solvers fail to propagate above random-init baseline" — fails: R_fit_999 at ts=2 = 0.005 (essentially zero; population has < 1% members with fitness ≥ 0.999). Solvers are found at the best-of-run layer but do not propagate into the final population.** This is a **letter-vs-intent mismatch** in the guard's design — the F-only criterion missed the propagation-failure signature. Self-applied per Gap 5 of `Plans/methodology_improvements_2026-04-18.md`: the ts=2 cell is a weak-selection starvation regime in the intent sense; the prereg's SWAMPED row should have included an additional R_fit_999-based criterion (e.g., `R_fit_999 < 0.1 × baseline`) to catch this. Decision: report the observed cell under PRESSURE-MONOTONE-R_FIT on the letter, and append a principle-2b note that the ts=2 cell is effectively a degenerate-success-guard failure in intent, not a clean PASS cell on the mechanism axis.
+3. **DECODER-INTRINSIC false-positive via budget ceiling.** The ts ∈ {3, 5, 8} plateau is observed at final generation (gen=1500); per-generation trajectory (deferred) would confirm whether these cells reach equilibrium from different kinetic paths. The fact that R_fit_999 is flat at 0.72-0.75 across three different selection pressures is consistent with DECODER-INTRINSIC at equilibrium; a trajectory-stratified analysis would settle whether stronger tournaments converge faster. **Deferred** until `sweep.py` snapshot infrastructure lands.
+
+### Attractor-category inspection (principle 21)
+
+Threshold-adjacent criterion: does any cell sit near a pre-registered bin boundary? ts=2 × sf=0.01 at R_fit_999 = 0.005 is below the 0.1 SWAMPED-intent floor by 20×. Attractor-inspection: all ts ∈ {3, 5, 8} × sf=0.01 cells show best_genotype_hex matching canonical in > 19/20 seeds (per `sweep_index.json` inspection). The ts=2 × sf=0.01 cell also shows best_genotype_hex = canonical in 20/20 seeds — confirming solvers are found but don't propagate; the final population is dominated by non-near-canonical drift. This is a new attractor-category pattern not seen in §v2.4-proxy-5a/5b: "best-of-run-canonical + full-population-drift" coexistence under weak selection. Worth a follow-up inspection sub-experiment if the ts=2 regime becomes load-bearing; deferred as the working-pressure plateau (ts ≥ 3) is the main mechanism-axis anchor.
+
+### Interpretation
+
+Scope: `within-family · n=20 per cell (8 cells) · at pop=1024 gens=1500 mr=0.03 elite_count=2 crossover_rate=0.7 v2_probe disable_early_termination=true · on sum_gt_10_AND_max_gt_5 natural sampler · BP_TOPK(k=3, bp=0.5) preserve · tournament_size ∈ {2, 3, 5, 8} · seeded canonical 12-token AND body at sf ∈ {0.0, 0.01}`.
+
+**The wide solver neutral network is decoder-intrinsic within the working-selection-pressure regime (ts ≥ 3) but requires some selection pressure to form (ts=2 fails).** Three distinct regimes surface:
+
+1. **Weak-selection starvation (ts=2).** R_fit_999 ≈ 0.005. Best-of-run finds canonical solvers (solve_count = 20/20; best_genotype_hex = canonical in 20/20 seeds), but the population dynamics under tournament_size=2 (essentially coin-flip competition) do not sustain the solver cloud — near-canonical high-fitness individuals are lost to random-drift pressure faster than they propagate. The population ends in a drift-equilibrium that is disconnected from the best-of-run. This is a **propagation-failure regime** distinct from both "swamped exploration" (best-of-run fails too) and "collapsed cloud" (e.g., §v2.4-proxy-5a's bp=0.9, where best-of-run solves but R_fit_999 is 0.18 — intermediate). Weak-selection starvation is more severe than collapsed-cloud: effectively zero R_fit_999.
+
+2. **Working-selection plateau (ts ∈ {3, 5, 8}).** R_fit_999 at 0.72-0.75, all three cells within per-cell CI of each other. R₂_decoded ≈ 0.003 throughout (canonical off-center; consistent with §v2.4-proxy-4d's decoder-specific reading). **No selection-pressure-dependent narrowing or widening of the cloud within this range.** Stronger tournaments (ts=5, ts=8) give a small ~0.02 R_fit bump over ts=3, but the shift is within noise and does not drive R₂_decoded (canonical proximity) higher. The cloud width is decoder-determined; within-tournament pressure variation at ts ≥ 3 does not alter it.
+
+3. **Strong-selection (untested above ts=8).** Whether ts = 16, 32, or larger tournaments would break the plateau is untested. Classical theory predicts at sufficient pressure the population could narrow toward canonical (R₂_decoded would rise) or converge to a single non-canonical solver (attractor category shifts from DISPERSED to SINGLE). Not within the scope of this sweep.
+
+**Mechanism-name update (principle 16; narrowing per 16b).** The chronicle's tentative name (post-5d-v1 FAIL-TO-REPLICATE): "Monotone single-mechanism cloud-destabilisation under BP_TOPK preserve at selection pressure ≥ tournament_size=3." The 5c_tournament_size result confirms the `ts ≥ 3` qualifier — partial discharge of prediction P-3. The `ts ≥ 3` is a **necessary condition** for the mechanism to manifest, not sufficient; the mechanism itself is the decoder's many-to-one mapping producing a wide off-center solver neutral network, and selection pressure provides the minimum propagation substrate.
+
+**Implication for §v2.4-proxy-5c-nontournament (the ranking/truncation retry).** The ts ∈ {3, 5, 8} plateau covers a substantial slice of the within-tournament-family selection-pressure range. If `ranking` selection with `selection_top_fraction = 0.5` produces effective pressure between ts=3 and ts=8 (plausible — parent pool of 512 out of 1024, weighted by rank), it likely falls in the plateau and produces R_fit_999 ≈ 0.72-0.75 as well. If so, **DECODER-INTRINSIC is the likely §v2.4-proxy-5c-nontournament verdict.** The marginal value of running that sweep to completion drops: we have tournament-family plateau evidence already. However, `truncation` with `top_fraction = 0.5` has stronger selection pressure (hard cutoff, not ranked sample), so it may test a regime above ts=8 — still worth running if selection-pressure-ceiling behaviour is of interest. Recommendation: de-prioritize the 5c_nontournament retry unless the hard-cutoff question specifically matters.
+
+**Principle-16b broader-name check.** "Cloud-destabilisation mechanism requires selection pressure ≥ ts=3" is the narrow form. The broader form would be "the wide solver neutral network requires selection-propagation-ratio ≥ some threshold of effective pressure," which is lever-family-agnostic. Not tested across ranking/truncation yet; the broader phrasing is the hypothesis that §v2.4-proxy-5c-nontournament (if run) would confirm.
+
+### Caveats
+
+- **Seed count:** n=20 per cell. Load-bearing classification per prereg; shared seeds 0..19 across ts cells enable paired analysis.
+- **Overreach check.** The `ts ≥ 3` qualifier is scoped to `BP_TOPK(k=3, bp=0.5) preserve · sum_gt_10_AND_max_gt_5 natural sampler · mutation_rate=0.03 · pop=1024 gens=1500 · seeded canonical body at sf=0.01`. NOT claimed: other decoder arms (Arm A / BP_TOPK consume untested here), other tasks, other selection regimes (ranking / truncation). Not claimed: a specific ts threshold — ts=3 is the lowest tested point above the cliff; somewhere between ts=2 and ts=3 the cliff-to-plateau transition sits. `ts = 2.5` is not a valid config, so the transition is boxed to the 2→3 integer jump, not localised finer.
+- **Principle 2b grid-miss (self-applied per Gap 1).** The PRESSURE-MONOTONE-R_FIT row matches on clauses but misses the cliff+plateau shape. A follow-up prereg should add a PRESSURE-CLIFF-WITH-PLATEAU row that distinguishes "smooth monotone" from "structural cliff at one endpoint + plateau elsewhere."
+- **Principle 4 guard-design flaw (self-applied per Gap 5).** The ts=2 cell passed the prereg's F-only SWAMPED guard but failed the guard's intent (propagation). Future prereg on weak-selection regimes must use a conjunction of (F ≥ threshold) AND (R_fit_999 > propagation-floor) as the SWAMPED criterion, not F alone.
+- **Untested strong-pressure regime (ts > 8).** Whether the plateau extends to larger tournament sizes or breaks at some strong-selection boundary is unexplored. Low priority given the decoder-intrinsic reading; would be worth probing if the plateau is ever cited as "universal" at paper level.
+
+### Diagnostics (prereg-promise ledger)
+
+| Prereg item | Status |
+|---|---|
+| Per-cell R_fit_999, R₂_decoded, R₂_active, R_fit_holdout_999, R_fit_holdout_mean, unique_genotypes, final_generation_mean | All reported ✓ |
+| Per-cell bootstrap 95% CI on R_fit_999, R₂_decoded | Reported ✓ |
+| Per-seed best-of-run hex inspection at sf=0.01 per ts | Done via `sweep_index.json`; all cells show canonical dominance in > 19/20 seeds ✓ |
+| Edit-distance histogram {0, 1, 2, 3, ≥4} decoded-view per cell | **Deferred** — available from `retention.csv` if needed for follow-up; not printed here |
+| Per-generation R_fit_999 trajectory (first 100 gens) | **Deferred** — `sweep.py` snapshot infrastructure pending (same blocker as §v2.4-proxy-5d v2) |
+| Paired within-sweep R_fit_999 differences per seed | Reported in Statistical test section ✓ |
+
+### Findings this supports / narrows
+
+- **Narrows:** [findings.md#proxy-basin-attractor](findings.md#proxy-basin-attractor) — adds the `selection-pressure ≥ ts=3` qualifier to the decoder-intrinsic wide-solver-cloud reading. The cloud is decoder-determined at working pressures and requires some minimum selection pressure to form (ts=2 fails). See findings.md update in this session.
+- **Partially discharges prediction P-3** from the §v2.4-proxy-5a-followup-mid-bp chronicle's tentative mechanism name (now renamed post-5d v1): selection-pressure invariance holds at ts ∈ {3, 5, 8}; fails at ts=2. The mechanism-name qualifier `ts ≥ 3` captures this.
+
+### Next steps (from prereg decision rule, PRESSURE-MONOTONE-R_FIT branch — sub-qualified as cliff+plateau)
+
+1. **findings.md update** (this session): add `selection-pressure ≥ ts=3` qualifier to the proxy-basin-attractor mechanism language.
+2. **De-prioritize §v2.4-proxy-5c-nontournament retry.** The ranking/truncation probes were intended to test selection-coupling vs decoder-intrinsic. The ts ∈ {3, 5, 8} plateau provides substantial evidence for decoder-intrinsic at tournament pressures; marginal value of running ranking/truncation to close the sub-question is low. Keep the queue entry but lower priority; not blocking.
+3. **Pre-register a PRESSURE-CLIFF-WITH-PLATEAU-row-addition** in any follow-up selection-pressure prereg (methodology §2b candidate per Gap 1 of `Plans/methodology_improvements_2026-04-18.md`).
+4. **Strong-pressure extension (untested, low priority).** If paper-level language claims "decoder-intrinsic" universally, run ts ∈ {16, 32} to check whether the plateau extends or breaks. Not needed for the current ts ≥ 3 qualifier.
+
+---
 
 ---
 

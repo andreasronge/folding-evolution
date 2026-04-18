@@ -40,6 +40,25 @@ These tests build the mechanism narrative but do not enter the FWER family at pr
 **Pending confirmatory expansion (queued):**
 `prereg_v2-4-proxy-5d-followup-cloud-reexpansion.md` — tests prediction P-1 (non-monotone dip-recovery replicates on seeds 20..39). Classified confirmatory; family grows to **4** on promotion, corrected α → **0.05/4 = 0.0125**. Existing 3 members clear 0.0125 by > 3 orders of magnitude — no claim integrity impact.
 
+### Addendum (2026-04-18 later same day — post-5d-v1 run): §v2.4-proxy-5d v1 ran; F1 is NOW size 4
+
+§v2.4-proxy-5d v1 completed (data commit `bfef15a`; chronicle in `experiments-v2.md`) with verdict **FAIL-TO-REPLICATE**. Per methodology §22 (Gap 7 in `Plans/methodology_improvements_2026-04-18.md`), a confirmatory test that ran and failed to reject its null still counts as a family member — it consumed α budget regardless of outcome.
+
+**F1 is NOW actually size 4**, not "projected size 4":
+
+| # | test | statistic | vs α = 0.0125 |
+|---|---|---|---|
+| 1 | §v2.4-proxy-4b | χ²=18.05, p < 0.0001 | clears by > 3 orders |
+| 2 | §v2.4-proxy-4c Arm A preserve | χ²=18.05, p < 0.0001 | clears by > 3 orders |
+| 3 | §v2.4-proxy-4c BP_TOPK consume | χ²=18.05, p < 0.0001 | clears by > 3 orders |
+| 4 | §v2.4-proxy-5d v1 | paired-bootstrap CI on recovery includes 0 (pooled n=40) | does NOT reject its null; the subsidiary non-monotone claim is falsified |
+
+**Corrected α = 0.05/4 = 0.0125** (current, not projected).
+
+**Impact on `proxy-basin-attractor` ACTIVE claim:** none at the top-line. Tests 1-3 clear 0.0125 by > 3 orders of magnitude. Test 4's non-rejection falsifies only the short-lived "non-monotone subsidiary reading" from §v2.4-proxy-5a-followup-mid-bp (now SUPERSEDED), not the underlying claim. Mechanism-name narrowing (drop "non-monotone"; add "at ts ≥ 3" qualifier from §v2.4-proxy-5c-tournament-size) is recorded in `findings.md#proxy-basin-attractor`'s review-history.
+
+**Next family change:** §v2.5-plasticity-1a will found F6 at size 1 on completion (currently BLOCKED on engineering).
+
 **At-risk claims in F1:** none. `proxy-basin-attractor` ACTIVE rests on χ²=18.05, p<0.0001 tests across three independent configurations plus a broad descriptive basis; `decoder-knob-leverage-null` is FWER-safe at family size 3 (cleared by the §v2.4-proxy-5b-amended BOTH-KINETIC data at exploratory level; its confirmatory gate is the §v2.15 family, not F1).
 
 ---
