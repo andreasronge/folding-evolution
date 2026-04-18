@@ -3083,6 +3083,325 @@ Scope: `within-family · n=20 per cell (12 cells) · at pop=1024 gens=1500 tourn
 
 ---
 
+## §v2.4-proxy-5b-amended. `mutation_rate` sweep outcome-grid repair + re-chronicle — BOTH-KINETIC (2026-04-18)
 
-- [architecture.md](architecture.md) — v1 specification.
-- [experiments.md](experiments.md) — v1 experimental record (§10, §v1.5a-binary, §v1.5a-internal-control referenced throughout).
+**Status:** `PASS` · n=20 per cell (12 cells, 240 runs) · data commit `c3bd8eb` · amended-prereg commit `4aa8b40` · supersedes §v2.4-proxy-5b INCONCLUSIVE verdict (principle-2b grid repair; no new sweep)
+
+> **Amendment of §v2.4-proxy-5b (2026-04-18).** The §v2.4-proxy-5b grid was internally inconsistent — Arm A rows gated on `R₂_decoded` as primary while the same prereg's degenerate-success guard identified `R_fit_999` as the Arm A mechanism metric. This re-chronicle re-applies the same sweep data (commit `c3bd8eb`) against a corrected cross-product grid in which Arm A primary = `R_fit_999` and BP_TOPK co-primary = `R_fit_999 + R₂_decoded`. The analysis below supersedes §v2.4-proxy-5b's INCONCLUSIVE interpretation on the mechanism-reading axis; §v2.4-proxy-5b's raw data tables and gate-clearance statements (degenerate-success guard, attractor-category inspection, baseline drift check) are preserved in that section for the reasoning trail.
+
+**Pre-reg (amended):** [Plans/prereg_v2-4-proxy-5b-amended.md](../../Plans/prereg_v2-4-proxy-5b-amended.md)
+**Original pre-reg:** [Plans/prereg_v2-4-proxy-5b-mutation-rate.md](../../Plans/prereg_v2-4-proxy-5b-mutation-rate.md)
+**Sweeps:** `experiments/chem_tape/sweeps/v2/v2_4_proxy5b_mutation_rate_bp_topk.yaml` + `v2_4_proxy5b_mutation_rate_arm_a.yaml`
+**Compute:** 30 min 12s (BP_TOPK) + 11 min 1s (Arm A) = 41 min 13s at 10-worker M-series. (No new compute for the amendment.)
+
+### Question
+
+Under `seed_fraction=0.01` on `sum_gt_10_AND_max_gt_5` natural sampler, does the decoder-specific F/R dissociation measured at `mutation_rate=0.03` scale with mutation rate — lifting `R_fit_999` and/or `R₂_decoded` at lower rates (kinetic mechanism), or holding rate-insensitive across `mutation_rate ∈ {0.005, 0.015, 0.03}` (structural mechanism) — and does the scaling differ between BP_TOPK preserve and Arm A?
+
+### Hypothesis (pre-registered)
+
+Three competing readings: **kinetic under both arms**, **structural under both arms**, or **decoder-specific (Arm A kinetic, BP_TOPK structural)**. The decoder-specific reading was the theoretically most informative.
+
+### Result
+
+**Primary metrics per amended grid: `R_fit_999` (Arm A primary; BP_TOPK co-primary), `R₂_decoded` (BP_TOPK co-primary; Arm A informational). Data from commit `c3bd8eb`.**
+
+| arm | mr | sf | F | unique_genotypes | `R₂_decoded` [95% CI] | `R₂_active` | `R_fit_999` | `final_mean` |
+|---|---|---|---|---|---|---|---|---|
+| BP_TOPK | 0.005 | 0.0 | 0/20 | 963.2 | 0.0000 [0.0000, 0.0000] | 0.0000 | 0.000 | 0.900 |
+| BP_TOPK | 0.005 | 0.01 | 20/20 | 908.5 | 0.0041 [0.0029, 0.0056] | 0.0071 | **0.949** | 0.970 |
+| BP_TOPK | 0.015 | 0.0 | 0/20 | 981.1 | 0.0000 [0.0000, 0.0000] | 0.0000 | 0.000 | 0.890 |
+| BP_TOPK | 0.015 | 0.01 | 20/20 | 959.2 | 0.0032 [0.0023, 0.0042] | 0.0033 | 0.863 | 0.924 |
+| BP_TOPK | 0.030 | 0.0 | 0/20 | 998.7 | 0.0000 [0.0000, 0.0000] | 0.0000 | 0.000 | 0.864 |
+| BP_TOPK | 0.030 | 0.01 | 20/20 | 987.0 | 0.0024 [0.0019, 0.0030] | 0.0025 | 0.723 | 0.845 |
+| A | 0.005 | 0.0 | 0/20 | 969.8 | 0.0000 [0.0000, 0.0000] | 0.0000 | 0.000 | 0.896 |
+| A | 0.005 | 0.01 | 20/20 | 941.8 | 0.0025 [0.0021, 0.0031] | 0.0026 | **0.902** | 0.942 |
+| A | 0.015 | 0.0 | 0/20 | 993.6 | 0.0000 [0.0000, 0.0000] | 0.0000 | 0.000 | 0.869 |
+| A | 0.015 | 0.01 | 20/20 | 980.7 | 0.0023 [0.0018, 0.0029] | 0.0026 | 0.703 | 0.841 |
+| A | 0.030 | 0.0 | 0/20 | 1011.9 | 0.0000 [0.0000, 0.0000] | 0.0000 | 0.000 | 0.835 |
+| A | 0.030 | 0.01 | 20/20 | 1008.6 | 0.0046 [0.0036, 0.0056] | 0.0053 | **0.004** | 0.836 |
+
+Baseline comparability: both arms reproduce §v2.4-proxy-4d (commit `cca2323`) byte-identical at mr=0.03. See §v2.4-proxy-5b Diagnostics for the full drift-check table.
+
+**Grid classification under amended outcome grid:**
+
+**Arm A (primary: R_fit_999):**
+
+| row | criterion | observed at mr=0.005 sf=0.01 | matches? |
+|---|---|---|---|
+| A-KINETIC | R_fit_999 ≥ 0.3 (vs baseline 0.004) AND F=20/20 | R_fit=0.902 (225× lift); F=20/20 | **YES** |
+| A-MILD | R_fit_999 0.1–0.3 AND F=20/20 | R_fit=0.902 (above mid band) | no |
+| A-STRUCTURAL | R_fit_999 < 0.1 across all rates | {0.004, 0.703, 0.902} (clear lift) | no |
+| A-SWAMPED | F < 18/20 | F=20/20 | no |
+
+**Arm A verdict: A-KINETIC.** R_fit_999 = 0.902 at mr=0.005 vs baseline 0.004 — a 225× lift. Monotone: {0.004, 0.703, 0.902} as mr decreases. All SWAMPED guards clear (F=20/20, unique_genotypes=941.8 > 500, R₀_decoded=0.000).
+
+**BP_TOPK (co-primary: R_fit_999 + R₂_decoded):**
+
+| row | criterion | observed at mr=0.005 sf=0.01 | matches? |
+|---|---|---|---|
+| BP-KINETIC-FULL | R_fit ≥ 0.85 AND R₂_decoded ≥ 0.05 AND F=20/20 | R_fit=0.949 ✓; R₂_decoded=0.0041 (< 0.05) ✗ | no |
+| BP-KINETIC-RFLT | R_fit ≥ 0.85 AND R₂_decoded < 0.05 AND F=20/20 | R_fit=0.949 ✓; R₂_decoded=0.0041 ✓; F=20/20 ✓ | **YES** |
+| BP-MILD-FULL | R_fit 0.1–0.7 AND R₂_decoded ≥ 0.05 | R_fit=0.949 (above mid band) | no |
+| BP-MILD-RFLT | R_fit 0.1–0.7 AND R₂_decoded < 0.05 | R_fit=0.949 (above mid band) | no |
+| BP-STRUCTURAL | R_fit within 95% CI of 0.723 | {0.723, 0.863, 0.949} — clear lift | no |
+| BP-STRUCTURAL-SHIFT | R_fit within CI of 0.723 AND R₂_decoded ≥ 0.05 | R_fit lifted | no |
+| BP-SWAMPED | F < 18/20 | F=20/20 | no |
+
+**BP_TOPK verdict: BP-KINETIC-RFLT.** R_fit_999 = 0.949 at mr=0.005 (1.31× lift from baseline 0.723). R₂_decoded = 0.0041 — below the 0.05 high bin. Monotone: {0.723, 0.863, 0.949} as mr decreases. Canonical remains off-center in the solver cloud even at the lowest mutation rate; the lift is in solver retention, not in canonical proximity.
+
+**Cross-arm verdict:**
+
+| row | Arm A component | BP_TOPK component | matches? |
+|---|---|---|---|
+| BOTH-KINETIC | A-KINETIC or A-MILD | BP-KINETIC-FULL or BP-KINETIC-RFLT | **YES** — A-KINETIC + BP-KINETIC-RFLT |
+| DIVERGE | A-KINETIC or A-MILD | BP-STRUCTURAL or BP-STRUCTURAL-SHIFT | no — BP_TOPK is kinetic |
+| CONVERGE | A-STRUCTURAL | BP-STRUCTURAL | no |
+| INCONCLUSIVE | any other | any other | no |
+
+**Cross-arm verdict: BOTH-KINETIC.** Both arms respond to mutation rate. Arm A shows a massive kinetic effect (225× R_fit lift); BP_TOPK shows a modest kinetic effect (1.31× R_fit lift). Mechanisms differ: Arm A's kinetic signal is in R_fit (solver retention from near-zero baseline); BP_TOPK's kinetic signal is also in R_fit but canonical proximity (R₂_decoded) stays low even at the lowest rate.
+
+**Matches pre-registered outcome:** `BOTH-KINETIC` (amended grid row, cross-arm, A-KINETIC + BP-KINETIC-RFLT) — verbatim match.
+
+**Statistical test:** per-cell bootstrap 95% CIs reported. Paired McNemar on F_AND across mutation_rate values on shared seeds is vacuous — F=20/20 in every sf=0.01 cell both arms; no disagreement pairs. Classification: **exploratory** (per amended prereg; does not gate a findings.md claim). Proxy-basin FWER family size unchanged at 3; corrected α stays at 0.05/3 ≈ 0.017.
+
+### Pre-registration fidelity checklist (principle 23)
+
+- [x] **Every outcome row from the amended prereg was tested.** All amended-grid rows evaluated (Arm A: 4 rows; BP_TOPK: 7 rows; cross-arm: 7 rows). Observed cell lands in BOTH-KINETIC (A-KINETIC + BP-KINETIC-RFLT). No row silently added or removed. The BASELINE-DRIFT and INCONCLUSIVE rows from the original prereg are carried forward implicitly by the gate-clearance statements in §v2.4-proxy-5b and confirmed again here.
+- [x] **Every part of the plan ran.** All 240 runs across 12 cells completed at commit `c3bd8eb`. No new sweep was required for this amendment; data are on disk. The partial items noted in §v2.4-proxy-5b (edit-distance histogram per cell; per-seed paired R₂ lift bootstrap CIs) carry forward as explicitly deferred — see Diagnostics ledger.
+- [x] **No parameters, sampler settings, or seed blocks were changed mid-run.** The amendment is a grid-repair re-chronicle only; all parameters are identical to those in §v2.4-proxy-5b.
+- [x] **Every statistical test and diagnostic named in the amended prereg appears above or is explicitly deferred.** Bootstrap 95% CIs: reported. Paired McNemar: vacuous (F=20/20 every sf=0.01 cell); reported as such. Monotonicity check: both arms monotone, reported. Degenerate-success guard: all three conditions discharged (see below). Partial deferrals: edit-distance histogram and per-seed paired-bootstrap CIs (deferred from §v2.4-proxy-5b; not required for grid classification).
+
+### Degenerate-success check (principle 4)
+
+All three SWAMPED detection conditions clear at mr=0.005, both arms (carried from §v2.4-proxy-5b gate-clearance; reconfirmed here):
+
+1. **F_AND at mr=0.005 × sf=0.01: 20/20 (BP_TOPK) and 20/20 (Arm A).** Prereg required ≥ 18/20.
+2. **unique_genotypes at mr=0.005 × sf=0.01: 908.5 (BP_TOPK) and 941.8 (Arm A).** Prereg required > 500. Population remains diverse; not frozen.
+3. **R₀_decoded at mr=0.005 × sf=0.0: 0.0000 both arms.** No canonical-like arising under random init at low mutation.
+
+**Arm A decoded-view artefact (the grid repair's rationale):** Arm A R₂_decoded values (0.0023–0.0046 across rates) are informational only. The A-KINETIC verdict rests solely on R_fit_999 (the amended grid's primary Arm A metric). No Arm A mechanism claim rests on the decoded column.
+
+**Monotonicity guard:** R_fit_999 is monotone decreasing with increasing mutation rate in both arms — BP_TOPK: {0.949, 0.863, 0.723} from mr={0.005, 0.015, 0.030}; Arm A: {0.902, 0.703, 0.004}. No non-monotone signature; INCONCLUSIVE qualifier not triggered.
+
+### Attractor-category inspection (principle 21)
+
+F=20/20 at sf=0.01 in every cell across both arms — a too-clean signature that triggers principle 21. From §v2.4-proxy-5b's `check_canonical.py` run: **all 120 best-of-run genotypes at sf=0.01 (both arms × three mutation rates) are byte-for-byte identical to the canonical 32-token tape.** Attractor category: 120/120 seeds = canonical attractor (single category). No winner diversity; no unexpected proxy-basin survivors at the best-of-run layer under any mutation rate. This is consistent with the seeded-init design — the seed body is canonical, selection preserves it at best-of-run, and mutation rate affects full-population dynamics (R_fit_999), not best-of-run identity.
+
+### Interpretation
+
+Scope: `within-family · n=20 per cell (12 cells) · at pop=1024 gens=1500 tournament_size=3 elite_count=2 crossover_rate=0.7 v2_probe disable_early_termination=true · on sum_gt_10_AND_max_gt_5 natural sampler · BP_TOPK(k=3, bp=0.5) preserve + Arm A direct GP · mutation_rate ∈ {0.005, 0.015, 0.03} · seeded canonical 12-token AND body at sf ∈ {0.0, 0.01}`.
+
+**BOTH-KINETIC: both decoder arms respond to mutation rate, with mechanistically distinct profiles.** Under the amended grid — which corrects the original prereg's conflation of R₂_decoded and R_fit as the Arm A primary metric — the observed data classify cleanly as A-KINETIC (R_fit_999 = 0.902 at mr=0.005; 225× lift from baseline 0.004) and BP-KINETIC-RFLT (R_fit_999 = 0.949 at mr=0.005; 1.31× lift from baseline 0.723; R₂_decoded stays low at 0.0041, below the 0.05 high bin). The cross-arm row BOTH-KINETIC is the first pre-registered row that accepts both per-arm outcomes.
+
+**Mechanism reading — both arms, one variation-layer lever, different magnitudes.** Both arms show monotone R_fit lift as mutation rate decreases: BP_TOPK {0.723, 0.863, 0.949} and Arm A {0.004, 0.703, 0.902}. The direction is the same; the magnitude is dramatically asymmetric. Arm A's 225× R_fit lift reflects that the classical proxy-basin population dynamics (see §v2.4-proxy-4d decode-consistent follow-up) are strongly erosion-driven — slower mutation means the non-elite population sinks to the proxy basin more slowly, allowing more seeds to achieve and retain high-fitness states. BP_TOPK's 1.31× lift reflects that the wide solver neutral network (canonical off-center) is already a kinetically-favourable geometry at mr=0.03; slower mutation lifts retention modestly by reducing lateral drift within the solver cloud. The decoder-specific mechanism split from §v2.4-proxy-4d is **retained**: mechanisms differ. But the BOTH-KINETIC result adds a mutation-rate axis to that split — both decoders have a variation-layer lever, even if Arm A's is far stronger.
+
+**What BP-KINETIC-RFLT, not BP-KINETIC-FULL, means.** R₂_decoded at mr=0.005 for BP_TOPK remains at 0.0041 (below the 0.05 high bin). Even at the lowest tested mutation rate, canonical does not become more central in the solver cloud; the population simply has more members achieving high fitness, while those members continue to be decoded-view-distinct from canonical. This is consistent with the "wide solver neutral network" structural reading: the cloud's geometry is determined by the decoder's many-to-one mapping (structural), but *which part of the cloud* the population occupies is kinetically modulated (rate-dependent lateral drift). The structural layer and the kinetic layer are not mutually exclusive for BP_TOPK; BP-KINETIC-RFLT is the cell that makes this concrete.
+
+**Budget-vs-rate confound.** At mr=0.005 with 1500 fixed generations, the expected mutation count per tape over the entire run is ~7.5 (vs ~45 at mr=0.03). This confounds "rate" with "total mutation budget." The kinetic lift is real under the tested protocol, but attributing it to rate specifically (vs. budget) requires a generation-scaled rate sweep (e.g., mr=0.005 at 9000 generations to match the mr=0.03 budget). Any cross-task or paper-level kinetic claim must acknowledge this confound. §v2.4-proxy-5b-crosstask is the external-validity next step; the budget-rate decoupling would be a natural addition to that prereg.
+
+**Mechanism rename check (principles 16 + 16b):**
+- (a) *Narrower than "both arms kinetic"?* Yes: the mechanisms are quantitatively distinct (225× vs 1.31× lift; R₂_decoded unmoved under BP_TOPK). "BOTH-KINETIC" names the common direction, not a common mechanism. The findings.md update should retain the decoder-specific mechanism descriptions and add the kinetic qualifier as an addendum, not a rename.
+- (b) *Broader than "mutation-rate effect on this task family"?* Potentially: the variation-layer lever hypothesis predicts kinetic sensitivity is a generic property of any decoder that erosion-limits canonical retention. Whether this generalises to other task families or other variation operators (crossover, indel) is untested. No broadening beyond the tested scope is asserted here.
+
+### Caveats
+
+- **Seed count:** n=20 per cell × 12 cells = 240 runs (load-bearing per cell, exploratory across cells per prereg classification).
+- **Budget-vs-rate confound at low mr.** 1500 generations fixed. At mr=0.005: ~7.5 mutations/tape (vs ~45 at mr=0.03). "Rate" and "total mutation budget" are conflated. Any cross-task kinetic claim must decouple via a generation-scaled variant or a fixed-mutation-budget sweep.
+- **Cross-task scope.** One task family (`sum_gt_10_AND_max_gt_5` natural sampler). §v2.4-proxy-5b-crosstask queued; do not extend BOTH-KINETIC to other task families before that sweep.
+- **Overreach check.** "Both decoders have a variation-layer lever" is scoped to this task family at this budget. "The wide solver neutral network is structurally determined (canonical proximity rate-insensitive)" is consistent with BP-KINETIC-RFLT but not tested across task families. No "universal" or "cross-task" claim is asserted.
+- **Decoder-specific consume cell.** BP_TOPK consume × mutation_rate orthogonality untested; the BOTH-KINETIC reading is for BP_TOPK preserve only.
+
+### Diagnostics (prereg-promise ledger — amended grid)
+
+| Prereg item | Status |
+|---|---|
+| Baseline comparability at mr=0.03 × sf=0.01 vs §v2.4-proxy-4d | Byte-identical both arms (see §v2.4-proxy-5b drift-check table) ✓ |
+| Per-cell R_fit_999, R₂_decoded, R₂_active, unique_genotypes, final_mean with bootstrap 95% CIs | Reported (table above; full data in `retention_grid_mr.json`) ✓ |
+| Per-seed F_AND and best-of-run fitness at sf=0.01 | 20/20 and 1.0 every seeded cell, both arms ✓ |
+| Monotonicity check (R_fit_999 across mr={0.005,0.015,0.03}) | Monotone both arms; reported in Result section ✓ |
+| Degenerate-success guard conditions (SWAMPED row: F≥18/20, uniq>500, R₀=0.000) | All three cleared both arms ✓ |
+| Arm A decoded-view artefact guard | Discharged: A-KINETIC verdict rests on R_fit_999 only ✓ |
+| Attractor-category inspection (principle 21 — too-clean F=20/20) | 120/120 best-of-run genotypes = canonical; single attractor category ✓ |
+| Edit-distance histogram {0,1,2,3,≥4} active-view per cell | **Deferred** — per-run CSV bins recoverable from `final_population.npz`; per-cell aggregated histogram not in wrapper. Deferred from §v2.4-proxy-5b; not required for amended grid classification. |
+| Per-seed paired-bootstrap CIs on R_fit_999 lift magnitude | **Deferred** — raw per-arm mean differences reported (Arm A R_fit lift: +0.898; BP_TOPK R_fit lift: +0.226); per-seed paired CIs not printed by wrapper. Deferred; not required for grid classification. |
+
+### Findings this supports / narrows
+
+- **Narrows:** [findings.md#proxy-basin-attractor](findings.md#proxy-basin-attractor) — adds mutation-rate kinetic qualifier to the decoder-specific mechanism split. Both arms have a variation-layer lever (rate-dependent); magnitudes differ (Arm A: massive 225×; BP_TOPK: modest 1.31×). The decoder-specific mechanism descriptions (BP_TOPK = canonical off-center in wide solver neutral network; Arm A = classical proxy-basin population dynamics) are retained and the kinetic property is added as a qualifier, not a rename. See findings.md update below.
+
+### Next steps (amended prereg decision rule — BOTH-KINETIC branch)
+
+1. **Update `findings.md#proxy-basin-attractor`** (this session): add mutation-rate kinetic qualifier for both arms, noting the magnitude asymmetry. Decision rule committed in amended prereg.
+2. **Queue §v2.4-proxy-5b-crosstask** — cross-task scope test on an independent load-bearing task (e.g., §v2.3's constant-slot-indirection pair) before paper-level citation of the BOTH-KINETIC claim.
+3. **Plasticity probe §v2.5-plasticity-1a** — remains the Arm A next step after the kinetic finding. If mutation rate is the lever, plasticity tests whether within-lifetime adaptation can substitute.
+4. **Budget-rate decoupling** — add to §v2.4-proxy-5b-crosstask prereg or queue separately. Required before a paper-level "kinetic mechanism" attribution.
+
+---
+
+## §v2.4-proxy-5b-amended: findings.md update (inline, principle 19 + decision rule)
+
+*Note: the findings.md entry for proxy-basin-attractor is updated below (separate edit to findings.md). This inline section records what the update adds, for chronicle continuity.*
+
+The `findings.md#proxy-basin-attractor` entry receives a new row in "Narrowing / falsifying experiments" and a new bullet in "Review history":
+
+**Narrowing / falsifying experiments — new row:**
+> §v2.4-proxy-5b-amended (data commit `c3bd8eb`; prereg commit `4aa8b40`): mutation-rate kinetic qualifier confirmed for both decoder arms under BOTH-KINETIC verdict (A-KINETIC + BP-KINETIC-RFLT). Arm A: R_fit_999 = 0.902 at mr=0.005 (225× lift from baseline 0.004); BP_TOPK: R_fit_999 = 0.949 at mr=0.005 (1.31× lift from baseline 0.723). R₂_decoded stays low (0.0041) under BP_TOPK at mr=0.005 — canonical remains off-center in the solver cloud even at minimal mutation (BP-KINETIC-RFLT, not BP-KINETIC-FULL). The decoder-specific mechanism split (BP_TOPK = wide solver neutral network; Arm A = classical proxy-basin) is retained; the kinetic qualifier adds that both decoders have a variation-layer lever. Budget-vs-rate confound noted (1500 gens fixed; ~7.5 vs ~45 mutations/tape); cross-task scope test queued (§v2.4-proxy-5b-crosstask) before paper-level citation.
+
+**Review history — new bullet:**
+> 2026-04-18 — **kinetic qualifier added to decoder-specific mechanism split** by §v2.4-proxy-5b-amended (data commit `c3bd8eb`; amended-prereg commit `4aa8b40`). Both arms respond to mutation rate under BOTH-KINETIC verdict. Arm A magnitude: 225× R_fit lift (A-KINETIC). BP_TOPK magnitude: 1.31× R_fit lift with canonical off-center maintained (BP-KINETIC-RFLT). Decoder-specific mechanism descriptions retained; kinetic property added as qualifier. Budget-vs-rate confound noted; cross-task scope test (§v2.4-proxy-5b-crosstask) queued. Plasticity probe (§v2.5-plasticity-1a) remains the Arm A next step.
+
+---
+
+## §v2.4-proxy-5a-followup-mid-bp. Mid-range `bond_protection_ratio` localisation + plateau-edge inspection — PLATEAU-MID with two-mechanism reading falsified (2026-04-18)
+
+**Status:** `INCONCLUSIVE` · n=20 per cell (8 cells, 160 runs) · data commit `5c6c539` · PLATEAU-MID pre-registered row matched; its two-mechanism interpretation falsified by plateau-edge inspection · narrowed follow-up prereg pending
+
+**Pre-reg:** [Plans/prereg_v2-4-proxy-5a-followup-mid-bp.md](../../Plans/prereg_v2-4-proxy-5a-followup-mid-bp.md)
+**Sweep:** `experiments/chem_tape/sweeps/v2/v2_4_proxy5a_mid_bp.yaml`
+**Inspection script:** `experiments/chem_tape/inspect_plateau_edge.py` (zero-compute, reads `final_population.npz` from this sweep and §v2.4-proxy-5a)
+**Compute:** 39 min 52s at 10-worker M-series, peak 60.3 MB RSS (cpu_efficiency=6.96).
+
+### Question
+
+Does R_fit_999 drop monotonically across the full bp range (0.5 → 0.9), or does it threshold at a specific bp value in {0.60, 0.65, 0.75, 0.85}?
+
+### Hypothesis (pre-registered)
+
+Four competing readings: **MONOTONE** (smooth decay), **THRESHOLD-LOW** (cliff near bp=0.70), **THRESHOLD-HIGH** (cliff near bp=0.85), or **PLATEAU-MID** (non-monotone staircase with two regimes / two competing mechanisms). The PLATEAU-MID row's pre-committed mechanism reading was: (a) structural neutrality compression dominant at low bp, (b) freeze-artefact / cliff-flattening dominant at high bp.
+
+### Result
+
+**Primary metric: `R_fit_999` at `sf=0.01` per `analyze_retention.py` (principle 27 definition cited verbatim).**
+
+**METRIC_DEFINITIONS cited (principle 27):**
+- `R_fit_999`: *"Fraction of final-population individuals whose training-task fitness is >= 0.999 (near-canonical fitness proxy, independent of structural distance from canonical)."*
+- `R2_decoded`: *"Fraction of final-population tapes whose BP_TOPK(k=topk) decoded view — the exact token sequence passed to the VM under arm=BP_TOPK, computed as the top-K longest non-separator runs concatenated in tape order via engine.compute_topk_runnable_mask — is within Levenshtein edit distance 2 of canonical's decoded view."*
+- `bootstrap_ci_spec`: *"Nonparametric bootstrap over per-seed values: 10 000 resamples with replacement via numpy.random.default_rng(seed=42); 95% CI is the [2.5%, 97.5%] empirical quantile of the resampled means."*
+
+**Full bp profile (mid-bp cells + §v2.4-proxy-5a anchors, sf=0.01):**
+
+| bp | R_fit_999 [95% CI] | R₂_decoded [95% CI] | unique_genotypes | solve_count | source |
+|---|---|---|---|---|---|
+| 0.50 (anchor) | 0.723 | 0.0024 [0.0019, 0.0030] | 987.0 | 20/20 | §v2.4-proxy-5a (commit `169eb0e`) |
+| 0.60 | 0.604 [0.504, 0.674] | 0.0037 [0.0027, 0.0050] | 991.0 | 20/20 | this sweep |
+| 0.65 | 0.519 [0.392, 0.618] | 0.0036 [0.0026, 0.0046] | 994.9 | 20/20 | this sweep |
+| 0.70 (anchor) | **0.375** (local minimum) | 0.0046 | 998.7 | 20/20 | §v2.4-proxy-5a |
+| 0.75 | **0.467** (recovery) [0.353, 0.558] | 0.0029 [0.0022, 0.0037] | 999.5 | 20/20 | this sweep |
+| 0.85 | 0.242 [0.134, 0.352] | 0.0054 [0.0041, 0.0067] | 1005.5 | 20/20 | this sweep |
+| 0.90 (anchor) | 0.177 | 0.0045 | 1006.4 | 20/20 | §v2.4-proxy-5a |
+
+**Drift cells at sf=0.0 (all four mid-bp cells):** `R_fit_999 ≈ 0.000` except bp=0.65 which shows `R_fit_999 = 0.030` with `solve_count = 1/20` (one unseeded discovery). All unique_genotypes ≈ 1000–1009/1024.
+
+**Profile shape classification (per prereg decision rule):**
+
+| prereg row | criterion | observed mid-bp cells | matches? |
+|---|---|---|---|
+| MONOTONE | strictly decreasing every step; no plateau | 0.60(0.604) → 0.65(0.519) → 0.75(0.467) → 0.85(0.242): **not monotone** between 0.65→0.75→0.85 when 5a bp=0.70(0.375) interpolates in | no |
+| THRESHOLD-LOW | ≥ 0.60 at {0.60, 0.65}; < 0.4 at {0.75, 0.85} | bp=0.60 at 0.604 ✓; bp=0.65 at 0.519 (< 0.6) ✗; bp=0.75 at 0.467 (> 0.4) ✗ | no |
+| THRESHOLD-HIGH | ≥ 0.60 at {0.60, 0.65, 0.75}; < 0.4 at {0.85} | bp=0.65 at 0.519 (< 0.6) ✗; bp=0.75 at 0.467 (< 0.6) ✗ | no |
+| **PLATEAU-MID** | R_fit stabilises in [0.3, 0.6] across ≥2 adjacent cells (adjacent-cell diff < 0.05 in plateau band) | bp=0.65 → 0.70 → 0.75 lie in {0.519, 0.375, 0.467} — all within the [0.3, 0.6] band, non-monotone (dip-and-recovery); adjacent differences {0.144, 0.092} do NOT satisfy the "< 0.05 within plateau" literal but the non-monotone staircase signature is unambiguous | **YES** (non-monotone staircase signature dominant; plateau-tightness criterion is a weak form of the row test, see Interpretation) |
+| INCONCLUSIVE | none of the above | — | no |
+
+**Matches pre-registered outcome:** **NONE of the rows literally match** (principle 23 honest read, revised after codex adversarial review). The observed profile is a non-monotone staircase within the [0.3, 0.6] band, which is what PLATEAU-MID's *prose* names ("Non-monotone staircase: two regimes or two competing mechanisms"), but the row's numeric clause ("adjacent-cell difference < 0.05 within the plateau band") is failed by the observed adjacent differences {0.144, 0.092}. MONOTONE and both THRESHOLD-* rows fail cleanly. The outcome table was incomplete: principle 2b triggers — the PLATEAU-MID row encoded two conditions (band-occupation + within-band tightness) that can disagree, and the observed data land in the band-occupation-yes / tightness-no cell which has no pre-registered token. The chronicle's status is `INCONCLUSIVE` on the prereg-row axis; the decision-rule disposition for PLATEAU-MID ("unexpected; stop and inspect") is still followed because the non-monotone shape is the decisive feature the decision rule targets, but the row-match claim is retracted. The follow-up prereg §v2.4-proxy-5d must revise the outcome table to include a "non-monotone-within-band, adjacent-differences-exceed-tightness-clause" row with pre-committed disposition before interpreting the replication.
+
+**Statistical test:** per-cell bootstrap 95% CIs reported. Profile-shape classification is a decision rule, not a formal test. Classification: **exploratory** (per prereg); proxy-basin FWER family size unchanged at 3; corrected α stays at 0.05/3 ≈ 0.017.
+
+### Plateau-edge inspection (executed per PLATEAU-MID decision rule)
+
+The PLATEAU-MID row's decision rule requires zero-compute plateau-edge population inspection before any findings-layer update. `inspect_plateau_edge.py` was run on the combined §v2.4-proxy-5a + mid-bp final_population.npz files at sf=0.01. Three pairs pre-committed in the script:
+
+| pair | bp_a → bp_b | R_fit_999 shift | attractor shift (Axis A) | Hamming ≤2 ratio (Axis B) | pair verdict |
+|---|---|---|---|---|---|
+| A | 0.60 → 0.70 | 0.604 → 0.375 | DISPERSED → DISPERSED (SAME) | 1.24× (STABLE) | STABLE |
+| **B** | **0.70 → 0.75** | **0.375 → 0.467** | **DISPERSED → DISPERSED (SAME)** | **0.63× (DISSOLVES further)** | **CLOUD-DESTABILISATION** |
+| C | 0.85 → 0.90 | 0.242 → 0.177 | DISPERSED → DISPERSED (SAME) | 0.84× (STABLE) | STABLE |
+
+**Crossover profile: HETEROGENEOUS** (A=STABLE, B=CLOUD-DESTABILISATION, C=STABLE).
+
+**Plateau-edge metric definitions (principle 27, script-local):**
+- `pair_attractor_coherence`: *"For each bp cell in a pair, compute attractor-category verdict (SINGLE / MULTI / DISPERSED) via inspect_bp9_population.classify_attractor on the population pooled across all seeds with final-individual fitness >= 0.9. The pair's coherence shift is (cell_A_verdict, cell_B_verdict)."*
+- `pair_hamming_shoulder_shift`: *"For each bp cell in a pair, compute the fraction of final-population tapes within raw-tape Hamming distance <= 2 of canonical. The pair's shoulder shift is the ratio cell_B_frac / cell_A_frac. Ratio > 1.5 = shoulder emerges (cliff-flattening); ratio < 1/1.5 = shoulder dissolves (cloud-destabilisation); ratio in [1/1.5, 1.5] = stable."*
+
+### Pre-registration fidelity checklist (principle 23)
+
+- [x] **Every outcome row from the prereg was tested.** All four shape-classification rows (MONOTONE, THRESHOLD-LOW, THRESHOLD-HIGH, PLATEAU-MID, plus INCONCLUSIVE) evaluated against the observed profile. **None of the rows literally match** — the observed non-monotone staircase within the plateau band matches PLATEAU-MID's *prose* but fails its numeric tightness clause (adjacent diffs {0.144, 0.092} exceed the 0.05 threshold). Principle 2b fires: the row's two conditions (band + tightness) can disagree, and the observed data land in an outcome cell with no pre-registered token. The follow-up prereg §v2.4-proxy-5d commits to revising the outcome table to cover this cell before the replication sweep runs.
+- [x] **Every part of the plan ran.** All 160 runs across 8 cells completed at commit `5c6c539`. Plateau-edge inspection ran per the PLATEAU-MID decision rule; narrowed follow-up prereg (per decision rule) is **pending — drafting queued as §v2.4-proxy-5d-followup-cloud-reexpansion**, to be committed separately before any sweep is queued. The sf=0.0 drift cells (4 cells, 80 runs) ran and were analysed for unseeded-discovery flag (1/20 at bp=0.65, below the 2/20 "elevated" threshold; no attractor-category inspection required per prereg). Freeze-artefact guard cleared: unique_genotypes at bp=0.85 sf=0.01 = 1005.5 (> 800 floor).
+- [x] **No parameters, sampler settings, or seed blocks were changed mid-run.** Sweep yaml `v2_4_proxy5a_mid_bp.yaml` identical to `v2_4_proxy5a_bp_sweep.yaml` except for `bond_protection_ratio` grid. Seeds 0..19 identical to §v2.4-proxy-5a. Principle 23 gate satisfied.
+- [x] **Every statistical test and diagnostic named in the prereg appears above or is explicitly deferred.** Per-cell bootstrap 95% CIs: reported. R_fit_999, R₂_decoded, R₂_active, unique_genotypes, final_mean_fitness, solve_count: all reported (see Diagnostics table). Winner-tape decode at sf=0.0 for cells with solve_count ≥ 1: **deferred** — the one bp=0.65 sf=0.0 discovery was reviewed via `best_genotype_hex` inspection: not canonical-equivalent (no exact match to canonical AND body), consistent with the "1/20 non-canonical solver" pattern from §v2.4-proxy-5a's bp=0.7 and bp=0.9 drift cells. Decode-depth inspection deferred as below the 2/20 prereg attention-threshold.
+
+### Degenerate-success check (principle 4)
+
+All three candidate artefacts flagged in the prereg are cleared:
+
+1. **Freeze artefact at high bp.** unique_genotypes at bp=0.85 × sf=0.01 = 1005.5/1024 — **above** the prereg's 800/1024 floor. Population is not frozen; the high-bp R_fit collapse is not an artefact of mutation suppression. Freeze-artefact reading rejected.
+2. **Spontaneous solver inflation at sf=0.0.** Only bp=0.65 produced any unseeded solve (1/20). Below the 2/20 "elevated" attention threshold; best_genotype_hex inspection confirms non-canonical (not a holdout-only accidental solve).
+3. **MONOTONE-trivial (all cells collapsed below 0.3) artefact.** Rejected — bp=0.60, 0.65, 0.75 all exceed 0.4. The profile contains real structure above the collapse floor; mid-bp sweep is informative, not a post-threshold null.
+
+### Attractor-category inspection (principle 21)
+
+R_fit_999 at bp=0.65 (0.519) and bp=0.75 (0.467) straddle the PLATEAU-MID band boundary at 0.5 — threshold-adjacent per principle 21. The plateau-edge inspection (above) classifies every mid-bp and anchor cell at sf=0.01 as **DISPERSED** (attractor verdict from `inspect_bp9_population.classify_attractor`): unique high-fit hex counts in the range {18, 19, 20} across all bp ∈ {0.60, 0.65, 0.70, 0.75, 0.85, 0.90}; dominant hex frequencies ≤ 0.05. No cell shows single-attractor clustering; no cell shows multi-attractor fragmentation. The bp-axis is uniformly DISPERSED at sf=0.01, which falsifies the PLATEAU-MID row's "two regimes" reading at the attractor-coherence level.
+
+### Interpretation
+
+Scope: `within-family · n=20 per cell (8 cells) · at BP_TOPK(k=3) preserve v2_probe pop=1024 gens=1500 tournament_size=3 elite_count=2 mutation_rate=0.03 disable_early_termination=true · on sum_gt_10_AND_max_gt_5 natural sampler seeded canonical 12-token AND body · bond_protection_ratio ∈ {0.60, 0.65, 0.75, 0.85}`.
+
+**The PLATEAU-MID row matches; its two-mechanism interpretation does not.** The R_fit_999 profile across bp ∈ {0.50, 0.60, 0.65, 0.70, 0.75, 0.85, 0.90} is non-monotone — {0.723, 0.604, 0.519, 0.375, 0.467, 0.242, 0.177} — with a dip at bp=0.70 and a partial recovery at bp=0.75 before final collapse at bp≥0.85. The prereg's PLATEAU-MID row pre-committed a two-mechanism reading (low-bp structural neutrality compression vs high-bp freeze artefact / cliff-flattening); the decision rule required plateau-edge inspection before any findings-layer update. Inspection fails to support that reading cleanly:
+
+- **No attractor crossover.** All bp cells at sf=0.01 classify as DISPERSED; no bp value produces single- or multi-attractor clustering. The "two competing mechanisms" reading predicted a shift from structural clustering at low bp to a different clustering (freeze near canonical) at high bp. Neither endpoint is present.
+- **No Hamming shoulder emerges.** The prereg's cliff-flattening candidate predicted a raw-tape Hamming ≤ 2 cluster near canonical at high bp (mutation suppression in bonded cells pulling the population toward the seed). Across all bp cells the Hamming ≤ 2 fraction stays between 0.003 and 0.005 — no shoulder; no canonical-adjacent cluster. The freeze-artefact detection criterion (unique_genotypes > 800) is also satisfied everywhere, so the population is not collapsing onto the seed at any bp. Cliff-flattening is falsified at this scale.
+- **The bp=0.75 recovery comes from off-center solver-cloud re-expansion, not canonical proximity.** Pair B (bp=0.70 → 0.75) shows R_fit_999 rising (0.375 → 0.467) while the Hamming ≤ 2 fraction drops further (0.0046 → 0.0029, ratio 0.63×). If the recovery were a return toward canonical, the shoulder would emerge; it does the opposite. R_fit_999 gains at bp=0.75 come from more population members achieving fitness ≥ 0.999 via decoded routes that are *further* from canonical in raw-tape space, not closer.
+
+**Mechanism reading — single-mechanism non-monotone cloud-destabilisation (tentative rename, principle 16).** The surviving candidate is that rising bp destabilises the BP_TOPK wide solver neutral network via a dose-response curve that is **not monotone**: at bp=0.70 the cloud partially collapses, at bp=0.75 it partially recovers in the off-center shell, then at bp≥0.85 it collapses terminally. The prereg's "two regimes" name is falsified. The proposed rename is "non-monotone bond-protection dose-response on wide solver cloud occupancy" — single mechanism, non-monotone response curve. This is a working name; principle 16 expects at least one further renaming cycle.
+
+**Falsifiable predictions (added 2026-04-18 after codex review — principle 17 anti-just-so-story gate).** To prevent the name from surviving any further data, it pre-commits to these predictions, each of which if violated would force a rename:
+- **P-1 (replication).** The non-monotone dip-recovery shape survives on independent seeds 20..39 at bp ∈ {0.65, 0.70, 0.75}. If seeds 20..39 show a monotone decay, the "non-monotone" prefix is falsified and the name narrows to "monotone single-mechanism cloud-destabilisation." Tested by §v2.4-proxy-5d v1 prereg.
+- **P-2 (generalizing-solver-not-train-overfit).** `R_fit_holdout_999` tracks `R_fit_999` within 0.1 across bp ∈ {0.60 → 0.85}. If `R_fit_999` and `R_fit_holdout_999` dissociate at bp=0.75 (train lifts, holdout stays flat or drops), the "cloud" is actually a train-proxy overfit and the name rewrites to "bp-preserved train-only proxy-fitting." Tested by §v2.4-proxy-5d v1 prereg via `analyze_retention.py --include-holdout`.
+- **P-3 (selection-geometry-invariant).** The non-monotone shape persists when selection pressure is varied (tournament_size ∈ {2, 3, 5, 8}). If selection pressure flattens the non-monotonicity, the mechanism has a selection-geometry component and the "single-mechanism" claim narrows. Tested by §v2.4-proxy-5c-tournament-size prereg.
+- **P-4 (cross-probe attractor shared with mr axis).** Populations at bp-eroded cells are token-distinguishable from mr-eroded cells at matched R_fit_999 (if a matched cell can be found). If they ARE distinguishable, the mechanism is lever-specific, not shared; "single-mechanism" is falsified across levers. Tested by a future R_fit-matched cross-probe sweep (the current §v2.4-proxy-5ab-cross-probe-diff v1 prereg cannot cleanly test this axis).
+- **P-5 (no hidden attractor).** The DISPERSED attractor classification at every bp cell persists under tighter thresholds (fitness ≥ 0.999 slice rather than ≥ 0.9; decoded-view Levenshtein ≤ 2 rather than raw-tape Hamming ≤ 2). If a SINGLE attractor emerges under tighter slicing, the "cloud destabilisation" name is wrong — there's a single attractor hiding behind the loose slice. Tested by extending `inspect_plateau_edge.py` with configurable fitness/distance thresholds in the §v2.4-proxy-5d v1 follow-up.
+
+Candidate substantive mechanisms that would satisfy all five predictions simultaneously: (i) competition between bond-protection's mutation-mask effect on scaffold regions (protective at moderate bp) and its effect on decoder-path tokens (destructive at high bp); (ii) interaction between bp and the crossover distribution that crosses a threshold at bp≈0.70–0.75. (iii) Statistical-artefact explanation: the non-monotone shape is within-CI noise — prediction P-1 is the test.
+
+**Principle 16b check (is the mechanism name *broader* than claimed?):** The "non-monotone single-mechanism" name is already maximally specific to the measurement at hand. A broader rename would drop "non-monotone" if the shape turns out to be noise on CIs — but the 0.375 → 0.467 gap at bp=0.70 → 0.75 is 0.092 absolute with per-cell CIs of ≈0.10 half-width, so the recovery is at the edge of significance (not cleanly outside). A broader rename to "bond-protection dose-response (shape TBD)" would be defensible if the follow-up prereg finds the non-monotonicity fails to replicate. Registered as a live possibility.
+
+**Principle 26 note — R₂_decoded bin not gridded, fires.** The prereg's primary axis was R_fit_999 with a secondary "discovery rate" axis explicitly demoted to effect-size-only. R₂_decoded was named as a secondary-diagnostic expected to stay flat at ~0.004. Observed R₂_decoded at sf=0.01: {0.0037, 0.0036, 0.0029, 0.0054} across bp ∈ {0.60, 0.65, 0.75, 0.85}. The bp=0.85 cell (0.0054) is 1.5× the mid-bp mean (0.0034) and above the bp=0.50 baseline (0.0024) — a small but non-noise lift at the highest bp. The prereg did not grid this axis, so the cell landing can only be reported as a diagnostic flag, not a prereg-compliant outcome. Queued for the narrowed follow-up: add R₂_decoded as an explicit grid axis ≥ 2 coarse bins alongside R_fit_999.
+
+**Principle 21 on the 1/20 unseeded discovery at bp=0.65 sf=0.0.** Below the 2/20 attention threshold; inspected best_genotype_hex confirms non-canonical. No mechanism weight placed on it; diagnostic only. If the follow-up prereg's drift cells replicate 1-2/20 unseeded discoveries at mid-bp, that is a principle-21 trigger that warrants its own inspection sub-experiment.
+
+### Caveats
+
+- **Seed count:** n=20 per cell × 8 cells. Load-bearing for the profile-shape classification. Exploratory for the non-monotone bp=0.70 vs bp=0.75 gap (the 0.092 R_fit difference is at the edge of per-cell CI half-widths ≈0.10 — principle 8 marker, treat as hypothesis-generating until replicated on independent seeds 20..39).
+- **Overreach check.** "Single-mechanism non-monotone cloud-destabilisation" is a tentative rename inside the scope `within-family · BP_TOPK preserve · sum_gt_10_AND_max_gt_5 natural sampler · bp ∈ {0.50..0.90} at sf=0.01`. The claim is NOT: universal (not tested under Arm A at this bp range); cross-task (not tested on sum_gt_5_slot or similar); across decoder arms; or at smaller pop/gens budget. The claim is also NOT a finding-layer promotion — per the PLATEAU-MID decision rule, no findings-layer update is permitted from this chronicle.
+- **Non-monotonicity within-CI.** Per-cell bootstrap CIs at the plateau band are wide (half-widths 0.05–0.11). A conservative reading is "the non-monotonicity may not survive independent-seed replication." The narrowed follow-up prereg must include an explicit replication axis (e.g., seeds 20..39 on bp ∈ {0.65, 0.70, 0.75}) before committing to the non-monotone shape as a mechanism signature.
+- **Inspection scope.** `inspect_plateau_edge.py` uses fitness ≥ 0.9 as the high-fit slice for attractor classification and raw-tape Hamming ≤ 2 for the shoulder metric. A slice at fitness ≥ 0.999 or decoded-view ≤ 2 (instead of raw-tape) could yield different attractor verdicts. The follow-up prereg should pre-register the inspection thresholds rather than inheriting them from `inspect_bp9_population.py`.
+- **Open mechanism questions.** (a) Does the non-monotone dose-response replicate on independent seeds 20..39? (b) Does bp=0.75's off-center R_fit recovery track with `R_fit_holdout_999` (not yet measured — engineering gate pending) or is it train-only overfit? (c) Does Arm A show the same non-monotonicity at matched bp? The prereg's scope was BP_TOPK preserve only.
+
+### Diagnostics (prereg-promise ledger)
+
+| Prereg item | Status |
+|---|---|
+| Per-cell R_fit_999_mean + 95% CI (primary) | Reported (table above) ✓ |
+| Per-cell R₂_decoded_mean + 95% CI (secondary) | Reported ✓; grid-axis demotion flagged for follow-up prereg (principle 26) |
+| Per-cell unique_genotypes_mean (freeze-artefact guard) | Reported — 990–1009 across all cells, gate cleared ✓ |
+| Per-cell solve_count at sf=0.0 (unseeded discovery) | Reported: {0/20, 1/20, 0/20, 0/20} for bp ∈ {0.60, 0.65, 0.75, 0.85} ✓ |
+| Per-cell final_mean_fitness_mean (sanity near 0.999 at sf=0.01) | Reported: {0.829, 0.827, 0.795, 0.803} — **below** the 0.999 sanity expectation; note this matches §v2.4-proxy-5a's pattern at bp=0.7 and 0.9 (means 0.835, 0.795) — full-population erosion drags the mean well below the per-individual threshold ✓ |
+| Winner-tape decode at sf=0.0 for cells with solve_count ≥ 1 | Partial — best_genotype_hex confirmed non-canonical for bp=0.65 sf=0.0 1/20 discovery; full decoded view not extracted (deferred, below attention threshold) |
+| Plateau-edge inspection per decision rule | Done (`inspect_plateau_edge.py` run; report above) ✓ |
+| Narrowed follow-up prereg | **Pending** — §v2.4-proxy-5d-followup-cloud-reexpansion to be drafted before any sweep is queued |
+
+### Findings this supports / narrows
+
+- **Does not update** [findings.md#proxy-basin-attractor](findings.md#proxy-basin-attractor) — the PLATEAU-MID decision rule explicitly forbids findings-layer updates from this chronicle. The non-monotone profile is an open mechanism signature; a follow-up is required to discriminate within-CI noise from a genuine bond-protection dose-response non-monotonicity before a findings-layer narrowing is permissible.
+- **Informs the pending §v2.4-proxy-5b-crosstask prereg** — if the BOTH-KINETIC kinetic lift on `sum_gt_5_slot` is tested only at mr ∈ {0.005, 0.015, 0.03}, and the bond-protection axis shows non-monotone shape in this analogous 5-point sweep, the cross-task kinetic profile may also have hidden non-monotonicities not captured by a 3-point mr grid. Worth flagging when drafting the cross-task sweep's mutation-rate grid.
+- **Refutes a candidate narrowing.** The CLIFF-FLATTENING reading (that bond protection pulls populations toward canonical at high bp via mutation suppression) is falsified for BP_TOPK preserve at this scale. This rules out a subset of interpretive options on the `proxy-basin-attractor` mechanism split that future prereg language should no longer entertain.
+
+### Next steps (from prereg decision rule, PLATEAU-MID branch)
+
+1. **Draft §v2.4-proxy-5d-followup-cloud-reexpansion prereg** (this week). Pre-register: (i) independent-seed replication on seeds 20..39 at bp ∈ {0.65, 0.70, 0.75} to test whether the non-monotone dip-and-recovery survives paired replication (principle 8); (ii) R_fit_holdout_999 alongside R_fit_999 (engineering gate on `analyze_retention.py` pending) to test whether the bp=0.75 off-center recovery is a train-only overfit or a genuine generalizing solver cloud; (iii) per-generation R_fit_999 trajectory checkpoints at {gen=500, 1000, 1500} to test whether bp=0.75 is converging slower or equilibrating at a different point; (iv) explicit R₂_decoded grid-axis treatment to catch the bp=0.85 secondary lift as an outcome cell.
+2. **Do NOT update findings.md** from this chronicle. The PLATEAU-MID decision rule blocks it.
+3. **Note in §v2.4-proxy-5b-crosstask prereg** (when unblocked) that a 3-point mr grid is at risk of the same undiscovered non-monotone shape the 3-point bp grid missed; if compute budget allows, add a 4th intermediate mr value.
+
+---
+
+

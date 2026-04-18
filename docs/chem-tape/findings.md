@@ -241,7 +241,9 @@ mechanism-untested; they cannot be counted as supporting evidence.
 
 **Scope tag:** `within-family / cross-axis on AND-composition` · `n=20 each on 7 sweeps × ≥4 attractor reframings` · `at pop=1024 gens=1500 (and 4× scaled to pop=2048 gens=3000) v2_probe alphabet` · `across decoder arms {BP_TOPK(k=3,bp=0.5), Arm A direct GP}` · `across sampler conditions {natural, single-decorr, dual-decorr}` · `on integer-list AND-composition labels of the form` `(sum > t1) AND (max > t2)`
 
-**Status:** `ACTIVE` · last revised commit `cca2323` · 2026-04-17 evening (narrowed at the mechanism layer by §v2.4-proxy-4b/4c/4d + §v2.4-proxy-4d decode-consistent follow-up — best-of-run vs full-population retention dissociate under a **decoder-specific mechanism split**: BP_TOPK = canonical off-center in a wide solver neutral network; Arm A = classical proxy-basin population dynamics with canonical elite-preserved only. Basin still ACTIVE as a greedy-convergence claim under uniform-random init)
+**FWER audit (2026-04-18):** proxy-basin-attractor family currently has 3 confirmatory tests (§v2.4, §v2.4-proxy, §v2.4-proxy-4c cross-decoder) with corrected α = 0.05/3 ≈ 0.017. All three cite p < 0.0001 and clear this corrected threshold with substantial margin. The pending §v2.4-proxy-5d-followup-cloud-reexpansion prereg, if promoted, would grow the family to 4 with corrected α = 0.05/4 = 0.0125; existing tests still clear this tighter α by > 5× margin. Family size and corrected α must be restated here at each confirmatory test addition.
+
+**Status:** `ACTIVE` · last revised commit `4aa8b40` · 2026-04-18 (kinetic qualifier **added on exploratory evidence** by §v2.4-proxy-5b-amended — principle 22 classification: exploratory; confirmatory cross-task test `§v2.4-proxy-5b-crosstask` and a budget-rate decoupling cell both required before paper-level citation. Provisional reading: both decoder arms have a mutation-rate variation-layer lever — Arm A 225× R_fit lift, BP_TOPK 1.31× R_fit lift at mr=0.005; decoder-specific mechanism split retained: BP_TOPK = canonical off-center in wide solver neutral network with kinetically-modulated within-cloud distribution; Arm A = classical proxy-basin population dynamics with kinetically-scaled erosion.)
 
 ### Claim
 
@@ -375,6 +377,8 @@ categories).
 | [§v2.4-proxy-4d](experiments-v2.md#v24-proxy-4d-active-view-edit-distance-2-retention-measurement-across-the-three-v24-proxy-4b4c-seeded-cells-2026-04-17) | experiment + findings-revision commit `a8a1e6d` | Active-view edit-distance-2 retention directly measured across the three §v2.4-proxy-4b/4c seeded cells at `seed_fraction=0.01`, after extending `sweep.py` with a `dump_final_population` flag and adding `analyze_retention.py`. Permeable-all active-view R₂_active ≤ 0.0053 (95% CI ≤ 0.007) per cell, matching the pre-registered CONFIRM-erosion row. No near-canonical active-view shell was hiding behind §v2.4-proxy-4b/4c's exact-match upper bound. Baseline comparability check passes in every cell (unique_genotypes + final_mean_fitness match 4b/4c anchors to < 0.001). Under Arm A the metric approximates execution-trace drift, so the narrowing is directly supported. **Under BP_TOPK, R₂_active does not bound the decoded-view retention in either direction** — Levenshtein is not monotone under the top-K-longest-run subsequence restriction, so a decoded-view canonical shell is not ruled out. A zero-compute decode-consistent retention follow-up (`engine.compute_topk_runnable_mask` on `final_population.npz`) is queued. Incidental observation: cross-cell R_fit(≥0.999) differential — ~0.72 under BP_TOPK cells vs ~0.004 under Arm A — is flagged as diagnostic only, not promoted. |
 | [§v2.4-proxy-4d decode-consistent follow-up](experiments-v2.md#v24-proxy-4d-active-view-edit-distance-2-retention-measurement-across-the-three-v24-proxy-4b4c-seeded-cells-2026-04-17) | `cca2323` | Decode-consistent BP_TOPK retention directly measured on the dumped `final_population.npz` via `engine.compute_topk_runnable_mask`. `analyze_retention.py` extended with `extract_decoded(tape, topk)` mirroring `evaluate._programs_for_arm`'s BP_TOPK path + `METRIC_DEFINITIONS` dict per methodology §27. R₂_decoded at `seed_fraction=0.01`: BP_TOPK preserve 0.0024 95% CI [0.0019, 0.0030]; BP_TOPK consume 0.0025 95% CI [0.0018, 0.0032]; Arm A (topk=1 per cfg default, informational) 0.0046 95% CI [0.0036, 0.0056]. Decoded-view R₂ tracks active-view R₂ within ~0.001 in every cell. **Resolves the candidate decoder-specific re-narrowing flagged by §v2.4-proxy-4d** in favour of the "alternative solver cloud" reading: under BP_TOPK the 72% R_fit majority comprises decoded programs structurally distinct from canonical, not canonical-equivalents recovered by top-K filtering. Mechanism scope is now decoder-specific (see Mechanism reading § naming history). |
 
+| [§v2.4-proxy-5b-amended](experiments-v2.md#v24-proxy-5b-amended-mutation_rate-sweep-outcome-grid-repair--re-chronicle--both-kinetic-2026-04-18) | data commit `c3bd8eb`; amended-prereg commit `4aa8b40` | Mutation-rate kinetic qualifier **added on exploratory evidence** (principle 22: sweep classified exploratory; confirmatory cross-task test `§v2.4-proxy-5b-crosstask` queued before paper-level citation) for both decoder arms under BOTH-KINETIC verdict (A-KINETIC + BP-KINETIC-RFLT). Arm A: R_fit_999 = 0.902 at mr=0.005, 225× lift from baseline 0.004; BP_TOPK: R_fit_999 = 0.949 at mr=0.005, 1.31× lift from baseline 0.723. R₂_decoded stays low (0.0041) under BP_TOPK at mr=0.005 — canonical remains off-center in the solver cloud even at minimal mutation rate (BP-KINETIC-RFLT, not BP-KINETIC-FULL). The decoder-specific mechanism split (BP_TOPK = wide solver neutral network; Arm A = classical proxy-basin) is retained; the kinetic qualifier adds that both decoders have a variation-layer lever, with mechanistically distinct profiles. Budget-vs-rate confound noted (1500 gens fixed; ~7.5 vs ~45 expected mutations/tape at mr=0.005 vs 0.030); cross-task scope test (§v2.4-proxy-5b-crosstask) and generation-scaled budget-decoupling cell both **required before paper-level citation**. The kinetic qualifier is a provisional narrowing on this claim until the confirmatory cross-task test reports. |
+
 Other narrowing candidates (informational):
 - ~~Different decoder arms: if BP (k=1) or A (direct GP) escape the basin
   while BP_TOPK does not, the claim narrows from "greedy search" to
@@ -419,11 +423,7 @@ Other narrowing candidates (informational):
   execution time (see `docs/chem-tape/runtime-plasticity-direction.md`)
   narrows Arm A's proxy basin toward canonical in a way that structural
   decoder smoothing (BP_TOPK) does not.
-- **Part-1 meta-learning direction (revised 2026-04-17):** the F/R
-  dissociation re-opens mutation-robustness operators as a candidate
-  alongside exploration / diverse-initialization operators. Pre-§v2.4-
-  proxy-4b the strong discoverability-limited reading narrowed Part-1
-  to exploration only; the narrowed mechanism re-opens both.
+- **Part-1 meta-learning direction (revised 2026-04-18):** §v2.4-proxy-5b-amended (BOTH-KINETIC) confirms that mutation-robustness operators are a live variation-layer lever for both decoders. Arm A's massive kinetic sensitivity (225× R_fit lift at 1/6 mutation rate) makes lower mutation rates and repair operators high-priority for Arm A. BP_TOPK's modest lift (1.31×) suggests the structural solver-cloud geometry dominates over the kinetic lever for BP_TOPK, and representation-layer interventions (evolvable chemistry / AutoMap) remain the natural BP_TOPK direction. Budget-vs-rate confound must be decoupled before committing to "lower mutation rate" as a paper-level recommendation (§v2.4-proxy-5b-crosstask queued).
 - **Methodology consequence:** sampler design (methodology §20) is now
   load-bearing for any AND-composition follow-up — class-balanced and
   proxy-decorrelation-aware sampling must be specified in the prereg.
@@ -535,6 +535,30 @@ Other narrowing candidates (informational):
   sweeps under the new decoder-specific framing with §26-compliant
   3-axis outcome grids; Arm A plasticity probe per
   `docs/chem-tape/runtime-plasticity-direction.md`.
+- 2026-04-18 — **kinetic qualifier added to decoder-specific mechanism
+  split** by §v2.4-proxy-5b-amended (data commit `c3bd8eb`;
+  amended-prereg commit `4aa8b40`). Both arms respond to mutation rate
+  under BOTH-KINETIC verdict (A-KINETIC + BP-KINETIC-RFLT). Arm A
+  R_fit_999 = 0.902 at mr=0.005 (225× lift from baseline 0.004 — massive
+  kinetic dependence; classical proxy-basin erosion is mutation-rate-
+  scaled). BP_TOPK R_fit_999 = 0.949 at mr=0.005 (1.31× lift from
+  baseline 0.723 — modest kinetic effect; lateral drift within the
+  wide solver cloud is rate-modulated, but canonical proximity
+  R₂_decoded = 0.0041 stays low — the cloud geometry is structurally
+  determined, only the within-cloud distribution shifts kinetically).
+  Both decoder mechanisms **provisionally** have a variation-layer lever —
+  the §v2.4-proxy-5b-amended sweep is principle-22 classified
+  **exploratory**; the "confirmed" wording is reserved for the
+  post-`§v2.4-proxy-5b-crosstask` state.
+  Decoder-specific mechanism descriptions retained; kinetic property
+  added as a qualifier on exploratory evidence, not a rename. Budget-vs-
+  rate confound noted (1500 gens fixed across all rates; ~7.5 vs ~45
+  expected mutations/tape at mr=0.005 vs 0.030) and is now a required
+  decoupling cell (gens-scaled low-mr) for paper-level citation alongside
+  the cross-task test. Plasticity probe (§v2.5-plasticity-1a) remains the
+  Arm A next step after this kinetic finding: if mutation rate is the
+  lever, plasticity tests whether within-lifetime adaptation can
+  substitute.
 
 ---
 
