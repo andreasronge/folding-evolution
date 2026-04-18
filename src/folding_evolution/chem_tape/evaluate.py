@@ -90,11 +90,28 @@ def evaluate_population(
     Returns:
         fitnesses: (P,) float in [0, 1] — fraction correct.
         predictions: (P, E) int64 — per-example predictions.
+
+    §v2.5-plasticity-1a: when ``cfg.plasticity_enabled`` is True the
+    routing dispatches to the plastic evaluator (pure-Python); the fast
+    Rust path is preserved when plasticity is off (default), so existing
+    sweeps are byte-identical to pre-5c.
     """
     P = len(population)
     E = len(task.inputs)
     tapes = _tapes_from_population(population)                   # (P, L) uint8
     programs = _programs_for_arm(cfg, tapes, topk_override=topk_override)
+
+    if cfg.plasticity_enabled:
+        # Plastic path: train δ per-individual on the train split, score on
+        # the train split as the selection signal. Predictions array is left
+        # as an empty placeholder since the GA does not consume per-example
+        # preds when plasticity is on (frozen metrics are captured in the
+        # final-population dump via evolve.py).
+        from . import plasticity as _plast
+        plastic_out = _plast.evaluate_population_plastic(programs, task, cfg)
+        fitnesses = plastic_out["selection_fitness"].astype(np.float64)
+        predictions = np.zeros((P, E), dtype=np.int64)  # unused; placeholder
+        return fitnesses, predictions
 
     consume = cfg.safe_pop_mode == "consume"
     if _HAS_POP_BATCH:

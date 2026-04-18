@@ -79,12 +79,23 @@ def execute(cfg: ChemTapeConfig, output_root: Path) -> Path:
     # §v2.4-proxy-4d: dump final-gen population when the flag is set.
     # final_population shape: (pop_size, tape_length) uint8.
     # final_population_fitness shape: (pop_size,) float32.
+    # §v2.5-plasticity-1a: when plasticity is enabled, also dump per-
+    # individual plastic metrics (delta_final, test_fitness_frozen/plastic,
+    # train_fitness_frozen/plastic, has_gt) into the same NPZ so
+    # analyze_plasticity.py can consume a single artifact per run.
     if result.final_population is not None:
-        np.savez(
-            run_dir / "final_population.npz",
-            genotypes=result.final_population,
-            fitnesses=result.final_population_fitness,
-        )
+        npz_fp: dict = {
+            "genotypes": result.final_population,
+            "fitnesses": result.final_population_fitness,
+        }
+        if result.final_delta_final is not None:
+            npz_fp["delta_final"] = result.final_delta_final
+            npz_fp["test_fitness_frozen"] = result.final_test_fitness_frozen
+            npz_fp["test_fitness_plastic"] = result.final_test_fitness_plastic
+            npz_fp["train_fitness_frozen"] = result.final_train_fitness_frozen
+            npz_fp["train_fitness_plastic"] = result.final_train_fitness_plastic
+            npz_fp["has_gt"] = result.final_has_gt
+        np.savez(run_dir / "final_population.npz", **npz_fp)
 
     holdout = result.holdout_fitness
     gap = None if holdout is None else float(result.best_fitness) - float(holdout)

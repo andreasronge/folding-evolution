@@ -44,6 +44,15 @@ class EvolutionResult:
     # the flag is off, so existing callers are unaffected.
     final_population: np.ndarray | None = None
     final_population_fitness: np.ndarray | None = None
+    # §v2.5-plasticity-1a: per-individual plastic metrics emitted when
+    # cfg.plasticity_enabled=True AND cfg.dump_final_population=True.
+    # Each is a (pop_size,)-shaped array; None when plasticity is off.
+    final_delta_final: np.ndarray | None = None
+    final_test_fitness_frozen: np.ndarray | None = None
+    final_test_fitness_plastic: np.ndarray | None = None
+    final_train_fitness_frozen: np.ndarray | None = None
+    final_train_fitness_plastic: np.ndarray | None = None
+    final_has_gt: np.ndarray | None = None
 
 
 def _token_max(cfg: ChemTapeConfig) -> int:
@@ -536,9 +545,32 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
 
     final_pop_arr: np.ndarray | None = None
     final_pop_fit: np.ndarray | None = None
+    final_delta: np.ndarray | None = None
+    final_tff: np.ndarray | None = None
+    final_tfp: np.ndarray | None = None
+    final_trf: np.ndarray | None = None
+    final_trp: np.ndarray | None = None
+    final_has_gt: np.ndarray | None = None
     if cfg.dump_final_population:
         final_pop_arr = np.stack(population).astype(np.uint8, copy=False)
         final_pop_fit = np.asarray(fitnesses, dtype=np.float32)
+        # §v2.5-plasticity-1a: emit per-individual plastic metrics. These
+        # are the inputs the analysis pipeline needs (delta_final,
+        # test_fitness_frozen, test_fitness_plastic, has_gt → GT_bypass).
+        if cfg.plasticity_enabled:
+            from .plasticity import evaluate_population_plastic
+            from .evaluate import _programs_for_arm
+            # Re-decode programs under the final-gen K (same dispatch path
+            # as evaluate_population).
+            tapes_final = np.stack(population).astype(np.uint8, copy=False)
+            progs_final = _programs_for_arm(cfg, tapes_final, topk_override=final_k)
+            pm = evaluate_population_plastic(progs_final, final_task, cfg)
+            final_delta = pm["delta_final"]
+            final_tff = pm["test_fitness_frozen"]
+            final_tfp = pm["test_fitness_plastic"]
+            final_trf = pm["train_fitness_frozen"]
+            final_trp = pm["train_fitness_plastic"]
+            final_has_gt = pm["has_gt"]
 
     return EvolutionResult(
         best_genotype=best,
@@ -550,6 +582,12 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
         cross_task_fitness=cross_task_fitness,
         final_population=final_pop_arr,
         final_population_fitness=final_pop_fit,
+        final_delta_final=final_delta,
+        final_test_fitness_frozen=final_tff,
+        final_test_fitness_plastic=final_tfp,
+        final_train_fitness_frozen=final_trf,
+        final_train_fitness_plastic=final_trp,
+        final_has_gt=final_has_gt,
     )
 
 
@@ -640,9 +678,26 @@ def _run_evolution_islands(cfg: ChemTapeConfig) -> EvolutionResult:
 
     final_pop_arr: np.ndarray | None = None
     final_pop_fit: np.ndarray | None = None
+    final_delta: np.ndarray | None = None
+    final_tff: np.ndarray | None = None
+    final_tfp: np.ndarray | None = None
+    final_trf: np.ndarray | None = None
+    final_trp: np.ndarray | None = None
+    final_has_gt: np.ndarray | None = None
     if cfg.dump_final_population:
         final_pop_arr = np.stack(flat_pop).astype(np.uint8, copy=False)
         final_pop_fit = np.asarray(all_fitnesses, dtype=np.float32)
+        if cfg.plasticity_enabled:
+            from .plasticity import evaluate_population_plastic
+            from .evaluate import _programs_for_arm
+            progs_final = _programs_for_arm(cfg, final_pop_arr)
+            pm = evaluate_population_plastic(progs_final, task, cfg)
+            final_delta = pm["delta_final"]
+            final_tff = pm["test_fitness_frozen"]
+            final_tfp = pm["test_fitness_plastic"]
+            final_trf = pm["train_fitness_frozen"]
+            final_trp = pm["train_fitness_plastic"]
+            final_has_gt = pm["has_gt"]
 
     return EvolutionResult(
         best_genotype=best,
@@ -652,6 +707,12 @@ def _run_evolution_islands(cfg: ChemTapeConfig) -> EvolutionResult:
         holdout_fitness=holdout_fitness,
         final_population=final_pop_arr,
         final_population_fitness=final_pop_fit,
+        final_delta_final=final_delta,
+        final_test_fitness_frozen=final_tff,
+        final_test_fitness_plastic=final_tfp,
+        final_train_fitness_frozen=final_trf,
+        final_train_fitness_plastic=final_trp,
+        final_has_gt=final_has_gt,
     )
 
 
