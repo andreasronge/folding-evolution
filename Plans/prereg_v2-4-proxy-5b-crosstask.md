@@ -1,6 +1,23 @@
 # Pre-registration: §v2.4-proxy-5b-crosstask — cross-task scope test of BOTH-KINETIC R_fit signal on `sum_gt_5_slot`
 
-**Status:** QUEUED — BLOCKED on canonical-tape identification for `sum_gt_5_slot` (see Engineering Prerequisite below) · target commit TBD · 2026-04-18 · upstream chronicle at [docs/chem-tape/experiments-v2.md §v2.4-proxy-5b-amended](../docs/chem-tape/experiments-v2.md)
+**Status:** SUPERSEDED-DESIGN · 2026-04-18 · the universal-canonical seeding design below is not executable; see the SUPERSEDED-DESIGN block immediately below for data and the alternative-design proposal. The analysis body (hypothesis, outcome grid, decision rule) is preserved for the reasoning trail; do not launch the main crosstask sweep on the original seed_tapes plan.
+
+> **SUPERSEDED-DESIGN (2026-04-18, commit `7837cb3`).** The canonical-ID anchor sweep (`v2_3_fixed_baselines` queue entry, `experiments/output/2026-04-18/v2_3_fixed_baselines/`, 40 unseeded runs at BP_TOPK(k=3, bp=0.5), pop=1024, gens=1500, mr=0.03, seeds 0–19) returned:
+>
+> | task | solve (F ≥ 0.999) | full-tape mode | decoded-view mode | unique decoded views |
+> |---|---|---|---|---|
+> | `sum_gt_5_slot` | 20/20 | 1/20 | 1/20 | 20/20 |
+> | `sum_gt_10_slot` | 19/20 | 1/20 | 1/20 | 20/20 |
+>
+> Both candidate target tasks have **no dominant attractor** at the decoded-program level under BP_TOPK at this configuration: every seed evolves a distinct solver program. This falsifies the "change cross-task target to `sum_gt_10_slot`" fallback in the original discharge rule below — `sum_gt_10_slot` is also degenerate, not an escape hatch. For contrast, `sum_gt_10_AND_max_gt_5` exhibits 60/60 canonical convergence across prior sweeps; the single-conjunct threshold tasks populate a broad solver neutral network, the AND-composite does not. (Note: the anchor run recorded `git_dirty=True` on an untracked `.DS_Store` file — code state at `7837cb3` is correct; the dirty flag is an artefact of untracked macOS metadata, not a tape-reproducibility concern.)
+>
+> **Alternative-design proposal (per-seed canonical seeding).** Replace the universal `seed_tapes` field with a per-seed dict `seed_tapes_by_seed: {seed_i: hex_i}` where each seed is initialised from its own discovered best-of-run tape from this anchor sweep. This keeps the "is this seed's lineage canonical-retentive under crosstask pressure?" question well-defined on a per-seed basis, at the cost of losing the across-seed canonical-identity comparability that the original design relied on. Requires a sweep-YAML schema extension (`paired: [{seed: 0, seed_tapes: hex_0}, ...]`) and a matching `ChemTapeConfig` validation rule that the paired entry's seed matches the grid seed. Est. engineering ~30 min; functionally orthogonal to §5b's current prereg and would need to be re-registered as §v2.4-proxy-5b-crosstask-v2 with a fresh outcome grid (the PASS/PARTIAL rows below reference a universal canonical that no longer exists in the new design).
+>
+> **Decision.** Do NOT launch the main crosstask sweep under the original plan. Open `§v2.4-proxy-5b-crosstask-v2` as a new prereg with the per-seed seeding design; the new prereg must re-justify its internal control (principle 1) and re-write the PASS/PARTIAL rows against per-seed-canonical retention rather than universal-canonical retention. Alternative: scope the crosstask test to AND-composite tasks only (e.g., a different 2-slot AND task), where the canonical-identity assumption holds.
+>
+> **Methodology note (principle 13).** The original §5b analysis below is preserved verbatim for the reasoning trail. The superseding evidence is the anchor sweep's 1/20 mode result, which was an outcome the original design did not enumerate in its PASS/PARTIAL/FAIL grid — the implicit assumption was "a dominant attractor exists." That assumption is falsified for this task family. A side-finding worth logging separately: **single-slot threshold tasks (sum_gt_5_slot, sum_gt_10_slot) populate a wide decoded-solver neutral network under BP_TOPK where multi-conjunct tasks (sum_gt_10_AND_max_gt_5) converge to a single canonical.** This is candidate material for a new findings.md entry on attractor breadth ~ conjunct-structure depth; out of scope for this supersession.
+
+**Original status (superseded 2026-04-18):** QUEUED — BLOCKED on canonical-tape identification for `sum_gt_5_slot` (see Engineering Prerequisite below) · target commit TBD · 2026-04-18 · upstream chronicle at [docs/chem-tape/experiments-v2.md §v2.4-proxy-5b-amended](../docs/chem-tape/experiments-v2.md)
 
 ## Upstream context
 
