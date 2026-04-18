@@ -8,6 +8,25 @@
 
 ---
 
+## Session-start checklist
+
+Run these before drafting any new sub-principle text. ~15 min total.
+
+1. **Read in order:**
+   - `docs/methodology.md` end-to-end (current 27-principle ledger — know the voice and existing sub-principle style before adding to it).
+   - This TODO file end-to-end.
+   - `.claude/skills/research-rigor/SKILL.md` (the skill whose `prereg` / `log-result` / `promote-finding` / `scope-check` / `supersession` / `fwer-audit` modes get gate updates per the TODO's "Skill target" fields).
+   - `docs/_templates/experiment_section.md` (chronicle template — Gap 3 adds a falsifiability block here).
+2. **Stability check against current HEAD.** The TODO's case studies were stable at commit `1165f88`. Run:
+   - `git log --oneline 1165f88..HEAD -- docs/chem-tape/experiments-v2.md docs/chem-tape/findings.md Plans/prereg_*.md Plans/fwer_audit_*.md` to see whether any new chronicles / preregs / audits appeared since the TODO was written.
+   - If new entries appeared that would add or retire a gap, update the TODO before drafting.
+3. **Verify file writeability.** `.claude/skills/research-rigor/` is within the repo (`/Users/andreasronge/projects/folding-evolution/.claude/skills/research-rigor/`) and tracked by git — confirm via `ls -la .claude/skills/research-rigor/` that SKILL.md is present and writeable in the session's permission mode. If not writeable, stop and escalate before drafting.
+4. **Confirm single-commit scope.** The TODO's "Sequencing recommendation" bundles all 9 gaps + template update + skill updates into one commit. Verify no in-progress branches or uncommitted work would complicate that before starting.
+
+Once the checklist is clear, follow the "Sequencing recommendation" block at the end of the TODO.
+
+---
+
 ## Gap 1 — §2b / §23: "row prose matches, numeric clause fails"
 
 **Case.** `§v2.4-proxy-5a-followup-mid-bp` chronicle claimed it "matched" PLATEAU-MID on the row's prose ("Non-monotone staircase: two regimes or two competing mechanisms") even though the observed adjacent-cell differences {0.144, 0.092} failed the row's numeric tightness clause (<0.05). Codex flagged as §23 drift. Current language of principle 2b and 23 permits this gap because they describe the row-matching check at paragraph level, not at clause level.
@@ -96,6 +115,30 @@
 
 ---
 
+## Gap 8 — §17: tested-set vs continuous-range smuggling in mechanism-name qualifiers
+
+**Case.** The 2026-04-18 `findings.md#proxy-basin-attractor` entry's ACTIVE status line initially read: mechanism narrowed to "monotone single-mechanism cloud-destabilisation under BP_TOPK preserve **at selection pressure ≥ tournament_size=3**." The `≥ 3` continuous half-line extrapolated from **discrete tested values** ts ∈ {3, 5, 8} — all exploratory evidence from §v2.4-proxy-5c-tournament-size's effect-size classification. All four F1 confirmatory tests ran only at ts=3; ts ∈ {5, 8} was exploratory; ts > 8 was entirely untested. Codex pass 2 flagged this as mechanism-name smuggling: "a tested set gets promoted into an untested half-line." Fixed at commit `1165f88` to "at tested tournament sizes ∈ {3, 5, 8} (ts=2 fails; ts > 8 untested)." Principle 17 currently warns against overreach phrases in the abstract but doesn't name this specific sub-pattern where the smuggling happens **within** a discrete-tested variable by continuous-range rewriting.
+
+**Proposed sub-principle (methodology §17 sub-principle, distinct from Gap 2).** "When a mechanism-name qualifier names a threshold or range on a variable that was tested only at discrete values, the qualifier must scope to the tested set explicitly, not to a continuous range above/below a tested endpoint. 'At tested values ∈ {X, Y, Z}' is honest; 'at ≥ X' smuggles untested values between tested points and extrapolates beyond the tested maximum. This applies especially to integer-valued config fields (tournament_size, topk, budget, etc.) where the between-tested-values are excluded by config type, and to any qualifier that upgrades exploratory evidence into ACTIVE-claim scope — tested-set discreteness must survive that upgrade."
+
+**Skill target.** Research-rigor `log-result` mode gate: "Before writing a mechanism-name qualifier for a tested variable, enumerate the tested values for that variable across the supporting experiments. If the qualifier uses `≥` / `>` / `<` / `≤` against a tested endpoint, rewrite it as `∈ {tested values}` unless a new experiment explicitly tested the range claim. Flag any exploratory-classified evidence that appears in the qualifier — exploratory evidence cannot raise the qualifier's scope above `at tested values`."
+
+**Estimated effort.** 120-150 words in methodology.md; ~30 words of gate text. Falls naturally next to Gap 2 (multi-variable confound) since both are §17 sub-principles about scope-tag integrity on tested vs. extrapolated claims.
+
+---
+
+## Gap 9 — §23 / §2b: status-line fidelity when body flags a grid-miss
+
+**Case.** The 2026-04-18 `§v2.4-proxy-5c-tournament-size` chronicle's initial status line was a bare `PASS`. The chronicle body explicitly flagged that the observed data matched the PRESSURE-MONOTONE-R_FIT row **on the letter of its clauses only** — the actual shape was cliff+plateau (ts=2 at 0.005; ts ∈ {3, 5, 8} at 0.72-0.75), which is a principle-2b grid-miss rather than a clean row match. The chronicle also self-applied Gap 5 (SWAMPED-guard letter-vs-intent) to flag that the prereg's F-only guard missed the ts=2 propagation-failure regime. A reader scanning only the status line saw "PASS" and could easily over-read it as unqualified confirmatory support for the narrowed mechanism name — when in fact the chronicle body was doing the opposite. Codex pass 2 flagged this as letter-vs-intent drift at the **status-line surface**, distinct from Gap 1 which applies at the "Matches pre-registered outcome" surface. Fixed at commit `1165f88` by expanding the status line to "`PASS` (matched on letter of PRESSURE-MONOTONE-R_FIT row clauses; **grid-miss on shape** — observed cliff+plateau signature not pre-registered as its own row; principle-2b flag documented in the Result section)."
+
+**Proposed sub-principle (methodology §23 sub-principle; may fold into Gap 1 if the session deems it a sub-pattern rather than a separate principle).** "When a chronicle's status token would normally be `PASS` but the Result/Interpretation section flags a principle-2b grid-miss, a principle-4 degenerate-success-guard letter-vs-intent failure, or any similar 'matched-on-letter-not-intent' qualification, the status line must carry the qualifier inline (in parentheses on the same line), not only in the Result section. The standardized status vocabulary (PASS / FAIL / INCONCLUSIVE / SUPERSEDED / FALSIFIED) is grep-parsed and indexed — a scan-only reader who never drills into the body must still see the qualifier. Bare status tokens where the body substantively qualifies them fail the gate."
+
+**Skill target.** Research-rigor `log-result` mode gate: "After drafting the Result + Interpretation sections, re-read them for any 'matched on letter,' 'grid-miss,' 'guard-letter-vs-intent,' or similar qualifier on the headline verdict. If present, the status line must repeat that qualifier inline. Bare status tokens with body qualifications fail this gate."
+
+**Estimated effort.** 80-120 words in methodology.md; ~20 words of gate text. Strongly consider folding into Gap 1 as a sub-case of the "numeric clause fail" pattern (both are surface-level letter-vs-intent drift); keeping them separate is justified only if the session concludes status-line-grepability is a distinct enough concern to warrant its own sub-principle.
+
+---
+
 ## Meta-gap — research-rigor skill's log-result codex gate is "strongly recommended," not mandatory
 
 **Case.** The codex review in this session caught 6 P1 issues post-draft. Had it been skipped (or the session had no codex binary), those issues would have shipped to disk silently. The skill's log-result mode lists codex review under gate (7) but doesn't make it a strict commit-blocker.
@@ -108,21 +151,36 @@
 
 ## Sequencing recommendation
 
-Do these in a dedicated session, NOT piecemeal. Drafting 7 sub-principles requires consistent language + cross-referencing + template updates — the kind of careful prose that deteriorates when attempted between other tasks.
+Do these in a dedicated session, NOT piecemeal. Drafting 9 sub-principles requires consistent language + cross-referencing + template updates — the kind of careful prose that deteriorates when attempted between other tasks.
 
 Suggested order per session:
-1. Read methodology.md end-to-end once (~15 min).
+1. Run the **Session-start checklist** at the top of this document (~15 min).
 2. Draft gaps 1, 5, 6 first (§2b / §23 / §4 / §25) — these are the most mechanical and have the clearest case evidence.
-3. Draft gaps 2, 3 (§17 / §16) — these introduce new sub-principles that need more careful framing against existing text.
+3. Draft gaps 2, 3, 8 (§17 / §16) — these introduce new sub-principles that need more careful framing against existing text. Gap 8 is adjacent to Gap 2; consider drafting them in the same pass for consistent §17 voice.
 4. Draft gap 4 (§22 additions) — touches FWER machinery; most sensitive to wording drift.
-5. Draft gap 7 + meta-gap — short clarifications at the end.
+5. Draft gap 7 + gap 9 + meta-gap — short clarifications at the end. Gap 9 may fold into Gap 1's body as a sub-case; decide during drafting.
 6. Update `docs/_templates/experiment_section.md` with the falsifiability block (gap 3).
-7. Update research-rigor skill modes per targets above.
+7. Update research-rigor skill modes per targets above (`prereg` / `log-result` / `fwer-audit`).
 8. Bundle all changes into one commit with a single `methodology` + `skill` diff.
 
-**Estimated total session effort:** 1.5-2 hours uninterrupted.
+**Estimated total session effort:** 1.5-2.5 hours uninterrupted (increased from 1.5-2h to account for gaps 8 + 9).
 
-**Prerequisite.** Before the session, confirm the 5 case-studies above are stable in their current form (no additional §v2.4-proxy-5* results overturn them). The §v2.4-proxy-5d v1 FAIL-TO-REPLICATE result + the §v2.4-proxy-5c-tournament-size cliff+plateau result from 2026-04-18 are the last inputs; no other pending sweeps should shift the evidentiary base for these gaps.
+**Prerequisite.** Before the session, confirm the case-studies above are stable in their current form (no additional §v2.4-proxy-5* results have overturned them since the TODO's final state at commit `1165f88`). The §v2.4-proxy-5d v1 FAIL-TO-REPLICATE result + the §v2.4-proxy-5c-tournament-size cliff+plateau result + the codex-pass-2 P1/P2 corrections from 2026-04-18 are the last inputs; no other pending sweeps should shift the evidentiary base for these gaps. Run the stability check from the Session-start checklist before drafting.
+
+## Definition of done
+
+The session is done when **all** of the following are true and committed:
+
+1. `docs/methodology.md` contains the 9 sub-principle additions/clarifications (gaps 1-9) at the target locations named in each gap's "Proposed sub-principle" field. Each addition follows the methodology.md voice (Case + Takeaway pattern or explicit sub-principle with matching style).
+2. `.claude/skills/research-rigor/SKILL.md` has gate-text updates in the affected modes (`prereg` / `log-result` / `fwer-audit`) matching the "Skill target" field of each gap. The meta-gap's codex-as-mandatory-gate language is in place in `log-result` mode.
+3. `docs/_templates/experiment_section.md` has a falsifiability-block template subsection for use when a chronicle introduces a tentative mechanism name (gap 3).
+4. All changes bundled into **one commit** titled "methodology: add sub-principles from 2026-04-18 session (gaps 1-9)" or similar, with the TODO file referenced in the commit message.
+5. After committing, mark this TODO's `Status:` line as `DONE · closed by commit <sha>` and leave the file in place for reasoning trail (do not delete — follows methodology §13 retention pattern for the methodology change itself).
+
+**Scope boundary on the dedicated session.** This session is for methodology + skill + template updates only. Do not:
+- Open new research questions (P-4 / P-5 / §v2.4-proxy-5d v2 / plasticity-1a engineering unblock — all out of scope).
+- Re-chronicle past experiments to apply the new sub-principles retroactively (the existing chronicles remain at their prior state; the new sub-principles apply prospectively to future experiments and to any new same-day amendments).
+- Re-run the FWER audit (F1 is size 4 at `fwer_audit_2026-04-18.md`'s post-5d-run addendum; no change needed).
 
 ---
 
@@ -132,8 +190,12 @@ Suggested order per session:
 - `docs/_templates/experiment_section.md` — chronicle template (gap 3 template update).
 - `.claude/skills/research-rigor/SKILL.md` — skill modes (multiple gate updates).
 - `docs/chem-tape/experiments-v2.md` §v2.4-proxy-5a-followup-mid-bp — case study for gaps 1, 3.
+- `docs/chem-tape/experiments-v2.md` §v2.4-proxy-5d v1 — case study for gap 7 (non-rejecting confirmatory).
+- `docs/chem-tape/experiments-v2.md` §v2.4-proxy-5c-tournament-size — case study for gaps 5, 9 (SWAMPED letter-vs-intent + bare-status grid-miss).
+- `docs/chem-tape/findings.md` `proxy-basin-attractor` entry (post-`1165f88` state) — case study for gap 8 (tested-set vs continuous-range smuggling).
 - `Plans/prereg_v2-4-proxy-5b-crosstask.md` — case study for gap 2.
 - `Plans/prereg_v2-4-proxy-5c-tournament-size.md` — case study for gap 5.
 - `Plans/prereg_v2-4-proxy-5d-followup-cloud-reexpansion.md` — case study for gap 7.
 - `Plans/fwer_audit_2026-04-17.md` (superseded) + `fwer_audit_2026-04-18.md` — case studies for gap 4.
 - `experiments/chem_tape/analyze_5ab.py` + `analyze_retention.py` — case studies for gap 6.
+- Commit `1165f88` — final state of the 2026-04-18 session; commit message documents codex pass 2 P1/P2 findings that introduced gaps 8 and 9. A fresh session can read the commit message as a self-contained description of both gaps.
