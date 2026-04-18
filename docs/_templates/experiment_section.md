@@ -84,6 +84,22 @@ drop, perfect signature). Delete this subsection otherwise.
 - **Mechanism inspection done:** {§X-inspection, or "deferred — inspection queued"}
 - **Degeneracy ruled out:** {evidence}
 
+### Falsifiability block (required if a tentative mechanism name is proposed, §16c)
+
+<!--
+Principle 16c. Only fill in when this chronicle proposes, narrows, or
+broadens a tentative mechanism name (per the §16 / §16b renaming cycle).
+Pre-commit at least three falsifiable predictions, each tied to a specific
+experiment that would force a rename if violated. Pending experiments are
+acceptable; unnamed experiments are not. Delete this subsection if no
+mechanism name is being introduced or changed here.
+-->
+
+- **Tentative name proposed / narrowed / broadened:** {one-sentence name + which direction on the §16 / §16b cycle}
+- **Prediction P-1:** {what the name predicts} — **violated if:** {observation that would force a rename} — **tested by:** {§X experiment, `Plans/prereg_X.md`, or pending sweep ID}
+- **Prediction P-2:** {...} — **violated if:** {...} — **tested by:** {...}
+- **Prediction P-3:** {...} — **violated if:** {...} — **tested by:** {...}
+
 ### Findings this supports / narrows
 
 {Forward-links to docs/<track>/findings.md entries this experiment supports, narrows, or falsifies. Populate after the claim has been consolidated there.}

@@ -133,6 +133,14 @@ Each refinement was driven by one specific experiment.
 
 **Takeaway.** Renaming can go in either direction. If an experiment shows the mechanism generalises beyond the original predicate/regime (not just narrows away from it), the rename is *broader*. The skill's log-result mode should prompt for both directions — "is the mechanism narrower than this claim?" and "is the mechanism broader than this specific predicate/condition?"
 
+### 16c. Tentative mechanism names need falsifiable predictions
+
+**Case.** §v2.4-proxy-5a-followup-mid-bp's chronicle introduced the tentative name "non-monotone single-mechanism cloud-destabilisation" under the §16 renaming cycle. Codex pass 2 flagged the name as too residual: it could survive any further data by attaching qualifiers ("under low BP_TOPK," "at specific budgets," etc.) without progressing the mechanism understanding. Post-codex, five pre-committed falsifiable predictions (P-1..P-5) were added, each tied to a specific pending or upcoming test that would force a rename if violated. The rescue was ad hoc — it should have been the standard pattern, not a reaction to review.
+
+**Takeaway.** When a chronicle commits to a tentative mechanism name (per the renaming cycle anticipated by §16), the chronicle must pre-commit at least **three falsifiable predictions**, each of which if violated would force a rename. Each prediction names the specific experiment that would test it — pending experiments are acceptable, unnamed experiments are not. Names without falsifiers are just-so stories: they survive any further data by qualifier-attachment and consume the §16 renaming budget without progress. The chronicle template (`docs/_templates/experiment_section.md`) enforces this via a mandatory falsifiability block whenever a mechanism-name rename is proposed.
+
+> See [Plans/methodology_improvements_2026-04-18.md](../Plans/methodology_improvements_2026-04-18.md) for the drafting rationale behind sub-principle 16c (added 2026-04-18).
+
 ---
 
 ## Process
@@ -142,6 +150,20 @@ Each refinement was driven by one specific experiment.
 **Case.** Recurrent reviewer pushback targeted the same phrasings: "universal ceiling," "framework confirmed," "established mechanism," "the X axis." Each time these needed softening to scope-qualified variants.
 
 **Takeaway.** These phrases are predictable tells of overreach. Before publishing a claim, search the draft for them and ask whether each is scope-qualified or naked-universal.
+
+### 17a. Multi-variable confounds in "decoupling" claims
+
+**Case.** §v2.4-proxy-5b-crosstask's earlier draft proposed `mr=0.005 × gens=9000` as "budget-decoupling" from `mr=0.03 × gens=1500`. Codex noted that varying `mr` and `gens` jointly changes at least four derived process variables — (a) per-tape expected mutation count, (b) selection opportunities per lineage, (c) crossover opportunities, (d) fixation time — not two. Calling the outcome "rate-vs-budget decoupling" was overreach; the true discrimination was narrower than the nominal variable names suggested.
+
+**Takeaway.** When a prereg varies a nominal config field across cells, explicitly enumerate every derived process variable that changes across those cells *at prereg time*. If more than one derived variable shifts, the outcome discrimination is narrower than the nominal variable would suggest: the prereg's outcome rows must name the process-variable-bundle being discriminated, not the nominal field. "Rate vs. budget" silently smuggles a two-variable assumption into what is actually a multi-variable contrast; the naming must reflect the bundle.
+
+### 17b. Tested-set vs continuous-range smuggling in mechanism-name qualifiers
+
+**Case.** The 2026-04-18 `findings.md#proxy-basin-attractor` ACTIVE status line initially read: mechanism narrowed to "monotone single-mechanism cloud-destabilisation under BP_TOPK preserve **at selection pressure ≥ tournament_size=3**." The `≥ 3` half-line extrapolated from discrete tested values ts ∈ {3, 5, 8}. All four F1 confirmatory tests ran only at ts=3; ts ∈ {5, 8} was exploratory; ts > 8 was entirely untested. Codex pass 2 flagged this as mechanism-name smuggling: a tested set gets promoted into an untested half-line. Fixed at commit `1165f88` to "at tested tournament sizes ∈ {3, 5, 8} (ts=2 fails; ts > 8 untested)."
+
+**Takeaway.** When a mechanism-name qualifier names a threshold or range on a variable that was tested only at discrete values, the qualifier must scope to the tested set explicitly, not to a continuous range above or below a tested endpoint. "At tested values ∈ {X, Y, Z}" is honest; "at ≥ X" smuggles untested values between tested points and extrapolates beyond the tested maximum. This applies especially to integer-valued config fields (`tournament_size`, `topk`, `budget`, etc.) where between-tested-values are excluded by config type, and to any qualifier that upgrades exploratory evidence into ACTIVE-claim scope — tested-set discreteness must survive that upgrade.
+
+> See [Plans/methodology_improvements_2026-04-18.md](../Plans/methodology_improvements_2026-04-18.md) for the drafting rationale behind sub-principles 17a and 17b (added 2026-04-18).
 
 ### 18. Scope tags in summary bullets prevent silent generalization
 
@@ -161,11 +183,11 @@ Each refinement was driven by one specific experiment.
 
 This isn't a checklist — it's a lessons ledger. Suggested usage:
 
-- **Before pre-registering an experiment:** read principles 1-4 and 6. If the prereg measures ≥2 independent outcome axes (e.g., solve-rate AND retention), also read 2b — the outcome table is a grid, not paired rows. **If the prereg measures any axis at per-seed resolution (including axes labeled diagnostic), also read 26 — diagnostic axes still get coarse-bin outcome grid rows.** For every metric the prereg commits to, read 25 — verify the producing code actually exists — and read 27 — cite the producing module's `METRIC_DEFINITIONS` entry verbatim. If the prereg changes the training distribution, also read 20. If the sweep's test will enter a family of related tests, read 22.
-- **After a surprising result:** read 3, 10, 14, 16, 16b, 21. If the result doesn't match any pre-registered outcome row, also read 2b — the outcome table was probably missing the cell you landed in.
-- **Before writing a chronicle:** read 23 — verify every pre-registered outcome row and plan-part was actually executed, or explicitly deferred.
+- **Before pre-registering an experiment:** read principles 1-4 and 6. If the prereg measures ≥2 independent outcome axes (e.g., solve-rate AND retention), also read 2b — the outcome table is a grid, not paired rows. **If the prereg measures any axis at per-seed resolution (including axes labeled diagnostic), also read 26 — diagnostic axes still get coarse-bin outcome grid rows.** For every metric the prereg commits to, read 25 — verify both the producing code and (if the prereg commits to a per-cell breakdown) the grouping wrapper covering the prereg's axis set actually exist — and read 27 — cite the producing module's `METRIC_DEFINITIONS` entry verbatim. If the prereg changes the training distribution, also read 20. If the sweep's test will enter a family of related tests, read 22 (FWER basics), 22a (per-sweep counting convention), and 22b (chronicle-vs-audit authority when counts disagree).
+- **After a surprising result:** read 3, 10, 14, 16, 16b, 16c (tentative mechanism names need falsifiable predictions), 21. If the result doesn't match any pre-registered outcome row, also read 2b — the outcome table was probably missing the cell you landed in.
+- **Before writing a chronicle:** read 23 (execution fidelity — every pre-registered outcome row and plan-part executed or explicitly deferred) and 28 (letter-vs-intent drift at row-match, degenerate-success-guard, and status-line surfaces). If the observed result is close to a pre-registered row's prose but fails a numeric clause, 28a applies; if a degenerate-success guard letter-passes on a multi-mode regime, 28b; if the body qualifies the headline verdict, 28c.
 - **When writing a summary bullet:** read 18.
-- **When reviewing your own claim language:** read 17.
+- **When reviewing your own claim language:** read 17 (overreach phrases), 17a (multi-variable confounds in "decoupling" claims), and 17b (tested-set vs continuous-range qualifiers on mechanism names).
 - **When adding a new config parameter:** read 11.
 - **When a previous claim needs revising:** read 13.
 - **When a result clusters near a pre-registered threshold (1/20, 3/20, etc.):** read 21 — attractor-category inspection is required, not optional.
@@ -197,6 +219,22 @@ If a future experiment contributes a new lesson worth adding, update this docume
 
 **Takeaway.** Treat the active sweep portfolio as a test family. At pre-registration time, classify each planned test as either **confirmatory** (enters the FWER family with Bonferroni α = 0.05 / n_family_tests) or **exploratory** (reported as effect size only, no p-value gate). At promotion time, if a finding rests on multiple tests, compute the corrected α before the chronicler step and include it in the findings.md scope block. Individual exploratory p-values remain fine for hypothesis generation; family-level claims need family-level correction. An `fwer-audit` mode on the research-rigor skill should count outstanding confirmatory tests in queue.yaml and surface the corrected α in the morning digest.
 
+### 22a. Per-sweep counting convention
+
+**Case.** The 2026-04-17 FWER audit (`Plans/fwer_audit_2026-04-17.md`) under-counted the F1 proxy-basin family by two tests. It treated §v2.4-proxy-4c-replication as zero contributions (omitted) even though the chronicle explicitly counted its Arm A preserve + BP_TOPK consume sweeps as two separate McNemar tests. The 2026-04-18 first-draft audit also miscounted (treated 4c as 1 test, not 2). Both errors flowed from the same gap: §22 as originally written didn't state explicitly that a single prereg driving multiple independent sweeps contributes one family member per sweep.
+
+**Takeaway.** When a prereg produces multiple independent statistical tests — e.g., one paired McNemar per sweep across different arms, decoders, tasks, or seed blocks — each test is a separate family member, not one collective test under the prereg's umbrella. The prereg must state its per-sweep test count explicitly in the confirmatory/exploratory classification block; multi-sweep preregs that omit this count state their classification as **ambiguous** until amended. At audit time, enumerate tests per sweep, not per prereg.
+
+### 22b. Authoritative-source rule (chronicle vs. audit, with carve-out for chronicle-layer errors)
+
+**Case.** The 2026-04-17 audit (above) disagreed with the source chronicle's per-sweep count. No methodology rule existed to break the tie; the audit and the chronicle each could plausibly claim primacy. An "audit always wins" rule would lock in any audit-layer miscount (as happened in the 2026-04-18 first-draft audit). A "chronicle always wins" rule would lock in any chronicle-layer bookkeeping error. Neither is safe by default.
+
+**Takeaway.** When an audit's family-member count disagrees with the source chronicle's FWER bookkeeping, the chronicle is the default authority *provided its bookkeeping appeals to standard Bonferroni conventions and is internally consistent*. When the audit identifies a specific chronicle-layer error — overcount, misclassification of exploratory-as-confirmatory, non-standard counting convention — the audit's role is to surface the contestation for explicit resolution, not to defer automatically. Resolution requires either (i) a chronicle amendment (§13 supersession if load-bearing) or (ii) an explicit audit-layer override documented with the contested count's grounding. Silent audit-deferral and silent chronicle-override both fail this gate.
+
+**Membership-at-commit-time (2026-04-18 clarification).** Confirmatory family membership is determined at prereg-commit time, not at result-rejection time. A confirmatory test that runs counts in the family regardless of rejection outcome: a FAIL-TO-REPLICATE confirmatory test consumed α budget and remains a family member; its null finding is recorded under §24 but does not remove the test from the family. The family's corrected α tightens whenever a new confirmatory test is registered.
+
+> See [Plans/methodology_improvements_2026-04-18.md](../Plans/methodology_improvements_2026-04-18.md) for the drafting rationale behind sub-principles 22a, 22b, and the commit-time-membership clarification (added 2026-04-18).
+
 ### 23. Pre-registration execution fidelity
 
 **Case.** §v2.6's prereg included a fixed-task baseline sweep that was not executed in the initial session — only the three alternation sweeps ran. The provisional interpretation was corrected in a later commit (`344e4de`) when the baseline was completed and narrowed the claim from "4 pairs" to "1 pair." The research-rigor skill gated *commitment before a run* but had no gate for "did every pre-registered part of the plan actually execute?" This is the **skipped-but-rationalized** pattern: an honest deferral can look identical to a post-hoc redesign from the commit log. The prereg-time gates catch overreach in design; the chronicle-time gate catches overreach in execution.
@@ -217,6 +255,10 @@ If a future experiment contributes a new lesson worth adding, update this docume
 
 **Takeaway.** Before a prereg commits to a metric, verify the infrastructure can actually produce it at the committed resolution. Every metric named in the prereg must record one of three states: *(i)* **produced directly** — name the file, column, or routine that emits the metric (e.g., "`history.npz:final_pop_exact_match` emitted by `sweep.py:dump_final_population=True`"); *(ii)* **produced as an explicitly-labeled bound or proxy** — name the proxy, the direction of the bound, and why the bound is informative (e.g., "R_exact ≤ (pop − unique_genotypes)/pop is an *upper* bound; a low value is conclusive, a high value is not"); *(iii)* **pending an infra extension** — name the extension, rough effort estimate, and commit to either completing it before the sweep or re-scoping the prereg's metric to what the current code can emit. A prereg that names a metric whose producing code does not exist, without one of these three labels, fails this gate. The check is cheap at prereg time (5 minutes of grep); silent reinterpretation at chronicle time is expensive — either the sweep has to be rerun, or the claim has to be weakened, and both carry review-cost that the prereg exists to prevent.
 
+**Grouping attribution (2026-04-18 clarification).** A prereg's §25 gate names both (a) the metric-computing code path *and* (b) the grouping code path that produces the per-cell table. If the metric module's default aggregator groups by axes narrower than the prereg's grid — e.g., `summarize_arm` in `analyze_retention.py` groups by `(arm, safe_pop_mode, seed_fraction)`, which a prereg varying `ts`, `mr×gens`, or `selmode` cannot use directly — the prereg must also name the grouping wrapper / script / function covering its axis set (e.g., `analyze_5ab.py <axis> --include-holdout`). "Produced directly by `analyze_retention.py`" is incomplete when the grid axes require a wrapper the module doesn't include by default: the metric exists, but the per-cell table does not. Case: §v2.4-proxy-5b / 5c / 5d preregs cited `analyze_retention.py` for per-cell grouping that required the `analyze_5ab.py` wrapper (engineering commit 2026-04-18).
+
+> See [Plans/methodology_improvements_2026-04-18.md](../Plans/methodology_improvements_2026-04-18.md) for the drafting rationale behind this clarification.
+
 ## Measurement coverage (added 2026-04-17 from §v2.4-proxy-4d experience)
 
 ### 26. Diagnostic axes can become load-bearing — grid them at coarse bins
@@ -232,6 +274,34 @@ If a future experiment contributes a new lesson worth adding, update this docume
 **Case.** §v2.4-proxy-4d's `analyze_retention.py` docstring initially described its "active" view as an "extracted BP_TOPK-style view," but the implementation computed the permeable-all superset of BP_TOPK decode. The chronicle initially described the measurement as "direct edit-distance-2 retention" without the active-view-vs-decoded-view caveat. Codex adversarial review caught the mismatch; without it, the chronicle would have misrepresented what the measurement actually was — a silent principle-25 measurement-fidelity failure at the description layer rather than the code layer.
 
 **Takeaway.** Each analysis module exposes a module-level `METRIC_DEFINITIONS: dict[str, str]` mapping metric name to a one-line specification of what the code actually computes (view, distance function, boundary conditions). Chronicle "Metric definition" blocks and prereg metric declarations cite entries from that dict verbatim — copy/paste, not paraphrase. The prereg-time check becomes: does the metric named in the prereg match the `METRIC_DEFINITIONS` entry in the producing module? The chronicle-time check becomes: does the cited definition still match the code at this commit? Both are 30-second checks that protect against description-vs-implementation drift — the most expensive failure mode to catch after a sweep has run.
+
+## Chronicle-surface discipline (added 2026-04-18 from §v2.4-proxy-5* experience)
+
+### 28. Letter-vs-intent drift across chronicle surfaces
+
+**Case.** Three 2026-04-18 codex-pass-2 findings showed the same shape at different chronicle surfaces: a surface-level token or clause matched the letter of a pre-registered check while the underlying intent failed. Each looked locally like its own drift, but all three were instances of one pattern — writing them as one principle with enumerated sub-clauses is more coherent than three scattered §-additions, and extensible as new surfaces emerge.
+
+**Takeaway.** A chronicle must detect and flag letter-vs-intent drift at every surface where a token, clause, or numeric criterion can match the letter of a pre-registered check while the underlying intent fails. Sub-clauses 28a, 28b, 28c below enumerate the currently known surfaces; new surfaces are added by supersession (§13) when discovered — do not let them drift silently.
+
+### 28a. Row-match clauses — prose match must be clause match
+
+**Case.** §v2.4-proxy-5a-followup-mid-bp claimed PLATEAU-MID "matched" on the row's prose ("Non-monotone staircase: two regimes or two competing mechanisms") even though observed adjacent-cell differences {0.144, 0.092} failed the row's numeric tightness clause (<0.05). Codex pass 2 flagged this as §23 drift: prose-match without clause-match is a §2b grid-miss, not a match.
+
+**Takeaway.** A pre-registered outcome row matches the observed data only when *every* numeric clause in the row is satisfied. Prose-match plus numeric-clause-fail is a §2b grid-miss, not a match. When a row's prose anticipates a shape but its numeric clause is tighter than the observed signature, the outcome table was incomplete: add a row in the next prereg for the prose-match × clause-fail cell; do not narrate the current result as a match.
+
+### 28b. Degenerate-success guards — single-criterion guards miss multi-mode regimes
+
+**Case.** §v2.4-proxy-5c-tournament-size observed ts=2 with F=20/20 but R_fit_999 ≈ 0.005 — solvers found, not propagated. The prereg's SWAMPED guard for "tournament_size=2 exploration starvation" used `F < 18/20` as its detection criterion, which letter-passed at F=20/20 but missed the propagation-failure regime entirely. The guard's single F-only criterion could not catch a regime whose failure mode sits on a different axis from the criterion.
+
+**Takeaway.** A degenerate-success guard that uses a single criterion must state explicitly which aspect of the regime it tests, and must add additional criteria when the guarded regime has multiple failure modes. Guard criteria should be a conjunction, not a single gate; at grid-design time, verify the conjunction covers every failure mode the guard's prose names. Single-criterion guards over multi-failure-mode regimes are vulnerable to the letter-vs-intent pattern — passing the letter while missing the intent.
+
+### 28c. Status-line tokens — body qualifier must surface on the headline
+
+**Case.** §v2.4-proxy-5c-tournament-size's initial status line was a bare `PASS`. The body explicitly flagged that the data matched PRESSURE-MONOTONE-R_FIT *on the letter of its clauses only* — the actual shape was cliff+plateau (ts=2 at 0.005; ts ∈ {3, 5, 8} at 0.72–0.75), a §2b grid-miss. The body also self-applied §28b to flag the F-only guard's letter-pass at ts=2. A reader scanning only the status line saw "PASS" with no qualifier. Codex pass 2 flagged this as the status-line surface of the same pattern. Fixed at commit `1165f88` by expanding the status line to carry the qualifier inline.
+
+**Takeaway.** When a chronicle's status token would normally be `PASS` but the Result/Interpretation section flags a §2b grid-miss, a §28b letter-vs-intent failure, or any similar matched-on-letter-not-intent qualification, the status line must carry the qualifier inline (in parentheses on the same line), not only in the Result section. The standardized status vocabulary (`PASS | FAIL | INCONCLUSIVE | SUPERSEDED | FALSIFIED`) is grep-parsed and indexed; a scan-only reader who never drills into the body must still see the qualifier. Bare status tokens where the body substantively qualifies them fail this gate.
+
+> See [Plans/methodology_improvements_2026-04-18.md](../Plans/methodology_improvements_2026-04-18.md) for the drafting rationale and case studies behind this principle.
 
 ---
 
