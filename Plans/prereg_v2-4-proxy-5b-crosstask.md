@@ -22,13 +22,17 @@ The most common `best_genotype_hex` for `sum_gt_5_slot` across prior runs is:
 ```
 (12/22 occurrences in prior sweep outputs). However, this is materially less dominant than the `sum_gt_10_AND_max_gt_5` canonical (60/60 occurrences), and its dominance across arms and mutation rates has not been confirmed in a dedicated baseline.
 
-**Two resolution options (choose one before unblocking):**
+**Two resolution options (Option 1 chosen 2026-04-18):**
 
-1. **Run a new baseline sweep** on `sum_gt_5_slot`: unseeded BP_TOPK(k=3, bp=0.5) at pop=1024, gens=1500, mr=0.03, seeds 0–19. Take the best-of-run genotype that occurs in ≥ 15/20 seeds as the canonical. If no genotype meets that bar, the task may lack a stable dominant attractor and this experiment's seeding design requires rethinking.
+1. **[CHOSEN] Run a new baseline sweep** on `sum_gt_5_slot`: unseeded BP_TOPK(k=3, bp=0.5) at pop=1024, gens=1500, mr=0.03, seeds 0–19. Take the best-of-run genotype that occurs in ≥ 15/20 seeds as the canonical. If no genotype meets that bar, the task may lack a stable dominant attractor and this experiment's seeding design requires rethinking.
 
-2. **Examine §v2.3 fixed-baseline run outputs** (`2026-04-14/v2_3_fixed_baselines`) for the per-seed best-of-run genotypes under `sum_gt_5_slot`. Extract the mode genotype; accept it as canonical only if it appears in ≥ 15/20 seeds.
+   **Discharge path (2026-04-18):** Option 2 is unavailable — the §v2.3 fixed-baseline sweep outputs (`2026-04-14/v2_3_fixed_baselines`) are not on disk in the current working tree. Option 1 is executed via the already-queued `v2_3_fixed_baselines` entry in `queue.yaml:63` (runs `experiments/chem_tape/sweeps/v2/v2_3_fixed_baselines.yaml`, which is byte-identical to Option 1's specified parameters — BP_TOPK(k=3, bp=0.5), pop=1024, gens=1500, mr=0.03, seeds 0–19, plus `sum_gt_10_slot` as a free byproduct). Post-sweep analysis script: `experiments/chem_tape/check_canonical.py` on the `sum_gt_5_slot` cells of the sweep output. Decision rule at morning triage:
+   - **≥ 15/20 seeds converge to one hex →** update `seed_tapes` field below to that hex; flip this prereg's Status to `RUNNING`; commit; launch the main crosstask sweep on the next queue cycle.
+   - **< 15/20 seeds converge to any single hex →** `sum_gt_5_slot` lacks a stable dominant attractor under BP_TOPK at this configuration. Update this prereg with a `SUPERSEDED-DESIGN` block and propose an alternative seeding design (e.g., seed with the full per-seed canonical per-seed rather than a universal canonical; or change cross-task target to `sum_gt_10_slot`).
 
-**Unblocking commit:** The prereg's `seed_tapes` field below is marked `TBD (BLOCKED)`. When the canonical tape is confirmed, update this field and commit the change. The sweep may not run until that commit exists.
+2. **~~Examine §v2.3 fixed-baseline run outputs~~** — unavailable in this working tree. Rejected 2026-04-18.
+
+**Unblocking commit:** The prereg's `seed_tapes` field below is marked `TBD (BLOCKED)`. The `v2_3_fixed_baselines` queue entry runs tonight (2026-04-18); when the canonical tape is confirmed from that sweep's output, update this field and commit the change. The main crosstask sweep may not run until that commit exists.
 
 ---
 

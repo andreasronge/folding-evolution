@@ -1,8 +1,8 @@
 # Pre-registration: §v2.4-proxy-5c — non-tournament selection probe on BP_TOPK preserve (selection-coupled vs decoder-intrinsic neutral network)
 
-**Status:** QUEUED · 2026-04-18 · chronicled target: [docs/chem-tape/experiments-v2.md §v2.4-proxy-5c](../docs/chem-tape/experiments-v2.md)
+**Status:** RUNNING · engineering discharged at commits `8db64e0` (chem-tape engineering for §v2.4-proxy-5* / §v2.5 probes) + `d89e42c` (prereg + amendments) · sweep YAML `experiments/chem_tape/sweeps/v2/v2_4_proxy5c_nontournament.yaml` · queued in `queue.yaml` with `timeout_seconds: 10800` after prior 3600s run timed out at 78/120 (ranking selection is ~2-3× slower per run due to full-pop sort per parent call) · 2026-04-18 · chronicled target: [docs/chem-tape/experiments-v2.md §v2.4-proxy-5c](../docs/chem-tape/experiments-v2.md)
 
-**Engineering note:** prerequisites 1–5 below landed (commit TBD). `selection_mode` / `selection_top_fraction` fields added to `ChemTapeConfig` (hash-excluded at defaults); `_ranking_select` / `_truncation_select` implementations added to `evolve.py`; `METRIC_DEFINITIONS["selection_mode"]` added to `analyze_retention.py`; `tests/test_chem_tape_selection_mode.py` verifies principle-23 byte-identical reproduction under `selection_mode="tournament"` and principle-11 hash exclusion at defaults.
+**Engineering prerequisites 1–5 discharged:** `selection_mode` / `selection_top_fraction` fields added to `ChemTapeConfig` (hash-excluded at defaults per principle 11 — see `src/folding_evolution/chem_tape/config.py:147` and `212-215` for the hash-exclusion block); `_ranking_select` / `_truncation_select` implementations in `src/folding_evolution/chem_tape/evolve.py:222` and `:245` (dispatched from the selection call site at `:310`); `METRIC_DEFINITIONS["selection_mode"]` added to `experiments/chem_tape/analyze_retention.py`; `tests/test_chem_tape_selection_mode.py` verifies principle-23 byte-identical reproduction under `selection_mode="tournament"` and principle-11 hash exclusion at defaults.
 
 ## Supersession / upstream context
 
