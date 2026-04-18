@@ -350,3 +350,41 @@
   expect_outputs: [sweep_index.json]
   track: chem-tape-v2
   notes: "§v2.4-proxy-5b (Arm A arm): mutation_rate ∈ {0.005,0.015,0.03} × sf ∈ {0.0,0.01} (120 runs, ~25-30 min). Exploratory; principal comparison row is DIVERGE (A-KINETIC + BP-STRUCTURAL)."
+
+# §v2.4-proxy-5a-followup-mid-bp — mid-range bp localisation sweep.
+# §v2.4-proxy-5a returned DISSOLVE; the DISSOLVE decision rule requires this
+# sweep to distinguish monotone R_fit decay from a threshold transition.
+# 4 bp × 2 sf × 20 seeds = 160 runs. ~45 min wall.
+- id: v2_4_proxy5a_mid_bp
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_4_proxy5a_mid_bp.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.4-proxy-5a-followup-mid-bp: bp ∈ {0.60,0.65,0.75,0.85} × sf ∈ {0.0,0.01} on BP_TOPK preserve (160 runs, ~45 min). Localises DISSOLVE profile: monotone vs threshold."
+
+# §v2.4-proxy-5c-tournament-size — cheapest selection-pressure probe (precursor to 5c).
+# Varies tournament_size ∈ {2, 3, 5, 8} on BP_TOPK preserve seeded cell.
+# No new engineering — uses existing ChemTapeConfig.tournament_size field.
+# 4 ts × 2 sf × 20 seeds = 160 runs. ~35 min wall at 10 workers.
+# Run BEFORE interpreting §v2.4-proxy-5c-nontournament's ranking/truncation
+# result — if tournament_size alone shifts R_fit_999, 5c's single-point
+# top_fraction=0.5 result must be reinterpreted at matched pressure.
+- id: v2_4_proxy5c_tournament_size
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_4_proxy5c_tournament_size.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.4-proxy-5c-tournament-size: tournament_size ∈ {2,3,5,8} × sf ∈ {0.0,0.01} on BP_TOPK preserve (160 runs, ~35 min). Precursor to §v2.4-proxy-5c-nontournament — tests whether tournament-pressure axis alone shifts R_fit_999/R₂_decoded."
+
+# §v2.4-proxy-5c — non-tournament selection probe on BP_TOPK seeded cell.
+# 3 selection_mode × 2 sf × 20 seeds = 120 runs. Tests decoder-intrinsic vs selection-coupled.
+# 2026-04-18: previous run with timeout=3600 timed out at 78/120 — ranking
+# selection does a full-pop sort per parent call (1024 individuals) and is
+# ~2-3× slower per run. Queue runner skips completed hashes on resume, so
+# this bump to 10800s drives only the remaining ~42 runs plus headroom.
+- id: v2_4_proxy5c_nontournament
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_4_proxy5c_nontournament.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 10800
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.4-proxy-5c: selection_mode ∈ {tournament,ranking,truncation} × sf ∈ {0.0,0.01} on BP_TOPK preserve (120 runs). Prior run timed out at 78/120 under 3600s; this entry uses 10800s (ranking selection is 2-3× slower per run due to full-pop sort per parent call). Tests whether wide solver neutral network is decoder-intrinsic or tournament-selection-coupled."

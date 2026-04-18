@@ -1,0 +1,32 @@
+sweep_name: v2_4_proxy5c_nontournament
+# §v2.4-proxy-5c: non-tournament selection probe on BP_TOPK preserve seeded cell.
+# Tests whether the wide solver neutral network (R_fit≈0.72, R₂_decoded≈0.002)
+# is decoder-intrinsic or tournament-selection-coupled. Three selection modes:
+# tournament (baseline reproduction), ranking (linear-rank over full pop),
+# truncation (top-50% parent pool, uniform sample).
+# See Plans/prereg_v2-4-proxy-5c-nontournament.md for outcome grid.
+base:
+  alphabet: v2_probe
+  task: sum_gt_10_AND_max_gt_5
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  arm: BP_TOPK
+  topk: 3
+  bond_protection_ratio: 0.5
+  safe_pop_mode: preserve
+  disable_early_termination: true
+  dump_final_population: true
+  seed_tapes: "0201121008010510100708110000000000000000000000000000000000000000"
+grid:
+  selection_mode: [tournament, ranking, truncation]
+  seed_fraction: [0.0, 0.01]
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
