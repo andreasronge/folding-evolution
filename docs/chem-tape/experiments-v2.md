@@ -3396,6 +3396,26 @@ Candidate substantive mechanisms that would satisfy all five predictions simulta
 - **Informs the pending §v2.4-proxy-5b-crosstask prereg** — if the BOTH-KINETIC kinetic lift on `sum_gt_5_slot` is tested only at mr ∈ {0.005, 0.015, 0.03}, and the bond-protection axis shows non-monotone shape in this analogous 5-point sweep, the cross-task kinetic profile may also have hidden non-monotonicities not captured by a 3-point mr grid. Worth flagging when drafting the cross-task sweep's mutation-rate grid.
 - **Refutes a candidate narrowing.** The CLIFF-FLATTENING reading (that bond protection pulls populations toward canonical at high bp via mutation suppression) is falsified for BP_TOPK preserve at this scale. This rules out a subset of interpretive options on the `proxy-basin-attractor` mechanism split that future prereg language should no longer entertain.
 
+### Addendum (post-commit zero-compute holdout re-analysis, 2026-04-18)
+
+After the initial chronicle commit (`9c43c99`), the post-E1 `analyze_retention.py --include-holdout` infrastructure was run on the existing `final_population.npz` data for both the 5a and mid-bp sweeps at sf=0.01. Zero new sweeps, ~1 min wall. Result:
+
+| bp | R_fit_999 | R_fit_holdout_999 | delta |
+|---|---|---|---|
+| 0.50 | 0.723 | 0.723 | 0.000 |
+| 0.60 | 0.604 | 0.604 | 0.000 |
+| 0.65 | 0.519 | 0.519 | 0.000 |
+| 0.70 | 0.375 | 0.375 | 0.000 |
+| 0.75 | 0.467 | 0.467 | 0.000 |
+| 0.85 | 0.242 | 0.242 | 0.000 |
+| 0.90 | 0.177 | 0.177 | 0.000 |
+
+**Prediction P-2 (generalizing-solver-not-train-overfit) discharged on seeds 0..19.** Every bp cell shows `R_fit_holdout_999 == R_fit_999` to 3 decimal places. The wide solver cloud under BP_TOPK is NOT a train-proxy overfit at any bp level — every fitness ≥ 0.999 solver on training also clears ≥ 0.999 on the 256-example holdout. The mechanism-name falsifier P-2 (train-only proxy-fitting at bp=0.75 recovery) is ruled out at this data configuration.
+
+Secondary observation: at bp=0.65 × sf=0.0 and bp=0.7 × sf=0.0, the 1/20 unseeded "discoveries" flagged in §v2.4-proxy-5a's drift cells are **train-only proxy-fits** — `R_fit_holdout_999 = 0.000` at both cells despite `R_fit_999 > 0`. The bp=0.9 × sf=0.0 1/20 discovery is the exception (holdout = 0.025, train 0.025 match). Drift-cell discoveries should therefore be re-audited with holdout fitness before being counted in any downstream principle-21 attractor-category inspection.
+
+Surviving predictions to test: P-1 (replication on seeds 20..39), P-3 (tournament-pressure invariance), P-4 (cross-probe attractor-shared-with-mr), P-5 (no-hidden-attractor-under-tighter-slicing). The §v2.4-proxy-5d v1 prereg + §v2.4-proxy-5c-tournament-size prereg + a future R_fit-matched cross-probe sweep cover P-1, P-3, P-4 respectively.
+
 ### Next steps (from prereg decision rule, PLATEAU-MID branch)
 
 1. **Draft §v2.4-proxy-5d-followup-cloud-reexpansion prereg** (this week). Pre-register: (i) independent-seed replication on seeds 20..39 at bp ∈ {0.65, 0.70, 0.75} to test whether the non-monotone dip-and-recovery survives paired replication (principle 8); (ii) R_fit_holdout_999 alongside R_fit_999 (engineering gate on `analyze_retention.py` pending) to test whether the bp=0.75 off-center recovery is a train-only overfit or a genuine generalizing solver cloud; (iii) per-generation R_fit_999 trajectory checkpoints at {gen=500, 1000, 1500} to test whether bp=0.75 is converging slower or equilibrating at a different point; (iv) explicit R₂_decoded grid-axis treatment to catch the bp=0.85 secondary lift as an outcome cell.

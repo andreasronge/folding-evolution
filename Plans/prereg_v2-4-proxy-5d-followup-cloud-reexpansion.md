@@ -151,7 +151,7 @@ Primary observation cell: seeds 20..39 at bp ∈ {0.65, 0.70, 0.75}, sf=0.01.
 
 - [ ] Sweep YAML created: `experiments/chem_tape/sweeps/v2/v2_4_proxy5d_replication.yaml`.
 - [ ] Queue entry added to `queue.yaml` with timeout=3600.
-- [ ] Seeds 0..19 holdout baseline re-evaluated via `analyze_retention.py --include-holdout experiments/output/2026-04-17/v2_4_proxy5a_bp_sweep` AND `...v2_4_proxy5a_mid_bp`. Results committed.
+- [x] Seeds 0..19 holdout baseline re-evaluated via `analyze_5ab.py <sweep_dir> bp --include-holdout` on both 5a and mid-bp sweep dirs (2026-04-18, post-commit `9c43c99`). Result: R_fit_holdout_999 == R_fit_999 at all 7 bp cells at sf=0.01, to 3 decimal places. Prediction P-2 (generalizing-solver-not-train-overfit) discharged on the existing data — the bp=0.75 recovery is NOT train-only overfit. See §v2.4-proxy-5a-followup-mid-bp chronicle Addendum (2026-04-18) in `docs/chem-tape/experiments-v2.md` and the updated `retention_grid_bp.json` files under each sweep dir. This narrows the v1 prereg's question to "does the non-monotone shape itself replicate on independent seeds?" — P-2 is already settled.
 - [ ] FWER family audit run — confirm corrected α at 0.05/4 = 0.0125; flag any existing findings.md claims at risk.
 - [ ] Decision whether to block on `sweep.py` trajectory-snapshot infra, or proceed with endpoint-only measurement and trajectory deferred.
 
