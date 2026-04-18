@@ -151,6 +151,21 @@ class ChemTapeConfig:
     # At default 0.5 excluded from hash.
     selection_top_fraction: float = 0.5
 
+    # §v2.5-plasticity-1a: runtime-plasticity (Baldwin-effect) probe fields.
+    # Rank-1 operator-threshold plasticity: GT operations in the decoded
+    # program acquire a learnable scalar modifier δ shared across all GT
+    # ops in the program (one float total — "rank 1"). δ is updated via a
+    # sign-gradient rule over a held-in train split of the task examples,
+    # then frozen for the held-out test evaluation. When
+    # plasticity_enabled=False (default) the VM path is byte-identical to
+    # the pre-5c Arm A pipeline. All fields excluded from hash at defaults
+    # (principle 11) — mirrors the selection_mode pattern above.
+    plasticity_enabled: bool = False
+    plasticity_budget: int = 0                    # number of train-phase adaptation steps per eval
+    plasticity_mechanism: str = "rank1_op_threshold"
+    plasticity_train_fraction: float = 0.75       # 75/25 split of n_examples into train/test
+    plasticity_delta: float = 1.0                 # per-step shift magnitude for the sign rule
+
     # Infra
     seed: int = 0
     backend: str = "mlx"            # "numpy" | "mlx"
@@ -215,6 +230,19 @@ class ChemTapeConfig:
             d.pop("selection_mode", None)
         if self.selection_top_fraction == 0.5:
             d.pop("selection_top_fraction", None)
+        # §v2.5-plasticity-1a: all plasticity fields excluded at defaults so
+        # existing sweep hashes remain addressable. When plasticity_enabled
+        # is False the fast-path is byte-identical to pre-5c Arm A.
+        if not self.plasticity_enabled:
+            d.pop("plasticity_enabled", None)
+        if self.plasticity_budget == 0:
+            d.pop("plasticity_budget", None)
+        if self.plasticity_mechanism == "rank1_op_threshold":
+            d.pop("plasticity_mechanism", None)
+        if self.plasticity_train_fraction == 0.75:
+            d.pop("plasticity_train_fraction", None)
+        if self.plasticity_delta == 1.0:
+            d.pop("plasticity_delta", None)
         blob = json.dumps(d, sort_keys=True).encode()
         return hashlib.sha1(blob).hexdigest()[:12]
 
