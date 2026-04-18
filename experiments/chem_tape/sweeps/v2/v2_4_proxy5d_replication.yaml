@@ -1,0 +1,46 @@
+sweep_name: v2_4_proxy5d_replication
+# §v2.4-proxy-5d-followup-cloud-reexpansion (v1): independent-seed
+# replication of the non-monotone R_fit dip-and-recovery observed on
+# seeds 0..19. Tests falsifiable prediction P-1 of the "non-monotone
+# single-mechanism cloud-destabilisation" tentative mechanism name
+# from the §v2.4-proxy-5a-followup-mid-bp chronicle.
+#
+# Disjoint seed block: seeds 20..39 (paired-comparable with seeds
+# 0..19 at identical bp cells).
+# bp grid focused on the dip-recovery region: {0.65, 0.70, 0.75}.
+# sf=0.01 only — drift cells (sf=0.0) not needed for replication
+# (behaviour characterised by §v2.4-proxy-5a and mid-bp sweeps).
+#
+# If dip-and-recovery replicates → P-1 discharged → promote chronicle
+# to findings-layer narrowing (principle 22: confirmatory, proxy-basin
+# FWER family grows to 4, α = 0.0125).
+# If dip-and-recovery fails to replicate → P-1 falsified → upstream
+# chronicle's non-monotone reading superseded (principle 13).
+#
+# See Plans/prereg_v2-4-proxy-5d-followup-cloud-reexpansion.md for
+# outcome grid + decision rule.
+base:
+  alphabet: v2_probe
+  task: sum_gt_10_AND_max_gt_5
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  arm: BP_TOPK
+  topk: 3
+  bond_protection_ratio: 0.5
+  safe_pop_mode: preserve
+  disable_early_termination: true
+  dump_final_population: true
+  seed_tapes: "0201121008010510100708110000000000000000000000000000000000000000"
+grid:
+  bond_protection_ratio: [0.65, 0.70, 0.75]
+  seed_fraction: [0.01]
+  seed: [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]

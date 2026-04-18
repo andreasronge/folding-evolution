@@ -388,3 +388,17 @@
   expect_outputs: [sweep_index.json]
   track: chem-tape-v2
   notes: "§v2.4-proxy-5c: selection_mode ∈ {tournament,ranking,truncation} × sf ∈ {0.0,0.01} on BP_TOPK preserve (120 runs). Prior run timed out at 78/120 under 3600s; this entry uses 10800s (ranking selection is 2-3× slower per run due to full-pop sort per parent call). Tests whether wide solver neutral network is decoder-intrinsic or tournament-selection-coupled."
+
+# §v2.4-proxy-5d-followup-cloud-reexpansion (v1) — independent-seed replication.
+# Tests falsifiable prediction P-1 of the "non-monotone single-mechanism
+# cloud-destabilisation" tentative mechanism name. Seeds 20..39 (disjoint
+# from seeds 0..19 that produced the upstream non-monotone observation).
+# 3 bp × 1 sf × 20 seeds = 60 runs, ~15 min wall at 10 workers.
+# Principle 22: confirmatory — grows proxy-basin FWER family from 3 to 4
+# (α tightens to 0.0125) if it promotes.
+- id: v2_4_proxy5d_replication
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_4_proxy5d_replication.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.4-proxy-5d v1: bp ∈ {0.65,0.70,0.75} × sf=0.01 × seeds 20..39 (60 runs, ~15 min). Confirmatory replication of non-monotone dip-recovery (P-1). Discharges P-1 if shape replicates; supersedes upstream if it doesn't (principle 13)."
