@@ -1,5 +1,14 @@
 # FWER audit — 2026-04-17
 
+> **Superseded by `Plans/fwer_audit_2026-04-18.md` (2026-04-18).** This audit
+> under-counted the F1 proxy-basin family by 2 tests — it omitted both
+> §v2.4-proxy-4c Arm A preserve and §v2.4-proxy-4c BP_TOPK consume, each of
+> which is a separate confirmatory McNemar test per the §v2.4-proxy-4c
+> chronicle's own FWER bookkeeping (line 2605 of `experiments-v2.md`). The
+> analysis below is preserved for the reasoning trail; read the 2026-04-18
+> audit for the current F1 state (size 3, α = 0.017).
+
+
 **Scope.** Chem-tape v2 track. Scanned `Plans/prereg_*.md` for QUEUED/RUNNING status, plus chronicle entries in `docs/chem-tape/experiments-v2.md` over the last 30 days whose verdict has not yet been fully discharged in `findings.md`.
 
 **Principle-22 compliance baseline:** principle 22 was added at commit `bc2936a` on 2026-04-16. Preregs dated before that commit predate the principle-22 classification requirement. Those tests have to be retroactively classified (or explicitly re-scoped as exploratory) if they are cited as gating a findings.md claim.
