@@ -417,3 +417,19 @@
   expect_outputs: [sweep_index.json]
   track: chem-tape-v2
   notes: "§v2.5-plasticity-1a: rank-1 operator-threshold plasticity on Arm A (confirmatory, gens=1500, per-tape budget matched to §v2.4-proxy-4c) + BP_TOPK (exploratory, gens=500) × budget ∈ {1,2,3,5} + frozen control + sf=0.0 drift (240 runs). Baldwin_slope CI founds plasticity-narrow-plateau FWER family at size 1 (α=0.05). 2026-04-19: bumped 14400s→21600s after prior run hit 157/240 at 14400s (plastic cells slower than prereg estimate — pure-Python plastic execution for budget=5 cells is the bottleneck). Sweep.py hash-dedup skips the 157 completed hashes; re-run covers the remaining 83."
+
+# §v2.5-plasticity-2a — Arm A sf=0.0 seed-removal probe of the §v2.5-plasticity-1a
+# INVERSE-BALDWIN diagnosis (P-1: selection-deception vs rank-1-intrinsic).
+# Prereg: Plans/prereg_v2-5-plasticity-2a.md (v4, pre-data).
+# Seeds 20..39 (disjoint from §1a's seeds 0..19). 4 plastic budget cells
+# + 1 frozen control × 20 seeds = 100 runs. Projected wall 30-60 min at
+# 10 workers per prereg §Setup; 90-min (5400s) timeout is conservative
+# headroom. One confirmatory test at budget=5: cell-level seed-bootstrap CI
+# + per-seed-majority on max_gap_at_budget_5 (FWER family
+# plasticity-inverse-baldwin-replicates, size 1, α=0.05).
+- id: v2_5_plasticity_2a
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_5_plasticity_2a.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 5400
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.5-plasticity-2a: rank-1 operator-threshold plasticity probe at sf=0.0 on Arm A (100 runs — 4 plastic budget cells ∈ {1,2,3,5} + 1 frozen control × seeds 20..39). Branching test of §1a's INVERSE-BALDWIN diagnosis (P-1 falsifier). Confirmatory statistic: cell-level seed-bootstrap CI + per-seed-majority on max_gap_at_budget_5 at budget=5 (FWER family plasticity-inverse-baldwin-replicates size 1, α=0.05). Row 3 (INVERSE-BALDWIN-REPLICATES) is the pre-committed refutation of selection-deception."

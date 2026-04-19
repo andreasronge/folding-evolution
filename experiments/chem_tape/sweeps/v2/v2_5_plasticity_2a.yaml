@@ -1,0 +1,66 @@
+sweep_name: v2_5_plasticity_2a
+# §v2.5-plasticity-2a: Arm A sf=0.0 seed-removal probe — branching test
+# of the §v2.5-plasticity-1a INVERSE-BALDWIN P-1 diagnosis
+# (selection-deception vs rank-1-intrinsic).
+#
+# Prereg: Plans/prereg_v2-5-plasticity-2a.md (v4, pre-data).
+# Diagnosis: Plans/diagnosis_v2-5-plasticity-1a_2026-04-19.md.
+# Engineering discharged: analyze_plasticity.py extensions (max_gap_at_budget_5
+# cell-bootstrap CI + seed-majority + R_fit_delta_paired_sf0 + frozen-only
+# row handling), history.npz initial_population_canonical_count scalar,
+# pytest invariant at cfg.seed_tapes="" ∧ sf=0.0 → count=0.
+#
+# Seeds 20..39 (disjoint from §1a's seeds 0..19) per principle 8
+# independent-seed-confirmation discipline.
+#
+# Cell layout (100 runs total):
+#   - 4 plastic confirmatory cells (sf=0.0, budget ∈ {1, 2, 3, 5}) × 20 seeds = 80 runs
+#   - 1 frozen control cell (sf=0.0, plasticity_enabled=False) × 20 seeds = 20 runs
+#
+# Only the budget=5 plastic cell contributes a confirmatory test
+# (cell-level seed-bootstrap CI + per-seed-majority on max_gap_at_budget_5).
+# Budgets 1, 2, 3 are exploratory effect-size for monotonicity
+# characterization. Frozen control is the paired R_fit_delta_paired_sf0
+# baseline + row-3 F-lift anchor.
+#
+# BP_TOPK is EXCLUDED per the §1a chronicle's structural R_fit ceiling
+# caveat (decoder-ceiling-lowering probe is §v2.4-proxy-5* sequel, not plasticity).
+#
+# Infrastructure-fidelity invariant (principle 23/25): every run must log
+# history.npz:initial_population_canonical_count == 0 — any nonzero count
+# flags a build_initial_population bug at sf=0.0.
+#
+# Projected wall: 30-60 min at 10 workers (prereg §Setup — conservative
+# 90-min queue timeout). Extrapolated from pop=128×gens=100 commit b1eab3c
+# benchmark; actual scaling at pop=512×gens=1500 not yet measured.
+base:
+  alphabet: v2_probe
+  task: sum_gt_10_AND_max_gt_5
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 512
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  disable_early_termination: true
+  dump_final_population: true
+  seed_fraction: 0.0
+  seed_tapes: ""
+  plasticity_mechanism: rank1_op_threshold
+  plasticity_train_fraction: 0.75
+  plasticity_delta: 1.0
+paired:
+  # --- Arm A sf=0.0 plastic cells (budgets 1, 2, 3, 5) ---
+  - {arm: A, plasticity_enabled: true,  plasticity_budget: 1}
+  - {arm: A, plasticity_enabled: true,  plasticity_budget: 2}
+  - {arm: A, plasticity_enabled: true,  plasticity_budget: 3}
+  - {arm: A, plasticity_enabled: true,  plasticity_budget: 5}
+  # --- Arm A sf=0.0 frozen control (plasticity off, budget 0) ---
+  - {arm: A, plasticity_enabled: false, plasticity_budget: 0}
+grid:
+  seed: [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
