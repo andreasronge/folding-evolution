@@ -19,6 +19,10 @@ description: |
 
 # research-rigor
 
+## Codex note
+
+In Codex, this skill is used manually. Detect the user's intent, read this file, select the matching mode, and execute that mode's steps. Do not assume automatic skill dispatch.
+
 Project-local skill that enforces `docs/methodology.md` at the three checkpoints where overreach silently accumulates:
 
 1. **Before running** — pre-registration (principles 1, 2, 2b, 4, 6, 17a, 20, 22, 22a, 25, 28b)
