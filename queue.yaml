@@ -413,7 +413,7 @@
 # flipped BLOCKED→RUNNING 2026-04-18 after research-rigor audit.
 - id: v2_5_plasticity_1a
   cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_5_plasticity_1a.yaml --output-root "$RUN_DIR" --workers 10
-  timeout_seconds: 14400
+  timeout_seconds: 21600
   expect_outputs: [sweep_index.json]
   track: chem-tape-v2
-  notes: "§v2.5-plasticity-1a: rank-1 operator-threshold plasticity on Arm A (confirmatory, gens=1500, per-tape budget matched to §v2.4-proxy-4c) + BP_TOPK (exploratory, gens=500) × budget ∈ {1,2,3,5} + frozen control + sf=0.0 drift (240 runs). Baldwin_slope CI founds plasticity-narrow-plateau FWER family at size 1 (α=0.05)."
+  notes: "§v2.5-plasticity-1a: rank-1 operator-threshold plasticity on Arm A (confirmatory, gens=1500, per-tape budget matched to §v2.4-proxy-4c) + BP_TOPK (exploratory, gens=500) × budget ∈ {1,2,3,5} + frozen control + sf=0.0 drift (240 runs). Baldwin_slope CI founds plasticity-narrow-plateau FWER family at size 1 (α=0.05). 2026-04-19: bumped 14400s→21600s after prior run hit 157/240 at 14400s (plastic cells slower than prereg estimate — pure-Python plastic execution for budget=5 cells is the bottleneck). Sweep.py hash-dedup skips the 157 completed hashes; re-run covers the remaining 83."
