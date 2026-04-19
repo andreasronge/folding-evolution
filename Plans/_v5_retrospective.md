@@ -1,10 +1,12 @@
-# Retrospective: §v2.5-plasticity-2a v1 → v6 amendment cycle
+# Retrospective: §v2.5-plasticity-2a v1 → v7 amendment cycle
 
-Scratch doc — not a methodology doc. Paired with `Plans/_v5_amendment_session_prompt.md`. Delete once lessons are folded into `docs/methodology.md` (or explicitly rejected). Written 2026-04-19 alongside the v6 amendment commit.
+Scratch doc — not a methodology doc. Paired with `Plans/_v5_amendment_session_prompt.md`. Delete once lessons are folded into `docs/methodology.md` (or explicitly rejected). Originally written 2026-04-19 alongside the v6 amendment commit; **updated same day alongside v7** to acknowledge v6's residual propagation leak and strengthen the case for principle-27b (amendment-propagation audit).
+
+**v7 update note (critical).** The original v6-era version of this retrospective characterized v6 as closing the propagation-drift failure mode. That claim was wrong: codex-v6 found v6 had itself committed two propagation errors — line 93 (hypothesis row 1 still had v5's unguarded cell-mean clause) and line 392 (checklist item 1(c) still said "≥ 15/20"). The retrospective's proposal of principle-27b (amendment-propagation audit) was aspirational in v6; v7's experience confirms the mechanism is needed because author-side discipline does not reliably catch propagation errors even when the author is actively looking for them. The following sections are preserved from the v6-era version with v7 update markers where the story changed.
 
 ## Summary
 
-Five codex adversarial-review rounds before data collection. Rough per-round finding counts:
+Six codex adversarial-review rounds before data collection. Rough per-round finding counts:
 
 | Round | P1 | P2 | Dominant failure class |
 |---|---|---|---|
@@ -13,8 +15,9 @@ Five codex adversarial-review rounds before data collection. Rough per-round fin
 | v3 → v4 | 1 new + 1 partial | 3 | Metric definition per-cell vs per-seed drift; sparse-bin guard missing; config field name wrong; row 5 inconsistent across sections |
 | v4 → v5 | 4 | 2 | Symmetric plausibility window too tight for n=20; h=0/1 blindness; missing verbatim `_seed_minority_0_05`; "supported" overclaim |
 | v5 → v6 | 3 | 1 | Denominator scaling under partial nan; SWAMPED cap not threaded through all rows; unguarded cell-mean-as-routing-classifier; soften-prose propagation gaps |
+| v6 → v7 | 2 | 1 + 1 [M] | Stale v5 row-1 hypothesis clause not updated to v6 CI-based form (propagation miss); v6 over-generalized the primary-axis 20/20 floor to classical-Baldwin axis where h=0/h=1 are modally sparse at sf=0.0; stale v5 "≥ 15/20" checklist item; [M] retrospective overstated v6's propagation-fix success |
 
-Total: **15 P1 + 13 P2 codex findings** resolved before the first row of data was collected. The prereg file grew from ~200 lines (v1) to ~420 lines (v6). Every amendment was pre-data, pre-queue-launch.
+Total (v1→v7): **17 P1 + 14 P2 + 1 [M] codex findings** resolved before the first row of data was collected. The prereg file grew from ~200 lines (v1) to ~450 lines (v7). Every amendment was pre-data, pre-queue-launch.
 
 ## What the codex findings had in common
 
@@ -108,7 +111,15 @@ Silent non-propagation to any location fails this gate. The audit is a recurring
 
 **Rationale.** v5 softened "SUPPORTED" → "remains viable" in 3 locations but missed 4 others (lines 110, 185, 193, 202). v4 and v3 had similar propagation gaps. Each amendment introduces ~10-15 locations that need synchronized update, and the author reliably misses 3-5 of them — codex catches them, and another amendment round fires.
 
-**Case.** §v2.5-plasticity-2a v1 → v6 — every amendment cycle produced propagation gaps catalogued by codex; explicit propagation audit would have reduced gap count by ~60% on inspection of the v5 codex report.
+**Case.** §v2.5-plasticity-2a v1 → v7 — every amendment cycle produced propagation gaps catalogued by codex; explicit propagation audit would have reduced gap count by ~60% on inspection of the v5 codex report. **v6 → v7 update: v6 itself committed two propagation errors even though the v6 commit message and retrospective explicitly flagged propagation drift as a failure mode.** The author-side "I looked for propagation errors" discipline is not reliable — v6 had the retrospective open while committing, and still missed line 93 (hypothesis row 1 carrying v5 clause) and line 392 (checklist carrying v5 "≥ 15/20" threshold). This is strong evidence that propagation-audit needs to be mechanized (script, not checklist) to be effective. v7 update to this retrospective promotes 27b from "aspirational" to "primary priority if any methodology extension is picked up."
+
+### Additional v7 lesson: axis-specific data-structure assumptions
+
+v6 illustrated a failure mode that is adjacent to but distinct from propagation drift: **generalizing a constraint that was right on one axis to another axis with different data properties.** The primary axis `max_gap_at_budget_5` is modally populated at sf=0.0 (h≥4 bin has 400-500 individuals per seed per §1a precedent); 20/20 non-nan floor is defensible there. The classical-Baldwin axis has different data properties — h=0/h=1 bins are modally sparse under sf=0.0 random init (§1a chronicle explicitly documents this at `docs/chem-tape/experiments-v2.md:3880`). v6 extended the primary axis's 20/20 floor to the classical-Baldwin axis by parallel-construction reasoning without auditing the data-property assumption.
+
+The lesson: when constructing a parallel-but-distinct confirmatory statistic, explicitly enumerate what is being parallelized (metric form, bootstrap spec, sparse-bin guard structure) vs what is axis-specific (occupancy expectations, sparse-nan handling, vacuous-satisfaction semantics). Parallel construction is not the same as parallel parameterization.
+
+This lesson could be captured as an extension of principle 25b (routing-critical metric occupancy/uncertainty guards) — specifically, the "minimum-N occupancy guard" must be calibrated to the modal occupancy of that specific axis, not inherited from a sibling axis's guard. v7 implemented this via the asymmetric floor design (hard 20/20 on primary; soft 5/20 on classical-Baldwin with vacuous satisfaction below).
 
 ## Meta-observation
 
@@ -120,8 +131,8 @@ Whether to build it, fold the principles into `methodology.md`, or neither, is y
 
 ## Deliverables from this retrospective
 
-- This doc (`Plans/_v5_retrospective.md`).
-- `Plans/prereg_v2-5-plasticity-2a.md` v6 amendment (addresses all codex-v5 findings).
+- This doc (`Plans/_v5_retrospective.md`), v6 version + v7 update.
+- `Plans/prereg_v2-5-plasticity-2a.md` v6 amendment (addressed codex-v5) + v7 amendment (addresses codex-v6).
 - Nothing added to `docs/methodology.md` (the four principle proposals require explicit user approval).
 - No engineering code changed.
 - No sweep YAML or queue change.
@@ -131,6 +142,6 @@ Whether to build it, fold the principles into `methodology.md`, or neither, is y
 Do you want me to:
 - **(A)** Submit a separate PR amending `docs/methodology.md` with principles 28d, 28e, 25b, 27b as described above?
 - **(B)** Leave the retrospective as a scratch doc, don't touch methodology.md, and revisit after this prereg's sweep runs (so the principles have more case-evidence behind them)?
-- **(C)** Build the prereg-linter tool described in the meta-observation section as a follow-up project?
+- **(C)** Build the prereg-linter tool described in the meta-observation section as a follow-up project? (v7 update: promoted as priority if any option is picked — see v7-era strengthening of the propagation-audit case.)
 
-Defaulting to (B) — the principles are novel, one-case precedents, and methodology.md has a high bar. This doc + the v6 commit preserve the reasoning trail for later.
+**v7 updated recommendation:** still defaulting to (B) for methodology.md amendment, but my confidence has shifted — v6's inability to self-catch propagation errors even when looking for them makes the case for (C) stronger than I first thought. If only one is picked, (C) addresses the concrete failure mode; (A) codifies the principle but doesn't prevent the next round. Author-side discipline has now failed in at least three verifiable instances (v4, v5, v6 each missed documented propagation gaps).
