@@ -74,6 +74,13 @@ def execute(cfg: ChemTapeConfig, output_root: Path) -> Path:
     if history and history[0].k_distribution is not None:
         # Shape: (n_generations_logged, n_k_values)
         npz_data["k_distribution"] = np.stack([s.k_distribution for s in history])
+    # §v2.5-plasticity-2a: gen-0 canonical-count scalar (principle 23/25
+    # infrastructure-fidelity check). At cfg.seed_tapes == "" (all sf=0.0
+    # runs) the count is 0; any nonzero value flags a build_initial_population
+    # bug. Stored as a 0-d int64 array for npz round-trip.
+    npz_data["initial_population_canonical_count"] = np.asarray(
+        result.initial_population_canonical_count, dtype=np.int64
+    )
     np.savez(run_dir / "history.npz", **npz_data)
 
     # §v2.4-proxy-4d: dump final-gen population when the flag is set.

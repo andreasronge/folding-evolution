@@ -259,3 +259,67 @@ def test_hash_changes_when_disable_early_term_on():
     a = ChemTapeConfig(alphabet="v2_probe", tape_length=32)
     b = ChemTapeConfig(alphabet="v2_probe", tape_length=32, disable_early_termination=True)
     assert a.hash() != b.hash()
+
+
+def test_initial_population_canonical_count_zero_at_sf0():
+    # §v2.5-plasticity-2a: pre-registered invariant — at cfg.seed_tapes == ""
+    # AND cfg.seed_fraction == 0.0 the gen-0 canonical-count MUST be 0.
+    # Any nonzero value flags a build_initial_population bug.
+    cfg = ChemTapeConfig(
+        task="count_r",
+        n_examples=16,
+        holdout_size=0,
+        alphabet="v2_probe",
+        tape_length=32,
+        pop_size=16,
+        generations=2,
+        backend="numpy",
+        arm="A",
+        seed=0,
+        seed_tapes="",
+        seed_fraction=0.0,
+    )
+    result = run_evolution(cfg)
+    assert result.initial_population_canonical_count == 0
+
+
+def test_initial_population_canonical_count_matches_seed_fraction():
+    # Seeded-init with seed_fraction=0.5 should produce exactly
+    # round(0.5 * pop_size) canonical individuals at gen 0. Random draws
+    # have vanishing probability of matching (22^32 per tape at alphabet
+    # v2_probe) so the count is deterministic.
+    cfg = ChemTapeConfig(
+        task="count_r",
+        n_examples=16,
+        holdout_size=0,
+        alphabet="v2_probe",
+        tape_length=32,
+        pop_size=16,
+        generations=2,
+        backend="numpy",
+        arm="A",
+        seed=0,
+        seed_tapes=CANONICAL_AND_12TOK_HEX,
+        seed_fraction=0.5,
+    )
+    result = run_evolution(cfg)
+    assert result.initial_population_canonical_count == 8
+
+
+def test_initial_population_canonical_count_sf_one():
+    cfg = ChemTapeConfig(
+        task="count_r",
+        n_examples=16,
+        holdout_size=0,
+        alphabet="v2_probe",
+        tape_length=32,
+        pop_size=16,
+        generations=2,
+        backend="numpy",
+        arm="A",
+        seed=0,
+        seed_tapes=CANONICAL_AND_12TOK_HEX,
+        seed_fraction=1.0,
+    )
+    result = run_evolution(cfg)
+    assert result.initial_population_canonical_count == 16

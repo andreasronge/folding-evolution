@@ -53,6 +53,13 @@ class EvolutionResult:
     final_train_fitness_frozen: np.ndarray | None = None
     final_train_fitness_plastic: np.ndarray | None = None
     final_has_gt: np.ndarray | None = None
+    # §v2.5-plasticity-2a: count of individuals in the generation-0
+    # population whose tape byte-for-byte matches any canonical tape parsed
+    # from cfg.seed_tapes. Emitted for every run; at cfg.seed_tapes == ""
+    # (empty default — including all sf=0.0 runs) the count is 0 because
+    # there is no canonical to compare against. Any nonzero count at sf=0.0
+    # flags an infrastructure bug in build_initial_population.
+    initial_population_canonical_count: int = 0
 
 
 def _token_max(cfg: ChemTapeConfig) -> int:
@@ -112,6 +119,25 @@ def _parse_seed_tapes(cfg: ChemTapeConfig) -> list[np.ndarray]:
             )
         out.append(arr)
     return out
+
+
+def _count_canonical_in_population(
+    population: list[np.ndarray],
+    cfg: ChemTapeConfig,
+) -> int:
+    """§v2.5-plasticity-2a: count gen-0 individuals byte-for-byte matching
+    any canonical tape parsed from cfg.seed_tapes.
+
+    Returns 0 when cfg.seed_tapes == "" (no canonical to compare against) —
+    including the sf=0.0 case the prereg's infrastructure-fidelity check
+    targets. Parses via _parse_seed_tapes so the definition of "canonical"
+    is the same as what build_initial_population seeds from.
+    """
+    seeds = _parse_seed_tapes(cfg)
+    if not seeds:
+        return 0
+    seed_bytes = {s.tobytes() for s in seeds}
+    return sum(1 for g in population if g.tobytes() in seed_bytes)
 
 
 def build_initial_population(
@@ -442,6 +468,7 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
     alternating = k_alt or task_alt
 
     population = build_initial_population(cfg, rng, cfg.pop_size)
+    canonical_count = _count_canonical_in_population(population, cfg)
     current_k_0 = cfg.current_k(0)
     current_task_0 = cfg.current_task(0)
     task_0 = tasks_by_name[current_task_0]
@@ -588,6 +615,7 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
         final_train_fitness_frozen=final_trf,
         final_train_fitness_plastic=final_trp,
         final_has_gt=final_has_gt,
+        initial_population_canonical_count=canonical_count,
     )
 
 
@@ -627,6 +655,9 @@ def _run_evolution_islands(cfg: ChemTapeConfig) -> EvolutionResult:
             for g in pop:
                 g[0] = np.uint8(header)
         islands.append(pop)
+    canonical_count = sum(
+        _count_canonical_in_population(pop, cfg) for pop in islands
+    )
 
     def _evaluate_all(islands_: list[list[np.ndarray]]):
         flat = [g for isl in islands_ for g in isl]
@@ -713,6 +744,7 @@ def _run_evolution_islands(cfg: ChemTapeConfig) -> EvolutionResult:
         final_train_fitness_frozen=final_trf,
         final_train_fitness_plastic=final_trp,
         final_has_gt=final_has_gt,
+        initial_population_canonical_count=canonical_count,
     )
 
 
