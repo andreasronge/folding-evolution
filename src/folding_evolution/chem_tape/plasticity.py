@@ -159,11 +159,14 @@ def adapt_and_evaluate_one(
     cfg: ChemTapeConfig,
     train_idx: np.ndarray,
     test_idx: np.ndarray,
+    selection_only: bool = False,
 ) -> dict:
-    """Train δ on ``train_idx`` via sign-gradient, then evaluate frozen and
-    plastic fitness on train and test partitions for a single individual.
+    """Train δ on ``train_idx`` via sign-gradient, then evaluate fitness for
+    a single individual.
 
-    Returns a dict with keys:
+    When ``selection_only=False`` (default), computes all four
+    (frozen/plastic × train/test) fitness values — used for the final-population
+    dump in evolve.py. Returned dict keys:
       * ``delta_final``: float — δ after training.
       * ``train_fitness_frozen``: fraction correct on train with δ=0.
       * ``train_fitness_plastic``: fraction correct on train with δ_trained.
@@ -173,6 +176,20 @@ def adapt_and_evaluate_one(
       * ``fitness_train_plastic``: alias of ``train_fitness_plastic``, used
         by the GA as the selection fitness (drives evolution on plastic
         semantics applied to train examples).
+
+    When ``selection_only=True``, skips the three evaluation passes the GA
+    does not consume (train_frozen, test_frozen, test_plastic) and returns
+    the minimum set required to drive selection:
+      * ``delta_final``, ``train_fitness_plastic``, ``has_gt``,
+        ``fitness_train_plastic`` only.
+
+    The selection-only path produces a ``fitness_train_plastic`` value that
+    is bit-identical to the full-eval path — no shared mutable state between
+    the four _eval calls, and δ is frozen after adaptation. Dropping the
+    three unused passes saves ~64% of per-individual VM work (the fourth
+    _eval, over 48 train examples with δ_trained, is the only one kept).
+    Inner-loop of the GA uses ``selection_only=True``; the final-population
+    dump in evolve.py uses the full path.
 
     Budget semantics
     ----------------
@@ -232,8 +249,16 @@ def adapt_and_evaluate_one(
                 correct += 1
         return correct / len(indices)
 
-    train_fit_frozen = _eval(train_idx, 0.0)
     train_fit_plastic = _eval(train_idx, delta)
+    if selection_only:
+        return {
+            "delta_final": float(delta),
+            "train_fitness_plastic": float(train_fit_plastic),
+            "has_gt": bool(has_gt),
+            "fitness_train_plastic": float(train_fit_plastic),
+        }
+
+    train_fit_frozen = _eval(train_idx, 0.0)
     test_fit_frozen = _eval(test_idx, 0.0)
     test_fit_plastic = _eval(test_idx, delta)
 
@@ -252,24 +277,54 @@ def evaluate_population_plastic(
     programs: list[list[int]],
     task: Task,
     cfg: ChemTapeConfig,
+    selection_only: bool = False,
 ) -> dict:
     """Evaluate a full population under plastic semantics.
 
-    Returns a dict of (P,)-shaped numpy arrays:
+    When ``selection_only=False`` (default; used on the final-population dump),
+    returns all six per-individual arrays:
       * ``selection_fitness``: train plastic fitness (the GA's driving signal).
       * ``delta_final``, ``train_fitness_frozen``, ``train_fitness_plastic``,
         ``test_fitness_frozen``, ``test_fitness_plastic``, ``has_gt``.
 
+    When ``selection_only=True`` (used by the GA inner loop in evaluate.py),
+    returns only the minimum arrays needed to drive selection:
+      * ``selection_fitness``, ``delta_final``, ``train_fitness_plastic``,
+        ``has_gt``.
+
+    The selection-only path skips three ``_eval`` passes per individual
+    (train_frozen, test_frozen, test_plastic) that the GA does not consume,
+    saving ~64% of per-individual VM work. Byte-identity preserved: the
+    retained train_fitness_plastic computation depends on no shared mutable
+    state with the skipped passes, so GA trajectories are unchanged.
+
     Deliberately pure-Python: the rank-1 plasticity state is per-individual
     and cannot trivially ride the Rust batched fast-path. For the §v2.5
-    probe this is acceptable; optimising to a Rust plastic kernel is future
-    work if the probe passes.
+    probe this is acceptable; porting ``adapt_and_evaluate_one`` to a Rust
+    kernel is future work if the plasticity line grows further sweeps.
     """
     P = len(programs)
     n_examples = len(task.inputs)
     train_idx, test_idx = split_train_test_indices(
         n_examples, cfg.plasticity_train_fraction
     )
+
+    if selection_only:
+        out = {
+            "selection_fitness": np.empty(P, dtype=np.float64),
+            "delta_final": np.empty(P, dtype=np.float32),
+            "train_fitness_plastic": np.empty(P, dtype=np.float32),
+            "has_gt": np.empty(P, dtype=bool),
+        }
+        for i, prog in enumerate(programs):
+            r = adapt_and_evaluate_one(
+                prog, task, cfg, train_idx, test_idx, selection_only=True
+            )
+            out["selection_fitness"][i] = r["fitness_train_plastic"]
+            out["delta_final"][i] = r["delta_final"]
+            out["train_fitness_plastic"][i] = r["train_fitness_plastic"]
+            out["has_gt"][i] = r["has_gt"]
+        return out
 
     out = {
         "selection_fitness": np.empty(P, dtype=np.float64),

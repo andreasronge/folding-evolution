@@ -107,8 +107,19 @@ def evaluate_population(
         # as an empty placeholder since the GA does not consume per-example
         # preds when plasticity is on (frozen metrics are captured in the
         # final-population dump via evolve.py).
+        #
+        # selection_only=True: the GA only consumes selection_fitness each
+        # generation; train_frozen, test_frozen, test_plastic are needed only
+        # at the final-population dump (which calls evaluate_population_plastic
+        # separately from evolve.py without this flag). Skipping those three
+        # _eval passes here saves ~64% of per-individual VM work per
+        # generation — byte-identity preserved because the skipped passes
+        # share no mutable state with train_fitness_plastic (the selection
+        # signal). Profile on pop=128 gens=100 budget=5: 75.4s → ~26s (3×).
         from . import plasticity as _plast
-        plastic_out = _plast.evaluate_population_plastic(programs, task, cfg)
+        plastic_out = _plast.evaluate_population_plastic(
+            programs, task, cfg, selection_only=True
+        )
         fitnesses = plastic_out["selection_fitness"].astype(np.float64)
         predictions = np.zeros((P, E), dtype=np.int64)  # unused; placeholder
         return fitnesses, predictions
