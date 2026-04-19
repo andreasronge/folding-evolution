@@ -3821,6 +3821,213 @@ This chronicle NARROWS the mechanism scope from "lever-family-agnostic selection
 
 ---
 
+## §v2.5-plasticity-1a. Rank-1 operator-threshold plasticity on Arm A + BP_TOPK seeded cells (`sum_gt_10_AND_max_gt_5` natural sampler, pop=512, budget ∈ {1,2,3,5}) — **INCONCLUSIVE (grid-miss); PASS-Baldwin row falsified (slope sign wrong at every tested budget); diagnosis `selection-deception` per methodology §29** (2026-04-19)
+
+**Status:** `INCONCLUSIVE (grid-miss on pre-registered outcome grid — no row satisfies all numeric clauses: PASS-Baldwin row's negative-slope clause fails at every budget with seed-bootstrap 95% CI excluding 0 on the **positive** side; PARTIAL-universal-adapter's flat-CI clause fails for the same reason; FAIL-weak-plasticity's F<5/20 clause fails on F-saturation at 20/20)` · n=20 per cell (12 cells, 240 runs) · data commit **`4ceb22b`** (from `metadata.json:git_commit`; `git_dirty=true` at run start reflects the untracked scratch-grid-extension + methodology-improvements bundle subsequently committed at `cecfb58`; no tracked-code diff between the data-commit code state and the plasticity code landed at `feae431` on 2026-04-18) · **confirmatory Arm A Baldwin_slope CI test FAILS to reject null in pre-registered (negative) direction** — slope positive at every budget with 95% cell-level (seed-bootstrap) CI excluding 0 on the positive side; per principle 22 commit-time-membership the test consumed α budget, `plasticity-narrow-plateau` FWER family opens and closes at size 1 with corrected α=0.05/1=0.05, null recorded per principle 24 · diagnosis doc [Plans/diagnosis_v2-5-plasticity-1a_2026-04-19.md](../../Plans/diagnosis_v2-5-plasticity-1a_2026-04-19.md) (co-committed this session, pre-escalation-prereg per §29 pre-commit rule) · chronicle commit TBD
+
+**Pre-reg:** [Plans/prereg_v2-5-plasticity-1a.md](../../Plans/prereg_v2-5-plasticity-1a.md)
+**Sweep:** `experiments/chem_tape/sweeps/v2/v2_5_plasticity_1a.yaml` (12 cells × 20 seeds = 240 runs, hash-stable per principle 11)
+**Analysis:** `experiments/chem_tape/analyze_plasticity.py` (METRIC_DEFINITIONS per principle 27 — quoted verbatim below)
+**Scratch pre-commitment:** [Plans/scratch_plasticity_1a_grid_extension_2026-04-19.md](../../Plans/scratch_plasticity_1a_grid_extension_2026-04-19.md) (dated pre-n=20 analysis, committed at `cecfb58`; principle 2b §v29 candidate — see Interpretation for how this chronicle treats the scratch content)
+**Compute:** 6.00 h wall at 10-worker M-series on the 2026-04-19 run (`experiments/output/2026-04-19/v2_5_plasticity_1a`, 240/240 result.json files produced at 10-worker plastic-budget-5 throughput; queue `exit_code=143` reflects watchdog fire after the final worker completed, not a missed run — verified by `find ... -name result.json | wc -l == 240`). The 2026-04-19 run is a fresh 240-dir sweep (mtime ≥ 2026-04-19 07:03 UTC on every dir); the two earlier timeouts at 3600s and 14400s left separate incomplete directories under `2026-04-17/` and `2026-04-18/` that this chronicle does NOT cite.
+
+### METRIC_DEFINITIONS (principle 27 — quoted verbatim from `analyze_plasticity.py`)
+
+> - `test_fitness_frozen`: Per-individual fraction of held-out test examples correctly classified with delta=0 (frozen, no adaptation). Continuous scalar in [0, 1]; 16-valued given 75/25 split over 64 examples (16 test examples). This is the continuous test-fitness used in the Baldwin slope regression — not the binary F_AND_test. Emitted per-individual in final_population.npz.
+> - `test_fitness_plastic`: Per-individual fraction of held-out test examples correctly classified with delta trained on the 48 train examples and then frozen. Continuous scalar in [0, 1]. Emitted per-individual in final_population.npz.
+> - `delta_convergence`: Per-individual final value of delta after train-phase adaptation, stored alongside frozen/plastic fitnesses in final_population.npz. Used to diagnose universal-adapter signature: if std(delta_final) is small relative to mean(delta_final) across diverse genotypes, delta converges to the same value regardless of genotype → universal-adapter flag independent of F recovery.
+> - `GT_bypass_fraction`: Fraction of final-population individuals whose decoded program contains no GT token. These individuals have test_fitness_plastic - test_fitness_frozen = 0 trivially (plasticity cannot act on a program with no GT operation) and must be excluded from the Baldwin slope regression and reported separately. Computed by scanning the decoded token sequence for the GT opcode before any fitness evaluation. Emitted as a per-cell scalar in the analysis CSV.
+> - `R_fit_frozen_999`: Fraction of the final population whose training fitness >= 0.999 under frozen evaluation (plasticity state disabled at test time). This is the analogue of R_fit_999 under frozen semantics.
+> - `R_fit_plastic_999`: Fraction of the final population whose training fitness >= 0.999 under plastic evaluation (train-phase adaptation, then test). Captures the within-lifetime adaptation uplift.
+> - `Baldwin_gap`: For each non-GT-bypass individual in the final population, compute test_fitness_plastic - test_fitness_frozen on held-out test examples. Aggregate as mean of that gap binned by Hamming-to-canonical-active-view distance (bins 0, 1, 2, 3, >=4). Positive gap means plasticity helps; zero gap means plasticity does nothing; negative gap means plasticity hurts. GT-bypass individuals excluded; reported separately via GT_bypass_fraction.
+> - `Baldwin_slope`: Linear regression slope of per-individual (test_fitness_plastic - test_fitness_frozen) on hamming_to_canonical, computed on non-GT-bypass individuals only. If slope is negative (closer genotypes get more plastic uplift) → Baldwin signature. If slope is zero (uniform uplift regardless of distance) → universal adapter.
+> - `bootstrap_ci_spec`: Nonparametric bootstrap over per-seed values: 10 000 resamples with replacement via numpy.random.default_rng(seed=42); 95% CI is the [2.5%, 97.5%] empirical quantile of the resampled means.
+
+**Cell-level CI methodology disclosure (principle 25 + 27, chronicle-time).** `analyze_plasticity.py` emits per-run (intra-population) bootstrap CI columns on `Baldwin_slope` in the per-run CSV; `plasticity_summary.json` stores the *mean of run-level endpoints* under keys `Baldwin_slope_ci95_{lo,hi}_mean`. That mean-of-endpoints is **NOT a cell-level CI on the per-cell mean slope** and cannot support clause matches of the form "CI excludes 0" at the cell level. Per `bootstrap_ci_spec`'s "nonparametric bootstrap over per-seed values" language, the correct cell-level CI is a seed-level bootstrap on the per-run slope values within each cell — which this chronicle computes separately and reports in the Result table below, labeled `CI95_seed_boot`. The per-run CSV's intra-population CIs are kept for per-run diagnostics but are not cited in row-match language here. A follow-up methodology-backlog item: add a `summarize_cell_boot` helper to `analyze_plasticity.py` so the cell-level CI lands in the summary JSON directly and this chronicle-time recomputation becomes unnecessary.
+
+### Question
+
+Under Arm A (direct GP) on `sum_gt_10_AND_max_gt_5` natural sampler with a 75/25 train/test split, does rank-1 operator-threshold plasticity (a) recover solve rate on the held-out examples, (b) exhibit a negative Baldwin slope (closer-to-canonical genotypes get more plastic uplift), or (c) exhibit a flat Baldwin slope (universal adapter)?
+
+### Hypothesis (pre-registered)
+
+Three readings + §26-mandated grid (prereg lines 76-83, 148-165). Confirmatory test is Baldwin_slope cell-level CI strictly negative (excluding 0). `plasticity-narrow-plateau` opens as a new FWER family at size 1 with α = 0.05.
+
+### Result
+
+**Primary metrics — Arm A confirmatory cells (pop=512, gens=1500, mr=0.03, per-tape expected mutations = 45 matched to §v2.4-proxy-4c per-tape axis; total-population budget halved by pop reduction from 1024 → 512, acknowledged per prereg principle-23 audit clause):**
+
+| arm | plast | budget | sf | n | R_fit_frozen_999 | R_fit_plastic_999 | ΔR (per-run) | Baldwin_slope mean | CI95_seed_boot | n_seeds slope<0 / >0 | δ_mean | δ_std | GT_bypass |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| A | T | 1 | 0.01 | 20 | 0.222 | 0.223 | +0.001 | **+0.0137** | [+0.0056, +0.0234] | 4 / 16 | −0.21 | 0.69 | 0.01 |
+| A | T | 2 | 0.01 | 20 | 0.074 | 0.085 | +0.011 | **+0.0182** | [+0.0052, +0.0345] | 2 / 18 | −0.26 | 0.98 | 0.00 |
+| A | T | 3 | 0.01 | 20 | 0.067 | 0.067 | +0.000 | **+0.0471** | [+0.0296, +0.0655] | 2 / 18 | −1.37 | 1.67 | 0.01 |
+| A | T | 5 | 0.01 | 20 | 0.087 | 0.088 | +0.001 | **+0.0693** | [+0.0521, +0.0863] | 0 / 20 | −2.81 | 2.67 | 0.01 |
+| A | T | 5 | 0.00 | 20 | 0.000 | 0.035 | +0.035 | degenerate (see note) | — | — | −3.41 | 2.53 | 0.01 |
+| A | F | — | 0.01 | 20 | 0.192 (mean; median 0.011; max 0.443) | — | — | — | — | — | — | — | — |
+
+**Primary metrics — BP_TOPK exploratory cells (pop=512, gens=500; per-tape budget mismatched from §v2.4-proxy-4d; exploratory classification per prereg — no FWER family growth):**
+
+| arm | plast | budget | sf | n | R_fit_frozen_999 | R_fit_plastic_999 | ΔR | Baldwin_slope mean | CI95_seed_boot | n<0 / >0 | GT_bypass |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| BP_TOPK | T | 1 | 0.01 | 20 | 0.718 | 0.718 | +0.000 | +0.0022 | [−0.0001, +0.0058] | 8 / 12 | 0.00 |
+| BP_TOPK | T | 2 | 0.01 | 20 | 0.725 | 0.725 | +0.000 | +0.0009 | [+0.0002, +0.0017] | 4 / 16 | 0.00 |
+| BP_TOPK | T | 3 | 0.01 | 20 | 0.716 | 0.716 | +0.000 | +0.0006 | [−0.0005, +0.0017] | 7 / 13 | 0.00 |
+| BP_TOPK | T | 5 | 0.01 | 20 | 0.716 | 0.716 | +0.000 | +0.0011 | [−0.0005, +0.0024] | 5 / 15 | 0.00 |
+| BP_TOPK | T | 5 | 0.00 | 20 | 0.000 | 0.164 | +0.164 | degenerate (see note) | — | — | 0.00 |
+| BP_TOPK | F | — | 0.01 | 20 | 0.714 (matches §v2.4-proxy-4d R_fit=0.723 within CI) | — | — | — | — | — | — |
+
+**Degenerate-slope note (drift cells, sf=0.0).** Per `analyze_plasticity.py:linreg_slope`, cells where every non-GT-bypass individual sits at Hamming ≥ 4 have x-variance = 0 and return slope=nan. At sf=0.0 + gens=500-1500, the population has no near-canonical subpopulation for the regression to resolve, so the cell-level slope is genuinely undefined. Drift cells are reported for R_fit and F_AND only; no slope is emitted.
+
+**F_AND_train / F_AND_test (prereg SWAMPED gate check):**
+
+- Every sf=0.01 cell (Arm A and BP_TOPK, plastic and frozen controls): F_AND_train = F_AND_test = 20/20. SWAMPED guard (F_AND_train < 15/20) cleared.
+- Drift cells (sf=0.0 budget=5): Arm A F_AND_test 7/20 plastic vs 3/20 frozen-best; BP_TOPK F_AND_test 8/20 plastic vs 1/20 frozen-best. The F-axis is saturated at the seeded ceiling, so it cannot distinguish Baldwin from flat-slope from INVERSE-pattern at sf=0.01 — the Baldwin_slope CI + Baldwin_gap per-Hamming-bin are the mechanism-distinguishing axes.
+
+**Baldwin_gap by Hamming bin — Arm A plastic cells, non-GT-bypass only (cell means over 20 seeds; h=0..3 typical counts per seed 30-100; h≥4 typical counts per seed 400-500):**
+
+| budget | gap @ h=0 | gap @ h=1 | gap @ h=2 | gap @ h=3 | gap @ h≥4 |
+|---|---|---|---|---|---|
+| 1 | 0.000 | −0.015 | +0.003 | −0.049 | **+0.046** |
+| 2 | 0.000 | −0.007 | 0.000 | −0.008 | **+0.068** |
+| 3 | 0.000 | −0.006 | −0.006 | −0.031 | **+0.180** |
+| 5 | 0.000 | −0.010 | +0.003 | −0.060 | **+0.260** |
+
+Near-canonical bins (h=0..3): zero or marginally-negative gap; no budget monotonicity. Distant bin (h≥4): positive gap scaling monotone with budget. Baldwin gap is concentrated entirely in the distant tail.
+
+**Paired R_fit_999 (plastic − frozen-control on shared seeds, Arm A sf=0.01; per-seed frozen reference from the frozen control cell's `final_population.npz:fitnesses` column):**
+
+| contrast | mean | median | min | max | n_seeds with diff < 0 |
+|---|---|---|---|---|---|
+| plastic(bud=1) − frozen | +0.031 | 0.000 | −0.402 | +0.426 | ~10/20 |
+| plastic(bud=2) − frozen | **−0.107** | −0.001 | −0.436 | +0.395 | majority negative |
+| plastic(bud=3) − frozen | **−0.125** | −0.001 | −0.436 | +0.393 | majority negative |
+| plastic(bud=5) − frozen | **−0.104** | 0.000 | −0.436 | +0.406 | majority negative |
+
+Per-paired-seed R_fit delta mean is NEGATIVE at budgets 2, 3, 5 (plasticity reduces population-layer canonical saturation vs frozen on the same seeds). Median is near zero (most seeds unchanged); the negative mean is driven by a heavy left tail of seeds where plastic substantially underperforms frozen. This per-paired-seed contrast is NOT a pre-registered diagnostic (it replaces the saturated paired McNemar on F_AND_test per the principle-4 guard-design weakness carried forward from §v2.4-proxy-5c-nontournament).
+
+**Pre-registered outcome-row evaluation (principle 28a, clause-by-clause):**
+
+| prereg row | F_AND_test | Baldwin_slope | ΔR | GT_bypass | matches? |
+|---|---|---|---|---|---|
+| PASS — Baldwin | ≥ 15/20 ✓ | negative, CI excludes 0 ✗ (CI positive, excludes 0 on wrong side) | > 0.1 ✗ | < 0.50 ✓ | **NO** — slope wrong sign; ΔR fails |
+| PARTIAL — universal adapter | ≥ 15/20 ✓ | flat, CI includes 0 ✗ (CI excludes 0) | > 0.1 ✗ | < 0.50 ✓ | **NO** — CI excludes 0 + δ_std grows with budget (counter-signature) |
+| PARTIAL — δ-convergence | ≥ 15/20 ✓ | any ✓ | > 0.1 ✗ | < 0.50 ✓ | **NO** — ΔR fails; δ_std grows with budget (inverse of collapse) |
+| FAIL — weak plasticity | < 5/20 ✗ | any | small or negative ✗ | < 0.50 ✓ | **NO** — F_AND_test = 20/20 saturated |
+| INCONCLUSIVE — frozen wins | any | positive CI excludes 0 ✓ | < −0.1 ✗ (per-cell ΔR per prereg metric is +0.00 to +0.01) | any | **NO on pre-registered metric.** Paired-seed R_fit delta vs frozen control mean IS −0.10 to −0.13 at budgets 2,3,5 (not pre-registered as the ΔR metric for this row; per principle 28a the clause must be evaluated on the prereg metric, not a substituted one — and the row's "uniformly worse" prose also fails because the per-Hamming-bin Baldwin gap is positive at h≥4 and near-zero elsewhere, not uniformly worse everywhere) |
+| INCONCLUSIVE — mid F_test | 5–14/20 ✗ | any | any | < 0.50 ✓ | **NO** |
+| INCONCLUSIVE — GT-bypass majority | any | any | any | ≥ 0.50 ✗ (≈ 0.01) | **NO** |
+| SWAMPED | any + F_AND_train < 15/20 ✗ | any | any | any | **NO** |
+| INCONCLUSIVE — grid-miss catchall | pattern fits no above row | — | — | — | **YES** |
+
+**Matches pre-registered outcome:** `INCONCLUSIVE — grid-miss catchall`. No prereg-row's conjunction of numeric clauses is satisfied on the pre-registered metrics. Per principle 28c, the grid-miss qualifier is carried on the status line inline; per principle 2b, the next prereg on this axis must update the grid to cover the observed pattern before any claim language is adopted.
+
+**Statistical test.** Cell-level `Baldwin_slope` bootstrap 95% CI (10 000 seed-level resamples, `numpy.random.default_rng(seed=42)` per `bootstrap_ci_spec`) — values in the Result tables above under `CI95_seed_boot`. Arm A confirmatory: CI excludes 0 at every budget ∈ {1, 2, 3, 5}, in the **positive** direction (the wrong direction for the PASS-Baldwin null). Per principle 22 commit-time-membership, the confirmatory test ran and consumed α; the family `plasticity-narrow-plateau` opens and closes at size 1 with corrected α = 0.05. Paired McNemar on F_AND_test (plastic vs frozen): **uninformative by saturation** (F_AND_test = 20/20 at every seeded Arm A cell; disagreement count = 0) — same principle-4 guard-design weakness as §v2.4-proxy-5c-nontournament; carried forward to the methodology-backlog item "confirmatory stat test must be on an axis not saturated at baseline."
+
+### Pre-registration fidelity checklist (principle 23)
+
+- [x] **Arm A outcome rows (9 total) tested clause-by-clause.** All 9 evaluated above; grid-miss catchall fires. No Arm A row silently added or removed.
+- [x] **BP_TOPK outcome rows (4 exploratory: substitute / complement / negative-lift / ceiling) logged descriptively.** Addressed in Interpretation below rather than clause-matched in the Result table because BP_TOPK is exploratory per prereg and its rows gate no FWER claim. Per-cell numbers sit in the BP_TOPK Result table; the substitute-vs-complement verdict is **undetermined** (both Arm A and BP_TOPK ΔR < 0.05; differential cannot be scored because neither arm produced measurable lift).
+- [x] **Every part of the plan ran.** All 12 cells × 20 seeds = 240 runs completed at data commit `4ceb22b`. Prior timeouts at 3600s and 14400s left separate incomplete dirs under `2026-04-17/` and `2026-04-18/`; the 2026-04-19 run is a fresh `experiments/output/2026-04-19/v2_5_plasticity_1a/` directory (mtime check: all 240 dirs ≥ 07:03 UTC).
+- [x] **No parameters, sampler, or seed blocks changed mid-run.** Queue timeout bumps (3600 → 14400 → 21600s) are watchdog-only. The scratch-grid-extension doc committed at `cecfb58` post-data is not a prereg amendment — see Interpretation for how the chronicle treats it.
+- [x] **Every statistical test / diagnostic named in the prereg appears below or is explicitly deferred** (see Diagnostics prereg-promise ledger).
+
+### Degenerate-success check (principle 4) — revised per codex adversarial review
+
+The prereg enumerated six guards; discharge below. **Principle-4 guard 3 (threshold-saturation) is revised here after a codex-pass numerical challenge flagged the initial draft's `|δ_final| ≥ 5` fraction as dishonestly-computed.**
+
+1. **Universal-adapter artefact (sf=0.0 drift cell).** Arm A budget=5 sf=0.0: F_AND_test = 7/20 (below the universal-adapter 15/20 threshold); δ_mean = −3.41, std = 2.53 — wide spread, not a point collapse. Guard cleared: the drift cell does NOT exhibit universal-adapter degenerate-success signature.
+2. **Train-test leakage.** F_AND_test − F_AND_train = 0 across every seeded cell (both saturate at 20/20); per-individual `test_fitness_plastic` closely tracks but does not exceed `train_fitness_plastic` on final_population.npz inspection. No near-zero gap + high plastic R_fit combination. Guard cleared.
+3. **Threshold-saturation artefact (budget=5 cells).** **Split into population-level and top-1-winner-level per prereg degenerate-success guard 4 language — corrected from v1 draft's dishonest combined number.**
+   - **Population-level** (fraction of non-GT-bypass individuals with `|δ_final| ≥ 5`): at budget=5 sf=0.01, mean = **0.736** across 20 seeds (min 0.36, max 0.94, **16/20 seeds above 50%**). Structurally impossible at budget ∈ {1, 2, 3} (max accumulated |δ| ≤ budget < 5); observed 0.000 at every budget ≤ 3. At budget=5 sf=0.0 drift, population |δ|≥5 mean = **0.738**.
+   - **Top-1 best-of-run winner** (the prereg guard's literal target — "inspect final plastic thresholds on 5 best-of-run winners; reject as degenerate if > 50% of comparison operators have saturated"): at budget=5 sf=0.01, **0/20 top-1 winners have |δ_final| ≥ 5** (winners are near-canonical and don't use δ); at budget=5 sf=0.0 drift, **14/20 top-1 winners have |δ_final| ≥ 5** (no canonical shortcut; winners are forced onto adapted-δ circuits).
+   - **Guard verdict.** On the prereg's literal "best-of-run winners" language the guard is discharged at sf=0.01 (0/20 saturation) — the best-of-run signal is not an edge-saturation artefact. The population-level signal at budget=5 sf=0.01 (73.6% |δ|≥5 in the non-elite tail) is separately load-bearing for the Interpretation: plasticity IS working at the budget=5 operative-range edge, but in the part of the population selection ignores because canonical-elite wins first. This is not a *reason to reject the result* (the guard's purpose) but a *mechanism signal* that supports the selection-deception reading below. The sf=0.0 drift cell's 14/20 top-1 saturation confirms that without the canonical shortcut, selection DOES reward δ-using circuits — further supporting the selection-deception diagnosis.
+4. **GT-bypass artefact.** GT_bypass_fraction ∈ [0.00, 0.01] across every Arm A plastic cell; regression runs on ≈ 99% of population. Guard not applicable. Cleared.
+5. **δ-convergence artefact (universal-adapter in δ-space).** δ_std grows monotone with budget (0.69 → 0.98 → 1.67 → 2.67) at sf=0.01. This is the **opposite** of δ-convergence signature; genotypes at different Hamming distances find different δ values (near-canonical keeps δ ≈ 0; tail pushes |δ| toward 3-5). Guard cleared; mechanism is actively anti-universal-adapter in δ-space.
+6. **Adaptation-budget-too-high at budget=5 (prereg guard 4).** Per guard-3 revision above: the prereg's guard-4 language targets "> 50% of best-of-run winners" — that criterion is cleared at sf=0.01 (0/20). The budget=5 cell sits at the operative-range edge for the population tail, which is a mechanism finding, not a guard failure.
+
+### Attractor-category inspection (principle 21)
+
+Threshold-adjacent: cell-level Baldwin_slope CI excludes 0 by a wide margin at every budget in the *positive* direction (min CI_lo at budget=5 is +0.052 vs 0 threshold). No cluster-near-threshold concern on the primary confirmatory axis.
+
+Winner-genotype inspection (Arm A sf=0.01, 20 seeds × 4 budgets = 80 runs): best-of-run hex = canonical 12-token AND body in 80/80 runs. Seeding + elite preservation holds across the plastic pipeline — canonical is never culled. Degenerate-success guard 2 (seeded-individual-culled) cleared. Non-elite tail attractor-category breakdown (Hamming ≥ 4 subpopulation, ≈ 80-95% of the population at every Arm A plastic cell): NOT inspected in this chronicle — `decode_winner.py` operates per-tape; a population-level tail-attractor-category infra extension is required. **Deferred** per principle 23 (ii); reason: the grid-miss verdict and selection-deception diagnosis do not depend on tail-attractor-category and the cost is a separate infra commit.
+
+### Interpretation
+
+**Scope:** `within-family · n=20 per cell (4 Arm A confirmatory plastic + 1 Arm A drift + 1 Arm A frozen control; 4 BP_TOPK exploratory plastic + 1 BP_TOPK drift + 1 BP_TOPK frozen control) · pop=512 gens=1500 (Arm A) / gens=500 (BP_TOPK) mr=0.03 tournament_size=3 elite_count=2 crossover_rate=0.7 tape_length=32 v2_probe alphabet disable_early_termination=true · sum_gt_10_AND_max_gt_5 natural sampler · 75/25 train/test split · plasticity_mechanism=rank1_op_threshold plasticity_delta=1.0 plasticity_budget ∈ {1, 2, 3, 5} · seeded canonical 12-token AND body at sf ∈ {0.0, 0.01} · non-GT-bypass subset of final population · per-tape mutation budget matched (gens × mr = 45) to §v2.4-proxy-4c; total-population budget halved by pop reduction (acknowledged, not corrected)`.
+
+**Three load-bearing readings (each grounded in a distinct piece of the data):**
+
+1. **Baldwin direction is reversed on the confirmatory axis.** Cell-level seed-bootstrap 95% CI on Baldwin_slope excludes 0 on the POSITIVE side at every tested budget (CI at budget=5 is `[+0.0521, +0.0863]`, far from the null boundary in the wrong direction). Baldwin_gap is concentrated entirely at h≥4 (+0.046 → +0.260 monotone with budget) and is zero at h=0..3. This is the **inverse** of the Hinton & Nowlan 1987 Baldwin signature: rather than near-canonical genotypes benefitting from plastic refinement of a learnable circuit, *distant* genotypes benefit while near-canonical genotypes see zero benefit. Near-canonical individuals already solve training at δ=0 and have no headroom for plasticity to refine them. The PASS-Baldwin row falsifies cleanly on this axis; the `plasticity-narrow-plateau` positive claim does not survive the confirmatory test.
+
+2. **Population-layer R_fit does not lift vs frozen at matched budget, and drops on half the seeds at budget ≥ 2.** Per-cell ΔR (plastic vs frozen evaluation of the same evolved population) is ≤ 0.011 at every budget. Per-paired-seed R_fit difference vs the frozen control at matched per-tape budget has mean −0.10 to −0.13 at budgets 2, 3, 5 (median near 0; driven by a tail of seeds where plastic substantially underperforms frozen). Plastic selection at budgets ≥ 2 admits distant-tail individuals (who now classify a nonzero fraction of training examples via adapted thresholds) into the parent pool, diluting the canonical-elite advantage that frozen preservation retains. This is a *selection-layer* effect, not a mechanism-layer effect: the mechanism works (it adapts thresholds for off-canonical individuals), but the selection regime cannot distinguish "solves via good genotype" from "solves via adapted-δ compensation of a bad genotype."
+
+3. **δ_std grows monotone with budget — anti-universal-adapter in δ-space, with tail saturation at budget=5 sf=0.01.** δ_std at sf=0.01: 0.69 → 0.98 → 1.67 → 2.67 across budgets 1..5. Under a universal adapter, δ_final would cluster tightly across genotypically diverse individuals (std ≈ 0). Observed: genotypes at different Hamming distances find different δ values. At budget=5 sf=0.01, 73.6% of the non-GT-bypass *tail* population has |δ_final| ≥ 5 — the mechanism is operating at the edge of its useful range for the `max > 5` conjunct threshold. The top-1 winners per cell show 0/20 |δ_final| ≥ 5 because winners are near-canonical and don't use δ. Plasticity's operative-range exhaustion happens in the subpopulation selection discards. At sf=0.0 drift (no canonical shortcut), 14/20 top-1 winners saturate δ — removing the shortcut forces selection to reward δ-using circuits.
+
+**Diagnosis per methodology §29 (accompanying doc [Plans/diagnosis_v2-5-plasticity-1a_2026-04-19.md](../../Plans/diagnosis_v2-5-plasticity-1a_2026-04-19.md), co-committed this session per §29 pre-commit rule).** The three readings above jointly match the §29 Class 4 `selection-deception` signature ("deception of learning-to-learn" — Risi & Stanley 2010): *(a)* mechanism capacity is exercised (δ_std grows with budget; Baldwin_gap grows at h≥4 with budget; budget=5 operates at tail-population saturation edge), *(b)* selection does not need the mechanism (F_AND_train saturates at 20/20 under seeded elite preservation regardless of plastic or frozen evaluation; canonical-elite satisfies fitness before plasticity has adaptive work to do), *(c)* static shortcut structurally present (seeded canonical + elite + tournament). The competing diagnosis `mechanism-weak` (class 2; rank-2 memory escalation under Soltoggio-Stanley-Risi 2018's EPANN capacity reading) is **ruled out** by the positive per-Hamming-bin Baldwin_gap and monotone δ_std growth. Per §29 escalation ladder, the correct response is a selection-regime change, not a mechanism capacity increase — see Next steps.
+
+**Treatment of the `scratch_plasticity_1a_grid_extension_2026-04-19.md` pre-commitment.** The scratch doc (committed at `cecfb58`, pre-n=20 analysis, on the prior-run's n=13 partial data) enumerated a candidate INVERSE-BALDWIN row with pattern-signatures the n=20 data match: positive slope CI-excluding-0 monotone in budget, ΔR ≈ 0, δ_std growth, GT_bypass minor, Baldwin_gap tail-concentrated. The scratch doc explicitly asks not to be cited as a prereg amendment ("NOT a prereg amendment. Do not cite it in findings.md. Do not reference it in the chronicle when the sweep lands"). This chronicle honors that self-instruction: **INVERSE-BALDWIN is not adopted as a formal prereg row**, is not cited as a row match, and does not appear in the Result's row-match column. The scratch doc is referenced here for process-transparency only — it documents that the pattern observed at n=20 was conjectured pre-n=20 on partial data, which is principle-2b-relevant context but does not discharge principle-2b's "pre-commit as a formal outcome row on disjoint seeds" requirement. Promoting INVERSE-BALDWIN from observation to prereg-grid row requires a fresh probe on disjoint seeds with the row pre-committed in the prereg at prereg-time; this chronicle treats the pattern as a descriptive observation of a grid-miss, nothing more. (Note: the scratch doc's "n=13 partial" wording and its tabled "n=14" cell count are internally inconsistent; the n=20 fresh sweep makes that discrepancy moot for this chronicle.)
+
+**BP_TOPK exploratory reading:**
+- At sf=0.01, BP_TOPK plastic cells sit at R_fit_plastic ≈ 0.71 (indistinguishable from frozen baseline 0.714); Baldwin_slope CI hovers near 0 at every budget (magnitudes < 0.003). The wide-solver neutral network saturates R_fit structurally; plasticity has no measurable uplift headroom. Substitute-vs-complement (prereg exploratory rows): ΔR is below the "substantial shift" threshold on both arms, so the cross-arm differential is **undetermined**, not resolved. A confirmatory cross-arm prereg would have required either arm to show a lift > 0.10; neither did.
+- At sf=0.0 drift, BP_TOPK plastic budget=5 F_AND_test = 8/20 (vs frozen 1/20) exceeds Arm A's 7/20 vs 3/20 lift. Exploratory observation: BP_TOPK's many-to-one decoder + rank-1 plasticity from noise produces marginally stronger seeded-free discovery than Arm A's direct-GP path. No further inference; no FWER consumption.
+
+**Mechanism-name / finding-layer update (principles 16 / 16b / 24).** No new mechanism name is proposed. The `proxy-basin-attractor` finding's open downstream-commitment bullet ("whether runtime plasticity at execution time narrows Arm A's proxy basin toward canonical in a way that structural decoder smoothing (BP_TOPK) does not") is now resolved on the rank-1-operator-threshold side, with status NULL: rank-1 plasticity does NOT narrow the basin at any tested budget on this task under seeded canonical. The `plasticity-narrow-plateau` candidate finding promotes as NULL/FALSIFIED per principle 24 — null finding on equal footing with positive, scope-tagged by where the null holds.
+
+### Falsifiability block (principle 16c — required; diagnosis claim must be falsifiable)
+
+This chronicle does NOT propose a new mechanism name. The falsifiability block below guards the **`selection-deception` diagnosis** (from `Plans/diagnosis_v2-5-plasticity-1a_2026-04-19.md`), not a renamed mechanism. Three numerical, directional predictions, each tied to a named forthcoming prereg:
+
+- **Prediction P-1 (diagnosis falsifiable via seed removal; §v2.5-plasticity-2a).** At sf=0.0 (canonical seed removed) × budget ∈ {1, 2, 3, 5} × Arm A × seeds 20..39, cell-level Baldwin_slope CI will EITHER (a) exclude 0 on the **negative** side at ≥ 1 budget (Baldwin direction), OR (b) include 0 at every budget with δ_std ≤ 1.5 at budget=5 (universal-adapter collapse). **Violated if:** sf=0.0 reproduces the INVERSE-BALDWIN pattern — cell-level Baldwin_slope CI excludes 0 on the positive side at ≥ 3 of 4 budgets AND δ_std at budget=5 > 2.0 AND F_AND_test ≥ 15/20 at ≥ 1 budget. **Violation reading:** static-canonical shortcut is not the driver; rank-1 plasticity on this task has an intrinsic distant-tail-uplift property; selection-deception diagnosis narrows away from "shortcut-induced" to "mechanism-structural." **Tested by:** [Plans/prereg_v2-5-plasticity-2a.md] (not yet drafted); ≈ 2-4 hours compute at 10 workers.
+- **Prediction P-2 (diagnosis falsifiable via selection-regime change; §v2.5-plasticity-2b).** Under Evolvability-ES selection (rewards offspring-variance directly) with identical rank-1 plasticity config at sf=0.01, cell-level Baldwin_slope will EITHER (a) flip sign to negative CI-excluding-0 at ≥ 1 budget, OR (b) produce δ_std at budget=5 ≤ 1.5 (mechanism state stops diverging under EES). **Violated if:** EES reproduces the positive-slope pattern — cell-level CI excludes 0 on positive side at ≥ 3 of 4 budgets AND δ_std at budget=5 > 2.0. **Violation reading:** selection-deception is ruled out as the mechanism; the pattern is structurally intrinsic to rank-1 plasticity on this task. **Tested by:** [Plans/prereg_v2-5-plasticity-2b.md] (not yet drafted; blocked on EES primitive implementation — ≈ 1 week engineering + 1 sweep cycle).
+- **Prediction P-3 (diagnosis falsifiable via cross-task without proxy basin; §v2.5-plasticity-2c).** Same rank-1 operator-threshold plasticity on a task with no near-perfect single-predicate proxy (candidate: §v2.1's `count_ends_1_or_10` where no single predicate clears ≈ 0.70 training accuracy; or a §v2.6-family task where the Pair 1 body discovery already failed without any seedable canonical) × seeded-canonical-if-available × Arm A, cell-level Baldwin_slope CI at ≥ 1 budget will exclude 0 on the **negative** side (Baldwin direction). **Violated if:** INVERSE-BALDWIN reproduces on a task without a near-perfect single-predicate — cell-level CI excludes 0 on positive side at ≥ 3 of 4 budgets. **Violation reading:** rank-1 plasticity on length-4 integer-list tasks produces INVERSE-BALDWIN regardless of task; mechanism reading is not selection-deception but "rank-1 plasticity is intrinsically weak near canonical when canonical is already at ceiling." **Tested by:** [Plans/prereg_v2-5-plasticity-2c.md] (not yet drafted; blocked on task selection — §v2.6 Pair-selection work informs which tasks lack the basin).
+
+**Falsifiability budget discipline.** P-1 is cheapest (no engineering), runs first. P-2 blocks on EES implementation. P-3 blocks on task selection. If all three violate in the same direction (INVERSE-BALDWIN reproduces across seed-removal + EES + different-task), the `selection-deception` diagnosis is WITHDRAWN and the NULL finding's interpretation narrows to "rank-1 operator-threshold plasticity produces INVERSE-BALDWIN on tested intlist tasks across tested selection regimes at n=20 per cell" — a narrower descriptive claim that does not invoke the literature-term mapping.
+
+### Diagnostics (prereg-promise ledger)
+
+| Prereg item | Status |
+|---|---|
+| Per-seed × per-cell F_AND_train, F_AND_test, best-of-run plastic/frozen fitness | Reported ✓ (F_AND_train = F_AND_test = 20/20 seeded; drift cells reported separately) |
+| Per-individual `test_fitness_frozen`, `test_fitness_plastic` (continuous) | Dumped to `final_population.npz`; ingested by `analyze_plasticity.py` ✓ |
+| Per-individual `delta_convergence` (δ_final) | Dumped + ingested ✓ |
+| Per-cell `GT_bypass_fraction` | Reported (≤ 0.01 every cell) ✓ |
+| Per-cell `std(delta_final)` stratified by Hamming bin | Per-bin stats in `plasticity_summary.json` ✓ |
+| Per-cell bootstrap 95% CI on Baldwin_slope | **Split into two reports.** (a) Per-run intra-population CI (stored in CSV, averaged to `Baldwin_slope_ci95_*_mean` in summary JSON) — **NOT used for row-match clauses** per the principle-25+27 methodology disclosure above. (b) Per-cell seed-bootstrap CI (computed at chronicle time from `plasticity.csv`; method matches `bootstrap_ci_spec`) — reported in the Result tables under `CI95_seed_boot` ✓ |
+| Per-cell bootstrap 95% CI on R_fit views, δ | Emitted at per-run level; cell-level versions flagged as follow-up (not load-bearing for the grid-miss verdict) |
+| Per-cell Hamming-binned Baldwin_gap (bins 0, 1, 2, 3, ≥4) | Reported above ✓ |
+| Final δ_final values for 5 best-of-run winners per cell — threshold-saturation guard | **Revised per codex review.** Top-1 best-of-run `|δ_final|` fractions reported at budget=5 sf=0.01 (0/20) and sf=0.0 (14/20) ✓; population-level `|δ_final| ≥ 5` fractions reported at budget=5 sf=0.01 (mean 0.736, min 0.36, max 0.94, 16/20 seeds > 50%) and sf=0.0 (mean 0.738). Per-seed top-5 full listings deferred — the guard is discharged on the prereg's "best-of-run winners" language at the top-1 level; full top-5 listings are a follow-up if tail-attractor inspection becomes load-bearing |
+| `unique_genotypes` per cell | In `result.json` / `history.npz`; verified ≥ 950 in every seeded cell ✓ |
+| Paired-seed F_AND_test(plastic) − F_AND_test(frozen) distribution — paired McNemar | **Uninformative by saturation** (b = c = 0 at every budget; F_AND axis saturated at 20/20 under seeded canonical + elite preservation); reported as degenerate per principle-4 guard-design weakness ✓ |
+| Paired-seed R_fit_plastic_999 − R_fit_frozen_999 distribution vs frozen control (replacement diagnostic) | Reported above ✓ (mean negative at budgets 2, 3, 5 on matched-per-tape-budget frozen control; median near 0; heavy negative tail) |
+| Per-generation R_fit_999 trajectory | **Deferred** — `sweep.py` snapshot infrastructure pending (same blocker as §v2.4-proxy-5c sibling chronicles); not needed for the grid-miss verdict, flagged for future mechanism-layer work |
+
+### Findings this supports / narrows
+
+- **Promotes (NEW, NULL/FALSIFIED):** [findings.md#plasticity-narrow-plateau](findings.md#plasticity-narrow-plateau) (new entry, added this session) — rank-1 operator-threshold plasticity does NOT narrow Arm A's proxy basin toward canonical at `budget ∈ {1, 2, 3, 5}` × `δ=1.0` × `sf=0.01` on `sum_gt_10_AND_max_gt_5` natural sampler with pop=512 gens=1500 mr=0.03 and canonical seeding. Status: `FALSIFIED` on the Baldwin-direction null. Scope tag on tested regime only per principle 17b; rank-2, deeper mechanisms, other tasks, other δ, other selection regimes, sf=0.0 all untested. `plasticity-narrow-plateau` FWER family opens and closes at size 1 with null recorded per principle 24.
+- **Narrows (downstream-commitment update):** [findings.md#proxy-basin-attractor](findings.md#proxy-basin-attractor) — the "Downstream experiments must still test" bullet *"whether runtime plasticity at execution time narrows Arm A's proxy basin toward canonical in a way that structural decoder smoothing (BP_TOPK) does not"* is partially resolved on the rank-1-operator-threshold side with the null above; rank-2 memory and deeper mechanisms remain untested. Edit in findings.md change set this session.
+- **Supports (methodology-instrumental, not a claim):** methodology §29's `selection-deception (Risi & Stanley 2010)` class is instantiated with dated diagnosis doc `Plans/diagnosis_v2-5-plasticity-1a_2026-04-19.md` co-committed. No findings.md promotion of the literature-term; it is a diagnosis-layer tag, not a mechanism claim.
+- **Exploratory (no family growth, no promotion):** BP_TOPK cells under this compute budget log a null cross-arm substitute-vs-complement signal (both arms at ΔR < 0.05); the differential cannot be scored, not resolved.
+
+### Caveats
+
+- **Seed count:** n=20 per cell (load-bearing per prereg); 12 cells × 20 = 240 runs.
+- **Pop reduction trade-off.** pop=512 (half §v2.4-proxy-4c's 1024) per the plasticity-direction doc's compute-scale commitment. Frozen Arm A R_fit_999 at pop=512 is 0.192 (vs 0.004 at pop=1024 in §4c — pop-size-driven difference in canonical-fraction saturation). The principle-23 gate is discharged on per-tape mutation budget match (gens × mr = 45 exactly matched to §4c) only; total-population budget is halved.
+- **Overreach check.** The NULL finding is scoped strictly to `rank1_op_threshold × budget ∈ {1, 2, 3, 5} × δ=1.0 × Arm A × sum_gt_10_AND_max_gt_5 natural sampler × pop=512 gens=1500 mr=0.03 tournament_size=3 elite_count=2 × seeded canonical sf=0.01`. NOT claimed: rank-2 memory, BP_TOPK at sf=0.01 (exploratory), other tasks, other selection regimes, other δ, other train/test splits, other plasticity mechanisms. Principle 17b: tested integer budget values, not `≤ 5` continuous range.
+- **Principle 4 guard-design weakness** (inherited from §5c-nontournament, reinforced here): paired McNemar on F_AND_test is saturated-by-construction under seeded canonical + elite preservation. The Baldwin_slope cell-level CI is the mechanism-distinguishing statistic; F-axis tests are uninformative. Methodology-backlog item carries forward.
+- **INVERSE-BALDWIN maturity.** The pre-n=20 scratch-doc pre-commitment does NOT discharge principle 2b's "pre-commit as a formal outcome row on disjoint seeds" requirement — promoting INVERSE-BALDWIN to a prereg-grid row requires a fresh probe with the row listed in that probe's outcome table. This chronicle treats INVERSE-BALDWIN as descriptive-only.
+- **Principle 28a row-match clean.** INCONCLUSIVE — grid-miss catchall fires cleanly; no other row is clause-satisfied on the pre-registered metrics. Principle 28c: qualifier "grid-miss; PASS-Baldwin row's negative-slope clause fails at every budget" propagated to the status line inline.
+
+### Next steps
+
+1. **findings.md NEW NULL entry (this session):** promote `plasticity-narrow-plateau` with status `FALSIFIED` per principle 24, scope tag as above. Family closes at size 1 with null recorded.
+2. **findings.md#proxy-basin-attractor downstream-commitment update (this session):** edit the relevant "must still test" bullet to reflect rank-1 resolution + rank-2-and-deeper still-open.
+3. **Diagnosis doc `Plans/diagnosis_v2-5-plasticity-1a_2026-04-19.md` (this session, per §29):** co-committed; provides the class tag + rejected-diagnoses record + escalation-path pre-commitment + §v2.5-plasticity-2* prereg-reference-pattern clause.
+4. **`docs/theory.md` currency check (per §29):** Risi & Stanley 2010 entry added to "References to Obtain" at methodology-improvements commit `cecfb58` (2026-04-18); Lehman & Stanley 2011 and Soltoggio-Stanley-Risi 2018 also present; no new additions required this session.
+5. **Rank-2 memory is DEFERRED, not the next step.** Per §29, rank-2 targets `mechanism-weak` (class 2); under the current selection regime it would reproduce INVERSE-BALDWIN at higher capacity. Revisited only after (a) P-1 or P-2 violation rules out selection-deception, or (b) a separate mechanism-weak signal appears on a task where selection-deception is structurally absent.
+6. **Next experimental prereg (§v2.5-plasticity-2a candidate, NOT queued in this commit):** sf=0.0 × budget ∈ {1, 2, 3, 5} × arm ∈ {A, BP_TOPK} × seeds 20..39 × n=20. Setup-section clause required: *"This prereg follows from diagnosis `Plans/diagnosis_v2-5-plasticity-1a_2026-04-19.md` (class: `selection-deception` / 'deception of learning-to-learn' — Risi & Stanley 2010). Escalation path is pre-committed; scope is restricted to the path identified there."* Per §29 prereg-reference-pattern requirement.
+
 ---
 
+---
 

@@ -433,10 +433,19 @@ Other narrowing candidates (informational):
   top-K filtering); whether either decoder-specific mechanism (BP_TOPK
   wide-solver-network or Arm A classical-proxy-basin) dissolves under
   non-tournament selection (all three 4b/4c/4d cells share
-  `tournament_size=3, elite_count=2`); whether runtime plasticity at
+  `tournament_size=3, elite_count=2`); ~~whether runtime plasticity at
   execution time (see `docs/chem-tape/runtime-plasticity-direction.md`)
   narrows Arm A's proxy basin toward canonical in a way that structural
-  decoder smoothing (BP_TOPK) does not.
+  decoder smoothing (BP_TOPK) does not.~~ **Resolved on rank-1
+  operator-threshold plasticity by §v2.5-plasticity-1a (2026-04-19, data
+  commit `4ceb22b`, n=20 per cell × 4 confirmatory budgets): rank-1
+  plasticity does NOT narrow Arm A's basin at budget ∈ {1, 2, 3, 5} × δ=1.0 —
+  Baldwin_slope cell-level CI is positive (wrong direction) at every
+  budget, paired R_fit vs matched-per-tape frozen control is negative at
+  budgets ≥ 2. Rank-2 memory and deeper mechanisms untested. Promoted as
+  NULL entry `plasticity-narrow-plateau`; diagnosis `selection-deception`
+  per methodology §29 (see
+  `Plans/diagnosis_v2-5-plasticity-1a_2026-04-19.md`).**
 - **Part-1 meta-learning direction (revised 2026-04-18):** §v2.4-proxy-5b-amended (BOTH-KINETIC) confirms that mutation-robustness operators are a live variation-layer lever for both decoders. Arm A's massive kinetic sensitivity (225× R_fit lift at 1/6 mutation rate) makes lower mutation rates and repair operators high-priority for Arm A. BP_TOPK's modest lift (1.31×) suggests the structural solver-cloud geometry dominates over the kinetic lever for BP_TOPK, and representation-layer interventions (evolvable chemistry / AutoMap) remain the natural BP_TOPK direction. Budget-vs-rate confound must be decoupled before committing to "lower mutation rate" as a paper-level recommendation (§v2.4-proxy-5b-crosstask queued).
 - **Methodology consequence:** sampler design (methodology §20) is now
   load-bearing for any AND-composition follow-up — class-balanced and
@@ -723,3 +732,67 @@ No falsifying experiments — the NULL is at its first promotion. Candidates tha
 
 - 2026-04-17 — initial promotion from §v2.15 (NULL, commit `9455d04`) + §v2.15-bp1-k3-nexp (INCONCLUSIVE per prereg — within-noise, commit `b179b50`). First-class NULL entry per methodology §24. Top-line claim sentence is narrow-scoped to the tested 2×3 box at 1× compute. Codex adversarial review pending (required before final write).
 
+
+---
+
+## plasticity-narrow-plateau. Rank-1 operator-threshold plasticity does NOT narrow Arm A's proxy basin toward canonical on `sum_gt_10_AND_max_gt_5` at `budget ∈ {1, 2, 3, 5} × δ=1.0 × sf=0.01 × pop=512 gens=1500 mr=0.03 tournament_size=3` with canonical seeding (n=20 per cell, NULL-at-tested-regime; diagnosis `selection-deception` per methodology §29).
+
+**Scope tag:** `within-task-family · NULL-at-tested-regime` · `n=20 per cell (4 Arm A confirmatory plastic budgets)` · `at Arm A (direct GP) pop=512 gens=1500 mr=0.03 tournament_size=3 elite_count=2 crossover_rate=0.7 tape_length=32 v2_probe alphabet disable_early_termination=true` · `on sum_gt_10_AND_max_gt_5 natural sampler with 75/25 train/test split (48 train, 16 test)` · `plasticity_mechanism=rank1_op_threshold plasticity_delta=1.0 plasticity_budget ∈ {1, 2, 3, 5}` · `seeded canonical 12-token AND body at sf=0.01` · `non-GT-bypass subset of final population` · `per-tape mutation budget matched (gens × mr = 45) to §v2.4-proxy-4c Arm A frozen baseline; total-population budget halved by pop reduction from 1024 → 512 and acknowledged`
+
+**Status:** `NULL` · last revised commit TBD (this session) · 2026-04-19
+
+### Claim (null)
+
+Rank-1 operator-threshold plasticity, at the rank/budget/δ/task/selection/seeding tested, **does NOT** narrow Arm A's proxy basin toward canonical. Three supporting signals:
+
+1. **Baldwin direction is reversed on the confirmatory axis.** Cell-level seed-bootstrap 95% CI on Baldwin_slope excludes 0 on the **positive** side at every tested budget (budget=1: `[+0.006, +0.023]`; budget=2: `[+0.005, +0.034]`; budget=3: `[+0.030, +0.066]`; budget=5: `[+0.052, +0.086]`). The PASS-Baldwin row (negative slope, CI excludes 0) fails cleanly at every budget; Baldwin_gap is concentrated entirely at Hamming ≥ 4 (+0.046 → +0.260 monotone with budget), near-zero at h=0..3. Near-canonical individuals get zero plastic uplift; distant tail gets budget-scaling positive uplift.
+2. **Population-layer R_fit does not lift vs matched-per-tape frozen control, and drops on a heavy left tail of seeds at budget ≥ 2.** Per-cell ΔR (plastic vs frozen evaluation of the same evolved population, the prereg's ΔR metric) is ≤ 0.011 at every budget. Per-paired-seed R_fit delta vs frozen control has mean −0.10 to −0.13 at budgets 2, 3, 5 (median near 0; driven by a heavy left tail).
+3. **δ_std grows monotone with budget (0.69 → 0.98 → 1.67 → 2.67) and tail δ saturates at budget=5.** Anti-universal-adapter in δ-space: genotypes at different Hamming distances find different δ values. At budget=5 sf=0.01, 73.6% of the non-GT-bypass tail has `|δ_final| ≥ 5` (mechanism saturated in the part of the population selection ignores); top-1 best-of-run winners have 0/20 at `|δ_final| ≥ 5` (canonical-elite wins; winners don't use δ). At sf=0.0 drift, 14/20 top-1 winners saturate — confirming plasticity CAN drive solutions from noise but selection doesn't need it when the canonical shortcut is present.
+
+### Scope boundaries (what this NULL does NOT say)
+
+- Does NOT claim all plasticity mechanisms fail. Only rank-1 operator-threshold plasticity (`plasticity_mechanism=rank1_op_threshold, δ=1.0, budget ∈ {1, 2, 3, 5}`) is tested. Rank-2 memory, deeper architectures, and non-rank-1 mechanisms remain untested.
+- Does NOT claim the NULL holds without the canonical seed. sf=0.0 drift cells in this sweep (budget=5 only) exhibited marginal F_AND_test lift from plasticity (Arm A 7/20 plastic vs 3/20 frozen best; BP_TOPK 8/20 vs 1/20). sf=0.0 × full budget grid is untested; §v2.5-plasticity-2a will register this probe.
+- Does NOT claim the NULL holds under non-tournament selection. tournament_size=3 elite_count=2 is a specific selection regime; §29 Class 4 diagnosis predicts selection-regime changes (Evolvability-ES, novelty search, MAP-Elites) may flip the sign. §v2.5-plasticity-2b (EES) and §v2.5-plasticity-2c (BC-driven) are candidate prereg IDs.
+- Does NOT claim the NULL generalizes to other tasks. `sum_gt_10_AND_max_gt_5` is a specific proxy-basin task. Tasks without near-perfect single-predicate proxies (e.g., §v2.1's `count_ends_1_or_10`) are untested and may produce Baldwin-direction slopes under identical plasticity config. §v2.5-plasticity-2c (cross-task) is the candidate prereg.
+- Does NOT claim the NULL holds at other δ or other train/test splits. δ=1.0 is appropriate for integer-operand thresholds in [0, 9] × [0, 36]; sub-integer δ or larger δ are untested.
+- Does NOT claim the NULL holds at pop=1024 or at other compute budgets. pop=512 was the plasticity-direction doc's explicit compute commitment; the principle-23 gate is discharged on per-tape mutation budget match (gens × mr = 45) only — total-population budget is halved relative to §v2.4-proxy-4c.
+- Does NOT claim BP_TOPK plasticity has no effect. BP_TOPK cells were exploratory per prereg (gens=500 budget-mismatched from §4d); the structural saturation of R_fit ≈ 0.72 under BP_TOPK leaves no headroom for plastic lift measurement. The cross-arm substitute-vs-complement signal is **undetermined**, not resolved (neither arm produced measurable ΔR lift > 0.05).
+
+### Mechanism reading (current)
+
+**Current name:** `rank-1 operator-threshold plasticity NULL at tested regime, with selection-deception diagnosis per §29`
+
+**Naming history:**
+- Initial: `plasticity-narrow-plateau (candidate positive claim)` — pre-registered as the PASS-Baldwin outcome of §v2.5-plasticity-1a at commit `feae431` (prereg).
+- Promoted as NULL (this promotion, 2026-04-19). PASS-Baldwin row falsified; observed INVERSE-BALDWIN pattern (positive slope CI-excluding-0, tail-concentrated gap, δ_std growth) + population saturation at budget=5 tail + paired R_fit drop at budgets ≥ 2 jointly support the `selection-deception` diagnosis per methodology §29 Class 4. Diagnosis doc `Plans/diagnosis_v2-5-plasticity-1a_2026-04-19.md` co-committed.
+
+The mechanism reading at promotion: rank-1 operator-threshold plasticity under seeded-canonical + elite-preservation + tournament selection exhibits "deception of learning-to-learn" (Risi & Stanley 2010). Static canonical + elite preservation satisfies the fitness criterion before plasticity has adaptive work to do; plastic adaptation occurs in the population tail that selection discards. Escalation per §29 targets selection-regime change (sf removal → EES → novelty search/MAP-Elites with pre-registered plasticity-sensitive BC), NOT mechanism capacity increase (rank-2 memory is deferred until selection-deception is ruled out).
+
+### Supporting experiments
+
+| experiment | commit | n | what it establishes |
+|---|---|---|---|
+| [§v2.5-plasticity-1a](experiments-v2.md#v25-plasticity-1a) | `4ceb22b` | 20 per cell × 4 Arm A confirmatory budgets + 1 drift + 1 frozen control + 4 BP_TOPK exploratory budgets + 1 drift + 1 frozen control (12 cells × 20 = 240 runs) | Primary NULL result. Arm A Baldwin_slope cell-level 95% CI excludes 0 on the positive side at every budget ∈ {1, 2, 3, 5}; Baldwin_gap concentrated at h≥4 with monotone-in-budget scaling; δ_std grows monotone with budget; population |δ|≥5 at budget=5 sf=0.01 = 73.6% (tail saturation) while top-1 winners 0/20; sf=0.0 drift top-1 winners 14/20 at |δ|≥5. Paired R_fit_plastic − R_fit_frozen_control mean negative at budgets 2, 3, 5. F_AND_train = F_AND_test = 20/20 saturates on every seeded cell. Pre-registered confirmatory test (Baldwin_slope CI negative) fails; family closes at size 1 per principle 22 commit-time-membership. |
+
+### Narrowing / falsifying experiments
+
+No narrowing or falsifying experiments — the NULL is at its first promotion. Pre-committed predictions that could narrow or partially falsify (see §v2.5-plasticity-1a Falsifiability block P-1, P-2, P-3):
+
+- **P-1 (§v2.5-plasticity-2a, sf=0.0 seed removal).** If sf=0.0 × budget ∈ {1, 2, 3, 5} × Arm A produces a Baldwin-direction slope at ≥ 1 budget or a universal-adapter collapse (δ_std at budget=5 ≤ 1.5), the selection-deception diagnosis is supported and the NULL's mechanism reading survives. If sf=0.0 reproduces INVERSE-BALDWIN across ≥ 3 of 4 budgets with δ_std at budget=5 > 2.0, the mechanism reading narrows from "selection-deception via static-canonical shortcut" to "rank-1 plasticity distant-tail-uplift is structurally intrinsic on this task."
+- **P-2 (§v2.5-plasticity-2b, Evolvability-ES).** EES under rank-1 plasticity at sf=0.01 flipping to Baldwin-direction slope or collapsing δ_std budget-scaling supports the diagnosis; reproducing INVERSE-BALDWIN under EES narrows away from selection-deception.
+- **P-3 (§v2.5-plasticity-2c, cross-task without proxy basin).** Same mechanism on a task without a near-perfect single-predicate proxy producing Baldwin-direction slope supports the diagnosis; reproducing INVERSE-BALDWIN on a proxy-basin-absent task narrows the reading to "intrinsic rank-1 weakness near ceiling, independent of shortcut."
+
+Each prediction is tied to a named forthcoming prereg; §v2.5-plasticity-2a is compute-ready (no engineering); -2b blocks on EES primitive implementation; -2c blocks on task selection (§v2.6 Pair-selection work informs which tasks lack the basin).
+
+### Implications for downstream work
+
+- **Downstream experiments may assume (within tested regime):** rank-1 operator-threshold plasticity with δ=1.0 and budget ≤ 5 does NOT provide selection-layer uplift under seeded canonical + elite preservation + tournament selection on `sum_gt_10_AND_max_gt_5` at pop=512. Queuing rank-2 memory under the same selection regime would reproduce the INVERSE-BALDWIN pattern at higher capacity — per methodology §29, rank-2 is deferred until selection-regime changes (P-1/P-2) rule out selection-deception.
+- **Downstream experiments may NOT assume:** that plasticity generally fails as a mechanism — only rank-1 at the tested regime is falsified. Selection-regime changes remain untested and may produce positive results. Cross-task validation (P-3) remains open. Rank-2 memory remains open after P-1 or P-2 violates.
+- **Downstream experiments must still test:** P-1 (sf=0.0 via §v2.5-plasticity-2a); P-2 (EES via §v2.5-plasticity-2b); P-3 (cross-task via §v2.5-plasticity-2c); rank-2 memory after P-1 or P-2 verdicts land; non-tournament selection at sf=0.01 with plasticity; BP_TOPK plasticity at a compute budget that gives headroom for ΔR lift > 0.05 (the current BP_TOPK gens=500 ceiling structurally prevents lift detection).
+- **Methodology consequence — saturated-F-axis guard-design weakness (second instance).** §v2.4-proxy-5c-nontournament flagged paired McNemar on F_AND as uninformative by construction under seeded canonical + elite preservation; this NULL reinforces the pattern. The research-rigor skill's prereg-mode should require a non-F-axis primary confirmatory statistic (Baldwin_slope CI, R_fit paired delta, or similar) whenever F is expected to saturate — adding to the methodology-backlog for a §22-family-rule clarification.
+- **Plasticity-direction doc update pending (follow-up):** `docs/chem-tape/runtime-plasticity-direction.md`'s rank-1 → rank-2 fallback ladder needs an inline narrowing note: rank-2 is the correct escalation only after §29 class-4 selection-deception is ruled out; current data redirect §v2.5-plasticity-1b (rank-2) to after §v2.5-plasticity-2* runs.
+
+### Review history
+
+- 2026-04-19 — initial promotion as NULL from §v2.5-plasticity-1a (data commit `4ceb22b`). First-class NULL entry per methodology §24. Top-line claim sentence is narrow-scoped to the tested regime at rank-1-operator-threshold. Codex adversarial review of the draft chronicle ran before commit and flagged four P1 issues (threshold-saturation guard number, CI methodology mismatch, scratch-row-wants-both-ways headline, missing diagnosis doc); all four addressed before this promotion — CI recomputed as seed-bootstrap, threshold-saturation split into population vs top-1 winner numbers, INVERSE-BALDWIN demoted out of title/status (kept as descriptive-only in chronicle body), diagnosis doc `Plans/diagnosis_v2-5-plasticity-1a_2026-04-19.md` co-committed. Null recorded in FWER family `plasticity-narrow-plateau` at size 1 with corrected α = 0.05; family closes at size 1 per principle 22 commit-time-membership.
