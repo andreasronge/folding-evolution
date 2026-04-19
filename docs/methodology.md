@@ -303,6 +303,26 @@ If a future experiment contributes a new lesson worth adding, update this docume
 
 > See [Plans/methodology_improvements_2026-04-18.md](../Plans/methodology_improvements_2026-04-18.md) for the drafting rationale and case studies behind this principle.
 
+### 29. Diagnose the failure class before designing the escalation
+
+When a confirmatory experiment returns FAIL or `INCONCLUSIVE — grid-miss`, the next-step design depends on **which failure class** it is. Escalating the wrong class wastes compute.
+
+Four classes, each with a canonical literature-term pairing:
+
+| class | project-term | literature-term | signature | escalation |
+|-------|--------------|-----------------|-----------|------------|
+| 1 | `measurement-artifact` | (none — methodology-local) | infrastructure gate (§25) fails: F_train below ceiling on seeded cells OR frozen-control anchor diverges from baseline | fix the code, do not redesign the experiment |
+| 2 | `mechanism-weak` | "capacity-insufficient" plasticity regime (Soltoggio-Stanley-Risi 2018 EPANN review) | mechanism capacity *not* exercised (latent state flat across budget; tail cells show no adaptation) | escalate capacity (rank-2 memory, deeper mechanism) |
+| 3 | `grid-miss` | (none — methodology-local, §2b) | observed pattern fits no pre-registered row | update grid *pre-commit* (§2b), then re-interpret |
+| 4 | `selection-deception` | "deception of learning-to-learn" (Risi & Stanley 2010); "objective deception" (Lehman & Stanley 2011, novelty-search lineage) | mechanism capacity *is* exercised, but selection doesn't need it (F_train at ceiling on seeded cells; static shortcut satisfies fitness) | change **selection regime**, not mechanism — Evolvability ES → novelty search / MAP-Elites with pre-registered BC → or strip the static shortcut (drop seed, add regime shift) |
+
+**Pre-commit rule (extension of §2b).** The diagnosis tag must be dated and written *before* any escalation prereg is drafted. Retrofitting the diagnosis to whichever escalation path is cheapest is disallowed. Invoke the research-rigor `diagnose` mode to produce the dated diagnosis doc at `Plans/diagnosis_<§X>_<date>.md`.
+
+**Terminology discipline.** Chronicle entries and escalation preregs must use the project-term / literature-term pair above (e.g., `selection-deception (Risi & Stanley 2010)`), not ad-hoc synonyms. If a diagnosis invokes a literature concept not yet cited in `docs/theory.md`, add the reference to "References to Obtain" (or the relevant Related Work subsection if the PDF is already read) *before* closing the diagnosis. This keeps the project's theoretical grounding moving in lockstep with its empirical findings.
+
+**Prereg reference pattern.** Any escalation prereg must include, in its Setup section:
+> *This prereg follows from diagnosis `Plans/diagnosis_<§X>_<date>.md` (class: `<project-term>` / `<literature-term>`). Escalation path is pre-committed; scope is restricted to the path identified there.*
+
 ---
 
 ## References

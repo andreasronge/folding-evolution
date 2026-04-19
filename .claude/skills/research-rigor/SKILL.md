@@ -12,7 +12,9 @@ description: |
   "write up the result", "record this sweep", "log to experiments.md",
   "promote to findings", "promote this null", "record a negative finding",
   "scope check", "review my claim language", "narrow this", "supersede §X",
-  "retract §X", or "family-wise correction / FWER audit".
+  "retract §X", "family-wise correction / FWER audit", or "diagnose §X" /
+  "escalation check" / "what's next after FAIL" / "pivot / grid-miss
+  follow-up".
 ---
 
 # research-rigor
@@ -39,6 +41,7 @@ The skill triggers on intent, not a literal command. Match the user's phrasing t
 | "scope check", "review this claim", "is this overreaching", "check my language" | **scope-check** |
 | "supersede §X", "retract §X", "narrow §X based on §Y" | **supersession** |
 | "FWER audit", "family-wise correction", "how many tests are open" | **fwer-audit** |
+| "what's next after §X FAIL", "should we try rank-2 / escalate", "diagnosis check", "pivot", "§X grid-miss, now what", "escalation check" | **diagnose** |
 
 If the user's intent is ambiguous between modes, ask which one — do not guess.
 
@@ -216,11 +219,62 @@ If the user's intent is ambiguous between modes, ask which one — do not guess.
 
 ---
 
+## Mode: diagnose
+
+**Goal:** classify an ambiguous experiment outcome (FAIL / `INCONCLUSIVE — grid-miss` / surprising partial) into one of four diagnosis classes *before* any escalation prereg is drafted. Produces a dated diagnosis doc that any subsequent escalation prereg must reference.
+
+**Invokes principle 29** (diagnose-before-escalate). Extends principle 2b's pre-commitment discipline from outcome-grid rows to failure-class tags.
+
+**When to invoke:** user says "what's next after §X FAIL", "should we try rank-2 / escalate", "diagnosis check", "pivot", "§X grid-miss, now what", or "escalation check."
+
+**Do NOT invoke for:** clean PASS (use `promote-finding`), clean FAIL that fits a pre-registered row with escalation already specified in the prereg's decision rule (the decision rule is authoritative), or pre-registered null results (use `promote-finding` → null branch per §24).
+
+**Steps:**
+
+1. **Read `docs/methodology.md` §25, §2b, §29** to refresh the binding principles, and `docs/theory.md` "References to Obtain" plus the Baldwin / EPANN / QD subsections to confirm the literature-term mapping.
+2. **Identify the experiment and its pre-registered outcome rows.** Read `Plans/prereg_<§X>.md`. Confirm the observed result does not fit any PASS or explicitly-enumerated FAIL row.
+3. **Step 1 — infrastructure gate (measurement-artifact check).** Run through principle 25 sanity checks for this experiment family:
+   - Does `F_AND_train` (or the equivalent seeded-cell saturation metric) hit ceiling on seeded cells?
+   - Does the frozen-control anchor reproduce the §X-prior baseline within the documented CI?
+   - Do the METRIC_DEFINITIONS cited in the prereg match the code verbatim?
+   - If any check fails → **diagnosis = `measurement-artifact`**. Output: fix infrastructure; do NOT redesign the experiment. STOP the mode; no escalation prereg yet.
+4. **Step 2 — mechanism-capacity check.**
+   - Is the mechanism's capacity being exercised? (e.g., latent state spread widens with adaptation budget; tail cells show measurable latent activity; per-individual mechanism state differs across genotypically-diverse individuals.)
+   - If NO → **diagnosis = `mechanism-weak`** (literature: capacity-insufficient plasticity, Soltoggio-Stanley-Risi 2018 review, §theory.md References-to-Obtain). Output: escalate capacity per the mechanism ladder (rank-2 memory, deeper mechanism). Cite the ladder position from `docs/chem-tape/runtime-plasticity-direction.md`.
+5. **Step 3 — selection-need check.**
+   - Does selection *need* the mechanism to satisfy its fitness criterion? (e.g., `F_AND_train` already at ceiling on seeded cells ⇒ selection already satisfied by static shortcut; proxy-predicate attractor dominates ⇒ task-level shortcut rewards static solutions.)
+   - If NO → **diagnosis = `selection-deception`** (literature: "deception of learning-to-learn," Risi & Stanley 2010; "objective deception," Lehman & Stanley 2011). Output: change the selection regime, not the mechanism. Escalation ladder:
+     1. Strip the static shortcut (drop canonical seed, add regime shift) — cheapest, minimal engineering.
+     2. Evolvability ES — BC-free, next-cheapest; measures offspring variance directly.
+     3. Novelty search or MAP-Elites with a **pre-registered BC** (see Pugh-Soros-Stanley 2016 for BC design discipline; Mouret-Clune 2015 for MAP-Elites mechanism). BC must live in code with METRIC_DEFINITIONS entry before any sweep runs.
+6. **Step 4 — grid-match (if none of 1-3 fired cleanly).**
+   - If the pattern doesn't fit any of the above classes → **diagnosis = `grid-miss`** (methodology-local, §2b). The observed pattern is a novel row the prereg did not enumerate. Draft the candidate new row, date it pre-data, and commit it as a provisional scratch doc alongside the diagnosis doc (principle 2b pre-commitment). Do NOT proceed to escalation until the new row is committed and the subsequent data is collected against the expanded grid.
+7. **Theory.md currency check.** If the diagnosis invokes a literature concept **not currently cited** in `docs/theory.md` (check both main Related Work sections and "References to Obtain"), add an entry before closing the diagnosis. Anticipatory summary style is fine for not-yet-read PDFs — match the register of existing References-to-Obtain entries, include a confidence tag if the exact citation details are uncertain. This keeps theoretical grounding in lockstep with empirical findings.
+8. **Produce the diagnosis doc.** Write `Plans/diagnosis_<§X>_<YYYY-MM-DD>.md` containing:
+   - Experiment reference (prereg link, result CSV/JSON link, relevant chronicle entries)
+   - Observed pattern (metrics, magnitudes, and the specific signatures that triggered the mode)
+   - Diagnosis tag: `<project-term>` / `<literature-term>` (from §29 table; exact terminology)
+   - Rejected diagnoses and why (negative reasoning is load-bearing — it records what was considered and ruled out)
+   - Escalation path (specific next experiment family, mechanism or selection-regime change, required pre-registrations)
+   - Literature references cited; `docs/theory.md` edits made (if any)
+9. **Hand off to prereg mode.** The next escalation prereg must be opened via `prereg` mode with the diagnosis doc path provided as input. The escalation prereg's Setup section must contain:
+   > *This prereg follows from diagnosis `Plans/diagnosis_<§X>_<YYYY-MM-DD>.md` (class: `<project-term>` / `<literature-term>`). Escalation path is pre-committed; scope is restricted to the path identified there.*
+   
+   The `prereg` mode should refuse to finish without this clause when the diagnosis doc exists in the preceding commit history.
+
+**Terminology discipline.** Use the project-term / literature-term pair from methodology §29 verbatim. Do not invent ad-hoc synonyms. If a diagnosis legitimately doesn't fit any of the four classes cleanly, that is itself a finding — write it up as `diagnosis = grid-miss (meta)` and request a methodology revision (new class + new literature-term mapping) rather than forcing a classification.
+
+**Literature exploration.** If the mode fires and the diagnosis depends on a literature area thinly covered in `docs/theory.md` (example: if `selection-deception` fires and the project has no MAP-Elites / QD entries yet), propose 1-3 papers to read in the diagnosis doc under a "Literature to obtain" heading. Mark with confidence tags matching theory.md's convention. Do not block the diagnosis on reading them — they are follow-up work, tracked in the diagnosis doc so they don't get lost.
+
+**Output:** the diagnosis doc path, the tag string (for paste into the scratch doc / chronicle), and the escalation-prereg hook for the `prereg` mode.
+
+---
+
 ## Reference material loaded by this skill
 
 These files are the skill's backing reference. Read the relevant ones when entering a mode — do not operate from memory, since methodology.md is actively revised.
 
-- `docs/methodology.md` — the 28-principle ledger (plus sub-principles 2b, 16b, 16c, 17a, 17b, 22a, 22b, 28a, 28b, 28c).
+- `docs/methodology.md` — the 29-principle ledger (plus sub-principles 2b, 16b, 16c, 17a, 17b, 22a, 22b, 28a, 28b, 28c).
 - `docs/_templates/README.md` — kit overview and status vocabulary.
 - `docs/_templates/prereg.md` — pre-registration template.
 - `docs/_templates/experiment_section.md` — chronicle entry template.
