@@ -1,10 +1,23 @@
 # Pre-registration: §v2.5-plasticity-2a — Arm A sf=0.0 seed-removal probe of P-1 diagnosis falsifiability (branching test for `selection-deception` vs rank-1-structural-mismatch)
 
-**Status:** QUEUED (v2, amended) · target commit `{short-sha, to be pinned when sweep launches}` · 2026-04-19
+**Status:** QUEUED (v3, amended) · target commit `{short-sha, to be pinned when sweep launches}` · 2026-04-19
 
 *This prereg follows from diagnosis `Plans/diagnosis_v2-5-plasticity-1a_2026-04-19.md` (class: `selection-deception` / "deception of learning-to-learn" — Risi & Stanley 2010). Escalation path is pre-committed; scope is restricted to the path identified there. This prereg enacts P-1 from §v2.5-plasticity-1a's Falsifiability block — the cheapest branching test that distinguishes "INVERSE-BALDWIN driven by static-canonical shortcut" (selection-deception, EES next) from "INVERSE-BALDWIN is intrinsic to rank-1 plasticity on this task" (rank-2 first; diagnosis doc amended per §13).*
 
 ## Amendment history
+
+**2026-04-19 (v3 — pre-data, pre-engineering).** Codex review of v2 flagged 2 partially-fixed items (P1-2 residual, P1-6 residual), 1 new P1 (diagnosis-doc operationalization mismatch), and 2 new P2s (infra-scope understatement, missing verbatim METRIC_DEFINITIONS). This v3 amendment:
+
+1. **Row 1 renamed from BALDWIN-EMERGES to F-RECOVERY-WITHOUT-INVERSE-SIGNATURE** (P1-2 residual). The row-1 trigger (F high + tail-gap absent + δ_std unrestricted) does not establish Baldwin direction (closer-to-canonical benefits more) — it establishes "plasticity recovers F without reproducing the INVERSE-BALDWIN tail-concentration signature." The label now describes what is actually measured; Baldwin-direction would require per-seed Hamming analysis of top-1 winners beyond the row-match clauses. Routing is unchanged — this outcome still supports the selection-deception diagnosis via the "shortcut removal unlocks plasticity's selection-layer contribution" signal.
+2. **Row 3 clause (c) broadened to any h ∈ {2, 3, ≥4}** (NEW-P1). v2's gap-based trigger required `Baldwin_gap_h≥4 CI_lo ≥ 0.10`, which would miss an intrinsic INVERSE-BALDWIN pattern if the positive uplift concentrates in h=2 or h=3 instead. v3: clause (c) is `max(Baldwin_gap_h2, Baldwin_gap_h3, Baldwin_gap_h≥4) CI_lo ≥ 0.10` — any non-h=0,1 bin showing the seed-majority positive signal triggers. Also adds explicit note: row-3 gap clause operationalizes the diagnosis doc's slope-based INVERSE-BALDWIN definition for the sf=0.0 regime where slope is likely undefined; at result time, if Baldwin_slope IS defined, the slope sign is reported alongside the gap-based verdict for consistency.
+3. **Row-3 threshold rationale corrected** (P1-6 residual). v2 claimed "CI_lo ≥ 0.10 means ≥ 10 of 20 seeds show gap > 0.10" — statistically wrong (CI_lo is on the cell mean, not on seed-majority). v3: drops the seed-majority equivalence claim; adds an explicit per-seed clause: "AND ≥ 10 of 20 seeds show max-across-bins Baldwin_gap > 0.10" as an additional sub-clause guarding the row-3 trigger. This makes the seed-majority intent explicit rather than implied.
+4. **F thresholds reframed as proportion-based dual criterion** (P1-6 residual). v2's `frozen + 12` was flagged as effectively absolute 15/20 because §1a drift frozen happens to be 3/20. v3: row 1 criterion becomes `plastic best-budget F_proportion ≥ 0.75 AND frozen F_proportion ≤ 0.25`; row 3 criterion becomes `plastic best-budget F_proportion ≤ (frozen F_proportion + 0.15)`. Both are dual criteria tied to frozen, not single-number absolutes.
+5. **Status-transition checklist infra scope corrected** (NEW-P2). Codex verified that `analyze_plasticity.py:analyze_run` skips frozen-only runs (returns None when no `delta_final` column); the paired R_fit merge is a genuine new code path, not a flag flip. `history.npz` does not currently contain `initial_population_canonical_count`; the gen-0 invariant check requires runner instrumentation in `run.py` or `evolve.py`, not just an assertion. v3: checklist rewritten with realistic effort estimates (~2-2.5 h total, up from ~65 min).
+6. **New METRIC_DEFINITIONS block (verbatim) added** (NEW-P2). Per principle 27, the prereg must cite the exact entries that will land in `analyze_plasticity.py:METRIC_DEFINITIONS`. v3 adds a "METRIC_DEFINITIONS extensions" block with the exact wording for `Baldwin_gap_max_cell_boot_ci`, `R_fit_delta_paired_sf0`, and `initial_population_canonical_count`.
+
+v2 is preserved in git history at commit `f6ead25`. v1 at `9ff9bf8`.
+
+---
 
 **2026-04-19 (v2 — pre-data, pre-engineering).** Original v1 committed at `9ff9bf8`; codex adversarial review of v1 flagged 6 P1 issues + 4 P2 issues. This v2 amendment addresses all of them pre-data (QUEUED status preserved — no sweep data exists yet, so amendments are legitimate per §13's spirit, which protects chronicles not preregs). Summary of changes from v1:
 
@@ -31,10 +44,10 @@ Under Arm A direct GP on `sum_gt_10_AND_max_gt_5` natural sampler with `seed_fra
 
 The `selection-deception` diagnosis (§29 class 4) predicts that removing the canonical shortcut will allow plasticity to produce selection-layer uplift that was previously masked by canonical-elite preservation. Four pre-committed readings (principle 2):
 
-1. **BALDWIN-EMERGES.** F_AND_test ≥ 15/20 at some budget, AND Baldwin_gap_h≥4 seed-bootstrap CI at budget=5 does NOT satisfy row 3's positive-floor clause (i.e., the INVERSE-BALDWIN signature weakens substantially). Selection-deception **SUPPORTED**; EES next leg.
-2. **UNIVERSAL-ADAPTER.** F_AND_test ≥ 15/20 at some budget AND δ_std at budget=5 collapses to ≤ 1.5. Plasticity recovers canonical-equivalents via convergent δ regardless of starting genotype; selection-deception weakly supported; EES candidate for confirmation.
-3. **INVERSE-BALDWIN-REPLICATES.** Frozen-anchored F criterion fails (plasticity gives no or trivial F uplift vs frozen-control) AND δ_std at budget=5 > 2.0 AND seed-majority Baldwin_gap criterion fires. Selection-deception **REFUTED**: pattern is intrinsic to rank-1-on-this-task, not shortcut-induced. Consequence: diagnosis doc amended per §13; rank-2 memory queued ahead of EES.
-4. **AMBIGUOUS / PARTIAL.** Any intermediate pattern: F_AND_test 5-14/20 at budget=5, OR mixed δ_std/gap signals. Decision: n-expansion on seeds 40..59 at budget=5 before routing, OR parallel rank-2 engineering while n-expansion runs.
+1. **F-RECOVERY-WITHOUT-INVERSE-SIGNATURE** (v3 renamed from BALDWIN-EMERGES; see v3 amendment note). `plastic_F_prop ≥ 0.75 AND frozen_F_prop ≤ 0.25`, AND `max_gap_@5` CI_hi < 0.05 with seed-minority < 10/20 (tail-gap absent; INVERSE-BALDWIN signature does NOT survive shortcut removal). Selection-deception **SUPPORTED** via shortcut-removal-unlocks-F-recovery signal. Baldwin-direction NOT established by row alone — requires post-hoc per-seed Hamming analysis of top-1 winners. EES next leg.
+2. **UNIVERSAL-ADAPTER.** F proportions same as row 1 AND δ_std at budget=5 collapses to ≤ 1.5. Plasticity recovers canonical-equivalents via convergent δ regardless of starting genotype; selection-deception weakly supported; EES candidate for confirmation.
+3. **INVERSE-BALDWIN-REPLICATES.** Frozen-anchored F criterion fails (`plastic_F_prop ≤ frozen_F_prop + 0.15`) AND δ_std at budget=5 > 2.0 AND `max_gap_@5` (max across h ∈ {2, 3, ≥4}) seed-bootstrap CI_lo ≥ 0.10 AND per-seed majority ≥ 10/20 have max_gap > 0.10. Selection-deception **REFUTED**: pattern is intrinsic to rank-1-on-this-task, not shortcut-induced. Consequence: diagnosis doc amended per §13; rank-2 memory queued ahead of EES.
+4. **AMBIGUOUS / PARTIAL.** Any intermediate pattern: `frozen_F_prop + 0.15 < plastic_F_prop < 0.75` OR mixed δ_std/gap signals. Decision: n-expansion on seeds 40..59 at budget=5 before routing, OR parallel rank-2 engineering while n-expansion runs.
 
 Readings 1 and 2 support P-1; reading 3 refutes it; reading 4 forces replication before routing. Reading 3 is the pre-committed null that would falsify P-1.
 
@@ -64,12 +77,12 @@ Readings 1 and 2 support P-1; reading 3 refutes it; reading 4 forces replication
 - **Baseline quantity 2 — §v2.5-plasticity-1a Arm A budget=5 sf=0.01 signatures (for row-3 threshold motivation):** Baldwin_slope cell-level CI `[+0.0521, +0.0863]`; Baldwin_gap_h≥4 mean = 0.260 (max); δ_std = 2.67; F_AND_test = 20/20 (saturated under seeded canonical). The row-3 Baldwin_gap threshold is seed-majority-anchored rather than point-estimate-halved.
 - **Baseline quantity 3 — §v2.5-plasticity-1a Arm A budget=5 sf=0.0 drift signatures:** Baldwin_gap_h≥4 mean = 0.284; δ_std = 2.53; F_AND_test_plastic = 7/20 vs frozen-best = 3/20. Single-budget data; this prereg adds 3 lower-budget points for budget-scaling.
 
-**Metric definitions (principle 27).** All confirmatory metrics cited from `experiments/chem_tape/analyze_plasticity.py:METRIC_DEFINITIONS` verbatim (same as §1a — see §1a chronicle's METRIC_DEFINITIONS block). The cell-level seed-bootstrap CI on `Baldwin_gap_h≥4` at budget=5 is NOT currently emitted by `analyze_plasticity.py` — this is an infra extension, see Status-transition checklist item 1.
+**Metric definitions (principle 27).** Existing metrics cited from `experiments/chem_tape/analyze_plasticity.py:METRIC_DEFINITIONS` verbatim (same as §1a — see §1a chronicle's METRIC_DEFINITIONS block). Five NEW entries (`max_gap_at_budget_5`, `max_gap_at_budget_5_cell_boot_ci`, `max_gap_at_budget_5_seed_majority`, `R_fit_delta_paired_sf0`, `initial_population_canonical_count`) are pre-committed verbatim in the "METRIC_DEFINITIONS extensions" block below (before the Status-transition checklist). The primary confirmatory statistic — cell-level seed-bootstrap CI + per-seed-majority count on `max_gap_at_budget_5` — is NOT currently emitted by `analyze_plasticity.py`; Status-transition checklist item 1 covers the extensions.
 
 **Measurement-infrastructure gate (principle 25).** Three infrastructure facts disclosed:
 
-- **Cell-level seed-bootstrap CI on `Baldwin_gap_h≥4` (primary confirmatory statistic).** `analyze_plasticity.py` currently emits `Baldwin_gap_h_ge4_mean` per-cell (mean across seeds) but no CI. An extension to `analyze_plasticity.py:summarize` adding seed-bootstrap CI (10 000 resamples, rng seed 42, matching `bootstrap_ci_spec`) is REQUIRED before the sweep launches. Effort: ~15 min (mirror the Baldwin_slope seed-bootstrap pattern codex-review-recomputed at §1a chronicle time). Status-transition checklist item 1.
-- **Paired per-seed `R_fit_plastic_999 − R_fit_frozen_999_control` at sf=0.0 (secondary diagnostic).** Requires a cross-cell merge between plastic and frozen-control per-run CSVs on shared seeds 20..39. Not emitted by current analysis pipeline. Effort: ~30 min. Status-transition checklist item 1 (same commit as the CI extension).
+- **Cell-level seed-bootstrap CI + per-seed-majority on `max_gap_at_budget_5` (primary confirmatory statistic; v3 broadened from v2's h≥4-only).** `analyze_plasticity.py` currently emits `Baldwin_gap_h_ge4_mean` per-cell (mean across seeds at h≥4 only, no CI). v3 requires: (a) a new per-seed metric `max_gap_at_budget_5` = per-seed max across h ∈ {2, 3, ≥4}; (b) cell-level seed-bootstrap CI on the per-cell mean of that metric (10 000 resamples, rng seed 42, matching `bootstrap_ci_spec`); (c) a seed-majority count (seeds > 0.10 threshold). Status-transition checklist item 1.
+- **Paired per-seed `R_fit_delta_paired_sf0` at sf=0.0 (secondary diagnostic).** Requires a cross-cell merge between plastic and frozen-control per-run CSVs on shared seeds 20..39. `analyze_plasticity.py:analyze_run` currently skips frozen-only runs entirely — this is a genuine new code path, not a flag flip. Status-transition checklist item 1(a)+(e).
 - **Baldwin_slope definition at sf=0.0.** `analyze_plasticity.py:linreg_slope` returns nan when x-variance = 0 (all non-GT-bypass individuals in a single Hamming bin). §1a drift cell observed this. In v2 the Baldwin_slope is **descriptive-only**; it does NOT appear in any row clause. The undefined-slope risk is therefore not a gate on row-matching; slope is reported for reasoning-trail purposes (e.g., if the h<4 tail DOES emerge unexpectedly, slope becomes informative).
 
 ## Internal-control check (required)
@@ -93,32 +106,37 @@ intermediate-δ_std ∈ (1.5, 2.0] states and mixed δ/gap combinations that don
 If row 7 fires, the next prereg on this axis must enumerate the observed pattern per principle 2b.
 -->
 
-**Confirmatory axis (single statistic at single cell — v2 per P1-3):**
+**Confirmatory axis (single statistic at single cell — v3 per P1-3 + NEW-P1):**
 
-The **one confirmatory test** is the seed-bootstrap 95% CI on `Baldwin_gap_h≥4` at `budget=5` — 20 seeds, 10 000 resamples, rng seed 42, matching `bootstrap_ci_spec`. Row 3 fires when CI_lo ≥ 0.10 (seed-majority-positive bound). Budgets 1, 2, 3 are exploratory effect-size for monotonicity characterization; their per-cell values are reported but do NOT enter the FWER family.
+Let `max_gap_@5` = per-cell max across Hamming bins h ∈ {2, 3, ≥4} of `Baldwin_gap` at `budget=5`. The **one confirmatory test** is the seed-bootstrap 95% CI on `max_gap_@5` — 20 seeds, 10 000 resamples, rng seed 42, matching `bootstrap_ci_spec`. Row 3 fires when the CI's lower bound ≥ 0.10 AND a per-seed majority (≥ 10/20) also shows max-across-bins `Baldwin_gap > 0.10` at budget=5. v3 broadens from h≥4-only to any-of-{h=2,h=3,h≥4} because INVERSE-BALDWIN's positive uplift may concentrate in h=2 or h=3 rather than h≥4 when initial population is random (NEW-P1 fix). Budgets 1, 2, 3 are exploratory effect-size for monotonicity characterization; their per-cell values are reported but do NOT enter the FWER family.
+
+**v3 note (F thresholds — reframed per P1-6 residual).** F criteria are dual-frozen-anchored proportions (plastic vs frozen), not single-number seed-count deltas. `F_prop = F_AND_test / 20`. Rows 1/2: `plastic_F_prop ≥ 0.75 AND frozen_F_prop ≤ 0.25`. Rows 3/5: `plastic_F_prop ≤ frozen_F_prop + 0.15`. Row 4: `frozen_F_prop + 0.15 < plastic_F_prop < 0.75`. If frozen ends up higher than 0.25 (unexpected), row 6 SWAMPED fires.
+
+**v3 note (operationalization-to-diagnosis-doc mapping).** The diagnosis doc defines INVERSE-BALDWIN and Baldwin-direction in slope terms. At sf=0.0 the slope is likely undefined per principle 25. The gap-based row triggers here are the best-effort operationalization of the diagnosis's slope-based branches for the sf=0.0 regime. At result time, if `Baldwin_slope` IS defined (h<4 subpopulation unexpectedly emerges), the slope sign is reported alongside the gap-based verdict; disagreements between the two are flagged as open-mechanism signals for the chronicle.
 
 **Outcome grid:**
 
-| # | outcome | F_AND_test (best across budgets) | δ_std @ budget=5 | Baldwin_gap_h≥4 @ budget=5 (confirmatory axis) | interpretation / routing |
+| # | outcome | F_AND_test proportion (best across budgets) | δ_std @ budget=5 | `max_gap_@5` (confirmatory axis — max across h ∈ {2, 3, ≥4}) | interpretation / routing |
 |---|---------|-------------------|--------------|--------------------|--------------------------|
-| 1 | **BALDWIN-EMERGES** | ≥ (frozen + 12) seeds (i.e., best-budget plastic F − frozen-control F ≥ 12/20) | any | CI_lo < 0.05 (gap weak/absent — the §1a positive-floor pattern does NOT survive shortcut removal) | Plasticity recovers canonical-equivalents without the static shortcut; selection-deception diagnosis **SUPPORTED**. Next leg: §v2.5-plasticity-2b (EES). Rank-2 deferred. Findings.md `plasticity-narrow-plateau` narrows to "NULL under seeded canonical; DOES narrow/recover under sf=0.0." |
-| 2 | **UNIVERSAL-ADAPTER** | ≥ (frozen + 12) seeds | ≤ 1.5 | any | Plastic discovery from noise via convergent δ. Selection-deception weakly supported; mechanism is "δ does the work regardless of genotype." EES candidate. Findings.md narrows to "NULL under seeded; discovers canonical-equivalents under sf=0.0 via universal-δ mechanism." |
-| 3 | **INVERSE-BALDWIN-REPLICATES** (pre-committed P-1 falsifier) | ≤ (frozen + 3) seeds (plasticity gives NO substantive F uplift vs frozen-control) | > 2.0 | **CI_lo ≥ 0.10** — the seed-majority-positive criterion | Selection-deception diagnosis **REFUTED**. Pattern is intrinsic to rank-1 on this task. Consequence: (a) `Plans/diagnosis_v2-5-plasticity-1a_2026-04-19.md` amended per §13 — class-4 selection-deception reading narrowed/retracted; (b) §v2.5-plasticity-1b (rank-2 memory) queued ahead of EES; (c) findings.md `plasticity-narrow-plateau` broadens to "pattern is shortcut-independent." No §29 methodology amendment pre-committed — any taxonomy change deferred to a follow-up after multiple experiments show the same unclassifiable pattern. |
-| 4 | **AMBIGUOUS / PARTIAL** | (frozen + 4) to (frozen + 11) seeds (mid-range F uplift) | any | any | Neither clean support nor clean refutation. Decision: n-expansion seeds 40..59 at budget=5 (~20 min wall post-optimization) before routing. Parallel rank-2 engineering may start (3-5 day job) but no rank-2 sweep queues until the expanded verdict lands. |
-| 5 | **FAIL — universal-null-at-sf=0.0** | ≤ (frozen + 3) seeds | ≤ 1.5 | CI_hi < 0.05 | Rank-1 plasticity does NO measurable work at sf=0.0 across all three axes. Both selection-deception (didn't help without shortcut) AND rank-1-intrinsic-tail-effect (no tail gap either) are weakened. Rank-1 is likely the wrong mechanism altogether; EES unlikely to help; rank-2 enters as "fill an empty mechanism bag" candidate under a weaker rationale. |
-| 6 | **SWAMPED** | frozen F_AND_train < 15/20 diverges from §1a drift baseline (3/20) in suspicious directions (0/20 or ≥ 8/20) | any | any | Infrastructure or anchor-baseline bug. Stop and inspect. |
-| 7 | **INCONCLUSIVE — grid-miss catchall (§2b; v2 explicit)** | any | any | any pattern not fitting rows 1-6 | §2b: the grid is not exhaustive. v2 explicitly acknowledges row 7 catches intermediate-δ_std ∈ (1.5, 2.0] states, mixed (F low / δ_std high / gap low) states, and any other cell in the F × δ_std × gap cross-product not enumerated in rows 1-5. If row 7 fires, the next prereg on this axis must enumerate the observed pattern pre-data before interpreting. |
+| 1 | **F-RECOVERY-WITHOUT-INVERSE-SIGNATURE** (v3 renamed from BALDWIN-EMERGES) | plastic ≥ 0.75 AND frozen ≤ 0.25 | any | CI_hi < 0.05 AND < 10/20 seeds have per-seed max_gap > 0.05 (tail-gap absent; §1a INVERSE-BALDWIN signature does NOT survive shortcut removal) | Plasticity recovers canonical-equivalents without the static shortcut; selection-deception diagnosis **SUPPORTED** by the shortcut-removal-unlocks-F-recovery signal. Baldwin-direction NOT established — per-seed Hamming analysis of top-1 winners required at chronicle time to confirm. Next leg: §v2.5-plasticity-2b (EES). Rank-2 deferred. Findings.md `plasticity-narrow-plateau` narrows. |
+| 2 | **UNIVERSAL-ADAPTER** | plastic ≥ 0.75 AND frozen ≤ 0.25 | ≤ 1.5 | any | Plastic discovery from noise via convergent δ. Selection-deception weakly supported; mechanism is "δ does the work regardless of genotype." EES candidate. Findings.md narrows. |
+| 3 | **INVERSE-BALDWIN-REPLICATES** (pre-committed P-1 falsifier) | plastic ≤ frozen + 0.15 (plasticity gives NO substantive F uplift) | > 2.0 | `max_gap_@5` CI_lo ≥ 0.10 AND ≥ 10/20 seeds have per-seed `max_gap > 0.10` | Selection-deception diagnosis **REFUTED**. Pattern is intrinsic to rank-1 on this task. Consequence: (a) `Plans/diagnosis_v2-5-plasticity-1a_2026-04-19.md` amended per §13 — class-4 narrowed/retracted; (b) §v2.5-plasticity-1b (rank-2 memory) queued ahead of EES; (c) findings.md `plasticity-narrow-plateau` broadens. No §29 methodology amendment pre-committed. Mechanism-name deferred. |
+| 4 | **AMBIGUOUS / PARTIAL** | frozen + 0.15 < plastic < 0.75 (mid-range F uplift) | any | any | Neither clean support nor clean refutation. Decision: n-expansion seeds 40..59 at budget=5 (~20 min wall projected); re-evaluate against rows 1-5. Do NOT queue EES or rank-2 sweeps until the expanded verdict lands. Parallel rank-2 engineering (VM implementation, 3-5 days) may START while n-expansion runs. |
+| 5 | **FAIL — universal-null-at-sf=0.0** | plastic ≤ frozen + 0.15 | ≤ 1.5 | CI_hi < 0.05 | Rank-1 plasticity does NO measurable work at sf=0.0 across all three axes. Both selection-deception AND rank-1-intrinsic-tail-effect are weakened. Rank-2 enters as "fill an empty mechanism bag" candidate under weaker motivation. |
+| 6 | **SWAMPED** | frozen_F_prop outside the plausibility window `[0.10, 0.40]` (§1a drift observed 0.15 = 3/20; suspicious shifts either direction) | any | any | Infrastructure or anchor-baseline bug. Stop and inspect. |
+| 7 | **INCONCLUSIVE — grid-miss catchall (§2b explicit)** | any | any | any pattern not fitting rows 1-6 | §2b: grid is not exhaustive. Row 7 catches intermediate-δ_std ∈ (1.5, 2.0] states, mixed (F low / δ_std high / gap low) states, and any other cell in the F × δ_std × gap cross-product not enumerated in rows 1-5. If row 7 fires, the next prereg must enumerate the observed pattern pre-data before interpreting. |
 
-**Row-clause fidelity (principle 28a pre-commitment).** Row 3 requires ALL three sub-clauses simultaneously: (a) F_AND_test best-budget ≤ frozen-control-F + 3 seeds; (b) δ_std at budget=5 > 2.0; (c) Baldwin_gap_h≥4 seed-bootstrap CI_lo at budget=5 ≥ 0.10. Prose-match with any sub-clause failing = row 7 (grid-miss), NOT a row-3 match. Row 5 (universal-null) requires its own 3-way conjunction. Row 2 (universal-adapter) requires F recovery + δ_std collapse — gap axis is "any" because universal-adapter's signature is in F + δ_std space regardless of gap.
+**Row-clause fidelity (principle 28a pre-commitment).** Row 3 requires ALL three sub-clauses simultaneously: (a) `plastic_F_prop ≤ frozen_F_prop + 0.15`; (b) δ_std at budget=5 > 2.0; (c) `max_gap_@5` seed-bootstrap CI_lo ≥ 0.10 AND ≥ 10/20 seeds have per-seed max_gap > 0.10. Prose-match with any sub-clause failing = row 7 (grid-miss), NOT a row-3 match. Row 5 (universal-null) requires its own 3-way conjunction. Row 1 requires F recovery + gap-absence (CI_hi AND per-seed-minority). Row 2 requires F recovery + δ_std collapse.
 
-**Threshold justifications (v2 re-anchored per P1-6):**
+**Threshold justifications (v3 re-anchored per P1-6 + NEW-P1):**
 
-- **F_AND_test "frozen + 12" (row 1):** §1a's Baldwin-direction PASS threshold was F ≥ 15/20 absolute. At sf=0.0, absolute 15/20 is unreasonable (frozen-control F ≈ 3/20 per §1a drift; plastic getting to 15/20 requires lifting by 12 seeds). Expressing the threshold as "frozen + 12" makes it baseline-relative — the test is "plastic lifts F by 60% of the 20-seed range above frozen."
-- **F_AND_test "frozen + 3" (rows 3, 5):** §1a drift observed plastic F = 7/20 vs frozen-best F = 3/20 at budget=5 sf=0.0 — i.e., plastic already gives a 4-seed lift. The row-3 threshold ≤ frozen + 3 requires plastic to give LESS uplift than the §1a drift observation — i.e., the positive-gap pattern fails to even produce §1a-drift-level F uplift on seeds 20..39. This is a strong falsifier threshold: if P-1 is right (selection-deception), plastic at sf=0.0 should produce MORE F uplift than §1a drift (canonical shortcut removed → plasticity's room to work increases).
-- **δ_std > 2.0 (row 3):** §1a observed 2.67 at sf=0.01 budget=5 and 2.53 at sf=0.0 budget=5 drift. The 2.0 floor is the §1a minimum observed across both regimes; a substantial drop below 2.0 would signal different mechanism behavior, not INVERSE-BALDWIN replication.
-- **δ_std ≤ 1.5 (rows 2, 5):** §1a never observed δ_std < 1.5 at budget=5; a drop to ≤ 1.5 is a qualitative shift (mechanism-capacity saturating differently).
-- **Baldwin_gap_h≥4 CI_lo ≥ 0.10 (row 3 confirmatory clause):** anchored to per-seed majority rather than halved-point-estimate. §1a point-estimate at budget=5 sf=0.0 was 0.284; seed-majority threshold of CI_lo ≥ 0.10 requires at least half the seeds showing gap > 0.10 (bootstrap CI lower bound ≥ 0.10 on the cell mean across seeds). This is a defensible effect-size floor tied to sampling variance, not to a single number.
-- **Baldwin_gap_h≥4 CI_hi < 0.05 (row 5 clause):** symmetric upper-bound at budget=5 — plasticity produces no tail-gap at all. Anchored to §1a drift baseline's near-zero frozen gap.
+- **F thresholds (proportion-based dual criterion, v3).** Row 1/2's "plastic ≥ 0.75 AND frozen ≤ 0.25" is explicitly dual — tied to frozen being LOW in addition to plastic being HIGH. If frozen-sf=0.0 ends up higher than 0.25 (e.g., the population discovers canonical-equivalents without any seeding, which §1a drift's 3/20 suggests is possible but rare), row 1 cannot fire — the lift-above-frozen must be substantial, not just plastic reaching a threshold. If frozen is suspiciously high (> 0.40), row 6 SWAMPED fires instead. The 0.75/0.25 numbers correspond to §1a's 15/20 and 5/20 ceiling/floor but are expressed as proportions to handle frozen shifts cleanly.
+- **Row-3 F threshold `plastic ≤ frozen + 0.15` (v3).** §1a drift observed plastic_F_prop = 7/20 = 0.35 vs frozen_F_prop = 3/20 = 0.15 at budget=5 sf=0.0 — i.e., §1a drift showed plastic − frozen = 0.20 uplift. The row-3 threshold requires plastic uplift ≤ 0.15 (strictly LESS than §1a drift's observed 0.20 lift). If INVERSE-BALDWIN is truly intrinsic to rank-1 on this task, shortcut removal should not unlock MORE F uplift than §1a drift showed, and plastic should stay close to frozen. This is a strict falsifier.
+- **δ_std > 2.0 (row 3).** §1a observed 2.67 at sf=0.01 budget=5 and 2.53 at sf=0.0 budget=5 drift. 2.0 is the §1a minimum observed; substantial drop below 2.0 would signal different mechanism behavior, not INVERSE-BALDWIN replication.
+- **δ_std ≤ 1.5 (rows 2, 5).** §1a never observed δ_std < 1.5 at budget=5; drop to ≤ 1.5 is a qualitative shift (mechanism-capacity saturating differently).
+- **`max_gap_@5` CI_lo ≥ 0.10 AND per-seed-majority > 0.10 (row 3; v3 explicit dual criterion per P1-6 residual).** Dual criterion: cell-mean-CI floor AND seed-majority. The cell-mean-CI catches "average signal is positive with sampling-variance-bounded precision"; the per-seed-majority catches "signal isn't driven by a small tail of extreme seeds." Requiring BOTH sidesteps v2's statistically incorrect "CI_lo ≥ 0.10 = seed-majority" equivalence. §1a drift point estimate at h≥4 was 0.284; 0.10 is a substantive floor well below that anchor, reasonable for replication on disjoint seeds. Max-across-bins (v3 broadening per NEW-P1) handles the "positive uplift shifts to h=2/3 instead of h≥4" case.
+- **`max_gap_@5` CI_hi < 0.05 AND seed-minority > 0.05 (row 5).** Symmetric upper-bound with dual criterion. Plasticity produces no non-trivial tail-gap anywhere.
+- **Row 1 gap clause — CI_hi < 0.05 AND < 10/20 seeds > 0.05 (v3 explicit).** Mirror of row 5's gap clause for the "gap absent" signal, but paired with the opposite F criterion.
 
 ## Degenerate-success guard (principle 4 — amended per P2-2)
 
@@ -131,13 +149,13 @@ Six guards inherited from §v2.5-plasticity-1a (with sf=0.0-specific adjustments
 5. **δ-convergence artefact (universal-adapter in δ-space).** If δ_std at budget=5 collapses to ≤ 0.5 across seeds, report as row 2 regardless of F_AND_test.
 6. **Adaptation-budget-too-high at budget=5.** Sanity: max `|δ_final|` at budget=b = b × δ = b × 1 = b; any value strictly greater indicates an infrastructure bug.
 
-## Statistical test (principle 22 — v2 per P1-3)
+## Statistical test (principle 22 — v3 per P1-3 + NEW-P1)
 
-- **Primary confirmatory test:** seed-bootstrap 95% CI on `Baldwin_gap_h≥4` at `budget=5` (20 seeds, 10 000 resamples, `numpy.random.default_rng(seed=42)`, per `bootstrap_ci_spec`). Row 3 fires when CI_lo ≥ 0.10; row 5 when CI_hi < 0.05.
-- **Secondary diagnostic (effect-size only, no FWER contribution):** per-cell `Baldwin_gap_h≥4` means at budgets 1, 2, 3; paired `R_fit_plastic_999 − R_fit_frozen_999` at sf=0.0 per cell; per-Hamming-bin Baldwin_gap pattern; δ_std scaling with budget. Used to characterize monotonicity / universal-adapter / row-distinguishing signals but NOT to gate α.
+- **Primary confirmatory test:** seed-bootstrap 95% CI on `max_gap_@5` at `budget=5` (20 seeds, 10 000 resamples, `numpy.random.default_rng(seed=42)`, per `bootstrap_ci_spec`), where `max_gap_@5` = per-seed max across Hamming bins h ∈ {2, 3, ≥4} of `Baldwin_gap`. Row 3 fires when CI_lo ≥ 0.10 AND per-seed majority (≥ 10/20) have per-seed max_gap > 0.10. Row 5 fires when CI_hi < 0.05 AND per-seed minority (< 10/20) have per-seed max_gap > 0.05. The dual cell-mean-CI + per-seed-majority criterion is v3's explicit fix for P1-6-residual's statistically incorrect "CI_lo ≥ 0.10 = seed-majority" equivalence.
+- **Secondary diagnostic (effect-size only, no FWER contribution):** per-cell `Baldwin_gap` by-Hamming-bin pattern at budgets 1, 2, 3; paired `R_fit_plastic_999 − R_fit_frozen_999` at sf=0.0 per cell; δ_std scaling with budget; per-seed Hamming distribution of top-1 winners (for row-1 Baldwin-direction post-hoc check). Used to characterize monotonicity / universal-adapter / row-distinguishing signals but NOT to gate α.
 - **Classification:** **confirmatory.** Gates the diagnosis-routing decision for §1a's INVERSE-BALDWIN pattern.
-- **Family:** NEW — `plasticity-inverse-baldwin-replicates`. Size 1 at this prereg; corrected α = 0.05 / 1 = 0.05. Distinct from the closed `plasticity-narrow-plateau` family (§1a tested the Baldwin-direction NULL; this tests whether the POSITIVE-slope replicates under shortcut removal).
-- **Per-sweep test counting (principle 22a, v2):** this prereg runs 4 plastic budget cells × 20 seeds = 80 plastic runs. **One** confirmatory test is gated: the budget=5 cell's seed-bootstrap CI on `Baldwin_gap_h≥4`. The budgets 1/2/3 cells are exploratory effect-size — they inform row routing via descriptive thresholds (e.g., monotonicity of δ_std across budgets as a universal-adapter disambiguator) but do NOT each open a family member. Principle 22a requires this counting to be stated explicitly: if a future audit counts differently, amend this block before rechronicle.
+- **Family:** NEW — `plasticity-inverse-baldwin-replicates`. Size 1 at this prereg; corrected α = 0.05 / 1 = 0.05. Distinct from the closed `plasticity-narrow-plateau` family (§1a tested the Baldwin-direction NULL; this tests whether the POSITIVE-gap signature replicates under shortcut removal).
+- **Per-sweep test counting (principle 22a, v3):** this prereg runs 4 plastic budget cells × 20 seeds = 80 plastic runs. **One** confirmatory test is gated: the budget=5 cell's dual-criterion bootstrap-CI-plus-per-seed-majority test on `max_gap_@5`. The budgets 1/2/3 cells are exploratory effect-size — they inform row routing via descriptive thresholds (e.g., monotonicity of δ_std across budgets as a universal-adapter disambiguator) but do NOT each open a family member. If a future audit counts differently, amend this block before rechronicle.
 
 ## Diagnostics to log (beyond fitness)
 
@@ -145,7 +163,7 @@ Six guards inherited from §v2.5-plasticity-1a (with sf=0.0-specific adjustments
 - Per-individual `test_fitness_frozen`, `test_fitness_plastic`, `delta_final`, `has_gt` → `final_population.npz`.
 - Per-cell `GT_bypass_fraction`, `Baldwin_gap` by Hamming bin {0, 1, 2, 3, ≥4}, `Baldwin_slope` when defined.
 - Per-cell `std(delta_final)` stratified by Hamming bin — universal-adapter diagnostic.
-- Per-cell seed-bootstrap 95% CI on `Baldwin_gap_h≥4` — the primary confirmatory statistic at budget=5.
+- Per-cell seed-bootstrap 95% CI on `max_gap_at_budget_5` + `max_gap_at_budget_5_seed_majority` count — the primary confirmatory dual statistic at budget=5 (v3 broadened from v2's h≥4-only).
 - Per-cell paired `R_fit_plastic_999 − R_fit_frozen_999` on shared seeds — secondary diagnostic.
 - Per-cell `|δ_final| ≥ 5` fraction at budget=5, split: population-level AND top-1 winner.
 - Per-cell best-of-run hex for top-1 winner per seed — attractor inspection input (row-1 / row-2 / row-5 disambiguation).
@@ -163,7 +181,7 @@ Explicitly NOT-broadening in any outcome: other tasks (P-3 open for cross-task);
 
 ## Decision rule
 
-- **Row 1 (BALDWIN-EMERGES) →** narrow `plasticity-narrow-plateau` NULL in findings.md; queue §v2.5-plasticity-2b (EES) as confirmatory leg for selection-deception; rank-2 deferred. Mechanism-name: deferred to the chronicle's §16-renaming cycle (no pre-allocation).
+- **Row 1 (F-RECOVERY-WITHOUT-INVERSE-SIGNATURE; v3 renamed) →** narrow `plasticity-narrow-plateau` NULL in findings.md; queue §v2.5-plasticity-2b (EES) as confirmatory leg for selection-deception; rank-2 deferred. Additional chronicle-time work: per-seed Hamming analysis of top-1 winners to test whether Baldwin-direction (closer-to-canonical benefit) is established beyond row-match clauses — this is mechanism-layer follow-up, not routing-gating. Mechanism-name: deferred to the chronicle's §16-renaming cycle.
 - **Row 2 (UNIVERSAL-ADAPTER) →** narrow findings.md; queue §v2.5-plasticity-2b (EES) with an axis testing whether EES preserves the convergent-δ behavior; rank-2 deferred. Mechanism-name: deferred to chronicle.
 - **Row 3 (INVERSE-BALDWIN-REPLICATES; P-1 pre-committed falsifier) →** three actions: (a) amend `Plans/diagnosis_v2-5-plasticity-1a_2026-04-19.md` per §13 — class-4 selection-deception reading retracted or narrowed in scope; (b) queue §v2.5-plasticity-1b (rank-2 memory) as the next escalation; (c) broaden findings.md `plasticity-narrow-plateau`. **No §29 methodology amendment pre-committed in this prereg** (P1-4 fix): if rank-2 reveals the same unclassifiable pattern, the methodology amendment is considered at THAT point based on 2+ experiments. Single-experiment taxonomy changes are not pre-committed. Mechanism-name: deferred.
 - **Row 4 (AMBIGUOUS / PARTIAL) →** n-expansion seeds 40..59 at budget=5 (~20 min wall projected); re-evaluate against rows 1-5 and re-route. Do NOT queue EES or rank-2 sweeps until the expanded verdict lands. Parallel rank-2 engineering (VM implementation, 3-5 days) may START while n-expansion runs.
@@ -182,22 +200,83 @@ Explicitly NOT-broadening in any outcome: other tasks (P-3 open for cross-task);
 - **Principle 20:** sampler unchanged; not triggered.
 - **Principle 22 + 22a + 22b:** confirmatory, 1 test at budget=5, family `plasticity-inverse-baldwin-replicates` size 1, α = 0.05. Per-sweep counting stated explicitly (not slipped to 4 tests via row-3 per-budget language).
 - **Principle 23:** frozen-control-at-sf=0.0 is in-sweep anchor; pop/gens/mr byte-identical to §1a sf=0.01 frozen control except sf axis.
-- **Principle 25:** Baldwin_gap_h≥4 seed-bootstrap CI is required confirmatory statistic but NOT currently emitted by `analyze_plasticity.py` — infra extension blocking RUNNING status.
+- **Principle 25:** `max_gap_at_budget_5` cell-level seed-bootstrap CI + per-seed-majority is the required confirmatory statistic; frozen-only run processing + cross-cell merge for `R_fit_delta_paired_sf0` is the secondary diagnostic. Neither is currently emitted by `analyze_plasticity.py` — five new METRIC_DEFINITIONS entries pre-committed verbatim in the Metric-definitions-extensions block; Status-transition checklist item 1 covers the code.
 - **Principle 26:** F_AND_test × δ_std × Baldwin_gap_h≥4 cross-product at budget=5 gridded; Baldwin_slope demoted to descriptive-only (never in row clauses) per P1-2.
 - **Principle 27:** METRIC_DEFINITIONS inherited verbatim from §1a + new cell-level bootstrap CI entry added as part of infra extension.
 - **Principle 28a/b/c:** row clauses are conjunctions of all sub-clauses (28a); guards cover multi-failure-mode cases with explicit bundles (28b); status-line inline qualifier discipline at chronicle time (28c).
 - **Principle 29:** this prereg follows the pre-committed diagnosis doc; escalation path restricted to the doc's ladder. No §29 methodology amendment pre-committed (P1-4 fix).
 
-## Status-transition checklist (QUEUED → RUNNING)
+## METRIC_DEFINITIONS extensions (principle 27 — verbatim; v3 per NEW-P2)
+
+The following entries will be added verbatim to `experiments/chem_tape/analyze_plasticity.py:METRIC_DEFINITIONS` by Status-transition checklist item 1 before the sweep launches. These are the §27 pre-commitments the v3 confirmatory test depends on:
+
+```python
+"max_gap_at_budget_5": (
+    "Per-seed maximum of Baldwin_gap across Hamming bins h in {2, 3, >=4} "
+    "at plasticity_budget=5. Computed as max(Baldwin_gap_h2, Baldwin_gap_h3, "
+    "Baldwin_gap_h_ge4) per seed for non-GT-bypass individuals only. "
+    "Broader than §1a's Baldwin_gap_h_ge4 metric to handle the case where "
+    "positive plastic uplift concentrates in h=2 or h=3 rather than h>=4 "
+    "(expected at sf=0.0 where the Hamming-to-canonical distribution is "
+    "shifted relative to sf=0.01)."
+),
+"max_gap_at_budget_5_cell_boot_ci": (
+    "Seed-level nonparametric bootstrap 95% CI on the per-cell mean of "
+    "max_gap_at_budget_5: 10 000 resamples with replacement over the "
+    "20 per-seed values via numpy.random.default_rng(seed=42); CI is the "
+    "[2.5%, 97.5%] empirical quantile of the resampled means. Matches "
+    "bootstrap_ci_spec. Distinct from the existing Baldwin_slope_ci95 "
+    "columns, which bootstrap intra-population over individuals and cannot "
+    "support cell-level row-match clauses."
+),
+"max_gap_at_budget_5_seed_majority": (
+    "Count of seeds (out of 20 in the cell) with per-seed "
+    "max_gap_at_budget_5 > 0.10. Part of §v2.5-plasticity-2a's row-3 "
+    "dual criterion: cell-bootstrap CI_lo >= 0.10 AND this count >= 10. "
+    "Sidesteps v2's incorrect 'CI_lo >= 0.10 implies seed-majority-positive' "
+    "equivalence claim — cell-mean CI and per-seed majority are distinct "
+    "statistical statements that must both hold for the row."
+),
+"R_fit_delta_paired_sf0": (
+    "Per-seed paired difference R_fit_plastic_999 - R_fit_frozen_999 at "
+    "sf=0.0, where R_fit_frozen_999 is taken from the frozen control cell "
+    "at the matching seed in the same sweep (NOT from the plastic run's "
+    "own final_population frozen evaluation, which would compare plastic "
+    "and frozen evaluation on the same evolved population rather than "
+    "comparing the plastic cell's final population to the frozen control's "
+    "final population). Requires cross-cell merge between the plastic "
+    "cells and the frozen control cell on shared seeds 20..39. Used as "
+    "§v2.5-plasticity-2a's secondary diagnostic."
+),
+"initial_population_canonical_count": (
+    "Count of individuals in the generation-0 population whose tape "
+    "byte-for-byte matches any of the cfg.seed_tapes_hex entries. Emitted "
+    "per-run to history.npz as a scalar at generation-0 population build "
+    "time. At sf=0.0 with seed_tapes=None, the expected value is 0 for "
+    "every seed; any nonzero count flags an infrastructure bug in "
+    "build_initial_population."
+),
+```
+
+## Status-transition checklist (QUEUED → RUNNING — v3 per NEW-P2 infra-scope correction)
 
 Before this prereg can move from QUEUED to RUNNING:
 
-1. **Infra extension to `analyze_plasticity.py`:** add cell-level seed-bootstrap CI for `Baldwin_gap_h≥4` (primary confirmatory statistic; 10 000 resamples, rng seed 42). Add paired `R_fit_plastic_999 − R_fit_frozen_999` cross-cell merge (secondary diagnostic). Add METRIC_DEFINITIONS entries for both. Effort: ~45 min combined.
-2. **Pytest assertion:** `sf=0.0 → 0 canonical in gen-0` for all 100 runs (infrastructure-fidelity check moved from v1's guard 7). Effort: ~20 min.
-3. **Sweep YAML:** `experiments/chem_tape/sweeps/v2/v2_5_plasticity_2a.yaml` — 4 plastic cells × 20 seeds + 1 frozen control × 20 seeds = 100 runs.
-4. **Queue entry:** add to `queue.yaml` with 90-min timeout (conservative headroom over projected 30-60 min).
-5. **Pin target commit SHA** in Status line above.
-6. Codex adversarial review of this v2 — focused on the re-anchored thresholds, the row-3 confirmatory-test collapse to 1 statistic, and the removed class-5 amendment not silently reappearing elsewhere.
+1. **`analyze_plasticity.py` extensions (~90 min total; up from v2's ~45 min after codex-v2 review flagged under-scoping):**
+   - (a) Modify `analyze_run` to ALSO process frozen-only runs (currently returns None when `delta_final` column is missing from `final_population.npz`). Frozen runs have `genotypes` + `fitnesses` arrays only; emit `R_fit_frozen_999` and the minimum diagnostic fields needed for the cross-cell merge. ~20 min.
+   - (b) Add `max_gap_at_budget_5` per-seed computation in `analyze_run` (max across existing `Baldwin_gap_h{2,3,_ge4}` keys; reported per-run via `plasticity.csv`). ~10 min.
+   - (c) Add cell-level seed-bootstrap CI on `max_gap_at_budget_5` in `summarize` (10 000 resamples, rng seed 42). ~15 min.
+   - (d) Add `max_gap_at_budget_5_seed_majority` count in `summarize`. ~5 min.
+   - (e) Add cross-cell merge for `R_fit_delta_paired_sf0`: join plastic-cell per-seed `R_fit_plastic_999` with frozen-control per-seed `R_fit_frozen_999` on (arm, seed) and emit the paired delta per-cell. Current `analyze_run` emits per-run `R_fit_delta_999` within the same run's population — this is a NEW code path. ~30 min.
+   - (f) Add the 5 METRIC_DEFINITIONS entries verbatim from the block above. ~10 min.
+2. **`run.py` / `evolve.py` instrumentation (~20 min):** add `initial_population_canonical_count` to `history.npz` as a scalar computed in `build_initial_population` (compare each gen-0 tape byte-for-byte against `cfg.seed_tapes_hex` entries if set, else emit 0). NEW — `history.npz` does not currently track this field; grep-verified at codex-v2 review time.
+3. **Pytest assertion (~20 min):** `sf=0.0 AND seed_tapes=None → initial_population_canonical_count == 0` in `tests/test_chem_tape_seeded_init.py` (extend existing sf-related tests).
+4. **Sweep YAML:** `experiments/chem_tape/sweeps/v2/v2_5_plasticity_2a.yaml` — 4 plastic cells × 20 seeds (seeds 20..39) + 1 frozen control × 20 seeds = 100 runs. Paired-seed structure required for the secondary R_fit diagnostic.
+5. **Queue entry:** add to `queue.yaml` with 90-min timeout (conservative headroom over projected 30-60 min).
+6. **Pin target commit SHA** in Status line above.
+7. **Codex adversarial review of v3** — focused on whether the broadened `max_gap` metric actually captures INVERSE-BALDWIN signal robustly, whether the dual CI + per-seed-majority criterion is defensible, and whether row 1's F-RECOVERY-WITHOUT-INVERSE-SIGNATURE renaming is clean (not just rhetorical).
+
+**Total engineering effort:** ≈ 2-2.5 h (up from v2's ~65 min); v2's estimate was flagged by codex as understating the frozen-run-handling and `history.npz` instrumentation scope.
 
 ## References
 
@@ -208,4 +287,4 @@ Before this prereg can move from QUEUED to RUNNING:
 - `experiments/chem_tape/analyze_plasticity.py` — METRIC_DEFINITIONS source.
 - `docs/chem-tape/runtime-plasticity-direction.md` — direction doc (rank-1 → rank-2 ladder).
 - Risi, S. & Stanley, K. O. (2010). "Evolving Plastic Neural Networks with Novelty Search." *Adaptive Behavior* 18(6), 470-491 — literature anchor for class-4 `selection-deception`.
-- Prior commit `9ff9bf8` — v1 of this prereg (superseded by this v2 amendment; reasoning trail preserved in git history per §13 spirit).
+- Prior commits: `9ff9bf8` — v1 of this prereg; `f6ead25` — v2 amendment (superseded by this v3; reasoning trail preserved in git history per §13 spirit).
