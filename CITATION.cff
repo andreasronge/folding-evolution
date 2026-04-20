@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+title: "Folding Evolution"
+message: "If you use or reference this project, please cite it using the metadata below."
+type: software
+authors:
+  - family-names: "Ronge"
+    given-names: "Andreas"
+repository-code: "https://github.com/andreasronge/folding-evolution"
+url: "https://github.com/andreasronge/folding-evolution"
+license: "All rights reserved"
+abstract: "GP/ALife research project on protein-inspired genotype-phenotype mapping for genetic programming."

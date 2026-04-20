@@ -2,6 +2,16 @@
 
 GP/ALife research project: protein-inspired genotype-phenotype mapping for genetic programming.
 
+## License and Citation
+
+This repository is shared for visibility into ongoing personal research and
+learning work. It is not released as open source software.
+
+Code, documentation, and associated materials are `All rights reserved`. If
+you want to reference this project, please use the citation metadata in
+[`CITATION.cff`](CITATION.cff). If you want permission to reuse material from
+the repository, please contact the author or open an issue first.
+
 **Active track:** chem-tape v2 probe — testing whether the body-invariant-route mechanism scales with expressivity.
 
 ## Core Question
