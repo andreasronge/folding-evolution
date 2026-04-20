@@ -1,10 +1,26 @@
 # Pre-registration: §v2.5-plasticity-2a — Arm A sf=0.0 seed-removal probe of P-1 diagnosis falsifiability (branching test for `selection-deception` vs rank-1-structural-mismatch)
 
-**Status:** QUEUED (v11, amended) · target commit `172d967` · 2026-04-20
+**Status:** QUEUED (v12, amended) · target commit `TBD` · 2026-04-20
 
 *This prereg follows from diagnosis `Plans/diagnosis_v2-5-plasticity-1a_2026-04-19.md` (class: `selection-deception` / "deception of learning-to-learn" — Risi & Stanley 2010). Escalation path is pre-committed; scope is restricted to the path identified there. This prereg enacts P-1 from §v2.5-plasticity-1a's Falsifiability block — the cheapest branching test that distinguishes "INVERSE-BALDWIN driven by static-canonical shortcut" (selection-deception, EES next) from "INVERSE-BALDWIN is intrinsic to rank-1 plasticity on this task" (rank-2 first; diagnosis doc amended per §13).*
 
 ## Amendment history
+
+**2026-04-20 (v12 — pre-data, pre-queue-launch).** v11 was committed at `172d967` and SHA-pinned at `15d802e`. Codex adversarial review of v11 returned FAIL with 1 P1 + 2 P2. Codex's explicit closing line: *"Once the artifact floor is tightened to structural/numeric validity rather than mere field presence + equal length, I do not see another principled blocker to proceeding."*
+
+The codex-v11 P1 is real — arrays can pass v11's (i)+(ii)+(iii) floor yet still be structurally invalid (wrong rank, object dtype, NaN/Inf values) in ways that silently produce a bogus top-1 winner rather than routing to BLOCKED. The v9→v10→v11 amendment pattern (each round adding a finer schema check to the artifact-complete floor prose) is structurally similar to the v5→v8 "missingness = emptiness" oscillation, **except at the infrastructure level instead of the data-distribution level**. Enumerable infrastructure failure modes CAN be closed by prose, but the cycle has no natural stopping point as long as each fix is prose-level.
+
+**v12 applies §25b option (c) one level up** — demote the artifact-complete runtime invariants from prose-level pre-commitment to **code-level enforcement via a pre-committed pytest**. The prereg's v11 prose floor (files present + readable + np.load succeeds + named fields present + consistent length) is retained as-is; v12 adds a verbatim pytest pre-commitment to checklist item 3 that enforces the structural/numeric invariants codex-v11 named (rank-2 genotypes, finite fitness arrays, correct shapes) at engineering-discharge time, before the sweep runs. If the pytest fails against any sample final_population.npz fixture, the sweep does not launch; if it passes against all samples, the runtime invariants are enforced in code rather than promised in prose.
+
+Single fix:
+
+1. **Codex-v11 P1 resolved via pytest pre-commitment, not prose** (accepted-and-shifted). v12 adds a new sub-item **3(b)** to the Status-transition checklist with the verbatim pytest assertions enforcing: (a) `genotypes` is rank-2, integer dtype, shape `(pop_size, L)` where pop_size == 512; (b) `test_fitness_plastic` and `train_fitness_plastic` are 1-D, floating dtype, shape `(pop_size,)`, all values finite (no NaN, no Inf); (c) the schema fields named in v11's (iii) are present and consistent. Failing this pytest is an infrastructure failure — the sweep does NOT launch until the pytest passes. This resolves codex-v11 P1 by code-level enforcement; the v11 prose floor in the Chronicle-time classical-Baldwin disambiguation discipline section is unchanged. Codex-v11 P2-1 (drift across five loci on the length-invariant) and P2-2 (scope ambiguity) are also resolved by the pytest: the scope ambiguity collapses because the pytest defines the enforcement boundary concretely, and the length-drift is mooted because the pytest covers the stricter invariant regardless of which prose location says which weaker version.
+
+**Amendment-cycle termination.** v12 is the **final methodology-level amendment** to this prereg. The v9→v11 convergence (P1 counts 2, 1, 1) within the completeness class was narrowing but not terminating via prose-only fixes; v12 terminates it by shifting enforcement to code. Any further runtime-invariant concerns surfaced by codex-v12 review will be resolved by adding assertions to the pytest, not by amending the prereg prose. If codex-v12 PASSES (expected), the prereg is ready for engineering discharge and pilot-sweep launch.
+
+v11 preserved at `172d967` (SHA-pinned at `15d802e`); v10 at `9b553f6` (SHA-pinned at `989353b`); v9 at `d84c8a4` (SHA-pinned at `eadd803`); v8 at `2a8582d` (SHA-pinned at `4d9e81b`); v7 at `f82b746` (SHA-pinned at `45c7d5d`); v6 at `895739c` (SHA-pinned at `b17e2c8`); v5 at `1802146` (SHA-pinned at `b421fd8`); v4 at `09ceebd` (SHA-pinned at `aef841e`); v3 at `c8cf17b`; v2 at `f6ead25`; v1 at `9ff9bf8`. All twelve iterations preserved in git history per §13.
+
+---
 
 **2026-04-20 (v11 — pre-data, pre-queue-launch).** v10 was committed at `9b553f6` and SHA-pinned at `989353b`. Codex adversarial review of v10 returned FAIL with **1 P1 + 0 P2 + 0 [M]** — the lowest finding count in the entire v1 → v10 cycle. Codex's explicit verdict on the structural demotion: confirmed sound through v10 (no recurrence of the v5→v8 "missingness = emptiness" class). The single P1 is a narrow wording tightening on v10's new "artifact-complete" definition.
 
@@ -553,11 +569,66 @@ Before this prereg can move from QUEUED to RUNNING:
    - (g) **NEW in v5 — UNDISCHARGED at v5 commit time.** Add `max_gap_at_budget_5_seed_minority_0_05` count in `summarize` (count of seeds with per-seed max_gap > 0.05, excluding nan). v6 note: because v6 requires 20/20 non-nan for any substantive row to fire, the denominator is always 20 when this count is used for routing; the "excluding nan" mechanics are only for the numerator (if any seed is nan, row 7 grid-miss fires before this count is checked). Rows 1 and 5 trigger on this count < 10. Exactly parallel to (d)'s existing majority branch — same pattern, different threshold. ~5 min. Must land before QUEUED → RUNNING transition.
    - (h') **NEW in v9 — UNDISCHARGED; replaces v6/v7/v8 item 1(h) per §25b option c; v10 verbatim-tightened per codex-v9 P1-1 and P2-1; v11 schema-check added per codex-v10 P1.** Add per-seed `top1_winner_hamming` computation in `analyze_run`: **(schema-check first, v11 NEW):** before indexing per-individual columns, verify `final_population.npz` contains ALL of `genotypes`, `test_fitness_plastic`, `train_fitness_plastic` AND that their array lengths agree (`.shape[0]` matches across all three). If any field is missing or lengths disagree, skip the winner computation for this run and emit nan/empty for `top1_winner_hamming`; this case routes the chronicle-time verdict to BLOCKED per the artifact-complete floor in the Chronicle-time classical-Baldwin disambiguation discipline section. **(winner-selection, unchanged from v10):** for each schema-complete run, identify the top-1 winner in the final population using the verbatim tiebreak — `np.argmax(test_fitness_plastic)` with ties broken by `train_fitness_plastic` then by the smallest `genotype_index` (numpy argmax returns the first-encountered max by default, which gives the smallest-index tiebreak for free; explicit tiebreak logic: `candidates = np.flatnonzero(test_fitness_plastic == test_fitness_plastic.max()); winner_idx = candidates[np.argmax(train_fitness_plastic[candidates])]` where the inner argmax's first-max behavior provides the final deterministic smallest-genotype_index tiebreak). **(distance computation, unchanged from v10):** compute the active-view Levenshtein (cap=4) between the winner's tape and the canonical `sum_gt_10_AND_max_gt_5` tape, matching the existing Baldwin-bin labeling routine at `analyze_plasticity.py:367-373` verbatim: `levenshtein(extract_active(genotypes[winner_idx], alphabet), extract_active(canonical_tape, alphabet), cap=4)`. Emit as an integer-valued per-run column in `plasticity.csv`; values ∈ {0, 1, 2, 3, 4}. No bootstrap, no CI, no occupancy guard — the metric is always defined for artifact-complete runs (per the three-way floor in the Chronicle-time classical-Baldwin disambiguation discipline section). The chronicle-time per-seed classification and cell-level verdict are computed at chronicle-writing time (see that section) — they do NOT need analyzer-level aggregation. ~12 min (v10's 10 min + ~2 min for v11's schema-check; still simpler than v8's three-tier CI logic). Must land before QUEUED → RUNNING transition.
 2. **`run.py` / `evolve.py` instrumentation (~20 min):** add `initial_population_canonical_count` to `history.npz` as a scalar computed in `build_initial_population` (parse `cfg.seed_tapes` via `_parse_seed_tapes` if non-empty, compare each gen-0 tape byte-for-byte; emit 0 when `cfg.seed_tapes == ""`). NEW — `history.npz` does not currently track this field; grep-verified at codex-v2 review time.
-3. **Pytest assertion (~20 min):** `cfg.seed_tapes == "" AND cfg.seed_fraction == 0.0 → initial_population_canonical_count == 0` in `tests/test_chem_tape_seeded_init.py` (extend existing sf-related tests).
+3. **Pytest assertions (~35 min; v12 extended with schema-invariant checks per codex-v11 P1 shift-to-pytest-enforcement).**
+   - (a) `cfg.seed_tapes == "" AND cfg.seed_fraction == 0.0 → initial_population_canonical_count == 0` in `tests/test_chem_tape_seeded_init.py` (extend existing sf-related tests). ~20 min.
+   - (b) **NEW in v12 — UNDISCHARGED; resolves codex-v11 P1 via code-level enforcement rather than further artifact-complete-floor prose tightening.** Add `tests/test_chem_tape_final_population_schema.py` (or equivalent; extend existing tests if a suitable module exists) enforcing the runtime invariants required by `top1_winner_hamming` + the chronicle-time classical-Baldwin disambiguation discipline. Pre-committed verbatim (principle 27):
+
+       ```python
+       import numpy as np
+       from pathlib import Path
+
+       def assert_plasticity_final_population_schema(
+           npz_path: Path, pop_size: int
+       ) -> None:
+           """Enforce runtime invariants required by
+           top1_winner_hamming's artifact-complete floor. Raises
+           AssertionError on violation; any failure routes the
+           chronicle-time row-1 verdict to BLOCKED per the
+           Chronicle-time classical-Baldwin disambiguation
+           discipline section's floor.
+           """
+           data = np.load(npz_path)
+           required = {
+               "genotypes",
+               "test_fitness_plastic",
+               "train_fitness_plastic",
+           }
+           missing = required - set(data.files)
+           assert not missing, f"missing fields: {missing}"
+
+           g = data["genotypes"]
+           assert g.ndim == 2, f"genotypes ndim={g.ndim}, expected 2"
+           assert g.shape[0] == pop_size, (
+               f"genotypes.shape[0]={g.shape[0]}, expected {pop_size}"
+           )
+           assert np.issubdtype(g.dtype, np.integer), (
+               f"genotypes dtype={g.dtype}, expected integer"
+           )
+
+           for name in ("test_fitness_plastic", "train_fitness_plastic"):
+               arr = data[name]
+               assert arr.ndim == 1, (
+                   f"{name} ndim={arr.ndim}, expected 1"
+               )
+               assert arr.shape[0] == pop_size, (
+                   f"{name}.shape[0]={arr.shape[0]}, "
+                   f"expected {pop_size}"
+               )
+               assert np.issubdtype(arr.dtype, np.floating), (
+                   f"{name} dtype={arr.dtype}, expected floating"
+               )
+               bad = np.where(~np.isfinite(arr))[0]
+               assert bad.size == 0, (
+                   f"{name} has non-finite values at "
+                   f"indices: {bad.tolist()[:10]}"
+               )
+       ```
+
+       The pytest proper invokes this function against at least one real `final_population.npz` produced by a smoke-test run (pilot sweep output per post-v12 discipline), AND against one synthetic invalid fixture per failure class (missing-field, wrong-rank, wrong-length, NaN-fitness, Inf-fitness, object-dtype) to verify the assertions fire correctly. The sweep does NOT launch until both the synthetic-fixture tests pass AND the pilot-sweep outputs pass the schema validation. ~15 min. Must land before QUEUED → RUNNING transition.
 4. **Sweep YAML:** `experiments/chem_tape/sweeps/v2/v2_5_plasticity_2a.yaml` — 4 plastic cells × 20 seeds (seeds 20..39) + 1 frozen control × 20 seeds = 100 runs. Paired-seed structure required for the secondary R_fit diagnostic.
 5. **Queue entry:** add to `queue.yaml` with 90-min timeout (conservative headroom over projected 30-60 min).
 6. **Pin target commit SHA** in Status line above.
-7. **Codex adversarial review of v11** — focused on: (a) whether v11's single fix fully resolves codex-v10's P1 — artifact-complete now requires schema-completeness of `genotypes`, `test_fitness_plastic`, `train_fitness_plastic` (all present + consistent length), not just file presence and readability; the redefinition is propagated to the Chronicle-time classical-Baldwin disambiguation discipline section (primary locus — the (i)+(ii)+(iii) three-way floor), the Measurement-infrastructure gate paragraph (e), the METRIC_DEFINITIONS `top1_winner_hamming` entry, the Status-transition checklist item 1(h') (schema-check pseudocode added before winner-selection), and this codex-review item 7; (b) whether the three-way floor (file-present-and-readable / np.load-succeeds / schema-fields-present-with-consistent-length) actually catches every way the `top1_winner_hamming` computation can fail silently — is there a fourth class of damage (e.g., NaN values in the fitness arrays, non-numeric types) that the v11 floor still misses? (c) whether the v10 fixes still hold (winner-selection tiebreak using real per-individual columns; active-view Levenshtein cap=4; NOT full-tape Hamming); (d) whether the structural demotion remains sound (codex-v9 and codex-v10 both explicitly confirmed this — v11 should not have regressed it); (e) whether the amendment-cycle signal (P1 counts monotone decreasing within the completeness class: v9 → 2, v10 → 1, v11 → ?) is converging as expected. Amendment-cycle tally through v10: v4 FAIL 4+2; v5 FAIL 3+1; v6 FAIL 2+1+1[M]; v7 FAIL 2+2; v8 FAIL 2+1[M] (all structural); v9 FAIL 2+1; v10 FAIL 1+0 (completeness, narrowest). v11 expected to PASS; this is the second-narrowest-possible completeness fix (one concept, five locations, no logic change). If v11 FAILs, it should be on a NEW edge case in the artifact-complete three-way floor (e.g., a fourth damage class the floor misses), not a recurrence of earlier findings.
+7. **Codex adversarial review of v12** — focused on: (a) whether the v12 shift-to-pytest-enforcement resolves codex-v11 P1 — specifically, whether the verbatim pytest in checklist item 3(b) covers every runtime invariant codex-v11 named (rank-2 genotypes, integer dtype, shape (pop_size, L); 1-D floating finite fitness arrays of length pop_size; field presence); (b) whether the pytest verbatim-spec is reproducible — could a second engineer read the prereg's checklist item 3(b) and produce identical assertion code without ambiguity? (c) whether the choice to enforce runtime invariants in code rather than in the artifact-complete floor prose is methodologically sound — does this correctly apply §25b option (c) at the infrastructure level (code-level enforcement is the §25b option c analogue for infrastructure invariants that chronicle-time-prose cannot economically enumerate)? (d) whether the v11 fixes still hold (three-way artifact-complete floor text unchanged in v12; winner-selection tiebreak from v10 unchanged; active-view Levenshtein cap=4 from v10 unchanged; structural demotion from v9 unchanged); (e) any NEW v11 → v12 inconsistencies (entry counts, amendment tally, "twelve iterations" phrasing); (f) whether any remaining pre-committed gate blocks the prereg from transitioning to engineering-discharge after v12 passes. Amendment-cycle tally through v11: v4 FAIL 4+2; v5 FAIL 3+1; v6 FAIL 2+1+1[M]; v7 FAIL 2+2; v8 FAIL 2+1[M] (all structural); v9 FAIL 2+1; v10 FAIL 1+0; v11 FAIL 1+2 (all completeness). **v12 is the final methodology-level amendment.** If v12 PASSES, the prereg is ready for engineering discharge (items 1, 2, 3(a)+(b), 4, 5, 6) and pilot-sweep launch; no further prose-level tightening of the artifact-complete floor is in scope. If v12 FAILs on a runtime-invariant concern, the fix is adding assertions to the pytest, NOT amending the floor prose.
 
 **Total engineering effort:** ≈ 2.5-3.0 h (v3's estimate was ~2-2.5 h; v4 added CSV schema normalization per codex-v3; v5 added ~5 min for the seed-minority-0.05 count per codex-v4 P2-a; v6 added ~15 min for classical_baldwin_gap_max + CI per codex-v5 P1-c; v9 replaced v8's 15-min three-tier CI logic with ~10-min per-seed top1_winner_hamming computation per §25b option c — net ~5 min saved). Cumulative amendment-cycle evidence preserved in this prereg's amendment history block in git; methodology lessons folded into `docs/methodology.md` §25b + §25c (2026-04-20 commit).
 
@@ -570,5 +641,5 @@ Before this prereg can move from QUEUED to RUNNING:
 - `experiments/chem_tape/analyze_plasticity.py` — METRIC_DEFINITIONS source.
 - `docs/chem-tape/runtime-plasticity-direction.md` — direction doc (rank-1 → rank-2 ladder).
 - Risi, S. & Stanley, K. O. (2010). "Evolving Plastic Neural Networks with Novelty Search." *Adaptive Behavior* 18(6), 470-491 — literature anchor for class-4 `selection-deception`.
-- Prior commits: `9ff9bf8` — v1; `f6ead25` — v2 amendment; `c8cf17b` — v3 amendment; `09ceebd` — v4 amendment (SHA-pinned at `aef841e`); `1802146` — v5 amendment (SHA-pinned at `b421fd8`); `895739c` — v6 amendment (SHA-pinned at `b17e2c8`); `f82b746` — v7 amendment (SHA-pinned at `45c7d5d`); `2a8582d` — v8 amendment (SHA-pinned at `4d9e81b`); `d84c8a4` — v9 amendment (SHA-pinned at `eadd803`); `9b553f6` — v10 amendment (SHA-pinned at `989353b`); all superseded by this v11; reasoning trail preserved in git history per §13 spirit.
-- `docs/methodology.md` §25b (routing-critical metric discipline) + §25c (single-purpose clause discipline) — 2026-04-20 methodology commit folding the v1→v8 amendment-cycle lessons into the durable ledger. v9 applied §25b option (c) to the classical-Baldwin clause; v10 tightened the chronicle-time metric specification per codex-v9 completeness findings; v11 added schema-completeness to the artifact-complete floor per codex-v10 P1 (no structural change from v9).
+- Prior commits: `9ff9bf8` — v1; `f6ead25` — v2 amendment; `c8cf17b` — v3 amendment; `09ceebd` — v4 amendment (SHA-pinned at `aef841e`); `1802146` — v5 amendment (SHA-pinned at `b421fd8`); `895739c` — v6 amendment (SHA-pinned at `b17e2c8`); `f82b746` — v7 amendment (SHA-pinned at `45c7d5d`); `2a8582d` — v8 amendment (SHA-pinned at `4d9e81b`); `d84c8a4` — v9 amendment (SHA-pinned at `eadd803`); `9b553f6` — v10 amendment (SHA-pinned at `989353b`); `172d967` — v11 amendment (SHA-pinned at `15d802e`); all superseded by this v12; reasoning trail preserved in git history per §13 spirit.
+- `docs/methodology.md` §25b (routing-critical metric discipline) + §25c (single-purpose clause discipline) — 2026-04-20 methodology commit folding the v1→v8 amendment-cycle lessons into the durable ledger. v9 applied §25b option (c) to the classical-Baldwin clause; v10 tightened the chronicle-time metric specification per codex-v9 completeness findings; v11 added schema-completeness to the artifact-complete floor per codex-v10 P1; v12 applied §25b option (c) one level up — shifted runtime-invariant enforcement from prose-level pre-commitment to code-level pytest pre-commitment (checklist item 3(b)) per codex-v11 P1 and to terminate the v9→v11 completeness-class amendment oscillation.
