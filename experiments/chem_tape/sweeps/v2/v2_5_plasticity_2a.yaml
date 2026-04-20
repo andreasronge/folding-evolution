@@ -3,12 +3,21 @@ sweep_name: v2_5_plasticity_2a
 # of the §v2.5-plasticity-1a INVERSE-BALDWIN P-1 diagnosis
 # (selection-deception vs rank-1-intrinsic).
 #
-# Prereg: Plans/prereg_v2-5-plasticity-2a.md (v4, pre-data).
+# Prereg: Plans/prereg_v2-5-plasticity-2a.md (v14, amendment cycle closed).
 # Diagnosis: Plans/diagnosis_v2-5-plasticity-1a_2026-04-19.md.
-# Engineering discharged: analyze_plasticity.py extensions (max_gap_at_budget_5
-# cell-bootstrap CI + seed-majority + R_fit_delta_paired_sf0 + frozen-only
-# row handling), history.npz initial_population_canonical_count scalar,
-# pytest invariant at cfg.seed_tapes="" ∧ sf=0.0 → count=0.
+# Engineering discharged (v14 closed):
+#   - analyze_plasticity.py extensions: max_gap_at_budget_5 per-seed +
+#     cell-bootstrap CI + seed-majority + seed-minority-0.05, R_fit_delta_paired_sf0
+#     cross-cell merge, frozen-only row schema normalization, top1_winner_hamming
+#     per-seed with schema-check guard (v11).
+#   - history.npz initial_population_canonical_count scalar (evolve.py).
+#   - pytest tests/test_chem_tape_seeded_init.py: cfg.seed_tapes="" ∧ sf=0.0 → count=0.
+#   - pytest tests/test_chem_tape_final_population_schema.py: assert_plasticity_final_
+#     population_schema + assert_canonical_hex_length (13 invalid-fixture classes incl.
+#     v14 closure canonical-token-range check per codex-v14 P1).
+# Pilot sweep validation: plastic & frozen runs both produce the expected
+# row schemas; top1_winner_hamming lands in plasticity.csv as int ∈ {0..4};
+# schema helpers pass against real pilot final_population.npz.
 #
 # Seeds 20..39 (disjoint from §1a's seeds 0..19) per principle 8
 # independent-seed-confirmation discipline.
