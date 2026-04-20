@@ -25,7 +25,7 @@ In Codex, this skill is used manually. Detect the user's intent, read this file,
 
 Project-local skill that enforces `docs/methodology.md` at the three checkpoints where overreach silently accumulates:
 
-1. **Before running** — pre-registration (principles 1, 2, 2b, 4, 6, 17a, 20, 22, 22a, 25, 28b)
+1. **Before running** — pre-registration (principles 1, 2, 2b, 4, 6, 17a, 20, 22, 22a, 25, 25b, 25c, 28b)
 2. **After running** — chronicle entry (principles 3, 10, 12, 13, 16c, 17b, 18, 23, 28a, 28c)
 3. **When consolidating** — findings-ledger promotion (principles 5, 16, 16b, 16c, 17, 17b, 18, 19, 24 — null results promote on equal footing)
 
@@ -40,6 +40,7 @@ The skill triggers on intent, not a literal command. Match the user's phrasing t
 | user intent | mode |
 |-------------|------|
 | "pre-register X", "new experiment on X", "design experiment for Y" | **prereg** |
+| "amend prereg §X", "v_{n+1} amendment", "codex review returned FAIL on §X, now what", "redraft §X" | **prereg** (with the amendment meta-check step enabled) |
 | "record result of §X", "log the sweep", "write up X", "add §X to experiments.md" | **log-result** |
 | "promote §X to findings", "consolidate this claim", "add to findings.md", "record a null finding", "promote this FAIL" | **promote-finding** |
 | "scope check", "review this claim", "is this overreaching", "check my language" | **scope-check** |
@@ -53,11 +54,33 @@ If the user's intent is ambiguous between modes, ask which one — do not guess.
 
 ## Mode: prereg
 
-**Goal:** produce `Plans/prereg_<slug>.md` that could not pass review without enforcing principles 1, 2, 2b, 4, 6, 20, 22, and 25.
+**Goal:** produce `Plans/prereg_<slug>.md` that could not pass review without enforcing principles 1, 2, 2b, 4, 6, 20, 22, 25, 25b, and 25c.
 
-**Steps:**
+**Amendment meta-check (fires only if the user is drafting v_{n+1} of an existing prereg — skip for fresh prereg drafts).**
 
-1. **Read `docs/methodology.md` sections 1, 2, 2b, 4, 6, 20, 22, and 25** to refresh the binding principles.
+Before re-entering the hard-gate loop for an amendment round, detect whether the amendment cycle is converging or diverging. The check runs once at mode entry when the user invoked with "amend prereg §X" / "codex FAIL on §X" / "v_{n+1} amendment" phrasing OR when the prereg file's Amendment history block shows ≥ 2 prior amendments.
+
+Steps:
+
+1. **Count the amendment round.** Read the prereg's Amendment history block. If this is round n_amend ≥ 3, continue; otherwise skip.
+2. **Extract per-round P1 finding counts.** From each amendment-history entry, pull the codex P1 count that triggered that round (usually phrased as "codex-v{k} returned FAIL with N P1 + M P2").
+3. **Test the amendment-count divergence signal (principle 25c).** Flag divergence if either:
+   - P1 counts are NOT monotonically decreasing across the last three rounds (e.g., 3, 2, 2, 2 or 2, 1, 2), AND/OR
+   - Failure classes are structurally similar across rounds (e.g., "missingness-as-emptiness at across-seeds grain" followed by "missingness-as-emptiness at across-individuals grain" — the same category error surfacing at finer grain).
+4. **If divergence is flagged**, surface the meta-check explicitly to the user BEFORE any drafting begins:
+   > Amendment round {n_amend}. Codex P1 counts across the last three rounds: {list}. {Structural similarity note, if any.} This matches the §25c amendment-count divergence signal — likely causes: (a) a routing-critical clause being fit against an unknown distribution (§25b option c applies — consider chronicle-time demotion); (b) a clause doing double duty as both routing gate and mechanism discriminator (§25c — split the jobs). See `Plans/prereg_v2-5-plasticity-2a.md` amendment history block for the v1→v8 case evidence.
+   >
+   > Before drafting v{n_amend+1}, consider three alternatives to another threshold-tightening:
+   > - **Demote the offending clause to chronicle-time (§25b option c).** The smallest-blast-radius fix; preserves the outcome grid.
+   > - **Run a small empirical probe** on the unknown distribution before continuing to pre-register against it.
+   > - **Pause the prereg and reframe.** If the diagnostic question can be answered via a different, cleaner experiment, re-queue that first.
+   >
+   > Which alternative do you want to evaluate, or do you want to proceed with another threshold-tightening amendment? I'll name the principle and case in methodology.md but will not block if you choose to proceed.
+5. **Do not block.** If the user chooses to proceed with another amendment, continue to step 1 of the normal prereg flow. The meta-check is surface-and-name, not gate.
+
+**Steps (normal flow — runs for both fresh preregs and amendments that pass the meta-check):**
+
+1. **Read `docs/methodology.md` sections 1, 2, 2b, 4, 6, 20, 22, 25, 25b, and 25c** to refresh the binding principles.
 2. **Read `docs/_templates/prereg.md`** and copy it to `Plans/prereg_<short-slug>.md`. Slug should be kebab-case, ≤30 chars.
 3. **Fill with the user** — section by section, in order. Do not skip ahead.
 4. **Enforce the hard gates** (refuse to finish until satisfied):
@@ -78,6 +101,8 @@ If the user's intent is ambiguous between modes, ask which one — do not guess.
    - **Conjunction-guard check for multi-mode regimes (principle 28b).** For each degenerate-success guard enumerated above (principle 4), check whether the detection criterion is a single gate (one condition) or a conjunction (two or more AND-ed conditions). If single, list the guarded regime's known failure modes and verify the single gate detects each one — especially modes on a different axis from the criterion (e.g., an `F < 18/20` guard cannot detect a propagation-failure mode where F=20/20 but R_fit low). If any named failure mode is not covered by the criterion, add criteria. Single-criterion guards over multi-failure-mode regimes fail this gate. Case: §v2.4-proxy-5c-tournament-size's SWAMPED guard letter-passed at ts=2 despite missing the propagation-failure mode.
    - **Per-sweep test counting (principle 22a).** When the prereg produces multiple independent statistical tests (e.g., one paired McNemar per sweep across different arms, decoders, tasks, or seed blocks), each test is a separate family member under principle 22. The prereg must state its per-sweep test count explicitly in the confirmatory/exploratory classification block. Multi-sweep preregs that omit this count state their classification as **ambiguous** until amended — and the FWER family size cannot be correctly computed at audit time. Case: §v2.4-proxy-4c-replication's 2-sweep prereg was miscounted (as 0 and as 1 test) by two different audits before the rule was codified.
    - **Grouping-script attribution (principle 25 clarification).** For each metric committed to above under principle 25, verify both (a) the metric-computing code path *and* (b) the grouping code path that produces the per-cell table. If the metric module's default aggregator groups by axes narrower than the prereg's grid — e.g., `summarize_arm` in `analyze_retention.py` groups by `(arm, safe_pop_mode, seed_fraction)` — the prereg must name the grouping wrapper / script / function covering its axis set (e.g., `analyze_5ab.py <axis> --include-holdout`). "Produced directly by `analyze_retention.py`" fails this gate when the grid axes require a wrapper the module doesn't include by default.
+   - **Routing-critical metric discipline (principle 25b).** For each row clause whose satisfaction gates a specific escalation path with material consequences for downstream experiments (i.e., differentiates verdicts that queue different next experiments or amend a diagnosis doc), classify explicitly which treatment applies: (a) **minimum-N occupancy guard** calibrated to the metric's expected modal occupancy on **this** axis (not inherited from a sibling axis — a floor that is right for a modally-populated axis is wrong for a modally-empty one); (b) **CI bound** with bootstrap-reliability threshold stated explicitly; (c) **advisory-only demotion** — the clause is removed from routing, reported as diagnostic, and replaced by a pre-committed chronicle-time per-seed inspection discipline that takes the routing/discrimination role. Plain-mean-as-classifier fails this gate. If the metric's data-generating distribution at the tested cells is not known from precedent experiments, prefer (c): no pre-registered rule can correctly handle a distribution the author has not yet observed. Case: §v2.5-plasticity-2a v5→v8 tried (a)/(b) for five amendment rounds on a classical-Baldwin axis whose occupancy at sf=0.0 was not known; (c) was the principled choice from v5.
+   - **Single-purpose clause (principle 25c).** For each row clause, check whether it is being asked to do two jobs: (i) **route** (fire on every cell in the outcome grid) AND (ii) **discriminate mechanism** (carry signal only where the candidate mechanism could have operated). If the clause is doing both, split: routing stays in row-clause fidelity (§28a) using a metric with well-understood occupancy; mechanism discrimination moves to chronicle-time pre-committed per-seed criteria (§25b option c), applied **after** row-match to refine the interpretation, not to gate it. The tell that a clause is doing double duty: plain-mean-as-classifier with no occupancy guard, or a tier/threshold structure that keeps growing sub-rules at each amendment. Case: §v2.5-plasticity-2a row-1's classical-Baldwin clause was doing both jobs, drove five amendment rounds of tier/threshold logic.
 5. **Capture the decision rule.** Under each outcome row, what experiment runs next? This is the commitment that prevents post-hoc rerouting (principle 19).
 6. **Commit the prereg.** `git add Plans/prereg_<slug>.md` and ask the user whether to commit now or after the sweep finishes. A prereg committed after the sweep is no longer a prereg.
 
@@ -278,7 +303,7 @@ If the user's intent is ambiguous between modes, ask which one — do not guess.
 
 These files are the skill's backing reference. Read the relevant ones when entering a mode — do not operate from memory, since methodology.md is actively revised.
 
-- `docs/methodology.md` — the 29-principle ledger (plus sub-principles 2b, 16b, 16c, 17a, 17b, 22a, 22b, 28a, 28b, 28c).
+- `docs/methodology.md` — the 29-principle ledger (plus sub-principles 2b, 16b, 16c, 17a, 17b, 22a, 22b, 25b, 25c, 28a, 28b, 28c).
 - `docs/_templates/README.md` — kit overview and status vocabulary.
 - `docs/_templates/prereg.md` — pre-registration template.
 - `docs/_templates/experiment_section.md` — chronicle entry template.
