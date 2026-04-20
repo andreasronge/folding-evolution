@@ -163,6 +163,41 @@ METRIC_DEFINITIONS: dict[str, str] = {
         "equivalence claim — cell-mean CI and per-seed majority are distinct "
         "statistical statements that must both hold for the row."
     ),
+    "max_gap_at_budget_5_seed_minority_0_05": (
+        "Count of seeds (out of 20 in the cell) with per-seed "
+        "max_gap_at_budget_5 > 0.05 (excluding seeds where per-seed "
+        "max_gap_at_budget_5 is nan). §v2.5-plasticity-2a's rows 1 and 5 "
+        "trigger on this count < 10 (fewer than half the seeds show even "
+        "a weak positive uplift at the 0.05 floor). Exactly parallel to "
+        "max_gap_at_budget_5_seed_majority but at the tighter tail-absence "
+        "threshold of 0.05 rather than the row-3 majority threshold of "
+        "0.10. Added in v5 per codex-v4 P2-a to separate row-1/5 absence "
+        "semantics from row-3 presence semantics."
+    ),
+    "top1_winner_hamming": (
+        "Per-run active-view Levenshtein distance (cap=4) between the "
+        "top-1 winner's tape and the canonical sum_gt_10_AND_max_gt_5 "
+        "tape. Winner selection: argmax over the final population's "
+        "test_fitness_plastic, tie-broken by train_fitness_plastic, then "
+        "by the smallest genotype index (numpy argmax first-max behaviour). "
+        "Distance computed as "
+        "levenshtein(extract_active(genotypes[winner_idx], alphabet), "
+        "extract_active(canonical_tape, alphabet), cap=4); matches the "
+        "Baldwin-bin labelling routine verbatim. Emitted as an integer "
+        "per-run column in plasticity.csv; values ∈ {0, 1, 2, 3, 4}. "
+        "Added in v9 per §25b option (c) / §25c — replaces v6-v8's "
+        "three-tier classical_baldwin_gap_max routing clause with a "
+        "pre-committed chronicle-time per-seed categorical classification: "
+        "top1_winner_hamming <= 1 = classical-Baldwin active seed; >= 2 = "
+        "classical-Baldwin inactive seed. Cell-level verdict on row-1-"
+        "matching cells is a count over the nominal 20 seeds: "
+        "n_classical_active >= 11 = CB dominant; <= 9 = CB non-dominant; "
+        "= 10 = split signal. Schema-check guard (v11): if "
+        "final_population.npz lacks any of genotypes, test_fitness_plastic, "
+        "train_fitness_plastic, or their lengths disagree, emit nan and "
+        "route the chronicle-time row-1 verdict to BLOCKED per the "
+        "artifact-complete floor."
+    ),
     "R_fit_delta_paired_sf0": (
         "Per-seed paired difference R_fit_plastic_999 - R_fit_frozen_999 at "
         "sf=0.0, where R_fit_frozen_999 is taken from the frozen control cell "
@@ -304,6 +339,7 @@ _PLASTIC_ONLY_KEYS: tuple[str, ...] = (
     "delta_mean_h3",
     "delta_std_h3",
     "max_gap_at_budget_5",
+    "top1_winner_hamming",
 )
 
 
@@ -430,6 +466,18 @@ def analyze_run(
     # descriptive-only and do not enter the FWER family.
     max_gap = _compute_max_gap_at_budget_5(gap_bins, gap_counts)
 
+    # §v2.5-plasticity-2a top1_winner_hamming (v9 per §25b option c;
+    # v10 verbatim tiebreak; v11 schema-check guard). Per-run active-view
+    # Levenshtein (cap=4) between the final population's top-1 winner
+    # (argmax test_fitness_plastic, tiebroken by train_fitness_plastic,
+    # then smallest genotype index) and the canonical tape. Schema guard:
+    # if required fields are missing or lengths disagree, emit nan —
+    # routes the chronicle-time row-1 verdict to BLOCKED per the
+    # artifact-complete floor.
+    top1_winner_hamming = _compute_top1_winner_hamming(
+        data, can_active, alphabet
+    )
+
     row = _row_common(cfg, result, run_dir)
     row.update({
         "best_fitness_train_frozen": float(train_fit_frozen.max()),
@@ -451,6 +499,7 @@ def analyze_run(
         **gap_counts,
         **delta_stats,
         "max_gap_at_budget_5": max_gap,
+        "top1_winner_hamming": top1_winner_hamming,
     })
     return row
 
@@ -480,6 +529,51 @@ def _compute_max_gap_at_budget_5(
             continue
         candidates.append(float(v))
     return max(candidates) if candidates else float("nan")
+
+
+def _compute_top1_winner_hamming(
+    data,
+    can_active: np.ndarray,
+    alphabet: str,
+) -> float:
+    """§v2.5-plasticity-2a top1_winner_hamming (v9 / v10 / v11).
+
+    Schema-check guard (v11 per codex-v10 P1): returns nan when
+    ``final_population.npz`` lacks any of ``genotypes``,
+    ``test_fitness_plastic``, ``train_fitness_plastic`` OR when their
+    ``shape[0]`` values disagree. A nan return routes the chronicle-time
+    row-1 verdict to BLOCKED per the artifact-complete floor.
+
+    Winner selection (v10 verbatim): argmax over ``test_fitness_plastic``,
+    tiebroken by ``train_fitness_plastic`` over the argmax set, then by
+    smallest genotype index (numpy argmax's first-max behaviour).
+
+    Distance: ``levenshtein(extract_active(genotypes[winner_idx], alphabet),
+    can_active, cap=4)``. Matches the Baldwin-bin labelling routine
+    verbatim. Returned as a Python float of the int cap=4 value ∈
+    {0, 1, 2, 3, 4} for schema-complete runs.
+    """
+    required = ("genotypes", "test_fitness_plastic", "train_fitness_plastic")
+    for name in required:
+        if name not in data.files:
+            return float("nan")
+
+    genotypes = data["genotypes"]
+    test_fit_plastic = data["test_fitness_plastic"]
+    train_fit_plastic = data["train_fitness_plastic"]
+
+    if not (
+        genotypes.shape[0]
+        == test_fit_plastic.shape[0]
+        == train_fit_plastic.shape[0]
+    ):
+        return float("nan")
+
+    candidates = np.flatnonzero(test_fit_plastic == test_fit_plastic.max())
+    winner_idx = int(candidates[np.argmax(train_fit_plastic[candidates])])
+
+    winner_active = extract_active(genotypes[winner_idx], alphabet)
+    return float(levenshtein(winner_active, can_active, cap=4))
 
 
 def _cell_key(row: dict) -> tuple:
@@ -572,12 +666,39 @@ def summarize(rows: list[dict]) -> dict:
             max_gap_seed_majority = int(
                 np.sum((max_gap_vals > 0.10) & (~np.isnan(max_gap_vals)))
             )
+            max_gap_seed_minority_0_05 = int(
+                np.sum((max_gap_vals > 0.05) & (~np.isnan(max_gap_vals)))
+            )
             max_gap_n_non_nan = int(np.sum(~np.isnan(max_gap_vals)))
         else:
             max_gap_mean = None
             max_gap_ci_lo = max_gap_ci_hi = float("nan")
             max_gap_seed_majority = 0
+            max_gap_seed_minority_0_05 = 0
             max_gap_n_non_nan = 0
+
+        # §v2.5-plasticity-2a top1_winner_hamming cell-level counts (v9
+        # chronicle-time classical-Baldwin disambiguation discipline).
+        # Categorical classification is per-seed: hamming <= 1 = CB-active,
+        # >= 2 = CB-inactive. Cell-level verdict is a count over the
+        # row-1-matching cell's nominal 20 seeds. Nan entries (schema-
+        # incomplete runs) are counted separately — any nan routes the
+        # chronicle-time row-1 verdict to BLOCKED per the artifact-complete
+        # floor, regardless of the other counts.
+        t1wh_vals = [
+            m.get("top1_winner_hamming") for m in members
+            if m.get("top1_winner_hamming") is not None
+        ]
+        if pl_enabled and t1wh_vals:
+            t1wh_arr = np.array(t1wh_vals, dtype=np.float64)
+            t1wh_n_nan = int(np.sum(np.isnan(t1wh_arr)))
+            non_nan = t1wh_arr[~np.isnan(t1wh_arr)]
+            t1wh_n_cb_active = int(np.sum(non_nan <= 1))
+            t1wh_n_cb_inactive = int(np.sum(non_nan >= 2))
+        else:
+            t1wh_n_nan = 0
+            t1wh_n_cb_active = 0
+            t1wh_n_cb_inactive = 0
 
         # §v2.5-plasticity-2a: paired R_fit_plastic_999 − R_fit_frozen_999
         # at sf=0.0, joined across the plastic cell and the sf=0.0 frozen
@@ -627,7 +748,11 @@ def summarize(rows: list[dict]) -> dict:
             "max_gap_at_budget_5_cell_boot_ci_lo": max_gap_ci_lo,
             "max_gap_at_budget_5_cell_boot_ci_hi": max_gap_ci_hi,
             "max_gap_at_budget_5_seed_majority": max_gap_seed_majority,
+            "max_gap_at_budget_5_seed_minority_0_05": max_gap_seed_minority_0_05,
             "max_gap_at_budget_5_n_non_nan_seeds": max_gap_n_non_nan,
+            "top1_winner_hamming_n_cb_active": t1wh_n_cb_active,
+            "top1_winner_hamming_n_cb_inactive": t1wh_n_cb_inactive,
+            "top1_winner_hamming_n_nan": t1wh_n_nan,
             "R_fit_delta_paired_sf0_mean": R_fit_delta_paired_sf0_mean,
             "R_fit_delta_paired_sf0_n_pairs": len(paired_deltas),
         })
