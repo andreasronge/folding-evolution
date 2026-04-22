@@ -422,14 +422,15 @@
 # INVERSE-BALDWIN diagnosis (P-1: selection-deception vs rank-1-intrinsic).
 # Prereg: Plans/prereg_v2-5-plasticity-2a.md (v4, pre-data).
 # Seeds 20..39 (disjoint from §1a's seeds 0..19). 4 plastic budget cells
-# + 1 frozen control × 20 seeds = 100 runs. Projected wall 30-60 min at
-# 10 workers per prereg §Setup; 90-min (5400s) timeout is conservative
-# headroom. One confirmatory test at budget=5: cell-level seed-bootstrap CI
-# + per-seed-majority on max_gap_at_budget_5 (FWER family
+# + 1 frozen control × 20 seeds = 100 runs. Prior 5400s run SIGTERM'd at 95/100
+# with no sweep_index.json (2026-04-20; entry in queue.status.json renamed
+# v2_5_plasticity_2a_prior_timeout_5400s). Timeout raised to 28800s (8h) for
+# overnight headroom. One confirmatory test at budget=5: cell-level seed-bootstrap
+# CI + per-seed-majority on max_gap_at_budget_5 (FWER family
 # plasticity-inverse-baldwin-replicates, size 1, α=0.05).
 - id: v2_5_plasticity_2a
   cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_5_plasticity_2a.yaml --output-root "$RUN_DIR" --workers 10
-  timeout_seconds: 5400
+  timeout_seconds: 28800
   expect_outputs: [sweep_index.json]
   track: chem-tape-v2
   notes: "§v2.5-plasticity-2a: rank-1 operator-threshold plasticity probe at sf=0.0 on Arm A (100 runs — 4 plastic budget cells ∈ {1,2,3,5} + 1 frozen control × seeds 20..39). Branching test of §1a's INVERSE-BALDWIN diagnosis (P-1 falsifier). Confirmatory statistic: cell-level seed-bootstrap CI + per-seed-majority on max_gap_at_budget_5 at budget=5 (FWER family plasticity-inverse-baldwin-replicates size 1, α=0.05). Row 3 (INVERSE-BALDWIN-REPLICATES) is the pre-committed refutation of selection-deception."
