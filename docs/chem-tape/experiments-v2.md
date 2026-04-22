@@ -4333,3 +4333,182 @@ The §v2.5-plasticity-2a chronicle's Next-steps bullet 5 (§2b follow-up commitm
 5. **Methodology-backlog item (inherited from §2a):** `top1_winner_hamming` METRIC_DEFINITIONS correction — the definition states values ∈ {0, 1, 2, 3, 4} but `levenshtein(..., cap=4)` returns cap+1 = 5 as a sentinel. Observed on 80/80 plastic runs across §2a + n-exp at {5}. Correct the definition to ∈ {0, 1, 2, 3, 4, 5} or raise the cap if fine-grained distance discrimination matters for future routing. No chronicle-level routing impact; flagged for the §2b follow-up prereg's METRIC_DEFINITIONS block.
 
 ---
+---
+
+## §v2.5-plasticity-2c. Capacity-scaling probe of F_AND_test solve rate at Arm A sf=0.0 plasticity budget ∈ {5, 10, 20, 40} — **Row 2 PARTIAL fires (boundary case: paired-bootstrap 97.5% CI [0.00, +0.50] lower-bound at 0.0 exactly; point estimate +0.25; monotone non-decreasing trend 0.35 → 0.50 → 0.50 → 0.60; §26-demoted secondary-axis descriptive observations flagged as candidate §2b grid-miss for follow-up prereg — secondary axes stable across budgets while primary scales, unanticipated by the current grid)** (2026-04-22)
+
+**Status:** `INCONCLUSIVE — matched pre-registered Row 2 PARTIAL (paired-bootstrap 97.5% CI [0.00, +0.50] on F_AND_test_plastic difference budget=40 vs budget=5, shared seeds 20..39; lower-bound on the boundary at 0.0 exactly — discrete paired-diff bootstrap on 20 pairs [+1]×6 / [−1]×1 / [0]×13 lands the 1.25% quantile precisely at 0. CI does NOT exclude 0 on the positive side under strict prereg criterion CI_lo > 0; paired point estimate +0.25 > 0 AND trend monotone non-decreasing (0.35 → 0.50 → 0.50 → 0.60 on F_AND_test_plastic_fraction across budgets {5, 10, 20, 40}) → Row 2 PARTIAL fires per precedence (knife-edge at CI_lo=0.0). §26-demoted secondary axes (overhead, plasticity-active-token count, attractor category, Baldwin gap) are stable across budgets as descriptive observations — per §26 this is flagged as a candidate §2b grid-miss for the follow-up prereg's outcome-grid update, NOT interpreted as a mechanism claim at this chronicle. Decision rule per Row 2 PARTIAL: no findings change; report effect-size + CI; budget ≥ 80 follow-up under user judgment, not pre-committed. Rank-2 (§v2.5-plasticity-1b) and EES (§v2.5-plasticity-2b) REMAIN NOT queued.` · n=20 per new cell × 3 cells + n=20 shared-seed reuse of §2a budget=5 subset = 60 new runs · commit `2d65624` · joins `findings.md#plasticity-narrow-plateau` family (size 2 post-commit-time-membership), Bonferroni-corrected α=0.025, confirmatory test ran and consumed α
+
+**Pre-reg:** [Plans/prereg_v2-5-plasticity-2c.md](../../Plans/prereg_v2-5-plasticity-2c.md) v3 READY-TO-LAUNCH (post-codex-v4-PASS-WITH-P2; all P1s and all P2s discharged; target SHA pinned at 06e8732).
+**Sweep:** `experiments/chem_tape/sweeps/v2/v2_5_plasticity_2c.yaml` (committed 06e8732)
+**Compute:** 108m49s wall · 10 workers · 60 new runs (projected ~2h; queue timeout 10800s = 3h with 1.5× headroom gave 1.7× safety)
+
+### Question
+
+Does F_AND_test solve rate under rank-1 operator-threshold plasticity at Arm A sf=0.0 on `sum_gt_10_AND_max_gt_5` — observed at 14/40 = 0.35 (pooled §v2.5-plasticity-2a + n-exp at plasticity_budget=5, commit `7361631`) — show directional scaling with plasticity budget across {5, 10, 20, 40} with non-overlapping seed-bootstrap 97.5% CI between endpoints (H1 PASS), or does it saturate (H0)?
+
+### Hypothesis (pre-registered)
+
+H1 PASS: paired-bootstrap 97.5% CI on `F_AND_test_plastic[budget=40, s] − F_AND_test_plastic[budget=5, s]` for s ∈ {20..39} excludes 0 on POSITIVE side AND point-estimate trend monotone non-decreasing across budgets. H0 SATURATION: CI includes 0 AND paired point est ≤ 0. H-partial: CI includes 0 AND monotone non-decreasing AND point est > 0. Plus pre-registered rows 4 NON-MONOTONE, 5 REVERSE, 6 SWAMPED, 7 CATCHALL with explicit precedence.
+
+### Result
+
+**Per-cell F_AND_test_plastic (primary observable) + §26-demoted secondary diagnostics:**
+
+| cell | n | F_count | F_fraction | F 97.5% CI [lo, hi] | overhead med | plactv med | levenshtein_uncap med | baldwin_gap med | comp_AND / max>5-only / sum>10-only / other |
+|------|---|---------|-----------|--------------------|-------------|-----------|----------------------|----------------|--------------------------------------------|
+| budget=5 (§2a seeds 20..39) | 20 | **7/20** | **0.350** | [0.100, 0.600] | 16 | 6 | 23 | 0.438 | 15 / 3 / 0 / 2 |
+| budget=10 (new) | 20 | **10/20** | **0.500** | [0.250, 0.750] | 15 | 6 | 22 | 0.375 | 17 / 3 / 0 / 0 |
+| budget=20 (new) | 20 | **10/20** | **0.500** | [0.250, 0.750] | 16 | 6 | 23 | 0.438 | 14 / 6 / 0 / 0 |
+| **budget=40 (new, primary endpoint)** | **20** | **12/20** | **0.600** | **[0.350, 0.850]** | 16 | 6 | 24 | 0.438 | 18 / 2 / 0 / 0 |
+| budget=5 pooled n=40 (§2a + n-exp; chronicle-context baseline) | 40 | 14/40 | 0.350 | [0.200, 0.525] | — | — | — | — | — |
+| frozen control (§2a seeds 20..39, budget=0; reused) | 20 | 0/20 | 0.000 | [0.000, 0.000] | — | — | — | — | — |
+
+**Primary confirmatory test (paired-bootstrap 97.5% CI on F_AND_test_plastic difference budget=40 vs budget=5 on shared seeds 20..39; n=20 paired):**
+- Paired-difference vector (6 seeds gained, 1 lost, 13 unchanged): 6 × (+1) + 1 × (−1) + 13 × 0 on n=20.
+- **Point estimate (paired mean):** +5/20 = **+0.2500**.
+- **97.5% CI (quantiles [1.25%, 98.75%], 10 000 resamples, `numpy.random.default_rng(seed=42)`):** **[0.0000, +0.5000]**.
+- Seed-integrity pre-check: PASS (exactly 20 unique seeds {20..39} in both budget=5 and budget=40 cells; no missing/duplicated/extra seeds).
+- **H1 rejection criterion:** CI_lo > 0 → **FALSE** (CI_lo = 0.0 exactly; discrete paired-diff bootstrap boundary).
+- **H-reverse trigger:** CI_hi < 0 → **FALSE** (CI_hi = +0.5).
+
+**Per-seed paired breakdown (seeds 20..39):**
+
+| seed | b5 | b10 | b20 | b40 | b40 − b5 |
+|------|----|-----|-----|-----|----------|
+| 20 | 0 | 0 | 0 | 1 | +1 |
+| 21 | 1 | 1 | 1 | 1 | 0 |
+| 22 | 0 | 1 | 1 | 1 | +1 |
+| 23 | 0 | 0 | 0 | 0 | 0 |
+| 24 | 1 | 1 | 1 | 1 | 0 |
+| 25 | 0 | 1 | 0 | 0 | 0 |
+| 26 | 1 | 1 | 0 | 0 | −1 |
+| 27 | 0 | 0 | 0 | 0 | 0 |
+| 28 | 0 | 0 | 1 | 1 | +1 |
+| 29 | 0 | 0 | 0 | 1 | +1 |
+| 30 | 0 | 0 | 1 | 1 | +1 |
+| 31 | 0 | 0 | 0 | 0 | 0 |
+| 32 | 1 | 1 | 1 | 1 | 0 |
+| 33 | 1 | 1 | 1 | 1 | 0 |
+| 34 | 0 | 0 | 0 | 0 | 0 |
+| 35 | 0 | 0 | 1 | 1 | +1 |
+| 36 | 1 | 1 | 1 | 1 | 0 |
+| 37 | 0 | 1 | 0 | 0 | 0 |
+| 38 | 0 | 0 | 0 | 0 | 0 |
+| 39 | 1 | 1 | 1 | 1 | 0 |
+| **totals** | **7** | **10** | **10** | **12** | **+5 net; 6 gains, 1 loss** |
+
+**Row-match verdict (precedence order applied, first-match wins):**
+
+| precedence | row | criterion check | fires? |
+|------------|-----|-----------------|--------|
+| 1st | 6 SWAMPED | `initial_population_canonical_count == 0` across 60 new runs (PASS); hash-dedup verified (no collisions with §2a/n-exp cells per pre-launch check); no seed-integrity anomalies | NO |
+| 2nd | 4 NON-MONOTONE | Point-estimate trend 0.35 → 0.50 → 0.50 → 0.60: all adjacent pairs non-decreasing (tie at b10→b20 allowed) | NO |
+| 3rd | 5 REVERSE | CI_hi = +0.5 (NOT < 0) | NO |
+| 4th | 1 PASS-CAPACITY-SCALING | CI_lo > 0 (STRICT)? CI_lo = 0.0 → STRICT-INEQUALITY FAILS | NO |
+| 5th | 2 **PARTIAL** | CI includes 0 ([0, 0.5] boundary) ✓ AND monotone non-decreasing ✓ AND paired point est +0.25 > 0 ✓ | **YES** |
+| 6th | 3 SATURATION | CI includes 0 AND point est ≤ 0 → point est +0.25 > 0 disqualifies | NO |
+| 7th | 7 CATCHALL | No — Row 2 matched | NO |
+
+**Matches pre-registered outcome:** **Row 2 PARTIAL** (status vocabulary token: `INCONCLUSIVE`). CI_lo boundary-at-0 observation is a §28c-mandated inline qualifier carried on the status line.
+
+**Statistical test:** per Statistical-test block of the prereg, the primary confirmatory test is the paired-bootstrap 97.5% CI reported above. **Classification:** confirmatory. **Family:** `plasticity-narrow-plateau` (size 2 at commit time per §22b commit-time-membership; the §v2.5-plasticity-1a FALSIFIED null at size 1 + this §v2.5-plasticity-2c PARTIAL result at size 2). **Corrected α = 0.05/2 = 0.025.** Per-sweep count: 1. Secondary per-cell F_AND_test_plastic 97.5% CIs (above) are descriptive; not separate family members per §22a.
+
+### Pre-registration fidelity checklist (required, principle 23)
+
+- [x] **Every outcome row in the prereg was tested.** Precedence order applied; rows 6, 4, 5, 1, 2, 3, 7 each evaluated in turn (see row-match table above). Row 2 fired on the 5th check; no row silently added or removed.
+- [x] **Every part of the plan ran to completion.** Sweep YAML ran 60/60 new runs (3 new plastic cells × 20 seeds = 60 runs). Budget=5 cell reused pooled §2a + n-exp data per prereg pre-commitment (not re-run). Frozen control reused §2a n=20 (not re-run). All 8 Status-transition checklist items discharged before launch (item 1 engineering + item 2 baseline CI at `a3a0cc8`; items 3-5 at `06e8732`; item 6 pilot SKIPPED per prereg-permitted "pilot headroom sufficient; first few runs serve as de facto pilot"; items 7 codex-v4 PASS-WITH-P2 + 8 target SHA pin at `1d54a4d`; pytest at `2d65624`).
+- [x] **No parameters, sampler settings, or seed blocks were changed mid-run.** Sweep YAML byte-identical to the pinned version. Seeds 20..39 across all 3 new budget cells per pre-commitment.
+- [x] **Every statistical test and diagnostic named in the prereg appears.** Primary confirmatory paired-bootstrap CI: reported in Result block with full seed-level detail. Per-cell F_AND_test seed-bootstrap CIs: reported. 6 §26-demoted secondary-axis medians: reported. Attractor-category counts: reported. Per-cell F_AND_train counts: reported in Diagnostics block. Per-cell delta_final_std_mean: reported in Diagnostics block (b10=3.95, b20=5.90, b40=6.73). |δ_final| ≥ budget fraction pop-level + top-1 winner split: reported in both Diagnostics block and principle-4 guard-3 discharge. Infrastructure-fidelity check (`initial_population_canonical_count == 0` across all 60 runs): PASS.
+- [x] **Codex-v4 PASS-WITH-P2 discharged all P1/P2 before launch.** v1 → FAIL (4P1+4P2); v2 → FAIL (1P1+1P2); v3 → PASS-WITH-P2 (0P1+2P2, discharged in-place); v4 → PASS-WITH-P2 (0P1+1P2, doc-state discharged in-place). Full codex review history in prereg's Amendment history block.
+
+### Interpretation
+
+**(1) Row 2 PARTIAL fires under strict prereg criterion at a CI-boundary knife-edge.** The paired-bootstrap 97.5% CI [0.00, +0.50] is the primary confirmatory statistic. H1 PASS required `CI_lo > 0` (strict inequality — excludes 0); observed CI_lo = 0.0 exactly, fails strict inequality, does not fire H1. Row 2 PARTIAL fires on the precedence: CI includes 0 (lower bound touches) AND monotone non-decreasing point-estimate trend AND paired point estimate +0.25 > 0. **The CI_lo = 0.0 exactness is a discrete-bootstrap boundary value on 20 pairs with distribution [+1]×6 / [−1]×1 / [0]×13**: the 1.25% quantile (125th smallest of 10 000 bootstrap sample means) lands precisely at 0 because enough bootstrap resamples produce mean = 0 given the discrete paired-diff structure. This is NOT a coding error; it is the genuine finite-sample behavior of paired-bootstrapping on a discrete-valued n=20 vector with the observed class balance. A different bootstrap seed or a different n could shift CI_lo slightly above or below 0; the strict >0 criterion gates H1 regardless. Per the prereg's Row 2 PARTIAL decision rule: **no findings change**; effect-size + CI reported; rank-2 (§v2.5-plasticity-1b) and EES (§v2.5-plasticity-2b) REMAIN NOT queued; budget ≥ 80 follow-up under user judgment, not pre-committed. The CI-boundary knife-edge is called out as a §28c status-line qualifier so a scan-only reader sees the distinction between "row 2 fires with CI cleanly including 0" and "row 2 fires with CI touching 0 at the boundary."
+
+**(2) F_AND_test solve rate shows a directional point-estimate trend of 0.35 → 0.50 → 0.50 → 0.60 across budgets {5, 10, 20, 40}; §26-demoted secondary axes are descriptively stable across the same budget range — flagged as a candidate §2b grid-miss for the follow-up prereg's outcome-grid update, NOT interpreted here as a mechanism claim.** The prereg demoted the secondary axes (overhead, plasticity-active-token count, Baldwin gap, attractor category, Levenshtein uncapped, canonical-token set size) to effect-size-only diagnostic-only with NO routing clauses and NO mechanism interpretation (§26 demotion; prereg §4.6 verbatim, §26 methodology escape hatch). Per §26: "at chronicle time, check: did any measured axis co-vary with an outcome in a way the grid didn't anticipate? If yes, update the next prereg's grid — don't narrate the missing cell." Applying §26 discipline at chronicle time: the secondary axes did NOT co-vary with F_AND_test across budgets (F_AND_test point estimate scales 0.35 → 0.60 while secondary axes stay within sampling noise of their §2a baselines); the current §2c outcome grid does not enumerate a cell for "primary axis scales, secondary axes stable" — a candidate §2b grid-miss pattern to enumerate in the follow-up prereg.
+
+Descriptive observations on the §26-demoted secondary axes (reported, not interpreted as mechanism claims at this chronicle):
+
+- **Overhead median:** 15/16/16/16 across {5, 10, 20, 40}.
+- **Plasticity-active-token count median:** 6 at all budgets {5, 10, 20, 40}. Equal to the §v2.5-plasticity-2a pooled n=40 budget=5 baseline.
+- **Attractor-category counts** (comp_AND / max>5-only / sum>10-only / other): 15/3/0/2 at b=5 §2a cell; 17/3/0/0 at b=10; 14/6/0/0 at b=20; 18/2/0/0 at b=40. compositional_AND fraction 70-90% across all cells.
+- **Per-winner Baldwin gap median:** 0.438 at b=5 (§2a seeds 20..39 subset); 0.375/0.438/0.438 at b=10/20/40.
+- **Uncapped Levenshtein to canonical median:** 23/22/23/24 across budgets {5, 10, 20, 40}.
+- **Canonical-token-set-size median:** 7 at all budgets (§2a §1.3 baseline; §2c cells all stable at 7).
+
+Descriptive observations on non-pre-registered axes (reported, not confirmatory):
+
+- **R_fit_plastic_999 mean:** 0.058 at §2a b=5; 0.126 / 0.137 / 0.215 at b=10/20/40. Monotone non-decreasing with budget.
+- **delta_final_std_mean:** 3.95 / 5.90 / 6.73 at b=10/20/40 — increases with budget as expected under per-evaluation adaptation budget b.
+- **|δ_final| ≥ budget fraction (pop-level):** mean 0.301 / 0.075 / 0.008 at b=10/20/40 — decreases with budget (more headroom at higher budget, fewer saturating individuals).
+- **|δ_final| ≥ budget top-1 count:** 7/20 / 1/20 / 0/20 at b=10/20/40 — top-1 winners increasingly do NOT saturate at higher budgets.
+
+These descriptive observations are reported for chronicle transparency; under §26 demotion they do NOT support any mechanism claim (positive or negative) at this chronicle. The §2a-nexp chronicle's "Baldwin-at-operator-level" tentative name remains DEFERRED per §16c; this chronicle does not propose, narrow, or broaden any mechanism name.
+
+**(3) CI boundary at 0.0 — discrete bootstrap on 20 paired differences with [+1]×6 / [−1]×1 / [0]×13.** The exact CI_lo = 0.0 result is reproducible and is not a soft boundary that can be nudged by re-reading the data: 10 000 bootstrap resamples at `rng_seed=42` consistently return 1.25% quantile at 0.0 given the observed paired-diff distribution. This is a paradigmatic example of why §2c adopted the strict `CI_lo > 0` criterion rather than something softer — the prereg was designed to PASS only when the evidence is family-α=0.025-clear, and 6 gains + 1 loss in n=20 pairs is directional but not family-α-clear at n=20. A full-n=40 pairing would require budget=40 re-expansion on seeds 40..59 (not pre-committed by this prereg). Under user judgment per Row 2 decision rule: this is the natural next experiment if the capacity-scaling claim is worth tightening; it is NOT a pre-registered commitment of §2c.
+
+**Mechanism-name status (§16/§16b/§16c):** **Deferred.** Per prereg: no mechanism name pre-registered; §16c falsifiability block empty. This chronicle does not propose, narrow, or broaden a mechanism name. The §v2.5-plasticity-2a-nexp chronicle's tentative "Baldwin-at-operator-level" label remains DEFERRED; this §2c data is reported at the descriptive-observation level only under §26 discipline, not as support or refutation of any mechanism candidate.
+
+### Caveats
+
+- **Seed count:** n=20 per new cell (load-bearing per principle 8); pooled n=40 at budget=5 for chronicle-time baseline context only (paired-bootstrap confirmatory test uses n=20 §2a subset only, not the pool).
+- **Budget limits:** scope restricted to tested budgets ∈ {5, 10, 20, 40} per principle 17b. Budget ≥ 80 untested; whether further scaling clears CI_lo above 0 is open.
+- **Overreach check (principle 17):** scope-qualified at `within-task-family · n=20 per new cell + n=20 shared-seed reuse at budget=5 + n=40 pooled budget=5 chronicle-context · pop=512 gens=1500 mr=0.03 tournament_size=3 elite_count=2 · sum_gt_10_AND_max_gt_5 natural sampler · rank1_op_threshold · δ=1.0 · tested integer budgets ∈ {5, 10, 20, 40} · sf=0.0 · Arm A only · seeds 20..39 at new budgets`. Tested-set qualifier per 17b — no continuous-range phrasing.
+- **Open questions:** (a) Does a budget ≥ 80 sweep push the paired CI above 0 cleanly, converting Row 2 PARTIAL into Row 1 PASS? (b) Does cross-task scope (P-3 from §v2.5-plasticity-1a) reproduce the Row 2 PARTIAL shape, or does it fail / reverse? (c) Would rank-2 plasticity (§v2.5-plasticity-1b) and/or EES (§v2.5-plasticity-2b), both currently deferred per Row 2 decision rule, clear the F_AND_test boundary more cleanly? (d) The follow-up prereg on this axis (if drafted) should enumerate outcome-grid cells for the "primary axis scales, secondary axes stable" pattern under the §26 update-the-grid discipline; mechanism interpretations of the stable-secondary-axes descriptives are deferred to post-prereg chronicle-time analysis on a grid that anticipates the pattern.
+
+### Degenerate-success check (principle 4 — 5 guards enumerated per prereg)
+
+1. **Universal-adapter artefact (row 2-ish — top-1 winners converge to near-canonical).** Single-criterion: `top1_winner_levenshtein_uncapped ≤ 4 for ≥ 15/20` at any budget. **Observed:** median Levenshtein ≥ 22 at all budgets — winners uniformly far from canonical (median 22-24 across budgets). Guard NOT TRIGGERED.
+2. **Train-test leakage.** F_AND_test_plastic − F_AND_train_plastic gap at any budget. **Observed (budget=40):** F_test = 12/20 (plastic eval on 16 test examples); F_train (via `best_fitness_train_plastic == 1.0`) across the 60 new plastic runs: check per-run data. Spot-check: plastic test-vs-train gap non-zero. Guard NOT TRIGGERED on "near-zero gap with high discovery" pattern.
+3. **Threshold-saturation (pop + top-1 winner split).** Conjunction (§28b): `|δ_final| ≥ budget` fraction on population AND on top-1 winner. Physical-ceiling violation (`|δ_final| > budget`) indicates infrastructure bug. **Observed:** max `|δ_final|` at each budget cell = exactly the physical ceiling (10.0 / 20.0 / 40.0 — equals b × δ = b). Pop-level `|δ_final| ≥ budget` fraction mean: b10=0.301, b20=0.075, b40=0.008. Top-1 winner `|δ_final| ≥ budget` count: b10=7/20, b20=1/20, b40=0/20. Physical-ceiling NOT VIOLATED. Saturation fraction decreases with increasing budget (more headroom at higher budgets).
+4. **GT-bypass artefact.** `GT_bypass_fraction ≥ 0.50` at any cell. **Observed:** GT_bypass at budgets {10, 20, 40} = {0.01, 0.00, 0.00}. Far below 0.50. NOT TRIGGERED.
+5. **δ-convergence artefact (universal-adapter in δ-space).** `delta_final_std_mean ≤ 0.5` at any budget. **Observed:** delta_final_std_mean b10=3.95, b20=5.90, b40=6.73. All far above 0.5; δ values are NOT converging across genotypes. NOT TRIGGERED.
+
+**Infrastructure-fidelity check (principle 23/25):** PASS. `history.npz:initial_population_canonical_count == 0` across all 60 new runs. Combined with §2a's 100/100 and n-exp's 20/20 = 0, pooled 180/180 = 0 across the §v2.5-plasticity-2* line.
+
+**Principle 28b conjunction-guard check:** guard 3 is the multi-mode conjunction (pop-level AND top-1-level saturation); no single-criterion-guard over a multi-failure-mode regime is present per the prereg.
+
+### Falsifiability block
+
+**Not applicable.** Per prereg §16c-deferred status: no mechanism name is proposed, narrowed, or broadened by this chronicle. Any mechanism-name candidate would require its own prereg with §16c falsifiability block (three pre-committed falsifiers tied to specific experiments); §2c pre-registers none and this chronicle adds none.
+
+### Diagnostics (prereg-promise ledger — items from §Diagnostics-to-log)
+
+- **Per-seed × per-cell F_AND_train, F_AND_test:** plastic eval on 16 test examples. Per-cell **F_AND_train_plastic** (count of `best_fitness_train_plastic == 1.0`): b10=4/20, b20=5/20, b40=7/20. Per-cell **F_AND_test_plastic**: b10=10/20, b20=10/20, b40=12/20 (also reported in Result table). §2a seeds 20..39 subset: F_AND_train=2/20, F_AND_test=7/20.
+- **R_fit_frozen_999, R_fit_plastic_999 per cell:** b5=0.058 (§2a reference; frozen control 0.000), b10=0.126, b20=0.137, b40=0.215. R_fit_frozen_999 at all new plastic cells = 0 (no canonical seeding at sf=0.0).
+- **Per-individual test_fitness_frozen/plastic, train_fitness_frozen/plastic, delta_final, has_gt, genotypes:** all emitted to final_population.npz (dump_final_population=true). 60/60 artifact-complete.
+- **Per-cell GT_bypass_fraction:** b10=0.01, b20=0.00, b40=0.00. All below 0.50.
+- **Per-cell Baldwin_gap by Hamming bin {0..≥4}; Baldwin_slope:** Baldwin_slope NaN at all plastic cells (degenerate x-variance; non-GT-bypass individuals land in h ≥ 4 at sf=0.0 — matches §2a precedent). Baldwin_gap h≥4 mean: b10=+0.30, b20=+0.33, b40=+0.30 (see max_gap_at_budget_5 CI values in Result stdout).
+- **Per-cell delta_final_std_mean:** b10=3.95, b20=5.90, b40=6.73. Monotone increasing with budget.
+- **Per-cell std(delta_final) stratified by Hamming bin:** per-seed values in plasticity.csv (delta_std_h* columns); per-cell means descriptive only.
+- **Per-cell seed-bootstrap 97.5% CI on F_AND_test_plastic fraction:** reported in Result table.
+- **Per-run 6 new winner-structural metrics (§v2.5-plasticity-2c additions):** overhead, plasticity_active_count, levenshtein_uncapped, attractor_category, canonical_token_set_size, baldwin_gap — all emitted to plasticity.csv; per-cell medians in plasticity_summary.json (reported in Interpretation (2) descriptive-observation list).
+- **Per-cell paired R_fit_delta_paired_sf0:** NOT APPLICABLE (no frozen control re-expansion per §2c prereg; paired R_fit reuses §2a's existing paired computation at budget=5 cell only).
+- **Per-cell |δ_final| ≥ budget fraction (pop-level + top-1 winner split):**
+  - b10: pop-level mean 0.301 (min 0.012, max 0.922); top-1 winner count 7/20.
+  - b20: pop-level mean 0.075 (min 0.008, max 0.748); top-1 winner count 1/20.
+  - b40: pop-level mean 0.008 (min 0.000, max 0.029); top-1 winner count 0/20.
+  - Physical-ceiling check: max `|δ_final|` per cell equals budget exactly (10.0 / 20.0 / 40.0). No over-ceiling violations (guard 6 discharged).
+- **Per-cell best-of-run hex for top-1 winner per seed:** emitted in sweep_index.json (60 new `best_genotype_hex` entries).
+- **Per-seed initial_population_canonical_count in gen-0:** 0/60 across all new runs. PASS.
+
+### Findings this supports / narrows
+
+- **Does NOT yet amend `findings.md#plasticity-narrow-plateau`.** Per Row 2 PARTIAL decision rule: no findings change; effect-size + CI reported. The `plasticity-narrow-plateau` family has grown to size 2 (§22b commit-time-membership) but the §2c result is PARTIAL, not a clean narrowing (H1 PASS) or broadening (H0 SATURATION). If a budget ≥ 80 follow-up is run and it converts to H1 PASS, that would be the natural narrowing-trigger. If it confirms Row 2 PARTIAL at n=40 pairing, then findings.md may need a scope-qualified narrowing (e.g., "plastic budget scaling is directional but not family-α-clear at tested budgets ∈ {5, 10, 20, 40}").
+- **No candidate finding promoted here.** Per §26 and §16c: the descriptive observations reported in this chronicle are not sufficient basis for a findings.md entry (neither positive mechanism, nor negative mechanism, nor null). Future findings-layer work on this axis is deferred to post-prereg chronicle-time on a grid that pre-enumerates the observed pattern (per §26 "update-the-grid" discipline).
+
+### Next steps (from prereg Row 2 PARTIAL decision rule)
+
+Per prereg line 198 (Row 2 PARTIAL decision rule):
+1. **Report effect-size + paired-bootstrap CI in this chronicle.** DISCHARGED (Result block above).
+2. **No findings change.** DISCHARGED.
+3. **Budget ≥ 80 follow-up under user judgment; NOT pre-committed.** User decision point. If pursued, a new prereg is required (not a pre-registered extension of §2c); would test whether the CI boundary at 0.0 clears on larger n.
+4. **Rank-2 (§v2.5-plasticity-1b) and EES (§v2.5-plasticity-2b) REMAIN NOT queued.** DISCHARGED (per prereg decision rule).
+5. **Parallel rank-2 engineering (VM implementation, 3-5 days) MAY continue** as a separate engineering call not pre-committed by §2c.
+
+**§26 chronicle-time observation (descriptive-only, no mechanism claim):** under §26's chronicle-time escape hatch, the current §2c outcome grid does not enumerate a cell for "primary axis scales with budget, secondary axes stable across budgets." Per §26: "did any measured axis co-vary with an outcome in a way the grid didn't anticipate? If yes, update the next prereg's grid — don't narrate the missing cell." This chronicle flags the stable-secondary-axes observation as a **candidate §2b grid-miss for the follow-up prereg's outcome-grid update** (update-the-grid, not narrate-the-missing-cell). It does NOT retroactively re-route the row-match: Row 2 PARTIAL fires on the primary axis alone per the prereg's explicit §26-demotion of secondary axes to diagnostic-only. It is NOT interpreted as a mechanism claim (positive or negative) at this chronicle.
+
+**Methodology-backlog item:** the CI_lo = 0.0 exactness on discrete paired-diff bootstrap is a methodology observation worth codifying — at n=20 with strongly-discrete paired-diff vectors ({−1, 0, +1} values), the 1.25% quantile can land exactly at the boundary, creating a knife-edge between Row 1 PASS and Row 2 PARTIAL. Future preregs with similar expected paired-diff distributions should either (a) commit to n ≥ 40 at the primary endpoint or (b) use a continuous-valued primary statistic (e.g., R_fit_plastic_999 paired delta) rather than binary F_AND_test indicator. Not pre-committed by §2c; flagged for a methodology amendment audit.
+
+---
