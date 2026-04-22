@@ -449,3 +449,20 @@
   expect_outputs: [sweep_index.json]
   track: chem-tape-v2
   notes: "§v2.5-plasticity-2a-nexp-budget5: pre-committed row-4 n-expansion — seeds 40..59 at Arm A budget=5 plastic (20 runs; frozen control NOT re-expanded). Re-evaluates the combined n=40 budget=5 cell against §2a prereg rows 1-5 per the row-4 decision rule. Does NOT queue EES or rank-2 sweeps until this verdict lands."
+
+# §v2.5-plasticity-2c — F_AND_test solve-rate capacity-scaling probe of
+# rank-1 operator-threshold plasticity at Arm A sf=0.0. 3 new plastic
+# budget cells ∈ {10, 20, 40} × seeds 20..39 = 60 new runs. Budget=5 cell
+# reused from §2a + n-exp (pooled n=40 baseline); frozen control reused
+# from §2a (0/20). Joins `plasticity-narrow-plateau` FWER family at size
+# 2, α = 0.025 via 97.5% two-sided CI. Primary confirmatory: paired-seed
+# bootstrap 97.5% CI on F_AND_test_plastic difference budget=40 vs
+# budget=5 on shared seeds 20..39. Prereg: Plans/prereg_v2-5-plasticity-2c.md
+# (v3, post-codex-v3-PASS-WITH-P2). Engineering landed at `a3a0cc8`.
+# Projected ~2h wall at 10 workers; timeout 10800s (3h, 1.5× headroom).
+- id: v2_5_plasticity_2c
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_5_plasticity_2c.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 10800
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.5-plasticity-2c: rank-1 plasticity capacity-scaling probe at sf=0.0 Arm A (60 new runs — 3 plastic budget cells ∈ {10, 20, 40} × seeds 20..39). Joins plasticity-narrow-plateau FWER family at size 2 (α=0.025, 97.5% CI). Primary confirmatory: paired-seed bootstrap CI on F_AND_test_plastic difference budget=40 vs budget=5 on shared seeds 20..39. Secondary diagnostics (§26-demoted): winner overhead, plasticity-active-token count, Levenshtein uncapped, attractor category."

@@ -1,0 +1,72 @@
+sweep_name: v2_5_plasticity_2c
+# §v2.5-plasticity-2c: F_AND_test solve-rate capacity-scaling probe of
+# rank-1 operator-threshold plasticity at Arm A sf=0.0, new plasticity
+# budgets ∈ {10, 20, 40} on seeds 20..39 (60 new runs).
+#
+# Prereg: Plans/prereg_v2-5-plasticity-2c.md (v3, post-codex-v3-PASS-WITH-P2,
+# both P2s discharged). Anchor commit: `a3a0cc8` (§2c engineering landed).
+#
+# Budget=5 cell is REUSED (pooled n=40 from §2a seeds 20..39 + n-exp
+# seeds 40..59 at commits `4d331ad`/`9ad15ea`); NOT re-run here because
+# the §2c primary paired-bootstrap confirmatory test uses shared seeds
+# 20..39 only (n=20 paired). The pooled n=40 baseline CI is computed
+# pre-data for chronicle-time reporting context only.
+#
+# Frozen control cell is REUSED (§2a n=20 seeds 20..39 at commit
+# `4d331ad`, F_AND_test = 0/20); NOT re-run per prereg pre-commitment.
+#
+# Joins the existing `plasticity-narrow-plateau` FWER family
+# (opened by §v2.5-plasticity-1a at size 1, FALSIFIED); this prereg's
+# confirmatory test grows the family to size 2; Bonferroni-corrected
+# family α = 0.05/2 = 0.025, operationalized as a 97.5% two-sided CI
+# (quantiles [1.25%, 98.75%]) with either-side rejection.
+#
+# Primary confirmatory statistic:
+#   paired-seed bootstrap 97.5% CI on per-seed F_AND_test_plastic
+#   difference budget=40 minus budget=5 on shared seeds 20..39
+#   (n=20 paired), 10 000 resamples, rng seed 42. H1: CI_lo > 0;
+#   H-reverse: CI_hi < 0.
+#
+# Secondary diagnostics (all §26-demoted — descriptive only, NO
+# confirmatory-test status, NO α budget):
+#   per-cell seed-bootstrap CI on F_AND_test_plastic fraction,
+#   per-winner Baldwin gap magnitude, plasticity-active-token count,
+#   overhead, Levenshtein-uncapped, attractor-category counts.
+#
+# Infrastructure-fidelity (principle 23/25):
+#   history.npz:initial_population_canonical_count == 0 on every run.
+#
+# Est. compute: ~2h wall at 10 workers. Per-run scales roughly linearly
+# with plasticity budget; budget=40 runs projected ~30 min each,
+# 60 total runs in 3 cells. Timeout 10800s (3h, 1.5× headroom).
+base:
+  alphabet: v2_probe
+  task: sum_gt_10_AND_max_gt_5
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 512
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  disable_early_termination: true
+  dump_final_population: true
+  seed_fraction: 0.0
+  seed_tapes: ""
+  plasticity_mechanism: rank1_op_threshold
+  plasticity_train_fraction: 0.75
+  plasticity_delta: 1.0
+  arm: A
+  plasticity_enabled: true
+paired:
+  # 3 new plastic budget cells at the capacity axis (budget=5 is reused
+  # from §2a + n-exp; budget=0 frozen control is reused from §2a).
+  - {plasticity_budget: 10}
+  - {plasticity_budget: 20}
+  - {plasticity_budget: 40}
+grid:
+  seed: [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
