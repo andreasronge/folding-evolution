@@ -1,0 +1,58 @@
+sweep_name: v2_5_plasticity_2a_nexp_budget5
+# §v2.5-plasticity-2a-nexp-budget5: n-expansion at the budget=5 confirmatory
+# cell, pre-committed per the §v2.5-plasticity-2a prereg's row-4 decision
+# rule (Plans/prereg_v2-5-plasticity-2a.md:444 — "n-expansion seeds 40..59
+# at budget=5 (~20 min wall projected); re-evaluate against rows 1-5 and
+# re-route"). Chronicle verdict §v2.5-plasticity-2a fired Row 4
+# (AMBIGUOUS / PARTIAL) at F-lift=0.35 in the pre-committed mid-range
+# window (0.15, 0.40); status INCONCLUSIVE per §log-result vocabulary.
+#
+# §v2.5-plasticity-2a chronicle: docs/chem-tape/experiments-v2.md §v2.5-plasticity-2a (commit 2fedf7d).
+#
+# Scope: Arm A budget=5 plastic only, seeds 40..59 (disjoint from §2a's
+# 20..39 AND §1a's 0..19). Combined with the existing seeds 20..39
+# budget=5 plastic data (cached), the cell reaches n=40 for a tighter
+# lift estimate. The frozen control is NOT re-expanded per the prereg's
+# row-4 "~20 min wall" pre-commitment — row re-evaluation reuses the
+# existing frozen control cell (seeds 20..39, F_frozen=0/20) as baseline.
+# The principle-1 paired-seed structure is preserved within each
+# 20-seed block; the combined n=40 plastic lift is anchored against the
+# single existing frozen n=20 cell (honest pooling, documented at
+# chronicle time).
+#
+# Only the budget=5 plastic cell is re-expanded. Budgets 1, 2, 3
+# remain at n=20 (exploratory effect-size only per prereg §Statistical-test
+# block — they do not gate a pre-registered row).
+#
+# Infrastructure-fidelity invariant (principle 23/25): every run must log
+# history.npz:initial_population_canonical_count == 0 — matches §2a.
+#
+# Projected wall: ~20-25 min at 10 workers (per-run ~7-10 min at budget=5
+# based on §2a's measured 94m49s / 100 runs = ~9.5 min/run at 10 workers
+# ⇒ 20 runs ≈ 20 min).
+base:
+  alphabet: v2_probe
+  task: sum_gt_10_AND_max_gt_5
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 512
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  disable_early_termination: true
+  dump_final_population: true
+  seed_fraction: 0.0
+  seed_tapes: ""
+  plasticity_mechanism: rank1_op_threshold
+  plasticity_train_fraction: 0.75
+  plasticity_delta: 1.0
+  arm: A
+  plasticity_enabled: true
+  plasticity_budget: 5
+grid:
+  seed: [40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59]

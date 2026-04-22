@@ -434,3 +434,18 @@
   expect_outputs: [sweep_index.json]
   track: chem-tape-v2
   notes: "§v2.5-plasticity-2a: rank-1 operator-threshold plasticity probe at sf=0.0 on Arm A (100 runs — 4 plastic budget cells ∈ {1,2,3,5} + 1 frozen control × seeds 20..39). Branching test of §1a's INVERSE-BALDWIN diagnosis (P-1 falsifier). Confirmatory statistic: cell-level seed-bootstrap CI + per-seed-majority on max_gap_at_budget_5 at budget=5 (FWER family plasticity-inverse-baldwin-replicates size 1, α=0.05). Row 3 (INVERSE-BALDWIN-REPLICATES) is the pre-committed refutation of selection-deception."
+
+# §v2.5-plasticity-2a-nexp-budget5 — pre-committed n-expansion per §2a's
+# row-4 decision rule (Plans/prereg_v2-5-plasticity-2a.md:444). §2a chronicled
+# at commit 2fedf7d as Row 4 AMBIGUOUS/PARTIAL (F-lift=0.35 in mid-range
+# window); status INCONCLUSIVE. N-expansion adds seeds 40..59 at Arm A
+# budget=5 plastic only (20 new runs; frozen control NOT re-expanded per
+# prereg pre-commitment). Combined n=40 plastic cell vs existing n=20
+# frozen control. Projected ~20-25 min at 10 workers; timeout 3600s (1h — 3×
+# headroom).
+- id: v2_5_plasticity_2a_nexp_budget5
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_5_plasticity_2a_nexp_budget5.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.5-plasticity-2a-nexp-budget5: pre-committed row-4 n-expansion — seeds 40..59 at Arm A budget=5 plastic (20 runs; frozen control NOT re-expanded). Re-evaluates the combined n=40 budget=5 cell against §2a prereg rows 1-5 per the row-4 decision rule. Does NOT queue EES or rank-2 sweeps until this verdict lands."
