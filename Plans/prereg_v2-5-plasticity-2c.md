@@ -1,6 +1,6 @@
 # Pre-registration: §v2.5-plasticity-2c — F_AND_test solve-rate capacity-scaling probe at rank-1 plasticity budget ∈ {5, 10, 20, 40}, Arm A sf=0.0
 
-**Status:** DRAFT v3 (pre-data, pre-engineering, pre-sweep-YAML, post-codex-v3-PASS-WITH-P2 both P2s discharged) · target commit `{TBD}` · 2026-04-22
+**Status:** READY-TO-LAUNCH v3 (pre-data, post-engineering, post-sweep-YAML, post-codex-v4-PASS-WITH-P2 all P2s discharged) · target commit `06e8732` (engineering + sweep YAML + queue entry landed at `a3a0cc8` + `06e8732`; will be re-pinned to the pre-sweep-launch commit in a follow-up one-line commit) · 2026-04-22
 
 *This prereg is the §2b (methodology principle 2b) follow-up pre-committed by the §v2.5-plasticity-2a-nexp-budget5 chronicle (docs/chem-tape/experiments-v2.md commit `c08888a`) and motivated (not compelled) by the winner-tape inspection ([Plans/_v2-5-plasticity-2a_winner_inspection_2026-04-22.md](_v2-5-plasticity-2a_winner_inspection_2026-04-22.md), commit `00d00e8`, Sections 1+2+3+4 + codex-corrected §4.6).*
 
@@ -322,7 +322,11 @@ Total engineering + review: **~4-6h** depending on codex-v2 finding count.
 
 ## Amendment history
 
-**2026-04-22 (v3 — pre-data, pre-engineering, pre-sweep-YAML, post-codex-v2-FAIL + codex-v3-PASS-WITH-P2 both P2s discharged in-place).**
+**2026-04-22 (v3 — READY-TO-LAUNCH; post-engineering, post-sweep-YAML, post-codex-v4-PASS-WITH-P2 doc-state P2 discharged in-place).**
+
+Codex-v4 final review (pre-sweep-launch): VERDICT **PASS-WITH-P2** (0 P1 + 1 P2). Codex-v4 P2: status line mismatch — said "DRAFT v3, target commit TBD, pre-engineering, pre-sweep-YAML" despite engineering (a3a0cc8) and sweep YAML + queue entry (06e8732) having landed. Discharged in-place: status line updated to READY-TO-LAUNCH + target commit pinned to 06e8732. Codex-v4 confirmed: no residual 95% CI outside amendment history; no mechanism-name language; row precedence + tie-breaking internally consistent; family α=0.025 operationalized with 97.5% CI; seed-integrity pre-check consistent across 4 locations; baseline comparator 14/40=0.35 / 97.5% CI [0.20, 0.525] baked in as pre-data context.
+
+**2026-04-22 (v3 — post-codex-v2-FAIL + codex-v3-PASS-WITH-P2 both P2s discharged in-place; engineering pending at commit).**
 
 Codex-v3 review verdict: **PASS-WITH-P2** (no P1; 2 P2). Both P2s discharged in-place on this v3 working text:
 - Codex-v3 P2-1 (residual "95%" language in Amendment history creating self-contradiction with the claim "No 95% phrasing remains"): the corresponding Statistical-test-section sentence was clarified to scope the "no shorter-CI phrasing" claim to the authoritative sections only, with explicit acknowledgement that the Amendment history's historical references to "95% CI" describe the superseded v2 state.
