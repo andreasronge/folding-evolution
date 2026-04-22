@@ -9,7 +9,7 @@ Zero-compute inspection (methodology principle 3) of the 40 top-1 winners from t
 - **Section 1 — Shallow structural inspection:** active-view length, token presence, attractor-category heuristic, uncapped Levenshtein distance on the n=40 plastic-evolved winners. (Landed 2026-04-22 AM.)
 - **Section 2 — Deep per-winner inspection:** paired per-winner Baldwin gap (test_fitness_plastic − test_fitness_frozen on same winner genotype), plasticity-rescue accounting, solver-vs-non-solver structural comparison, plasticity-active token count as candidate distinguisher. (Landed 2026-04-22 PM.)
 - **Section 3 — Codex-corrected implications for §v2.5-plasticity-2c prereg framing:** revised scope-qualified interpretation of Section 2 findings + proposed-not-compelled framing shifts for the capacity-scaling prereg. (Landed 2026-04-22 PM, after codex adversarial review NEEDS-REVISION verdict.)
-- **Section 4 — Frozen-control winner inspection (n=20, plasticity OFF during evolution):** compares the n=40 plastic-evolved winner structure (Sections 1+2) to the 20 frozen-control winners from §v2.5-plasticity-2a seeds 20..39 (plasticity_enabled=False during evolution). Answers "is the compositional-AND-with-overhead attractor a selection phenomenon or a plastic-evolution phenomenon?" **Decisive result:** the attractor is selection-shaped (80% compositional-AND in both regimes; near-identical overhead, length, and uncapped distance); plasticity shapes token composition and test-time solve rate, not attractor category. (Landed 2026-04-22 PM.)
+- **Section 4 — Frozen-control winner inspection (n=20, plasticity OFF during evolution):** compares the n=40 plastic-evolved winner structure (Sections 1+2) to the 20 frozen-control winners from §v2.5-plasticity-2a seeds 20..39 (plasticity_enabled=False during evolution). Addresses "is the compositional-AND-with-overhead attractor a selection phenomenon or a plastic-evolution phenomenon?" **Descriptive observation:** at the tested budget (plastic=5 / frozen=0), comp_AND attractor incidence is identical (80% in both regimes) and overhead/length/distance are near-identical; plastic winners have higher plasticity-active-token count (median 6 vs 3) and higher F solve rate (14/40 vs 0/20). Codex adversarial review (second round) flagged as NEEDS-REVISION: equal marginals do NOT identify the mechanism; "selection-driven not plasticity-driven" is not resolved by this single-budget comparison — only that attractor prevalence does not differ at this budget. See Section 4.6 for corrected interpretation. (Landed 2026-04-22 PM.)
 
 ---
 
@@ -327,25 +327,46 @@ Putting Sections 1+2+4 together (with codex-corrected scope caveats per Section 
 2. **Under plastic evolution, selection additionally enriches winners for plasticity-active operators** (median 6 GT+IF_GT+THRESHOLD_SLOT tokens vs 3 under frozen evolution). This is a Baldwin-at-operator-level effect: plasticity's availability during selection biases retention toward plasticity-using programs.
 3. **At test time, plasticity is what enables F=1.0 solve on the compositional-AND winners:** 14/40 cross (35%) under plastic eval; 0–1/40 cross under frozen eval. The per-winner Baldwin gap (mean +0.364) is substantial and roughly-uniformly distributed across overhead values (Section 2.2's null-but-underpowered correlation).
 
-## 4.6 Revised implications for §v2.5-plasticity-2c prereg framing
+## 4.6 Revised implications for §v2.5-plasticity-2c prereg framing (codex-corrected)
 
-Section 4 sharpens Section 3's proposed framing shifts. The frozen-control comparison **eliminates overhead-reduction as a meaningful outcome axis for §2c** (overhead is selection-driven and won't change with budget; this is directly observable from the frozen-control data). The interesting axis is plasticity-active token count — which IS plasticity-regime-sensitive.
+**Codex adversarial review** (2026-04-22 PM, second round on Section 4 claims) returned **NEEDS-REVISION** with 4 P1 + 2 P2 findings. The initial §4.6 draft overclaimed on mechanism naming, cross-budget extrapolation, and threshold-baselining. Codex's honest rewrite:
 
-**Proposed (not compelled) §2c framing after Section 4:**
+> "At the tested budget, plastic and frozen arms show identical comp_AND attractor incidence (80% in both), so attractor prevalence is not evidence for a plasticity-specific effect here. Plastic runs do show higher plasticity-active-token usage and a nonzero F-solver share (14/40 vs 0/20), which is suggestive of an operator-level difference, but the mechanism naming and any cross-budget predictions remain premature from this n=40/20, single-budget snapshot."
 
-- **Primary hypothesis (Baldwin-at-operator-level):** Does higher plasticity budget (∈ {10, 20, 40}) further enrich winner-level plasticity-active token count, and does this enrichment translate to higher F_AND_test solve rate?
-  - **H1 predictions at budget=40:** median plasticity-active tokens per winner ≥ 8 (up from 6 at budget=5); F_AND_test solve rate ≥ 24/40 = 60% (up from 14/40 = 35%); trend monotonically increasing across budgets.
-  - **H0 predictions:** plasticity-active token count and F_AND_test plateau — rank-1 expressivity ceiling (baseline count 3 under frozen → plastic enrichment saturates at 6 regardless of budget).
-- **Secondary diagnostic:** per-winner Baldwin gap distribution across budgets (does the gap magnitude scale with budget, or saturate?).
-- **Overhead:** report for completeness but NOT primary — Section 4 shows it's selection-driven and shouldn't change materially with budget.
-- **Attractor category:** expect 80% compositional-AND dominance across budgets (selection-driven). If attractor category shifts at higher budget, that's itself an interesting finding.
-- **Engineering (principle 25/27 discharge before sweep):** add per-winner metrics to `analyze_plasticity.py`: `top1_winner_overhead`, `top1_winner_plasticity_active_count`, `top1_winner_attractor_category`, `top1_winner_levenshtein_uncapped`, `top1_winner_canonical_token_set_size`. Cell-level aggregates: per-cell median, seed-bootstrap CI, attractor-category counts. Expected ~1–2h engineering; pre-commit in §2c via METRIC_DEFINITIONS block.
+**Codex-corrected claim list (each claim replaces the pre-codex version):**
 
-## 4.7 Open questions Section 4 raises
+**C1 (was: "attractor is selection-driven not plastic-evolution-driven" — overstated):**
+Downgrade to: *"At the tested budget (5 plastic / 0 frozen), plastic and frozen arms show identical comp_AND attractor incidence (80% in both). These data do not support a plasticity-specific increase in attractor frequency at this budget. The mechanism identification (selection-driven vs plasticity-driven) is NOT resolved by equal marginals at a single budget."* Codex P2-1.
 
-1. **Does the Baldwin-at-operator-level enrichment (3 → 6) saturate by budget=5, or continue scaling with budget?** §v2.5-plasticity-2c can test directly.
-2. **Are the plasticity-active tokens in plastic winners functionally load-bearing, or just inert-but-selected?** Requires semantic inspection of decoded programs; not zero-compute. Worth queueing for a follow-up after §2c lands.
-3. **Does the attractor appear under different selection regimes (EES, novelty search)?** Section 4 shows tournament-specific; untested on other regimes. Pre-committed as open question for any §v2.5-plasticity-2d+ follow-up.
+**C2 (was: "6 vs 3 is a Baldwin-at-operator-level signature" — overclaimed mechanism):**
+Demote to descriptive: *"Plastic-evolved winners show higher plasticity-active-token counts than frozen-evolved winners (median 6 vs 3) at this budget."* No mechanism naming. Solver-conditioned analysis, uncertainty quantification (e.g., seed-bootstrap CI on per-regime medians), and a stronger bridge from token count to mechanism are needed before mechanism interpretation. Codex P1-3.
+
+**C3 (was: "overhead is selection-driven and won't change with budget" — REJECTED):**
+Reject as cross-budget extrapolation from single-budget data. The §2c sweep would actually test whether overhead changes with budget; pre-registering "won't change" violates principle 17b anti-smuggling. Codex P1-1. The corrected statement: "At the tested contrast (plastic budget=5 vs frozen budget=0), overhead is within noise across regimes. Whether overhead responds to plasticity budget scaling is UNTESTED and an open question for §2c."
+
+**C4 (was: "budget=40 predictions: tokens≥8, F≥60%" — REJECTED):**
+Reject as unregistered forecasts without scaling law, CI, or baseline-relative thresholds. Specific-numeric-threshold predictions at untested budgets are not principled from single-budget observations. Codex P1-2. The corrected §2c prediction style: "Under H1 (capacity-scaling), F_AND_test at budget=40 is higher than at budget=5 with non-overlapping seed-bootstrap CIs (directional, not a specific-number threshold)."
+
+**C5 (was: "Baldwin-at-operator-level" as mechanism name — too strong):**
+Demote to tentative working label. Per §16/16c, a mechanism name requires at least three falsifiable predictions tied to specific experiments that would force a rename if violated. None are pre-registered here. The §2c prereg must NOT pre-register a mechanism name; naming is deferred to post-data per §16 renaming cycle. Codex P1-4.
+
+**General principle-6 issue (Codex P2-2):** raw counts (6, 3, 14/40, 0/20) need predeclared reference standards or null-comparison baselines to function as thresholds, not just rhetorical anchoring.
+
+**Corrected proposed §2c framing (all framing shifts proposed-not-compelled):**
+
+- **Primary observable:** F_AND_test solve rate across plasticity budgets ∈ {5, 10, 20, 40}. Baseline-relative prediction: under capacity-scaling hypothesis, F_AND_test at budget=40 exceeds F_AND_test at budget=5 with non-overlapping seed-bootstrap 95% CIs. Under saturation hypothesis, CIs overlap (consistent with plateau).
+- **Secondary diagnostic (descriptive, no confirmatory-test status):** per-winner Baldwin gap magnitude distribution across budgets; plasticity-active-token-count distribution across budgets; overhead distribution across budgets (NOT pre-registered as "won't change" — will be measured).
+- **Attractor category:** reported per-cell but NOT a routing clause. If comp_AND dominance shifts dramatically at higher budget (e.g., < 50% or > 95%), that's a §2b grid-miss candidate for a follow-up prereg.
+- **Mechanism naming:** DEFERRED. No mechanism name pre-registered. §16c falsifiability block is empty in §2c because no mechanism name is being proposed; any naming will happen at chronicle time with a full §16c block.
+- **Engineering (principle 25/27 discharge before sweep):** add per-winner metrics to `analyze_plasticity.py`: `top1_winner_overhead`, `top1_winner_plasticity_active_count`, `top1_winner_attractor_category`, `top1_winner_levenshtein_uncapped`, `top1_winner_canonical_token_set_size`. Cell-level aggregates: per-cell median, seed-bootstrap CI, attractor-category counts. Expected ~1–2h engineering; pre-commit in §2c via METRIC_DEFINITIONS block. (Engineering list is carry-forward from the pre-codex draft; these metrics are measured, not used as threshold-claims.)
+
+## 4.7 Open questions Section 4 raises (codex-corrected; naming removed)
+
+1. **Does the plasticity-active-token count shift (3 frozen → 6 plastic at budget=5) continue to scale with plasticity budget?** §v2.5-plasticity-2c can measure directly (descriptive axis, not mechanism-claim).
+2. **Are the plasticity-active tokens in plastic winners functionally load-bearing, or inert-but-selected?** Requires semantic inspection of decoded programs; not zero-compute. Worth queueing as a post-§2c follow-up.
+3. **Does the compositional-AND-with-overhead attractor appear under different selection regimes (EES, novelty search)?** Section 4 shows tournament-specific at this one budget; all other selection regimes are untested. Pre-committed as open question for any follow-up prereg after §2c.
+
+**§2c framing status:** codex-corrected draft above is still PROPOSED (not compelled by the data). The §2c prereg when drafted must codex-review its own draft against these corrections, not just absorb them.
 
 ---
 
