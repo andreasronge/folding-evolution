@@ -220,7 +220,107 @@ METRIC_DEFINITIONS: dict[str, str] = {
         "expected value is 0 for every seed; any nonzero count flags an "
         "infrastructure bug in build_initial_population."
     ),
+    # --- §v2.5-plasticity-2c extensions (verbatim from the prereg's
+    # "METRIC_DEFINITIONS extensions" block at Plans/prereg_v2-5-plasticity-2c.md) ---
+    "top1_winner_overhead": (
+        "Per-run integer: active-view length of the top-1 winner's tape minus 12 "
+        "(canonical active-view length for sum_gt_10_AND_max_gt_5). Negative if "
+        "winner is shorter than canonical. Winner selection: argmax over "
+        "test_fitness_plastic, tiebroken by train_fitness_plastic, then by smallest "
+        "genotype index (matches top1_winner_hamming selection verbatim). Active "
+        "view = tokens with id in {1..19} (v2_probe; excludes NOP=0 and separators "
+        "20/21). Added in §v2.5-plasticity-2c; §26-demoted diagnostic, no routing."
+    ),
+    "top1_winner_plasticity_active_count": (
+        "Per-run integer: count of plasticity-active operators {GT (8), IF_GT (17), "
+        "THRESHOLD_SLOT (19)} in the top-1 winner's active-view tokens. Conservative "
+        "plasticity-active set under rank1_op_threshold. Canonical has "
+        "GT*2+IF_GT*1+THRESHOLD_SLOT*0 = 3. Added in §v2.5-plasticity-2c; §26-"
+        "demoted diagnostic, no routing."
+    ),
+    "top1_winner_levenshtein_uncapped": (
+        "Per-run integer: full active-view Levenshtein distance (uncapped) from the "
+        "top-1 winner's active-view to the canonical sum_gt_10_AND_max_gt_5 active-"
+        "view. Replaces the deprecated top1_winner_hamming with cap=4 (which "
+        "returned cap+1=5 sentinel on all §v2.5-plasticity-2a + n-exp winners, "
+        "destroying distance information). Preserves full distance structure "
+        "(observed range 17-26 on §2a n=40). Winner selection identical to "
+        "top1_winner_overhead. Added in §v2.5-plasticity-2c; §26-demoted diagnostic."
+    ),
+    "top1_winner_attractor_category": (
+        "Per-run string in {'compositional_AND', 'max>5-only', 'sum>10-only', "
+        "'other'}: heuristic classification of the top-1 winner's active-view "
+        "structure. compositional_AND: has >=1 of {REDUCE_MAX, CONST_5} AND >=1 of "
+        "{SUM} AND >=1 of {GT, IF_GT}. max>5-only: has {REDUCE_MAX, CONST_5, GT} "
+        "but no SUM. sum>10-only: has {SUM, GT or IF_GT} but no REDUCE_MAX and no "
+        "CONST_5. other: doesn't fit above. Canonical classifies as compositional_"
+        "AND. Added in §v2.5-plasticity-2c; §26-demoted diagnostic."
+    ),
+    "top1_winner_canonical_token_set_size": (
+        "Per-run integer in {0..8}: count of canonical active-view operators "
+        "{CONST_0, INPUT, REDUCE_MAX, CONST_5, GT, SUM, ADD, IF_GT} present (set "
+        "intersection) in top-1 winner's active-view. Higher = more canonical "
+        "operators present; does NOT imply canonical structure. Added in §v2.5-"
+        "plasticity-2c; §26-demoted diagnostic."
+    ),
+    "top1_winner_baldwin_gap": (
+        "Per-run float: test_fitness_plastic[winner_idx] minus test_fitness_"
+        "frozen[winner_idx] on SAME top-1 winner genotype. Positive = plasticity "
+        "helps this winner's test-set fitness; negative = plasticity hurts. "
+        "Measured on 16 held-out test examples. §2a pooled n=40 budget=5: mean "
+        "+0.364, range [-0.125, +0.688]. Added in §v2.5-plasticity-2c; §26-demoted "
+        "diagnostic."
+    ),
+    "f_and_test_plastic_seed_boot_ci": (
+        "Per-cell seed-bootstrap 97.5% CI on F_AND_test_plastic fraction. 10 000 "
+        "resamples with replacement over 20 per-seed binary indicators (best_"
+        "fitness_test_plastic >= 1.0) via numpy.random.default_rng(seed=42); CI = "
+        "[1.25%, 98.75%] empirical quantiles of resampled fractions. Matches "
+        "bootstrap_ci_spec. For budget=5 pooled cell uses n=40 indicators. "
+        "Descriptive (not confirmatory). Added in §v2.5-plasticity-2c."
+    ),
+    "f_and_test_plastic_paired_boot_ci_budget40_vs_budget5": (
+        "Paired-seed bootstrap 97.5% CI on per-seed difference F_AND_test_plastic"
+        "[budget=40, seed=s] minus F_AND_test_plastic[budget=5, seed=s] for s in "
+        "{20..39}, n=20 paired differences. 10 000 resamples via numpy.random."
+        "default_rng(seed=42); CI = [1.25%, 98.75%] empirical quantiles of resampled "
+        "paired-difference means. Budget=5 per-seed indicators extracted from "
+        "pooled §v2.5-plasticity-2a data (not n-exp) via seed filter. "
+        "**Primary confirmatory test for §v2.5-plasticity-2c family 'plasticity-"
+        "narrow-plateau' (family size now 2, corrected alpha = 0.025).** H1 "
+        "rejection: CI_lo > 0. H-reverse trigger: CI_hi < 0. Added in §v2.5-"
+        "plasticity-2c."
+    ),
 }
+
+
+# §v2.5-plasticity-2c token-set constants for winner-structural metrics
+# (canonical-token-set, plasticity-active-token set, attractor building blocks).
+# Ids taken verbatim from src/folding_evolution/chem_tape/alphabet.py.
+_CANONICAL_ACTIVE_TOKEN_SET: frozenset[int] = frozenset({
+    1,   # INPUT
+    2,   # CONST_0
+    5,   # SUM
+    7,   # ADD
+    8,   # GT
+    16,  # CONST_5
+    17,  # IF_GT
+    18,  # REDUCE_MAX
+})
+_CANONICAL_ACTIVE_LEN: int = 12  # sum_gt_10_AND_max_gt_5 canonical active-view token count
+_PLASTICITY_ACTIVE_TOKEN_SET: frozenset[int] = frozenset({
+    8,   # GT
+    17,  # IF_GT
+    19,  # THRESHOLD_SLOT
+})
+_MAX5_BLOCK_TOKENS: frozenset[int] = frozenset({
+    8,   # GT
+    16,  # CONST_5
+    18,  # REDUCE_MAX
+})
+_SUM_TOKEN: int = 5
+_GT_TOKEN: int = 8
+_IF_GT_TOKEN: int = 17
 
 
 HAMMING_BINS = [0, 1, 2, 3]  # final bin is implicit "≥4"
@@ -340,6 +440,13 @@ _PLASTIC_ONLY_KEYS: tuple[str, ...] = (
     "delta_std_h3",
     "max_gap_at_budget_5",
     "top1_winner_hamming",
+    # §v2.5-plasticity-2c additions (6 new per-run winner-structural metrics):
+    "top1_winner_overhead",
+    "top1_winner_plasticity_active_count",
+    "top1_winner_levenshtein_uncapped",
+    "top1_winner_attractor_category",
+    "top1_winner_canonical_token_set_size",
+    "top1_winner_baldwin_gap",
 )
 
 
@@ -473,10 +580,31 @@ def analyze_run(
     # then smallest genotype index) and the canonical tape. Schema guard:
     # if required fields are missing or lengths disagree, emit nan —
     # routes the chronicle-time row-1 verdict to BLOCKED per the
-    # artifact-complete floor.
+    # artifact-complete floor. DEPRECATED in §v2.5-plasticity-2c; retained
+    # for backwards compatibility with the §2a chronicle.
     top1_winner_hamming = _compute_top1_winner_hamming(
         data, can_active, alphabet
     )
+
+    # §v2.5-plasticity-2c: 6 new per-run winner-structural metrics (all
+    # §26-demoted diagnostics; no routing clauses on them). Computed only
+    # when the top-1 winner selection succeeds (schema-complete run); emit
+    # None across all 6 columns when schema fails (routes to BLOCKED per
+    # the artifact-complete floor, same as top1_winner_hamming).
+    winner_idx = _select_top1_winner_idx(data)
+    if winner_idx is not None:
+        winner_metrics = _compute_winner_structural_metrics(
+            data, winner_idx, can_active, alphabet
+        )
+    else:
+        winner_metrics = {
+            "top1_winner_overhead": None,
+            "top1_winner_plasticity_active_count": None,
+            "top1_winner_levenshtein_uncapped": None,
+            "top1_winner_attractor_category": None,
+            "top1_winner_canonical_token_set_size": None,
+            "top1_winner_baldwin_gap": None,
+        }
 
     row = _row_common(cfg, result, run_dir)
     row.update({
@@ -500,6 +628,7 @@ def analyze_run(
         **delta_stats,
         "max_gap_at_budget_5": max_gap,
         "top1_winner_hamming": top1_winner_hamming,
+        **winner_metrics,  # §v2.5-plasticity-2c: 6 new per-run columns
     })
     return row
 
@@ -531,32 +660,25 @@ def _compute_max_gap_at_budget_5(
     return max(candidates) if candidates else float("nan")
 
 
-def _compute_top1_winner_hamming(
-    data,
-    can_active: np.ndarray,
-    alphabet: str,
-) -> float:
-    """§v2.5-plasticity-2a top1_winner_hamming (v9 / v10 / v11).
+def _select_top1_winner_idx(data) -> int | None:
+    """§v2.5-plasticity-2a v10 verbatim winner selection + v11 schema-check guard.
 
-    Schema-check guard (v11 per codex-v10 P1): returns nan when
-    ``final_population.npz`` lacks any of ``genotypes``,
-    ``test_fitness_plastic``, ``train_fitness_plastic`` OR when their
-    ``shape[0]`` values disagree. A nan return routes the chronicle-time
-    row-1 verdict to BLOCKED per the artifact-complete floor.
+    Returns the top-1 winner's population index (deterministic tiebreak),
+    or None when the schema-check guard fires. A None return routes the
+    chronicle-time row-1 verdict to BLOCKED per the artifact-complete floor.
 
-    Winner selection (v10 verbatim): argmax over ``test_fitness_plastic``,
-    tiebroken by ``train_fitness_plastic`` over the argmax set, then by
-    smallest genotype index (numpy argmax's first-max behaviour).
+    Winner selection: argmax over ``test_fitness_plastic``, tiebroken by
+    ``train_fitness_plastic`` over the argmax set, then by smallest
+    genotype index (numpy argmax's first-max behaviour).
 
-    Distance: ``levenshtein(extract_active(genotypes[winner_idx], alphabet),
-    can_active, cap=4)``. Matches the Baldwin-bin labelling routine
-    verbatim. Returned as a Python float of the int cap=4 value ∈
-    {0, 1, 2, 3, 4} for schema-complete runs.
+    Shared by _compute_top1_winner_hamming (deprecated cap=4 metric) and
+    _compute_winner_structural_metrics (§v2.5-plasticity-2c uncapped
+    Levenshtein + 5 other winner metrics).
     """
     required = ("genotypes", "test_fitness_plastic", "train_fitness_plastic")
     for name in required:
         if name not in data.files:
-            return float("nan")
+            return None
 
     genotypes = data["genotypes"]
     test_fit_plastic = data["test_fitness_plastic"]
@@ -567,13 +689,132 @@ def _compute_top1_winner_hamming(
         == test_fit_plastic.shape[0]
         == train_fit_plastic.shape[0]
     ):
-        return float("nan")
+        return None
 
     candidates = np.flatnonzero(test_fit_plastic == test_fit_plastic.max())
-    winner_idx = int(candidates[np.argmax(train_fit_plastic[candidates])])
+    return int(candidates[np.argmax(train_fit_plastic[candidates])])
 
-    winner_active = extract_active(genotypes[winner_idx], alphabet)
+
+def _compute_top1_winner_hamming(
+    data,
+    can_active: np.ndarray,
+    alphabet: str,
+) -> float:
+    """§v2.5-plasticity-2a top1_winner_hamming (v9 / v10 / v11).
+
+    DEPRECATED in §v2.5-plasticity-2c (replaced by
+    ``top1_winner_levenshtein_uncapped`` — see §v2.5-plasticity-2c prereg
+    METRIC_DEFINITIONS extensions). Retained for backwards compatibility
+    with the §v2.5-plasticity-2a chronicle's reported numbers (commit
+    c08888a); new analyses should use the uncapped metric.
+
+    Schema-check guard: returns nan when ``final_population.npz`` lacks
+    the required fields OR their shape[0] values disagree (routes
+    chronicle-time row-1 verdict to BLOCKED).
+
+    Distance: ``levenshtein(extract_active(genotypes[winner_idx], alphabet),
+    can_active, cap=4)``. Values ∈ {0, 1, 2, 3, 4, 5} for schema-complete
+    runs (5 is the cap+1 sentinel for distance > 4).
+    """
+    winner_idx = _select_top1_winner_idx(data)
+    if winner_idx is None:
+        return float("nan")
+
+    winner_active = extract_active(data["genotypes"][winner_idx], alphabet)
     return float(levenshtein(winner_active, can_active, cap=4))
+
+
+def _classify_attractor_category(winner_active_set: set[int]) -> str:
+    """§v2.5-plasticity-2c attractor-category classifier — verbatim from the
+    §v2.5-plasticity-2c prereg METRIC_DEFINITIONS extensions entry.
+
+    Input: winner's active-view tokens as a set[int]. Output: one of
+    {'compositional_AND', 'max>5-only', 'sum>10-only', 'other'}.
+
+    Classification (prereg verbatim):
+      - max>5-only: has {REDUCE_MAX, CONST_5, GT} (strict 3-token) AND no SUM.
+      - sum>10-only: has {SUM, GT or IF_GT} AND no REDUCE_MAX AND no CONST_5.
+      - compositional_AND: has >=1 of {REDUCE_MAX, CONST_5} AND >=1 of {SUM}
+        AND >=1 of {GT, IF_GT}.
+      - other: none of the above.
+
+    Check order matters (first-match wins): max>5-only → sum>10-only →
+    compositional_AND → other. This matches the inspection Section 1.4
+    code-order; compositional_AND is the permissive catch for winners that
+    have at least one max-hint-token plus the sum-blocks.
+    """
+    REDUCE_MAX, CONST_5, GT, SUM, IF_GT = 18, 16, 8, 5, 17
+
+    has_reduce_max = REDUCE_MAX in winner_active_set
+    has_const_5 = CONST_5 in winner_active_set
+    has_gt = GT in winner_active_set
+    has_sum = SUM in winner_active_set
+    has_if_gt = IF_GT in winner_active_set
+
+    # 1. max>5-only: strict 3-token max set AND no SUM
+    if has_reduce_max and has_const_5 and has_gt and not has_sum:
+        return "max>5-only"
+
+    # 2. sum>10-only: SUM + (GT or IF_GT) AND no REDUCE_MAX AND no CONST_5
+    if has_sum and (has_gt or has_if_gt) and not has_reduce_max and not has_const_5:
+        return "sum>10-only"
+
+    # 3. compositional_AND: (REDUCE_MAX or CONST_5) AND SUM AND (GT or IF_GT)
+    if (has_reduce_max or has_const_5) and has_sum and (has_gt or has_if_gt):
+        return "compositional_AND"
+
+    # 4. other
+    return "other"
+
+
+def _compute_winner_structural_metrics(
+    data,
+    winner_idx: int,
+    can_active: tuple[int, ...],
+    alphabet: str,
+) -> dict:
+    """§v2.5-plasticity-2c per-run winner-structural metrics (6 new columns).
+
+    Computes on the deterministic top-1 winner (see _select_top1_winner_idx):
+
+    - top1_winner_overhead: active_len − 12 (canonical).
+    - top1_winner_plasticity_active_count: count of {GT, IF_GT, THRESHOLD_SLOT}.
+    - top1_winner_levenshtein_uncapped: full Levenshtein (no cap) to canonical.
+    - top1_winner_attractor_category: 'compositional_AND' | 'max>5-only' |
+      'sum>10-only' | 'other'.
+    - top1_winner_canonical_token_set_size: |{canonical operators} ∩ {winner}|.
+    - top1_winner_baldwin_gap: test_fitness_plastic[winner] − test_fitness_frozen[winner].
+
+    Returns dict keyed by METRIC_DEFINITIONS names. Caller verifies the
+    winner-idx is not None before calling (use _select_top1_winner_idx).
+    """
+    genotype = data["genotypes"][winner_idx]
+    test_fit_plastic = data["test_fitness_plastic"]
+    test_fit_frozen = data["test_fitness_frozen"]
+
+    winner_active = extract_active(genotype, alphabet)  # tuple[int, ...]
+    active_len = len(winner_active)
+    winner_set = set(winner_active)
+
+    overhead = active_len - _CANONICAL_ACTIVE_LEN
+    plactv_count = sum(
+        1 for t in winner_active if t in _PLASTICITY_ACTIVE_TOKEN_SET
+    )
+    lev_uncapped = int(levenshtein(winner_active, can_active))  # cap=None
+    category = _classify_attractor_category(winner_set)
+    canonical_present = len(_CANONICAL_ACTIVE_TOKEN_SET & winner_set)
+    baldwin_gap = float(test_fit_plastic[winner_idx]) - float(
+        test_fit_frozen[winner_idx]
+    )
+
+    return {
+        "top1_winner_overhead": int(overhead),
+        "top1_winner_plasticity_active_count": int(plactv_count),
+        "top1_winner_levenshtein_uncapped": int(lev_uncapped),
+        "top1_winner_attractor_category": category,
+        "top1_winner_canonical_token_set_size": int(canonical_present),
+        "top1_winner_baldwin_gap": baldwin_gap,
+    }
 
 
 def _cell_key(row: dict) -> tuple:
@@ -606,6 +847,210 @@ def bootstrap_mean_ci(
     rng = np.random.default_rng(rng_seed)
     boots = rng.choice(xs, size=(n_boot, len(xs)), replace=True).mean(axis=1)
     return float(np.quantile(boots, 0.025)), float(np.quantile(boots, 0.975))
+
+
+def bootstrap_mean_ci_97_5(
+    xs: np.ndarray,
+    n_boot: int = 10_000,
+    rng_seed: int = 42,
+    min_n: int = 15,
+) -> tuple[float, float]:
+    """§v2.5-plasticity-2c 97.5% CI variant (family α = 0.025 under
+    Bonferroni for the plasticity-narrow-plateau family at size 2).
+
+    Returns (CI_lo at 1.25% quantile, CI_hi at 98.75% quantile). Nan
+    values dropped before resampling. Returns (nan, nan) if fewer than
+    ``min_n`` non-nan seeds remain.
+
+    Used by f_and_test_plastic_seed_boot_ci (per-cell descriptive) and
+    as a building block for f_and_test_plastic_paired_boot_ci_budget40_vs_budget5
+    (primary confirmatory; see ``paired_bootstrap_budget40_vs_budget5``).
+    """
+    xs = np.asarray(xs, dtype=np.float64)
+    xs = xs[~np.isnan(xs)]
+    if len(xs) < min_n:
+        return float("nan"), float("nan")
+    rng = np.random.default_rng(rng_seed)
+    boots = rng.choice(xs, size=(n_boot, len(xs)), replace=True).mean(axis=1)
+    return float(np.quantile(boots, 0.0125)), float(np.quantile(boots, 0.9875))
+
+
+def paired_bootstrap_budget40_vs_budget5(
+    current_rows: list[dict],
+    baseline_budget5_indicators_by_seed: dict[int, int],
+    seed_range: tuple[int, int] = (20, 39),
+    n_boot: int = 10_000,
+    rng_seed: int = 42,
+) -> dict:
+    """§v2.5-plasticity-2c PRIMARY confirmatory test — paired-bootstrap
+    97.5% CI on per-seed F_AND_test_plastic difference budget=40 minus
+    budget=5 on shared seeds 20..39 (n=20 paired differences).
+
+    Family: plasticity-narrow-plateau (size 2 after this prereg joins);
+    corrected α = 0.05/2 = 0.025. 97.5% two-sided CI ([1.25%, 98.75%]
+    quantiles) matches family α via either-side rejection (CI_lo > 0 → H1
+    PASS; CI_hi < 0 → H-reverse).
+
+    Inputs:
+      current_rows: per-run rows from the §2c sweep (must include
+        budget=40 plastic runs with best_fitness_test_plastic + seed).
+      baseline_budget5_indicators_by_seed: dict {seed: 0|1} for the 20
+        budget=5 seeds, pre-extracted from the §v2.5-plasticity-2a
+        plasticity.csv (see Setup § "Shared-seed extraction" in the prereg).
+      seed_range: (lo, hi) inclusive — default (20, 39).
+
+    Seed-integrity pre-check (SWAMPED routing):
+      Before bootstrapping, verify exactly 20 unique seeds in
+      seed_range ∈ each cell. Any missing/duplicated/extra seed →
+      swamped = True and CI values = nan.
+
+    Returns dict with keys:
+      - f_and_test_plastic_paired_boot_ci_budget40_vs_budget5_lo
+      - f_and_test_plastic_paired_boot_ci_budget40_vs_budget5_hi
+      - f_and_test_plastic_paired_boot_ci_budget40_vs_budget5_n_paired
+      - f_and_test_plastic_paired_boot_ci_budget40_vs_budget5_swamped
+        (bool — True if seed-integrity pre-check failed; routes row 6)
+      - f_and_test_plastic_paired_boot_ci_budget40_vs_budget5_swamped_reason
+        (str — description of anomaly, or empty string on clean pre-check)
+    """
+    seed_lo, seed_hi = seed_range
+    expected_seeds = set(range(seed_lo, seed_hi + 1))
+
+    # Extract budget=40 indicators from current_rows
+    b40_by_seed: dict[int, list[int]] = {}  # allow duplicate detection
+    for r in current_rows:
+        if not r.get("plasticity_enabled"):
+            continue
+        try:
+            if int(r.get("plasticity_budget", 0)) != 40:
+                continue
+        except (TypeError, ValueError):
+            continue
+        try:
+            seed = int(r.get("seed"))
+        except (TypeError, ValueError):
+            continue
+        tfp = r.get("best_fitness_test_plastic")
+        if tfp is None or tfp == "":
+            continue
+        try:
+            indicator = int(float(tfp) >= 1.0 - 1e-9)
+        except (TypeError, ValueError):
+            continue
+        b40_by_seed.setdefault(seed, []).append(indicator)
+
+    # Seed-integrity pre-check on budget=40 cell
+    swamped_reasons: list[str] = []
+    b40_seen_seeds = set(b40_by_seed.keys())
+    for s in b40_by_seed:
+        if len(b40_by_seed[s]) > 1:
+            swamped_reasons.append(
+                f"budget=40 cell: seed {s} duplicated "
+                f"({len(b40_by_seed[s])} rows)"
+            )
+    missing_b40 = expected_seeds - b40_seen_seeds
+    if missing_b40:
+        swamped_reasons.append(
+            f"budget=40 cell: missing seed(s) {sorted(missing_b40)}"
+        )
+    extra_b40 = b40_seen_seeds - expected_seeds
+    if extra_b40:
+        swamped_reasons.append(
+            f"budget=40 cell: extra seed(s) {sorted(extra_b40)} outside "
+            f"[{seed_lo}, {seed_hi}]"
+        )
+
+    # Seed-integrity pre-check on budget=5 baseline
+    b5_seen_seeds = set(baseline_budget5_indicators_by_seed.keys())
+    missing_b5 = expected_seeds - b5_seen_seeds
+    if missing_b5:
+        swamped_reasons.append(
+            f"budget=5 baseline: missing seed(s) {sorted(missing_b5)}"
+        )
+    extra_b5 = b5_seen_seeds - expected_seeds
+    if extra_b5:
+        swamped_reasons.append(
+            f"budget=5 baseline: extra seed(s) {sorted(extra_b5)} outside "
+            f"[{seed_lo}, {seed_hi}]"
+        )
+
+    if swamped_reasons:
+        return {
+            "f_and_test_plastic_paired_boot_ci_budget40_vs_budget5_lo": float("nan"),
+            "f_and_test_plastic_paired_boot_ci_budget40_vs_budget5_hi": float("nan"),
+            "f_and_test_plastic_paired_boot_ci_budget40_vs_budget5_n_paired": 0,
+            "f_and_test_plastic_paired_boot_ci_budget40_vs_budget5_swamped": True,
+            "f_and_test_plastic_paired_boot_ci_budget40_vs_budget5_swamped_reason":
+                "; ".join(swamped_reasons),
+            "f_and_test_plastic_paired_boot_ci_budget40_vs_budget5_point_estimate":
+                float("nan"),
+        }
+
+    # Build paired-difference vector on seeds 20..39 (deterministic order)
+    paired_diffs: list[int] = []
+    for s in sorted(expected_seeds):
+        b40_ind = b40_by_seed[s][0]
+        b5_ind = baseline_budget5_indicators_by_seed[s]
+        paired_diffs.append(b40_ind - b5_ind)
+
+    paired_arr = np.asarray(paired_diffs, dtype=np.float64)
+    rng = np.random.default_rng(rng_seed)
+    boots = rng.choice(
+        paired_arr, size=(n_boot, len(paired_arr)), replace=True
+    ).mean(axis=1)
+    ci_lo = float(np.quantile(boots, 0.0125))
+    ci_hi = float(np.quantile(boots, 0.9875))
+    point_estimate = float(paired_arr.mean())
+
+    return {
+        "f_and_test_plastic_paired_boot_ci_budget40_vs_budget5_lo": ci_lo,
+        "f_and_test_plastic_paired_boot_ci_budget40_vs_budget5_hi": ci_hi,
+        "f_and_test_plastic_paired_boot_ci_budget40_vs_budget5_n_paired": len(paired_arr),
+        "f_and_test_plastic_paired_boot_ci_budget40_vs_budget5_swamped": False,
+        "f_and_test_plastic_paired_boot_ci_budget40_vs_budget5_swamped_reason": "",
+        "f_and_test_plastic_paired_boot_ci_budget40_vs_budget5_point_estimate": point_estimate,
+    }
+
+
+def extract_budget5_indicators_from_csv(
+    csv_path: Path, seed_range: tuple[int, int] = (20, 39),
+) -> dict[int, int]:
+    """§v2.5-plasticity-2c Setup § "Shared-seed extraction" step 1-4 (verbatim).
+
+    Loads a sweep's plasticity.csv, filters to plastic budget=5 Arm A rows
+    within the seed range, and returns {seed: 0|1} binary indicator dict
+    (indicator = ``best_fitness_test_plastic >= 1.0``).
+
+    Only §v2.5-plasticity-2a seeds 20..39 are included by default; the
+    seed-integrity pre-check in ``paired_bootstrap_budget40_vs_budget5``
+    verifies that exactly 20 seeds are present post-extraction.
+    """
+    import csv
+    seed_lo, seed_hi = seed_range
+    indicators: dict[int, int] = {}
+    with csv_path.open() as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            if row.get("plasticity_enabled") != "True":
+                continue
+            if row.get("arm") != "A":
+                continue
+            try:
+                if int(row.get("plasticity_budget", "0")) != 5:
+                    continue
+                seed = int(row.get("seed"))
+            except (TypeError, ValueError):
+                continue
+            if seed < seed_lo or seed > seed_hi:
+                continue
+            tfp = row.get("best_fitness_test_plastic")
+            if not tfp:
+                continue
+            try:
+                indicators[seed] = int(float(tfp) >= 1.0 - 1e-9)
+            except (TypeError, ValueError):
+                continue
+    return indicators
 
 
 def _build_frozen_rfit_lookup(rows: list[dict]) -> dict[tuple, float]:
@@ -724,6 +1169,78 @@ def summarize(rows: list[dict]) -> dict:
             float(np.mean(paired_deltas)) if paired_deltas else None
         )
 
+        # §v2.5-plasticity-2c: F_AND_test_plastic count/fraction/CI per
+        # plastic cell (primary observable per the §2c prereg). For frozen
+        # cells, "solver" is defined via the best_fitness column (frozen
+        # runs carry no train/test split). For plastic cells, use
+        # best_fitness_test_plastic (plastic eval on 16 test examples).
+        # CI width is 97.5% (quantiles [1.25%, 98.75%]) to match the
+        # §2c family-α = 0.025 Bonferroni correction.
+        f_indicators: list[int] = []
+        if pl_enabled:
+            for m in members:
+                tfp = m.get("best_fitness_test_plastic")
+                if tfp is None:
+                    continue
+                try:
+                    f_indicators.append(int(float(tfp) >= 1.0 - 1e-9))
+                except (TypeError, ValueError):
+                    continue
+        else:
+            # Frozen cell: use best_fitness as the F_AND_test_plastic
+            # analogue (no plastic eval available).
+            for m in members:
+                bf = m.get("best_fitness")
+                if bf is None:
+                    continue
+                try:
+                    f_indicators.append(int(float(bf) >= 1.0 - 1e-9))
+                except (TypeError, ValueError):
+                    continue
+
+        f_count = sum(f_indicators)
+        f_n = len(f_indicators)
+        f_fraction = float(f_count) / f_n if f_n > 0 else None
+        # 97.5% seed-bootstrap CI on F_AND_test_plastic fraction. min_n=15
+        # kept consistent with the project's bootstrap convention; §2c
+        # cells have n=20 (or n=40 pooled at budget=5), well above the
+        # floor.
+        if f_n >= 15:
+            f_ci_arr = np.asarray(f_indicators, dtype=np.float64)
+            f_ci_lo, f_ci_hi = bootstrap_mean_ci_97_5(f_ci_arr, min_n=15)
+        else:
+            f_ci_lo = f_ci_hi = float("nan")
+
+        # §v2.5-plasticity-2c: per-cell medians of the 6 §26-demoted
+        # winner-structural diagnostics. Computed only on plastic cells
+        # (frozen-only runs lack the winner metrics). Reported descriptively;
+        # NO routing clauses on these axes per the §2c prereg.
+        def _median_of(colname: str) -> float | None:
+            vals = []
+            for m in members:
+                v = m.get(colname)
+                if v is None or v == "":
+                    continue
+                if isinstance(v, float) and np.isnan(v):
+                    continue
+                try:
+                    vals.append(float(v))
+                except (TypeError, ValueError):
+                    continue
+            return float(np.median(vals)) if vals else None
+
+        top1_winner_attractor_counts: dict[str, int] = {
+            "compositional_AND": 0,
+            "max>5-only": 0,
+            "sum>10-only": 0,
+            "other": 0,
+        }
+        if pl_enabled:
+            for m in members:
+                cat = m.get("top1_winner_attractor_category")
+                if cat in top1_winner_attractor_counts:
+                    top1_winner_attractor_counts[cat] += 1
+
         summary.append({
             "arm": arm,
             "plasticity_enabled": pl_enabled,
@@ -755,6 +1272,18 @@ def summarize(rows: list[dict]) -> dict:
             "top1_winner_hamming_n_nan": t1wh_n_nan,
             "R_fit_delta_paired_sf0_mean": R_fit_delta_paired_sf0_mean,
             "R_fit_delta_paired_sf0_n_pairs": len(paired_deltas),
+            # §v2.5-plasticity-2c additions — primary observable + 6 §26-demoted diagnostics
+            "f_and_test_plastic_count": f_count,
+            "f_and_test_plastic_n": f_n,
+            "f_and_test_plastic_fraction": f_fraction,
+            "f_and_test_plastic_seed_boot_ci_lo": f_ci_lo,
+            "f_and_test_plastic_seed_boot_ci_hi": f_ci_hi,
+            "top1_winner_overhead_median": _median_of("top1_winner_overhead"),
+            "top1_winner_plasticity_active_count_median": _median_of("top1_winner_plasticity_active_count"),
+            "top1_winner_levenshtein_uncapped_median": _median_of("top1_winner_levenshtein_uncapped"),
+            "top1_winner_canonical_token_set_size_median": _median_of("top1_winner_canonical_token_set_size"),
+            "top1_winner_baldwin_gap_median": _median_of("top1_winner_baldwin_gap"),
+            "top1_winner_attractor_counts": top1_winner_attractor_counts,
         })
     return {
         "per_cell": summary,

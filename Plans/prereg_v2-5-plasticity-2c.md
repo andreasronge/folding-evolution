@@ -84,8 +84,8 @@ The pooled n=40 data from §2a + n-exp is ALSO used for reporting the budget=5 c
 
 **Baseline quantity 1 — F_AND_test_plastic seed-bootstrap 97.5% CI at budget=5 (pooled n=40 from §2a + n-exp):**
 - Measurement: seed-bootstrap 97.5% CI on per-cell F_AND_test_plastic fraction using 40 per-seed binary indicators, 10 000 resamples via `numpy.random.default_rng(seed=42)`. Matches `bootstrap_ci_spec`.
-- Value: **to be measured in Status-transition checklist item 2** before sweep launches (pure data-analysis on existing data, no new compute). Point estimate 14/40 = 0.35.
-- Rationale: direct baseline for the paired-bootstrap confirmatory test. Principle 6 satisfied — threshold is data-derived, not imported.
+- **Value (measured pre-data at commit `38fa033`+1):** point estimate = **14/40 = 0.3500**; 97.5% CI = **[0.2000, 0.5250]** (quantiles [1.25%, 98.75%]). Per-seed breakdown: §2a seeds 20..39 contribute 7/20 solvers; n-exp seeds 40..59 contribute 7/20 solvers; pooled 14/40.
+- Rationale: direct baseline for the paired-bootstrap confirmatory test. Principle 6 satisfied — threshold is data-derived, not imported. **Note:** the paired-bootstrap confirmatory test on shared seeds 20..39 uses only the n=20 §2a subset as the budget=5 reference per Setup § "Shared-seed extraction" step 3 (n-exp seeds 40..59 are NOT in the shared-seed set); this n=40 pooled baseline CI is reported as chronicle-time context, not as the confirmatory statistic's reference.
 
 **Baseline quantity 2 — F_AND_test_frozen at frozen-control cell (n=20, seeds 20..39):**
 - Existing §2a frozen-control data (commit `7361631`); F_AND_test = 0/20. Serves as infrastructure anchor for the row-6 SWAMPED trigger.
