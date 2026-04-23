@@ -291,6 +291,65 @@ METRIC_DEFINITIONS: dict[str, str] = {
         "rejection: CI_lo > 0. H-reverse trigger: CI_hi < 0. Added in §v2.5-"
         "plasticity-2c."
     ),
+    # --- §v2.5-plasticity-2d extensions (verbatim from the prereg's
+    # "METRIC_DEFINITIONS extensions" block at Plans/prereg_v2-5-plasticity-2d.md) ---
+    "f_and_test_plastic_seed_boot_ci_98_333": (
+        "Per-cell seed-bootstrap 98.333% CI on F_AND_test_plastic fraction. "
+        "10 000 resamples with replacement over 20 per-seed binary indicators "
+        "(best_fitness_test_plastic >= 1.0) via numpy.random.default_rng(seed=42); "
+        "CI = [0.8333%, 99.1667%] empirical quantiles of resampled fractions. "
+        "Matches bootstrap_ci_spec at the §v2.5-plasticity-2d family-alpha=0.01667 "
+        "discipline (family = 'plasticity-narrow-plateau', size 3 per 22b "
+        "commit-time membership). Extends §v2.5-plasticity-2c's "
+        "f_and_test_plastic_seed_boot_ci (97.5% CI) to the §2d quantile. "
+        "Descriptive (not confirmatory). Added in §v2.5-plasticity-2d."
+    ),
+    "f_and_test_plastic_paired_boot_ci_plastic40_vs_random40": (
+        "Paired-seed bootstrap 98.333% CI on per-seed difference "
+        "F_AND_test_plastic[mechanism=rank1_op_threshold, budget=40, seed=s] "
+        "minus F_AND_test_plastic[mechanism=random_sample_threshold, budget=40, "
+        "seed=s] for s in {20..39}, n=20 paired differences. 10 000 resamples "
+        "via numpy.random.default_rng(seed=42); CI = [0.8333%, 99.1667%] "
+        "empirical quantiles of resampled paired-difference means. Plastic "
+        "budget=40 per-seed indicators extracted from §v2.5-plasticity-2c data "
+        "via (mechanism, budget, seed) filter. "
+        "**Primary confirmatory test for §v2.5-plasticity-2d family "
+        "'plasticity-narrow-plateau' (family size now 3, corrected alpha = "
+        "0.01667).** H1 rejection: CI_lo > 0. H-reverse trigger: CI_hi < 0. "
+        "Added in §v2.5-plasticity-2d."
+    ),
+    "delta_final_cell_support_bounds": (
+        "Per-cell tuple (min, max, std) of delta_final across 20 seeds. "
+        "Mechanism-sanity diagnostic: for plasticity_mechanism="
+        "'random_sample_threshold' cells, verifies -budget <= min, max <= "
+        "+budget (uniform-continuous support bounds); verifies std >= 0.01 "
+        "(non-degenerate rng); verifies 0 < mean(|delta_final|) <= budget "
+        "(not all-delta=0). Violation of any sub-check routes Row 6 (SWAMPED) "
+        "per Setup Mechanism-sanity pre-check. For plasticity_mechanism="
+        "'rank1_op_threshold' cells, support bound is the integer-lattice "
+        "+-budget*delta endpoint (same formal bound, different reachability). "
+        "Reported per-cell at chronicle time. Added in §v2.5-plasticity-2d."
+    ),
+    "random_sample_mechanism_draw_spread": (
+        "Per-individual tuple (min_draw, max_draw, std_draws, argmax_index) "
+        "summarizing the k uniform-continuous draws at a random_sample_"
+        "threshold cell. Logged per-individual during adapt_and_evaluate_one_"
+        "random_sample as part of the individual's output dict; per-run top-1 "
+        "winner aggregation emitted to CSV columns winner_k_draw_min, "
+        "winner_k_draw_max, winner_k_draw_std, winner_k_argmax_index. "
+        "**MANDATORY at launch per §v2.5-plasticity-2d codex-v1 P1-5 "
+        "correction (previously optional-defer; v2 upgrades to launch-"
+        "blocking).** Per-individual invariants (any violation on any "
+        "individual in any random-sample cell routes to Row 6 SWAMPED): "
+        "min_draw >= -budget, max_draw <= +budget, std_draws >= 0.05 * budget, "
+        "argmax_index in [0, k-1]. Covers failure modes that cell-level "
+        "delta_final cannot see: individual-level collapse where k draws "
+        "cluster but argmax produces a different-looking delta_final; "
+        "support-bound overshoot from rng-library edge cases. Schema is "
+        "(min_draw, max_draw, std_draws, argmax_index) - consistent with "
+        "Setup mechanism-sanity pre-check, Guard-6 sub-criterion (c), and "
+        "Status-transition checklist item 1(g). Added in §v2.5-plasticity-2d."
+    ),
 }
 
 
@@ -395,6 +454,14 @@ def _row_common(cfg: dict, result: dict, run_dir: Path) -> dict:
         "plasticity_budget": int(cfg.get("plasticity_budget", 0)),
         "plasticity_delta": float(cfg.get("plasticity_delta", 0.0)),
         "plasticity_enabled": bool(cfg.get("plasticity_enabled", False)),
+        # §v2.5-plasticity-2d: plasticity_mechanism carried on every row
+        # (defaults to 'rank1_op_threshold' — matches config default and
+        # preserves backward compatibility with pre-§2d §2a/§2c CSVs
+        # written before this field existed; those rows will parse as
+        # mechanism=rank1_op_threshold when the YAML doesn't set it).
+        "plasticity_mechanism": str(
+            cfg.get("plasticity_mechanism", "rank1_op_threshold")
+        ),
         "best_fitness": float(result.get("best_fitness", float("nan"))),
     }
 
@@ -447,6 +514,12 @@ _PLASTIC_ONLY_KEYS: tuple[str, ...] = (
     "top1_winner_attractor_category",
     "top1_winner_canonical_token_set_size",
     "top1_winner_baldwin_gap",
+    # §v2.5-plasticity-2d additions (4 new per-run k-draw winner columns,
+    # present only on random_sample_threshold runs; None on rank-1):
+    "winner_k_draw_min",
+    "winner_k_draw_max",
+    "winner_k_draw_std",
+    "winner_k_argmax_index",
 )
 
 
@@ -606,6 +679,31 @@ def analyze_run(
             "top1_winner_baldwin_gap": None,
         }
 
+    # §v2.5-plasticity-2d: per-run k-draw winner summary. Present only on
+    # random_sample_threshold runs (the four k_draw_* arrays are emitted
+    # to final_population.npz only for that mechanism per run.py); None
+    # on rank-1 runs so the schema stays uniform across mechanisms.
+    if (
+        winner_idx is not None
+        and "k_draw_min" in data.files
+        and "k_draw_max" in data.files
+        and "k_draw_std" in data.files
+        and "k_argmax_index" in data.files
+    ):
+        winner_k_draw = {
+            "winner_k_draw_min": float(data["k_draw_min"][winner_idx]),
+            "winner_k_draw_max": float(data["k_draw_max"][winner_idx]),
+            "winner_k_draw_std": float(data["k_draw_std"][winner_idx]),
+            "winner_k_argmax_index": int(data["k_argmax_index"][winner_idx]),
+        }
+    else:
+        winner_k_draw = {
+            "winner_k_draw_min": None,
+            "winner_k_draw_max": None,
+            "winner_k_draw_std": None,
+            "winner_k_argmax_index": None,
+        }
+
     row = _row_common(cfg, result, run_dir)
     row.update({
         "best_fitness_train_frozen": float(train_fit_frozen.max()),
@@ -629,6 +727,7 @@ def analyze_run(
         "max_gap_at_budget_5": max_gap,
         "top1_winner_hamming": top1_winner_hamming,
         **winner_metrics,  # §v2.5-plasticity-2c: 6 new per-run columns
+        **winner_k_draw,   # §v2.5-plasticity-2d: 4 new per-run k-draw columns
     })
     return row
 
@@ -818,9 +917,18 @@ def _compute_winner_structural_metrics(
 
 
 def _cell_key(row: dict) -> tuple:
+    """§v2.5-plasticity-2d: grouping tuple extended to include
+    `plasticity_mechanism` so §2c plastic cells and §2d random-sample
+    cells at the same (arm, plasticity_enabled, plasticity_budget,
+    seed_fraction) do NOT collapse into the same cell. Backward-
+    compatible: existing pre-§2d rows default plasticity_mechanism to
+    'rank1_op_threshold' in `_row_common`, so re-analyzing §2a/§2c
+    CSVs under the new cell key reproduces the old cell assignments.
+    """
     return (
         row["arm"],
         row["plasticity_enabled"],
+        row.get("plasticity_mechanism", "rank1_op_threshold"),
         row["plasticity_budget"],
         row["seed_fraction"],
     )
@@ -1053,6 +1161,272 @@ def extract_budget5_indicators_from_csv(
     return indicators
 
 
+# ---------------- §v2.5-plasticity-2d CI routines ----------------
+
+
+def bootstrap_mean_ci_98_333(
+    xs: np.ndarray,
+    n_boot: int = 10_000,
+    rng_seed: int = 42,
+    min_n: int = 15,
+) -> tuple[float, float]:
+    """§v2.5-plasticity-2d 98.333% CI variant (family α = 0.01667 under
+    Bonferroni for the plasticity-narrow-plateau family at size 3).
+
+    Returns (CI_lo at 0.8333% quantile, CI_hi at 99.1667% quantile). Nan
+    values dropped before resampling. Returns (nan, nan) if fewer than
+    ``min_n`` non-nan seeds remain.
+
+    Used by f_and_test_plastic_seed_boot_ci_98_333 (per-cell descriptive)
+    and as a building block for f_and_test_plastic_paired_boot_ci_plastic40_
+    vs_random40 (primary confirmatory; see ``paired_bootstrap_plastic40_
+    vs_random40``).
+    """
+    xs = np.asarray(xs, dtype=np.float64)
+    xs = xs[~np.isnan(xs)]
+    if len(xs) < min_n:
+        return float("nan"), float("nan")
+    rng = np.random.default_rng(rng_seed)
+    boots = rng.choice(xs, size=(n_boot, len(xs)), replace=True).mean(axis=1)
+    return (
+        float(np.quantile(boots, 0.008333)),
+        float(np.quantile(boots, 0.991667)),
+    )
+
+
+def extract_plastic_budget40_indicators_from_csv(
+    csv_path: Path, seed_range: tuple[int, int] = (20, 39),
+) -> dict[int, int | list[int]]:
+    """§v2.5-plasticity-2d Setup § "Shared-seed extraction" step 1-4.
+
+    Loads a sweep's plasticity.csv (post-§2c data), filters to
+    ``plasticity_enabled=True AND plasticity_mechanism='rank1_op_threshold'
+    AND plasticity_budget=40 AND arm='A' AND seed_fraction='0.0'`` rows
+    within the seed range, and returns a seed→indicator mapping.
+
+    **Duplicate-seed detection (codex-v4 P1-2 correction):** When a seed
+    appears more than once in the filtered rows, the returned value at
+    that seed is a ``list[int]`` of every row's indicator rather than a
+    scalar ``int``. ``paired_bootstrap_plastic40_vs_random40`` inspects
+    the value type at each seed; a list value routes Row 6 SWAMPED with
+    a duplicate-baseline-row reason. This prevents silent overwriting of
+    duplicate reused-§2c rows, which under the naive dict-assignment
+    contract would pass the seed-integrity pre-check even though the
+    reused data is corrupt.
+
+    Parallel to ``extract_budget5_indicators_from_csv`` but scoped to the
+    plastic budget=40 cell reused from §2c. Missing the
+    ``plasticity_mechanism`` column (e.g. in pre-§2d CSV files) is
+    treated as the default ``'rank1_op_threshold'`` for backward
+    compatibility.
+
+    The seed-integrity pre-check in
+    ``paired_bootstrap_plastic40_vs_random40`` verifies that exactly 20
+    seeds are present post-extraction AND that no seed has a list value
+    (duplicate rows).
+    """
+    import csv
+    seed_lo, seed_hi = seed_range
+    raw_by_seed: dict[int, list[int]] = {}
+    with csv_path.open() as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            if row.get("plasticity_enabled") != "True":
+                continue
+            if row.get("arm") != "A":
+                continue
+            mech = row.get("plasticity_mechanism", "rank1_op_threshold") or "rank1_op_threshold"
+            if mech != "rank1_op_threshold":
+                continue
+            try:
+                if int(row.get("plasticity_budget", "0")) != 40:
+                    continue
+                if float(row.get("seed_fraction", "0") or "0") != 0.0:
+                    continue
+                seed = int(row.get("seed"))
+            except (TypeError, ValueError):
+                continue
+            if seed < seed_lo or seed > seed_hi:
+                continue
+            tfp = row.get("best_fitness_test_plastic")
+            if not tfp:
+                continue
+            try:
+                raw_by_seed.setdefault(seed, []).append(
+                    int(float(tfp) >= 1.0 - 1e-9)
+                )
+            except (TypeError, ValueError):
+                continue
+    # Collapse unique-seed entries to scalar int; leave duplicates as
+    # list so downstream caller can detect them.
+    out: dict[int, int | list[int]] = {}
+    for seed, vals in raw_by_seed.items():
+        if len(vals) == 1:
+            out[seed] = vals[0]
+        else:
+            out[seed] = vals
+    return out
+
+
+def paired_bootstrap_plastic40_vs_random40(
+    current_rows: list[dict],
+    baseline_plastic40_indicators_by_seed: dict[int, int],
+    seed_range: tuple[int, int] = (20, 39),
+    n_boot: int = 10_000,
+    rng_seed: int = 42,
+) -> dict:
+    """§v2.5-plasticity-2d PRIMARY confirmatory test — paired-bootstrap
+    98.333% CI on per-seed F_AND_test_plastic difference
+    ``plastic[mechanism=rank1_op_threshold, budget=40]`` minus
+    ``random[mechanism=random_sample_threshold, budget=40]`` on shared
+    seeds 20..39 (n=20 paired differences).
+
+    Family: plasticity-narrow-plateau (size 3 after this prereg joins);
+    corrected α = 0.05/3 ≈ 0.01667. 98.333% two-sided CI ([0.8333%,
+    99.1667%] quantiles) matches family α via either-side rejection
+    (CI_lo > 0 → Row 1 PASS-POSITIVE; CI_hi < 0 → Row 5 REVERSE).
+
+    Inputs:
+      current_rows: per-run rows from the §2d sweep. Must include
+        random-sample budget=40 plastic runs with
+        ``best_fitness_test_plastic``, ``plasticity_mechanism``,
+        ``plasticity_budget``, and ``seed`` fields.
+      baseline_plastic40_indicators_by_seed: dict ``{seed: 0|1}`` for the
+        20 plastic budget=40 seeds, pre-extracted from the
+        §v2.5-plasticity-2c plasticity.csv (see Setup § "Shared-seed
+        extraction" in the §2d prereg).
+      seed_range: (lo, hi) inclusive — default (20, 39).
+
+    Seed-integrity pre-check (Row 6 SWAMPED routing): before
+    bootstrapping, verify exactly 20 unique seeds in ``seed_range`` on
+    each cell. Any missing/duplicated/extra seed → ``swamped = True``
+    and CI values = nan.
+
+    Returns dict with keys (parallel to
+    ``paired_bootstrap_budget40_vs_budget5`` §2c contract):
+      - f_and_test_plastic_paired_boot_ci_plastic40_vs_random40_lo
+      - f_and_test_plastic_paired_boot_ci_plastic40_vs_random40_hi
+      - f_and_test_plastic_paired_boot_ci_plastic40_vs_random40_n_paired
+      - f_and_test_plastic_paired_boot_ci_plastic40_vs_random40_swamped
+      - f_and_test_plastic_paired_boot_ci_plastic40_vs_random40_swamped_reason
+      - f_and_test_plastic_paired_boot_ci_plastic40_vs_random40_point_estimate
+    """
+    seed_lo, seed_hi = seed_range
+    expected_seeds = set(range(seed_lo, seed_hi + 1))
+
+    # Extract random-sample budget=40 indicators from current_rows
+    rnd40_by_seed: dict[int, list[int]] = {}
+    for r in current_rows:
+        if not r.get("plasticity_enabled"):
+            continue
+        mech = r.get("plasticity_mechanism", "rank1_op_threshold")
+        if mech != "random_sample_threshold":
+            continue
+        try:
+            if int(r.get("plasticity_budget", 0)) != 40:
+                continue
+        except (TypeError, ValueError):
+            continue
+        try:
+            seed = int(r.get("seed"))
+        except (TypeError, ValueError):
+            continue
+        tfp = r.get("best_fitness_test_plastic")
+        if tfp is None or tfp == "":
+            continue
+        try:
+            indicator = int(float(tfp) >= 1.0 - 1e-9)
+        except (TypeError, ValueError):
+            continue
+        rnd40_by_seed.setdefault(seed, []).append(indicator)
+
+    # Seed-integrity pre-check on random-sample budget=40 cell
+    swamped_reasons: list[str] = []
+    rnd40_seen_seeds = set(rnd40_by_seed.keys())
+    for s in rnd40_by_seed:
+        if len(rnd40_by_seed[s]) > 1:
+            swamped_reasons.append(
+                f"random-sample budget=40 cell: seed {s} duplicated "
+                f"({len(rnd40_by_seed[s])} rows)"
+            )
+    missing_rnd40 = expected_seeds - rnd40_seen_seeds
+    if missing_rnd40:
+        swamped_reasons.append(
+            f"random-sample budget=40 cell: missing seed(s) "
+            f"{sorted(missing_rnd40)}"
+        )
+    extra_rnd40 = rnd40_seen_seeds - expected_seeds
+    if extra_rnd40:
+        swamped_reasons.append(
+            f"random-sample budget=40 cell: extra seed(s) "
+            f"{sorted(extra_rnd40)} outside [{seed_lo}, {seed_hi}]"
+        )
+
+    # Seed-integrity pre-check on plastic budget=40 baseline
+    pl40_seen_seeds = set(baseline_plastic40_indicators_by_seed.keys())
+    missing_pl40 = expected_seeds - pl40_seen_seeds
+    if missing_pl40:
+        swamped_reasons.append(
+            f"plastic budget=40 baseline: missing seed(s) "
+            f"{sorted(missing_pl40)}"
+        )
+    extra_pl40 = pl40_seen_seeds - expected_seeds
+    if extra_pl40:
+        swamped_reasons.append(
+            f"plastic budget=40 baseline: extra seed(s) "
+            f"{sorted(extra_pl40)} outside [{seed_lo}, {seed_hi}]"
+        )
+    # §v2.5-plasticity-2d codex-v4 P1-2 correction: detect duplicate
+    # seeds in the baseline (extracted as list-valued entries by
+    # ``extract_plastic_budget40_indicators_from_csv``).
+    duplicated_pl40: list[int] = []
+    for s, v in baseline_plastic40_indicators_by_seed.items():
+        if isinstance(v, list):
+            duplicated_pl40.append(s)
+    if duplicated_pl40:
+        swamped_reasons.append(
+            f"plastic budget=40 baseline: duplicated seed(s) "
+            f"{sorted(duplicated_pl40)} (multiple rows per seed in "
+            f"baseline CSV)"
+        )
+
+    key_prefix = "f_and_test_plastic_paired_boot_ci_plastic40_vs_random40"
+    if swamped_reasons:
+        return {
+            f"{key_prefix}_lo": float("nan"),
+            f"{key_prefix}_hi": float("nan"),
+            f"{key_prefix}_n_paired": 0,
+            f"{key_prefix}_swamped": True,
+            f"{key_prefix}_swamped_reason": "; ".join(swamped_reasons),
+            f"{key_prefix}_point_estimate": float("nan"),
+        }
+
+    # Build paired-difference vector: plastic − random (matches H1 direction)
+    paired_diffs: list[int] = []
+    for s in sorted(expected_seeds):
+        pl_ind = baseline_plastic40_indicators_by_seed[s]
+        rnd_ind = rnd40_by_seed[s][0]
+        paired_diffs.append(pl_ind - rnd_ind)
+
+    paired_arr = np.asarray(paired_diffs, dtype=np.float64)
+    rng = np.random.default_rng(rng_seed)
+    boots = rng.choice(
+        paired_arr, size=(n_boot, len(paired_arr)), replace=True
+    ).mean(axis=1)
+    ci_lo = float(np.quantile(boots, 0.008333))
+    ci_hi = float(np.quantile(boots, 0.991667))
+    point_estimate = float(paired_arr.mean())
+
+    return {
+        f"{key_prefix}_lo": ci_lo,
+        f"{key_prefix}_hi": ci_hi,
+        f"{key_prefix}_n_paired": len(paired_arr),
+        f"{key_prefix}_swamped": False,
+        f"{key_prefix}_swamped_reason": "",
+        f"{key_prefix}_point_estimate": point_estimate,
+    }
+
+
 def _build_frozen_rfit_lookup(rows: list[dict]) -> dict[tuple, float]:
     """§v2.5-plasticity-2a R_fit_delta_paired_sf0 cross-cell merge table.
 
@@ -1084,7 +1458,8 @@ def summarize(rows: list[dict]) -> dict:
 
     summary = []
     for key, members in sorted(cells.items()):
-        arm, pl_enabled, pl_budget, sf = key
+        # §v2.5-plasticity-2d: 5-tuple key now includes plasticity_mechanism.
+        arm, pl_enabled, pl_mechanism, pl_budget, sf = key
         # Per-cell means of scalar run-level metrics.
         def _mean(colname: str) -> float | None:
             vals = [m[colname] for m in members if m.get(colname) is not None
@@ -1208,8 +1583,176 @@ def summarize(rows: list[dict]) -> dict:
         if f_n >= 15:
             f_ci_arr = np.asarray(f_indicators, dtype=np.float64)
             f_ci_lo, f_ci_hi = bootstrap_mean_ci_97_5(f_ci_arr, min_n=15)
+            # §v2.5-plasticity-2d: also emit the 98.333% CI (family-α=0.01667
+            # Bonferroni for the plasticity-narrow-plateau family at size 3).
+            # Used by chronicle-time row-clause evaluation on random-sample
+            # and rank-1 cells under the §2d discipline.
+            f_ci_lo_98, f_ci_hi_98 = bootstrap_mean_ci_98_333(f_ci_arr, min_n=15)
         else:
             f_ci_lo = f_ci_hi = float("nan")
+            f_ci_lo_98 = f_ci_hi_98 = float("nan")
+
+        # §v2.5-plasticity-2d: per-cell delta_final support-bound aggregates
+        # (Guard-6 / Row 6 SWAMPED mechanism-sanity pre-check). Emitted on
+        # every cell; for rank-1 cells these are the integer-lattice
+        # ±budget*delta endpoints (same formal bound as random-sample's
+        # continuous support).
+        df_vals: list[float] = []
+        for m in members:
+            v = m.get("delta_final_mean")
+            if v is None:
+                continue
+            if isinstance(v, float) and np.isnan(v):
+                continue
+            try:
+                df_vals.append(float(v))
+            except (TypeError, ValueError):
+                continue
+        df_min = float(min(df_vals)) if df_vals else float("nan")
+        df_max = float(max(df_vals)) if df_vals else float("nan")
+        df_std = (
+            float(np.std(np.asarray(df_vals, dtype=np.float64)))
+            if df_vals else float("nan")
+        )
+        df_abs_mean = (
+            float(np.mean(np.abs(np.asarray(df_vals, dtype=np.float64))))
+            if df_vals else float("nan")
+        )
+
+        # §v2.5-plasticity-2d: per-cell k-draw winner summary (random-sample
+        # mechanism only). Aggregates the top-1 winner's k-draw statistics
+        # across seeds. Used at chronicle time as Guard-6 sub-criterion (c)
+        # input. Also drives the per-cell mechanism-sanity pre-check: any
+        # cell whose top-1 winners' k-draws violate support-bounds or
+        # collapse in variance routes Row 6 SWAMPED.
+        def _col_float_nonnan(colname: str) -> list[float]:
+            out: list[float] = []
+            for m in members:
+                v = m.get(colname)
+                if v is None or v == "":
+                    continue
+                if isinstance(v, float) and np.isnan(v):
+                    continue
+                try:
+                    out.append(float(v))
+                except (TypeError, ValueError):
+                    continue
+            return out
+
+        kd_min_vals = _col_float_nonnan("winner_k_draw_min")
+        kd_max_vals = _col_float_nonnan("winner_k_draw_max")
+        kd_std_vals = _col_float_nonnan("winner_k_draw_std")
+        # §v2.5-plasticity-2d codex-v5 P1-1: aggregate argmax_index
+        # across seeds (integer). If any seed's argmax_index is outside
+        # [0, budget-1], routes Row 6 SWAMPED via swamped_k_draw.
+        kd_argmax_vals: list[int] = []
+        for m in members:
+            v = m.get("winner_k_argmax_index")
+            if v is None or v == "":
+                continue
+            try:
+                kd_argmax_vals.append(int(v))
+            except (TypeError, ValueError):
+                continue
+        winner_kd_min_min = float(min(kd_min_vals)) if kd_min_vals else None
+        winner_kd_max_max = float(max(kd_max_vals)) if kd_max_vals else None
+        winner_kd_std_min = float(min(kd_std_vals)) if kd_std_vals else None
+        winner_kd_std_mean = (
+            float(np.mean(kd_std_vals)) if kd_std_vals else None
+        )
+        winner_kd_argmax_min = (
+            int(min(kd_argmax_vals)) if kd_argmax_vals else None
+        )
+        winner_kd_argmax_max = (
+            int(max(kd_argmax_vals)) if kd_argmax_vals else None
+        )
+        # Guard-6 (c) cell-level SWAMPED trigger. Only meaningful on
+        # random-sample cells; emitted on all cells for schema uniformity.
+        is_random_sample = pl_mechanism == "random_sample_threshold"
+        swamped_k_draw = False
+        swamped_k_draw_reasons: list[str] = []
+        if is_random_sample:
+            budget_f = float(pl_budget)
+            # codex-v5 P1-2 + codex-v6 P1-1: random-sample cell with NO
+            # k-draw data on ANY of the 4 mandatory columns is itself a
+            # SWAMPED trigger — infrastructure failed to emit the
+            # mandatory per-individual k-draw 4-tuple. Without this,
+            # a broken NPZ/CSV path silently passes Guard-6(c). The
+            # 4-tuple schema (min_draw, max_draw, std_draws,
+            # argmax_index) is enforced as all-or-none across each of
+            # the four per-run columns.
+            n_members = len(members)
+            column_counts = {
+                "winner_k_draw_min": len(kd_min_vals),
+                "winner_k_draw_max": len(kd_max_vals),
+                "winner_k_draw_std": len(kd_std_vals),
+                "winner_k_argmax_index": len(kd_argmax_vals),
+            }
+            missing_fully = [
+                col for col, c in column_counts.items() if c == 0
+            ]
+            if n_members > 0 and missing_fully:
+                swamped_k_draw_reasons.append(
+                    f"random_sample_threshold cell at budget={pl_budget} "
+                    f"has {n_members} members but NO values for column(s) "
+                    f"{sorted(missing_fully)} — mandatory k-draw 4-tuple "
+                    f"logging appears broken. Check final_population.npz "
+                    f"emission in run.py and _cell_key extraction in "
+                    f"analyze_plasticity.py."
+                )
+            partial = [
+                col for col, c in column_counts.items()
+                if 0 < c < n_members
+            ]
+            if n_members > 0 and partial:
+                parts = ", ".join(
+                    f"{col}={column_counts[col]}/{n_members}" for col in sorted(partial)
+                )
+                swamped_k_draw_reasons.append(
+                    f"random_sample_threshold cell at budget={pl_budget}: "
+                    f"partial k-draw logging failure — {parts}."
+                )
+            if kd_min_vals:
+                # Per-cell support-bound check: min across seeds of per-run
+                # min_draw must be >= -budget; max across seeds of per-run
+                # max_draw must be <= +budget. Any violation → SWAMPED.
+                if winner_kd_min_min is not None and winner_kd_min_min < -budget_f - 1e-9:
+                    swamped_k_draw_reasons.append(
+                        f"winner_k_draw_min={winner_kd_min_min:.4f} < -budget={-budget_f}"
+                    )
+                if winner_kd_max_max is not None and winner_kd_max_max > budget_f + 1e-9:
+                    swamped_k_draw_reasons.append(
+                        f"winner_k_draw_max={winner_kd_max_max:.4f} > +budget={budget_f}"
+                    )
+                # std-collapse check: any seed's per-run std < 0.05*budget → flag.
+                std_floor = 0.05 * budget_f
+                if (
+                    winner_kd_std_min is not None
+                    and winner_kd_std_min < std_floor - 1e-9
+                ):
+                    swamped_k_draw_reasons.append(
+                        f"min(winner_k_draw_std)={winner_kd_std_min:.4f} < "
+                        f"0.05*budget={std_floor}"
+                    )
+            # codex-v5 P1-1 argmax_index bound check: every seed's
+            # winner_k_argmax_index must be in [0, budget-1].
+            if kd_argmax_vals:
+                argmax_lo_violation = winner_kd_argmax_min is not None and winner_kd_argmax_min < 0
+                argmax_hi_violation = (
+                    winner_kd_argmax_max is not None
+                    and pl_budget > 0
+                    and winner_kd_argmax_max > pl_budget - 1
+                )
+                if argmax_lo_violation:
+                    swamped_k_draw_reasons.append(
+                        f"winner_k_argmax_index min={winner_kd_argmax_min} < 0"
+                    )
+                if argmax_hi_violation:
+                    swamped_k_draw_reasons.append(
+                        f"winner_k_argmax_index max={winner_kd_argmax_max} "
+                        f"> budget-1={pl_budget - 1}"
+                    )
+            swamped_k_draw = bool(swamped_k_draw_reasons)
 
         # §v2.5-plasticity-2c: per-cell medians of the 6 §26-demoted
         # winner-structural diagnostics. Computed only on plastic cells
@@ -1244,6 +1787,7 @@ def summarize(rows: list[dict]) -> dict:
         summary.append({
             "arm": arm,
             "plasticity_enabled": pl_enabled,
+            "plasticity_mechanism": pl_mechanism,
             "plasticity_budget": pl_budget,
             "seed_fraction": sf,
             "n_seeds": len(members),
@@ -1284,10 +1828,46 @@ def summarize(rows: list[dict]) -> dict:
             "top1_winner_canonical_token_set_size_median": _median_of("top1_winner_canonical_token_set_size"),
             "top1_winner_baldwin_gap_median": _median_of("top1_winner_baldwin_gap"),
             "top1_winner_attractor_counts": top1_winner_attractor_counts,
+            # §v2.5-plasticity-2d: 98.333% seed-bootstrap CI on F_AND_test_plastic
+            # (Bonferroni family α=0.01667 discipline for plasticity-narrow-
+            # plateau size 3). Emitted alongside the §2c 97.5% CI so the
+            # chronicle can grep the §2d-scoped family-α for routing.
+            "f_and_test_plastic_seed_boot_ci_98_333_lo": f_ci_lo_98,
+            "f_and_test_plastic_seed_boot_ci_98_333_hi": f_ci_hi_98,
+            # §v2.5-plasticity-2d: per-cell delta_final support-bound
+            # aggregates (Guard-6 / Row 6 SWAMPED mechanism-sanity
+            # pre-check input).
+            "delta_final_cell_support_bounds_min": df_min,
+            "delta_final_cell_support_bounds_max": df_max,
+            "delta_final_cell_support_bounds_std": df_std,
+            "delta_final_cell_abs_mean": df_abs_mean,
+            # §v2.5-plasticity-2d: per-cell top-1 winner k-draw
+            # aggregates. None on rank-1 cells where the k-draw columns
+            # are absent (random-sample mechanism only).
+            "winner_k_draw_min_min": winner_kd_min_min,
+            "winner_k_draw_max_max": winner_kd_max_max,
+            "winner_k_draw_std_min": winner_kd_std_min,
+            "winner_k_draw_std_mean": winner_kd_std_mean,
+            # codex-v5 P1-1: argmax_index aggregation (completes the
+            # METRIC_DEFINITIONS 4-tuple schema for
+            # random_sample_mechanism_draw_spread).
+            "winner_k_argmax_index_min": winner_kd_argmax_min,
+            "winner_k_argmax_index_max": winner_kd_argmax_max,
+            "winner_k_draw_swamped": swamped_k_draw,
+            "winner_k_draw_swamped_reason": (
+                "; ".join(swamped_k_draw_reasons) if swamped_k_draw_reasons else ""
+            ),
         })
     return {
         "per_cell": summary,
+        # Report both §2c's α=0.05 (97.5% CI) and §2d's family-α=0.01667
+        # (98.333% CI) bootstrap specs. Downstream chronicles grep the
+        # one matching their §26-demotion discipline.
         "bootstrap_spec": {"n_boot": 10_000, "alpha": 0.05, "rng_seed": 42},
+        "bootstrap_spec_v2d": {
+            "n_boot": 10_000, "alpha": 0.01667, "rng_seed": 42,
+            "family": "plasticity-narrow-plateau", "family_size": 3,
+        },
     }
 
 
@@ -1298,6 +1878,20 @@ def main() -> int:
     ap.add_argument("--canonical-hex", default=CANONICAL_AND_BODY_HEX)
     ap.add_argument("--alphabet", default="v2_probe")
     ap.add_argument("--out", type=Path, default=None)
+    # §v2.5-plasticity-2d: optional paths for the §2c plastic baseline
+    # plasticity.csv (used by the primary paired-bootstrap confirmatory
+    # test plastic@40 vs random@40). When present, the analyzer runs
+    # `paired_bootstrap_plastic40_vs_random40` after `summarize()` and
+    # appends the result to the summary JSON under the key
+    # `paired_bootstrap_plastic40_vs_random40`.
+    ap.add_argument(
+        "--paired-plastic40-baseline-csv",
+        type=Path, default=None,
+        help="Path to §v2.5-plasticity-2c plasticity.csv providing the "
+             "plastic budget=40 seeds-20..39 baseline indicators for the "
+             "§2d primary confirmatory test. Triggers the paired-bootstrap "
+             "plastic@40 vs random@40 CI routine when present.",
+    )
     args = ap.parse_args()
 
     sweep_arg = Path(args.sweep)
@@ -1357,6 +1951,50 @@ def main() -> int:
                     for k in csv_keys
                 ) + "\n")
     summary = summarize(rows)
+
+    # §v2.5-plasticity-2d PRIMARY confirmatory test: paired-bootstrap
+    # 98.333% CI on F_AND_test_plastic difference plastic@40 minus
+    # random@40 on shared seeds 20..39. Runs when the caller provides
+    # the §2c plasticity.csv as the baseline source. Silent no-op
+    # otherwise (pre-§2d sweeps don't need the paired routing).
+    if args.paired_plastic40_baseline_csv is not None:
+        if not args.paired_plastic40_baseline_csv.exists():
+            print(
+                f"--paired-plastic40-baseline-csv path does not exist: "
+                f"{args.paired_plastic40_baseline_csv}",
+                file=sys.stderr,
+            )
+            return 2
+        baseline_pl40 = extract_plastic_budget40_indicators_from_csv(
+            args.paired_plastic40_baseline_csv
+        )
+        paired_result = paired_bootstrap_plastic40_vs_random40(
+            rows, baseline_pl40
+        )
+        paired_result["baseline_csv"] = str(
+            args.paired_plastic40_baseline_csv
+        )
+        paired_result["baseline_n_seeds"] = len(baseline_pl40)
+        summary["paired_bootstrap_plastic40_vs_random40"] = paired_result
+        key_prefix = "f_and_test_plastic_paired_boot_ci_plastic40_vs_random40"
+        swamped = paired_result.get(f"{key_prefix}_swamped", False)
+        ci_lo = paired_result.get(f"{key_prefix}_lo")
+        ci_hi = paired_result.get(f"{key_prefix}_hi")
+        pt = paired_result.get(f"{key_prefix}_point_estimate")
+        if swamped:
+            print(
+                f"\n§v2.5-plasticity-2d primary confirmatory: SWAMPED — "
+                f"{paired_result.get(f'{key_prefix}_swamped_reason')}"
+            )
+        else:
+            print(
+                f"\n§v2.5-plasticity-2d primary confirmatory "
+                f"(plastic@40 − random@40, shared seeds 20..39, 98.333% "
+                f"CI): point_est={pt:+.4f}  "
+                f"CI=[{ci_lo:+.4f}, {ci_hi:+.4f}]  "
+                f"n_paired={paired_result.get(f'{key_prefix}_n_paired')}"
+            )
+
     summary_path.write_text(json.dumps(summary, indent=2))
 
     print(f"  per-run CSV: {csv_path}")

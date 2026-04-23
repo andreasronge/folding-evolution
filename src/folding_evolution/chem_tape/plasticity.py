@@ -150,6 +150,51 @@ def split_train_test_indices(
     return train_idx, test_idx
 
 
+def _eval_at_delta(
+    program: list[int],
+    task: Task,
+    indices: np.ndarray,
+    delta: float,
+    alphabet_name: str,
+    safe_pop_consume: bool,
+) -> float:
+    """§v2.5-plasticity-2d extraction: shared between rank1_op_threshold and
+    random_sample_threshold. Fraction correct over ``indices`` at threshold
+    modifier ``delta``. Byte-identical to the inline ``_eval`` closure that
+    ``adapt_and_evaluate_one`` used before §2d engineering.
+    """
+    if len(indices) == 0:
+        return 0.0
+    correct = 0
+    for idx in indices:
+        x = task.inputs[int(idx)]
+        pred = execute_plastic(
+            program, task.alphabet, x, task.input_type,
+            delta=delta, alphabet_name=alphabet_name,
+            safe_pop_consume=safe_pop_consume,
+        )
+        if pred == int(task.labels[int(idx)]):
+            correct += 1
+    return correct / len(indices)
+
+
+def _make_individual_rng(
+    cfg: ChemTapeConfig, individual_index: int
+) -> np.random.Generator:
+    """§v2.5-plasticity-2d: per-individual deterministic rng for
+    random_sample_threshold.
+
+    Seed combines ``cfg.seed``, ``individual_index``, and ``cfg.hash()`` so
+    identical configs at identical individual positions produce identical
+    k-draws across runs. ``cfg.hash()`` is a 12-char hex that already
+    incorporates plasticity_mechanism and plasticity_budget (at non-default
+    values), so changes to those fields perturb the draws appropriately.
+    """
+    cfg_hash_int = int(cfg.hash(), 16) & 0xFFFFFFFF
+    ss = np.random.SeedSequence([int(cfg.seed), int(individual_index), cfg_hash_int])
+    return np.random.default_rng(ss)
+
+
 # ---------------- Per-individual plastic train/evaluate ----------------
 
 
@@ -235,19 +280,9 @@ def adapt_and_evaluate_one(
 
     # --- Evaluate frozen and plastic on both splits ---
     def _eval(indices: np.ndarray, d: float) -> float:
-        if len(indices) == 0:
-            return 0.0
-        correct = 0
-        for idx in indices:
-            x = task.inputs[int(idx)]
-            pred = execute_plastic(
-                program, task.alphabet, x, task.input_type,
-                delta=d, alphabet_name=cfg.alphabet,
-                safe_pop_consume=consume,
-            )
-            if pred == int(task.labels[int(idx)]):
-                correct += 1
-        return correct / len(indices)
+        return _eval_at_delta(
+            program, task, indices, d, cfg.alphabet, consume
+        )
 
     train_fit_plastic = _eval(train_idx, delta)
     if selection_only:
@@ -270,6 +305,125 @@ def adapt_and_evaluate_one(
         "test_fitness_plastic": float(test_fit_plastic),
         "has_gt": bool(has_gt),
         "fitness_train_plastic": float(train_fit_plastic),
+    }
+
+
+def adapt_and_evaluate_one_random_sample(
+    program: list[int],
+    task: Task,
+    cfg: ChemTapeConfig,
+    train_idx: np.ndarray,
+    test_idx: np.ndarray,
+    individual_index: int,
+    selection_only: bool = False,
+) -> dict:
+    """§v2.5-plasticity-2d random-δ-sampling mechanism.
+
+    Draws ``k = cfg.plasticity_budget`` independent uniform-continuous samples
+    from ``[-budget, +budget]``; evaluates each draw's train_fitness_plastic on
+    ``train_idx``; selects the draw maximizing train_fitness_plastic (argmax;
+    tiebreak: smallest absolute δ, then first-occurrence); evaluates that δ on
+    ``test_idx`` for test_fitness_plastic. Matches the rank-1 plastic protocol
+    on train/test split, scoring, and alphabet — only δ-selection differs.
+
+    Per-individual rng is seeded deterministically by
+    ``(cfg.seed, individual_index, cfg.hash())`` so identical configs at
+    identical individual positions produce identical k-draws. This ensures
+    reproducibility across re-runs of the same sweep.
+
+    Returned dict keys (union of rank-1's keys + 4 new k-draw summary fields):
+
+    * Always-present (matches rank-1 output schema):
+      ``delta_final``, ``train_fitness_plastic``, ``has_gt``,
+      ``fitness_train_plastic``, and — when ``selection_only=False`` —
+      also ``train_fitness_frozen``, ``test_fitness_frozen``,
+      ``test_fitness_plastic``.
+    * New §2d per-individual k-draw summary (all present in both modes for
+      schema uniformity; invariant-checked by the mechanism-sanity pre-check
+      routed to Row 6 SWAMPED on violation):
+        - ``k_draw_min``: float — min over the k draws.
+        - ``k_draw_max``: float — max over the k draws.
+        - ``k_draw_std``: float — std over the k draws.
+        - ``k_argmax_index``: int — which draw (0..k-1) was selected.
+
+    GT-bypass or budget=0 programs have no plasticisable op; δ stays 0 and the
+    k-draw summary emits (0, 0, 0, 0) as vacuous values (filtered out of
+    invariant checks in the mechanism-sanity pre-check via the ``has_gt``
+    indicator; see Row 6 SWAMPED trigger documentation in the prereg).
+    """
+    has_gt = has_gt_token(program, cfg.alphabet)
+    consume = cfg.safe_pop_mode == "consume"
+    budget = int(cfg.plasticity_budget)
+
+    if has_gt and budget > 0:
+        rng = _make_individual_rng(cfg, individual_index)
+        k_draws = rng.uniform(-float(budget), float(budget), size=budget)
+        train_fits = np.empty(budget, dtype=np.float64)
+        for j in range(budget):
+            train_fits[j] = _eval_at_delta(
+                program, task, train_idx, float(k_draws[j]),
+                cfg.alphabet, consume,
+            )
+        # argmax with tiebreak: (1) max train fitness; among ties (2)
+        # smallest |δ|; among further ties (3) first-occurrence.
+        max_fit = float(np.max(train_fits))
+        tie_mask = train_fits == max_fit
+        tie_indices = np.where(tie_mask)[0]
+        if tie_indices.size == 1:
+            argmax_index = int(tie_indices[0])
+        else:
+            abs_deltas = np.abs(k_draws[tie_indices])
+            min_abs = float(np.min(abs_deltas))
+            abs_tie_indices = tie_indices[abs_deltas == min_abs]
+            argmax_index = int(abs_tie_indices[0])  # first-occurrence
+        delta = float(k_draws[argmax_index])
+        k_draw_min = float(np.min(k_draws))
+        k_draw_max = float(np.max(k_draws))
+        k_draw_std = float(np.std(k_draws))
+    else:
+        # GT-bypass or budget=0: δ stays 0; k-draw summary vacuous.
+        delta = 0.0
+        k_draw_min = 0.0
+        k_draw_max = 0.0
+        k_draw_std = 0.0
+        argmax_index = 0
+
+    train_fit_plastic = _eval_at_delta(
+        program, task, train_idx, delta, cfg.alphabet, consume
+    )
+    if selection_only:
+        return {
+            "delta_final": float(delta),
+            "train_fitness_plastic": float(train_fit_plastic),
+            "has_gt": bool(has_gt),
+            "fitness_train_plastic": float(train_fit_plastic),
+            "k_draw_min": k_draw_min,
+            "k_draw_max": k_draw_max,
+            "k_draw_std": k_draw_std,
+            "k_argmax_index": int(argmax_index),
+        }
+
+    train_fit_frozen = _eval_at_delta(
+        program, task, train_idx, 0.0, cfg.alphabet, consume
+    )
+    test_fit_frozen = _eval_at_delta(
+        program, task, test_idx, 0.0, cfg.alphabet, consume
+    )
+    test_fit_plastic = _eval_at_delta(
+        program, task, test_idx, delta, cfg.alphabet, consume
+    )
+    return {
+        "delta_final": float(delta),
+        "train_fitness_frozen": float(train_fit_frozen),
+        "train_fitness_plastic": float(train_fit_plastic),
+        "test_fitness_frozen": float(test_fit_frozen),
+        "test_fitness_plastic": float(test_fit_plastic),
+        "has_gt": bool(has_gt),
+        "fitness_train_plastic": float(train_fit_plastic),
+        "k_draw_min": k_draw_min,
+        "k_draw_max": k_draw_max,
+        "k_draw_std": k_draw_std,
+        "k_argmax_index": int(argmax_index),
     }
 
 
@@ -308,6 +462,13 @@ def evaluate_population_plastic(
     train_idx, test_idx = split_train_test_indices(
         n_examples, cfg.plasticity_train_fraction
     )
+    # §v2.5-plasticity-2d: dispatch on plasticity_mechanism. rank1_op_threshold
+    # is the default (byte-identical to pre-§2d path). random_sample_threshold
+    # uses the uniform-[-b, +b] draw-and-argmax protocol and emits 4 extra
+    # per-individual k-draw summary arrays for Guard-6 (c) / Row 6 SWAMPED
+    # mechanism-sanity pre-check.
+    mechanism = getattr(cfg, "plasticity_mechanism", "rank1_op_threshold")
+    is_random_sample = mechanism == "random_sample_threshold"
 
     if selection_only:
         out = {
@@ -316,10 +477,25 @@ def evaluate_population_plastic(
             "train_fitness_plastic": np.empty(P, dtype=np.float32),
             "has_gt": np.empty(P, dtype=bool),
         }
+        if is_random_sample:
+            out["k_draw_min"] = np.empty(P, dtype=np.float32)
+            out["k_draw_max"] = np.empty(P, dtype=np.float32)
+            out["k_draw_std"] = np.empty(P, dtype=np.float32)
+            out["k_argmax_index"] = np.empty(P, dtype=np.int32)
         for i, prog in enumerate(programs):
-            r = adapt_and_evaluate_one(
-                prog, task, cfg, train_idx, test_idx, selection_only=True
-            )
+            if is_random_sample:
+                r = adapt_and_evaluate_one_random_sample(
+                    prog, task, cfg, train_idx, test_idx,
+                    individual_index=i, selection_only=True,
+                )
+                out["k_draw_min"][i] = r["k_draw_min"]
+                out["k_draw_max"][i] = r["k_draw_max"]
+                out["k_draw_std"][i] = r["k_draw_std"]
+                out["k_argmax_index"][i] = r["k_argmax_index"]
+            else:
+                r = adapt_and_evaluate_one(
+                    prog, task, cfg, train_idx, test_idx, selection_only=True
+                )
             out["selection_fitness"][i] = r["fitness_train_plastic"]
             out["delta_final"][i] = r["delta_final"]
             out["train_fitness_plastic"][i] = r["train_fitness_plastic"]
@@ -335,8 +511,22 @@ def evaluate_population_plastic(
         "test_fitness_plastic": np.empty(P, dtype=np.float32),
         "has_gt": np.empty(P, dtype=bool),
     }
+    if is_random_sample:
+        out["k_draw_min"] = np.empty(P, dtype=np.float32)
+        out["k_draw_max"] = np.empty(P, dtype=np.float32)
+        out["k_draw_std"] = np.empty(P, dtype=np.float32)
+        out["k_argmax_index"] = np.empty(P, dtype=np.int32)
     for i, prog in enumerate(programs):
-        r = adapt_and_evaluate_one(prog, task, cfg, train_idx, test_idx)
+        if is_random_sample:
+            r = adapt_and_evaluate_one_random_sample(
+                prog, task, cfg, train_idx, test_idx, individual_index=i,
+            )
+            out["k_draw_min"][i] = r["k_draw_min"]
+            out["k_draw_max"][i] = r["k_draw_max"]
+            out["k_draw_std"][i] = r["k_draw_std"]
+            out["k_argmax_index"][i] = r["k_argmax_index"]
+        else:
+            r = adapt_and_evaluate_one(prog, task, cfg, train_idx, test_idx)
         out["selection_fitness"][i] = r["fitness_train_plastic"]
         out["delta_final"][i] = r["delta_final"]
         out["train_fitness_frozen"][i] = r["train_fitness_frozen"]

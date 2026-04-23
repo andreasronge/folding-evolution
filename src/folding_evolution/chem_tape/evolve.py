@@ -53,6 +53,16 @@ class EvolutionResult:
     final_train_fitness_frozen: np.ndarray | None = None
     final_train_fitness_plastic: np.ndarray | None = None
     final_has_gt: np.ndarray | None = None
+    # §v2.5-plasticity-2d: per-individual k-draw summary emitted when
+    # cfg.plasticity_mechanism="random_sample_threshold" AND
+    # cfg.dump_final_population=True. Shape (pop_size,) each; None for
+    # rank1_op_threshold (preserves byte-identity on existing §2a/§2c
+    # reruns). Guard-6 (c) / Row 6 SWAMPED mechanism-sanity pre-check
+    # consumes these at chronicle time.
+    final_k_draw_min: np.ndarray | None = None
+    final_k_draw_max: np.ndarray | None = None
+    final_k_draw_std: np.ndarray | None = None
+    final_k_argmax_index: np.ndarray | None = None
     # §v2.5-plasticity-2a: count of individuals in the generation-0
     # population whose tape byte-for-byte matches any canonical tape parsed
     # from cfg.seed_tapes. Emitted for every run; at cfg.seed_tapes == ""
@@ -578,6 +588,10 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
     final_trf: np.ndarray | None = None
     final_trp: np.ndarray | None = None
     final_has_gt: np.ndarray | None = None
+    final_kdmin: np.ndarray | None = None
+    final_kdmax: np.ndarray | None = None
+    final_kdstd: np.ndarray | None = None
+    final_kargmax: np.ndarray | None = None
     if cfg.dump_final_population:
         final_pop_arr = np.stack(population).astype(np.uint8, copy=False)
         final_pop_fit = np.asarray(fitnesses, dtype=np.float32)
@@ -598,6 +612,13 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
             final_trf = pm["train_fitness_frozen"]
             final_trp = pm["train_fitness_plastic"]
             final_has_gt = pm["has_gt"]
+            # §v2.5-plasticity-2d: k-draw summary only emitted by
+            # random_sample_threshold mechanism (rank-1 omits these keys).
+            if "k_draw_min" in pm:
+                final_kdmin = pm["k_draw_min"]
+                final_kdmax = pm["k_draw_max"]
+                final_kdstd = pm["k_draw_std"]
+                final_kargmax = pm["k_argmax_index"]
 
     return EvolutionResult(
         best_genotype=best,
@@ -615,6 +636,10 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
         final_train_fitness_frozen=final_trf,
         final_train_fitness_plastic=final_trp,
         final_has_gt=final_has_gt,
+        final_k_draw_min=final_kdmin,
+        final_k_draw_max=final_kdmax,
+        final_k_draw_std=final_kdstd,
+        final_k_argmax_index=final_kargmax,
         initial_population_canonical_count=canonical_count,
     )
 
@@ -715,6 +740,10 @@ def _run_evolution_islands(cfg: ChemTapeConfig) -> EvolutionResult:
     final_trf: np.ndarray | None = None
     final_trp: np.ndarray | None = None
     final_has_gt: np.ndarray | None = None
+    final_kdmin: np.ndarray | None = None
+    final_kdmax: np.ndarray | None = None
+    final_kdstd: np.ndarray | None = None
+    final_kargmax: np.ndarray | None = None
     if cfg.dump_final_population:
         final_pop_arr = np.stack(flat_pop).astype(np.uint8, copy=False)
         final_pop_fit = np.asarray(all_fitnesses, dtype=np.float32)
@@ -729,6 +758,12 @@ def _run_evolution_islands(cfg: ChemTapeConfig) -> EvolutionResult:
             final_trf = pm["train_fitness_frozen"]
             final_trp = pm["train_fitness_plastic"]
             final_has_gt = pm["has_gt"]
+            # §v2.5-plasticity-2d: k-draw summary only for random_sample.
+            if "k_draw_min" in pm:
+                final_kdmin = pm["k_draw_min"]
+                final_kdmax = pm["k_draw_max"]
+                final_kdstd = pm["k_draw_std"]
+                final_kargmax = pm["k_argmax_index"]
 
     return EvolutionResult(
         best_genotype=best,
@@ -743,6 +778,10 @@ def _run_evolution_islands(cfg: ChemTapeConfig) -> EvolutionResult:
         final_test_fitness_plastic=final_tfp,
         final_train_fitness_frozen=final_trf,
         final_train_fitness_plastic=final_trp,
+        final_k_draw_min=final_kdmin,
+        final_k_draw_max=final_kdmax,
+        final_k_draw_std=final_kdstd,
+        final_k_argmax_index=final_kargmax,
         final_has_gt=final_has_gt,
         initial_population_canonical_count=canonical_count,
     )

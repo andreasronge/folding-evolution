@@ -102,6 +102,14 @@ def execute(cfg: ChemTapeConfig, output_root: Path) -> Path:
             npz_fp["train_fitness_frozen"] = result.final_train_fitness_frozen
             npz_fp["train_fitness_plastic"] = result.final_train_fitness_plastic
             npz_fp["has_gt"] = result.final_has_gt
+        # §v2.5-plasticity-2d: per-individual k-draw summary only emitted by
+        # random_sample_threshold mechanism; omitted on rank-1 for byte
+        # identity on existing §2a/§2c reruns.
+        if result.final_k_draw_min is not None:
+            npz_fp["k_draw_min"] = result.final_k_draw_min
+            npz_fp["k_draw_max"] = result.final_k_draw_max
+            npz_fp["k_draw_std"] = result.final_k_draw_std
+            npz_fp["k_argmax_index"] = result.final_k_argmax_index
         np.savez(run_dir / "final_population.npz", **npz_fp)
 
     holdout = result.holdout_fitness

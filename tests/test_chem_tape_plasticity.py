@@ -159,3 +159,159 @@ def test_plasticity_hash_stability_at_defaults():
     cfg_budget5 = ChemTapeConfig(plasticity_enabled=True, plasticity_budget=5)
     assert cfg_default.hash() != cfg_budget5.hash()
     assert cfg_enabled.hash() != cfg_budget5.hash()
+
+
+# ---------------- §v2.5-plasticity-2d random_sample_threshold ----------------
+
+
+def test_random_sample_mechanism_smoke():
+    """§v2.5-plasticity-2d: plasticity_mechanism='random_sample_threshold'
+    dispatches to the new executor, emits the four k-draw summary arrays,
+    and produces a non-degenerate delta_final distribution (at least one
+    individual with delta != 0 on a GT-containing task).
+    """
+    cfg = _small_cfg(
+        plasticity_enabled=True,
+        plasticity_budget=5,
+        plasticity_mechanism="random_sample_threshold",
+        plasticity_delta=1.0,
+    )
+    r = run_evolution(cfg)
+
+    # Schema: all 4 k-draw arrays emitted.
+    assert r.final_k_draw_min is not None, "k_draw_min not emitted"
+    assert r.final_k_draw_max is not None
+    assert r.final_k_draw_std is not None
+    assert r.final_k_argmax_index is not None
+
+    P = cfg.pop_size
+    assert r.final_k_draw_min.shape == (P,)
+    assert r.final_k_draw_max.shape == (P,)
+    assert r.final_k_draw_std.shape == (P,)
+    assert r.final_k_argmax_index.shape == (P,)
+
+    # Support-bound invariant: min/max within [-budget, +budget]
+    # (GT-bypass individuals emit 0s so they trivially satisfy the bound).
+    budget = cfg.plasticity_budget
+    assert bool(np.all(r.final_k_draw_min >= -budget - 1e-9))
+    assert bool(np.all(r.final_k_draw_max <= budget + 1e-9))
+    # argmax_index within [0, k-1]
+    assert bool(np.all(r.final_k_argmax_index >= 0))
+    assert bool(np.all(r.final_k_argmax_index < budget))
+
+    # Non-degenerate: at least one GT individual has non-zero std over
+    # its k draws (rng actually drew something).
+    has_gt = r.final_has_gt.astype(bool)
+    if has_gt.any():
+        assert float(r.final_k_draw_std[has_gt].max()) > 0.0, (
+            "all GT individuals' k-draw std = 0; rng may have collapsed"
+        )
+
+
+def test_random_sample_mechanism_rank1_unaffected():
+    """rank-1 path produces no k-draw arrays; mechanism dispatch does
+    not contaminate the rank1_op_threshold output schema."""
+    cfg_rank1 = _small_cfg(
+        plasticity_enabled=True,
+        plasticity_budget=5,
+        plasticity_mechanism="rank1_op_threshold",
+    )
+    r = run_evolution(cfg_rank1)
+    assert r.final_k_draw_min is None
+    assert r.final_k_draw_max is None
+    assert r.final_k_draw_std is None
+    assert r.final_k_argmax_index is None
+
+
+def test_random_sample_mechanism_reproducibility():
+    """Same config + same seed → same final population (per-individual
+    rng is seeded deterministically from (cfg.seed, individual_index,
+    cfg.hash()), so two runs produce identical k-draws).
+    """
+    cfg = _small_cfg(
+        plasticity_enabled=True,
+        plasticity_budget=5,
+        plasticity_mechanism="random_sample_threshold",
+    )
+    r1 = run_evolution(cfg)
+    r2 = run_evolution(cfg)
+    assert np.array_equal(r1.final_k_draw_min, r2.final_k_draw_min)
+    assert np.array_equal(r1.final_k_draw_max, r2.final_k_draw_max)
+    assert np.array_equal(r1.final_k_draw_std, r2.final_k_draw_std)
+    assert np.array_equal(r1.final_k_argmax_index, r2.final_k_argmax_index)
+    assert np.array_equal(r1.final_delta_final, r2.final_delta_final)
+
+
+def test_random_sample_hash_differs_from_rank1():
+    """§v2.5-plasticity-2d hash-dedup discipline (prereg checklist item
+    3): random_sample_threshold is a non-default plasticity_mechanism, so
+    `cfg.hash()` MUST include it (not popped), producing a distinct
+    config hash from the rank-1 default. Prevents a §2d sweep from
+    accidentally short-circuiting on §2c's cached outputs.
+    """
+    cfg_rank1 = ChemTapeConfig(
+        plasticity_enabled=True, plasticity_budget=5,
+        plasticity_mechanism="rank1_op_threshold",
+    )
+    cfg_random = ChemTapeConfig(
+        plasticity_enabled=True, plasticity_budget=5,
+        plasticity_mechanism="random_sample_threshold",
+    )
+    assert cfg_rank1.hash() != cfg_random.hash(), (
+        "rank1_op_threshold and random_sample_threshold produced the "
+        "same config hash — §2d sweep would dedup against §2c outputs. "
+        f"rank1={cfg_rank1.hash()} random={cfg_random.hash()}"
+    )
+
+
+def test_random_sample_argmax_selects_best_train_draw():
+    """When k=1, the single drawn δ is the selected δ (argmax trivial).
+    The test pins this guarantee explicitly so argmax tiebreak logic
+    cannot silently regress when k=1.
+    """
+    cfg = _small_cfg(
+        plasticity_enabled=True,
+        plasticity_budget=1,
+        plasticity_mechanism="random_sample_threshold",
+    )
+    r = run_evolution(cfg)
+    # For every GT individual at budget=1, argmax_index must be 0.
+    has_gt = r.final_has_gt.astype(bool)
+    if has_gt.any():
+        assert int(r.final_k_argmax_index[has_gt].max()) == 0
+        assert int(r.final_k_argmax_index[has_gt].min()) == 0
+        # delta_final must equal the single draw (k_draw_min == k_draw_max
+        # because only one sample was drawn).
+        np.testing.assert_array_equal(
+            r.final_k_draw_min[has_gt], r.final_k_draw_max[has_gt]
+        )
+
+
+def test_random_sample_gt_bypass_emits_vacuous_kdraws():
+    """GT-bypass individuals (no GT token in the decoded program) cannot
+    use plasticity; the mechanism emits (0, 0, 0, 0) vacuous k-draw
+    summary for schema uniformity. Guard-6(c) invariants are filtered
+    to has_gt=True individuals at chronicle time; the pytest asserts the
+    vacuous values here so the filter has a stable target.
+    """
+    # To deliberately hit GT-bypass, use a config whose population will
+    # be unlikely to contain GT in every individual within 5 gens at
+    # pop=16. count_r solutions have GT often; use a tiny pop so some
+    # individuals drift away from GT across generations.
+    cfg = _small_cfg(
+        plasticity_enabled=True,
+        plasticity_budget=5,
+        plasticity_mechanism="random_sample_threshold",
+        pop_size=8,
+        generations=2,
+    )
+    r = run_evolution(cfg)
+    has_gt = r.final_has_gt.astype(bool)
+    if (~has_gt).any():
+        # At least one GT-bypass exists; verify vacuous summary.
+        for i in np.where(~has_gt)[0]:
+            assert r.final_k_draw_min[i] == 0.0
+            assert r.final_k_draw_max[i] == 0.0
+            assert r.final_k_draw_std[i] == 0.0
+            assert r.final_k_argmax_index[i] == 0
+            assert r.final_delta_final[i] == 0.0
