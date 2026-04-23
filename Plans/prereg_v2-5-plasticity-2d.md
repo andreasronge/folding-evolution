@@ -1,6 +1,6 @@
 # Pre-registration: §v2.5-plasticity-2d — capacity-matched random-δ-sampling control of §v2.5-plasticity-2c's F_AND_test capacity-scaling observation
 
-**Status:** READY-TO-LAUNCH v6 (post-engineering; codex-v1→v6 review rounds complete; all P1 + P2 discharged) · target commit `TBD` (will be pinned post-commit) · 2026-04-23.
+**Status:** READY-TO-LAUNCH v6 (post-engineering; codex-v1→v7 review rounds complete; all P1 + P2 discharged) · target commit `ee44b1c` · 2026-04-23.
 
 *Codex review history: v1 FAIL (5 P1 + 3 P2) → v2 FAIL (2 P1 + 2 P2) → v3 PASS-WITH-P2 (0 P1 + 2 P2 discharged in-place) → v4 FAIL post-engineering (2 P1 + 4 P2; engineering items 1-5 discharged but new §2d helpers were dead from the analyzer entrypoint) → v5 FAIL (2 new P1 + 2 P2 surfaced by deeper inspection on argmax aggregation and missing-k-draw-data gap) → v6 FAIL (1 P1 + 1 P2: 4-tuple all-or-none enforcement was single-column and prereg had stale 3-tuple wording) → all P1 + P2 discharged in this working text. See Amendment history.*
 
