@@ -1,6 +1,6 @@
 # Pre-registration: §v2.5-plasticity-2d — capacity-matched random-δ-sampling control of §v2.5-plasticity-2c's F_AND_test capacity-scaling observation
 
-**Status:** READY-TO-LAUNCH v7 (post-compute amendment after 2026-04-23 10800s SIGTERM; scope re-targeted to budget=40 primary-confirmatory cell only; supporting cells {5, 10, 20} deferred to §2d-supplemental; "matched eval-time compute" wording corrected to "matched `plasticity_budget`"; codex-consult 2026-04-24 Rank A > E > C > D > B) · target commit `TBD` (will be pinned post-commit; v6 engineering commit was `ee44b1c`) · 2026-04-24.
+**Status:** READY-TO-LAUNCH v7 (post-compute amendment after 2026-04-23 10800s SIGTERM; scope re-targeted to budget=40 primary-confirmatory cell only; supporting cells {5, 10, 20} deferred to §2d-supplemental; "matched eval-time compute" wording corrected to "matched `plasticity_budget`"; codex-consult 2026-04-24 Rank A > E > C > D > B) · target commit `fb179ce` (v6 engineering commit was `ee44b1c`) · 2026-04-24.
 
 *Codex review history: v1 FAIL (5 P1 + 3 P2) → v2 FAIL (2 P1 + 2 P2) → v3 PASS-WITH-P2 (0 P1 + 2 P2 discharged in-place) → v4 FAIL post-engineering (2 P1 + 4 P2; engineering items 1-5 discharged but new §2d helpers were dead from the analyzer entrypoint) → v5 FAIL (2 new P1 + 2 P2 surfaced by deeper inspection on argmax aggregation and missing-k-draw-data gap) → v6 FAIL (1 P1 + 1 P2: 4-tuple all-or-none enforcement was single-column and prereg had stale 3-tuple wording) → all P1 + P2 discharged in this working text. See Amendment history.*
 
