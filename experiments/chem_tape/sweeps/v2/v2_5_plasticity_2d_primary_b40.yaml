@@ -1,0 +1,88 @@
+sweep_name: v2_5_plasticity_2d_primary_b40
+# §v2.5-plasticity-2d-primary-b40: single-cell primary-confirmatory relaunch
+# after the 2026-04-23 4-cell launch timed out at 10800s with only 8 of 80
+# runs completed (5 at budget=5, 3 at budget=10; zero at budgets 20 or 40).
+# Per prereg v7 amendment (post-compute, 2026-04-24): supporting cells at
+# plasticity_budget ∈ {5, 10, 20} are DEFERRED to §2d-supplemental (separate
+# night); this run executes ONLY the budget=40 primary-confirmatory cell.
+#
+# Scope: random_sample_threshold × plasticity_budget=40 × seeds 20..39 = 20
+# new runs at Arm A sf=0.0 on sum_gt_10_AND_max_gt_5.
+#
+# Prereg: Plans/prereg_v2-5-plasticity-2d.md (v7 amendment; codex-consult
+# 2026-04-24 ranked A > E > C > D > B; see v7 amendment history block).
+#
+# Plastic rank-1 budget=40 cell REUSED from §2c at commit `06e8732` (n=20,
+# seeds 20..39). The primary-confirmatory paired-bootstrap test compares:
+#   rank1_op_threshold[budget=40]  (reused from §2c)
+#   minus
+#   random_sample_threshold[budget=40]  (this sweep)
+# on shared seeds 20..39 (n=20 paired).
+#
+# Why single-cell: observed per-run walls on 2026-04-23 scaled linearly with
+# plasticity_budget at ~8× the original projection — budget=40 takes ~6.7h
+# per run, not the projected 30 min. Root cause: random_sample_threshold
+# always evaluates k independent train_fitness draws per individual, whereas
+# rank1_op_threshold short-circuits its update loop on correct-classification.
+# The prereg's §17a 3-variable process bundle already NAMES this asymmetry
+# honestly — variable (c) "stopping semantics" (plastic applies ≤ budget
+# updates stopping when train is correct; random always draws k samples) —
+# so the direction-only routing at matched `plasticity_budget` is UNCHANGED.
+# What changes is wall-time budgeting and the "matched eval-time compute"
+# wording in the original prereg, both addressed in v7.
+#
+# Supporting cells {5, 10, 20} are §26-demoted descriptive-only in the
+# original prereg — dropping them does NOT change the primary-confirmatory
+# verdict. They will be queued as §2d-supplemental when compute permits.
+#
+# §2d still joins the `plasticity-narrow-plateau` FWER family at size 3;
+# Bonferroni-corrected α = 0.05/3 ≈ 0.01667; operationalized as a 98.333%
+# two-sided CI (quantiles [0.8333%, 99.1667%]) with either-side rejection.
+#
+# Mandatory k-draw logging (Guard-6 sub-criterion c) unchanged: per-individual
+# (min_draw, max_draw, std_draws, argmax_index) emitted to final_population.npz;
+# per-run top-1 winner aggregation to CSV columns winner_k_draw_{min,max,std}
+# + winner_k_argmax_index via experiments/chem_tape/analyze_plasticity.py.
+#
+# Mechanism-sanity pre-check (Row 6 SWAMPED triggers, all mandatory):
+#   (a) std(delta_final) across seeds >= 0.01 per cell
+#   (b) mean(|delta_final|) per cell in (0, budget]
+#   (c) per-individual min_draw >= -budget, max_draw <= +budget,
+#       std_draws >= 0.05 * budget, argmax_index in [0, k-1]
+#   PLUS infrastructure-fidelity: history.npz:initial_population_canonical_
+#   count == 0 across every run.
+#
+# Est. compute: per-run wall ~6.7h (observed at 2026-04-23 run on adjacent
+# cells — budget=5 ≈ 54 min, budget=10 ≈ 102 min, linear-in-budget scaling).
+# Parallel wall at 10 workers over 20 runs: 2 waves × 6.7h ≈ 13.4h. Queue
+# timeout 57600s (16h, ~1.2× headroom over expected worst-case) per codex
+# consult 2026-04-24 recommendation.
+base:
+  alphabet: v2_probe
+  task: sum_gt_10_AND_max_gt_5
+  tape_length: 32
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 512
+  generations: 1500
+  tournament_size: 3
+  elite_count: 2
+  mutation_rate: 0.03
+  crossover_rate: 0.7
+  backend: mlx
+  log_every: 50
+  disable_early_termination: true
+  dump_final_population: true
+  seed_fraction: 0.0
+  seed_tapes: ""
+  plasticity_enabled: true
+  plasticity_mechanism: random_sample_threshold
+  plasticity_train_fraction: 0.75
+  plasticity_delta: 1.0
+  arm: A
+paired:
+  # Single random_sample_threshold cell at the primary-confirmatory budget.
+  # Plastic rank-1 cell at matching budget is reused from §2c.
+  - {plasticity_budget: 40}
+grid:
+  seed: [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]

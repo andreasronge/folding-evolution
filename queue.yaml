@@ -467,15 +467,34 @@
   track: chem-tape-v2
   notes: "§v2.5-plasticity-2c: rank-1 plasticity capacity-scaling probe at sf=0.0 Arm A (60 new runs — 3 plastic budget cells ∈ {10, 20, 40} × seeds 20..39). Joins plasticity-narrow-plateau FWER family at size 2 (α=0.025, 97.5% CI). Primary confirmatory: paired-seed bootstrap CI on F_AND_test_plastic difference budget=40 vs budget=5 on shared seeds 20..39. Secondary diagnostics (§26-demoted): winner overhead, plasticity-active-token count, Levenshtein uncapped, attractor category."
 
-# §v2.5-plasticity-2d: capacity-matched random-δ-sampling control of §v2.5-
-# plasticity-2c's F_AND_test capacity-scaling observation. 80 new runs
-# (4 random_sample_threshold cells × seeds 20..39 at budgets {5, 10, 20, 40}).
-# Plastic rank-1 cells reused from §2a (budget=5) + §2c (budgets 10, 20, 40).
-# Prereg: Plans/prereg_v2-5-plasticity-2d.md (v3, codex-v3-PASS-WITH-P2).
-# Projected ~2.5-3h wall at 10 workers; timeout 10800s (3h, 1.5× headroom).
+# §v2.5-plasticity-2d (ORIGINAL 4-cell design; TIMEOUT 2026-04-23 at 10800s
+# with 8/80 runs completed). queue.status.json entry status=timeout → runner
+# skips this id on future launches. Preserved as historical record.
+# Prereg: Plans/prereg_v2-5-plasticity-2d.md v1-v6 (v7 supersedes execution).
 - id: v2_5_plasticity_2d
   cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_5_plasticity_2d.yaml --output-root "$RUN_DIR" --workers 10
   timeout_seconds: 10800
   expect_outputs: [sweep_index.json]
   track: chem-tape-v2
-  notes: "§v2.5-plasticity-2d: capacity-matched random-δ-sampling control of §v2.5-plasticity-2c's F_AND_test capacity-scaling (80 new runs — 4 random_sample_threshold cells × seeds 20..39 at plasticity_budget ∈ {5, 10, 20, 40}). Joins plasticity-narrow-plateau FWER family at size 3 (Bonferroni α=0.01667, 98.333% CI). Primary confirmatory (direction-only routing): paired-seed bootstrap CI on F_AND_test_plastic difference plastic[rank1_op_threshold, budget=40] minus plastic[random_sample_threshold, budget=40] on shared seeds 20..39. Mechanism-interpretation deferred to chronicle-time §16c. Supporting cells at {5, 10, 20} §26-demoted. Mandatory per-individual k-draw logging (Guard-6 sub-criterion c) for Row 6 SWAMPED mechanism-sanity pre-check."
+  notes: "§v2.5-plasticity-2d ORIGINAL 4-cell attempt — TIMED OUT 2026-04-23 at 10800s with 8/80 runs completed. Superseded by v2_5_plasticity_2d_primary_b40 (prereg v7 amendment 2026-04-24)."
+
+# §v2.5-plasticity-2d-primary-b40 — prereg v7 amendment (2026-04-24) after
+# the 2026-04-23 4-cell launch timed out at 10800s (8 of 80 runs completed;
+# 5 at budget=5, 3 at budget=10, 0 at budgets 20 and 40). Observed per-run
+# walls were ~8× the v6 projection (budget=5 ≈ 54 min, budget=10 ≈ 102 min;
+# projected budget=40 ≈ 6.7h). Root cause: random_sample_threshold always
+# evaluates k train_fitness draws per individual while rank1_op_threshold
+# short-circuits on correct-classification — §17a variable-(c) stopping-
+# semantics asymmetry (already named honestly in v6's §17a audit block;
+# v7 corrects the "matched eval-time compute" wording to "matched
+# plasticity_budget"). Codex-consult 2026-04-24 ranked A > E > C > D > B;
+# this entry executes Path A: budget=40 primary-confirmatory cell only
+# (20 runs); supporting cells {5, 10, 20} deferred to §2d-supplemental.
+# Projected wall at 10 workers over 20 runs: 2 waves × 6.7h ≈ 13.4h.
+# Timeout 57600s (16h, ~1.2× headroom) per codex-consult recommendation.
+- id: v2_5_plasticity_2d_primary_b40
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_5_plasticity_2d_primary_b40.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 57600
+  expect_outputs: [sweep_index.json]
+  track: chem-tape-v2
+  notes: "§v2.5-plasticity-2d-primary-b40: single-cell primary-confirmatory relaunch after the 2026-04-23 4-cell launch timed out (8 of 80 runs completed; zero at budgets 20 and 40). Prereg v7 amendment 2026-04-24. Scope: random_sample_threshold × plasticity_budget=40 × seeds 20..39 = 20 new runs. Supporting cells {5, 10, 20} deferred to §2d-supplemental. Joins plasticity-narrow-plateau FWER family at size 3 (Bonferroni α=0.01667, 98.333% CI). Primary confirmatory: paired-seed bootstrap 98.333% CI on F_AND_test_plastic difference plastic[rank1_op_threshold, budget=40] minus random_sample[budget=40] on shared seeds 20..39 (plastic data reused from §2c at commit 06e8732). Mechanism-interpretation deferred chronicle-time §16c. Direction-only routing on budget=40 paired-bootstrap CI (UNCHANGED from v6). Mandatory per-individual k-draw logging for Guard-6 sub-criterion c."
