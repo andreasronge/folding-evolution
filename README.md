@@ -12,7 +12,7 @@ you want to reference this project, please use the citation metadata in
 [`CITATION.cff`](CITATION.cff). If you want permission to reuse material from
 the repository, please contact the author or open an issue first.
 
-**Active track:** chem-tape v2 probe — testing whether the body-invariant-route mechanism scales with expressivity.
+**Active tracks:** chem-tape v2 probe wrapping up (§v2.5-plasticity-2d primary cell). CA developmental revival starting — shifting from "can the CA compute?" to "is the CA actually developing?" See [Plans/ca-developmental-revival.md](Plans/ca-developmental-revival.md).
 
 ## Core Question
 
@@ -45,13 +45,15 @@ Active lab notebook: [docs/chem-tape/experiments-v2.md](docs/chem-tape/experimen
 
 | Track | Status | Architecture | Experiments |
 |---|---|---|---|
-| **Chem-tape** | **Active (v2 probe)** | [architecture-v2.md](docs/chem-tape/architecture-v2.md) | [experiments-v2.md](docs/chem-tape/experiments-v2.md) |
+| **Chem-tape** | Active (v2 wrapping) | [architecture-v2.md](docs/chem-tape/architecture-v2.md) | [experiments-v2.md](docs/chem-tape/experiments-v2.md) |
 | Folding | Complete | [architecture.md](docs/folding/architecture.md) | [findings.md](docs/folding/findings.md) |
-| CA | Paused | [architecture.md](docs/ca/architecture.md) | [experiments.md](docs/ca/experiments.md) |
+| **CA** | **Reviving (developmental probe)** | [architecture.md](docs/ca/architecture.md) | [experiments.md](docs/ca/experiments.md) |
 
-## Next Direction Candidate
+## Next Direction
 
-**Runtime plasticity (Baldwin-style evaluation)** — if v2 probes pass, the next candidate is adding within-lifetime adaptation to the phenotype. The motivation: under Arm A (direct GP), the canonical solution plateau is narrow (R_fit ≈ 0.004); plasticity could smooth it without requiring an explicit descriptor. The cheapest probe is operator-threshold plasticity (one float per op, adapts on train rows, frozen at test). Design note and suggested first experiment: [docs/chem-tape/runtime-plasticity-direction.md](docs/chem-tape/runtime-plasticity-direction.md). Not yet pre-registered.
+**CA developmental revival** — the CA track already has two ceiling-breakers on 8-bit parity (banded_3 at 0.969 max, phased_2 at 0.961 max; §11.a, §11.b). Zero existing sweeps test whether those dynamics actually *develop* — canalize, self-repair, redeploy under perturbed I/O. The plan: visuals first (atlas of evolved trajectories across all 256 inputs), damage assay second (Hamming-scar curves on mid-development perturbation), I/O-shift probe third. Rule surgery, fate maps, failure galleries, and attractor portraits follow. Dashboard grows organically around whichever visual you keep rewatching. Full plan: [Plans/ca-developmental-revival.md](Plans/ca-developmental-revival.md).
+
+**Runtime plasticity (deferred).** Rank-1 operator-threshold plasticity tested at §v2.5-plasticity-1a returned a NULL on Arm A's narrow plateau (`plasticity-narrow-plateau` finding). Higher-rank plasticity and the meta-learning framing remain on the roadmap but are deprioritized while the CA probe runs. Design note preserved: [docs/chem-tape/runtime-plasticity-direction.md](docs/chem-tape/runtime-plasticity-direction.md).
 
 ## Performance Notes
 
