@@ -468,20 +468,25 @@
   notes: "§v2.5-plasticity-2c: rank-1 plasticity capacity-scaling probe at sf=0.0 Arm A (60 new runs — 3 plastic budget cells ∈ {10, 20, 40} × seeds 20..39). Joins plasticity-narrow-plateau FWER family at size 2 (α=0.025, 97.5% CI). Primary confirmatory: paired-seed bootstrap CI on F_AND_test_plastic difference budget=40 vs budget=5 on shared seeds 20..39. Secondary diagnostics (§26-demoted): winner overhead, plasticity-active-token count, Levenshtein uncapped, attractor category."
 
 # §v2.5-plasticity-2d (ORIGINAL 4-cell design; TIMEOUT 2026-04-23 at 10800s
-# with 8/80 runs completed). queue.status.json entry status=timeout → runner
-# skips this id on future launches. Preserved as historical record.
-# Prereg: Plans/prereg_v2-5-plasticity-2d.md v1-v6 (v7 supersedes execution).
+# with 18/80 runs completed per v7.2 post-kill re-inspection: 5 at budget=5,
+# 5 at budget=10, 4 at budget=20, 4 at budget=40 seeds 20..23). queue.status.json
+# entry status=timeout → runner skips this id on future launches. Preserved
+# as historical record. Prereg: Plans/prereg_v2-5-plasticity-2d.md v1-v6
+# (v7/v7.1/v7.2 supersede execution).
 - id: v2_5_plasticity_2d
   cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/v2/v2_5_plasticity_2d.yaml --output-root "$RUN_DIR" --workers 10
   timeout_seconds: 10800
   expect_outputs: [sweep_index.json]
   track: chem-tape-v2
-  notes: "§v2.5-plasticity-2d ORIGINAL 4-cell attempt — TIMED OUT 2026-04-23 at 10800s with 8/80 runs completed. Superseded by v2_5_plasticity_2d_primary_b40 (prereg v7 amendment 2026-04-24)."
+  notes: "§v2.5-plasticity-2d ORIGINAL 4-cell attempt — TIMED OUT 2026-04-23 at 10800s with 18/80 runs completed (v7.2 corrected count: 5 at budget=5, 5 at budget=10, 4 at budget=20, 4 at budget=40 seeds 20..23). Superseded by v2_5_plasticity_2d_primary_b40 (prereg v7/v7.2 amendment 2026-04-24)."
 
-# §v2.5-plasticity-2d-primary-b40 — prereg v7 amendment (2026-04-24) after
-# the 2026-04-23 4-cell launch timed out at 10800s (8 of 80 runs completed;
-# 5 at budget=5, 3 at budget=10, 0 at budgets 20 and 40). Observed per-run
-# walls were ~8× the v6 projection (budget=5 ≈ 54 min, budget=10 ≈ 102 min;
+# §v2.5-plasticity-2d-primary-b40 — prereg v7/v7.1/v7.2 amendment (2026-04-24)
+# after the 2026-04-23 4-cell launch timed out at 10800s (v7.2 corrected
+# count: 18 of 80 runs completed; 5 at budget=5, 5 at budget=10, 4 at
+# budget=20, 4 at budget=40 seeds 20..23). 4 overlap seeds at budget=40
+# are quarantined per prereg banner; post-sweep determinism check via
+# scripts/check_v2d_overlap_determinism.sh before analyzer invocation.
+# Observed per-run walls were ~8× the v6 projection (budget=5 ≈ 54 min, budget=10 ≈ 102 min;
 # projected budget=40 ≈ 6.7h). Root cause: random_sample_threshold always
 # evaluates k train_fitness draws per individual while rank1_op_threshold
 # short-circuits on correct-classification — §17a variable-(c) stopping-

@@ -1,7 +1,12 @@
 sweep_name: v2_5_plasticity_2d_primary_b40
 # §v2.5-plasticity-2d-primary-b40: single-cell primary-confirmatory relaunch
-# after the 2026-04-23 4-cell launch timed out at 10800s with only 8 of 80
-# runs completed (5 at budget=5, 3 at budget=10; zero at budgets 20 or 40).
+# after the 2026-04-23 4-cell launch SIGTERM'd at 10800s. Post-kill
+# re-inspection (v7.2 correction) shows 18 of 80 runs completed: 5 at
+# budget=5 (seeds 20..24), 5 at budget=10 (seeds 20..24), 4 at budget=20
+# (seeds 20..23), 4 at budget=40 (seeds 20..23). The 4 overlap seeds at
+# budget=40 are quarantined per prereg v7.2 banner; see
+# scripts/check_v2d_overlap_determinism.sh for the mandatory post-sweep
+# byte-identity determinism check.
 # Per prereg v7 amendment (post-compute, 2026-04-24): supporting cells at
 # plasticity_budget ∈ {5, 10, 20} are DEFERRED to §2d-supplemental (separate
 # night); this run executes ONLY the budget=40 primary-confirmatory cell.
