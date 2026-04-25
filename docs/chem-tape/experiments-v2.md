@@ -4512,3 +4512,174 @@ Per prereg line 198 (Row 2 PARTIAL decision rule):
 **Methodology-backlog item:** the CI_lo = 0.0 exactness on discrete paired-diff bootstrap is a methodology observation worth codifying — at n=20 with strongly-discrete paired-diff vectors ({−1, 0, +1} values), the 1.25% quantile can land exactly at the boundary, creating a knife-edge between Row 1 PASS and Row 2 PARTIAL. Future preregs with similar expected paired-diff distributions should either (a) commit to n ≥ 40 at the primary endpoint or (b) use a continuous-valued primary statistic (e.g., R_fit_plastic_999 paired delta) rather than binary F_AND_test indicator. Not pre-committed by §2c; flagged for a methodology amendment audit.
 
 ---
+
+## §v2.5-plasticity-2d-primary-b40. Capacity-matched random-δ-sampling control of §v2.5-plasticity-2c at plasticity_budget=40 — **Row 6 SWAMPED fires on pre-registered determinism-check on result.json (elapsed_sec divergence at all 4 overlap seeds; substantive `final_population.npz` byte-identical at all 4); no §22b confirmatory test runs; supplemental paired-bootstrap reported chronicle-time-only as non-confirmatory observation** (2026-04-25)
+
+**Status:** `INCONCLUSIVE — Row 6 SWAMPED fires on pre-registered post-sweep determinism check (Plans/prereg_v2-5-plasticity-2d.md v7.2.1, line 412). scripts/check_v2d_overlap_determinism.sh reported 4 divergences across 4 overlap seeds × 2 files (8 hashes). Investigation isolates the divergence to result.json:elapsed_sec only — every other field (best_fitness, best_genotype_hex, generations_run, final_generation_best, final_generation_mean, holdout_fitness, train_holdout_gap, config_hash, seed, arm, task) is byte-identical, and final_population.npz is byte-identical at all 4 overlap seeds. Substantive scientific determinism INTACT; divergence is in wall-clock runtime metadata only. Per pre-registered rule (line 412) the trigger fired regardless of investigation outcome — chronicle records SWAMPED. §2d-primary does NOT count as a §22b confirmatory test; plasticity-narrow-plateau FWER family stays at size 2. Codex consult 2026-04-25 ranked path A (strict halt) over path B (pragmatic proceed) over path C (post-data script amendment), citing §28a (clause-match not intent-match) and §25b/§25c (post-data narrowing of routing gate replicates §v2.5-plasticity-2a v1→v8 amendment-cycle failure shape).` · n=20 new runs · commit `c765d76` · joins `findings.md#plasticity-narrow-plateau` family commit-time membership at size 3 per §22b but Row 6 SWAMPED means the confirmatory test did NOT run; effective family for next member counting is size 2 + 1 SWAMPED at this prereg's commit-time
+
+**Pre-reg:** [Plans/prereg_v2-5-plasticity-2d.md](../../Plans/prereg_v2-5-plasticity-2d.md) v7.2.1 READY-TO-LAUNCH (post-codex-v7-review-4 PASS-WITH-P2; post-compute amendment cascade through codex-review-1/2/3 each FAIL discharged in-place; target SHA pinned at c765d76; SHA-pin commit at 51e596c).
+**Sweep:** `experiments/chem_tape/sweeps/v2/v2_5_plasticity_2d_primary_b40.yaml` (committed c765d76) — ONE cell × 20 seeds = 20 runs (random_sample_threshold × plasticity_budget=40 × seeds 20..39). Supporting cells {5, 10, 20} pre-committed as deferred to §2d-supplemental in v7 amendment.
+**Compute:** 12.6h wall (45354s) · 10 workers · 20 new runs (timeout 57600s = 16h gave 1.27× headroom). Within projection.
+
+### Question
+
+At matched `plasticity_budget=40` (20 paired seeds 20..39) on `sum_gt_10_AND_max_gt_5` (Arm A, sf=0.0, pop=512, gens=1500, mr=0.03), does rank-1 operator-threshold plasticity's gradient-like directed-update δ-selection produce higher F_AND_test_plastic than uniform-continuous random-δ-sampling [-b, +b] with best-on-train selection at matched k, as measured by a paired-seed bootstrap 98.333% CI (Bonferroni-corrected at family size 3) on the per-seed difference for s ∈ {20..39}?
+
+### Hypothesis (pre-registered)
+
+H1 PASS-POSITIVE: paired-bootstrap 98.333% CI excludes 0 on POSITIVE side at budget=40 → narrows `findings.md#plasticity-narrow-plateau` (direction-only, no mechanism-name pre-commitment). H0 SATURATION: CI overlaps 0 AND point est ≤ 0 → broadens. H-partial: CI overlaps 0 AND point est > 0 → no findings change. H-reverse: CI_hi < 0 → broadens with reverse-direction qualifier. H-SWAMPED (Row 6, this verdict): infrastructure / seed-integrity / mechanism-sanity / **v7 determinism-failure** trigger.
+
+### Result
+
+**Pre-registered post-sweep determinism check (mandatory per prereg v7.2.1 line 412; runs BEFORE any analyzer invocation):**
+
+```
+$ scripts/check_v2d_overlap_determinism.sh \
+    experiments/output/2026-04-23/v2_5_plasticity_2d \
+    experiments/output/2026-04-24/v2_5_plasticity_2d_primary_b40
+```
+
+| seed | final_population.npz | result.json | divergence detail |
+|------|----------------------|-------------|-------------------|
+| 20 | OK (byte-identical) | DIVERGE | `elapsed_sec`: old 19786.508 vs new 22758.558 |
+| 21 | OK (byte-identical) | DIVERGE | `elapsed_sec` only |
+| 22 | OK (byte-identical) | DIVERGE | `elapsed_sec` only |
+| 23 | OK (byte-identical) | DIVERGE | `elapsed_sec` only |
+
+**Determinism-check verdict: 4 divergences across 4 overlap seeds × 2 files (8 hashes) — non-zero exit; routes Row 6 SWAMPED per prereg line 412.** Investigation: every other result.json field is byte-identical (`best_fitness`, `best_genotype_hex`, `generations_run`, `final_generation_best`, `final_generation_mean`, `holdout_fitness`, `train_holdout_gap`, `config_hash`, `seed`, `arm`, `task`); divergence is exclusively in wall-clock runtime metadata. **Substantive scientific determinism INTACT.**
+
+**Row-match verdict (precedence: Row 6 SWAMPED is highest precedence; first-match wins):**
+
+| precedence | row | criterion check | fires? |
+|------------|-----|-----------------|--------|
+| 1st | 6 SWAMPED | determinism-failure on result.json at 4 overlap seeds (per prereg v7.2.1 line 412) | **YES** |
+| 2nd | 5 REVERSE | (not evaluated — Row 6 absorbs) | — |
+| 3rd | 1 PASS-POSITIVE | (not evaluated) | — |
+| 4th | 2 PARTIAL | (not evaluated) | — |
+| 5th | 3 SATURATION | (not evaluated) | — |
+| 6th | 4 CATCHALL | (not evaluated) | — |
+
+**Matches pre-registered outcome:** **Row 6 SWAMPED** (status vocabulary token: `INCONCLUSIVE`). Trigger reason: `determinism-failure (result.json:elapsed_sec divergence on 4 overlap seeds 20..23 at budget=40; final_population.npz byte-identical)`.
+
+**Statistical test:** **NOT RUN as confirmatory.** Per pre-registered rule, Row 6 SWAMPED halts the chronicle's confirmatory routing. The `paired_bootstrap_plastic40_vs_random40` routine WAS executed for chronicle-time supplemental observation (codex-consult 2026-04-25 explicitly permits this when "useful, explicitly marked non-confirmatory and non-routing"); see Interpretation (3) below. **Family `plasticity-narrow-plateau`: size at this prereg's commit time per §22b is 3, but the confirmatory test did not run → §2d-primary's contribution to the family α budget is null.** For the next prereg joining the family, treat current effective size as 2 (§1a FALSIFIED + §2c PARTIAL) plus this §2d SWAMPED non-completion; the next prereg should reaffirm or adjust family size at its own commit time per §22b.
+
+### Pre-registration fidelity checklist (required, principle 23)
+
+- [x] **Every outcome row in the prereg was tested.** Precedence applied — Row 6 SWAMPED fires first (highest precedence in §2d's outcome grid). Rows 1/2/3/5 not evaluated because Row 6 absorbs per pre-registered precedence order. No row silently added or removed.
+- [x] **Every part of the v7.2.1 plan ran to completion.** New 20-run sweep launched per the v7 quarantine plan (separate run_dir at `experiments/output/2026-04-24/v2_5_plasticity_2d_primary_b40/`); 20/20 runs completed exit 0; sweep_index.json written; analyzer ran with `--paired-plastic40-baseline-csv` for the supplemental bootstrap. The pre-registered determinism check ran and fired. v7 amendment cascade discharged through codex-review-4 PASS-WITH-P2.
+- [x] **No parameters, sampler settings, or seed blocks were changed mid-run.** Sweep YAML byte-identical to the pinned version (commit c765d76); seeds 20..39 per pre-commitment; `random_sample_threshold` mechanism per pre-commitment.
+- [x] **Every statistical test and diagnostic named in the prereg appears.** Determinism check: ran (Result block, FAIL → Row 6). Mechanism-sanity pre-check (Row 6 sub-criteria a/b/c): all PASS (see Diagnostics). Per-individual k-draw 4-tuple: emitted to NPZ; per-cell aggregates in summary JSON (winner_k_draw_min_min=−39.83, max_max=+39.94, std_min=+19.50, argmax_index ∈ [2, 37]; all within `[−budget, +budget]` and `std ≥ 0.05·budget=2.0`). Per-seed F_AND_test_plastic indicators emitted and aggregated. Paired-bootstrap routine ran (chronicle-time supplemental, NOT confirmatory).
+- [x] **Codex review history.** Engineering at v6 commit `ee44b1c` (codex-v1..v7 PASS-WITH-P2). Post-compute amendment cascade: codex-v7-review-1 FAIL (2P1+1P2) → discharged at v7.1; codex-v7-review-2 FAIL (2P1+2P2) → discharged at v7.2; codex-v7-review-3 FAIL (1P1+1P2) → discharged at v7.2.1; **codex-v7-review-4 PASS-WITH-P2 (target c765d76, SHA pin 51e596c)**; codex-consult-2026-04-25 on Row-6-discharge ranked path A (strict halt) over B (pragmatic proceed) over C (post-data script amendment).
+
+### Interpretation
+
+**(1) Row 6 SWAMPED fires under the pre-registered determinism-check rule, not under any infrastructure-fidelity, hash-collision, seed-integrity, or mechanism-sanity violation.** All other Row 6 sub-criteria PASS:
+- `initial_population_canonical_count == 0` across 20/20 new runs (sf=0.0 invariant satisfied).
+- Hash-dedup verified (random_sample_threshold ≠ default → hash includes mechanism → no collision with §2c plastic data; `test_v2d_sweep_yaml_hashes_disjoint_from_v2c` covers the original v1–v6 YAML and the new single-cell YAML's base section is unchanged).
+- Seed-integrity pre-check: PASS (exactly 20 unique seeds {20..39} in §2d random_sample budget=40; exactly 20 in §2c plastic budget=40 reuse; no missing/duplicated/extra seeds in either side).
+- Mechanism-sanity pre-check (sub-criteria a/b/c all mandatory at launch per codex-v1 P1-5): PASS (per-cell `delta_final` ∈ [−27.91, −2.02] within `[−40, +40]` support; per-individual k-draw 4-tuple within bounds with std_min=19.5 above the 2.0 threshold; argmax_index ∈ [2, 37] within `[0, 39]`).
+- **The trigger is exclusively the v7-added determinism-failure sub-criterion** (added in v7 amendment 2026-04-24 per codex-v7-review-1 P1-1 discharge as the defense for Path A's same-seed re-run with quarantined 2026-04-23 partial data).
+
+The pre-registered rule (line 412): `compute SHA-256 of final_population.npz and result.json at each of the 4 overlap seeds (20..23) at budget=40 between 2026-04-23 partial data and the new 2026-04-24 sweep. Code is unchanged between ee44b1c and the v7 target SHA, so overlap-seed outputs MUST be byte-identical; any divergence flags Row 6 SWAMPED ("determinism-failure" reason)`. The rule was deliberately strict (codex-v7-review-1 P1-1 discharge required a defense robust enough to pass review), and it pre-committed both files. Investigation revealed the divergence is exclusively in `result.json:elapsed_sec` — a wall-clock runtime measurement that naturally varies between machine runs and was not anticipated as a non-substantive field at v7 amendment time.
+
+**(2) Substantive scientific determinism is INTACT at all 4 overlap seeds.** `final_population.npz` (the genotype population + per-individual fitness data — every field that binds the scientific result) is byte-identical at every overlap seed. The result.json fields that bind scientific output (`best_fitness`, `best_genotype_hex`, `generations_run`, `final_generation_best`, `final_generation_mean`, `holdout_fitness`, `train_holdout_gap`, `config_hash`) are all byte-identical. Only `elapsed_sec` differs (e.g., seed=20: old 19786.508s vs new 22758.558s — about 15% wall-clock variance, plausibly explained by machine-load differences between the 2026-04-23 SIGTERM'd context and the 2026-04-24 dedicated sweep). **The codex-consult-2026-04-25 verdict was nonetheless to honor the strict pre-registered rule (path A) under §28a (clause-match not intent-match) and §25b/§25c (post-data narrowing of a routing gate replicates the §v2.5-plasticity-2a v1→v8 amendment-cycle failure shape).**
+
+**(3) Supplemental paired-bootstrap observation (chronicle-time only; NOT confirmatory; NOT joining the FWER family at size 3).** The analyzer's `paired_bootstrap_plastic40_vs_random40` routine ran on the new 2026-04-24 sweep output with `--paired-plastic40-baseline-csv experiments/output/2026-04-22/v2_5_plasticity_2c/plasticity.csv`. **Result:**
+- F_AND_test_plastic at random_sample_threshold budget=40 (n=20, seeds 20..39): **9/20 = 0.450**.
+- F_AND_test_plastic at rank1_op_threshold budget=40 (n=20, seeds 20..39, reused from §2c at commit `1112e36`): **12/20 = 0.600**.
+- Paired difference vector (plastic@40 − random@40): 5 seeds plastic-only (seeds 20, 24, 29, 30, 39), 2 seeds random-only (seeds 26, 37), 13 seeds tied.
+- **Point estimate (paired mean):** +3/20 = **+0.1500**.
+- **Paired-bootstrap 98.333% CI (Bonferroni at family size 3; quantiles [0.8333%, 99.1667%]; 10 000 resamples; rng seed=42):** **[−0.1500, +0.4500]**.
+
+If this had been a confirmatory test under the pre-registered routing, it would match Row 2 PARTIAL (CI overlaps 0 strictly, paired point estimate > 0 strictly). **It did not run as confirmatory. The chronicle reports this as a chronicle-time supplemental observation only; it does NOT enter the §22b family-α accounting and does NOT narrow or broaden `findings.md#plasticity-narrow-plateau`.** Codex-consult-2026-04-25: *"Report the paired-bootstrap only as a chronicle-time / supplemental observation if useful, explicitly marked non-confirmatory and non-routing."* This block satisfies that prescription.
+
+**(4) Per-seed paired breakdown for the supplemental observation (seeds 20..39):**
+
+| seed | plastic@40 (§2c) | random@40 (§2d) | plastic − random |
+|------|------------------|-----------------|-----------------|
+| 20 | 1 | 0 | +1 |
+| 21 | 1 | 1 | 0 |
+| 22 | 1 | 1 | 0 |
+| 23 | 0 | 0 | 0 |
+| 24 | 1 | 0 | +1 |
+| 25 | 0 | 0 | 0 |
+| 26 | 0 | 1 | −1 |
+| 27 | 0 | 0 | 0 |
+| 28 | 1 | 1 | 0 |
+| 29 | 1 | 0 | +1 |
+| 30 | 1 | 0 | +1 |
+| 31 | 0 | 0 | 0 |
+| 32 | 1 | 1 | 0 |
+| 33 | 1 | 1 | 0 |
+| 34 | 0 | 0 | 0 |
+| 35 | 1 | 1 | 0 |
+| 36 | 1 | 1 | 0 |
+| 37 | 0 | 1 | −1 |
+| 38 | 0 | 0 | 0 |
+| 39 | 1 | 0 | +1 |
+| **totals** | **12** | **9** | **+3 net (5 plastic-only, 2 random-only)** |
+
+**(5) Mechanism-name status (§16/§16b/§16c):** **Deferred.** Per prereg: no mechanism name pre-registered; §16c falsifiability block empty. This chronicle does not propose, narrow, or broaden a mechanism name. The supplemental paired-bootstrap observation is non-confirmatory by Row 6 SWAMPED outcome and cannot be used as a §16c falsifier-discharge for any candidate name.
+
+**(6) Quarantine cleanly held: the 2026-04-23 partial data (18 runs at budgets {5: 5, 10: 5, 20: 4, 40: 4}) was used exclusively as input to the determinism check; no `F_AND_test_plastic` value or winner metadata from the 2026-04-23 partial data entered §2d-primary analysis.** The new 2026-04-24 sweep is self-contained at its own run_dir.
+
+### Caveats
+
+- **Seed count:** n=20 random_sample budget=40 (load-bearing per principle 8); §2c plastic budget=40 reuse (n=20, seeds 20..39, commit `1112e36`).
+- **Budget limits:** scope restricted to tested budget ∈ {40} per principle 17b. Supporting cells {5, 10, 20} deferred to §2d-supplemental (separate sweep, not pre-registered as part of §2d-primary).
+- **Overreach check (principle 17):** §2d does NOT amend `findings.md#plasticity-narrow-plateau`. Row 6 SWAMPED ⟹ no narrowing, no broadening. The supplemental paired-bootstrap observation is reported descriptively; it is not a confirmatory finding and cannot scope-tag the family.
+- **Open questions:** (a) Does a re-launched §2d with a substantive-payload-only determinism check (excluding `elapsed_sec` and similar wall-clock fields per the methodology lesson below) reproduce a non-SWAMPED outcome? Such a re-launch would require a new prereg per §17 — it is not pre-committed by §2d. (b) Does §2d-supplemental at budgets {5, 10, 20} reveal cross-mechanism patterns under §26 chronicle-time discipline? Pending. (c) The supplemental paired-bootstrap point-estimate +0.15 with CI [−0.15, +0.45] is directionally consistent with "plastic > random at budget=40" but family-α-inconclusive — a chronicle-time observation, not a finding. A future confirmatory experiment with a corrected determinism check (or fresh seeds outside the contamination boundary) is required before any directional claim can be made on this axis.
+
+### Degenerate-success check (principle 4 — Row 6 SWAMPED guards enumerated per prereg)
+
+Pre-registered guard 6 sub-criteria (a)/(b)/(c) all PASS at this sweep; the SWAMPED trigger came from the v7-added determinism-failure sub-criterion only.
+
+1. **Universal-adapter artefact (winner Levenshtein ≤ 4 for ≥ 15/20 seeds at any cell):** NOT TRIGGERED. (Diagnostics ledger below for full per-cell stats.)
+2. **Train-test leakage:** NOT TRIGGERED.
+3. **Threshold-saturation pop+top-1 conjunction (`|delta_final| ≥ budget` fraction):** physical ceiling NOT VIOLATED (cell support `delta_final ∈ [−27.91, −2.02]` is well within `[−40, +40]`); pop-level fraction below 1.0 by construction since random sampling continuous-uniform within `[−40, +40]` with argmax-on-train.
+4. **GT-bypass artefact:** GT_bypass_fraction = 0.01 at the random_sample budget=40 cell; NOT TRIGGERED.
+5. **δ-convergence artefact (delta_final_std_mean ≤ 0.5):** NOT TRIGGERED (per-cell delta_final spread is non-degenerate; see Diagnostics).
+6. **Random-sample rng-sanity artefact (NEW in §2d, mandatory at launch per codex-v1 P1-5; sub-criterion (c) covers per-individual k-draw):**
+   - (a) `std(delta_final)` across 20 seeds ≥ 0.01: PASS.
+   - (b) `mean(|delta_final|)` ∈ (0, budget]: PASS.
+   - (c) Per-individual k-draw 4-tuple `(min_draw, max_draw, std_draws, argmax_index)`: support bounds `min_draw ≥ −40` (cell-min `−39.83`), `max_draw ≤ +40` (cell-max `+39.94`); `std_draws ≥ 0.05·40 = 2.0` (cell-min `19.50`); `argmax_index ∈ [0, 39]` (cell range `[2, 37]`). PASS.
+
+**Infrastructure-fidelity check (principle 23/25):** PASS. `history.npz:initial_population_canonical_count == 0` across all 20 new runs.
+
+### Falsifiability block
+
+**Not applicable.** Per prereg §16c-deferred status: no mechanism name is proposed, narrowed, or broadened by this chronicle. The supplemental paired-bootstrap observation is non-confirmatory; it cannot serve as a §16c falsifier-discharge.
+
+### Diagnostics (prereg-promise ledger — items from §Diagnostics-to-log)
+
+- **Per-seed × per-cell F_AND_train, F_AND_test:** F_AND_test_plastic at random_sample budget=40 = 9/20 (per-seed table in Interpretation (4)); per-seed F_AND_train_plastic emitted in plasticity.csv.
+- **R_fit_frozen_999, R_fit_plastic_999 per cell:** R_fit_frozen=0.000, R_fit_plastic=0.028 at the random_sample budget=40 cell.
+- **Per-individual test_fitness_frozen/plastic, train_fitness_frozen/plastic, delta_final, has_gt, genotypes:** all emitted to final_population.npz (dump_final_population=true). 20/20 artifact-complete.
+- **Per-cell GT_bypass_fraction:** 0.01 at random_sample budget=40.
+- **Per-cell Baldwin_gap by Hamming bin {0..≥4}; Baldwin_slope:** Baldwin_slope NaN (degenerate x-variance at sf=0.0; matches §2a/§2c precedent). max_gap@5 = +0.281 with 98.333% CI [+0.228, +0.327], maj=19/20.
+- **Per-cell delta_final_std_mean (and `delta_final_cell_support_bounds_{min,max,std}`, `delta_final_cell_abs_mean`, v7-emitted):** support bounds `delta_final ∈ [−27.91, −2.02]` at random_sample budget=40. **Observation:** every individual's selected δ is negative. Argmax-on-train consistently selects negative δ at this cell. Reported descriptively; chronicle-time-only under §26 discipline; not a mechanism claim.
+- **Per-cell `|δ_final| ≥ budget` fraction (pop-level + top-1 winner split):** physical ceiling NOT VIOLATED (max `|delta_final|` cell-wide = 27.91, well below 40).
+- **Per-run k-draw 4-tuple summary at random_sample cell:** `winner_k_draw_min_min=−39.83`, `winner_k_draw_max_max=+39.94`, `winner_k_draw_std_min=+19.50`, `winner_k_argmax_index ∈ [2, 37]`. All within prereg's mandatory invariants.
+- **Per-cell best-of-run hex for top-1 winner per seed:** emitted in sweep_index.json (20 new `best_genotype_hex` entries).
+- **Per-seed initial_population_canonical_count in gen-0:** 0/20. PASS.
+- **Per-cell Guard-6(c) `winner_k_draw_swamped`:** False (substantive mechanism-sanity invariants all hold at the random_sample budget=40 cell).
+
+### Findings this supports / narrows
+
+- **Does NOT amend `findings.md#plasticity-narrow-plateau`.** Per Row 6 SWAMPED outcome: no narrowing, no broadening. The family stays at size 2 (§1a FALSIFIED + §2c PARTIAL) plus one SWAMPED non-completion at this commit time. The supplemental paired-bootstrap observation (point est +0.15, 98.333% CI [−0.15, +0.45], CI overlaps 0) is not a finding.
+- **No candidate finding promoted here.**
+
+### Next steps (from prereg Row 6 SWAMPED decision rule)
+
+Per prereg line 274: **stop and inspect; report which specific trigger fired in the chronicle.** DISCHARGED above (determinism-failure on result.json:elapsed_sec at 4 overlap seeds; final_population.npz byte-identical at all 4).
+
+1. **No findings change.** DISCHARGED.
+2. **§2d-supplemental at budgets {5, 10, 20} remains pending** (separate sweep, not pre-registered as part of §2d-primary; if drafted, requires its own prereg with a corrected determinism-check scope per the methodology lesson below).
+3. **A re-launched §2d-primary with a substantive-payload-only determinism check is the natural next step if the directional plastic-vs-random question on this axis is worth tightening.** It requires a fresh prereg, not a §2d amendment, because amending the determinism-check rule post-data is exactly the methodology failure mode codex-consult-2026-04-25 ranked C below A. The fresh prereg can either (a) cite the §2d-primary supplemental observation as one descriptive prior + use a corrected determinism check on the same overlap seeds, or (b) use fresh seeds outside the contamination boundary (e.g., seeds 60..79) with a paired plastic comparator at those seeds, eliminating the overlap-determinism issue entirely.
+4. **The §v2.5-plasticity-2a-nexp tentative "Baldwin-at-operator-level" label remains DEFERRED** per §16c; this chronicle does not propose, narrow, or broaden any mechanism name.
+
+**Methodology-backlog item (added to docs/methodology.md as §25d in this commit):** the v7 amendment's strict byte-identity determinism check pre-committed both `final_population.npz` and `result.json` for hash comparison without anticipating that `result.json` includes wall-clock runtime metadata (`elapsed_sec`) that varies between machine-runs. Future preregs introducing a determinism-check should specify field scope explicitly: substantive-payload fields only (e.g., genotype + fitness + config-hash + summary statistics), excluding wall-clock / timestamp / process-bookkeeping fields. The §v2.5-plasticity-2d v7 design illustrates the failure mode: a determinism gate that pre-commits to wall-clock-inclusive byte-identity will fire on benign machine-load variance.
+
+**Family-counting backlog item:** the §22b commit-time-membership rule says §2d-primary's prereg-commit-time membership is size 3, but the confirmatory test did not run. The next prereg joining `plasticity-narrow-plateau` should reaffirm or adjust family size at its own commit time per §22b. A reasonable accounting: effective committed-and-completed membership is 2 (§1a + §2c); §2d's contribution is a SWAMPED non-completion that does not consume α budget. Future preregs should treat the count-2 as the operative effective family size for Bonferroni calculations until §2d's question is reopened by a new prereg.
+
+---
