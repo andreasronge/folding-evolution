@@ -6,13 +6,24 @@ mutation + crossover + fitness-proportional selection) but nothing about
 this project's specific vocabulary. All internal jargon is defined on first
 use.
 
+> **Track status as of 2026-04-25: PAUSED.** Six durable claims live in
+> [findings.md](findings.md): four ACTIVE/NARROWED positives, one decoder-knob
+> NULL, and one plasticity-narrow-plateau NULL. The most recent arc — runtime
+> plasticity as a basin-escape lever — produced a CI-boundary PARTIAL at
+> §v2.5-plasticity-2c and a Row 6 SWAMPED at §v2.5-plasticity-2d (determinism-
+> check field-scope failure on `elapsed_sec`; substantive scientific data
+> intact). See §6 for resumable open questions and §7 for the methodology
+> lessons accumulated during the cascade.
+
 Authoritative sources, if you want full detail after this overview:
 
 - [architecture.md](architecture.md) — v1 design spec
 - [architecture-v2.md](architecture-v2.md) — v2 probe (extended alphabet)
 - [experiments.md](experiments.md) — v1 experimental record
-- [experiments-v2.md](experiments-v2.md) — v2-probe experimental chronicles
+- [experiments-v2.md](experiments-v2.md) — v2-probe experimental chronicles (incl. §v2.5-plasticity arc)
 - [findings.md](findings.md) — durable claims with scope tags
+- [runtime-plasticity-direction.md](runtime-plasticity-direction.md) — runtime-plasticity mechanism ladder (rank-1 = current tested rung)
+- [../methodology.md](../methodology.md) — cross-cutting methodology (§25b–§25d most recent)
 
 ---
 
@@ -279,6 +290,26 @@ the `safe_pop` function, controlled by `ChemTapeConfig.safe_pop_mode`
 (`rust/src/chem_tape.rs`) has the matching `safe_pop_consume` flag
 threaded through `ExecCtx`.
 
+### 3.5 `decoder-knob-leverage-null` — NULL
+
+**Claim (null):** within the tested 2×3 grid `K ∈ {3, 5} × bond_protection_ratio ∈ {0.0, 0.5, 1.0}` on §v2.3 + §v2.6 Pair 1 at pop=1024 gens=1500, **no cell** simultaneously preserves the §v2.3 ceiling (≥18/20 BOTH) and lifts Pair 1 above the pre-registered 60% JOINT-LIFT threshold.
+
+The (K=3, bp=1.0) cell produced a directional 25/60 = 42% lift on Pair 1 vs 4/20 = 20% at the bp=0.5 reference — informative but below the gate. The (bp=0.0) cells collapsed both tasks because bp=0.0 zeroes mutation on bonded cells; that cell measures the mutation operator's degenerate regime, not a chemistry-knob failure mode.
+
+**Practical consequence:** Part-1 meta-learning ES over (K, bond_protection_ratio) at this budget is deprioritized. The chemistry-knob axis is too thin a search surface. Future leverage probes should target other decoder axes (`min_run_length`, `tape_length`, alphabet extensions) or compute scaling, or combine bp with executor-rule changes.
+
+### 3.6 `plasticity-narrow-plateau` — NULL (with diagnosis `selection-deception`)
+
+**Claim (null):** rank-1 operator-threshold plasticity at `budget ∈ {1, 2, 3, 5} × δ=1.0 × sf=0.01 × pop=512` does **NOT** narrow Arm A's proxy basin toward canonical on `sum_gt_10_AND_max_gt_5`. Three signals jointly support the null:
+
+1. **Baldwin direction is reversed.** Cell-level seed-bootstrap 95% CI on Baldwin_slope excludes 0 on the **positive** side at every budget (i.e., distant-tail genotypes get budget-scaling positive uplift; near-canonical genotypes get zero plastic uplift — the opposite of the pre-registered PASS-Baldwin pattern).
+2. **Population-layer R_fit does not lift vs matched-per-tape frozen control.** Per-cell ΔR ≤ 0.011 at every budget; per-paired-seed mean delta is −0.10 to −0.13 at budgets 2/3/5 (heavy left tail of seeds where plasticity HURTS).
+3. **δ_std grows monotone with budget (0.69 → 0.98 → 1.67 → 2.67) and tail δ saturates at budget=5.** 73.6% of the non-GT-bypass tail population has `|δ_final| ≥ 5` while top-1 winners have 0/20 — *plasticity is active in the part of the population that selection discards*.
+
+**Diagnosis (per methodology §29 Class 4): `selection-deception`.** Static canonical seeding + elite preservation satisfies the fitness criterion before plasticity has adaptive work to do; plastic adaptation occurs in the population tail that selection then discards. Escalation per §29 targets selection-regime change (sf removal → EES → novelty search), NOT mechanism capacity (rank-2 memory is deferred until selection-deception is ruled out).
+
+This NULL opened the FWER family **`plasticity-narrow-plateau`** at size 1 (corrected α=0.05); subsequent §v2.5-plasticity-2c grew it to size 2 (α=0.025); §v2.5-plasticity-2d attempted size 3 but landed Row 6 SWAMPED, leaving the **effective family at size 2** with the size-3 question reopenable by a new prereg.
+
 ---
 
 ## 4. The most interesting experiments — story arc
@@ -430,28 +461,6 @@ This is an example of pre-registering a degenerate case doing real work:
 we saved ~1 hour of uninterpretable compute. The re-designed §v2.7'
 (with a non-trivial control task) is queued.
 
-### §v2.12 — Is the proxy basin decoder-specific? *(FAIL — decoder-general)*
-
-The proxy-basin-attractor finding (§3.3 / §v2.4 arc above) was
-originally established under BP_TOPK only. A natural objection: maybe
-the basin is an artifact of BP_TOPK's extraction logic — perhaps Arm A
-(direct GP, no chemistry layer) would escape the trap.
-
-§v2.12 tested Arm A on both samplers (natural and decorrelated). Result:
-**Arm A is trapped just as thoroughly** — 0/20 AND-solves on the natural
-sampler (matching BP_TOPK exactly), 1/20 on the decorrelated sampler
-(vs BP_TOPK's 3/20). The attractor breakdown mirrors BP_TOPK: under the
-natural sampler, most non-solvers converge to `max > 5`; under the
-decorrelated sampler, they shift to `sum > 10` variants — the same
-attractor-switch pattern.
-
-**Consequence:** the proxy basin is not a decoder artifact. It is a
-property of **greedy fitness search with cheap single-predicate proxies**,
-period. The decoder determines how the genome *encodes* the proxy
-program, but the evolutionary dynamics — convergence to the cheapest
-≥0.90-accurate predicate, robustness to 4× compute scaling, attractor-
-switching under decorrelation — are decoder-invariant.
-
 ### §v2.11 — Is the chemistry load-bearing on the easy body? *(PASS — decoder-robust)*
 
 §v2.3's 80/80 BOTH was under BP_TOPK. A natural worry: is the chemistry
@@ -549,6 +558,31 @@ The proxy basin holds, but what evolution *tries* changes.
 **Combined reading:** the consume rule is a real executor-level lever
 that affects both assembly (§v2.14) and exploration dynamics (§v2.14b),
 but its solve-rate benefit is specific to multi-type-boundary chains.
+
+### §v2.5-plasticity arc — runtime plasticity as a basin-escape lever *(opened a NULL family; ended PAUSED)*
+
+A 2026-04-18→2026-04-25 arc asking: **does runtime plasticity (within-lifetime adaptation of one operator threshold per individual) help evolution escape the §v2.4 proxy basin and find compositional AND solutions?** Five experiments produced one NULL finding, one CI-boundary PARTIAL, and one Row 6 SWAMPED. The track is paused with the family-α-clear question still open.
+
+**Mechanism under test:** `rank1_op_threshold` plasticity. Each individual is allowed up to `plasticity_budget` lifetime updates to a single integer threshold (e.g., the operand of `GT`); each update is a sign-step of ±δ chosen by the train-fitness gradient, halting on correct-classification. The mechanism ladder (rank-1 → rank-2 → ...) is documented in [runtime-plasticity-direction.md](runtime-plasticity-direction.md).
+
+**§v2.5-plasticity-1a — INCONCLUSIVE (grid-miss); PASS-Baldwin row falsified.** First probe: 12 cells × 20 seeds at budgets {1, 2, 3, 5} × {Arm A, BP_TOPK} × {seeded canonical sf=0.01, drift sf=0.0, frozen control}. The pre-registered PASS-Baldwin row failed cleanly at every budget — Baldwin_slope CI excludes 0 on the **positive** (wrong-direction) side at every cell. Diagnosis `selection-deception` (methodology §29 Class 4): static canonical seeding + elite preservation satisfies fitness before plasticity has adaptive work; plasticity is active in the tail selection discards. Promoted to findings.md as the NULL `plasticity-narrow-plateau` opening the FWER family at size 1, α=0.05.
+
+**§v2.5-plasticity-2a — Row 4 AMBIGUOUS/PARTIAL.** Pre-committed P-1 falsifier of the §1a diagnosis. Removed canonical seeding (sf=0.0, Arm A, budget ∈ {1, 2, 3, 5}). Result on the F-axis was mid-range: F_AND_test_plastic = 7/20 at budget=5 plastic vs 0/20 frozen control = +0.35 lift. The pre-registered Row 3 (INVERSE-BALDWIN-REPLICATES) had two clauses (mechanism-axis Baldwin_slope sign + F-axis lift); the mechanism-axis clauses fired (max_gap and δ_std signal exactly as in §1a) but the F-axis F-lift clause failed because F-lift was *non-zero* (intermediate, not zero as Row 3 required). This is methodology §28a "prose-fit / clause-fail": the prose anticipated the shape but the numeric clause was tighter than the observation. Triggered pre-committed n-expansion.
+
+**§v2.5-plasticity-2a-nexp — Row 4 PARTIAL persists at pooled n=40.** Added seeds 40..59 at the budget=5 plastic cell. F-lift identical across halves (0.35 / 0.35); mechanism-axis CI tightens on pooled data (max_gap_at_budget_5 CI [+0.27, +0.35] on n=40 vs [+0.20, +0.31] on n=20); seed-majority 37/40 on the mechanism-axis clauses. The §28a prose-fit × F-clause-fail pattern intensifies with more data — the mechanism signal is real but the pre-registered F-clause was the wrong threshold for the actual distribution. Triggered the methodology §29 escalation prereg cycle.
+
+**§v2.5-plasticity-2c — Row 2 PARTIAL at CI-boundary knife-edge.** Capacity-scaling probe at budget ∈ {5, 10, 20, 40} on the same Arm A sf=0.0 cell. F_AND_test_plastic point estimates: 0.35 → 0.50 → 0.50 → 0.60 across budgets — **monotone non-decreasing trend**. Primary confirmatory paired-bootstrap 97.5% CI on F[budget=40] − F[budget=5] = **[0.00, +0.50]** with point est +0.25; CI lower-bound landed *exactly at 0.0* (discrete-bootstrap boundary on n=20 with paired-diff distribution {+1}×6 / {−1}×1 / {0}×13). The strict pre-registered criterion `CI_lo > 0` failed by zero margin. Row 2 PARTIAL fired per precedence; family `plasticity-narrow-plateau` grew to size 2 (α=0.025).
+
+**§v2.5-plasticity-2d — Row 6 SWAMPED on determinism check.** Capacity-matched random-δ-sampling control of §2c: replace gradient-like update with k uniform draws from [-budget, +budget] + argmax-on-train. The first launch (4-cell, 80-run) timed out at 10800s with 18/80 runs completed (per-run walls were ~8× the projection because random-sample always exhausts k draws while rank-1 short-circuits on correct-classification — §17a variable-(c) stopping-semantics asymmetry, named honestly in v6 prereg but mis-budgeted). Re-scoped via four codex-review rounds (v7→v7.1→v7.2→v7.2.1) to budget=40 only, with a mandatory post-sweep byte-identity determinism check on 4 overlap seeds (20..23) between the SIGTERM'd partial and the fresh re-run as the defense for re-using same seeds. Re-run completed cleanly (12.6h, 20/20). Determinism check fired: `final_population.npz` byte-identical at all 4 overlap seeds; **`result.json` divergent at all 4 — `elapsed_sec` field only**. Substantive scientific determinism intact; the gate fired on wall-clock runtime metadata. Codex consult ranked path A (strict halt per pre-registered rule) over B (proceed with disclosure) over C (post-data script amendment) under §28a clause-match-not-intent-match. **Row 6 SWAMPED chronicled; §2d does NOT enter the FWER family as confirmatory; effective family stays at size 2.**
+
+**Supplemental observation (chronicle-time only, NOT confirmatory):** the analyzer ran the paired-bootstrap on the new sweep output anyway, demoted to non-confirmatory. F_AND_test_plastic at random_sample budget=40 = 9/20 = 0.450; plastic rank-1 budget=40 (§2c reuse) = 12/20 = 0.600; paired difference +3/20 (5 plastic-only wins, 2 random-only, 13 ties); 98.333% CI [−0.15, +0.45]. Direction consistent with "plastic > random at budget=40" but family-α-inconclusive — a chronicle-time prior, not a finding.
+
+**Methodology lessons accumulated during the arc:**
+
+- **§25b Routing-critical metric discipline.** Discovered during §v2.5-plasticity-2a's v1→v8 amendment cycle: a pre-registered row clause that gates a specific escalation path must use either (a) minimum-N occupancy guard, (b) uncertainty quantification, or (c) advisory-only with chronicle-time inspection. Plain cell-mean against an unknown distribution drove 5 codex-FAIL rounds before the pattern became visible.
+- **§25c Single-purpose clause discipline.** A single clause cannot serve both as routing gate and mechanism discriminator when the discriminator's distribution is uncertain.
+- **§25d Determinism-check field-scope discipline (NEW 2026-04-25).** A determinism gate must specify field scope explicitly: substantive-payload fields only, excluding wall-clock / timestamp / process-bookkeeping fields. The v7→v7.2.1 amendment cascade ran four codex review rounds before launch precisely to defend against post-data amendment; the resulting strict gate then needed to be honored on its own terms when `elapsed_sec` divergence fired. Honor the strict gate; correct the field scope in the next prereg.
+- **§28a clause-match not intent-match.** The §2d Row 6 verdict honored §28a — investigation explained why the trigger fired (benign wall-clock variance) but did not erase that it fired.
 
 ---
 
@@ -683,6 +717,11 @@ measure basin-trapping rather than compositional capability.
 | §v2.4-proxy-3 split-halves boundary | **INCONCLUSIVE** | all conditions collapse; search-space confound prevents boundary measurement |
 | §v2.14 safe-pop ablation | **PASS** | consume doubles 6-token BOTH (4→8/20); canonical assembly triples (3→9/20) |
 | §v2.14b consume on proxy-basin | **PARTIAL** | shifts attractor landscape (0→10/20 AND attempts) without escaping basin |
+| §v2.15 decoder-knob grid | **NULL** | no JOINT-LIFT cell at 1× compute; promoted as `decoder-knob-leverage-null` |
+| §v2.5-plasticity-1a rank-1 plasticity | **NULL** | INVERSE-BALDWIN at every budget; opens `plasticity-narrow-plateau` family at size 1; diagnosis `selection-deception` per §29 |
+| §v2.5-plasticity-2a sf=0.0 probe | **PARTIAL (Row 4)** | F-lift +0.35 mid-range; mechanism-axis tightens but F-clause fails — §28a prose-fit pattern |
+| §v2.5-plasticity-2c capacity scaling | **PARTIAL (Row 2)** | trend 0.35→0.50→0.50→0.60 across budgets; CI-boundary knife-edge at 0.0 exactly; family grows to size 2 (α=0.025) |
+| §v2.5-plasticity-2d random-δ control | **SWAMPED (Row 6)** | determinism check fires on `result.json:elapsed_sec` divergence; substantive data byte-identical; family stays effective size 2 |
 
 **What the paper can claim:**
 - Slot-op indirection works generally (§v2.2).
@@ -707,6 +746,15 @@ measure basin-trapping rather than compositional capability.
 - The proxy-basin cascades through at least three tiers of single-
   predicate proxies under dual-decorrelation, with a trapping threshold
   at ≥~0.85 accuracy (§v2.4-proxy-2).
+- Decoder-knob axes (K, bond_protection_ratio) at 1× compute do not
+  simultaneously preserve the easy-body ceiling and lift the hard-body
+  floor above the JOINT-LIFT gate (`decoder-knob-leverage-null`, §v2.15
+  + n-exp).
+- Rank-1 operator-threshold plasticity at the tested regime (sf=0.01
+  seeded canonical + tournament selection, budget ∈ {1, 2, 3, 5}, δ=1.0)
+  does NOT narrow Arm A's proxy basin toward canonical
+  (`plasticity-narrow-plateau` NULL); the failure shape is INVERSE-BALDWIN
+  with diagnosis `selection-deception` per §29 (§v2.5-plasticity-1a).
 
 **What the paper cannot claim:**
 - "Across-family constant-slot indirection" — breadth check failed.
@@ -716,24 +764,29 @@ measure basin-trapping rather than compositional capability.
   `INPUT SUM THRESHOLD_SLOT GT` at thresholds {5, 10}.
 - "Safe-pop consume helps on all task types" — it helps on mixed-type
   chains but does not escape the proxy basin on intlist-only tasks.
+- "Runtime plasticity (rank-1 op-threshold) provides selection-layer
+  uplift" — falsified within tested regime by `plasticity-narrow-plateau`
+  NULL (§v2.5-plasticity-1a) under seeded canonical + tournament selection.
+  Diagnosis is `selection-deception` per §29; the broader question of
+  whether plasticity helps under non-tournament regimes (EES, novelty-search)
+  remains untested.
+- "Plastic > random at budget=40 on `sum_gt_10_AND_max_gt_5`" — directionally
+  observed at chronicle-time (+0.15, 98.333% CI [−0.15, +0.45]) at
+  §v2.5-plasticity-2d, but this was a Row 6 SWAMPED outcome (not a
+  confirmatory test); the supplemental observation does not enter the FWER
+  family at size 3 and the question is family-α-inconclusive.
+- "Decoder-knob axes (K, bp) lift hard-body discovery" — falsified within
+  the tested 2×3 grid at 1× compute by `decoder-knob-leverage-null`.
 
 ---
 
 ## 6. Open questions and queued experiments
 
-Active pre-regs in [`Plans/`](../../Plans/):
+**Track status (2026-04-25): PAUSED.** No active sweeps in `queue.yaml`
+beyond what is already done. The lists below describe the state at pause,
+so the track can be resumed cleanly.
 
-- **§v2.8** — 6-token *integer* body with no `CHARS`/`MAP_EQ_R`, at same
-  budget as §v2.6 Pair 1. Isolates body-length from string-domain
-  confound.
-- **§v2.14c** — consume + 4× compute on Pair 1. Do the two levers stack
-  (both relieve different bottlenecks) or substitute (same bottleneck)?
-- **§v2.14d** — consume under Arm A on Pair 1. Does the safe-pop effect
-  generalize beyond BP_TOPK?
-- **§v2.14e** — consume on a second slot binding (MAP_EQ_E instead of
-  MAP_EQ_R). Tests whether the effect is type-chain-driven or op-specific.
-
-Recently completed:
+### Recently completed (post-2026-04-16 README update)
 
 - **§v2.11** *(DONE — PASS decoder-robust)* — Arm A reproduces 20/20 BOTH
   on §v2.3's 4-token pair. Decoder choice doesn't matter on short bodies.
@@ -742,27 +795,94 @@ Recently completed:
 - **§v2.13** *(DONE — INCONCLUSIVE)* — K=5 is saturated on 4-token body;
   reshuffles seeds on 6-token body without lifting the ceiling.
 - **§v2.4-proxy-2** *(DONE — FAIL proxy cascade)* — dual-decorrelation
-  confirms proxy cascade to third-tier predictors. Basin threshold
+  confirms proxy cascade to third-tier predictors; basin threshold
   relaxed to ≥~0.85.
 - **§v2.4-proxy-3** *(DONE — INCONCLUSIVE)* — split-halves boundary probe
   collapsed due to search-space confound.
+- **§v2.4-proxy-4d** *(DONE — INCONCLUSIVE)* — R₂_active erosion probe
+  with R_fit cross-cell pattern; methodology lessons §25, §26, §27 distilled.
+- **§v2.4-proxy-5*** series *(DONE — multiple INCONCLUSIVE / NULL)* —
+  driven the §28 letter-vs-intent-drift methodology cluster.
 - **§v2.14** *(DONE — PASS)* — consume doubles 6-token BOTH (4→8/20);
   canonical assembly triples (3→9/20). Promoted to findings.md.
 - **§v2.14b** *(DONE — PARTIAL)* — consume shifts attractor landscape on
   AND-composition (0→10/20 AND attempts) without escaping basin.
+- **§v2.14c/d/e/g** *(DONE — informative; multiple PARTIAL)* — consume × compute,
+  consume × Arm A, consume × second slot binding probes feeding the
+  `safe-pop-consume-effect` finding's mechanism reading.
+- **§v2.15** *(DONE — NULL)* — decoder-knob grid (K, bond_protection_ratio).
+  Promoted to findings.md as `decoder-knob-leverage-null`.
+- **§v2.5-plasticity-1a** *(DONE — NULL)* — rank-1 op-threshold plasticity
+  produces INVERSE-BALDWIN at every tested budget. Promoted as
+  `plasticity-narrow-plateau` (NULL); diagnosis `selection-deception`
+  per methodology §29.
+- **§v2.5-plasticity-2a + n-exp** *(DONE — PARTIAL Row 4)* — sf=0.0 P-1
+  probe: F-lift +0.35 mid-range; mechanism-axis CI tightens at pooled
+  n=40 but F-clause fails (§28a prose-fit pattern).
+- **§v2.5-plasticity-2c** *(DONE — PARTIAL Row 2)* — capacity-scaling
+  probe at budget ∈ {5, 10, 20, 40}: monotone non-decreasing trend; CI
+  knife-edge at 0.0 exactly; family grows to size 2 (α=0.025).
+- **§v2.5-plasticity-2d-primary-b40** *(DONE — SWAMPED Row 6)* —
+  capacity-matched random-δ-sampling control halted at the
+  pre-registered determinism check on `result.json:elapsed_sec`
+  divergence (substantive data byte-identical). Supplemental
+  paired-bootstrap chronicled as non-confirmatory observation
+  (point est +0.15, 98.333% CI [−0.15, +0.45]).
 
-Standing open questions not yet probed:
+### Open questions if the track resumes
+
+**On the runtime-plasticity arc (§v2.5-plasticity family):**
+
+- **Re-launch §v2.5-plasticity-2d with a corrected determinism check.** The
+  v7 byte-identity rule should be tightened to substantive-payload only
+  per methodology §25d (exclude `elapsed_sec` and similar wall-clock
+  fields). A fresh prereg is required — amending the rule post-data is
+  exactly the §25b/§25c failure shape. Two viable designs: (a) reuse same
+  seeds 20..39 with substantive-only check, or (b) fresh seeds (e.g.,
+  60..79) with a fresh paired plastic comparator at those seeds (~27h
+  compute; eliminates overlap-determinism concerns entirely).
+- **§v2.5-plasticity-2d-supplemental** — sweep at supporting budgets
+  {5, 10, 20} for descriptive cross-mechanism context (§26-demoted; not
+  pre-registered as confirmatory). Pending if the §2d primary question
+  is reopened.
+- **§v2.5-plasticity-2b (Evolvability-ES)** — the §29-prescribed P-2
+  falsifier of `selection-deception` diagnosis. Blocks on EES primitive
+  implementation (3–5 days engineering).
+- **Rank-2 memory plasticity** — deferred per §29 until
+  `selection-deception` is ruled out by a non-tournament selection
+  experiment (P-1 / P-2 path).
+
+**On the slot-indirection scaling arc:**
 
 - Does a redesigned §v2.6' with Fmin-intermediate thresholds recover an
   across-body constant-indirection claim?
 - Can the G→P mapping itself be evolved (e.g., genotype-encoded header
   cells that choose which ops get bound to which slots)? Deferred pending
-  v2-probe scope decisions. See
-  [meta-learning-design-space.md](meta-learning-design-space.md) for the
-  full design space (six approaches, recommended hybrids, meta-objectives,
-  experiment sequencing).
-- If §v2.14c shows consume + compute stack, should consume become the
-  project default?
+  v2-probe scope decisions. See `meta-learning-design-space.md` (if present)
+  for the full design space.
+
+**On the proxy-basin / executor-rule arc:**
+
+- §v2.14g preserve_arm_a_4x and consume_arm_a_4x results integrate into
+  the `safe-pop-consume-effect` finding's mechanism reading; further
+  follow-ups blocked on whether the consume rule should become the
+  project default (deferred decision).
+- The proxy basin's third-tier proxy threshold (§v2.4-proxy-2) was
+  measured at ≥~0.85; precise boundary is open.
+
+### Frozen experimental data on disk
+
+- **§v2.5-plasticity-2d 2026-04-23 partial** (18/80 runs at budgets {5: 5,
+  10: 5, 20: 4, 40: 4}; SIGTERM'd at 10800s) — preserved at
+  `experiments/output/2026-04-23/v2_5_plasticity_2d/` for any future
+  §2d-supplemental analysis.
+- **§v2.5-plasticity-2d 2026-04-24 complete** (20/20 runs at budget=40;
+  determinism-check SWAMPED) — preserved at
+  `experiments/output/2026-04-24/v2_5_plasticity_2d_primary_b40/` and
+  analyzer output at the `_analysis` sibling dir. Substantive
+  scientific data is byte-identical to the 2026-04-23 partial overlap
+  seeds; can serve as a clean replication anchor for any future
+  §2d-revisit prereg.
 
 ---
 
