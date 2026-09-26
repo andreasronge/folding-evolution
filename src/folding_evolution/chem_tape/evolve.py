@@ -17,9 +17,14 @@ from dataclasses import dataclass
 import numpy as np
 
 from .config import ChemTapeConfig
-from .evaluate import evaluate_population, evaluate_on_inputs
+from .evaluate import PredictionCache, evaluate_population, evaluate_on_inputs
 from .metrics import ChemTapeStatsCollector
 from .tasks import build_task
+
+try:
+    from _folding_rust import rust_chem_topk_mask as _rust_topk_mask  # type: ignore
+except ImportError:
+    _rust_topk_mask = None
 
 
 @dataclass
@@ -225,12 +230,18 @@ def mutate(
             # is always unprotected so K can evolve.
             k_for_protection = cfg.individual_k(out)
             body = out[1:][None, :]
-            body_mask = _np_engine.compute_topk_runnable_mask(body, k_for_protection)[0]
+            if _rust_topk_mask is not None:
+                body_mask = _rust_topk_mask(out[1:].tobytes(), k_for_protection)
+            else:
+                body_mask = _np_engine.compute_topk_runnable_mask(body, k_for_protection)[0]
             protect_mask = np.zeros(L, dtype=bool)
             protect_mask[1:] = body_mask
         else:  # BP_TOPK fixed/alternating
             k_for_protection = topk_override if topk_override is not None else cfg.topk
-            protect_mask = _np_engine.compute_topk_runnable_mask(tape_2d, k_for_protection)[0]
+            if _rust_topk_mask is not None:
+                protect_mask = _rust_topk_mask(out.tobytes(), k_for_protection)
+            else:
+                protect_mask = _np_engine.compute_topk_runnable_mask(tape_2d, k_for_protection)[0]
 
     if protect_mask is None:
         for i in range(L):
@@ -513,7 +524,9 @@ def _build_tasks_for_config(cfg: ChemTapeConfig):
     return tasks
 
 
-def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
+def _run_evolution_panmictic(
+    cfg: ChemTapeConfig, prediction_cache: PredictionCache | None = None
+) -> EvolutionResult:
     """Standard tournament-elitism GA. Supports §10 K-alternating and
     §v1.5 task-alternating schedules (both may be active simultaneously
     but the intended use is one at a time).
@@ -530,7 +543,10 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
     current_k_0 = cfg.current_k(0)
     current_task_0 = cfg.current_task(0)
     task_0 = tasks_by_name[current_task_0]
-    fitnesses, preds = evaluate_population(population, task_0, cfg, topk_override=current_k_0)
+    fitnesses, preds = evaluate_population(
+        population, task_0, cfg, topk_override=current_k_0,
+        prediction_cache=prediction_cache,
+    )
     cases = preds == task_0.labels[None, :]
 
     stats = ChemTapeStatsCollector()
@@ -567,7 +583,8 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
             population, fitnesses, cfg, rng, topk_override=current_k, cases=cases
         )
         fitnesses, preds = evaluate_population(
-            population, current_task_obj, cfg, topk_override=current_k
+            population, current_task_obj, cfg, topk_override=current_k,
+            prediction_cache=prediction_cache,
         )
         cases = preds == current_task_obj.labels[None, :]
         stats.record(gen, fitnesses, population, arm=cfg.arm,
@@ -694,7 +711,9 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
     )
 
 
-def _run_evolution_islands(cfg: ChemTapeConfig) -> EvolutionResult:
+def _run_evolution_islands(
+    cfg: ChemTapeConfig, prediction_cache: PredictionCache | None = None
+) -> EvolutionResult:
     """Coarse-grained island GA (experiments.md §4).
 
     Splits `cfg.pop_size` into `cfg.n_islands` equal-sized islands. Each island
@@ -736,7 +755,7 @@ def _run_evolution_islands(cfg: ChemTapeConfig) -> EvolutionResult:
 
     def _evaluate_all(islands_: list[list[np.ndarray]]):
         flat = [g for isl in islands_ for g in isl]
-        fits, _ = evaluate_population(flat, task, cfg)
+        fits, _ = evaluate_population(flat, task, cfg, prediction_cache=prediction_cache)
         per_island = [
             fits[i * island_size : (i + 1) * island_size] for i in range(n_islands)
         ]
@@ -837,8 +856,13 @@ def _run_evolution_islands(cfg: ChemTapeConfig) -> EvolutionResult:
     )
 
 
-def run_evolution(cfg: ChemTapeConfig) -> EvolutionResult:
-    """Top-level dispatcher. Panmictic if n_islands == 1, island-model otherwise."""
+def run_evolution(cfg: ChemTapeConfig, prediction_cache_size: int = 0) -> EvolutionResult:
+    """Run the GA; a positive cache size enables bounded frozen predictions."""
+    cache = (
+        PredictionCache(prediction_cache_size)
+        if prediction_cache_size > 0 and not cfg.plasticity_enabled
+        else None
+    )
     if cfg.n_islands > 1:
-        return _run_evolution_islands(cfg)
-    return _run_evolution_panmictic(cfg)
+        return _run_evolution_islands(cfg, cache)
+    return _run_evolution_panmictic(cfg, cache)

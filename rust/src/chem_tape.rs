@@ -52,6 +52,82 @@ const MIN: u8 = 22;
 
 const OP_CAP: usize = 256;
 
+/// Select the longest eligible runs, breaking equal-length ties to the left.
+/// This matches the current Python engine's mask semantics (14/15 delimit
+/// permeable runs in both v1 and v2 execution modes).
+fn topk_mask(tape: &[u8], k: usize) -> Vec<bool> {
+    let mut runs = Vec::new();
+    let mut i = 0;
+    while i < tape.len() {
+        if tape[i] == 14 || tape[i] == 15 {
+            i += 1;
+            continue;
+        }
+        let start = i;
+        while i < tape.len() && tape[i] != 14 && tape[i] != 15 {
+            i += 1;
+        }
+        runs.push((start, i));
+    }
+    runs.sort_by_key(|&(start, end)| (std::cmp::Reverse(end - start), start));
+    let mut mask = vec![false; tape.len()];
+    for &(start, end) in runs.iter().take(k) {
+        mask[start..end].fill(true);
+    }
+    mask
+}
+
+#[pyfunction]
+pub fn rust_chem_topk_mask(tape: Vec<u8>, k: usize) -> PyResult<Vec<bool>> {
+    if k == 0 {
+        return Err(pyo3::exceptions::PyValueError::new_err("k must be >= 1"));
+    }
+    Ok(topk_mask(&tape, k))
+}
+
+/// Decode a whole population in one boundary crossing. The input is a flat
+/// row-major byte buffer to avoid creating one Python list per tape.
+#[pyfunction]
+#[pyo3(signature = (tapes, tape_length, k, evolve_k_values=Vec::new(), evolve_k=false))]
+pub fn rust_chem_decode_topk(
+    py: Python<'_>,
+    tapes: Vec<u8>,
+    tape_length: usize,
+    k: usize,
+    evolve_k_values: Vec<usize>,
+    evolve_k: bool,
+) -> PyResult<Vec<Vec<u8>>> {
+    if tape_length == 0 || tapes.len() % tape_length != 0 {
+        return Err(pyo3::exceptions::PyValueError::new_err("invalid tape shape"));
+    }
+    if k == 0 || evolve_k_values.contains(&0) {
+        return Err(pyo3::exceptions::PyValueError::new_err("k must be >= 1"));
+    }
+    let programs = py.allow_threads(|| {
+        tapes
+            .chunks_exact(tape_length)
+            .map(|tape| {
+                let (body, row_k) = if evolve_k {
+                    let selected = if evolve_k_values.is_empty() {
+                        k
+                    } else {
+                        evolve_k_values[tape[0] as usize % evolve_k_values.len()]
+                    };
+                    (&tape[1..], selected)
+                } else {
+                    (tape, k)
+                };
+                let mask = topk_mask(body, row_k);
+                body.iter()
+                    .zip(mask)
+                    .filter_map(|(&token, keep)| keep.then_some(token))
+                    .collect()
+            })
+            .collect()
+    });
+    Ok(programs)
+}
+
 // Slot binding names — must match the Python constants in alphabet.py.
 const OP_MAP_EQ_R: &str = "MAP_EQ_R";
 const OP_MAP_IS_UPPER: &str = "MAP_IS_UPPER";

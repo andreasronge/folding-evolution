@@ -12,6 +12,8 @@ program IS the full tape. NOPs act as no-ops but not as separators
 
 from __future__ import annotations
 
+from collections import OrderedDict
+
 import numpy as np
 
 from . import engine, executor
@@ -29,6 +31,36 @@ try:
     _HAS_POP_BATCH = True
 except ImportError:
     _HAS_POP_BATCH = False
+
+try:
+    from _folding_rust import rust_chem_decode_topk as _rust_decode_topk  # type: ignore
+except ImportError:
+    _rust_decode_topk = None
+
+
+class PredictionCache:
+    """Bounded predictions for immutable tasks in one evolutionary run.
+
+    The key includes the task object and executor settings because the same
+    program can behave differently when inputs or slot bindings change.
+    Callers must not mutate a Task while reusing this cache.
+    """
+
+    def __init__(self, capacity: int = 16384) -> None:
+        self.capacity = capacity
+        self.rows: OrderedDict[tuple, np.ndarray] = OrderedDict()
+
+    def get(self, key: tuple) -> np.ndarray | None:
+        row = self.rows.get(key)
+        if row is not None:
+            self.rows.move_to_end(key)
+        return row
+
+    def put(self, key: tuple, row: np.ndarray) -> None:
+        self.rows[key] = row.copy()
+        self.rows.move_to_end(key)
+        if len(self.rows) > self.capacity:
+            self.rows.popitem(last=False)
 
 
 def _tapes_from_population(population: list[np.ndarray]) -> np.ndarray:
@@ -59,6 +91,12 @@ def _programs_for_arm(
         mask = engine.compute_longest_runnable_mask(tapes, backend=cfg.backend)
         return engine.extract_programs(tapes, mask)
     if cfg.arm == "BP_TOPK":
+        if _rust_decode_topk is not None and cfg.backend in ("numpy", "mlx"):
+            k = topk_override if topk_override is not None else cfg.topk
+            values = cfg.evolve_k_value_list() if cfg.evolve_k else []
+            return _rust_decode_topk(
+                tapes.tobytes(), tapes.shape[1], k, values, cfg.evolve_k
+            )
         if cfg.evolve_k:
             # Per-individual K from header cell 0; decode over body cells 1..L-1.
             bodies = tapes[:, 1:]
@@ -81,6 +119,7 @@ def evaluate_population(
     task: Task,
     cfg: ChemTapeConfig,
     topk_override: int | None = None,
+    prediction_cache: PredictionCache | None = None,
 ) -> tuple[np.ndarray, np.ndarray]:
     """Evaluate every tape in `population` on `task.inputs`.
 
@@ -129,7 +168,32 @@ def evaluate_population(
         return fitnesses, predictions
 
     consume = cfg.safe_pop_mode == "consume"
-    if _HAS_POP_BATCH:
+    if prediction_cache is not None and _HAS_POP_BATCH:
+        predictions = np.empty((P, E), dtype=np.int64)
+        missing: dict[tuple, list[int]] = {}
+        for p, program in enumerate(programs):
+            key = (id(task), cfg.alphabet, consume, tuple(program))
+            cached = prediction_cache.get(key)
+            if cached is not None:
+                predictions[p] = cached
+            else:
+                missing.setdefault(key, []).append(p)
+        if missing:
+            keys = list(missing)
+            flat = _rust_exec_pop_batch(
+                [list(key[-1]) for key in keys],
+                task.alphabet.slot_12, task.alphabet.slot_13,
+                task.inputs, task.input_type,
+                alphabet_name=cfg.alphabet,
+                threshold=int(task.alphabet.threshold),
+                safe_pop_consume=consume,
+            )
+            fresh = np.asarray(flat, dtype=np.int64).reshape(len(keys), E)
+            for key, row in zip(keys, fresh):
+                prediction_cache.put(key, row)
+                for p in missing[key]:
+                    predictions[p] = row
+    elif _HAS_POP_BATCH:
         s12 = task.alphabet.slot_12
         s13 = task.alphabet.slot_13
         threshold = int(task.alphabet.threshold)
