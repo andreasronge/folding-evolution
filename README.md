@@ -16,7 +16,18 @@ the repository, please contact the author or open an issue first.
 
 ## Core Question
 
-Does a developmental encoding enable qualitatively different evolutionary dynamics than direct encoding — specifically, the ability to discover and propagate rare compositional structures that direct GP cannot reach?
+**How does a developmental genotype→program map bias which programs evolution finds — and can that bias itself evolve to fit a family of tasks?**
+
+Two parts:
+
+1. **Measure the bias.** Sample random genomes, count how often each program behaviour appears, and check whether that frequency predicts what evolution actually finds ("arrival of the frequent", Schaper & Louis 2014; simplicity bias, Dingle, Camargo & Louis 2018). Folding, chem-tape, direct encoding and tree GP are all just different maps to measure.
+2. **Evolve the bias.** Let the map itself (chemistry, decoder) evolve across related tasks, and check whether its bias shifts toward that family and transfers to unseen members (Kashtan & Alon 2005; Watson & Szathmáry 2016).
+
+Earlier framing, kept for history: *"Does a developmental encoding enable qualitatively different evolutionary dynamics than direct encoding — specifically, the ability to discover and propagate rare compositional structures that direct GP cannot reach?"* It was dropped because "cannot reach" is almost never literally true (what differs is how *likely* a structure is to appear), and "folding vs direct" is a comparison the indirect-encoding literature has already mostly answered ("it depends on problem regularity").
+
+This is a hobby project: lab-notebook style, light process. Rigor catches up only when a result is surprising enough to want to grow.
+
+**First probe (2026-09-25):** `experiments/chem_tape/arrival_frequent.py` samples 50M random tapes per chem-tape decoder setup and asks whether random-tape frequency predicts the solve rates and proxy basins seen in all past chem-tape runs. Results: [docs/map-bias/notebook.md](docs/map-bias/notebook.md).
 
 ## Prior Results (Folding Track — Complete)
 
