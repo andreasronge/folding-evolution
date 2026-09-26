@@ -386,3 +386,47 @@ predicate inside one unit, before any evolution race.
 **Caveats.** Waiting-time scan every 5 generations, refined to the exact generation;
 donors come from 8 seeds per pool; "both blocks kept" is checked on a 10% sample for
 baseline (piece search is costly) and on whole domains for v3.
+
+---
+
+## 8. Plan: tagged runs — connection by binding, not position (2026-09-26)
+
+**Idea (nature-inspired, no imposed shape).** In both chemistries so far position
+decides meaning: the output is the stack top, so blocks compete for the tape end, and
+v3's linker chain order decides how values combine. Biology separates the two:
+transcription factors and protein domains connect by what they *bind*, wherever they
+sit. Tagged runs:
+- The tape is split into runs; each run has a **tag** (like a binding site) and a body
+  that runs on its own fresh stack; its output is its top int.
+- `RECV t` pushes the output of the run tagged `t` (exact match; no match → 0).
+- The organism's output is the run tagged with a fixed output tag.
+- Nothing imposes a tree or chain; chains, DAGs, shared sub-results and redundant copies
+  can all emerge from which tags match.
+
+**Fifth Fable review (corrections to my pitch).**
+- Fixes "blocks compete for the tape end" outright, but probably *not* smearing: any
+  glue between units gets used as computation (v3's lesson), and nothing pushes toward
+  closed blocks. Open-ended pressures if needed: **noisy links** (each RECV fails with a
+  small probability, so deep chains lose) and **modularly varying goals**.
+- "Inert for free" is false under closest-tag matching (a new run hijacks references):
+  use **exact matching** and a tag space much larger than the number of runs (64 values,
+  in a separate tag field).
+- "Graded rewiring" is false: nearby tags are unrelated runs. Start exact.
+- The AND jump is not one mutation: a ~6-token combining run is still needed. What tags
+  buy is that it can be built silently and switched on by one retag, but it needs
+  lexicase partial credit to be built at all.
+- Use a longer tape (64) with deletion, crossover that aligns runs by tag (swap bodies of
+  same-tagged runs — homologous recombination), no positional tie-breaking, a RECV depth
+  cap, and log RECV frameshifts separately.
+
+**First experiment (merge-test style).** Evolve exact `max>5` and `sum>10` donors under
+tagged runs, then measure:
+1. **Smear:** knock out each non-output run; count runs whose removal changes the output.
+2. **Inertness:** transplant every run of donor B into donor A; fraction of children
+   exactly unchanged, fraction crashing.
+3. **Paths to AND:** 1- and 2-mutation neighbourhoods of transplanted children; count exact
+   AND and partly built combiners.
+
+**Kill** if donors typically need ≥ 3 load-bearing runs, or < 80% of transplants are
+inert (v3 repeated). **Confirm** if predicates sit in 1–2 runs, ≥ 90% of transplants are
+inert, and a 2-step path to AND exists (baseline: 0 in 38,750).
