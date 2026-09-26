@@ -96,12 +96,28 @@ def main() -> int:
 
     t0 = time.time()
     results: list[dict] = []
+    index_path = output_root / "sweep_index.json"
+
+    def write_index() -> None:
+        """Merge results into sweep_index.json. Called after every finished run
+        so a sweep cut short (timeout, crash) still leaves a usable index."""
+        existing: list[dict] = []
+        if index_path.exists():
+            existing = json.loads(index_path.read_text())
+        by_hash = {e["hash"]: e for e in existing}
+        for r in results:
+            by_hash[r["hash"]] = r
+        tmp = index_path.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(sorted(by_hash.values(), key=lambda x: x["hash"]), indent=2))
+        tmp.replace(index_path)
+
     if args.workers > 1 and to_run:
         payloads = [(asdict(c), str(output_root)) for c in to_run]
         with mp.get_context("spawn").Pool(args.workers) as pool:
             for r in pool.imap_unordered(_worker, payloads):
-                print(f"  done: {r['config_hash']} best={r['best_fitness']:.3f}")
+                print(f"  done: {r['config_hash']} best={r['best_fitness']:.3f}", flush=True)
                 results.append(r)
+                write_index()
     else:
         sys.path.insert(0, str(Path(__file__).resolve().parent))
         from run import execute  # type: ignore
@@ -115,20 +131,18 @@ def main() -> int:
                 f"elapsed={summary['elapsed_sec']:.1f}s"
             )
             results.append({"hash": cfg.hash(), "run_dir": str(rd), **summary})
+            write_index()
 
     elapsed = time.time() - t0
     print(f"Sweep done: {len(results)} new run(s) in {elapsed:.1f}s")
 
-    index_path = output_root / "sweep_index.json"
-    existing: list[dict] = []
-    if index_path.exists():
-        existing = json.loads(index_path.read_text())
-    by_hash = {e["hash"]: e for e in existing}
-    for r in results:
-        by_hash[r["hash"]] = r
-    index_path.write_text(
-        json.dumps(sorted(by_hash.values(), key=lambda x: x["hash"]), indent=2)
-    )
+    write_index()
+    # Completion marker: written only when every config in the sweep has a
+    # result, so a queue entry can require it (`expect_outputs`) and a sweep cut
+    # short is never mistaken for a finished one. Re-running the same command
+    # resumes (configs with a result.json are skipped).
+    if all((output_root / c.hash() / "result.json").exists() for c in configs):
+        (output_root / "SWEEP_COMPLETE").write_text(f"{len(configs)} configs\n")
     return 0
 
 

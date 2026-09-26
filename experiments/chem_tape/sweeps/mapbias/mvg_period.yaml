@@ -1,0 +1,23 @@
+sweep_name: mvg_period
+# Map-bias notebook §11, deferred (not in tonight's queue): MVG sensitivity,
+# switch period 5 and 50.
+base:
+  task: mbs_max_gt_5
+  task_alternating_values: mbs_max_gt_5,mbs_sum_gt_10,mbs_and
+  reselect_on_flip: true
+  generations: 3000
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  elite_count: 2
+  crossover_rate: 0.7
+  selection_mode: lexicase
+  backend: numpy
+  log_every: 50
+  track_lineage: true
+paired:
+  - {arm: BP_TOPK, alphabet: v2_probe, topk: 3, bond_protection_ratio: 0.5, tape_length: 32, mutation_rate: 0.03}
+  - {arm: TAG, alphabet: tagged, tape_length: 64, mutation_rate: 0.015, run_duplication_rate: 0.1}
+grid:
+  task_alternating_period: [5, 50]
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]

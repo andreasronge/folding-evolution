@@ -105,3 +105,111 @@ def test_tagged_evolution_runs_and_is_deterministic():
     r1, r2 = run_evolution(cfg), run_evolution(cfg)
     assert r1.best_genotype.tobytes() == r2.best_genotype.tobytes()
     assert len(r1.best_genotype) == 128
+
+
+def test_duplicate_run_copies_body_under_a_fresh_tag_and_stays_inert():
+    task = _task(ALL, AND)
+    g = genome([(5, [1, 18, 16, 8]), (7, [1, 5, 16, 16, 7, 8]), (0, [2, (RECV, 5), (RECV, 7), 17])], L=40)
+    rng = random.Random(3)
+    for _ in range(20):
+        d = tagged.duplicate_run(g, rng, same_tag=False)
+        runs, before = tagged.parse_runs(d), tagged.parse_runs(g)
+        assert len(d) == len(g) and len(runs) == len(before) + 1
+        new = [r for r in runs if r[0] not in {t for t, _ in before}]
+        strip = tagged._strip_trailing_nops
+        assert len(new) == 1 and strip(new[0][1]) in [strip(b) for _, b in before]
+        assert (outputs(d, task) == AND).all()      # the copy is unreferenced, so inert
+
+
+def test_zero_duplication_rate_draws_no_extra_randomness():
+    g = tagged.random_genotype(64, random.Random(0))
+    a = tagged.mutate(g, 0.02, random.Random(9))
+    b = tagged.mutate(g, 0.02, random.Random(9), dup_rate=0.0)
+    assert a.tobytes() == b.tobytes()
+
+
+def test_xor_task_labels():
+    t = build_task(ChemTapeConfig(task="sum_gt_10_XOR_max_gt_5", alphabet="v2_probe"), 0)
+    for x, y in zip(t.inputs, t.labels):
+        assert y == int((sum(x) > 10) != (max(x) > 5))
+
+
+def test_same_tag_duplicate_is_neutral():
+    task = _task(ALL, AND)
+    g = genome([(5, [1, 18, 16, 8]), (7, [1, 5, 16, 16, 7, 8]), (0, [2, (RECV, 5), (RECV, 7), 17])], L=40)
+    rng = random.Random(4)
+    for _ in range(20):
+        d = tagged.duplicate_run(g, rng, same_tag=True)
+        assert len(tagged.parse_runs(d)) == 4
+        assert (outputs(d, task) == AND).all()      # max(A, A) = A
+
+
+def test_duplication_never_truncates_existing_runs_on_a_full_tape():
+    task = _task(ALL, AND)
+    # Exactly full, no padding: no copy fits, so nothing may be cut off.
+    g = genome([(5, [1, 18, 16, 8]), (7, [1, 5, 16, 16, 7, 8]), (0, [2, (RECV, 5), (RECV, 7), 17])])
+    rng = random.Random(0)
+    strip = tagged._strip_trailing_nops
+    before = {(t, strip(b)) for t, b in tagged.parse_runs(g)}
+    for _ in range(50):
+        d = tagged.duplicate_run(g, rng)
+        assert (outputs(d, task) == AND).all()
+        assert before <= {(t, strip(b)) for t, b in tagged.parse_runs(d)}   # every original run survives
+
+
+def test_fresh_tag_avoids_tags_read_by_a_dangling_recv():
+    task = _task(ALL, AND)
+    # RECV 9 reads a missing tag (constant 0); a "fresh" copy must never take tag 9.
+    g = genome([(0, [(RECV, 9), 3, 7]), (4, [2])], L=40)
+    base = outputs(g, task)
+    rng = random.Random(1)
+    for _ in range(200):
+        d = tagged.duplicate_run(g, rng, same_tag=False)
+        assert 9 not in {t for t, _ in tagged.parse_runs(d)}
+        assert (outputs(d, task) == base).all()
+
+
+def test_same_tag_copy_of_a_self_dependent_run_is_skipped():
+    task = _task(ALL, AND)
+    g = genome([(0, [(RECV, 0), 3, 7])], L=30)    # reads its own tag
+    base = outputs(g, task)
+    rng = random.Random(2)
+    for _ in range(50):
+        d = tagged.duplicate_run(g, rng, same_tag=True)
+        assert (outputs(d, task) == base).all()
+
+
+def test_every_duplication_is_neutral_on_random_genomes():
+    """Silent (fresh-tag) and redundant (same-tag, non-recursive) copies must
+    never change the organism's output."""
+    task = _task()
+    rng = random.Random(5)
+    for _ in range(300):
+        g = tagged.random_genotype(64, rng)
+        d = tagged.duplicate_run(g, rng)
+        assert (outputs(d, task) == outputs(g, task)).all()
+
+
+def test_stratified_tasks_share_inputs_and_cover_all_four_cells():
+    cfg = ChemTapeConfig(task="mbs_or", alphabet="v2_probe", n_examples=64, holdout_size=256)
+    ts = {n: build_task(replace(cfg, task=n), 7) for n in ("mbs_max_gt_5", "mbs_sum_gt_10", "mbs_and", "mbs_or")}
+    first = ts["mbs_or"]
+    for t in ts.values():
+        assert t.inputs == first.inputs and t.holdout_inputs == first.holdout_inputs
+    cells = {((max(x) > 5), (sum(x) > 10)) for x in first.inputs}
+    assert len(cells) == 4 and len(first.inputs) == 64 and len(first.holdout_inputs) == 256
+    assert not set(first.inputs) & set(first.holdout_inputs)
+    for x, y in zip(first.inputs, ts["mbs_and"].labels):
+        assert y == int(max(x) > 5 and sum(x) > 10)
+
+
+def test_reselect_on_flip_records_new_task_start_and_selects_on_it():
+    base = ChemTapeConfig(task="mbs_max_gt_5", arm="TAG", alphabet="tagged", tape_length=64, pop_size=64,
+                          generations=12, mutation_rate=0.015, selection_mode="lexicase", backend="numpy",
+                          holdout_size=0, seed=1, task_alternating_period=4,
+                          task_alternating_values="mbs_max_gt_5,mbs_sum_gt_10,mbs_and")
+    old = run_evolution(base)
+    new = run_evolution(replace(base, reselect_on_flip=True))
+    assert all("at_flip_best_new_task" not in e for e in old.flip_events)
+    assert all("at_flip_best_new_task" in e for e in new.flip_events) and len(new.flip_events) == 3  # gens 4, 8, 12
+    assert base.hash() != replace(base, reselect_on_flip=True).hash()

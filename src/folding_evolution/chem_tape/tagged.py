@@ -222,9 +222,82 @@ def random_genotype(L: int, rng: random.Random) -> np.ndarray:
     return join([rng.randrange(N_OPS) for _ in range(L)], [rng.randrange(N_TAGS) for _ in range(L)])
 
 
-def mutate(g: np.ndarray, mu: float, rng: random.Random) -> np.ndarray:
+def _depends_on_itself(k: int, runs) -> bool:
+    """Does run k read (through RECV, transitively) a tag that run k carries?"""
+    own = runs[k][0]
+    by_tag: dict[int, list[int]] = {}
+    for i, (tag, _) in enumerate(runs):
+        by_tag.setdefault(tag, []).append(i)
+    todo = [tg for op, tg in runs[k][1] if op == RECV]
+    seen: set[int] = set()
+    while todo:
+        t = todo.pop()
+        if t == own:
+            return True
+        if t in seen:
+            continue
+        seen.add(t)
+        for i in by_tag.get(t, []):
+            todo += [tg for op, tg in runs[i][1] if op == RECV]
+    return False
+
+
+def duplicate_run(g: np.ndarray, rng: random.Random, same_tag: bool | None = None) -> np.ndarray:
+    """Gene duplication: copy one run and insert the copy at a random run
+    boundary; length kept at L.
+
+    - same tag: an expressed, redundant copy. Same-tag runs combine by max, so
+      max(A, A) = A — but only when the run does not read its own tag; for a
+      self-dependent run the copy is skipped.
+    - fresh tag: a silent copy. The tag must be unused by every run AND unread
+      by every RECV (a RECV of a missing tag reads 0; giving the copy that tag
+      would wire it in).
+    Existing runs are never truncated: trailing NOPs (which never affect a
+    run's output) are dropped first, and if the copy still does not fit the
+    genome is returned unchanged. `same_tag=None` picks either with
+    probability 1/2. Every branch draws the same RNG calls before deciding."""
+    runs = parse_runs(g)
+    if same_tag is None:
+        same_tag = rng.random() < 0.5
+    if not runs:
+        return g
+    k = rng.randrange(len(runs))
+    at = rng.randint(0, len(runs))
+    tag, body = runs[k]
+    if same_tag:
+        if _depends_on_itself(k, runs):
+            return g
+        new_tag = tag
+    else:
+        ops, tags = split(g)
+        taken = {t for t, _ in runs} | {int(t) for o, t in zip(ops, tags) if o == RECV}
+        free = [t for t in range(N_TAGS) if t not in taken]
+        if not free:
+            return g
+        new_tag = rng.choice(free)
+    L, lead = len(g) // 2, leader_cells(g)
+    new = runs[:at] + [(new_tag, _strip_trailing_nops(body))] + runs[at:]
+    if len(lead) + sum(1 + len(b) for _, b in new) > L:
+        new = [(t, _strip_trailing_nops(b)) for t, b in new]
+        if len(lead) + sum(1 + len(b) for _, b in new) > L:
+            return g
+    return build(lead, new, L, rng)
+
+
+def _strip_trailing_nops(body):
+    body = list(body)
+    while body and body[-1][0] == 0:
+        body.pop()
+    return tuple(body)
+
+
+def mutate(g: np.ndarray, mu: float, rng: random.Random, dup_rate: float = 0.0) -> np.ndarray:
     """Point mutation of ops and tags (rate mu each), plus insertion and
-    deletion of whole cells (rate mu/2 each per cell); length kept at L."""
+    deletion of whole cells (rate mu/2 each per cell); length kept at L.
+    `dup_rate` > 0 adds gene duplication (duplicate_run) with that probability;
+    at 0 no extra RNG is drawn, so earlier runs reproduce."""
+    if dup_rate > 0 and rng.random() < dup_rate:
+        g = duplicate_run(g, rng)
     ops, tags = split(g)
     L = len(ops)
     cells = []

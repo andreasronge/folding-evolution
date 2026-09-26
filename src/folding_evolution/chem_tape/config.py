@@ -168,6 +168,18 @@ class ChemTapeConfig:
     # prior sweep reproducible.
     alphabet_separators: bool = False
 
+    # Map-bias notebook §11: tagged runs only. Per child, probability of gene
+    # duplication: copy one run, keep its tag (expressed redundant copy) or give
+    # it a fresh tag (silent), 50/50, and insert it at a random run boundary.
+    # 0.0 keeps prior TAG runs reproducible.
+    run_duplication_rate: float = 0.0
+
+    # Map-bias notebook §11: with a task-alternating schedule, re-score the
+    # population on the new task at each flip before reproducing, so selection
+    # never acts on the old task's results. False keeps prior sweeps
+    # reproducible (they selected once more on the old task).
+    reselect_on_flip: bool = False
+
     # §v2.5-plasticity-1a: runtime-plasticity (Baldwin-effect) probe fields.
     # Rank-1 operator-threshold plasticity: GT operations in the decoded
     # program acquire a learnable scalar modifier δ shared across all GT
@@ -251,6 +263,10 @@ class ChemTapeConfig:
             d.pop("track_lineage", None)
         if not self.alphabet_separators:
             d.pop("alphabet_separators", None)
+        if self.run_duplication_rate == 0.0:
+            d.pop("run_duplication_rate", None)
+        if not self.reselect_on_flip:
+            d.pop("reselect_on_flip", None)
         # §v2.5-plasticity-1a: all plasticity fields excluded at defaults so
         # existing sweep hashes remain addressable. When plasticity_enabled
         # is False the fast-path is byte-identical to pre-5c Arm A.

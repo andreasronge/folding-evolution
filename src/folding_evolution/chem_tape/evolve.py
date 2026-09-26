@@ -277,7 +277,7 @@ def mutate(
     K under the §10 K-alternating schedule."""
     if cfg.arm == "TAG":
         from . import tagged
-        return tagged.mutate(tape, cfg.mutation_rate, rng)
+        return tagged.mutate(tape, cfg.mutation_rate, rng, dup_rate=cfg.run_duplication_rate)
     out = tape.copy()
     L = out.shape[0]
     hi = _token_max(cfg)
@@ -673,6 +673,17 @@ def _run_evolution_panmictic(
                 "old_task": last_task, "new_task": current_task_name,
                 "pre_flip_best": float(stats.history[-1].best_fitness),
             }
+            if cfg.reselect_on_flip:
+                # Map-bias notebook §11: re-score the pre-flip population on
+                # the new goal so this generation's selection and elitism use
+                # the new goal, and record where the new goal starts from.
+                fitnesses, preds = evaluate_population(
+                    population, current_task_obj, cfg, topk_override=current_k,
+                    prediction_cache=prediction_cache,
+                )
+                cases = preds == current_task_obj.labels[None, :]
+                pending_pre_flip["at_flip_best_new_task"] = float(fitnesses.max())
+                pending_pre_flip["at_flip_mean_new_task"] = float(fitnesses.mean())
 
         # Reproduce under current K.
         gen_lineage: list | None = [] if cfg.track_lineage else None

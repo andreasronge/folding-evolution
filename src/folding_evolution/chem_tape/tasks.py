@@ -424,6 +424,8 @@ def _compositional_label(xs: tuple[int, ...], op: str) -> int:
     m_pred = 1 if max(xs, default=0) > 5 else 0
     if op == "AND":
         return 1 if (s_pred and m_pred) else 0
+    if op == "XOR":  # map-bias notebook §11: least linear two-predicate task
+        return 1 if (s_pred != m_pred) else 0
     return 1 if (s_pred or m_pred) else 0
 
 
@@ -482,9 +484,58 @@ def _make_plain_predicate_task(label_fn, task_name: str):
     return _make
 
 
+_ALL_LISTS_0_9 = None
+
+
+def _stratified_inputs(seed: int, n_train: int, n_holdout: int) -> tuple[list, list]:
+    """Map-bias notebook §11: training and (disjoint) holdout inputs drawn in
+    equal shares from the four cells of (max>5, sum>10), from all 10,000
+    length-4 lists over [0, 9]. Depends only on the seed, so every `mbs_*`
+    task with the same seed sees the same inputs — only the labels differ."""
+    global _ALL_LISTS_0_9
+    if _ALL_LISTS_0_9 is None:
+        import itertools
+        _ALL_LISTS_0_9 = [tuple(x) for x in itertools.product(range(10), repeat=4)]
+    cells = [[x for x in _ALL_LISTS_0_9 if (max(x) > 5) == m and (sum(x) > 10) == t]
+             for m in (False, True) for t in (False, True)]
+    rng = np.random.default_rng(seed)
+    train, hold = [], []
+    for cell in cells:
+        pick = rng.permutation(len(cell))
+        a, b = n_train // 4, n_holdout // 4
+        train += [cell[i] for i in pick[:a]]
+        hold += [cell[i] for i in pick[a:a + b]]
+    train = [train[i] for i in rng.permutation(len(train))]
+    hold = [hold[i] for i in rng.permutation(len(hold))]
+    return train, hold
+
+
+def _make_stratified_task(label_fn, task_name: str):
+    def _make(cfg: ChemTapeConfig, seed: int) -> Task:
+        train, hold = _stratified_inputs(seed, cfg.n_examples, cfg.holdout_size)
+        return Task(
+            name=task_name,
+            input_type="intlist",
+            inputs=train,
+            labels=np.array([label_fn(x) for x in train], dtype=np.int64),
+            alphabet=alph.TaskAlphabet(slot_12=alph.OP_NOP, slot_13=alph.OP_NOP),
+            label_fn=label_fn,
+            holdout_inputs=hold or None,
+            holdout_labels=np.array([label_fn(x) for x in hold], dtype=np.int64) if hold else None,
+        )
+
+    return _make
+
+
+make_mbs_max_task = _make_stratified_task(lambda xs: int(max(xs) > 5), "mbs_max_gt_5")
+make_mbs_sum_task = _make_stratified_task(lambda xs: int(sum(xs) > 10), "mbs_sum_gt_10")
+make_mbs_and_task = _make_stratified_task(lambda xs: int(max(xs) > 5 and sum(xs) > 10), "mbs_and")
+make_mbs_or_task = _make_stratified_task(lambda xs: int(max(xs) > 5 or sum(xs) > 10), "mbs_or")
+
 make_mb_max_gt_5_task = _make_plain_predicate_task(lambda xs: int(max(xs) > 5), "mb_max_gt_5")
 make_mb_sum_gt_10_task = _make_plain_predicate_task(lambda xs: int(sum(xs) > 10), "mb_sum_gt_10")
 make_sum_gt_10_OR_max_gt_5_task = _make_compositional_task("OR", "sum_gt_10_OR_max_gt_5")
+make_sum_gt_10_XOR_max_gt_5_task = _make_compositional_task("XOR", "sum_gt_10_XOR_max_gt_5")
 
 
 # §v2.4-alt: body-matched compositional AND pair. Both tasks use the identical
@@ -1030,8 +1081,13 @@ TASK_REGISTRY = {
     "sum_gt_10_slot": make_sum_gt_10_slot_task,
     "sum_gt_10_AND_max_gt_5": make_sum_gt_10_AND_max_gt_5_task,
     "mb_max_gt_5": make_mb_max_gt_5_task,
+    "mbs_max_gt_5": make_mbs_max_task,
+    "mbs_sum_gt_10": make_mbs_sum_task,
+    "mbs_and": make_mbs_and_task,
+    "mbs_or": make_mbs_or_task,
     "mb_sum_gt_10": make_mb_sum_gt_10_task,
     "sum_gt_10_OR_max_gt_5": make_sum_gt_10_OR_max_gt_5_task,
+    "sum_gt_10_XOR_max_gt_5": make_sum_gt_10_XOR_max_gt_5_task,
     "agg_sum_gt_10": make_agg_sum_gt_10_task,
     "agg_max_gt_5": make_agg_max_gt_5_task,
     # §v2.4-alt: body-matched compositional pair (shared IF_GT+CONST_0 body).
