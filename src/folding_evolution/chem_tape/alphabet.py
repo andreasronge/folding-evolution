@@ -79,10 +79,12 @@ MIN = 22
 N_TOKENS_V1 = 16
 N_TOKENS_V2 = 22
 N_TOKENS_V2_SPLIT = 24
-# v3_domains (chem_tape/domains.py) uses linker ids up to 25; lookup masks are
-# sized to cover it so indexing stays in-bounds. Ids 24, 25 are inactive /
-# non-separator in every v1/v2 mask.
-N_TOKENS_V3 = 26
+# Lookup masks are sized to cover every value a genome byte can hold: v3_domains
+# (chem_tape/domains.py) uses linker ids up to 25, and tagged-run genomes
+# (chem_tape/tagged.py) hold tag values up to 63 (the per-generation stats
+# index masks with raw genome bytes). Ids >= 24 are inactive / non-separator
+# in every v1/v2 mask.
+N_TOKENS_V3 = 64
 # Legacy alias — existing v1 code paths (engine_numpy, engine_mlx) import
 # N_TOKENS; keep it pointing at the widest mask so lookup-table indexing stays
 # in-bounds when a v2_split token appears on a tape.

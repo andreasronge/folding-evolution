@@ -139,6 +139,9 @@ def evaluate_population(
     if cfg.arm == "V3":
         from .domains import evaluate_v3
         return evaluate_v3(population, task, cfg.safe_pop_mode == "consume")
+    if cfg.arm == "TAG":
+        from .tagged import evaluate_tagged
+        return evaluate_tagged(population, task)
 
     P = len(population)
     E = len(task.inputs)
@@ -240,6 +243,11 @@ def evaluate_on_inputs(
 ) -> float:
     """Score a single genotype on an arbitrary input set (used for holdout).
     `topk_override` (§10): decode under this K instead of `cfg.topk`."""
+    if cfg.arm == "TAG":
+        from dataclasses import replace
+        from .tagged import evaluate_tagged
+        holdout = replace(task, inputs=list(inputs), labels=np.asarray(labels))
+        return float(evaluate_tagged([genotype], holdout)[0][0])
     if cfg.arm == "V3":
         from dataclasses import replace
         from .domains import evaluate_v3

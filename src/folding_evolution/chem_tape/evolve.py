@@ -152,7 +152,11 @@ def _token_max(cfg: ChemTapeConfig) -> int:
 
 def random_genotype(cfg: ChemTapeConfig, rng: random.Random) -> np.ndarray:
     """Uniform {0..token_max} per cell (spec §Layer 7). Token range depends
-    on `cfg.alphabet`: v1 → 0..15 (unchanged), v2_probe → 0..21."""
+    on `cfg.alphabet`: v1 → 0..15 (unchanged), v2_probe → 0..21.
+    arm "TAG" (tagged runs): 2·tape_length values, ops then tags."""
+    if cfg.arm == "TAG":
+        from . import tagged
+        return tagged.random_genotype(cfg.tape_length, rng)
     hi = _token_max(cfg)
     return np.array(
         [rng.randint(0, hi) for _ in range(cfg.tape_length)],
@@ -271,6 +275,9 @@ def mutate(
     mutate at full `mutation_rate`. The mask is computed on the child tape
     (post-crossover, pre-mutation). `topk_override` supplies the per-generation
     K under the §10 K-alternating schedule."""
+    if cfg.arm == "TAG":
+        from . import tagged
+        return tagged.mutate(tape, cfg.mutation_rate, rng)
     out = tape.copy()
     L = out.shape[0]
     hi = _token_max(cfg)
@@ -317,7 +324,10 @@ def mutate(
 def crossover(
     a: np.ndarray, b: np.ndarray, cfg: ChemTapeConfig, rng: random.Random
 ) -> np.ndarray:
-    """Single-point splice along the tape."""
+    """Single-point splice along the tape (tagged runs: see tagged.crossover)."""
+    if cfg.arm == "TAG":
+        from . import tagged
+        return tagged.crossover(a, b, rng)
     L = a.shape[0]
     cut = rng.randint(1, L - 1) if L > 1 else 0
     child = np.empty_like(a)

@@ -430,3 +430,48 @@ tagged runs, then measure:
 **Kill** if donors typically need ≥ 3 load-bearing runs, or < 80% of transplants are
 inert (v3 repeated). **Confirm** if predicates sit in 1–2 runs, ≥ 90% of transplants are
 inert, and a 2-step path to AND exists (baseline: 0 in 38,750).
+
+---
+
+## 9. Tagged runs: first results (2026-09-26)
+
+**Setup.** `src/folding_evolution/chem_tape/tagged.py` (arm `TAG`, alphabet `tagged`):
+genome = 64 cells, each an op (the 20 v2 ops, `SEP`, `RECV`) plus a separate 64-value
+tag field. `SEP` starts a run with that tag; `RECV t` pushes the output of the run(s)
+tagged exactly `t` (none → 0; several → max); output = tag 0; cycle guard and depth cap 8;
+cells before the first `SEP` are inert. Vectorised interpreter, checked against the Python
+executor on 600 random programs (`tests/test_chem_tape_tagged.py`). Variation: point
+mutation of ops and tags, cell insertion/deletion (rate 0.015), crossover that either swaps
+bodies of same-tagged runs or cuts between runs. Donors: lexicase, pop 1024 × 400 gens,
+8 seeds per predicate (exact `max>5` in 7/8 seeds, exact `sum>10` in 4/8); 20 exact donors
+each, round-robin across seeds. Script: `experiments/chem_tape/tag_merge_test.py`.
+
+**Results.**
+
+1. **Blocks stay closed.** Load-bearing runs per donor (removal changes the output):
+   median 1 for both predicates (`max>5`: 11 donors with 1, 9 with 0 — the 0s have
+   redundant copies under the same tag, so no single knockout matters; `sum>10`: all 20
+   with 1). Kill threshold was ≥ 3. So far each predicate lives inside one run — the
+   output run itself (Fable's "everything in the output run" attractor), but a closed
+   unit either way.
+2. **Transplants are inert.** 940 transplants of a non-output run: **100% inert, 0%
+   crash** (kill threshold < 80%). Transplanting B's *output* run is not inert (19% inert,
+   81% crash), as expected: two tag-0 runs combine by max, i.e. an OR.
+   Compare §7: baseline single-point 26% crash and 0 blocks kept; v3 30–46% crash.
+3. **No short path to AND.** 40 silent module imports (B's runs added with its output run
+   retagged to an unused tag): the import itself is inert 40/40. Exhaustive 1-mutation
+   neighbourhoods (324,576 mutants) and 120,000 sampled 2-mutation neighbours: **0 exact
+   AND, 0 better than both parents**. A mutation that wires the imported module into the
+   output path occurs (361 and 309 cases, ~0.1–0.3%), but wiring alone doesn't compute AND.
+   Caveat: these neighbourhoods use point mutations over existing cells only; the minimal
+   combiner (e.g. `RECV f ADD CONST_1 GT` appended to the output run, or a 6-token
+   `CONST_0 RECV a RECV b IF_GT` run) needs 3–6 *new* cells, so 0 was expected — this
+   measures the combiner's cost, not the chemistry.
+
+**Take.** Tagged runs are the first chemistry where evolved blocks are closed units and
+recombination can move one without damage — both kill criteria pass, and the silent
+insertion is real, not designed in. What's left is the combiner: joining two blocks costs
+several new tokens with nothing rewarding the intermediate steps. Next: an evolution race
+on the AND task under lexicase (tagged runs vs baseline), measuring solve rate and time
+from "both blocks in one genome" to solve — does a chemistry where blocks can sit side by
+side safely shorten the arrangement wait of 137–700 generations (§7a)?
