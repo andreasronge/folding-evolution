@@ -102,7 +102,7 @@ Suggested by a Fable review of the v3 design.
 - baseline: current chem decoder (BP_TOPK k=3), tournament.
 - min: same + a `MIN` token (id 22, alphabet `v2_min`).
 - lexicase: same as baseline, lexicase selection over the 64 training cases.
-  **Not standard lexicase** — see "Review and corrections" below.
+  This *is* standard lexicase — an earlier note here said otherwise; see §5.
 - v3: `chem_tape/domains.py`. Linker tokens split the tape into domains; each domain
   runs on its own stack; linkers are SILENT / ADD / GT / MIN / MAX / GATE; a silent
   linker skips only its own domain.
@@ -136,10 +136,11 @@ block alive. Next obvious cell: v3 + lexicase — does the silent route appear o
 `sum>10` block has a reason to exist?
 
 **Review and corrections (second Fable review, same day).**
-- **The lexicase variant adds niching.** `_lexicase_select` picks a surviving *behaviour
-  group* uniformly, then a member. Standard lexicase picks a surviving *individual*
-  uniformly. So a group of 1 got the same parent share as a group of 800. The 14/30 is
-  "lexicase + behaviour-level niching"; how much of it is lexicase alone is unknown.
+- ~~**The lexicase variant adds niching.**~~ **Retracted in §5.** The claim was that picking
+  a surviving behaviour group uniformly (rather than weighting by size) adds niching. It
+  can't: groups are built from complete case rows, so exactly one group ever survives
+  the filter and the weighting never applies. Standard and group variants gave identical
+  runs on all 30 seeds. The 14/30 is plain lexicase.
 - **This task has an arithmetic shortcut, so it may not need a jump at all.** Both
   predicates are monotone, so their AND is nearly linearly separable: `sum + 10·max > 70`
   scores 98.6% on all 10,000 length-4 lists (95.3% on the seed-0 training set). 13 of 14
@@ -166,10 +167,9 @@ block alive. Next obvious cell: v3 + lexicase — does the silent route appear o
 Entry 3 showed that the AND task can probably be solved by a smooth arithmetic walk, so it
 cannot tell whether a chemistry helps evolution *jump*. The plan, in order:
 
-1. **Fix lexicase to the standard version** (uniform over surviving individuals). Re-run the
-   30 seeds with both variants, standard and niching, to see what the niching contributed.
-   About 10 min of compute.
-2. **Parent tracking + lineage labels.** Record each child's parents and how it was made
+1. ~~**Fix lexicase to the standard version.**~~ **Done (§5): nothing to fix** — the old
+   code already was standard lexicase in practice.
+2. **Parent tracking + lineage labels.** **Done (§5).** Record each child's parents and how it was made
    (crossover / mutation). Tracking uses no random numbers, so re-running the solved seeds
    reproduces them exactly. Label every fitness-raising step on the path to each solver, and
    for crossover steps record child fitness against both parents and whether both parents'
@@ -178,8 +178,8 @@ cannot tell whether a chemistry helps evolution *jump*. The plan, in order:
    - Mutation-only arithmetic walks → retire this task for jump questions.
    - Crossover steps that merge two parents' blocks with only a small drop → keep it; v3 vs
      baseline under lexicase is then a fair comparison.
-3. **Fix the separator bug** (decoders use v1 masks under v2 alphabets). New testbeds don't
-   need comparability with the old runs.
+3. **Fix the separator bug** (decoders use v1 masks under v2 alphabets). **Done (§5) as
+   opt-in `alphabet_separators: true`**, so old sweep configs still reproduce.
 4. **Testbeds with no arithmetic shortcut**, scored on all 10,000 lists so an approximate
    threshold can't pass:
    - `(max>5) XOR (sum>10)`.
@@ -196,3 +196,49 @@ cannot tell whether a chemistry helps evolution *jump*. The plan, in order:
 
 Skipped on purpose: MAP-Elites over case-pass vectors (the descriptor would smuggle in the
 task's decomposition) and epsilon/down-sampled lexicase (evaluation is not the bottleneck).
+
+---
+
+## 5. Steps 1-3: lexicase check, solver lineages, separator fix (2026-09-26)
+
+**What would be interesting to see:** whether the 14 lexicase solvers got there by
+recombining blocks (a jump) or by a smooth mutation walk, and whether they compute AND
+at all.
+
+**Setup.** `experiments/chem_tape/sweeps/mapbias/lexicase_lineage.yaml`, 30 seeds each of
+`lexicase_group`, `lexicase`, and `lexicase` + `alphabet_separators`, otherwise as §3.
+New config flags: `track_lineage` saves the final best genome's ancestry to `lineage.npz`
+(main line = the fitter parent at each crossover; no RNG, so runs are unchanged);
+`alphabet_separators` makes the BP/BP_TOPK decoders (NumPy, MLX, Rust) split on 20/21
+under v2. Analysis: `experiments/chem_tape/analyze_lineage.py`. About 17 min on 10 cores.
+Also includes the Rust top-K decode speed-up from another session (commit `35a5433`).
+
+**Results.**
+
+1. **The two lexicase variants are the same algorithm.** Identical runs on 30/30 seeds (see
+   the retraction in §3). 14/30 solved, same seeds as §3.
+2. **Only 6 of the 14 "solvers" compute AND.** Scored on all 10,000 length-4 lists, 6 are
+   exact (1.000); the other 8 are approximations that happen to fit the 64 training cases
+   (0.918–0.9965; median of all 14 is 0.9915). The 256-case holdout doesn't catch most of
+   them.
+3. **Innovations come from crossover roughly in proportion to its use.** Along the 14
+   solver main lines there were 95 innovations (child beats both parents): 76 by
+   crossover (80%), 19 by mutation. Crossover makes 69% of main-line steps, so that is a
+   modest excess (~2 SD). Big jumps (≥ 0.05): 24 of 33 by crossover (73%). The final step
+   to 1.0 was a crossover in 10 of 14 runs.
+4. **My "merges both parents" measure doesn't discriminate.** 52/76 innovating crossovers
+   put executed material from each parent into the child — but 70% of *all* main-line
+   crossovers do too. A better measure is needed to say whether a step combined two
+   functional blocks.
+5. **Fable's prediction was half right.** The task has an arithmetic shortcut (§3) and most
+   solvers use one, but the lineages are not mutation-only walks: crossover drives most
+   innovations.
+6. **Separator fix: 7/30 solved** (3 exact AND) vs 14/30 without it. Suggestive (p ≈ 0.1),
+   not conclusive. Enabling `MAP_EQ_E`/`CONST_2` and the real separators changes the
+   landscape; why it's harder is unexplored.
+
+**Take.** On this task "solved" mostly means "fits 64 cases", and crossover is the main
+innovator mainly because it's the main operator. Two changes before comparing chemistries
+(plan step 4): score fitness on all 10,000 lists so approximations can't pass, and build
+a functional "did this crossover combine two blocks" measure — e.g. does the child's
+behaviour match an AND of the parents' behaviours on the cases where they differ.

@@ -33,8 +33,8 @@ NAMES.update({12: "SLOT12", 13: "SLOT13", 20: "|", 21: "|"})
 def setup_name(c: dict) -> str:
     if c["arm"] == "V3":
         return "v3"
-    if c.get("selection_mode") == "lexicase":
-        return "lexicase"
+    if c.get("selection_mode") in ("lexicase", "lexicase_group"):
+        return "lexicase"  # and_jump ran the group variant under the old name
     return "min" if c["alphabet"] == "v2_min" else "baseline"
 
 
@@ -73,7 +73,7 @@ def trace_v3(run_dir: Path, cfg: ChemTapeConfig) -> dict:
     silent_since = None
     for g in range(solve_gen - 1, -1, -1):
         roles = domain_roles(genomes[g], task)
-        if any(l == LINKER_NAMES[SILENT] and r in ("sum>10", "max>5") for l, r in roles):
+        if any(lk == LINKER_NAMES[SILENT] and r in ("sum>10", "max>5") for lk, r in roles):
             silent_since = g
         else:
             break
@@ -81,6 +81,10 @@ def trace_v3(run_dir: Path, cfg: ChemTapeConfig) -> dict:
             "silent_block_gens_before_jump": None if silent_since is None else solve_gen - silent_since,
             "pre_jump_fitness": fits[solve_gen - 1] if solve_gen else None,
             "pre_jump_domains": domain_roles(genomes[solve_gen - 1], task) if solve_gen else None}
+
+
+def fmt(domains) -> str:
+    return " ".join(f"{lk}:{role}" for lk, role in domains) if domains else "-"
 
 
 def main(out_dir: str) -> None:
@@ -119,7 +123,6 @@ def main(out_dir: str) -> None:
         for r, c in sorted(v3, key=lambda x: x[1]["seed"]):
             cfg = ChemTapeConfig(**{k: v for k, v in c.items() if k in ChemTapeConfig.__dataclass_fields__})
             t = trace_v3(Path(r["run_dir"]), cfg)
-            fmt = lambda ds: " ".join(f"{l}:{ro}" for l, ro in ds) if ds else "-"
             sb = t["silent_block_gens_before_jump"]
             lines.append(f"| {c['seed']} | {t['solve_gen']} | {t['pre_jump_fitness']} | {fmt(t['pre_jump_domains'])} | "
                          f"{fmt(t['final_domains'])} | {'-' if sb is None else f'{sb} gens'} |")

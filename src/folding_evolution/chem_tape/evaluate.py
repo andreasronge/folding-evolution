@@ -87,15 +87,16 @@ def _programs_for_arm(
     if cfg.arm == "B":
         mask = engine.compute_longest_run_mask(tapes, backend=cfg.backend)
         return engine.extract_programs(tapes, mask)
+    seps = cfg.decode_separators()
     if cfg.arm == "BP":
-        mask = engine.compute_longest_runnable_mask(tapes, backend=cfg.backend)
+        mask = engine.compute_longest_runnable_mask(tapes, backend=cfg.backend, separators=seps)
         return engine.extract_programs(tapes, mask)
     if cfg.arm == "BP_TOPK":
         if _rust_decode_topk is not None and cfg.backend in ("numpy", "mlx"):
             k = topk_override if topk_override is not None else cfg.topk
             values = cfg.evolve_k_value_list() if cfg.evolve_k else []
             return _rust_decode_topk(
-                tapes.tobytes(), tapes.shape[1], k, values, cfg.evolve_k
+                tapes.tobytes(), tapes.shape[1], k, values, cfg.evolve_k, list(seps)
             )
         if cfg.evolve_k:
             # Per-individual K from header cell 0; decode over body cells 1..L-1.
@@ -105,11 +106,11 @@ def _programs_for_arm(
             for b in range(tapes.shape[0]):
                 k_b = cfg.individual_k(tapes[b])
                 body_b = bodies[b:b+1]
-                mask_b = engine.compute_topk_runnable_mask(body_b, k_b, backend=cfg.backend)
+                mask_b = engine.compute_topk_runnable_mask(body_b, k_b, backend=cfg.backend, separators=seps)
                 progs.append(body_b[0][mask_b[0]].astype(np.int64).tolist())
             return progs
         k = topk_override if topk_override is not None else cfg.topk
-        mask = engine.compute_topk_runnable_mask(tapes, k, backend=cfg.backend)
+        mask = engine.compute_topk_runnable_mask(tapes, k, backend=cfg.backend, separators=seps)
         return engine.extract_programs(tapes, mask)
     raise ValueError(f"Unknown arm {cfg.arm!r}; use 'A', 'B', 'BP', or 'BP_TOPK'")
 

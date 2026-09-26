@@ -52,19 +52,23 @@ const MIN: u8 = 22;
 
 const OP_CAP: usize = 256;
 
+/// Legacy separator ids: the Python engine historically split runs on 14/15
+/// under every alphabet. `ChemTapeConfig.alphabet_separators` switches v2
+/// alphabets to their own separators (20/21) via the `separators` argument.
+const LEGACY_SEPARATORS: [u8; 2] = [14, 15];
+
 /// Select the longest eligible runs, breaking equal-length ties to the left.
-/// This matches the current Python engine's mask semantics (14/15 delimit
-/// permeable runs in both v1 and v2 execution modes).
-fn topk_mask(tape: &[u8], k: usize) -> Vec<bool> {
+fn topk_mask(tape: &[u8], k: usize, seps: &[u8]) -> Vec<bool> {
+    let is_sep = |t: u8| seps.contains(&t);
     let mut runs = Vec::new();
     let mut i = 0;
     while i < tape.len() {
-        if tape[i] == 14 || tape[i] == 15 {
+        if is_sep(tape[i]) {
             i += 1;
             continue;
         }
         let start = i;
-        while i < tape.len() && tape[i] != 14 && tape[i] != 15 {
+        while i < tape.len() && !is_sep(tape[i]) {
             i += 1;
         }
         runs.push((start, i));
@@ -78,17 +82,19 @@ fn topk_mask(tape: &[u8], k: usize) -> Vec<bool> {
 }
 
 #[pyfunction]
-pub fn rust_chem_topk_mask(tape: Vec<u8>, k: usize) -> PyResult<Vec<bool>> {
+#[pyo3(signature = (tape, k, separators=None))]
+pub fn rust_chem_topk_mask(tape: Vec<u8>, k: usize, separators: Option<Vec<u8>>) -> PyResult<Vec<bool>> {
     if k == 0 {
         return Err(pyo3::exceptions::PyValueError::new_err("k must be >= 1"));
     }
-    Ok(topk_mask(&tape, k))
+    let seps = separators.unwrap_or_else(|| LEGACY_SEPARATORS.to_vec());
+    Ok(topk_mask(&tape, k, &seps))
 }
 
 /// Decode a whole population in one boundary crossing. The input is a flat
 /// row-major byte buffer to avoid creating one Python list per tape.
 #[pyfunction]
-#[pyo3(signature = (tapes, tape_length, k, evolve_k_values=Vec::new(), evolve_k=false))]
+#[pyo3(signature = (tapes, tape_length, k, evolve_k_values=Vec::new(), evolve_k=false, separators=None))]
 pub fn rust_chem_decode_topk(
     py: Python<'_>,
     tapes: Vec<u8>,
@@ -96,7 +102,9 @@ pub fn rust_chem_decode_topk(
     k: usize,
     evolve_k_values: Vec<usize>,
     evolve_k: bool,
+    separators: Option<Vec<u8>>,
 ) -> PyResult<Vec<Vec<u8>>> {
+    let seps = separators.unwrap_or_else(|| LEGACY_SEPARATORS.to_vec());
     if tape_length == 0 || tapes.len() % tape_length != 0 {
         return Err(pyo3::exceptions::PyValueError::new_err("invalid tape shape"));
     }
@@ -117,7 +125,7 @@ pub fn rust_chem_decode_topk(
                 } else {
                     (tape, k)
                 };
-                let mask = topk_mask(body, row_k);
+                let mask = topk_mask(body, row_k, &seps);
                 body.iter()
                     .zip(mask)
                     .filter_map(|(&token, keep)| keep.then_some(token))

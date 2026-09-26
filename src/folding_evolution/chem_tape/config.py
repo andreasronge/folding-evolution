@@ -151,6 +151,23 @@ class ChemTapeConfig:
     # At default 0.5 excluded from hash.
     selection_top_fraction: float = 0.5
 
+    # Map-bias notebook §4-5. "lexicase" is standard lexicase (uniform over the
+    # surviving individuals). "lexicase_group" picks a surviving behaviour group
+    # uniformly; with full-row grouping only one group ever survives, so it is
+    # identical to "lexicase" in practice (it is the name the and_jump sweep's
+    # runs map to). Both hash differently.
+
+    # Map-bias notebook §4: record each child's parents and how it was made,
+    # and save the ancestry of the final best genome (lineage.npz). Uses no
+    # RNG, so tracked runs reproduce untracked ones exactly. Panmictic only.
+    track_lineage: bool = False
+
+    # Map-bias notebook §4: BP/BP_TOPK decoders historically used the v1
+    # separator ids (14, 15) under every alphabet. True makes them use the
+    # alphabet's own separators (20, 21 under v2). Default False keeps every
+    # prior sweep reproducible.
+    alphabet_separators: bool = False
+
     # §v2.5-plasticity-1a: runtime-plasticity (Baldwin-effect) probe fields.
     # Rank-1 operator-threshold plasticity: GT operations in the decoded
     # program acquire a learnable scalar modifier δ shared across all GT
@@ -230,6 +247,10 @@ class ChemTapeConfig:
             d.pop("selection_mode", None)
         if self.selection_top_fraction == 0.5:
             d.pop("selection_top_fraction", None)
+        if not self.track_lineage:
+            d.pop("track_lineage", None)
+        if not self.alphabet_separators:
+            d.pop("alphabet_separators", None)
         # §v2.5-plasticity-1a: all plasticity fields excluded at defaults so
         # existing sweep hashes remain addressable. When plasticity_enabled
         # is False the fast-path is byte-identical to pre-5c Arm A.
@@ -245,6 +266,12 @@ class ChemTapeConfig:
             d.pop("plasticity_delta", None)
         blob = json.dumps(d, sort_keys=True).encode()
         return hashlib.sha1(blob).hexdigest()[:12]
+
+    def decode_separators(self) -> tuple[int, ...]:
+        """Separator ids the BP/BP_TOPK decoders split runs on."""
+        if self.alphabet_separators and self.alphabet != "v1":
+            return (20, 21)
+        return (14, 15)
 
     def current_k(self, generation: int) -> int:
         """Return the K to use at `generation` (for BP_TOPK decode).

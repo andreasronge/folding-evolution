@@ -36,7 +36,9 @@ def compute_longest_run_mask(tapes: np.ndarray, backend: str = "mlx") -> np.ndar
     raise ValueError(f"Unknown backend {backend!r}; use 'numpy' or 'mlx'")
 
 
-def compute_longest_runnable_mask(tapes: np.ndarray, backend: str = "mlx") -> np.ndarray:
+def compute_longest_runnable_mask(
+    tapes: np.ndarray, backend: str = "mlx", separators=None
+) -> np.ndarray:
     """Arm BP (permeable): longest contiguous run of non-separator cells.
 
     Under the permeable rule, id 0 (NOP) does not break bonded runs; only
@@ -44,8 +46,9 @@ def compute_longest_runnable_mask(tapes: np.ndarray, backend: str = "mlx") -> np
     as their token dispatches — NOP cells as no-ops, everything else as
     normal ops.
     """
-    if backend == "numpy":
-        return engine_numpy.compute_longest_runnable_mask(tapes)
+    if backend == "numpy" or engine_numpy._non_separator_lookup(separators) is not engine_numpy.NON_SEPARATOR_MASK:
+        # Non-legacy separators: the MLX engine hardcodes ids 14/15, use NumPy.
+        return engine_numpy.compute_longest_runnable_mask(tapes, separators)
     if backend == "mlx":
         _require_mlx()
         return engine_mlx.compute_longest_runnable_mask(tapes)
@@ -53,13 +56,13 @@ def compute_longest_runnable_mask(tapes: np.ndarray, backend: str = "mlx") -> np
 
 
 def compute_topk_runnable_mask(
-    tapes: np.ndarray, k: int, backend: str = "mlx"
+    tapes: np.ndarray, k: int, backend: str = "mlx", separators=None
 ) -> np.ndarray:
     """Arm BP_TOPK: K longest non-separator runs. K=1 = Arm BP. K=∞ ⇒
     every non-separator cell executes (distinct from Arm A only in that
     ids 14/15 still gate)."""
-    if backend == "numpy":
-        return engine_numpy.compute_topk_runnable_mask(tapes, k)
+    if backend == "numpy" or engine_numpy._non_separator_lookup(separators) is not engine_numpy.NON_SEPARATOR_MASK:
+        return engine_numpy.compute_topk_runnable_mask(tapes, k, separators)
     if backend == "mlx":
         _require_mlx()
         return engine_mlx.compute_topk_runnable_mask(tapes, k)

@@ -83,6 +83,10 @@ def execute(cfg: ChemTapeConfig, output_root: Path) -> Path:
     )
     np.savez(run_dir / "history.npz", **npz_data)
 
+    # Map-bias notebook §4: ancestry of the final best genome.
+    if result.lineage is not None:
+        np.savez(run_dir / "lineage.npz", **result.lineage)
+
     # §v2.4-proxy-4d: dump final-gen population when the flag is set.
     # final_population shape: (pop_size, tape_length) uint8.
     # final_population_fitness shape: (pop_size,) float32.

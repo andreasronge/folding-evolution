@@ -17,7 +17,17 @@ from __future__ import annotations
 
 import numpy as np
 
-from .alphabet import ACTIVE_MASK, NON_SEPARATOR_MASK
+from .alphabet import ACTIVE_MASK, N_TOKENS, NON_SEPARATOR_MASK
+
+LEGACY_SEPARATORS = (14, 15)
+
+
+def _non_separator_lookup(separators) -> np.ndarray:
+    if separators is None or tuple(separators) == LEGACY_SEPARATORS:
+        return NON_SEPARATOR_MASK
+    lookup = np.ones(N_TOKENS, dtype=bool)
+    lookup[list(separators)] = False
+    return lookup
 
 
 def compute_active_mask(tapes: np.ndarray) -> np.ndarray:
@@ -26,10 +36,11 @@ def compute_active_mask(tapes: np.ndarray) -> np.ndarray:
     return ACTIVE_MASK[tapes]
 
 
-def compute_non_separator_mask(tapes: np.ndarray) -> np.ndarray:
-    """(B, L) uint8 → (B, L) bool. True iff token id ∉ {14, 15} (permeable rule)."""
+def compute_non_separator_mask(tapes: np.ndarray, separators=None) -> np.ndarray:
+    """(B, L) uint8 → (B, L) bool. True iff token id is not a separator
+    (permeable rule). `separators` defaults to the legacy v1 ids {14, 15}."""
     assert tapes.dtype == np.uint8
-    return NON_SEPARATOR_MASK[tapes]
+    return _non_separator_lookup(separators)[tapes]
 
 
 def _shift_right_pad0(m: np.ndarray) -> np.ndarray:
@@ -66,12 +77,12 @@ def compute_longest_run_mask(tapes: np.ndarray) -> np.ndarray:
     return _longest_run_under_mask(compute_active_mask(tapes))
 
 
-def compute_longest_runnable_mask(tapes: np.ndarray) -> np.ndarray:
+def compute_longest_runnable_mask(tapes: np.ndarray, separators=None) -> np.ndarray:
     """Arm BP (permeable): longest contiguous run of *non-separator* cells
     (ids 0..13). Id 0 (NOP) passes through bonded runs as a no-op; ids 14
     and 15 remain hard boundaries.
     """
-    return _longest_run_under_mask(compute_non_separator_mask(tapes))
+    return _longest_run_under_mask(compute_non_separator_mask(tapes, separators))
 
 
 def _topk_runs_under_mask(eligible: np.ndarray, k: int) -> np.ndarray:
@@ -105,13 +116,13 @@ def _topk_runs_under_mask(eligible: np.ndarray, k: int) -> np.ndarray:
     return out
 
 
-def compute_topk_runnable_mask(tapes: np.ndarray, k: int) -> np.ndarray:
+def compute_topk_runnable_mask(tapes: np.ndarray, k: int, separators=None) -> np.ndarray:
     """Arm BP_TOPK: K longest non-separator runs, concatenated in tape order
     on extraction. At K=1 identical to `compute_longest_runnable_mask` (Arm BP).
     At K ≥ number-of-runs, mask equals the non-separator mask (every bonded
     cell executes). Separator cells (ids 14, 15) never participate.
     """
-    return _topk_runs_under_mask(compute_non_separator_mask(tapes), k)
+    return _topk_runs_under_mask(compute_non_separator_mask(tapes, separators), k)
 
 
 def extract_programs(

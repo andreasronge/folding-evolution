@@ -75,6 +75,57 @@ class EvolutionResult:
     # there is no canonical to compare against. Any nonzero count at sf=0.0
     # flags an infrastructure bug in build_initial_population.
     initial_population_canonical_count: int = 0
+    # Map-bias notebook §4: ancestry of the final best genome when
+    # cfg.track_lineage is set (see _trace_lineage for the keys).
+    lineage: dict | None = None
+
+
+def _trace_lineage(
+    pops: list[np.ndarray],
+    fits: list[np.ndarray],
+    parents: list[np.ndarray],
+    best_idx: int,
+) -> dict:
+    """Walk the final best genome's ancestry back to generation 0.
+
+    `pops[g]` (P, L) uint8, `fits[g]` (P,) float, `parents[g]` (P, 4) int32 rows
+    (parent_1, parent_2, kind, mutated) for generation g >= 1 (parents[0] unused).
+    At a crossover the walk follows the *fitter* parent (ties: parent 1) — the
+    main line — and records the other parent's genome and fitness, so a step
+    can be judged against both parents. One row per generation, oldest first.
+    """
+    rows = []
+    idx = best_idx
+    for g in range(len(pops) - 1, 0, -1):
+        p1, p2, kind, mut = (int(x) for x in parents[g][idx])
+        main, other = p1, p2
+        if kind == 1 and fits[g - 1][p2] > fits[g - 1][p1]:
+            main, other = p2, p1
+        rows.append((g, idx, main, other, kind, mut))
+        idx = main
+    rows.append((0, idx, -1, -1, -1, 0))
+    rows.reverse()
+    L = pops[0].shape[1]
+    other_genome = np.zeros((len(rows), L), dtype=np.uint8)
+    other_fitness = np.full(len(rows), np.nan)
+    for k, (g, _, _, other, kind, _) in enumerate(rows):
+        if kind == 1:
+            other_genome[k] = pops[g - 1][other]
+            other_fitness[k] = fits[g - 1][other]
+    gen = np.array([r[0] for r in rows], dtype=np.int32)
+    ind = np.array([r[1] for r in rows], dtype=np.int32)
+    return {
+        "generation": gen,
+        "index": ind,
+        "genome": np.stack([pops[g][i] for g, i in zip(gen, ind)]),
+        "fitness": np.array([fits[g][i] for g, i in zip(gen, ind)]),
+        "kind": np.array([r[4] for r in rows], dtype=np.int8),
+        "mutated": np.array([r[5] for r in rows], dtype=np.int8),
+        "parent_main": np.array([r[2] for r in rows], dtype=np.int32),
+        "parent_other": np.array([r[3] for r in rows], dtype=np.int32),
+        "other_genome": other_genome,
+        "other_fitness": other_fitness,
+    }
 
 
 def _token_max(cfg: ChemTapeConfig) -> int:
@@ -223,25 +274,26 @@ def mutate(
     if cfg.bond_protection_ratio < 1.0 and cfg.arm in ("BP", "BP_TOPK"):
         from . import engine_numpy as _np_engine
         tape_2d = out[None, :]
+        seps = cfg.decode_separators()
         if cfg.arm == "BP":
-            protect_mask = _np_engine.compute_longest_runnable_mask(tape_2d)[0]
+            protect_mask = _np_engine.compute_longest_runnable_mask(tape_2d, seps)[0]
         elif cfg.evolve_k:
             # §12: protect body cells under this individual's own K. Header cell 0
             # is always unprotected so K can evolve.
             k_for_protection = cfg.individual_k(out)
             body = out[1:][None, :]
             if _rust_topk_mask is not None:
-                body_mask = _rust_topk_mask(out[1:].tobytes(), k_for_protection)
+                body_mask = _rust_topk_mask(out[1:].tobytes(), k_for_protection, list(seps))
             else:
-                body_mask = _np_engine.compute_topk_runnable_mask(body, k_for_protection)[0]
+                body_mask = _np_engine.compute_topk_runnable_mask(body, k_for_protection, seps)[0]
             protect_mask = np.zeros(L, dtype=bool)
             protect_mask[1:] = body_mask
         else:  # BP_TOPK fixed/alternating
             k_for_protection = topk_override if topk_override is not None else cfg.topk
             if _rust_topk_mask is not None:
-                protect_mask = _rust_topk_mask(out.tobytes(), k_for_protection)
+                protect_mask = _rust_topk_mask(out.tobytes(), k_for_protection, list(seps))
             else:
-                protect_mask = _np_engine.compute_topk_runnable_mask(tape_2d, k_for_protection)[0]
+                protect_mask = _np_engine.compute_topk_runnable_mask(tape_2d, k_for_protection, seps)[0]
 
     if protect_mask is None:
         for i in range(L):
@@ -321,6 +373,7 @@ def _lexicase_select(
     groups: list[np.ndarray],
     group_cases: np.ndarray,
     rng: random.Random,
+    weight_by_size: bool = True,
 ) -> int:
     """Lexicase selection (Spector 2012) over behaviour groups.
 
@@ -330,11 +383,14 @@ def _lexicase_select(
     that pass it survive (if any do). A random individual of a random surviving
     group is returned.
 
-    NOTE: this is NOT standard lexicase. Picking the surviving *group* uniformly
-    gives a group of 1 the same parent share as a group of 800, which adds
-    behaviour-level niching on top of lexicase. Standard lexicase picks a
-    uniform surviving *individual* (group weighted by size). The and_jump sweep
-    (map-bias notebook §3) ran with this variant.
+    `weight_by_size=True` picks the surviving group in proportion to its size
+    (a uniform surviving individual); `weight_by_size=False`
+    ("lexicase_group") picks a surviving group uniformly. When groups are
+    built from *complete* case rows, as in _reproduce_one_island, the two are
+    identical in practice: any two groups differ on some case, and the one that
+    fails it is removed there, so exactly one group ever survives. Verified on
+    30 seeds (map-bias notebook §5). The weighting only matters if callers pass
+    groups that share a row.
     """
     alive = np.arange(group_cases.shape[0])
     order = list(range(group_cases.shape[1]))
@@ -345,7 +401,12 @@ def _lexicase_select(
         passing = alive[group_cases[alive, c]]
         if len(passing):
             alive = passing
-    g = int(alive[rng.randrange(len(alive))])
+    if weight_by_size and len(alive) > 1:
+        sizes = np.array([len(groups[a]) for a in alive])
+        r = rng.random() * sizes.sum()
+        g = int(alive[min(int(np.searchsorted(np.cumsum(sizes), r, side="right")), len(alive) - 1)])
+    else:
+        g = int(alive[rng.randrange(len(alive))])
     members = groups[g]
     return int(members[rng.randrange(len(members))])
 
@@ -383,12 +444,17 @@ def _reproduce_one_island(
     rng: random.Random,
     topk_override: int | None = None,
     cases: np.ndarray | None = None,
+    lineage: list | None = None,
 ) -> list[np.ndarray]:
     """Produce the next generation's population for one island (or the whole
     panmictic pool). `topk_override` flows through to `mutate()` for §10.
 
     `cases` (P, E) bool per-case correctness, required for
-    selection_mode="lexicase".
+    selection_mode="lexicase" / "lexicase_group".
+
+    `lineage`, when given, gets one (parent_1, parent_2, kind, mutated) row per
+    child in new-population order: kind 0 = elite copy, 1 = crossover,
+    2 = clone; parent_2 = -1 unless crossover. Uses no RNG.
 
     §12b: elitism uses raw `fitnesses`; tournament uses niched fitness when
     cfg.k_niching_alpha > 0 (no-op otherwise).
@@ -396,9 +462,11 @@ def _reproduce_one_island(
     order = np.argsort(-fitnesses)
     elites = [population[i].copy() for i in order[: cfg.elite_count]]
     new_pop: list[np.ndarray] = list(elites)
+    if lineage is not None:
+        lineage.extend((int(i), -1, 0, 0) for i in order[: cfg.elite_count])
     pop_idx = list(range(len(population)))
     sel_fitnesses = _compute_niched_fitnesses(fitnesses, population, cfg)
-    if cfg.selection_mode == "lexicase":
+    if cfg.selection_mode in ("lexicase", "lexicase_group"):
         assert cases is not None, "lexicase selection needs per-case results"
         group_cases, inverse = np.unique(cases, axis=0, return_inverse=True)
         inverse = inverse.ravel()
@@ -408,8 +476,11 @@ def _reproduce_one_island(
     # the RNG sequence is byte-identical to the pre-5c implementation
     # (same _tournament_select calls in the same order).
     def _select() -> int:
-        if cfg.selection_mode == "lexicase":
-            return _lexicase_select(groups, group_cases, rng)
+        if cfg.selection_mode in ("lexicase", "lexicase_group"):
+            return _lexicase_select(
+                groups, group_cases, rng,
+                weight_by_size=cfg.selection_mode == "lexicase",
+            )
         if cfg.selection_mode == "ranking":
             return _ranking_select(pop_idx, sel_fitnesses, rng)
         elif cfg.selection_mode == "truncation":
@@ -426,11 +497,16 @@ def _reproduce_one_island(
             i = _select()
             j = _select()
             child = crossover(population[i], population[j], cfg, rng)
+            kind = 1
         else:
             i = _select()
+            j = -1
             child = population[i].copy()
-        child = mutate(child, cfg, rng, topk_override=topk_override)
-        new_pop.append(child)
+            kind = 2
+        mutated = mutate(child, cfg, rng, topk_override=topk_override)
+        if lineage is not None:
+            lineage.append((i, j, kind, int(not np.array_equal(mutated, child))))
+        new_pop.append(mutated)
     return new_pop
 
 
@@ -549,6 +625,11 @@ def _run_evolution_panmictic(
     )
     cases = preds == task_0.labels[None, :]
 
+    if cfg.track_lineage:
+        track_pops = [np.stack(population).astype(np.uint8)]
+        track_fits = [np.asarray(fitnesses, dtype=np.float32)]
+        track_parents = [np.zeros((len(population), 4), dtype=np.int32)]
+
     stats = ChemTapeStatsCollector()
     evolve_k_values_list = cfg.evolve_k_value_list() if cfg.evolve_k else None
     stats.record(0, fitnesses, population, arm=cfg.arm, evolve_k_values=evolve_k_values_list)
@@ -579,14 +660,20 @@ def _run_evolution_panmictic(
             }
 
         # Reproduce under current K.
+        gen_lineage: list | None = [] if cfg.track_lineage else None
         population = _reproduce_one_island(
-            population, fitnesses, cfg, rng, topk_override=current_k, cases=cases
+            population, fitnesses, cfg, rng, topk_override=current_k, cases=cases,
+            lineage=gen_lineage,
         )
         fitnesses, preds = evaluate_population(
             population, current_task_obj, cfg, topk_override=current_k,
             prediction_cache=prediction_cache,
         )
         cases = preds == current_task_obj.labels[None, :]
+        if cfg.track_lineage:
+            track_pops.append(np.stack(population).astype(np.uint8))
+            track_fits.append(np.asarray(fitnesses, dtype=np.float32))
+            track_parents.append(np.asarray(gen_lineage, dtype=np.int32))
         stats.record(gen, fitnesses, population, arm=cfg.arm,
                      evolve_k_values=evolve_k_values_list)
 
@@ -617,6 +704,10 @@ def _run_evolution_panmictic(
 
     best_idx = int(np.argmax(fitnesses))
     best = population[best_idx].copy()
+    lineage = (
+        _trace_lineage(track_pops, track_fits, track_parents, best_idx)
+        if cfg.track_lineage else None
+    )
 
     # Holdout on the final-gen task/K.
     final_k = cfg.current_k(gen)
@@ -708,6 +799,7 @@ def _run_evolution_panmictic(
         final_k_draw_std=final_kdstd,
         final_k_argmax_index=final_kargmax,
         initial_population_canonical_count=canonical_count,
+        lineage=lineage,
     )
 
 
@@ -864,5 +956,7 @@ def run_evolution(cfg: ChemTapeConfig, prediction_cache_size: int = 0) -> Evolut
         else None
     )
     if cfg.n_islands > 1:
+        if cfg.track_lineage:
+            raise ValueError("track_lineage is only supported for panmictic runs (n_islands == 1)")
         return _run_evolution_islands(cfg, cache)
     return _run_evolution_panmictic(cfg, cache)
