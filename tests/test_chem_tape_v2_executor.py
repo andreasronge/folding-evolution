@@ -45,7 +45,7 @@ def test_v2_token_ids_are_distinct_and_sequential():
 
 def test_masks_for_v2_active_runs_1_to_19():
     m = alph.masks_for("v2_probe")
-    assert m["active"].shape == (22,)
+    assert m["active"].shape[0] >= 22  # sized to the widest alphabet
     assert not m["active"][0]
     assert all(m["active"][1:20])
     assert not m["active"][20]

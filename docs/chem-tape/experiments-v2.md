@@ -1196,6 +1196,13 @@ Per prereg decision rule (FAIL — proxy cascade):
 
 ## §v2.4-proxy-3. Split-halves AND proxy-basin boundary sweep (2026-04-16)
 
+> **Invalid as run (found 2026-09-26, map-bias notebook §3).** The Rust executor had no
+> `v2_split` dispatch, so `SUM_LEFT2`/`SUM_RIGHT2` executed as NOPs during evolution. The
+> handcrafted body below scores 1.000 only under the Python executor; under the Rust path
+> evolution actually used, it scored 0.500. The 0/20 "COLLAPSE" results measure an
+> unsolvable task, not search difficulty. Rust dispatch fixed on branch `map-bias`; the
+> sweep has not been re-run.
+
 **Status:** `INCONCLUSIVE` · n=20 per arm per threshold (6 sub-sweeps, 120 runs total) · commit `b5ffbd4` · —
 
 **Pre-reg:** [Plans/prereg_v2_4_proxy3_boundary.md](../../Plans/prereg_v2_4_proxy3_boundary.md)

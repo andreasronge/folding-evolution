@@ -72,6 +72,11 @@ This is the mechanism under test. v1's §v1.5a-binary demonstrated that slot-ind
 - **Tape cell storage:** v1 stores tokens in the low nibble of a `uint8` (per `alphabet.py`'s module docstring — 4-bit tokens, 16-value range). The v2 alphabet's max id is 21, which requires 5 bits and **crosses the 4-bit boundary**. The storage byte remains `uint8` (no packing change), but any v1 code path that assumes "low nibble only" must be audited: the `alphabet.py` module docstring needs updating, and any hash / display / mask logic keyed on the 4-bit assumption (e.g., `& 0x0F`) must be located and widened. Estimated audit effort: a grep for `0x0F`, `nibble`, and `N_TOKENS == 16` across the executor and tape-viz code; small scope but mandatory before v2 runs.
 - **Tape length: fixed at 32 (unchanged from v1).** 32 cells was sufficient for v1's 14-token active alphabet. The v2 probe's 20-token active alphabet is denser, but holding tape length constant eliminates one confound when comparing v2-probe solve rates to v1 baselines. If v2 experiments show systematic under-capacity (maximum observed scaffold length saturating at tape bound across all seeds), extending to 48 cells is queued as a separate axis — not rolled into the probe.
 - Mask definitions (`ACTIVE_MASK`, `NON_SEPARATOR_MASK`) extend to ids 0-19 active, 20-21 separators.
+  - **Known deviation (found 2026-09-26, not fixed):** the decoders (`engine_numpy`, `engine_mlx`)
+    never switched to the v2 masks — `masks_for()` exists but is unused. Under every v2 alphabet,
+    BP/BP_TOPK treat `MAP_EQ_E` (14) and `CONST_2` (15) as separators (so they never execute),
+    while the intended separators 20/21 bond through as NOPs. All v2 chem-decoder results were
+    produced this way. Arm A is unaffected. See map-bias notebook §3.
 
 ### Scope hygiene
 

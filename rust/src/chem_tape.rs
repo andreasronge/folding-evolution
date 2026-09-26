@@ -44,6 +44,11 @@ const IF_GT: u8 = 17;
 const REDUCE_MAX: u8 = 18;
 const THRESHOLD_SLOT: u8 = 19;
 // v2 separators at 20, 21 (execute as NOP in the stack machine).
+// v2_split extension (§v2.4-proxy-3): masked-sum reducers.
+const SUM_LEFT2: u8 = 22;
+const SUM_RIGHT2: u8 = 23;
+// v2_min extension (map-bias notebook §3): MIN at id 22.
+const MIN: u8 = 22;
 
 const OP_CAP: usize = 256;
 
@@ -139,6 +144,15 @@ type OpFn = fn(&mut Vec<Value>, &ExecCtx<'_>);
 enum Alphabet {
     V1,
     V2Probe,
+    V2Split,
+    V2Min,
+}
+
+impl Alphabet {
+    /// v2_probe primitives (ids 14..19) are live in every v2 variant.
+    fn is_v2(self) -> bool {
+        self != Alphabet::V1
+    }
 }
 
 fn op_nop(_stack: &mut Vec<Value>, _ctx: &ExecCtx<'_>) {}
@@ -313,6 +327,34 @@ fn op_reduce_max(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
     stack.push(Value::Int(best));
 }
 
+fn op_sum_left2(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
+    let v = match ctx.input {
+        Value::IntList(xs) if xs.len() >= 2 => xs[0].wrapping_add(xs[1]),
+        _ => 0,
+    };
+    stack.push(Value::Int(v));
+}
+
+fn op_sum_right2(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
+    let v = match ctx.input {
+        Value::IntList(xs) if xs.len() >= 4 => xs[2].wrapping_add(xs[3]),
+        _ => 0,
+    };
+    stack.push(Value::Int(v));
+}
+
+fn op_min(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
+    let b = match safe_pop(stack, TypeTag::Int, ctx.safe_pop_consume) {
+        Value::Int(v) => v,
+        _ => 0,
+    };
+    let a = match safe_pop(stack, TypeTag::Int, ctx.safe_pop_consume) {
+        Value::Int(v) => v,
+        _ => 0,
+    };
+    stack.push(Value::Int(a.min(b)));
+}
+
 fn op_threshold_slot(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
     stack.push(Value::Int(ctx.threshold));
 }
@@ -356,12 +398,17 @@ fn execute_inner(tokens: &[u8], ctx: &ExecCtx<'_>) -> i64 {
             (SLOT_13, _) => (ctx.slot_13_fn)(&mut stack, ctx),
 
             // v2-probe primitives (execute as NOP under v1).
-            (MAP_EQ_E, Alphabet::V2Probe) => op_map_eq_e(&mut stack, ctx),
-            (CONST_2, Alphabet::V2Probe) => op_const_2(&mut stack, ctx),
-            (CONST_5, Alphabet::V2Probe) => op_const_5(&mut stack, ctx),
-            (IF_GT, Alphabet::V2Probe) => op_if_gt(&mut stack, ctx),
-            (REDUCE_MAX, Alphabet::V2Probe) => op_reduce_max(&mut stack, ctx),
-            (THRESHOLD_SLOT, Alphabet::V2Probe) => op_threshold_slot(&mut stack, ctx),
+            (MAP_EQ_E, a) if a.is_v2() => op_map_eq_e(&mut stack, ctx),
+            (CONST_2, a) if a.is_v2() => op_const_2(&mut stack, ctx),
+            (CONST_5, a) if a.is_v2() => op_const_5(&mut stack, ctx),
+            (IF_GT, a) if a.is_v2() => op_if_gt(&mut stack, ctx),
+            (REDUCE_MAX, a) if a.is_v2() => op_reduce_max(&mut stack, ctx),
+            (THRESHOLD_SLOT, a) if a.is_v2() => op_threshold_slot(&mut stack, ctx),
+
+            // Alphabet-specific extensions above id 21.
+            (SUM_LEFT2, Alphabet::V2Split) => op_sum_left2(&mut stack, ctx),
+            (SUM_RIGHT2, Alphabet::V2Split) => op_sum_right2(&mut stack, ctx),
+            (MIN, Alphabet::V2Min) => op_min(&mut stack, ctx),
 
             // Everything else (including v2 separators 20/21 and v1's 14/15
             // when not in V2Probe dispatch) executes as NOP.
@@ -378,6 +425,8 @@ fn execute_inner(tokens: &[u8], ctx: &ExecCtx<'_>) -> i64 {
 fn parse_alphabet(name: Option<&str>) -> Alphabet {
     match name.unwrap_or("v1") {
         "v2_probe" => Alphabet::V2Probe,
+        "v2_split" => Alphabet::V2Split,
+        "v2_min" => Alphabet::V2Min,
         _ => Alphabet::V1,
     }
 }

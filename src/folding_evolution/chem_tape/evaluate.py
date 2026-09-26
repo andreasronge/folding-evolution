@@ -96,6 +96,10 @@ def evaluate_population(
     Rust path is preserved when plasticity is off (default), so existing
     sweeps are byte-identical to pre-5c.
     """
+    if cfg.arm == "V3":
+        from .domains import evaluate_v3
+        return evaluate_v3(population, task, cfg.safe_pop_mode == "consume")
+
     P = len(population)
     E = len(task.inputs)
     tapes = _tapes_from_population(population)                   # (P, L) uint8
@@ -171,6 +175,12 @@ def evaluate_on_inputs(
 ) -> float:
     """Score a single genotype on an arbitrary input set (used for holdout).
     `topk_override` (§10): decode under this K instead of `cfg.topk`."""
+    if cfg.arm == "V3":
+        from dataclasses import replace
+        from .domains import evaluate_v3
+        holdout = replace(task, inputs=list(inputs), labels=np.asarray(labels))
+        fits, _ = evaluate_v3([genotype], holdout, cfg.safe_pop_mode == "consume")
+        return float(fits[0])
     tape = genotype.astype(np.uint8).reshape(1, -1)
     programs = _programs_for_arm(cfg, tape, topk_override=topk_override)
     prog = programs[0]

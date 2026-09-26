@@ -82,6 +82,10 @@ def _token_max(cfg: ChemTapeConfig) -> int:
     """
     if cfg.alphabet == "v2_split":
         return 23
+    if cfg.alphabet == "v2_min":
+        return 22
+    if cfg.alphabet == "v3_domains":
+        return 25
     return 21 if cfg.alphabet == "v2_probe" else 15
 
 
@@ -302,6 +306,39 @@ def _truncation_select(
     return rng.choice(pool)
 
 
+def _lexicase_select(
+    groups: list[np.ndarray],
+    group_cases: np.ndarray,
+    rng: random.Random,
+) -> int:
+    """Lexicase selection (Spector 2012) over behaviour groups.
+
+    `group_cases` is (G, E) bool: row g says which training cases behaviour
+    group g gets right; `groups[g]` lists the individuals sharing that row.
+    Cases are visited in a fresh random order; at each case only the groups
+    that pass it survive (if any do). A random individual of a random surviving
+    group is returned.
+
+    NOTE: this is NOT standard lexicase. Picking the surviving *group* uniformly
+    gives a group of 1 the same parent share as a group of 800, which adds
+    behaviour-level niching on top of lexicase. Standard lexicase picks a
+    uniform surviving *individual* (group weighted by size). The and_jump sweep
+    (map-bias notebook §3) ran with this variant.
+    """
+    alive = np.arange(group_cases.shape[0])
+    order = list(range(group_cases.shape[1]))
+    rng.shuffle(order)
+    for c in order:
+        if len(alive) == 1:
+            break
+        passing = alive[group_cases[alive, c]]
+        if len(passing):
+            alive = passing
+    g = int(alive[rng.randrange(len(alive))])
+    members = groups[g]
+    return int(members[rng.randrange(len(members))])
+
+
 def _compute_niched_fitnesses(
     raw: np.ndarray, population: list[np.ndarray], cfg: ChemTapeConfig
 ) -> np.ndarray:
@@ -334,9 +371,13 @@ def _reproduce_one_island(
     cfg: ChemTapeConfig,
     rng: random.Random,
     topk_override: int | None = None,
+    cases: np.ndarray | None = None,
 ) -> list[np.ndarray]:
     """Produce the next generation's population for one island (or the whole
     panmictic pool). `topk_override` flows through to `mutate()` for §10.
+
+    `cases` (P, E) bool per-case correctness, required for
+    selection_mode="lexicase".
 
     §12b: elitism uses raw `fitnesses`; tournament uses niched fitness when
     cfg.k_niching_alpha > 0 (no-op otherwise).
@@ -346,11 +387,18 @@ def _reproduce_one_island(
     new_pop: list[np.ndarray] = list(elites)
     pop_idx = list(range(len(population)))
     sel_fitnesses = _compute_niched_fitnesses(fitnesses, population, cfg)
+    if cfg.selection_mode == "lexicase":
+        assert cases is not None, "lexicase selection needs per-case results"
+        group_cases, inverse = np.unique(cases, axis=0, return_inverse=True)
+        inverse = inverse.ravel()
+        groups = [np.flatnonzero(inverse == g) for g in range(group_cases.shape[0])]
 
     # §v2.4-proxy-5c: dispatch by selection_mode. At default "tournament"
     # the RNG sequence is byte-identical to the pre-5c implementation
     # (same _tournament_select calls in the same order).
     def _select() -> int:
+        if cfg.selection_mode == "lexicase":
+            return _lexicase_select(groups, group_cases, rng)
         if cfg.selection_mode == "ranking":
             return _ranking_select(pop_idx, sel_fitnesses, rng)
         elif cfg.selection_mode == "truncation":
@@ -482,7 +530,8 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
     current_k_0 = cfg.current_k(0)
     current_task_0 = cfg.current_task(0)
     task_0 = tasks_by_name[current_task_0]
-    fitnesses, _ = evaluate_population(population, task_0, cfg, topk_override=current_k_0)
+    fitnesses, preds = evaluate_population(population, task_0, cfg, topk_override=current_k_0)
+    cases = preds == task_0.labels[None, :]
 
     stats = ChemTapeStatsCollector()
     evolve_k_values_list = cfg.evolve_k_value_list() if cfg.evolve_k else None
@@ -515,11 +564,12 @@ def _run_evolution_panmictic(cfg: ChemTapeConfig) -> EvolutionResult:
 
         # Reproduce under current K.
         population = _reproduce_one_island(
-            population, fitnesses, cfg, rng, topk_override=current_k
+            population, fitnesses, cfg, rng, topk_override=current_k, cases=cases
         )
-        fitnesses, _ = evaluate_population(
+        fitnesses, preds = evaluate_population(
             population, current_task_obj, cfg, topk_override=current_k
         )
+        cases = preds == current_task_obj.labels[None, :]
         stats.record(gen, fitnesses, population, arm=cfg.arm,
                      evolve_k_values=evolve_k_values_list)
 

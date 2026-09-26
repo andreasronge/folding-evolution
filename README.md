@@ -27,7 +27,7 @@ Earlier framing, kept for history: *"Does a developmental encoding enable qualit
 
 This is a hobby project: lab-notebook style, light process. Rigor catches up only when a result is surprising enough to want to grow.
 
-**First probe (2026-09-25):** `experiments/chem_tape/arrival_frequent.py` samples 50M random tapes per chem-tape decoder setup and asks whether random-tape frequency predicts the solve rates and proxy basins seen in all past chem-tape runs. Results: [docs/map-bias/notebook.md](docs/map-bias/notebook.md).
+**First probe (2026-09-25):** `experiments/chem_tape/arrival_frequent.py` samples 50M random tapes per chem-tape decoder setup and asks whether random-tape frequency predicts the solve rates and proxy basins seen in all past chem-tape runs. Results so far, and the plan for testing how evolution makes jumps and how recombination can combine building blocks without crashing: [docs/map-bias/notebook.md](docs/map-bias/notebook.md).
 
 ## Prior Results (Folding Track — Complete)
 
