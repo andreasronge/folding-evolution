@@ -1,0 +1,22 @@
+sweep_name: tag_race
+# Map-bias notebook §10: evolution race on the AND task under lexicase.
+# Tagged runs (runs connect by tag via RECV) vs the baseline lexicase runs of
+# lexicase_lineage.yaml (BP_TOPK, same pop/gens/cases/holdout, 14/30 solved,
+# 6/30 exact AND on all 10,000 lists).
+base:
+  task: sum_gt_10_AND_max_gt_5
+  arm: TAG
+  alphabet: tagged
+  tape_length: 64
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  generations: 1500
+  elite_count: 2
+  mutation_rate: 0.015
+  crossover_rate: 0.7
+  selection_mode: lexicase
+  backend: numpy
+  log_every: 50
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]

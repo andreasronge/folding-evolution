@@ -158,7 +158,8 @@ def _machine_for(task) -> _Machine:
     return _Machine(np.asarray(task.inputs, dtype=np.int64), int(task.alphabet.threshold))
 
 
-def genome_outputs(g: np.ndarray, m: _Machine, body_cache: dict | None = None) -> np.ndarray:
+def genome_outputs(g: np.ndarray, m: _Machine, body_cache: dict | None = None,
+                   all_runs: bool = False):
     runs = parse_runs(g)
     by_tag: dict[int, list[int]] = {}
     for k, (tag, _) in enumerate(runs):
@@ -190,7 +191,14 @@ def genome_outputs(g: np.ndarray, m: _Machine, body_cache: dict | None = None) -
             memo[k] = v
         return v
 
+    if all_runs:
+        return [value_of_run(k, 0, frozenset()) for k in range(len(runs))]
     return value_of_tag(OUTPUT_TAG, 0, frozenset())
+
+
+def run_values(g: np.ndarray, task, body_cache: dict | None = None) -> list[np.ndarray]:
+    """Each run's own output (RECVs resolved), in tape order."""
+    return genome_outputs(g, _machine_for(task), body_cache, all_runs=True)
 
 
 def evaluate_tagged(population: list[np.ndarray], task) -> tuple[np.ndarray, np.ndarray]:

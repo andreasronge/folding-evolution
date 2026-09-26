@@ -475,3 +475,44 @@ several new tokens with nothing rewarding the intermediate steps. Next: an evolu
 on the AND task under lexicase (tagged runs vs baseline), measuring solve rate and time
 from "both blocks in one genome" to solve — does a chemistry where blocks can sit side by
 side safely shorten the arrangement wait of 137–700 generations (§7a)?
+
+---
+
+## 10. Evolution race: tagged runs vs baseline on AND (2026-09-26)
+
+**What would be interesting to see:** now that blocks can sit side by side safely (§9),
+does evolution use that — shorter wait from "both blocks in one genome" to the solve?
+
+**Setup.** `experiments/chem_tape/sweeps/mapbias/tag_race.yaml`: 30 seeds, AND task,
+lexicase, pop 1024 × 1500 gens, 64 training cases, tape 64, mutation 0.015. Baseline =
+the lexicase runs of §5 (same budget and cases). Analysis:
+`experiments/chem_tape/tag_race_analysis.py` (waiting times from a deterministic re-run of
+each exact solver; structure from knockouts). ~11 min for the sweep.
+
+**Results.**
+
+| chemistry | solved (64 cases) | exact AND (all 10k lists) | median solve gen (exact) |
+|---|---|---|---|
+| baseline (BP_TOPK) | 14/30 | 6/30 | 506 |
+| tagged runs | 13/30 | 7/30 | 1044 |
+
+1. **No difference in outcome.** Same solve and exact-AND counts within noise; tagged
+   solvers are, if anything, slower.
+2. **No shorter arrangement wait.** Both blocks in one genome → solve: tagged 109–901
+   generations (6 seeds; one solver never had both), baseline 4–700.
+3. **Evolution doesn't use the modular route.** Every exact tagged solver has exactly one
+   load-bearing run, and that run computes AND by itself. Where the output run contains a
+   `RECV`, it fetches a tag that no run has — i.e. it's used as a constant 0. Blocks that
+   co-exist as separate runs are not wired together; AND is rebuilt inside one run.
+   This is Fable's "everything in the output run" attractor.
+
+**Take.** Making modular recombination *safe* is not enough; nothing on this task makes
+it *pay*. A block that sits in its own run is worth nothing extra here, because it is
+used exactly once. Biology's modularity is selected where parts are **reused** (one
+signal read by many genes) or where **goals change in a modular way**. Candidate next
+steps, both open-ended (no imposed shape):
+- **Reuse:** a task with several outputs that share sub-results (e.g. output tags 0, 1, 2
+  for `max>5 AND sum>10`, `max>5 OR sum>10`, `max>5 AND NOT sum>10`), so one block
+  referenced by tag serves all of them.
+- **Modularly varying goals:** switch the target between `max>5`, `sum>10` and the AND
+  every ~20 generations (Kashtan & Alon), with tagged runs vs baseline.
