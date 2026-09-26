@@ -115,7 +115,7 @@ def _programs_for_arm(
     raise ValueError(f"Unknown arm {cfg.arm!r}; use 'A', 'B', 'BP', or 'BP_TOPK'")
 
 
-def evaluate_population(
+def _evaluate_population_raw(
     population: list[np.ndarray],
     task: Task,
     cfg: ChemTapeConfig,
@@ -233,6 +233,35 @@ def evaluate_population(
     return fitnesses, predictions
 
 
+def score_predictions(predictions: np.ndarray, labels: np.ndarray, metric: str = "accuracy") -> np.ndarray:
+    """(P, E) predictions -> (P,) fitness. "accuracy" = fraction correct.
+    "balanced" (map-bias notebook §11) = mean of the accuracy on positive and
+    on negative cases, so a constant output scores 0.5 however unbalanced
+    the labels are; falls back to accuracy when one class is absent."""
+    correct = predictions == np.asarray(labels)[None, :]
+    if metric == "balanced":
+        pos = np.asarray(labels) == 1
+        if pos.any() and (~pos).any():
+            return (0.5 * (correct[:, pos].mean(axis=1) + correct[:, ~pos].mean(axis=1))).astype(np.float64)
+    return correct.mean(axis=1).astype(np.float64)
+
+
+def evaluate_population(
+    population: list[np.ndarray],
+    task: Task,
+    cfg: ChemTapeConfig,
+    topk_override: int | None = None,
+    prediction_cache: PredictionCache | None = None,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Evaluate every tape on `task.inputs` -> (fitnesses, predictions).
+    Fitness is plain accuracy unless cfg.fitness_metric == "balanced"."""
+    fitnesses, predictions = _evaluate_population_raw(
+        population, task, cfg, topk_override=topk_override, prediction_cache=prediction_cache)
+    if cfg.fitness_metric != "accuracy" and not cfg.plasticity_enabled:
+        fitnesses = score_predictions(predictions, task.labels, cfg.fitness_metric)
+    return fitnesses, predictions
+
+
 def evaluate_on_inputs(
     genotype: np.ndarray,
     inputs: list,
@@ -243,11 +272,10 @@ def evaluate_on_inputs(
 ) -> float:
     """Score a single genotype on an arbitrary input set (used for holdout).
     `topk_override` (§10): decode under this K instead of `cfg.topk`."""
-    if cfg.arm == "TAG":
+    if cfg.fitness_metric != "accuracy" or cfg.arm == "TAG":
         from dataclasses import replace
-        from .tagged import evaluate_tagged
         holdout = replace(task, inputs=list(inputs), labels=np.asarray(labels))
-        return float(evaluate_tagged([genotype], holdout)[0][0])
+        return float(evaluate_population([genotype], holdout, cfg, topk_override=topk_override)[0][0])
     if cfg.arm == "V3":
         from dataclasses import replace
         from .domains import evaluate_v3

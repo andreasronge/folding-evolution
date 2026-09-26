@@ -682,6 +682,10 @@ def _run_evolution_panmictic(
                     prediction_cache=prediction_cache,
                 )
                 cases = preds == current_task_obj.labels[None, :]
+                if cfg.track_lineage:
+                    # The lineage tracer picks each child's main parent by the
+                    # fitness selection used, which is now the new task's.
+                    track_fits[-1] = np.asarray(fitnesses, dtype=np.float32)
                 pending_pre_flip["at_flip_best_new_task"] = float(fitnesses.max())
                 pending_pre_flip["at_flip_mean_new_task"] = float(fitnesses.mean())
 

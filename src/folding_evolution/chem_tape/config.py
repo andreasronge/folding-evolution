@@ -180,6 +180,13 @@ class ChemTapeConfig:
     # reproducible (they selected once more on the old task).
     reselect_on_flip: bool = False
 
+    # Map-bias notebook §11: "accuracy" (default) or "balanced" (mean of the
+    # accuracy on positive and on negative cases). Balanced keeps a constant
+    # output at 0.5 on the stratified mbs_* tasks, where AND is 25% positive
+    # and OR 75%. Lexicase is per case and unaffected; elitism, reported
+    # fitness and the solve check use this metric.
+    fitness_metric: str = "accuracy"
+
     # §v2.5-plasticity-1a: runtime-plasticity (Baldwin-effect) probe fields.
     # Rank-1 operator-threshold plasticity: GT operations in the decoded
     # program acquire a learnable scalar modifier δ shared across all GT
@@ -267,6 +274,8 @@ class ChemTapeConfig:
             d.pop("run_duplication_rate", None)
         if not self.reselect_on_flip:
             d.pop("reselect_on_flip", None)
+        if self.fitness_metric == "accuracy":
+            d.pop("fitness_metric", None)
         # §v2.5-plasticity-1a: all plasticity fields excluded at defaults so
         # existing sweep hashes remain addressable. When plasticity_enabled
         # is False the fast-path is byte-identical to pre-5c Arm A.

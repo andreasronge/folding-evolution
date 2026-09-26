@@ -252,9 +252,9 @@ def duplicate_run(g: np.ndarray, rng: random.Random, same_tag: bool | None = Non
     - fresh tag: a silent copy. The tag must be unused by every run AND unread
       by every RECV (a RECV of a missing tag reads 0; giving the copy that tag
       would wire it in).
-    Existing runs are never truncated: trailing NOPs (which never affect a
-    run's output) are dropped first, and if the copy still does not fit the
-    genome is returned unchanged. `same_tag=None` picks either with
+    Existing runs are never truncated: to make room, trailing NOPs and then
+    leader cells (before the first SEP) are dropped — neither is ever executed
+    — and if the copy still does not fit the genome is returned unchanged. `same_tag=None` picks either with
     probability 1/2. Every branch draws the same RNG calls before deciding."""
     runs = parse_runs(g)
     if same_tag is None:
@@ -277,10 +277,15 @@ def duplicate_run(g: np.ndarray, rng: random.Random, same_tag: bool | None = Non
         new_tag = rng.choice(free)
     L, lead = len(g) // 2, leader_cells(g)
     new = runs[:at] + [(new_tag, _strip_trailing_nops(body))] + runs[at:]
-    if len(lead) + sum(1 + len(b) for _, b in new) > L:
+    need = lambda lead_, runs_: len(lead_) + sum(1 + len(b) for _, b in runs_)  # noqa: E731
+    if need(lead, new) > L:
         new = [(t, _strip_trailing_nops(b)) for t, b in new]
-        if len(lead) + sum(1 + len(b) for _, b in new) > L:
-            return g
+    if need(lead, new) > L:
+        # Leader cells (before the first SEP) are never executed: drop as
+        # many as needed, from the front.
+        lead = lead[min(len(lead), need(lead, new) - L):]
+    if need(lead, new) > L:
+        return g
     return build(lead, new, L, rng)
 
 

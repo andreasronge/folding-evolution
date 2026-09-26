@@ -493,6 +493,9 @@ def _stratified_inputs(seed: int, n_train: int, n_holdout: int) -> tuple[list, l
     length-4 lists over [0, 9]. Depends only on the seed, so every `mbs_*`
     task with the same seed sees the same inputs — only the labels differ."""
     global _ALL_LISTS_0_9
+    if n_train % 4 or n_holdout % 4:
+        raise ValueError(f"stratified tasks need n_examples and holdout_size divisible by 4, "
+                         f"got {n_train} and {n_holdout}")
     if _ALL_LISTS_0_9 is None:
         import itertools
         _ALL_LISTS_0_9 = [tuple(x) for x in itertools.product(range(10), repeat=4)]

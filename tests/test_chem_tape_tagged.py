@@ -213,3 +213,30 @@ def test_reselect_on_flip_records_new_task_start_and_selects_on_it():
     assert all("at_flip_best_new_task" not in e for e in old.flip_events)
     assert all("at_flip_best_new_task" in e for e in new.flip_events) and len(new.flip_events) == 3  # gens 4, 8, 12
     assert base.hash() != replace(base, reselect_on_flip=True).hash()
+
+
+def test_balanced_fitness_scores_constant_output_at_one_half():
+    from folding_evolution.chem_tape.evaluate import evaluate_population
+    cfg = ChemTapeConfig(task="mbs_and", arm="TAG", alphabet="tagged", tape_length=16, n_examples=64,
+                         holdout_size=0, fitness_metric="balanced")
+    t = build_task(cfg, 0)
+    const0 = genome([(0, [2])], L=16)
+    max5 = genome([(0, [1, 18, 16, 8])], L=16)
+    f, _ = evaluate_population([const0, max5], t, cfg)
+    assert abs(f[0] - 0.5) < 1e-9 and abs(f[1] - (0.5 * (1 + 2 / 3))) < 1e-9
+    acc, _ = evaluate_population([const0], t, replace(cfg, fitness_metric="accuracy"))
+    assert abs(acc[0] - 0.75) < 1e-9
+
+
+def test_duplication_uses_leader_space():
+    # Full tape whose first cells are leader junk: the copy fits by dropping leader cells.
+    task = _task(ALL, AND)
+    g = genome([(5, [1, 18, 16, 8]), (7, [1, 5, 16, 16, 7, 8]), (0, [2, (RECV, 5), (RECV, 7), 17])],
+               leader=[(1, 0)] * 10)
+    rng = random.Random(0)
+    grew = 0
+    for _ in range(30):
+        d = tagged.duplicate_run(g, rng)
+        assert (outputs(d, task) == AND).all()
+        grew += len(tagged.parse_runs(d)) == 4
+    assert grew > 0

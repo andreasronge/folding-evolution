@@ -516,3 +516,46 @@ steps, both open-ended (no imposed shape):
   referenced by tag serves all of them.
 - **Modularly varying goals:** switch the target between `max>5`, `sum>10` and the AND
   every ~20 generations (Kashtan & Alon), with tagged runs vs baseline.
+
+---
+
+## 11. Overnight queue: OR race, varying goals, fixed-AND control (2026-09-26, running)
+
+**Why.** Sixth Fable review: tagged runs combine same-tag runs by max, so the chemistry's
+built-in combinator is OR — the modular route (duplicate the output run, let the copy
+diverge) exists for OR and not for AND, and §10 only tested AND. And building a block in
+place is always cheaper than wiring two runs, so single-use tasks never reward modularity;
+varying goals (Kashtan & Alon) might.
+
+**Queue** (`experiments/chem_tape/sweeps/mapbias/overnight_queue.yaml`, 3 arms each:
+baseline BP_TOPK / tagged / tagged + gene duplication at 0.1 per child; lexicase, pop
+1024, lineage tracking, balanced-accuracy fitness):
+1. `or_race` — OR on stratified inputs, 30 seeds × 1500 gens, no early stop.
+2. `mvg_p20` — goal cycles max>5 → sum>10 → AND every 20 gens on one shared input set,
+   re-selecting on the new goal at each switch; 30 × 3000.
+3. `and_fixed` — fixed AND on the same inputs and budget (control for #2); 30 × 3000.
+4. `mvg_period` — periods 5 and 50, baseline vs tagged+dup; 30 × 3000 (runs last).
+Morning analysis: `experiments/chem_tape/overnight_analysis.py <output dir>`.
+
+**Pre-launch review (Codex gpt-6-sol, two rounds) — fixed before launch:**
+- Gene duplication could truncate existing runs, and a "silent" copy could take a tag a
+  dangling RECV reads (wiring it in); same-tag copies of self-reading runs changed output.
+  Now: never truncates (makes room from trailing NOPs, then never-executed leader cells,
+  else skips), fresh tags avoid read tags, self-dependent runs are not copied same-tag.
+  Neutrality tested on random genomes. Accepted for ~20–30% of evolved genomes.
+- OR training could be solved by `sum>10` alone (38% of 32-positive samples had no
+  max-only case). Now `mbs_*` tasks draw inputs equally from all four (max>5, sum>10)
+  cells, shared across max / sum / AND / OR for a given seed.
+- Equal cells make AND 25% and OR 75% positive, so "always 0/1" scored 0.75 and
+  populations drifted to run-less genomes. Now fitness = balanced accuracy (constant → 0.5,
+  `max>5` alone on AND → 0.83); lexicase itself is per case and unchanged. A pilot reached
+  exact AND in 2 of 9 short runs.
+- The old recovery metric compared fitness across different goals, and selection lagged one
+  generation on the old goal at each switch. Now `reselect_on_flip` re-scores on the new
+  goal before reproducing and logs the new goal's starting score; recovery is computed in
+  the morning from per-generation data.
+- Sweeps now write their index after every run and a `SWEEP_COMPLETE` marker only when all
+  configs are done; the queue checks the marker; re-running a sweep resumes.
+- Remaining caveats: baseline vs tagged is a chemistry-package comparison (tape length,
+  indels, crossover differ); tagged vs tagged+dup isolates duplication. Lineage saves only
+  the final champion's ancestry; phase-end champions come from history.csv.

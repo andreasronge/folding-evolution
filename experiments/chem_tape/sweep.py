@@ -136,6 +136,16 @@ def main() -> int:
     elapsed = time.time() - t0
     print(f"Sweep done: {len(results)} new run(s) in {elapsed:.1f}s")
 
+    # Pick up any finished run the callbacks missed (e.g. a worker that wrote
+    # result.json just before the sweep was cut short).
+    listed = {r["hash"] for r in results}
+    if index_path.exists():
+        listed |= {e["hash"] for e in json.loads(index_path.read_text())}
+    for c in configs:
+        rd = output_root / c.hash()
+        if c.hash() not in listed and (rd / "result.json").exists():
+            summary = json.loads((rd / "result.json").read_text())
+            results.append({"hash": c.hash(), "run_dir": str(rd), **summary})
     write_index()
     # Completion marker: written only when every config in the sweep has a
     # result, so a queue entry can require it (`expect_outputs`) and a sweep cut
