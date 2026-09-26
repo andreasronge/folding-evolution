@@ -272,9 +272,10 @@ passed ≥ 3 lists the other didn't. About 5 min on 6 cores.
 | crossover + mutation | 117,888 | 0.73% | 41.2% | 18.1% | 40.0% | 12 |
 | mutation only | 50,326 | 1.27% | 60.3% | 2.2% | 36.3% | 0 |
 
-1. **Pure crossover rarely crashes here: 9%, against 36% for mutation.** Most of its
-   damage is small degradation. Likely because lexicase populations are converged, so
-   parents are similar and a single-point cut swaps little that matters. Unexplored.
+1. **Pure crossover rarely crashes here: 9%, against 36% for mutation.** *Overstated —
+   see §7:* this bar let crossover children fall to the weaker parent; against the
+   fitter parent it is 18.5% vs 33%. The "converged parents" explanation offered here
+   is also wrong (§7).
 2. **Mutation is twice as likely to improve a child** (1.27% vs 0.61%). Crossover makes
    ~4× more children, so it still delivers more improvements in total.
 3. **Combinations are rare and cluster at the solve.** 30 of ~360,000 children, in 3 of
@@ -301,3 +302,87 @@ possible at all?
 
 **Caveats.** Sampled generations only; 6 solvers; crash / degrade thresholds are my
 choice; the predicate-piece test uses task knowledge (analysis only, not selection).
+
+---
+
+## 7. Waiting times, fair crash bar, and a guaranteed-supply merge test (2026-09-26)
+
+**What would be interesting to see:** (a) once both blocks exist, how long evolution
+takes to arrange them into a solution — a long wait means arrangement, not supply, is
+the bottleneck; (b) whether recombination can put a `max>5` block and a `sum>10` block
+together at all when both are guaranteed to be there. From the fourth Fable review.
+
+### 7a. The six exact-AND solvers again
+
+Same re-run as §6 (`crossover_spectrum.py`, output `crossover_spectrum2/`), now with
+crossover scored against the **fitter** parent like mutation, crash rate by how many
+executed cells differ between the parents, the last 10 generations reported
+separately, and waiting times (first generation a genome contains a piece computing
+`max>5` / `sum>10` exactly, both in the population, both in one genome).
+
+| operator (vs fitter parent) | every 10th gen: crash | endgame: crash | better |
+|---|---|---|---|
+| crossover, no mutation | 18.5% | 23.1% | 0.6–0.9% |
+| crossover + mutation | 44.5% | 63.5% | 0.7–1.1% |
+| mutation only | 33.4% | 53.6% | 1.2–1.8% |
+
+1. **Pure crossover is gentler than mutation, but less than §6 said** (18.5% vs 33%).
+2. **Populations are not converged.** 145,596 of 192,256 pure crossovers are between
+   parents whose executed programs differ in ≥ 16 cells. Crash rises with that distance
+   (1.8% → 6.0% → 9.5% → 17.8% → 20.3%) but stays near 20% even for very different
+   parents. Crossover + mutation crashes ~57% at every distance, so the extra mutation
+   does most of that damage.
+3. **Supply is early, arrangement is slow.**
+
+| seed | both blocks in population | both in one genome | solve | one genome → solve | solver has both blocks |
+|---|---|---|---|---|---|
+| 0 | 124 | 124 | 622 | 498 | yes |
+| 5 | 123 | 328 | 1028 | 700 | yes |
+| 6 | 151 | 1174 | 1178 | 4 | yes |
+| 8 | 103 | never | 234 | — | no (arithmetic) |
+| 9 | 217 | 253 | 390 | 137 | no |
+| 29 | 5 | 8 | 369 | 361 | no |
+
+   Both blocks exist within 5–217 generations; from co-presence in one genome to the solve
+   takes 137–700 generations in 4 of 5 seeds. And 3 of 6 exact solvers contain neither
+   pair of blocks — they reach exact AND another way. So once lexicase supplies the
+   blocks, **arrangement is the bottleneck**.
+
+### 7b. Guaranteed-supply merge test
+
+`experiments/chem_tape/merge_test.py`, output `merge_test/` (an earlier run with a wrong
+crash bar is kept as `merge_test_v1_wrong_crash_bar/`). New tasks `mb_max_gt_5` and
+`mb_sum_gt_10` use exactly the AND task's slot/threshold bindings, so a block means the
+same thing after a transplant. Donors: 25 genomes per predicate and chemistry, each
+exact on all 10,000 lists, from pop 1024 × 400 gens runs (baseline needs the long budget
+for `sum>10`). Every max>5 × sum>10 donor pair, both orders, crossed three ways; every
+child scored on all 10,000 lists against AND. Crash = clearly worse than *both* parents.
+
+| chemistry | operator | children | exact AND | both blocks kept | same as a parent | crash |
+|---|---|---|---|---|---|---|
+| baseline | single-point | 38,750 | 0 | 0 | 74.1% | 25.9% |
+| v3 | single-point | 38,750 | 0 | 0 | 53.5% | 46.4% |
+| v3 | domain transplant (all 6 linkers) | 393,204 | 0 | 0 | 69.7% | 30.2% |
+
+**No child in either chemistry computes AND or keeps both blocks.** Why:
+- **Baseline: blocks compete for the same place.** Donors end with their predicate's
+  final comparison at the *end* of the tape, because the output is the top of the stack.
+  A single-point cut keeps X's start and Y's end, so X's block is almost always cut off.
+- **v3: blocks are not domains.** v3 donors spread a predicate across several domains and
+  use the linkers as the arithmetic (e.g. `const MIN const MAX [reads max] GT const GT
+  const`). A single domain never carries the block, and because the linker chain is a
+  left-to-right fold with no grouping, two multi-domain chains can't be combined as
+  units. Silent transplants are harmless (1.45% crash) but useless.
+
+**Take.** Supply is solved by lexicase; the jump that remains is *arrangement*, and
+neither chemistry gives evolution a way to treat an evolved block as one unit. That is
+now the sharp design question for a crash-free recombination chemistry: blocks need to
+be **closed units with one output** that recombination can move and a combinator can
+join — e.g. nested / tree-shaped domains (a linker combines two *sub-chains*, not one
+domain), or blocks that must return their value to a named slot instead of the shared
+stack top. A first cheap check: whether evolution under such a chemistry keeps each
+predicate inside one unit, before any evolution race.
+
+**Caveats.** Waiting-time scan every 5 generations, refined to the exact generation;
+donors come from 8 seeds per pool; "both blocks kept" is checked on a 10% sample for
+baseline (piece search is costly) and on whole domains for v3.

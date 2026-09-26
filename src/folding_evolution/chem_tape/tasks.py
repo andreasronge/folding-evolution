@@ -456,6 +456,34 @@ def _make_compositional_task(op: str, task_name: str):
 
 
 make_sum_gt_10_AND_max_gt_5_task = _make_compositional_task("AND", "sum_gt_10_AND_max_gt_5")
+
+
+def _make_plain_predicate_task(label_fn, task_name: str):
+    """Map-bias notebook §7: one predicate of the AND task, with exactly the AND
+    task's slot/threshold bindings, so a block evolved here computes the same
+    thing when transplanted into an AND-task genome."""
+    def _make(cfg: ChemTapeConfig, seed: int) -> Task:
+        def gen(rng):
+            return _rand_intlist(rng, length=4)
+        train_inp, train_lab, hold_inp, hold_lab = _build_training_and_holdout(
+            seed, cfg.n_examples, cfg.holdout_size, gen, label_fn, lambda xs: label_fn(xs) == 1
+        )
+        return Task(
+            name=task_name,
+            input_type="intlist",
+            inputs=train_inp,
+            labels=train_lab,
+            alphabet=alph.TaskAlphabet(slot_12=alph.OP_NOP, slot_13=alph.OP_NOP),
+            label_fn=label_fn,
+            holdout_inputs=hold_inp,
+            holdout_labels=hold_lab,
+        )
+
+    return _make
+
+
+make_mb_max_gt_5_task = _make_plain_predicate_task(lambda xs: int(max(xs) > 5), "mb_max_gt_5")
+make_mb_sum_gt_10_task = _make_plain_predicate_task(lambda xs: int(sum(xs) > 10), "mb_sum_gt_10")
 make_sum_gt_10_OR_max_gt_5_task = _make_compositional_task("OR", "sum_gt_10_OR_max_gt_5")
 
 
@@ -1001,6 +1029,8 @@ TASK_REGISTRY = {
     "sum_gt_5_slot": make_sum_gt_5_slot_task,
     "sum_gt_10_slot": make_sum_gt_10_slot_task,
     "sum_gt_10_AND_max_gt_5": make_sum_gt_10_AND_max_gt_5_task,
+    "mb_max_gt_5": make_mb_max_gt_5_task,
+    "mb_sum_gt_10": make_mb_sum_gt_10_task,
     "sum_gt_10_OR_max_gt_5": make_sum_gt_10_OR_max_gt_5_task,
     "agg_sum_gt_10": make_agg_sum_gt_10_task,
     "agg_max_gt_5": make_agg_max_gt_5_task,

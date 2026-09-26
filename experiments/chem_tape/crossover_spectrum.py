@@ -79,6 +79,129 @@ def classify(child: float, parents: list[float]) -> str:
     return "crash"
 
 
+def classify_vs_fitter(child: float, parents: list[float]) -> str:
+    """Same bar for every operator: compare with the fitter parent only."""
+    hi = max(parents)
+    if child > hi + EPS:
+        return "better"
+    if child >= hi - EPS:
+        return "neutral"
+    if child >= hi - CRASH:
+        return "degrade"
+    return "crash"
+
+
+DIST_BINS = [(0, 1), (2, 3), (4, 7), (8, 15), (16, 99)]
+INPUT_TOKEN = 1
+AGGREGATORS = {5, 11, 18}  # SUM, REDUCE_ADD, REDUCE_MAX
+
+
+def dist_bin(d: int) -> str:
+    return next(f"{lo}-{hi}" for lo, hi in DIST_BINS if lo <= d <= hi)
+
+
+def waiting_times(pops, cfg, task, rust_exec, programs_for) -> dict:
+    """First generation at which: some genome has a piece computing max>5 /
+    sum>10 exactly; both pieces exist in the population; both sit in one
+    genome. Scans every 5th generation, then refines each first hit."""
+    # Screen on 32 lists, 8 from each (max>5, sum>10) combination, so a wrong
+    # piece fails fast; hits are confirmed on all 10k lists.
+    rng = np.random.default_rng(0)
+    screen_idx = np.concatenate([
+        rng.choice(np.flatnonzero((MAX_GT_5 == m) & (SUM_GT_10 == t)), 8, replace=False)
+        for m in (0, 1) for t in (0, 1)])
+    screen = [ALL_LISTS[i] for i in screen_idx]
+
+    def run(progs, inputs):
+        flat = rust_exec(progs, task.alphabet.slot_12, task.alphabet.slot_13, inputs, task.input_type,
+                         alphabet_name=cfg.alphabet, threshold=int(task.alphabet.threshold),
+                         safe_pop_consume=cfg.safe_pop_mode == "consume")
+        return np.asarray(flat, dtype=np.int64).reshape(len(progs), len(inputs))
+
+    screened: dict[tuple, tuple[bool, bool]] = {}   # passes the 32-list screen for max>5 / sum>10
+    confirmed: dict[tuple, tuple[bool, bool]] = {}  # exact on all 10k lists
+
+    def screen_new(subs: set) -> None:
+        new = [x for x in subs if x not in screened]
+        for x in new:  # a piece that never reads the input or aggregates it can't compute either predicate
+            if INPUT_TOKEN not in x or not AGGREGATORS & set(x):
+                screened[x] = (False, False)
+        new = [x for x in new if x not in screened]
+        if not new:
+            return
+        idx4 = screen_idx[::8]  # stage 1: one list per predicate combination
+        out4 = run([list(x) for x in new], [ALL_LISTS[i] for i in idx4])
+        keep = (out4 == MAX_GT_5[idx4]).all(axis=1) | (out4 == SUM_GT_10[idx4]).all(axis=1)
+        for x in (x for x, k in zip(new, keep) if not k):
+            screened[x] = (False, False)
+        new = [x for x, k in zip(new, keep) if k]
+        if new:
+            out = run([list(x) for x in new], screen)
+            for x, o in zip(new, out):
+                screened[x] = (bool((o == MAX_GT_5[screen_idx]).all()), bool((o == SUM_GT_10[screen_idx]).all()))
+
+    def flags(g: int) -> tuple[bool, bool, bool]:
+        """Per genome: does some piece compute max>5 / sum>10 exactly? Candidates
+        that pass the screen are confirmed shortest-first, only as far as needed."""
+        uniq = np.unique(pops[g], axis=0)
+        progs = [tuple(p) for p in programs_for(cfg, uniq)]
+        per = [sorted({p[i:j] for i in range(len(p)) for j in range(i + 1, len(p) + 1)}, key=len) for p in progs]
+        screen_new({x for subs in per for x in subs})
+        result = []
+        for k in (0, 1):
+            cands = [[x for x in subs if screened[x][k]] for subs in per]
+            pos = [0] * len(per)
+            answer = [None] * len(per)
+            while True:
+                need = set()
+                for n, cs in enumerate(cands):
+                    while answer[n] is None:
+                        if pos[n] >= len(cs):
+                            answer[n] = False
+                        elif cs[pos[n]] in confirmed:
+                            if confirmed[cs[pos[n]]][k]:
+                                answer[n] = True
+                            else:
+                                pos[n] += 1
+                        else:
+                            need.add(cs[pos[n]])
+                            break
+                if not need:
+                    break
+                need = list(need)
+                full = run([list(x) for x in need], ALL_LISTS)
+                for x, o in zip(need, full):
+                    confirmed[x] = (bool((o == MAX_GT_5).all()), bool((o == SUM_GT_10).all()))
+            result.append(answer)
+        has_m, has_s = result
+        return any(has_m), any(has_s), any(a and b for a, b in zip(has_m, has_s))
+
+    G = len(pops) - 1
+    names = ("max>5 anywhere", "sum>10 anywhere", "both in one genome")
+    first: dict[str, int | None] = {n: None for n in names}
+    coarse = list(range(0, G + 1, 5)) + ([G] if G % 5 else [])
+    seen = {}
+    for g in coarse:
+        seen[g] = flags(g)
+        for n, v in zip(names, seen[g]):
+            if v and first[n] is None:
+                first[n] = g
+        if all(v is not None for v in first.values()):
+            break
+    for k, n in enumerate(names):  # refine each first hit to the exact generation
+        if first[n]:
+            for g in range(max(0, first[n] - 4), first[n]):
+                f = seen.get(g) or flags(g)
+                seen[g] = f
+                if f[k]:
+                    first[n] = g
+                    break
+    both_pop = None if first["max>5 anywhere"] is None or first["sum>10 anywhere"] is None \
+        else max(first["max>5 anywhere"], first["sum>10 anywhere"])
+    return {**first, "both in population": both_pop, "solve": G,
+            "solver has both": all(flags(G)[:2]) and flags(G)[2]}
+
+
 def work(item) -> dict:
     run_dir, c, expected_hex = item
     os.environ.setdefault("RAYON_NUM_THREADS", "2")
@@ -99,10 +222,15 @@ def work(item) -> dict:
         _, preds = evaluate_population(list(genomes), task, cfg)
         return preds
 
+    from folding_evolution.chem_tape import engine_numpy
     counts: dict[str, collections.Counter] = collections.defaultdict(collections.Counter)
+    fitter: dict[str, collections.Counter] = collections.defaultdict(collections.Counter)
+    by_dist: dict[str, collections.Counter] = collections.defaultdict(collections.Counter)
     combos: dict[tuple, dict] = {}
     G = len(pops) - 1
     for g in sample_generations(G):
+        stratum = "endgame (last 10 gens)" if g > G - 10 else "every 10th gen"
+        prev_mask = engine_numpy.compute_topk_runnable_mask(pops[g - 1], cfg.topk, cfg.decode_separators())
         prev_u, prev_inv = np.unique(pops[g - 1], axis=0, return_inverse=True)
         cur_u, cur_inv = np.unique(pops[g], axis=0, return_inverse=True)
         prev_out, cur_out = outputs(prev_u), outputs(cur_u)
@@ -114,12 +242,19 @@ def work(item) -> dict:
                 continue  # elites and unmutated clones are exact copies
             cu = cur_inv[ci]
             if kind == 2:
-                counts["mutation only"][classify(cur_score[cu], [prev_score[prev_inv[p1]]])] += 1
+                o = classify(cur_score[cu], [prev_score[prev_inv[p1]]])
+                counts["mutation only"][o] += 1
+                fitter[f"{stratum} | mutation only"][o] += 1
                 continue
             a, b = prev_inv[p1], prev_inv[p2]
             label = "crossover + mutation" if mutated else "crossover, no mutation"
             outcome = classify(cur_score[cu], [prev_score[a], prev_score[b]])
             counts[label][outcome] += 1
+            of = classify_vs_fitter(cur_score[cu], [prev_score[a], prev_score[b]])
+            fitter[f"{stratum} | {label}"][of] += 1
+            ga, gb = pops[g - 1][p1], pops[g - 1][p2]
+            exec_diff = int(((prev_mask[p1] | prev_mask[p2]) & (ga != gb)).sum())
+            by_dist[f"{label} | executed cells differing {dist_bin(exec_diff)}"][of] += 1
             s1, s2, sc = prev_pass[a], prev_pass[b], cur_pass[cu]
             if (s1 & ~s2).sum() >= K and (s2 & ~s1).sum() >= K and not ((s1 | s2) & ~sc).any():
                 counts[label]["combination"] += 1
@@ -173,7 +308,11 @@ def work(item) -> dict:
                                       "p2": has_predicates(p2_prog)},
                        "p1_program": " ".join(tn.get(t, str(t)) for t in p1_prog),
                        "p2_program": " ".join(tn.get(t, str(t)) for t in p2_prog)})
+    waits = waiting_times(pops, cfg, replace(build_task(cfg, cfg.seed)), rust_chem_execute_pop_batch,
+                          _programs_for_arm)
     return {"seed": cfg.seed, "solve_gen": G, "counts": {k: dict(v) for k, v in counts.items()},
+            "vs_fitter": {k: dict(v) for k, v in fitter.items()},
+            "by_distance": {k: dict(v) for k, v in by_dist.items()}, "waits": waits,
             "events": events, "unique_combinations_tested": len(combos)}
 
 
@@ -207,6 +346,35 @@ def main(sweep_dir: str, out_dir: str) -> None:
         pct = lambda o: f"{100 * v[o] / n:.2f}%" if n else "-"  # noqa: E731
         lines.append(f"| {k} | {n} | {pct('better')} | {pct('neutral')} | {pct('degrade')} | "
                      f"{pct('crash')} | {v['combination']} ({pct('combination')}) |")
+    def table(title: str, key: str, rows: list[str]) -> list[str]:
+        agg: dict[str, collections.Counter] = collections.defaultdict(collections.Counter)
+        for r in results:
+            for k, v in r[key].items():
+                agg[k].update(v)
+        out = ["", f"## {title}", "", "| group | children | better | neutral | small degradation | crash |",
+               "|---|---|---|---|---|---|"]
+        for k in rows:
+            v = agg.get(k, collections.Counter())
+            n = sum(v[o] for o in ("better", "neutral", "degrade", "crash"))
+            if n:
+                out.append(f"| {k} | {n} | " + " | ".join(f"{100 * v[o] / n:.2f}%" for o in
+                                                            ("better", "neutral", "degrade", "crash")) + " |")
+        return out
+
+    ops = ("crossover, no mutation", "crossover + mutation", "mutation only")
+    strata = ("every 10th gen", "endgame (last 10 gens)")
+    lines += table("Same bar for every operator: compared with the fitter parent", "vs_fitter",
+                   [f"{s_} | {o}" for s_ in strata for o in ops])
+    lines += table("Crossover outcome by how many executed cells differ between the parents", "by_distance",
+                   [f"{o} | executed cells differing {lo}-{hi}" for o in ops[:2] for lo, hi in DIST_BINS])
+    lines += ["", "## Waiting times (generation of first occurrence)", "",
+              "| seed | max>5 piece anywhere | sum>10 piece anywhere | both in population | both in one genome | "
+              "solve | solver has both pieces |", "|---|---|---|---|---|---|---|"]
+    for r in results:
+        w = r["waits"]
+        lines.append(f"| {r['seed']} | {w['max>5 anywhere']} | {w['sum>10 anywhere']} | {w['both in population']} | "
+                     f"{w['both in one genome']} | {w['solve']} | {w['solver has both']} |")
+
     ev = [e for r in results for e in r["events"]]
     lines += ["", f"## Substring test on {len(ev)} unique combination events", "",
               f"- a piece behaving exactly like parent 1: {sum(e['p1_piece'] for e in ev)}",
