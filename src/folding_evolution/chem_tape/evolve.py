@@ -78,6 +78,11 @@ class EvolutionResult:
     # Map-bias notebook §4: ancestry of the final best genome when
     # cfg.track_lineage is set (see _trace_lineage for the keys).
     lineage: dict | None = None
+    # Every generation's population, fitness and parent rows when
+    # cfg.track_lineage is set: {"pops", "fits", "parents"} lists indexed by
+    # generation. In memory only (run.py does not save it); used by
+    # experiments/chem_tape/crossover_spectrum.py.
+    generations: dict | None = None
 
 
 def _trace_lineage(
@@ -800,6 +805,10 @@ def _run_evolution_panmictic(
         final_k_argmax_index=final_kargmax,
         initial_population_canonical_count=canonical_count,
         lineage=lineage,
+        generations=(
+            {"pops": track_pops, "fits": track_fits, "parents": track_parents}
+            if cfg.track_lineage else None
+        ),
     )
 
 

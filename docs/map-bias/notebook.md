@@ -221,11 +221,14 @@ Also includes the Rust top-K decode speed-up from another session (commit `35a54
    exact (1.000); the other 8 are approximations that happen to fit the 64 training cases
    (0.918–0.9965; median of all 14 is 0.9915). The 256-case holdout doesn't catch most of
    them.
-3. **Innovations come from crossover roughly in proportion to its use.** Along the 14
-   solver main lines there were 95 innovations (child beats both parents): 76 by
-   crossover (80%), 19 by mutation. Crossover makes 69% of main-line steps, so that is a
-   modest excess (~2 SD). Big jumps (≥ 0.05): 24 of 33 by crossover (73%). The final step
-   to 1.0 was a crossover in 10 of 14 runs.
+3. **No evidence that crossover on its own drives innovation.** Along the 14 solver main
+   lines there were 95 innovations (child beats both parents). *Corrected after review:*
+   most "crossover" children were also mutated afterwards. Split: 26 pure crossover, 50
+   crossover + mutation, 19 mutation only. Pure crossover is 27% of innovations, roughly
+   its share of all children. The final step to 1.0 was a crossover in 10 of 14 runs,
+   which is what a 0.7 crossover rate predicts (9.8). Caveat: only solver main lines were
+   looked at, so everything here is conditioned on success; §6 measures all children.
+   (The earlier "big jumps ≥ 0.05" count is dropped: 0.05 is only 3 of 64 cases.)
 4. **My "merges both parents" measure doesn't discriminate.** 52/76 innovating crossovers
    put executed material from each parent into the child — but 70% of *all* main-line
    crossovers do too. A better measure is needed to say whether a step combined two
@@ -242,3 +245,59 @@ innovator mainly because it's the main operator. Two changes before comparing ch
 (plan step 4): score fitness on all 10,000 lists so approximations can't pass, and build
 a functional "did this crossover combine two blocks" measure — e.g. does the child's
 behaviour match an AND of the parents' behaviours on the cases where they differ.
+
+---
+
+## 6. Crossover spectrum on the exact-AND solvers (2026-09-26)
+
+**What would be interesting to see:** whether any crossover actually merged two
+working blocks — one from each parent — and how often crossover crashes compared
+with mutation. Suggested by the third Fable review.
+
+**Setup.** `experiments/chem_tape/crossover_spectrum.py`. The 6 exact-AND lexicase
+solvers from §5 (seeds 0, 5, 6, 8, 9, 29) re-run with lineage tracking; every re-run
+reproduced its saved best genome. On sampled generations (every 10th, plus the last
+10 before the solve), every child except elites and unmutated clones is scored on
+all 10,000 lists (balanced accuracy, since 84% of lists are positive) and compared
+with its parent(s): **better** (> fitter parent + 0.001), **neutral**, **small
+degradation** (not below the weaker parent − 0.05), **crash** (below that).
+**Combination** = the child passes every list either parent passed, and each parent
+passed ≥ 3 lists the other didn't. About 5 min on 6 cores.
+
+**Results.**
+
+| operator | children | better | neutral | small degradation | crash | combination |
+|---|---|---|---|---|---|---|
+| crossover, no mutation | 192,256 | 0.61% | 62.7% | 27.5% | 9.2% | 18 |
+| crossover + mutation | 117,888 | 0.73% | 41.2% | 18.1% | 40.0% | 12 |
+| mutation only | 50,326 | 1.27% | 60.3% | 2.2% | 36.3% | 0 |
+
+1. **Pure crossover rarely crashes here: 9%, against 36% for mutation.** Most of its
+   damage is small degradation. Likely because lexicase populations are converged, so
+   parents are similar and a single-point cut swaps little that matters. Unexplored.
+2. **Mutation is twice as likely to improve a child** (1.27% vs 0.61%). Crossover makes
+   ~4× more children, so it still delivers more improvements in total.
+3. **Combinations are rare and cluster at the solve.** 30 of ~360,000 children, in 3 of
+   the 6 seeds, all in the last generation or two before solving. Seeds 5, 9 and 29 had
+   none in the sampled generations.
+4. **No combination merged one block from each parent.** Test 1: no child contains
+   pieces behaving like both whole parents (0 of 15 unique events; parents were
+   approximations, so this test is strict). Test 2, pieces computing `max>5` / `sum>10`
+   exactly:
+   - Seed 0: the child is the canonical `CONST_0 … INPUT REDUCE_MAX CONST_5 GT IF_GT …
+     INPUT SUM … GT` form — but parent 2 *already had both* blocks (score 0.978). The
+     crossover fixed their arrangement, not their supply.
+   - Seed 8: one event had `max>5` in parent 1 and `sum>10` in parent 2, but the child
+     kept only `sum>10`; the max test ended up folded into arithmetic.
+   - Seed 6: `max>5` in all three, no `sum>10` piece anywhere.
+
+**Take.** On this task and chemistry, crossover does not jump by merging two blocks
+from two parents. It mostly supplies a similar genome in which a small change does the
+work, and the few "combinations" are rearrangements of blocks one parent already had.
+Per the plan agreed with Fable, the next step is therefore not an evolution race but a
+static test: **v3's crash spectrum against baseline** — does domain isolation keep
+crossover children from crashing, and does it make one-parent-per-block merges
+possible at all?
+
+**Caveats.** Sampled generations only; 6 solvers; crash / degrade thresholds are my
+choice; the predicate-piece test uses task knowledge (analysis only, not selection).
