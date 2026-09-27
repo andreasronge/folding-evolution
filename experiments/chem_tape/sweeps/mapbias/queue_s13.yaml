@@ -1,0 +1,46 @@
+# Map-bias §13 queue: attribution controls + evolvable combiner. Launch:
+#   caffeinate -s uv run python scripts/run_queue.py --queue experiments/chem_tape/sweeps/mapbias/queue_s13.yaml \
+#     --status experiments/chem_tape/sweeps/mapbias/queue_s13.status.json --lock experiments/chem_tape/sweeps/mapbias/queue_s13.lock
+# Each sweep writes SWEEP_COMPLETE only when all configs have results; re-running a sweep resumes.
+
+- id: mapbias_or_nox
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/or_nox.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §13: or_nox"
+
+- id: mapbias_or_leftmost
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/or_leftmost.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §13: or_leftmost"
+
+- id: mapbias_or_basectrl
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/or_basectrl.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 5400
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §13: or_basectrl"
+
+- id: mapbias_comb_or
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/comb_or.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §13: comb_or"
+
+- id: mapbias_comb_and
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/comb_and.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 7200
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §13: comb_and"
+
+- id: mapbias_mvg_matched
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/mvg_matched.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 10800
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §13: mvg_matched"

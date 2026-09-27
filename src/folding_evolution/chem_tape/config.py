@@ -187,6 +187,12 @@ class ChemTapeConfig:
     # fitness and the solve check use this metric.
     fitness_metric: str = "accuracy"
 
+    # Map-bias notebook §13, tagged runs only: how several runs with the same
+    # tag join. "max" (default; combine markers apply under alphabet
+    # "tagged_comb") or "leftmost" (first run in tape order wins — a control
+    # with the same chemistry but no free OR).
+    tag_combine: str = "max"
+
     # §v2.5-plasticity-1a: runtime-plasticity (Baldwin-effect) probe fields.
     # Rank-1 operator-threshold plasticity: GT operations in the decoded
     # program acquire a learnable scalar modifier δ shared across all GT
@@ -276,6 +282,8 @@ class ChemTapeConfig:
             d.pop("reselect_on_flip", None)
         if self.fitness_metric == "accuracy":
             d.pop("fitness_metric", None)
+        if self.tag_combine == "max":
+            d.pop("tag_combine", None)
         # §v2.5-plasticity-1a: all plasticity fields excluded at defaults so
         # existing sweep hashes remain addressable. When plasticity_enabled
         # is False the fast-path is byte-identical to pre-5c Arm A.

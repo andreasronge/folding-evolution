@@ -299,6 +299,16 @@ _OPS_V2_SPLIT: dict[int, OpFn] = {**_OPS_V2,
 # v2-min dispatch: extends v2 with MIN (map-bias notebook §3).
 _OPS_V2_MIN: dict[int, OpFn] = {**_OPS_V2, alph.MIN: _op_min}
 
+
+def _op_imax(stack: list, inp_value, inp_type: str, ta: alph.TaskAlphabet) -> None:
+    b = safe_pop(stack, "int")
+    a = safe_pop(stack, "int")
+    push_int(stack, max(a, b))
+
+
+# v2-imax dispatch: extends v2 with integer MAX (map-bias notebook §13).
+_OPS_V2_IMAX: dict[int, OpFn] = {**_OPS_V2, alph.IMAX: _op_imax}
+
 # Slot-name → op function. Extended from v1 set with MAP_EQ_E and REDUCE_MAX
 # (architecture-v2.md §Slot-binding generalization). REDUCE_ADD is also
 # exposed as a slot binding for §v2.5's aggregator-variation design.
@@ -317,6 +327,8 @@ def _dispatch_table(alphabet_name: str) -> dict[int, OpFn]:
         return _OPS_V2_SPLIT
     if alphabet_name == "v2_min":
         return _OPS_V2_MIN
+    if alphabet_name == "v2_imax":
+        return _OPS_V2_IMAX
     if alphabet_name == "v2_probe":
         return _OPS_V2
     return _OPS_V1

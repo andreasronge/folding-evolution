@@ -143,7 +143,7 @@ def _token_max(cfg: ChemTapeConfig) -> int:
     """
     if cfg.alphabet == "v2_split":
         return 23
-    if cfg.alphabet == "v2_min":
+    if cfg.alphabet in ("v2_min", "v2_imax"):
         return 22
     if cfg.alphabet == "v3_domains":
         return 25
@@ -156,7 +156,7 @@ def random_genotype(cfg: ChemTapeConfig, rng: random.Random) -> np.ndarray:
     arm "TAG" (tagged runs): 2·tape_length values, ops then tags."""
     if cfg.arm == "TAG":
         from . import tagged
-        return tagged.random_genotype(cfg.tape_length, rng)
+        return tagged.random_genotype(cfg.tape_length, rng, n_ops=tagged.n_ops_for(cfg.alphabet))
     hi = _token_max(cfg)
     return np.array(
         [rng.randint(0, hi) for _ in range(cfg.tape_length)],
@@ -277,7 +277,8 @@ def mutate(
     K under the §10 K-alternating schedule."""
     if cfg.arm == "TAG":
         from . import tagged
-        return tagged.mutate(tape, cfg.mutation_rate, rng, dup_rate=cfg.run_duplication_rate)
+        return tagged.mutate(tape, cfg.mutation_rate, rng, dup_rate=cfg.run_duplication_rate,
+                             n_ops=tagged.n_ops_for(cfg.alphabet))
     out = tape.copy()
     L = out.shape[0]
     hi = _token_max(cfg)

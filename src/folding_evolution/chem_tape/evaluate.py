@@ -141,7 +141,7 @@ def _evaluate_population_raw(
         return evaluate_v3(population, task, cfg.safe_pop_mode == "consume")
     if cfg.arm == "TAG":
         from .tagged import evaluate_tagged
-        return evaluate_tagged(population, task)
+        return evaluate_tagged(population, task, combine=cfg.tag_combine)
 
     P = len(population)
     E = len(task.inputs)

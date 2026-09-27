@@ -49,6 +49,8 @@ const SUM_LEFT2: u8 = 22;
 const SUM_RIGHT2: u8 = 23;
 // v2_min extension (map-bias notebook §3): MIN at id 22.
 const MIN: u8 = 22;
+// v2_imax extension (map-bias notebook §13): integer MAX at id 22.
+const IMAX: u8 = 22;
 
 const OP_CAP: usize = 256;
 
@@ -230,6 +232,7 @@ enum Alphabet {
     V2Probe,
     V2Split,
     V2Min,
+    V2IMax,
 }
 
 impl Alphabet {
@@ -439,6 +442,18 @@ fn op_min(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
     stack.push(Value::Int(a.min(b)));
 }
 
+fn op_imax(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
+    let b = match safe_pop(stack, TypeTag::Int, ctx.safe_pop_consume) {
+        Value::Int(v) => v,
+        _ => 0,
+    };
+    let a = match safe_pop(stack, TypeTag::Int, ctx.safe_pop_consume) {
+        Value::Int(v) => v,
+        _ => 0,
+    };
+    stack.push(Value::Int(a.max(b)));
+}
+
 fn op_threshold_slot(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
     stack.push(Value::Int(ctx.threshold));
 }
@@ -493,6 +508,7 @@ fn execute_inner(tokens: &[u8], ctx: &ExecCtx<'_>) -> i64 {
             (SUM_LEFT2, Alphabet::V2Split) => op_sum_left2(&mut stack, ctx),
             (SUM_RIGHT2, Alphabet::V2Split) => op_sum_right2(&mut stack, ctx),
             (MIN, Alphabet::V2Min) => op_min(&mut stack, ctx),
+            (IMAX, Alphabet::V2IMax) => op_imax(&mut stack, ctx),
 
             // Everything else (including v2 separators 20/21 and v1's 14/15
             // when not in V2Probe dispatch) executes as NOP.
@@ -511,6 +527,7 @@ fn parse_alphabet(name: Option<&str>) -> Alphabet {
         "v2_probe" => Alphabet::V2Probe,
         "v2_split" => Alphabet::V2Split,
         "v2_min" => Alphabet::V2Min,
+        "v2_imax" => Alphabet::V2IMax,
         _ => Alphabet::V1,
     }
 }

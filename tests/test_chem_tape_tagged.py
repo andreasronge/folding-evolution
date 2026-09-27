@@ -240,3 +240,49 @@ def test_duplication_uses_leader_space():
         assert (outputs(d, task) == AND).all()
         grew += len(tagged.parse_runs(d)) == 4
     assert grew > 0
+
+
+OR = np.array([int(sum(x) > 10 or max(x) > 5) for x in ALL])
+MAXB, SUMB = [1, 18, 16, 8], [1, 5, 16, 16, 7, 8]
+
+
+def test_two_output_runs_join_by_max_as_or():
+    assert (outputs(genome([(0, MAXB), (0, SUMB)]), _task(ALL, OR)) == OR).all()
+
+
+def test_combine_markers_turn_the_join_into_and():
+    task = _task(ALL, AND)
+    g = genome([(0, MAXB), (0, SUMB + [tagged.C_MIN])])          # second run joins by min
+    assert (outputs(g, task) == AND).all()
+    g = genome([(0, MAXB), (0, [tagged.C_GATE] + SUMB)])        # gate: sum>10 if max>5 else 0
+    assert (outputs(g, task) == AND).all()
+    g = genome([(0, [3]), (0, [3, tagged.C_ADD])])              # 1 + 1
+    assert (outputs(g, task) == 2).all()
+
+
+def test_markers_do_nothing_when_executed():
+    task = _task(ALL, AND)
+    assert (outputs(genome([(0, [tagged.C_ADD] + MAXB + [tagged.C_MIN])]), task)
+            == outputs(genome([(0, MAXB)]), task)).all()
+
+
+def test_leftmost_combine_ignores_later_same_tag_runs():
+    from folding_evolution.chem_tape.evaluate import evaluate_population
+    cfg = ChemTapeConfig(task="mbs_or", arm="TAG", alphabet="tagged", tape_length=16, n_examples=64,
+                         holdout_size=0, tag_combine="leftmost")
+    t = replace(build_task(cfg, 0), inputs=ALL, labels=OR)
+    g = genome([(0, MAXB), (0, SUMB)], L=16)
+    _, p_left = evaluate_population([g], t, cfg)
+    _, p_max = evaluate_population([g], t, replace(cfg, tag_combine="max"))
+    assert (p_left[0] == np.array([int(max(x) > 5) for x in ALL])).all() and (p_max[0] == OR).all()
+    assert cfg.hash() != replace(cfg, tag_combine="max").hash()
+
+
+def test_comb_alphabet_draws_markers_and_plain_alphabet_never_does():
+    rng = random.Random(0)
+    comb = tagged.random_genotype(64, rng, n_ops=tagged.n_ops_for("tagged_comb"))
+    plain = [tagged.random_genotype(64, rng) for _ in range(50)]
+    assert tagged.split(comb)[0].max() < tagged.N_OPS_COMB
+    assert all(tagged.split(g)[0].max() < tagged.N_OPS for g in plain)
+    mutated = [tagged.mutate(plain[0], 0.5, rng) for _ in range(50)]
+    assert all(tagged.split(g)[0].max() < tagged.N_OPS for g in mutated)

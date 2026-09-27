@@ -24,7 +24,19 @@ import random
 import numpy as np
 
 SEP, RECV = 20, 21
-N_OPS = 22          # ops 0..21
+N_OPS = 22          # ops 0..21 (alphabet "tagged")
+# Alphabet "tagged_comb" (map-bias notebook §13): three combine-marker ops. A
+# marker is an ordinary body cell that does nothing when executed; a run's
+# first marker sets how it joins the same-tag runs before it (tape order):
+# none -> max (the "tagged" rule), C_MIN -> min, C_ADD -> sum,
+# C_GATE -> this run's value if the running value > 0, else 0.
+C_MIN, C_ADD, C_GATE = 22, 23, 24
+N_OPS_COMB = 25
+MARKERS = (C_MIN, C_ADD, C_GATE)
+
+
+def n_ops_for(alphabet: str) -> int:
+    return N_OPS_COMB if alphabet == "tagged_comb" else N_OPS
 N_TAGS = 64
 OUTPUT_TAG = 0
 MAX_DEPTH = 8
@@ -158,8 +170,25 @@ def _machine_for(task) -> _Machine:
     return _Machine(np.asarray(task.inputs, dtype=np.int64), int(task.alphabet.threshold))
 
 
+def _marker(body) -> int | None:
+    for op, _ in body:
+        if op in MARKERS:
+            return op
+    return None
+
+
+def _join(acc: np.ndarray, v: np.ndarray, marker: int | None) -> np.ndarray:
+    if marker == C_MIN:
+        return np.minimum(acc, v)
+    if marker == C_ADD:
+        return acc + v
+    if marker == C_GATE:
+        return np.where(acc > 0, v, 0)
+    return np.maximum(acc, v)
+
+
 def genome_outputs(g: np.ndarray, m: _Machine, body_cache: dict | None = None,
-                   all_runs: bool = False):
+                   all_runs: bool = False, combine: str = "max"):
     runs = parse_runs(g)
     by_tag: dict[int, list[int]] = {}
     for k, (tag, _) in enumerate(runs):
@@ -171,7 +200,12 @@ def genome_outputs(g: np.ndarray, m: _Machine, body_cache: dict | None = None,
         if not ks:
             return m.zero
         vals = [value_of_run(k, depth, visiting) for k in ks]
-        return vals[0] if len(vals) == 1 else np.maximum.reduce(vals)
+        if len(vals) == 1 or combine == "leftmost":
+            return vals[0]
+        acc = vals[0]
+        for k, v in zip(ks[1:], vals[1:]):
+            acc = _join(acc, v, _marker(runs[k][1]))
+        return acc
 
     def value_of_run(k: int, depth: int, visiting: frozenset) -> np.ndarray:
         if k in memo:
@@ -196,13 +230,15 @@ def genome_outputs(g: np.ndarray, m: _Machine, body_cache: dict | None = None,
     return value_of_tag(OUTPUT_TAG, 0, frozenset())
 
 
-def run_values(g: np.ndarray, task, body_cache: dict | None = None) -> list[np.ndarray]:
+def run_values(g: np.ndarray, task, body_cache: dict | None = None, combine: str = "max") -> list[np.ndarray]:
     """Each run's own output (RECVs resolved), in tape order."""
-    return genome_outputs(g, _machine_for(task), body_cache, all_runs=True)
+    return genome_outputs(g, _machine_for(task), body_cache, all_runs=True, combine=combine)
 
 
-def evaluate_tagged(population: list[np.ndarray], task) -> tuple[np.ndarray, np.ndarray]:
-    """Same contract as evaluate.evaluate_population: (fitnesses, predictions)."""
+def evaluate_tagged(population: list[np.ndarray], task, combine: str = "max") -> tuple[np.ndarray, np.ndarray]:
+    """Same contract as evaluate.evaluate_population: (fitnesses, predictions).
+    `combine`: how same-tag runs join — "max" (markers apply if present) or
+    "leftmost" (the first run in tape order wins; control, notebook §13)."""
     m = _machine_for(task)
     cache: dict = {}
     seen: dict[bytes, np.ndarray] = {}
@@ -210,7 +246,7 @@ def evaluate_tagged(population: list[np.ndarray], task) -> tuple[np.ndarray, np.
     for p, g in enumerate(population):
         key = g.tobytes()
         if key not in seen:
-            seen[key] = genome_outputs(g, m, cache)
+            seen[key] = genome_outputs(g, m, cache, combine=combine)
         preds[p] = seen[key]
     fits = (preds == task.labels[None, :]).mean(axis=1).astype(np.float64)
     return fits, preds
@@ -218,8 +254,8 @@ def evaluate_tagged(population: list[np.ndarray], task) -> tuple[np.ndarray, np.
 
 # ---------------- variation ----------------
 
-def random_genotype(L: int, rng: random.Random) -> np.ndarray:
-    return join([rng.randrange(N_OPS) for _ in range(L)], [rng.randrange(N_TAGS) for _ in range(L)])
+def random_genotype(L: int, rng: random.Random, n_ops: int = N_OPS) -> np.ndarray:
+    return join([rng.randrange(n_ops) for _ in range(L)], [rng.randrange(N_TAGS) for _ in range(L)])
 
 
 def _depends_on_itself(k: int, runs) -> bool:
@@ -248,7 +284,8 @@ def duplicate_run(g: np.ndarray, rng: random.Random, same_tag: bool | None = Non
 
     - same tag: an expressed, redundant copy. Same-tag runs combine by max, so
       max(A, A) = A — but only when the run does not read its own tag; for a
-      self-dependent run the copy is skipped.
+      self-dependent run the copy is skipped. (With "tagged_comb" markers the
+      copy is neutral only for max/min joins; ADD/GATE joins are not idempotent.)
     - fresh tag: a silent copy. The tag must be unused by every run AND unread
       by every RECV (a RECV of a missing tag reads 0; giving the copy that tag
       would wire it in).
@@ -296,7 +333,8 @@ def _strip_trailing_nops(body):
     return tuple(body)
 
 
-def mutate(g: np.ndarray, mu: float, rng: random.Random, dup_rate: float = 0.0) -> np.ndarray:
+def mutate(g: np.ndarray, mu: float, rng: random.Random, dup_rate: float = 0.0,
+           n_ops: int = N_OPS) -> np.ndarray:
     """Point mutation of ops and tags (rate mu each), plus insertion and
     deletion of whole cells (rate mu/2 each per cell); length kept at L.
     `dup_rate` > 0 adds gene duplication (duplicate_run) with that probability;
@@ -310,12 +348,12 @@ def mutate(g: np.ndarray, mu: float, rng: random.Random, dup_rate: float = 0.0) 
         if rng.random() < mu / 2:
             continue                                            # deletion
         if rng.random() < mu:
-            op = rng.randrange(N_OPS)
+            op = rng.randrange(n_ops)
         if rng.random() < mu:
             tg = rng.randrange(N_TAGS)
         cells.append((op, tg))
         if rng.random() < mu / 2:                               # insertion
-            cells.append((rng.randrange(N_OPS), rng.randrange(N_TAGS)))
+            cells.append((rng.randrange(n_ops), rng.randrange(N_TAGS)))
     cells = cells[:L]
     while len(cells) < L:
         cells.append((0, rng.randrange(N_TAGS)))

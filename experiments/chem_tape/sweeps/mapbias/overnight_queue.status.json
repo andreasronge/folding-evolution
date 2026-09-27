@@ -1,0 +1,34 @@
+{
+  "mapbias_and_fixed": {
+    "ended_at": "2026-09-27T00:05:32.439735+00:00",
+    "exit_code": 0,
+    "run_dir": "experiments/output/2026-09-26/mapbias_and_fixed",
+    "started_at": "2026-09-26T23:00:15.890866+00:00",
+    "status": "done",
+    "wall_seconds": 3916.548
+  },
+  "mapbias_mvg_p20": {
+    "ended_at": "2026-09-26T23:00:15.751071+00:00",
+    "exit_code": 0,
+    "run_dir": "experiments/output/2026-09-26/mapbias_mvg_p20",
+    "started_at": "2026-09-26T22:01:51.550771+00:00",
+    "status": "done",
+    "wall_seconds": 3504.2
+  },
+  "mapbias_mvg_period": {
+    "ended_at": "2026-09-27T01:18:03.684148+00:00",
+    "exit_code": 0,
+    "run_dir": "experiments/output/2026-09-26/mapbias_mvg_period",
+    "started_at": "2026-09-27T00:05:32.573799+00:00",
+    "status": "done",
+    "wall_seconds": 4351.11
+  },
+  "mapbias_or_race": {
+    "ended_at": "2026-09-26T22:01:51.399892+00:00",
+    "exit_code": 0,
+    "run_dir": "experiments/output/2026-09-26/mapbias_or_race",
+    "started_at": "2026-09-26T21:31:37.875559+00:00",
+    "status": "done",
+    "wall_seconds": 1813.524
+  }
+}

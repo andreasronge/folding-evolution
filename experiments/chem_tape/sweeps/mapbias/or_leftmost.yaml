@@ -1,0 +1,21 @@
+sweep_name: or_leftmost
+# Map-bias notebook §13 control 2: tagged runs on OR where several same-tag
+# runs give the leftmost run's value (no free OR). Same chemistry package.
+base:
+  task: mbs_or
+  generations: 1500
+  disable_early_termination: true
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  elite_count: 2
+  crossover_rate: 0.7
+  selection_mode: lexicase
+  backend: numpy
+  log_every: 50
+  track_lineage: true
+  fitness_metric: balanced
+paired:
+  - {arm: TAG, alphabet: tagged, tape_length: 64, mutation_rate: 0.015, tag_combine: leftmost}
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
