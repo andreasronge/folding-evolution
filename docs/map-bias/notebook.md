@@ -693,6 +693,8 @@ the chemistry, not a mutation-rate artefact.
 
 ### What this line found (§1–§14)
 
+*Superseded by the scoped, reviewed version in [findings.md](findings.md) (eighth review).*
+
 - **Bias in the map shapes outcomes but is not destiny.** Random-tape frequency predicts
   easy tasks; evolution routinely finds behaviours rarer than 1 in 50M (§1).
 - **The AND "proxy basin" is a wide valley:** no solver within two mutations of any stuck
