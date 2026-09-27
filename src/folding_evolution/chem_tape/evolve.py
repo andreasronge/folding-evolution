@@ -133,6 +133,23 @@ def _trace_lineage(
     }
 
 
+class FastRandom(random.Random):
+    """random.Random that also carries a numpy Generator (`.np`) for the
+    vectorised mutation and lexicase paths (cfg.fast_rng)."""
+
+    def __init__(self, seed: int) -> None:
+        super().__init__(seed)
+        self.np = np.random.default_rng(seed)
+
+
+def make_rng(cfg: ChemTapeConfig) -> random.Random:
+    return FastRandom(cfg.seed) if cfg.fast_rng else random.Random(cfg.seed)
+
+
+def _np_rng(rng: random.Random) -> np.random.Generator | None:
+    return getattr(rng, "np", None)
+
+
 def _token_max(cfg: ChemTapeConfig) -> int:
     """Inclusive upper bound for `random.randint(0, token_max)` on this
     alphabet. v1: 15 (ids 0..15 — all 16 v1 tokens incl. separators 14/15).
@@ -308,6 +325,15 @@ def mutate(
             else:
                 protect_mask = _np_engine.compute_topk_runnable_mask(tape_2d, k_for_protection, seps)[0]
 
+    gen = _np_rng(rng)
+    if gen is not None:
+        rate = cfg.mutation_rate if protect_mask is None else np.where(
+            protect_mask, cfg.mutation_rate * cfg.bond_protection_ratio, cfg.mutation_rate)
+        hit = gen.random(L) < rate
+        n = int(hit.sum())
+        if n:
+            out[hit] = gen.integers(0, hi + 1, n)
+        return out
     if protect_mask is None:
         for i in range(L):
             if rng.random() < cfg.mutation_rate:
@@ -409,8 +435,12 @@ def _lexicase_select(
     groups that share a row.
     """
     alive = np.arange(group_cases.shape[0])
-    order = list(range(group_cases.shape[1]))
-    rng.shuffle(order)
+    gen = _np_rng(rng)
+    if gen is not None:
+        order = gen.permutation(group_cases.shape[1])
+    else:
+        order = list(range(group_cases.shape[1]))
+        rng.shuffle(order)
     for c in order:
         if len(alive) == 1:
             break
@@ -424,6 +454,8 @@ def _lexicase_select(
     else:
         g = int(alive[rng.randrange(len(alive))])
     members = groups[g]
+    if gen is not None:
+        return int(members[gen.integers(len(members))])
     return int(members[rng.randrange(len(members))])
 
 
@@ -475,6 +507,8 @@ def _reproduce_one_island(
     §12b: elitism uses raw `fitnesses`; tournament uses niched fitness when
     cfg.k_niching_alpha > 0 (no-op otherwise).
     """
+    if _np_rng(rng) is not None:
+        return _reproduce_batched(population, fitnesses, cfg, rng, topk_override, cases, lineage)
     order = np.argsort(-fitnesses)
     elites = [population[i].copy() for i in order[: cfg.elite_count]]
     new_pop: list[np.ndarray] = list(elites)
@@ -524,6 +558,106 @@ def _reproduce_one_island(
             lineage.append((i, j, kind, int(not np.array_equal(mutated, child))))
         new_pop.append(mutated)
     return new_pop
+
+
+def _lexicase_batch(cases: np.ndarray, n: int, gen: np.random.Generator) -> np.ndarray:
+    """`n` lexicase selections at once (cfg.fast_rng). With groups built from
+    complete case rows, the lone survivor under a case order is the group whose
+    row is lexicographically greatest in that order (see _lexicase_select), so
+    each selection is an argmax over rows packed into big-endian integers."""
+    group_cases, inverse = np.unique(cases, axis=0, return_inverse=True)
+    inverse = inverse.ravel()
+    G, E = group_cases.shape
+    if E > 64:
+        groups = [np.flatnonzero(inverse == g) for g in range(G)]
+        shim = _GenRandom(gen)
+        return np.array([_lexicase_select(groups, group_cases, shim) for _ in range(n)], dtype=np.int64)
+    winners = np.empty(n, dtype=np.int64)
+    for lo in range(0, n, 256):
+        m = min(256, n - lo)
+        perms = gen.random((m, E)).argsort(axis=1)
+        bits = group_cases[:, perms]                          # (G, m, E)
+        packed = np.packbits(bits, axis=-1).astype(np.uint64)  # (G, m, ceil(E/8))
+        keys = np.zeros(packed.shape[:2], dtype=np.uint64)     # (G, m), first case = top byte
+        for b in range(packed.shape[-1]):
+            keys |= packed[..., b] << np.uint64(8 * (7 - b))
+        winners[lo:lo + m] = keys.argmax(axis=0)
+    by_group = np.argsort(inverse, kind="stable")
+    sizes = np.bincount(inverse, minlength=G)
+    starts = np.cumsum(sizes) - sizes
+    offs = (gen.random(n) * sizes[winners]).astype(np.int64)
+    return by_group[starts[winners] + offs]
+
+
+class _GenRandom:
+    """Minimal random.Random stand-in over a numpy Generator."""
+
+    def __init__(self, gen: np.random.Generator) -> None:
+        self.np = gen
+
+    def random(self) -> float:
+        return float(self.np.random())
+
+    def randrange(self, n: int) -> int:
+        return int(self.np.integers(n))
+
+
+def _reproduce_batched(
+    population: list[np.ndarray],
+    fitnesses: np.ndarray,
+    cfg: ChemTapeConfig,
+    rng: random.Random,
+    topk_override: int | None,
+    cases: np.ndarray | None,
+    lineage: list | None,
+) -> list[np.ndarray]:
+    """_reproduce_one_island for cfg.fast_rng: the same operators, with
+    crossover coins, lexicase selections and tagged mutation drawn for the
+    whole generation at once."""
+    gen = _np_rng(rng)
+    order = np.argsort(-fitnesses)
+    new_pop: list[np.ndarray] = [population[i].copy() for i in order[: cfg.elite_count]]
+    if lineage is not None:
+        lineage.extend((int(i), -1, 0, 0) for i in order[: cfg.elite_count])
+    n = len(population) - len(new_pop)
+    is_x = gen.random(n) < cfg.crossover_rate
+    n_sel = n + int(is_x.sum())
+    if cfg.selection_mode in ("lexicase", "lexicase_group"):
+        assert cases is not None, "lexicase selection needs per-case results"
+        parents = _lexicase_batch(cases, n_sel, gen)
+    else:
+        pop_idx = list(range(len(population)))
+        sel_fitnesses = _compute_niched_fitnesses(fitnesses, population, cfg)
+        if cfg.selection_mode == "ranking":
+            parents = [_ranking_select(pop_idx, sel_fitnesses, rng) for _ in range(n_sel)]
+        elif cfg.selection_mode == "truncation":
+            parents = [_truncation_select(pop_idx, sel_fitnesses, cfg.selection_top_fraction, rng)
+                       for _ in range(n_sel)]
+        else:
+            parents = [_tournament_select(pop_idx, sel_fitnesses, cfg.tournament_size, rng)
+                       for _ in range(n_sel)]
+    children, pairs, k = [], [], 0
+    for x in is_x:
+        i = int(parents[k])
+        if x:
+            j = int(parents[k + 1])
+            children.append(crossover(population[i], population[j], cfg, rng))
+            k += 2
+        else:
+            j = -1
+            children.append(population[i].copy())
+            k += 1
+        pairs.append((i, j, 1 if x else 2))
+    if cfg.arm == "TAG" and cfg.run_duplication_rate == 0:
+        from . import tagged
+        mutated = list(tagged.mutate_batch(np.stack(children), cfg.mutation_rate, gen,
+                                           tagged.n_ops_for(cfg.alphabet)))
+    else:
+        mutated = [mutate(c, cfg, rng, topk_override=topk_override) for c in children]
+    if lineage is not None:
+        lineage.extend((i, j, kind, int(not np.array_equal(m, c)))
+                       for (i, j, kind), m, c in zip(pairs, mutated, children))
+    return new_pop + mutated
 
 
 def _migrate(
@@ -623,7 +757,7 @@ def _run_evolution_panmictic(
     §v1.5 task-alternating schedules (both may be active simultaneously
     but the intended use is one at a time).
     """
-    rng = random.Random(cfg.seed)
+    rng = make_rng(cfg)
     tasks_by_name = _build_tasks_for_config(cfg)
 
     k_alt = _is_k_alternating(cfg)
@@ -857,7 +991,7 @@ def _run_evolution_islands(
         )
     island_size = cfg.pop_size // n_islands
 
-    rng = random.Random(cfg.seed)
+    rng = make_rng(cfg)
     task = build_task(cfg, seed=cfg.seed)
 
     # Initialize islands. §12a: if evolve_k AND island_k_priors is set,

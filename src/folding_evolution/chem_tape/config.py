@@ -193,6 +193,12 @@ class ChemTapeConfig:
     # with the same chemistry but no free OR).
     tag_combine: str = "max"
 
+    # Speed: draw mutation and lexicase randomness from a numpy Generator
+    # (vectorised) instead of per-cell random.Random calls. Same operators and
+    # rates, different random stream, so runs differ from fast_rng=False seed
+    # for seed. False keeps prior sweeps reproducible.
+    fast_rng: bool = False
+
     # §v2.5-plasticity-1a: runtime-plasticity (Baldwin-effect) probe fields.
     # Rank-1 operator-threshold plasticity: GT operations in the decoded
     # program acquire a learnable scalar modifier δ shared across all GT
@@ -284,6 +290,8 @@ class ChemTapeConfig:
             d.pop("fitness_metric", None)
         if self.tag_combine == "max":
             d.pop("tag_combine", None)
+        if not self.fast_rng:
+            d.pop("fast_rng", None)
         # §v2.5-plasticity-1a: all plasticity fields excluded at defaults so
         # existing sweep hashes remain addressable. When plasticity_enabled
         # is False the fast-path is byte-identical to pre-5c Arm A.

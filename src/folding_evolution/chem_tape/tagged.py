@@ -53,8 +53,22 @@ def join(ops, tags) -> np.ndarray:
     return np.concatenate([np.asarray(ops, dtype=np.uint8), np.asarray(tags, dtype=np.uint8)])
 
 
+_RUNS_CACHE: dict[bytes, list] = {}
+
+
 def parse_runs(g: np.ndarray) -> list[tuple[int, tuple[tuple[int, int], ...]]]:
-    """[(tag, ((op, tag), ...))] for every run, in tape order."""
+    """[(tag, ((op, tag), ...))] for every run, in tape order. Memoised by
+    genome bytes (parents are parsed again at crossover); returns a fresh list."""
+    key = g.tobytes()
+    hit = _RUNS_CACHE.get(key)
+    if hit is None:
+        if len(_RUNS_CACHE) > 50_000:
+            _RUNS_CACHE.clear()
+        hit = _RUNS_CACHE[key] = _parse_runs(g)
+    return list(hit)
+
+
+def _parse_runs(g: np.ndarray) -> list[tuple[int, tuple[tuple[int, int], ...]]]:
     ops, tags = split(g)
     runs, cur_tag, body = [], None, []
     for op, tg in zip(ops.tolist(), tags.tolist()):
@@ -343,6 +357,9 @@ def mutate(g: np.ndarray, mu: float, rng: random.Random, dup_rate: float = 0.0,
         g = duplicate_run(g, rng)
     ops, tags = split(g)
     L = len(ops)
+    gen = getattr(rng, "np", None)
+    if gen is not None:
+        return _mutate_np(ops, tags, mu, gen, n_ops)
     cells = []
     for op, tg in zip(ops.tolist(), tags.tolist()):
         if rng.random() < mu / 2:
@@ -358,6 +375,33 @@ def mutate(g: np.ndarray, mu: float, rng: random.Random, dup_rate: float = 0.0,
     while len(cells) < L:
         cells.append((0, rng.randrange(N_TAGS)))
     return join([c[0] for c in cells], [c[1] for c in cells])
+
+
+def _mutate_np(ops, tags, mu: float, gen: np.random.Generator, n_ops: int) -> np.ndarray:
+    return mutate_batch(join(ops, tags)[None, :], mu, gen, n_ops)[0]
+
+
+def mutate_batch(pop: np.ndarray, mu: float, gen: np.random.Generator, n_ops: int = N_OPS) -> np.ndarray:
+    """Vectorised mutate() (no duplication) over a (P, 2L) genome array: same
+    per-cell rates (delete mu/2; op, tag mu each; insert mu/2 after a kept
+    cell), drawn from a numpy Generator. Truncated / NOP-padded to L cells."""
+    P, L = pop.shape[0], pop.shape[1] // 2
+    ops, tags = pop[:, :L], pop[:, L:]
+    u = gen.random((4, P, L))
+    keep = u[0] >= mu / 2
+    new_ops = np.where(u[1] < mu, gen.integers(0, n_ops, (P, L)), ops)
+    new_tags = np.where(u[2] < mu, gen.integers(0, N_TAGS, (P, L)), tags)
+    ins = keep & (u[3] < mu / 2)
+    counts = keep.astype(np.int64) + ins
+    start = np.cumsum(counts, axis=1) - counts          # output slot of each kept cell
+    out_ops = np.zeros((P, 2 * L), dtype=np.uint8)      # padding: NOP with a random tag
+    out_tags = gen.integers(0, N_TAGS, (P, 2 * L)).astype(np.uint8)
+    rows = np.broadcast_to(np.arange(P)[:, None], (P, L))
+    out_ops[rows[keep], start[keep]] = new_ops[keep]
+    out_tags[rows[keep], start[keep]] = new_tags[keep]
+    out_ops[rows[ins], start[ins] + 1] = gen.integers(0, n_ops, (P, L))[ins]
+    out_tags[rows[ins], start[ins] + 1] = gen.integers(0, N_TAGS, (P, L))[ins]
+    return np.concatenate([out_ops[:, :L], out_tags[:, :L]], axis=1)
 
 
 def crossover(a: np.ndarray, b: np.ndarray, rng: random.Random) -> np.ndarray:
