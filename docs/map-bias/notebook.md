@@ -559,3 +559,55 @@ Morning analysis: `experiments/chem_tape/overnight_analysis.py <output dir>`.
 - Remaining caveats: baseline vs tagged is a chemistry-package comparison (tape length,
   indels, crossover differ); tagged vs tagged+dup isolates duplication. Lineage saves only
   the final champion's ancestry; phase-end champions come from history.csv.
+
+---
+
+## 12. Overnight results (2026-09-27)
+
+All four sweeps completed (`experiments/output/2026-09-26/mapbias_*`, commit `05ad45e`;
+30 / 58 / 65 / 73 min). Analysis: `experiments/chem_tape/overnight_analysis.py` →
+`overnight_summary.md`; follow-ups: `experiments/chem_tape/overnight_followup.py`.
+Exact = the final (or phase-end) best genome is right on all 10,000 lists.
+
+### 12a. OR race — the modular route is used when it pays
+
+| arm | exact OR | median first exact gen | tagged solvers using ≥ 2 runs |
+|---|---|---|---|
+| baseline | 10/30 | 595 | — |
+| tagged | 19/30 | 290 | 18/19 |
+| tagged + duplication | **25/30** | **250** | **25/25** |
+
+- tagged+dup vs baseline p = 0.0002; tagged vs baseline p = 0.04; tagged vs tagged+dup
+  p = 0.14 (Fisher). Baseline vs tagged is a chemistry-package comparison.
+- Tagged solvers have two load-bearing output (tag-0) runs, combined by max = OR.
+- **The merge is made by recombination.** On each solver's main line, the step where the
+  champion first got its second output run was a crossover in 19/19 (tagged) and 24/25
+  (tagged+dup) solvers — crossover makes ~70% of children. In 9 and 11 of those the new
+  output run is an exact copy of the *other* parent's output run: a two-parent block
+  merge. Gene duplication was almost never the route (1/25), even in the duplication arm.
+- Fixed AND for comparison: 9/30 in all three arms, single-run solvers (as §10).
+
+### 12b. Varying goals — helps the baseline, not tagged runs
+
+Runs with an exact AND phase-end in the last third (ever) vs the fixed-AND control
+(exact at end): period 20: baseline **14/30** (18/30) vs 9/30; tagged 2/30 (6/30);
+tagged+dup 2/30 (3/30). Period 5: baseline 11/30 (18/30); tagged+dup 8/30 (14/30).
+Period 50: baseline 2/30 (7/30); tagged+dup 3/30 (3/30).
+- Tagged runs track the goals worse than baseline at every period (e.g. period 20, early
+  phases reaching 1.0: max>5 71% vs 95%, sum>10 47% vs 77%), and their phase-end solvers
+  are single runs — no persistent modules formed.
+- The baseline benefits from switching every 5–20 generations (Kashtan & Alon-like);
+  slow switching (50) does not help.
+
+### Take
+
+The question since §3 was whether evolution can combine building blocks by
+recombination without crashing. Answer on this system:
+- **Yes, when the chemistry's combinator matches the task.** Tagged runs combine same-tag
+  runs by max; on OR, crossover merges one parent's output run into another's, safely,
+  and that raises exact solves from 10/30 to 19–25/30 and halves the time.
+- **No, when joining needs a new combiner** (AND): building in place wins (§10, 12a).
+- **Varying goals** did not make tagged runs modular; they helped the stack baseline.
+The next open-ended step is therefore a chemistry where the way same-tag runs combine is
+itself evolvable (e.g. the combiner depends on the tag), so AND-, OR- and other joins are
+all as cheap as OR is now — no shape imposed, the combinator becomes a heritable trait.
