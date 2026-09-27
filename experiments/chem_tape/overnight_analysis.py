@@ -45,14 +45,21 @@ LABELS = {
     "mbs_sum_gt_10": np.array([int(sum(x) > 10) for x in ALL]),
     "mbs_and": np.array([int(max(x) > 5 and sum(x) > 10) for x in ALL]),
     "mbs_or": np.array([int(max(x) > 5 or sum(x) > 10) for x in ALL]),
+    "mbs_xor": np.array([int((max(x) > 5) != (sum(x) > 10)) for x in ALL]),
 }
-STEP = 10
 
 
 def arm_name(c: dict) -> str:
     if c["arm"] != "TAG":
-        return "baseline"
-    return "tagged+dup" if c.get("run_duplication_rate", 0) else "tagged"
+        name = "baseline"
+    else:
+        name = "tagged+dup" if c.get("run_duplication_rate", 0) else "tagged"
+    # §15: tell alphabets and op-weight levels apart (unchanged names for §11 sweeps).
+    if c.get("alphabet", "v1") not in ("v2_probe", "tagged"):
+        name += f" {c['alphabet']}"
+    if c.get("op_weights"):
+        name += f" w[{c['op_weights']}]"
+    return name
 
 
 def cfg_of(c: dict) -> ChemTapeConfig:
@@ -78,7 +85,10 @@ def structure(g: np.ndarray, cfg: ChemTapeConfig, task_name: str) -> dict:
     load = int((tagged.evaluate_tagged(kos, t)[1] != base).any(axis=1).sum()) if kos else 0
     owned = {tag for tag, _ in runs}
     recv = [tg for _, body in runs for op, tg in body if op == tagged.RECV]
-    return {"runs": len(runs), "output_runs": sum(tag == tagged.OUTPUT_TAG for tag, _ in runs),
+    out_runs = [body for tag, body in runs if tag == tagged.OUTPUT_TAG]
+    joins = [{tagged.C_MIN: "min", tagged.C_ADD: "add", tagged.C_GATE: "gate"}.get(tagged._marker(b), "max")
+             for b in out_runs[1:]] if cfg.alphabet == "tagged_comb" else []
+    return {"runs": len(runs), "output_runs": sum(tag == tagged.OUTPUT_TAG for tag, _ in runs), "joins": joins,
             "load_bearing": load, "live_recv": sum(tg in owned for tg in recv),
             "dead_recv": sum(tg not in owned for tg in recv)}
 
@@ -93,10 +103,13 @@ def analyze_fixed(item) -> dict:
     run_dir, c = item
     cfg = cfg_of(c)
     fits, genomes = history(Path(run_dir))
-    gens = list(range(0, len(genomes), STEP)) + [len(genomes) - 1]
-    ex = exact_many([genomes[g] for g in gens], cfg, cfg.task)
-    first = next((g for g, e in zip(gens, ex) if e), None)
-    final_exact = bool(ex[-1])
+    # Every generation (row == generation), each distinct best genome evaluated once.
+    keys = [g.tobytes() for g in genomes]
+    uniq = list(dict.fromkeys(keys))
+    ex_u = dict(zip(uniq, exact_many([np.frombuffer(k, dtype=np.uint8) for k in uniq], cfg, cfg.task)))
+    ex = [bool(ex_u[k]) for k in keys]
+    first = next((g for g, e in enumerate(ex) if e), None)
+    final_exact = ex[-1]
     out = {"arm": arm_name(c), "seed": c["seed"], "final_exact": final_exact, "first_exact_gen": first,
            "final_train": fits[-1]}
     if c["arm"] == "TAG" and final_exact:
@@ -115,8 +128,10 @@ def analyze_mvg(item) -> dict:
     for start in range(0, len(fits) - 1, period):
         end = min(start + period, len(fits)) - 1
         goal = goals[(start // period) % len(goals)]
-        seg = fits[start + (1 if start else 0): end + 1]
-        hit = next((i for i, f in enumerate(seg) if f >= 0.999), None)
+        # Row g is generation g, scored on current_task(g): row `start` is the new
+        # goal's first generation. gens_to_1 counts generations since the switch.
+        seg = fits[start: end + 1]
+        hit = next((i + (1 if start else 0) for i, f in enumerate(seg) if f >= 0.999), None)
         phases.append({"start": start, "goal": goal, "at_flip": at_flip.get(start),
                        "reached_1": hit is not None, "gens_to_1": hit, "end_genome": genomes[end]})
     by_goal = collections.defaultdict(list)
@@ -144,10 +159,8 @@ def load(sweep: Path):
 def fixed_report(name: str, rows: list[dict]) -> list[str]:
     lines = [f"## {name}", "", "| arm | runs | final exact (all 10k) | median first exact gen | "
              "tagged solvers: output runs / load-bearing / live RECV / dead RECV (medians) |", "|---|---|---|---|---|"]
-    for arm in ("baseline", "tagged", "tagged+dup"):
+    for arm in dict.fromkeys(r["arm"] for r in rows):
         rs = [r for r in rows if r["arm"] == arm]
-        if not rs:
-            continue
         firsts = [r["first_exact_gen"] for r in rs if r["first_exact_gen"] is not None]
         st = [r["structure"] for r in rs if "structure" in r]
         stxt = " / ".join(f"{np.median([s[k] for s in st]):.0f}" for k in
@@ -159,7 +172,12 @@ def fixed_report(name: str, rows: list[dict]) -> list[str]:
                                     for r in rows if "structure" in r)
         lines += ["", "Tagged exact solvers using more than one run (≥ 2 output runs or a live RECV): " +
                   ", ".join(f"{a}: {multi[(a, True)]}/{multi[(a, True)] + multi[(a, False)]}"
-                            for a in ("tagged", "tagged+dup") if multi[(a, True)] + multi[(a, False)])]
+                            for a in dict.fromkeys(r["arm"] for r in rows) if multi[(a, True)] + multi[(a, False)])]
+        joins = {a: collections.Counter(j for r in rows if r["arm"] == a and "structure" in r
+                                        for j in r["structure"]["joins"]) for a in dict.fromkeys(r["arm"] for r in rows)}
+        if any(joins.values()):
+            lines += ["", "Output-run joins in exact solvers (tagged_comb): " +
+                      "; ".join(f"{a}: {dict(c)}" for a, c in joins.items() if c)]
     return lines + [""]
 
 
@@ -205,7 +223,12 @@ def main(day_dir: str) -> None:
     lines = ["# Map-bias overnight results", ""]
     with Pool(10) as pool:
         for name, kind in (("mapbias_or_race", "fixed"), ("mapbias_and_fixed", "fixed"),
-                           ("mapbias_mvg_p20", "mvg"), ("mapbias_mvg_period", "mvg")):
+                           ("mapbias_mvg_p20", "mvg"), ("mapbias_mvg_period", "mvg"),
+                           # §15 (queue_s15)
+                           ("mapbias_knob_comb_and", "fixed"), ("mapbias_xor_race", "fixed"),
+                           ("mapbias_knob_imax_or", "fixed"), ("mapbias_knob_min_and", "fixed"),
+                           ("mapbias_seeds100_or_dup", "fixed"), ("mapbias_seeds100_and_fixed", "fixed"),
+                           ("mapbias_seeds100_mvg", "mvg")):
             sweep = day / name
             if not (sweep / "sweep_index.json").exists():
                 lines += [f"## {name}", "", "not run / no index", ""]

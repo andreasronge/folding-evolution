@@ -173,8 +173,12 @@ def random_genotype(cfg: ChemTapeConfig, rng: random.Random) -> np.ndarray:
     arm "TAG" (tagged runs): 2·tape_length values, ops then tags."""
     if cfg.arm == "TAG":
         from . import tagged
-        return tagged.random_genotype(cfg.tape_length, rng, n_ops=tagged.n_ops_for(cfg.alphabet))
+        n_ops = tagged.n_ops_for(cfg.alphabet)
+        return tagged.random_genotype(cfg.tape_length, rng, n_ops=n_ops, op_p=cfg.op_probs(n_ops))
     hi = _token_max(cfg)
+    p = cfg.op_probs(hi + 1)
+    if p is not None:
+        return np.array(rng.choices(range(hi + 1), weights=p, k=cfg.tape_length), dtype=np.uint8)
     return np.array(
         [rng.randint(0, hi) for _ in range(cfg.tape_length)],
         dtype=np.uint8,
@@ -294,8 +298,9 @@ def mutate(
     K under the §10 K-alternating schedule."""
     if cfg.arm == "TAG":
         from . import tagged
+        n_ops = tagged.n_ops_for(cfg.alphabet)
         return tagged.mutate(tape, cfg.mutation_rate, rng, dup_rate=cfg.run_duplication_rate,
-                             n_ops=tagged.n_ops_for(cfg.alphabet))
+                             n_ops=n_ops, op_p=cfg.op_probs(n_ops))
     out = tape.copy()
     L = out.shape[0]
     hi = _token_max(cfg)
@@ -325,6 +330,9 @@ def mutate(
             else:
                 protect_mask = _np_engine.compute_topk_runnable_mask(tape_2d, k_for_protection, seps)[0]
 
+    p = cfg.op_probs(hi + 1)
+    draw = (lambda: rng.randint(0, hi)) if p is None else (
+        lambda: rng.choices(range(hi + 1), weights=p)[0])
     gen = _np_rng(rng)
     if gen is not None:
         rate = cfg.mutation_rate if protect_mask is None else np.where(
@@ -332,19 +340,19 @@ def mutate(
         hit = gen.random(L) < rate
         n = int(hit.sum())
         if n:
-            out[hit] = gen.integers(0, hi + 1, n)
+            out[hit] = gen.integers(0, hi + 1, n) if p is None else gen.choice(hi + 1, n, p=p)
         return out
     if protect_mask is None:
         for i in range(L):
             if rng.random() < cfg.mutation_rate:
-                out[i] = rng.randint(0, hi)
+                out[i] = draw()
     else:
         mu = cfg.mutation_rate
         mu_prot = mu * cfg.bond_protection_ratio
         for i in range(L):
             rate = mu_prot if protect_mask[i] else mu
             if rng.random() < rate:
-                out[i] = rng.randint(0, hi)
+                out[i] = draw()
     return out
 
 
@@ -650,8 +658,9 @@ def _reproduce_batched(
         pairs.append((i, j, 1 if x else 2))
     if cfg.arm == "TAG" and cfg.run_duplication_rate == 0:
         from . import tagged
+        n_ops = tagged.n_ops_for(cfg.alphabet)
         mutated = list(tagged.mutate_batch(np.stack(children), cfg.mutation_rate, gen,
-                                           tagged.n_ops_for(cfg.alphabet)))
+                                           n_ops, cfg.op_probs(n_ops)))
     else:
         mutated = [mutate(c, cfg, rng, topk_override=topk_override) for c in children]
     if lineage is not None:

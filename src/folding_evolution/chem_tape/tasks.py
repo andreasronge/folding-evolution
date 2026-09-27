@@ -534,6 +534,9 @@ make_mbs_max_task = _make_stratified_task(lambda xs: int(max(xs) > 5), "mbs_max_
 make_mbs_sum_task = _make_stratified_task(lambda xs: int(sum(xs) > 10), "mbs_sum_gt_10")
 make_mbs_and_task = _make_stratified_task(lambda xs: int(max(xs) > 5 and sum(xs) > 10), "mbs_and")
 make_mbs_or_task = _make_stratified_task(lambda xs: int(max(xs) > 5 or sum(xs) > 10), "mbs_or")
+# Map-bias §15: XOR has no near-linear shortcut on these inputs (best
+# `sum + w·max` threshold: 0.72 cell-balanced, vs 0.96-0.97 for AND / OR).
+make_mbs_xor_task = _make_stratified_task(lambda xs: int((max(xs) > 5) != (sum(xs) > 10)), "mbs_xor")
 
 make_mb_max_gt_5_task = _make_plain_predicate_task(lambda xs: int(max(xs) > 5), "mb_max_gt_5")
 make_mb_sum_gt_10_task = _make_plain_predicate_task(lambda xs: int(sum(xs) > 10), "mb_sum_gt_10")
@@ -1088,6 +1091,7 @@ TASK_REGISTRY = {
     "mbs_sum_gt_10": make_mbs_sum_task,
     "mbs_and": make_mbs_and_task,
     "mbs_or": make_mbs_or_task,
+    "mbs_xor": make_mbs_xor_task,
     "mb_sum_gt_10": make_mb_sum_gt_10_task,
     "sum_gt_10_OR_max_gt_5": make_sum_gt_10_OR_max_gt_5_task,
     "sum_gt_10_XOR_max_gt_5": make_sum_gt_10_XOR_max_gt_5_task,

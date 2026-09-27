@@ -1,0 +1,28 @@
+sweep_name: knob_comb_and
+# Map-bias notebook §15a: frequency knob on route choice. comb_and (§14) with the
+# combine markers (22 min, 23 add, 24 gate) drawn at 1/4, 1x and 4x the weight of
+# other ops, plus gate alone at 4x. At 1x, 9/9 exact solvers were two joined runs
+# (7 min, 2 gate). Does the share of joined solvers and of gate joins track how
+# often the map makes the marker?
+base:
+  task: mbs_and
+  generations: 3000
+  disable_early_termination: true
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  elite_count: 2
+  crossover_rate: 0.7
+  selection_mode: lexicase
+  backend: numpy
+  log_every: 50
+  track_lineage: true
+  fitness_metric: balanced
+  fast_rng: true
+paired:
+  - {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged_comb, op_weights: "22:0.25,23:0.25,24:0.25"}
+  - {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged_comb}
+  - {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged_comb, op_weights: "22:4,23:4,24:4"}
+  - {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged_comb, op_weights: "24:4"}
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]

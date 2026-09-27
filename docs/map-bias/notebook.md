@@ -715,3 +715,30 @@ the chemistry, not a mutation-rate artefact.
 
 **Stopping point.** The open follow-on — evolving a join that must be *built* across a
 fitness valley (§9), rather than chosen from a menu — is a separate project.
+
+---
+
+## 15. Plan: a frequency knob, and XOR (2026-09-27, overnight)
+
+**Why.** The line never manipulated map bias: chem-tape's decoder is close to identity (§1),
+so "frequent" and "easy" were confounded. `op_weights` (config) makes chosen ops k× as
+likely in random genomes and point mutations, the same as giving them k synonyms, so what
+can be reached stays the same and only how often it is made changes. XOR is the harder
+task: on the stratified inputs its best `sum + w·max` threshold scores 0.72 (cell-balanced)
+against 0.96–0.97 for AND and OR, so the linear shortcut is gone and exact solvers must
+compose. A hand-built tagged XOR (two tag-0 runs `p1 p2 GT`, `p2 p1 GT`, max-joined) is
+exact on all 10,000 lists.
+
+**Queue** (`experiments/chem_tape/sweeps/mapbias/queue_s15.yaml`, all fast_rng, lexicase,
+balanced fitness, 30 seeds unless noted, each sweep has its own 1× reference arm):
+1. `knob_comb_and`: tagged_comb AND, combine markers at 0.25×, 1×, 4×, and gate alone 4×.
+   *Interesting if* the joined-solver share and the min:gate split move with weight
+   (arrival of the frequent on route choice) while the solve count stays ~9/30.
+2. `xor_race`: stack v2_probe, stack v2_imax, tagged, tagged_comb on XOR.
+3. `knob_imax_or`: stack v2_imax OR, IMAX at 0.25×, 1×, 4× (dose-response on the join).
+4. `knob_min_and`: stack v2_min AND, MIN at 1×, 4×, 16× (is the stack AND valley just rarity?).
+5. Seed top-ups, 100 seeds: OR tagged vs tagged+dup; stack fixed AND vs varying goals
+   period 20. Last in the queue; fine if they get cut.
+
+Morning: exactness on all 10,000 lists (`overnight_analysis.py` now knows `mbs_xor`), route
+per exact solver (number of tag-0 runs, join marker), first exact generation.

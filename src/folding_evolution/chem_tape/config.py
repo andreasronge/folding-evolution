@@ -199,6 +199,13 @@ class ChemTapeConfig:
     # for seed. False keeps prior sweeps reproducible.
     fast_rng: bool = False
 
+    # Map-bias notebook §15: frequency knob. Relative weights for the ops that
+    # random genomes and point mutations draw, as "id:weight,..." (unlisted ids
+    # weigh 1). Raising a token's weight is the same as giving it that many
+    # synonyms: what is reachable stays the same, only how often it is made
+    # changes. Stack arms and tagged ops only (tags stay uniform). "" = uniform.
+    op_weights: str = ""
+
     # §v2.5-plasticity-1a: runtime-plasticity (Baldwin-effect) probe fields.
     # Rank-1 operator-threshold plasticity: GT operations in the decoded
     # program acquire a learnable scalar modifier δ shared across all GT
@@ -292,6 +299,8 @@ class ChemTapeConfig:
             d.pop("tag_combine", None)
         if not self.fast_rng:
             d.pop("fast_rng", None)
+        if self.op_weights == "":
+            d.pop("op_weights", None)
         # §v2.5-plasticity-1a: all plasticity fields excluded at defaults so
         # existing sweep hashes remain addressable. When plasticity_enabled
         # is False the fast-path is byte-identical to pre-5c Arm A.
@@ -307,6 +316,26 @@ class ChemTapeConfig:
             d.pop("plasticity_delta", None)
         blob = json.dumps(d, sort_keys=True).encode()
         return hashlib.sha1(blob).hexdigest()[:12]
+
+    def __post_init__(self) -> None:
+        if self.op_weights:
+            self.op_probs(64)
+
+    def op_probs(self, n_ops: int):
+        """Draw probabilities over ops 0..n_ops-1 from `op_weights`, or None
+        when uniform."""
+        if not self.op_weights:
+            return None
+        import numpy as np
+        w = np.ones(n_ops)
+        for item in self.op_weights.split(","):
+            tid, wt = item.split(":")
+            if not 0 <= int(tid) < n_ops:
+                raise ValueError(f"op_weights id {tid} outside 0..{n_ops - 1}")
+            w[int(tid)] = float(wt)
+            if not (np.isfinite(w[int(tid)]) and w[int(tid)] > 0):
+                raise ValueError(f"op_weights weight {wt!r} must be finite and > 0")
+        return w / w.sum()
 
     def decode_separators(self) -> tuple[int, ...]:
         """Separator ids the BP/BP_TOPK decoders split runs on."""

@@ -1,0 +1,54 @@
+# Map-bias §15 queue: frequency knob (op_weights) and XOR. All sweeps fast_rng. Launch:
+#   caffeinate -s uv run python scripts/run_queue.py --queue experiments/chem_tape/sweeps/mapbias/queue_s15.yaml \
+#     --status experiments/chem_tape/sweeps/mapbias/queue_s15.status.json --lock experiments/chem_tape/sweeps/mapbias/queue_s15.lock
+# Priority order: core knob + XOR first, seed top-ups last (they may be cut by morning).
+# Each sweep writes SWEEP_COMPLETE only when all configs have results; re-running a sweep resumes.
+
+- id: mapbias_knob_comb_and
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/knob_comb_and.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 7200
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §15a: marker frequency vs route choice on AND"
+
+- id: mapbias_xor_race
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/xor_race.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 7200
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §15b: XOR, no linear shortcut"
+
+- id: mapbias_knob_imax_or
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/knob_imax_or.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §15c: IMAX frequency on stack OR"
+
+- id: mapbias_knob_min_and
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/knob_min_and.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 5400
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §15d: MIN frequency on stack AND"
+
+- id: mapbias_seeds100_or_dup
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/seeds100_or_dup.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 5400
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §15e: gene duplication, 100 seeds"
+
+- id: mapbias_seeds100_and_fixed
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/seeds100_and_fixed.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 5400
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §15e: fixed-AND control, 100 seeds"
+
+- id: mapbias_seeds100_mvg
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/seeds100_mvg.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 7200
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §15e: varying goals, 100 seeds"

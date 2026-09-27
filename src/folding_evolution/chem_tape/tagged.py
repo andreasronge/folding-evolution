@@ -268,8 +268,21 @@ def evaluate_tagged(population: list[np.ndarray], task, combine: str = "max") ->
 
 # ---------------- variation ----------------
 
-def random_genotype(L: int, rng: random.Random, n_ops: int = N_OPS) -> np.ndarray:
-    return join([rng.randrange(n_ops) for _ in range(L)], [rng.randrange(N_TAGS) for _ in range(L)])
+def _rand_op(rng: random.Random, n_ops: int, op_p) -> int:
+    """One op, uniform or drawn from `op_p` (cfg.op_probs)."""
+    if op_p is None:
+        return rng.randrange(n_ops)
+    return rng.choices(range(n_ops), weights=op_p)[0]
+
+
+def _draw_ops(gen: np.random.Generator, n_ops: int, size, op_p) -> np.ndarray:
+    if op_p is None:
+        return gen.integers(0, n_ops, size)
+    return gen.choice(n_ops, size=size, p=op_p)
+
+
+def random_genotype(L: int, rng: random.Random, n_ops: int = N_OPS, op_p=None) -> np.ndarray:
+    return join([_rand_op(rng, n_ops, op_p) for _ in range(L)], [rng.randrange(N_TAGS) for _ in range(L)])
 
 
 def _depends_on_itself(k: int, runs) -> bool:
@@ -348,7 +361,7 @@ def _strip_trailing_nops(body):
 
 
 def mutate(g: np.ndarray, mu: float, rng: random.Random, dup_rate: float = 0.0,
-           n_ops: int = N_OPS) -> np.ndarray:
+           n_ops: int = N_OPS, op_p=None) -> np.ndarray:
     """Point mutation of ops and tags (rate mu each), plus insertion and
     deletion of whole cells (rate mu/2 each per cell); length kept at L.
     `dup_rate` > 0 adds gene duplication (duplicate_run) with that probability;
@@ -359,29 +372,30 @@ def mutate(g: np.ndarray, mu: float, rng: random.Random, dup_rate: float = 0.0,
     L = len(ops)
     gen = getattr(rng, "np", None)
     if gen is not None:
-        return _mutate_np(ops, tags, mu, gen, n_ops)
+        return _mutate_np(ops, tags, mu, gen, n_ops, op_p)
     cells = []
     for op, tg in zip(ops.tolist(), tags.tolist()):
         if rng.random() < mu / 2:
             continue                                            # deletion
         if rng.random() < mu:
-            op = rng.randrange(n_ops)
+            op = _rand_op(rng, n_ops, op_p)
         if rng.random() < mu:
             tg = rng.randrange(N_TAGS)
         cells.append((op, tg))
         if rng.random() < mu / 2:                               # insertion
-            cells.append((rng.randrange(n_ops), rng.randrange(N_TAGS)))
+            cells.append((_rand_op(rng, n_ops, op_p), rng.randrange(N_TAGS)))
     cells = cells[:L]
     while len(cells) < L:
         cells.append((0, rng.randrange(N_TAGS)))
     return join([c[0] for c in cells], [c[1] for c in cells])
 
 
-def _mutate_np(ops, tags, mu: float, gen: np.random.Generator, n_ops: int) -> np.ndarray:
-    return mutate_batch(join(ops, tags)[None, :], mu, gen, n_ops)[0]
+def _mutate_np(ops, tags, mu: float, gen: np.random.Generator, n_ops: int, op_p=None) -> np.ndarray:
+    return mutate_batch(join(ops, tags)[None, :], mu, gen, n_ops, op_p)[0]
 
 
-def mutate_batch(pop: np.ndarray, mu: float, gen: np.random.Generator, n_ops: int = N_OPS) -> np.ndarray:
+def mutate_batch(pop: np.ndarray, mu: float, gen: np.random.Generator, n_ops: int = N_OPS,
+                 op_p=None) -> np.ndarray:
     """Vectorised mutate() (no duplication) over a (P, 2L) genome array: same
     per-cell rates (delete mu/2; op, tag mu each; insert mu/2 after a kept
     cell), drawn from a numpy Generator. Truncated / NOP-padded to L cells."""
@@ -389,7 +403,7 @@ def mutate_batch(pop: np.ndarray, mu: float, gen: np.random.Generator, n_ops: in
     ops, tags = pop[:, :L], pop[:, L:]
     u = gen.random((4, P, L))
     keep = u[0] >= mu / 2
-    new_ops = np.where(u[1] < mu, gen.integers(0, n_ops, (P, L)), ops)
+    new_ops = np.where(u[1] < mu, _draw_ops(gen, n_ops, (P, L), op_p), ops)
     new_tags = np.where(u[2] < mu, gen.integers(0, N_TAGS, (P, L)), tags)
     ins = keep & (u[3] < mu / 2)
     counts = keep.astype(np.int64) + ins
@@ -399,7 +413,7 @@ def mutate_batch(pop: np.ndarray, mu: float, gen: np.random.Generator, n_ops: in
     rows = np.broadcast_to(np.arange(P)[:, None], (P, L))
     out_ops[rows[keep], start[keep]] = new_ops[keep]
     out_tags[rows[keep], start[keep]] = new_tags[keep]
-    out_ops[rows[ins], start[ins] + 1] = gen.integers(0, n_ops, (P, L))[ins]
+    out_ops[rows[ins], start[ins] + 1] = _draw_ops(gen, n_ops, (P, L), op_p)[ins]
     out_tags[rows[ins], start[ins] + 1] = gen.integers(0, N_TAGS, (P, L))[ins]
     return np.concatenate([out_ops[:, :L], out_tags[:, :L]], axis=1)
 
