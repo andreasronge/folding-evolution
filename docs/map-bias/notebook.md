@@ -580,11 +580,18 @@ Exact = the final (or phase-end) best genome is right on all 10,000 lists.
 - tagged+dup vs baseline p = 0.0002; tagged vs baseline p = 0.04; tagged vs tagged+dup
   p = 0.14 (Fisher). Baseline vs tagged is a chemistry-package comparison.
 - Tagged solvers have two load-bearing output (tag-0) runs, combined by max = OR.
-- **The merge is made by recombination.** On each solver's main line, the step where the
-  champion first got its second output run was a crossover in 19/19 (tagged) and 24/25
-  (tagged+dup) solvers — crossover makes ~70% of children. In 9 and 11 of those the new
-  output run is an exact copy of the *other* parent's output run: a two-parent block
-  merge. Gene duplication was almost never the route (1/25), even in the duplication arm.
+- **Crossover is where the second output run arrives.** On each solver's main line, the
+  step where the champion first got its second output run was a crossover in 19/19
+  (tagged) and 24/25 (tagged+dup) solvers, against a ~70% base rate (0.7¹⁹ ≈ 0.001).
+  In **20 of 44** the new output run is an exact copy of the *other* parent's output run —
+  confirmed two-parent block merges. The other 24 are crossovers where the new run matches
+  neither parent exactly (crossover plus modification; not shown to be merges). This is
+  lineage correlation; the causal test (crossover off) is in §13. Gene duplication was
+  almost never the route (1/25), and its extra solves (25 vs 19) are not significant —
+  no claim that duplication helps.
+- **Not yet attributable to modularity.** Baseline vs tagged is a chemistry-package
+  comparison, and the baseline has no integer MAX, so OR costs it a combiner
+  (`ADD CONST_0 GT`) that tagged runs get free. §13 controls separate the two.
 - Fixed AND for comparison: 9/30 in all three arms, single-run solvers (as §10).
 
 ### 12b. Varying goals — helps the baseline, not tagged runs
@@ -595,15 +602,21 @@ tagged+dup 2/30 (3/30). Period 5: baseline 11/30 (18/30); tagged+dup 8/30 (14/30
 Period 50: baseline 2/30 (7/30); tagged+dup 3/30 (3/30).
 - Tagged runs track the goals worse than baseline at every period (e.g. period 20, early
   phases reaching 1.0: max>5 71% vs 95%, sum>10 47% vs 77%), and their phase-end solvers
-  are single runs — no persistent modules formed.
+  are single runs — no persistent modules formed. *Possible artefact (seventh review):*
+  per-genome mutation rates are matched, but many tagged cells are inert, so a tagged child
+  may change its behaviour less often, which is exactly what tracking speed depends on.
+  Measured and controlled in §13.
+- Sampling note: the fixed control was checked every 10 generations (~300 looks), the MVG
+  arms only at ~50 AND phase ends, so the baseline's MVG gain (18/30 vs 9/30 ever exact)
+  is if anything conservative.
 - The baseline benefits from switching every 5–20 generations (Kashtan & Alon-like);
   slow switching (50) does not help.
 
-### Take
+### Take (provisional until §13's controls)
 
 The question since §3 was whether evolution can combine building blocks by
-recombination without crashing. Answer on this system:
-- **Yes, when the chemistry's combinator matches the task.** Tagged runs combine same-tag
+recombination without crashing. Answer on this system so far:
+- **Apparently yes, when the chemistry's combinator matches the task.** Tagged runs combine same-tag
   runs by max; on OR, crossover merges one parent's output run into another's, safely,
   and that raises exact solves from 10/30 to 19–25/30 and halves the time.
 - **No, when joining needs a new combiner** (AND): building in place wins (§10, 12a).
@@ -611,3 +624,27 @@ recombination without crashing. Answer on this system:
 The next open-ended step is therefore a chemistry where the way same-tag runs combine is
 itself evolvable (e.g. the combiner depends on the tag), so AND-, OR- and other joins are
 all as cheap as OR is now — no shape imposed, the combinator becomes a heritable trait.
+
+---
+
+## 13. Plan: attribution controls and an evolvable combiner (seventh review)
+
+**Controls for 12a (OR, 30 seeds × 1500 gens each):**
+1. Tagged runs with **crossover off** (mutation only). Collapse → recombination is the
+   route; no collapse → a single retag of an existing run to tag 0 may be doing the work.
+2. Tagged runs where several same-tag runs give **leftmost wins** instead of max: same
+   chemistry package, no free combinator.
+3. **Baseline + an integer MAX op**, and baseline with a 64-cell tape.
+   Rule: (2) falls to ~10/30 and (3) stays ~10/30 → the modular route is the cause;
+   (3) rises to ~25/30 → the finding is combiner cost (narrower).
+**Varying goals:**
+4. Effective mutation rate: fraction of children whose behaviour differs from their parent,
+   per arm, on stored populations.
+5. MVG period 20 with tagged runs' mutation rate raised to match baseline's effective rate.
+   Does the tracking gap vanish?
+**Closing experiment:**
+6. **Evolvable combiner**: a combine field on each run (max / min / add / gate), mutable
+   like the tag; same-tag runs fold with their fields. On AND and OR. Confirm: AND rises
+   from 9/30 toward OR's level with two-run solvers. Kill: stays ~9/30.
+Then stop this line and promote to findings; building a combiner across a valley (§9) is a
+separate project.
