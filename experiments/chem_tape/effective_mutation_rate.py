@@ -41,7 +41,8 @@ def measure(item) -> dict:
     cfg = cfg_of(c)
     rows = list(csv.DictReader(open(Path(run_dir) / "history.csv")))
     goals = cfg.task_alternating_value_list()
-    rates = TAG_RATES if cfg.arm == "TAG" else (cfg.mutation_rate,)
+    # Tagged arms: a range of rates plus the run's own (its realised rate).
+    rates = tuple(sorted(set(TAG_RATES) | {cfg.mutation_rate})) if cfg.arm == "TAG" else (cfg.mutation_rate,)
     out = {}
     for mu in rates:
         m_cfg = replace(cfg, mutation_rate=mu)
@@ -71,6 +72,8 @@ def main(sweep_dir: str) -> None:
     print("fraction of mutated children whose behaviour changes (champions every 100 gens, 10 seeds):")
     for arm in ("baseline", "tagged", "tagged+dup"):
         rs = [r for r in res if r["arm"] == arm]
+        if not rs:
+            continue
         for mu in sorted(rs[0]["rates"]):
             v = [r["rates"][mu] for r in rs]
             print(f"  {arm:11s} mutation_rate {mu:<6} -> {np.mean(v):.3f} (seed range {min(v):.3f}-{max(v):.3f})")
