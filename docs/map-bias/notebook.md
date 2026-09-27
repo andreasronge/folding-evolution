@@ -648,3 +648,68 @@ all as cheap as OR is now — no shape imposed, the combinator becomes a heritab
    from 9/30 toward OR's level with two-run solvers. Kill: stays ~9/30.
 Then stop this line and promote to findings; building a combiner across a valley (§9) is a
 separate project.
+
+---
+
+## 14. Attribution controls and evolvable combiner — results, and wrap-up (2026-09-27)
+
+Queue `experiments/chem_tape/sweeps/mapbias/queue_s13.yaml` (commits `34a4529`, `7e8699b`),
+outputs `experiments/output/2026-09-27/mapbias_*`, analysis
+`experiments/chem_tape/s13_analysis.py` → `s13_summary.md`. All OR runs: 30 seeds × 1500
+gens, stratified inputs, balanced fitness, lexicase; exact = right on all 10,000 lists.
+
+**OR controls** (references from §12: tagged 19/30, tagged+dup 25/30, baseline 10/30):
+
+| setup | exact OR | median first exact gen |
+|---|---|---|
+| tagged, **crossover off** | **2/30** (p < 0.0001 vs tagged) | 465 |
+| tagged, **leftmost wins** (no free OR) | 11/30 (p = 0.07 vs tagged) | 870 |
+| **baseline + IMAX** (OR = one op) | **18/30** (p = 1.0 vs tagged) | 315 |
+| baseline, tape 64, rate 0.03 | 15/30 | 600 |
+| baseline, tape 64, rate 0.015 | 9/30 | 870 |
+
+1. **Crossover is causal in tagged runs.** Without it, exact OR collapses to 2/30 and no
+   solver has two output runs.
+2. **The OR advantage over the baseline is combiner cost, not modularity.** Giving the stack
+   baseline a one-op OR (integer MAX) brings it to 18/30 — the tagged level. Taking the free
+   OR away from tagged runs brings them down to 11/30 — the baseline level (this control also
+   makes run order matter, so it tests the max rule, not "max alone"). Per the §13 rule, the
+   finding is the narrower one.
+
+**Evolvable combiner** (`tagged_comb`; combine markers are ordinary body cells):
+- AND: **9/30** — same count as every other arm (and_fixed: 9/30 each), so by the §13 kill
+  rule it does not raise solve rates. But **9/9 solvers are two-run modular solutions**
+  joined by `min` (7) or `gate` (2), against 1/9 and 3/9 for tagged / tagged+dup, and they
+  are found sooner (median first exact gen 640 vs 1000–1580).
+- OR: 17/30 (vs 19/30; p = 0.79) — the larger alphabet (25 ops) costs nothing measurable;
+  joins used are mostly max.
+
+**Varying goals, mutation-matched:** tagged runs' rate lowered to match the baseline's
+effective rate (realised: 0.205 and 0.227 vs 0.21 — tagged children change behaviour *more*
+often at the nominal rate, 0.35, the opposite of the review's hypothesis). Tagged still
+track worse: exact AND at a late phase end 1/30 and 2/30 (vs baseline 14/30); early phases
+reaching 1.0 fell further (max>5 43–61%, sum>10 28–36%). The tracking gap is a property of
+the chemistry, not a mutation-rate artefact.
+
+### What this line found (§1–§14)
+
+- **Bias in the map shapes outcomes but is not destiny.** Random-tape frequency predicts
+  easy tasks; evolution routinely finds behaviours rarer than 1 in 50M (§1).
+- **The AND "proxy basin" is a wide valley:** no solver within two mutations of any stuck
+  genome; a whole second block is missing (§2).
+- **Lexicase fixes block supply** (1/30 → 14/30 on AND); **arrangement is then the
+  bottleneck**, 137–700 generations from both blocks in one genome to a solve (§3, §5, §7).
+- **In a stack chemistry, blocks compete for the tape end;** v3's linker chains smear blocks
+  across domains; neither lets recombination merge two blocks (§7).
+- **Tagged runs** (connection by tag, not position) keep blocks closed and make transplants
+  inert — safe modular recombination is achievable without imposing a shape (§9).
+- **Recombination does merge blocks when the join is cheap** (crossover is causal), but the
+  advantage comes from the join's cost: a stack with an equivalent one-op join does as well
+  (§12, §14).
+- **When joins are heritable, evolution adopts the modular route completely** (all AND
+  solvers become two joined runs, found sooner) — **but success rates don't rise** (§14).
+- **Varying goals helped the stack baseline** (Kashtan & Alon-like), not tagged runs, and
+  that is not a mutation-rate artefact (§12, §14).
+
+**Stopping point.** The open follow-on — evolving a join that must be *built* across a
+fitness valley (§9), rather than chosen from a menu — is a separate project.

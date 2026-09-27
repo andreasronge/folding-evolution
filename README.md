@@ -29,7 +29,7 @@ This is a hobby project: lab-notebook style, light process. Rigor catches up onl
 
 **First probe (2026-09-25):** `experiments/chem_tape/arrival_frequent.py` samples 50M random tapes per chem-tape decoder setup and asks whether random-tape frequency predicts the solve rates and proxy basins seen in all past chem-tape runs. Results so far, and the plan for testing how evolution makes jumps and how recombination can combine building blocks without crashing: [docs/map-bias/notebook.md](docs/map-bias/notebook.md).
 
-**Status (2026-09-27):** in the "tagged runs" chemistry (runs connect by tag, not position), crossover merges building blocks safely when the chemistry's built-in join matches the task: on OR, exact solves rose from 10/30 (baseline) to 19–25/30, with solvers made of two runs brought together by crossover. On AND (no free join) nothing changed. Attribution controls and an evolvable-join chemistry are next (notebook §12–§13).
+**Status (2026-09-27, line wrapped up):** recombination does merge building blocks without crashing when the join between them is cheap (crossover is causal: off → 2/30), but the advantage comes from the join's cost, not modularity — a stack chemistry with an equivalent one-op join does as well (18/30 vs 19/30). With heritable joins, evolution adopts two-block modular solutions for AND every time and finds them sooner, but no more often. Summary of the whole line: notebook §14.
 
 ## Prior Results (Folding Track — Complete)
 
