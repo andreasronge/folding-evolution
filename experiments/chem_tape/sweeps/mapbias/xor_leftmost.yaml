@@ -1,0 +1,25 @@
+sweep_name: xor_leftmost
+# Valley crossing (Plans/valley-crossing.md, revised after the tenth review): XOR on tagged
+# runs with no free join — several tag-0 runs resolve leftmost-wins (§13's or_leftmost
+# control), so max(p1>p2, p2>p1) is not available; the join must be built (e.g. one output
+# run reading both halves by RECV). >= ~8/30 exact: the join can be built — post-mortem it.
+# <= 2/30: the valley is real; build the ruler on this chemistry.
+base:
+  task: mbs_xor
+  generations: 3000
+  disable_early_termination: true
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  elite_count: 2
+  crossover_rate: 0.7
+  selection_mode: lexicase
+  backend: numpy
+  log_every: 50
+  track_lineage: true
+  fitness_metric: balanced
+  fast_rng: true
+paired:
+  - {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged, tag_combine: leftmost}
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]

@@ -1,0 +1,23 @@
+sweep_name: comb_rare
+# Parked map-bias item (ninth review): true rarity. All three combine markers at 0.02x and
+# 0.05x (~0.1-0.2% of draws). Does evolution drop the joined route while solves hold?
+base:
+  task: mbs_and
+  generations: 3000
+  disable_early_termination: true
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  elite_count: 2
+  crossover_rate: 0.7
+  selection_mode: lexicase
+  backend: numpy
+  log_every: 50
+  track_lineage: true
+  fitness_metric: balanced
+  fast_rng: true
+paired:
+  - {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged_comb, op_weights: "22:0.02,23:0.02,24:0.02"}
+  - {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged_comb, op_weights: "22:0.05,23:0.05,24:0.05"}
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]

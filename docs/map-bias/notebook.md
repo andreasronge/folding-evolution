@@ -834,3 +834,98 @@ rarity: all markers at 0.02× and 0.05×. (4) IMAX 0.05× / 0.25× / 1× at 3000
 as time to first solve. Then close the chem-tape map-bias line; the core question needs a map
 whose bias differs from direct encoding (folding map or tree-GP generator, as §1 said).
 Tagged-run modularity is a separate, chemistry-design thread.
+
+---
+
+## 17. Valley crossing, Step 0: lineage post-mortem with both parents traced (2026-09-28)
+
+**What would be interesting to see** ([Plans/valley-crossing.md](../../Plans/valley-crossing.md)):
+whether any solver's output runs arrived by *silence, then switch* — built under an unread
+tag, then retagged to 0. The saved lineages follow only the fitter parent, so they were
+biased against finding it.
+
+**Setup.** `experiments/chem_tape/postmortem_lineage.py` re-ran all 44 tagged solvers from
+§16 (tagged XOR 13, tagged_comb XOR 19, tagged_comb AND 1× 12) up to their first exact
+generation. **44/44 reproduced the original genome exactly.** Each output (tag-0) run was
+traced back through *both* parents, following the run itself: the predecessor is the most
+similar run in either parent, comparing ops plus tags on RECV cells only, with trailing NOPs
+stripped. A run under another tag counts only if ≥ 90% similar. Runs are traced jointly, so
+identical runs in one parent aren't read as a copy.
+- One Codex review before the run: retags could be over-counted, and runs that didn't
+  reproduce weren't excluded. Both fixed.
+- The tenth (Fable) review then found that the first version also compared inert tags on
+  non-RECV cells and the re-randomised padding. That mislabelled op-identical runs as
+  "written" and could hide real retags. Fixed and re-run (v2).
+
+Output: `experiments/output/2026-09-28/postmortem_v2/postmortem.md`.
+
+| solvers | later output runs | copy of an earlier output run | … made inside one genome | retag from silent | RECV rewired (all output runs) |
+|---|---|---|---|---|---|
+| tagged_comb AND (12) | 12 | 11 | 0 | 0 | 4/24 |
+| tagged_comb XOR (19) | 31 | 28 | 2 | 0 | 6/50 |
+| tagged XOR (13) | 9 | 8 | 1 | 0 | 6/22 |
+
+- **Silence, then switch: not seen, and not really tested.** None of the 52 later output runs
+  came from a retag. The one retag (tagged XOR seed 18, run #1) was a tag flicker: one
+  generation under tag 1, body unchanged. But the null is forced by the setup (tenth review):
+  - a silent run becomes tag 0 at μ/64 ≈ 2×10⁻⁴ per run per generation (0–4 such events
+    per solver), against 177–393 retags *away* from 0;
+  - silent runs are few (0.2–1.5 per genome) and their bodies are junk;
+  - half of all crossovers reshuffle expressed tag-0 bodies instead.
+
+  So the route is outcompeted about 10⁴-fold. Untested rather than refuted.
+- **Later output runs share ancestry with an earlier one ("homologous", not duplicated).**
+  - Almost every later output run's trace joins an earlier output run's trace: 47 of 52.
+  - Only 3 copies were made inside one genome; the rest sat in different individuals, apart
+    for a median of 51–90 generations, until crossover joined them.
+  - This is largely structural: in a converged population any two tag-0 runs share an
+    ancestor, and homologous crossover fills every tag-0 slot from the donor's *first*
+    tag-0 body.
+- **Plain tagged XOR has no valley on the solving path** (tenth review, per-generation check
+  of the 8 copy paths):
+  - the common ancestor computed one XOR half (p1∧¬p2 or p2∧¬p1) at 1.0;
+  - the other half arose as a single SWAP on one branch;
+  - both halves sat in hosts scoring 0.73–0.88 (a half is right on 3 of 4 stratified cells),
+    never masked;
+  - crossover joining them under the free max was the solving step in 7/8.
+
+  Fitness along the path: 0.75 → 0.75 → 1.0. tagged_comb AND is similar: the copy turned
+  from p1 into p2 within 2–38 generations in single-run hosts at 0.83–0.90, and the solve
+  came a median of 1 generation after the rejoin.
+- **tagged_comb XOR is different.** Both branches changed (16/26), hosts dipped to 0.34–0.42
+  (kept by lexicase on a few cases), and the solve came a median of 81 generations after
+  the rejoin (> 500 in 8/26).
+- **Interpretation (reworded after the review).** The intermediates are rewarded by partial
+  credit on the target's own lexicase cases, not by a family of other functions, and the
+  join is the free max. So this describes how a two-specialist polymorphism is recombined
+  under a free join, not how a valley is crossed. Whether a *family* of rewarded functions
+  adds anything beyond partial credit is exactly Step 2's question.
+
+**Decision.** Follow the plan as revised after the tenth review (see the plan's "Revision"
+section): move the valley work to tagged runs with **leftmost-wins** (no free join), where
+XOR needs a join built inside one run. Tonight's queue (§18) starts with that.
+
+---
+
+## 18. Plan: XOR with no free join, and XOR controls (queue_s18)
+
+**What would be interesting to see:** whether evolution can *build* the XOR join when the
+chemistry gives none away. With leftmost-wins, the two-run max route fails. A one-run join,
+e.g. `RECV a RECV b GT RECV b RECV a GT ADD`, is exact (checked by hand).
+
+**Queue** (`experiments/chem_tape/sweeps/mapbias/queue_s18.yaml`; fast_rng, lexicase,
+balanced fitness, 3000 gens):
+1. `xor_leftmost`: tagged, leftmost-wins, 30 seeds.
+   - ≥ ~8/30 exact → the join can be built; post-mortem the solvers and look for RECV rewiring.
+   - ≤ 2/30 → the valley is real; build the ruler on this chemistry.
+2. `xor_nox`: tagged (max join), crossover off, 30 seeds. §16 got 13/30 with crossover, and
+   §17 says the solve is crossover joining two specialists, so collapse is expected.
+3. `xor_stack64`: stack with a 64-cell tape at mutation rates 0.015 and 0.03, and v2_imax at
+   64 cells. If the stack reaches ~13/30, §16's gap was tape length.
+4. Parked map-bias items (ninth review):
+   - `comb_cross`: min/gate weights crossed, 50 seeds;
+   - `comb_rare`: markers at 0.02× and 0.05×;
+   - `imax_time`: IMAX at 0.05×, 0.25× and 1× over 3000 gens, read as time to first solve.
+
+`overnight_analysis.py` now labels arms by tape length, mutation rate, join rule and
+crossover rate as well, so these arms are reported separately.

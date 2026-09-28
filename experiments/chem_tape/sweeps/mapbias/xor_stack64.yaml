@@ -1,0 +1,25 @@
+sweep_name: xor_stack64
+# §18 control: is the stack's XOR deficit (§16: 5/30, 2/30) tape length? Every stack solver
+# used >= 28 of 32 cells. 64-cell tape at the per-genome-matched rate (0.015) and at the
+# per-cell rate (0.03); v2_imax at 64 cells. Stack reaching ~13/30 -> §16's gap was tape.
+base:
+  task: mbs_xor
+  generations: 3000
+  disable_early_termination: true
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  elite_count: 2
+  crossover_rate: 0.7
+  selection_mode: lexicase
+  backend: numpy
+  log_every: 50
+  track_lineage: true
+  fitness_metric: balanced
+  fast_rng: true
+paired:
+  - {arm: BP_TOPK, topk: 3, bond_protection_ratio: 0.5, alphabet: v2_probe, tape_length: 64, mutation_rate: 0.015}
+  - {arm: BP_TOPK, topk: 3, bond_protection_ratio: 0.5, alphabet: v2_probe, tape_length: 64, mutation_rate: 0.03}
+  - {arm: BP_TOPK, topk: 3, bond_protection_ratio: 0.5, alphabet: v2_imax, tape_length: 64, mutation_rate: 0.03}
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]

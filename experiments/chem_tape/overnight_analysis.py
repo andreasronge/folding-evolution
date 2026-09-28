@@ -59,6 +59,16 @@ def arm_name(c: dict) -> str:
         name += f" {c['alphabet']}"
     if c.get("op_weights"):
         name += f" w[{c['op_weights']}]"
+    # §18: tape, rate, join rule and crossover controls (unchanged names at the defaults).
+    stack = c["arm"] != "TAG"
+    if c.get("tape_length", 32) != (32 if stack else 64):
+        name += f" L{c['tape_length']}"
+    if c.get("mutation_rate", 0.03) != (0.03 if stack else 0.015):
+        name += f" mu{c['mutation_rate']}"
+    if c.get("tag_combine", "max") != "max":
+        name += f" {c['tag_combine']}"
+    if c.get("crossover_rate", 0.7) != 0.7:
+        name += f" x{c['crossover_rate']}"
     return name
 
 
@@ -228,7 +238,11 @@ def main(day_dir: str) -> None:
                            ("mapbias_knob_comb_and", "fixed"), ("mapbias_xor_race", "fixed"),
                            ("mapbias_knob_imax_or", "fixed"), ("mapbias_knob_min_and", "fixed"),
                            ("mapbias_seeds100_or_dup", "fixed"), ("mapbias_seeds100_and_fixed", "fixed"),
-                           ("mapbias_seeds100_mvg", "mvg")):
+                           ("mapbias_seeds100_mvg", "mvg"),
+                           # §18 (queue_s18)
+                           ("mapbias_xor_leftmost", "fixed"), ("mapbias_xor_nox", "fixed"),
+                           ("mapbias_xor_stack64", "fixed"), ("mapbias_comb_cross", "fixed"),
+                           ("mapbias_comb_rare", "fixed"), ("mapbias_imax_time", "fixed")):
             sweep = day / name
             if not (sweep / "sweep_index.json").exists():
                 lines += [f"## {name}", "", "not run / no index", ""]

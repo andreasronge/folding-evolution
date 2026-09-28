@@ -1,0 +1,24 @@
+sweep_name: comb_cross
+# Parked map-bias item (ninth review): does frequency pick which of two equivalent joins
+# is used? tagged_comb AND with min and gate weights crossed (dilution symmetric), 50 seeds.
+# Gate share >= 70% in one arm and <= 30% in the other -> frequency steers route choice.
+base:
+  task: mbs_and
+  generations: 3000
+  disable_early_termination: true
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  elite_count: 2
+  crossover_rate: 0.7
+  selection_mode: lexicase
+  backend: numpy
+  log_every: 50
+  track_lineage: true
+  fitness_metric: balanced
+  fast_rng: true
+paired:
+  - {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged_comb, op_weights: "22:4,24:0.25"}
+  - {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged_comb, op_weights: "22:0.25,24:4"}
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49]
