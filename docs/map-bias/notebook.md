@@ -929,3 +929,88 @@ balanced fitness, 3000 gens):
 
 `overnight_analysis.py` now labels arms by tape length, mutation rate, join rule and
 crossover rate as well, so these arms are reported separately.
+
+---
+
+## 19. §18 results: XOR with no free join, XOR controls, parked map-bias items (2026-09-28)
+
+All 6 sweeps completed (`experiments/output/2026-09-28/mapbias_*`, commit `c922028`, ~2.6 h).
+Analysis: `overnight_analysis.py` → `overnight_summary.md`. Leftmost post-mortem:
+`postmortem_lineage.py --target "mapbias_xor_leftmost=tagged leftmost"` →
+`postmortem_leftmost/postmortem.md` (12/12 re-runs reproduced exactly). p = two-sided
+Fisher, uncorrected. The "output runs / load-bearing" columns of `overnight_summary.md`
+knock runs out under the max rule, so they are wrong for the leftmost arm; use the
+post-mortem instead.
+
+**XOR attribution**
+
+| setup | exact XOR |
+|---|---|
+| tagged, max join (§16) | 13/30 |
+| tagged, **leftmost-wins** (no free join) | **12/30** (p = 1.0 vs max) |
+| tagged, max join, **crossover off** | **2/30** (p = 0.002 vs 13/30) |
+| stack, 32 cells (§16) | 5/30; v2_imax 2/30 |
+| stack, **64 cells**, rate 0.03 / 0.015 | **12/30 / 11/30** |
+| stack v2_imax, 64 cells | 9/30 |
+
+- **§16's tagged-vs-stack XOR gap was mostly tape length.** A 64-cell stack reaches 11–12/30,
+  the tagged level (p = 1.0 vs 13/30). Findings item 13's "tagged runs beat the stack on XOR"
+  does not survive this control; tagged_comb's 19/30 vs 12/30 is p = 0.12.
+- **Crossover is causal for tagged XOR** (13 → 2/30 without it), as it was for OR (§14).
+- **Removing the free join costs nothing.** Leftmost-wins solves 12/30. So the join can be
+  built, and the "≥ ~8/30" branch of the plan applies: inspect the solvers.
+
+**How leftmost solvers join the predicates** (post-mortem, live runs only)
+- **8/12 compute XOR inside one run** (no live RECV). Their output run was built under tag 0
+  (or drifted from an initial run) and gained its RECVs or ops in place.
+- **4/12 join across runs: the output run reads one helper by RECV.** In all 4, the helper was
+  a **former output run**. It was the live (first) tag-0 run of its lineage for 91–100% of
+  115–540 generations, as a partial solution at fitness 0.42–0.75. It was then retagged away
+  from 0 to the tag an output run reads. The solve followed 7, 96, 221 and 941 generations
+  later.
+  - Seed 7: the individual's output run already read that tag, so a dangling RECV was
+    waiting. Seed 29: the read and the retag arrived in the same step. Seeds 2 and 19: the
+    reading output run came later.
+  - This is not silence-then-switch: the helper was expressed and selected the whole time.
+    It is **co-option**. A working partial solution is demoted to a subroutine, and a new
+    output run reuses it. That's the reuse event Step 3a of the plan wants to follow.
+  - (The first version of the leftmost report labelled these "retag from silent", because
+    nothing RECV-reads tag 0. The script now labels a retag from tag 0 as "retag from
+    output run".)
+
+**Parked map-bias items**
+- **Frequency does steer which join is used** (`comb_cross`, 50 seeds each). With min at 4×
+  and gate at 0.25×, the exact AND solvers joined by min 13, gate 1. Reversed weights: gate
+  14, min 2. p = 2×10⁻⁵ for the gate share. Solves were the same: 15/50 vs 16/50. This
+  settles §16's suggestive "which" result: among equivalent joins, frequency picks the one.
+- **Route adoption survives true rarity** (`comb_rare`). With all markers at 0.02×
+  (≈ 0.27% of draws), 9/10 exact solvers are joined runs, and solves are unchanged at 10/30.
+  The same holds at 0.05× (9/10, 10/30).
+- **IMAX frequency is a rate, not a floor** (`imax_time`, stack OR, 3000 gens):
+
+  | IMAX | exact by 750 | by 1500 | by 3000 | median first exact |
+  |---|---|---|---|---|
+  | 0.05× | 7 | 15 | 21 | 1243 |
+  | 0.25× | 4 | 9 | 15 | 1262 |
+  | 1× | 15 | 19 | 21 | 568 |
+
+  At 0.05× the arm catches up with 1× by generation 3000. Rarity delays the join and
+  doesn't prevent it. The 0.25× arm sits lower than 0.05× at every point, so the ordering
+  between the two rare arms is noise at 30 seeds.
+
+**Take.**
+- *Valley crossing:* without a free join, evolution still solves XOR at the same rate.
+  Mostly it builds XOR inside one run; in a third of solvers it co-opts a former output run
+  as a helper. No silent build was seen. So far there is still no evidence of a valley that
+  selection can't climb here: partial solutions stay rewarded (lexicase, 0.42–0.75), and
+  crossover is essential.
+- *Map bias:* the frequency-knob picture is now complete for this system. Frequency sets
+  arrival time (rate, not floor), picks among equivalent routes strongly (13:1 vs 2:14), and
+  doesn't change whether a route is adopted even at 0.27% of draws.
+- *Findings to revise:* item 13 (the XOR gap was tape), item 12 (the "which" part is now
+  shown; IMAX is a rate).
+
+**Next per the plan:** Step 3a on the 4 co-option solvers. Follow the helper past the first
+solve: does it stay conserved, does anything else come to read it, and does it tolerate
+mutation differently once read? Plus the recovery ruler (Step 1) on leftmost, which now has
+real anchors (8 one-run and 4 two-run solvers).

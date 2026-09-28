@@ -21,7 +21,12 @@ Labels per output run, from its tag-0 period (the contiguous stretch ending at t
 where it had tag 0):
   retag_from_silent  became tag 0 by a header retag from a tag nothing read
   retag_from_helper  became tag 0 from a tag some RECV read (a helper promoted)
-  built_as_output    written under tag 0 (trace ended inside the tag-0 period)
+  retag_from_output  (leftmost helpers) got its tag from tag 0: a former output run
+                     demoted to a helper
+  built_as_output    written under tag 0 (trace ended inside the tag-0 period); for a
+                     leftmost helper: written under its own tag
+Leftmost-wins solvers (tag_combine "leftmost"): only the first run of each tag is read, so
+the traced runs are the first tag-0 run and the runs it reaches by RECV.
   since_gen0         tag 0 since the random initial population
   copy_of_output_run the run's trace joins an earlier output run's trace (a copy);
                      `copy_mode` says whether both copies sat in one genome right after
@@ -163,9 +168,10 @@ def trace_runs(ks: list[int], idx: int, G: int, pops, fits, parents) -> list[lis
 
 
 def classify(path: list[dict], paths: list[list[dict]]) -> dict:
-    # Tag-0 period: from the solve back while the run has tag 0.
+    # Tag period: from the solve back while the run has its final tag (tag 0 for output
+    # runs; a helper's own tag under leftmost-wins).
     j = 0
-    while j + 1 < len(path) and path[j + 1]["tag"] == tagged.OUTPUT_TAG:
+    while j + 1 < len(path) and path[j + 1]["tag"] == path[0]["tag"]:
         j += 1
     period = path[: j + 1]
     merges = [s["g"] for s in period if s.get("from_other")]
@@ -198,7 +204,10 @@ def classify(path: list[dict], paths: list[list[dict]]) -> dict:
         out["copy_mode"] = ("within_one_step" if together == last["g"] + 1 else "joined_later") + \
             f":{step.get('kind', '?')}"
     else:
-        out["label"] = "retag_from_helper" if last.get("from_read") else "retag_from_silent"
+        # From tag 0: the run was an output run (or, under leftmost-wins, an inert later
+        # tag-0 run) — not silent in the "unread tag" sense.
+        out["label"] = ("retag_from_output" if last.get("retag_from") == tagged.OUTPUT_TAG
+                        else "retag_from_helper" if last.get("from_read") else "retag_from_silent")
         # Before the retag: how long under a non-zero tag, and did the body change there?
         m = j + 1
         while m + 1 < len(path) and path[m + 1]["tag"] == path[j + 1]["tag"]:
@@ -227,12 +236,33 @@ def analyze(item) -> dict:
            "reproduced": bool(G == int(first) and np.array_equal(solver, orig)),
            "exact": bool(oa.exact_many([solver], cfg, cfg.task)[0])}
     runs = tagged.parse_runs(solver)
-    out_idx = [k for k, (tag, _) in enumerate(runs) if tag == tagged.OUTPUT_TAG]
+    roles = {}
+    if cfg.tag_combine == "leftmost":
+        # Only the first run of each tag is ever read: trace the first tag-0 run and the
+        # runs it reaches by RECV (breadth first); later same-tag runs are inert.
+        first = {}
+        for k, (tag, _) in enumerate(runs):
+            first.setdefault(tag, k)
+        out_idx, queue = [], [first.get(tagged.OUTPUT_TAG)]
+        while queue:
+            k = queue.pop(0)
+            if k is None or k in out_idx:
+                continue
+            out_idx.append(k)
+            roles[k] = "output" if k == first.get(tagged.OUTPUT_TAG) else f"helper(tag {runs[k][0]})"
+            queue += [first.get(tg) for op, tg in runs[k][1] if op == tagged.RECV]
+        out["output_live_recvs"] = len({tg for op, tg in runs[out_idx[0]][1]
+                                        if op == tagged.RECV and tg in first}) if out_idx else 0
+        out["inert_tag0_runs"] = sum(tag == tagged.OUTPUT_TAG for tag, _ in runs) - 1
+    else:
+        out_idx = [k for k, (tag, _) in enumerate(runs) if tag == tagged.OUTPUT_TAG]
     out["n_output_runs"] = len(out_idx)
     out["runs"] = []
     paths = trace_runs(out_idx, idx, G, pops, fits, parents)
     for order, k in enumerate(out_idx):
         r = {"order": order, "len": len(runs[k][1]), **classify(paths[order], paths)}
+        if roles:
+            r["role"] = roles[k]
         if cfg.alphabet == "tagged_comb" and order > 0:
             r["join"] = {tagged.C_MIN: "min", tagged.C_ADD: "add", tagged.C_GATE: "gate"}.get(
                 tagged._marker(runs[k][1]), "max")
@@ -261,6 +291,9 @@ def report(all_rows: list[dict]) -> list[str]:
              f"{len(rows)}." + (f" Excluded: {', '.join(bad)}." if bad else ""), ""]
     for key in dict.fromkeys((r["run_dir"].split("/")[-2], r["arm"]) for r in rows):
         rs = [r for r in rows if (r["run_dir"].split("/")[-2], r["arm"]) == key]
+        if "output_live_recvs" in rs[0]:
+            lines += leftmost_report(key, rs)
+            continue
         lines += [f"## {key[0]} — {key[1]} ({len(rs)} solvers)", "",
                   "| output run | n | built as output | copy of output run (in one step / joined later) | "
                   "retag from silent | retag from helper | since gen 0 |", "|---|---|---|---|---|---|---|"]
@@ -288,6 +321,25 @@ def report(all_rows: list[dict]) -> list[str]:
         if joins:
             lines += ["", f"Joins of later output runs: {dict(joins)}"]
         lines.append("")
+    return lines
+
+
+def leftmost_report(key, rs: list[dict]) -> list[str]:
+    """Leftmost-wins: the output run (first tag-0 run) and the helpers it reads by RECV."""
+    lines = [f"## {key[0]} — {key[1]} ({len(rs)} solvers; leftmost-wins, live runs only)", "",
+             "Per solver: output run's live RECVs (0 = computes XOR itself), helpers, and how "
+             "each live run arose under its final tag.", "",
+             "| seed | first exact | live RECVs | output run | helpers | rewires in output run |",
+             "|---|---|---|---|---|---|"]
+    for r in sorted(rs, key=lambda r: r["first_exact_gen"]):
+        o = r["runs"][0]
+        hs = ", ".join(f"{x['role']}: {x['label']}" for x in r["runs"][1:]) or "-"
+        lines.append(f"| {r['seed']} | {r['first_exact_gen']} | {r['output_live_recvs']} | {o['label']} "
+                     f"(tag 0 since {o['tag0_since']}) | {hs} | {o['n_rewires']} |")
+    lab = collections.Counter(x["label"] for r in rs for x in r["runs"])
+    lines += ["", f"All live runs: {dict(lab)}. Self-contained output runs (no live RECV): "
+                  f"{sum(r['output_live_recvs'] == 0 for r in rs)}/{len(rs)}. "
+                  f"Inert extra tag-0 runs (median): {sorted(r['inert_tag0_runs'] for r in rs)[len(rs) // 2]}.", ""]
     return lines
 
 

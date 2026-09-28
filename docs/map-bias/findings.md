@@ -1,8 +1,8 @@
 # Map-bias — findings
 
-Short, scoped summary of the map-bias line (notebook: [notebook.md](notebook.md) §1–§16;
-§1–§14 results commit `e05aa5f`, §15–§16 commit `7c9cc42`). Checked by an eighth Fable review;
-§16 changes by a ninth.
+Short, scoped summary of the map-bias line (notebook: [notebook.md](notebook.md) §1–§19;
+§1–§14 results commit `e05aa5f`, §15–§16 commit `7c9cc42`, §17 `e3e3ff1`, §18–§19 `c922028`).
+Checked by an eighth Fable review; §16 changes by a ninth, §17 by a tenth.
 
 **Question.** How does a developmental genotype→program map bias what evolution finds —
 and can evolution combine building blocks by recombination without crashing?
@@ -62,33 +62,51 @@ weight lowers every other op's share (markers are 35% of draws at 4× on all thr
     switches worse at every period, also with effective mutation rate matched — a property
     of the chemistry package. (§12, §14, §16)
 11. **Negative: the silent-then-switch (pseudogene) route was never observed** in any
-    chemistry. (§3, §9, §12)
-12. **Frequency knob — the first direct manipulation of map bias: op frequency acts as a
-    supply rate on the join.** Weighting a needed op in random genomes and point mutations
-    changes how often it is made, not what is reachable. Stack OR with IMAX at 0.25× / 1× /
-    4× of uniform (≈ 1 / 4 / 15% of draws): median first exact generation 857 / 466 / 370,
-    exact by generation 1500 9 / 19 / 17. The effect saturates above the default; very high
-    weights hurt through dilution of the rest of the alphabet (MIN 16×: 2/30 vs 10/30; 4× on
-    all three markers: 6/30 vs 12/30). Among equivalent joins for AND (min vs gate), the
-    more frequent one's share is ordered as frequency predicts (18 / 50 / 62% gate) but is
-    not established at 30 seeds. (§16)
-13. **XOR (provisional; controls pending).** On XOR, where no near-linear shortcut exists
-    (best `sum + w·max` rule: 0.72), tagged runs reach 13/30 and tagged_comb 19/30, vs 5/30
-    for the stack and 2/30 for stack + IMAX (tagged_comb vs stack p = 0.0005). Two
-    confounds are untested: every stack solver uses ≥ 28 of its 32 cells (a 64-cell tape
-    lifted stack OR from 10 to 15/30 in §14), and 8/13 tagged solvers are two near-identical
-    output runs differing by a SWAP, joined by the chemistry's free max (the outer OR of
-    XOR = max(p1>p2, p2>p1)); the second run arrived by crossover in 8/8. Until a 64-cell
-    stack and a leftmost-wins tagged arm run on XOR, this is a chemistry-package result, not
-    a modularity result. (§16)
+    chemistry (§3, §9, §12). This also holds with both parents traced on 44 tagged solvers
+    (§17) and on 12 leftmost solvers (§19). A silent run becomes tag 0 at a rate of μ/64 per
+    run per generation, and silent runs are unprotected, so the route was barely available:
+    untested rather than refuted.
+12. **Frequency knob — the first direct manipulation of map bias.** Weighting an op in
+    random genomes and point mutations changes how often it is made, not what is reachable.
+    - **Frequency is a rate, not a floor.** Stack OR with IMAX at 0.05× / 0.25× / 1× of
+      uniform, 3000 generations: exact by generation 750 7 / 4 / 15, by 3000 21 / 15 / 21;
+      median first exact 1243 / 1262 / 568. At 1500 generations, 0.25× / 1× / 4× gave
+      9 / 19 / 17. So rarity delays the join, and the effect saturates above uniform.
+    - **Among equivalent joins, frequency picks the one used.** On AND with combine markers,
+      min 4× / gate 0.25× gave 13 min-joined and 1 gate-joined solvers; the reverse weights
+      gave 2 min and 14 gate (50 seeds each, p = 2×10⁻⁵). Solve counts were the same
+      (15 vs 16 of 50).
+    - **Adopting the joined route doesn't depend on frequency**, even at true rarity: with
+      all markers at 0.02× (≈ 0.27% of draws), 9/10 solvers are joined runs, and solves are
+      unchanged (10/30).
+    - **Very high weights hurt through dilution** of the rest of the alphabet (MIN 16×:
+      2/30 vs 10/30; 4× on all three markers: 6/30 vs 12/30).
+
+    (§16, §19)
+13. **XOR: no chemistry-level advantage for tagged runs once the stack has room; crossover
+    is essential for tagged runs.** On XOR (no near-linear shortcut; best `sum + w·max`
+    rule 0.72), a 64-cell stack reaches 11–12/30, the tagged level (13/30). The earlier gap
+    (5/30 and 2/30 at 32 cells) was tape length; tagged_comb's 19/30 vs 12/30 is p = 0.12.
+    Tagged XOR falls from 13 to 2/30 without crossover (p = 0.002). (§16, §19)
+14. **A join can be built when none is handed out, and evolved parts get co-opted.** With
+    leftmost-wins (no automatic same-tag join), tagged runs still solve XOR 12/30
+    (vs 13/30 with the free max).
+    - 8/12 solvers compute XOR inside one run.
+    - 4/12 have the output run read a helper by RECV. In all 4, the helper was a *former
+      output run* — the expressed, selected partial solution of its lineage (fitness
+      0.42–0.75) for 115–540 generations. It was then retagged to a tag an output run reads.
+      That is co-option of an evolved part, not a silent build.
+    - On the solving paths inspected (§17, §19), partial solutions stayed rewarded under
+      lexicase, so no unrewarded valley was crossed: a valley a population can't climb has
+      not been shown here.
+
+    (§17, §19)
 
 ## Open
 
-Evolving a join that must be *built* across a fitness valley (§9), rather than chosen from
-a menu of combine markers, is a separate project.
-
-Whether marker frequency steers route choice among equivalent joins (crossed min/gate
-weights), and whether route adoption survives true rarity (< 0.1% of draws), are each one
-sweep away (notebook §16, next). The core map-bias question needs a map whose bias differs
-from direct encoding (the folding map or a tree-GP generator); chem-tape's decoder is close
-to identity (item 1).
+- **Stable machinery.** Do co-opted helpers stay conserved, gain more dependants, and
+  tolerate mutation differently once they are read (Plans/valley-crossing.md Step 3)?
+- **A real valley.** A recovery ruler on leftmost-wins (Step 1) and rewarding a family of
+  simpler functions vs only the target (Step 2).
+- **The core map-bias question** needs a map whose bias differs from direct encoding (the
+  folding map or a tree-GP generator); chem-tape's decoder is close to identity (item 1).
