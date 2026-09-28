@@ -2,7 +2,7 @@
 
 Short, scoped summary of the map-bias line (notebook: [notebook.md](notebook.md) §1–§19;
 §1–§14 results commit `e05aa5f`, §15–§16 commit `7c9cc42`, §17 `e3e3ff1`, §18–§19 `c922028`).
-Checked by an eighth Fable review; §16 changes by a ninth, §17 by a tenth.
+Checked by an eighth Fable review; §16 changes by a ninth, §17 by a tenth, §19 by an eleventh.
 
 **Question.** How does a developmental genotype→program map bias what evolution finds —
 and can evolution combine building blocks by recombination without crashing?
@@ -14,6 +14,10 @@ tasks built from two predicates (`max>5`, `sum>10`); pop 1024, 1500–3000 gener
 indels and crossover operator differ. §15–§16 arms use `fast_rng` (a different random stream
 from §1–§14) and `op_weights`, which renormalises op draw probabilities, so raising one op's
 weight lowers every other op's share (markers are 35% of draws at 4× on all three; MIN 42% at 16×).
+All §15–§19 arms use lexicase selection with balanced fitness. **Leftmost-wins**
+(`tag_combine: leftmost`) means only the first run of each tag is read, for the output and
+for RECV alike, so there is no automatic join of same-tag runs. Item 2's valley was found
+under tournament selection; items 13–14 are lexicase results, so the two are not in tension.
 
 ## Findings
 
@@ -68,10 +72,13 @@ weight lowers every other op's share (markers are 35% of draws at 4× on all thr
     untested rather than refuted.
 12. **Frequency knob — the first direct manipulation of map bias.** Weighting an op in
     random genomes and point mutations changes how often it is made, not what is reachable.
-    - **Frequency is a rate, not a floor.** Stack OR with IMAX at 0.05× / 0.25× / 1× of
-      uniform, 3000 generations: exact by generation 750 7 / 4 / 15, by 3000 21 / 15 / 21;
-      median first exact 1243 / 1262 / 568. At 1500 generations, 0.25× / 1× / 4× gave
-      9 / 19 / 17. So rarity delays the join, and the effect saturates above uniform.
+    - **Rarity switches routes rather than delaying one.** Stack OR with IMAX at 0.05× /
+      0.25× / 1× of uniform, 3000 generations: 21 / 15 / 21 exact, median first exact
+      1243 / 1262 / 568. But at 0.05×, 18 of 21 solvers contain no IMAX at all (0.25×: 5 of
+      15; 1×: 6 of 21), so the population solves OR by the join-free route, at that route's
+      speed. Under a 1500-generation budget this looks like fewer solves (0.25× / 1× / 4×:
+      9 / 19 / 17). The two rare arms are not distinguishable at n = 30; the effect
+      saturates above uniform.
     - **Among equivalent joins, frequency picks the one used.** On AND with combine markers,
       min 4× / gate 0.25× gave 13 min-joined and 1 gate-joined solvers; the reverse weights
       gave 2 min and 14 gate (50 seeds each, p = 2×10⁻⁵). Solve counts were the same
@@ -83,30 +90,52 @@ weight lowers every other op's share (markers are 35% of draws at 4× on all thr
       2/30 vs 10/30; 4× on all three markers: 6/30 vs 12/30).
 
     (§16, §19)
-13. **XOR: no chemistry-level advantage for tagged runs once the stack has room; crossover
-    is essential for tagged runs.** On XOR (no near-linear shortcut; best `sum + w·max`
-    rule 0.72), a 64-cell stack reaches 11–12/30, the tagged level (13/30). The earlier gap
-    (5/30 and 2/30 at 32 cells) was tape length; tagged_comb's 19/30 vs 12/30 is p = 0.12.
-    Tagged XOR falls from 13 to 2/30 without crossover (p = 0.002). (§16, §19)
-14. **A join can be built when none is handed out, and evolved parts get co-opted.** With
-    leftmost-wins (no automatic same-tag join), tagged runs still solve XOR 12/30
-    (vs 13/30 with the free max).
-    - 8/12 solvers compute XOR inside one run.
-    - 4/12 have the output run read a helper by RECV. In all 4, the helper was a *former
-      output run* — the expressed, selected partial solution of its lineage (fitness
-      0.42–0.75) for 115–540 generations. It was then retagged to a tag an output run reads.
-      That is co-option of an evolved part, not a silent build.
-    - On the solving paths inspected (§17, §19), partial solutions stayed rewarded under
-      lexicase, so no unrewarded valley was crossed: a valley a population can't climb has
-      not been shown here.
+13. **XOR: no detectable difference between tagged runs and the stack once the stack has
+    room; crossover is essential for tagged runs at this mutation rate.** On XOR (no
+    near-linear shortcut; best `sum + w·max` rule 0.72), a 64-cell stack reaches 11–12/30,
+    the tagged level (13/30). The earlier gap (5/30 and 2/30 at 32 cells) was tape length,
+    and the result doesn't depend on the stack's rate (0.015 or 0.03); tagged_comb's 19/30
+    vs 12/30 is p = 0.12. This is still a package comparison: the stack has single-point
+    splice crossover, no indels and bond protection, while tagged runs have run-level
+    crossover and indels. Tagged XOR falls from 13 to 2/30 without crossover (p = 0.002); no
+    stack crossover-off arm was run on XOR. (§16, §19)
+14. **A join can be built when none is handed out.** With leftmost-wins, tagged runs still
+    solve XOR 12/30 (vs 13/30 with the free max).
+    - **8/12 solve inside a single run** with no live RECV. In 7 of them the exact-making
+      step is a 1–2 cell change of a body that was already near-XOR, or of an exact
+      three-quadrant specialist (OR, NAND or one XOR half) that had sat at 0.75 for 250–1700
+      generations. In seed 8, a crossover brought a sibling's other XOR half in as a second
+      (inert) tag-0 run, and a SEP deletion in the same generation fused the two runs in
+      front of a trailing `ADD` that had been neutral: a join by run fusion.
+    - **4/12 have the output run read one helper by RECV.** Each helper descends from a
+      tag-0 run. In 3/4 it descends from the *same* ancestral output run as the solver's own
+      output run: sibling copies that diverged in different individuals and were reunited by
+      crossover, as in §17, but wired by retag + RECV instead of the free max.
+      - The retag 0→t happened in a crossover child in all 4. A reader existed at once in
+        2/4 and within 25 generations in the rest, so no helper went unread for more than
+        14 generations.
+      - Only 1/4 helpers already computed, when retagged, what the solver uses it for (an
+        exact XOR half). In the other three the body was rewritten or drifted after being
+        wired in. So the retag mostly supplied a wired slot, not a finished part.
+    - **These solving paths show plateaus, not valleys.** Partial solutions stayed selected
+      under lexicase (three-quadrant specialists at 0.75, some hosts down to 0.5). Only
+      solvers were inspected; the 18 non-solvers weren't. Whether a valley exists on XOR
+      that lexicase can't cross is untested.
 
     (§17, §19)
 
 ## Open
 
-- **Stable machinery.** Do co-opted helpers stay conserved, gain more dependants, and
-  tolerate mutation differently once they are read (Plans/valley-crossing.md Step 3)?
-- **A real valley.** A recovery ruler on leftmost-wins (Step 1) and rewarding a family of
-  simpler functions vs only the target (Step 2).
+- **Plateaus on XOR.** Solvers sit as exact three-quadrant specialists for hundreds of
+  generations before a 1–2 cell step. Is the neighbourhood of those specialists, and of
+  the non-solvers, empty of exact XOR and of moves that gain a training case? Does the
+  plateau survive summed fitness (no lexicase)?
+- **Stable machinery.** On fixed-goal solved runs, elitism freezes the champion: in all 4
+  co-option runs the helper stayed unchanged, with one reader, to generation 3000. Reuse
+  and entrenchment need a multi-output task (Plans/valley-crossing.md, Step 2 before
+  Step 3).
 - **The core map-bias question** needs a map whose bias differs from direct encoding (the
   folding map or a tree-GP generator); chem-tape's decoder is close to identity (item 1).
+- The leftmost result reinforces items 8–9: when no join is handed out, evolution builds it
+  by 1–2 cell edits, run fusion or retag + RECV, and crossover reuniting sibling copies is
+  still the common solving step.

@@ -1,0 +1,36 @@
+sweep_name: xor_valley_ctrl
+# Map-bias notebook §21 (eleventh review, item 2). §19-§20: leftmost XOR solves 12/30 under
+# lexicase. Champions sit on strict local optima under point mutation, and escapes were
+# population events (crossover). Three arms, 30 seeds x 3000 gens:
+#   1. leftmost-wins, tournament on balanced fitness (no lexicase): does the plateau become
+#      a valley once lexicase stops keeping three-quadrant specialists? Prediction: well
+#      below 12/30.
+#   2. leftmost-wins, lexicase, crossover off: is recombination essential when the join
+#      must be built (max-join XOR: 13 -> 2/30)? Prediction: <= 3/30.
+#   3. max join, tournament: reference for arm 1, so a drop in 1 can be told apart from
+#      tournament hurting XOR in general.
+base:
+  task: mbs_xor
+  generations: 3000
+  disable_early_termination: true
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  elite_count: 2
+  crossover_rate: 0.7
+  tournament_size: 3
+  selection_mode: lexicase
+  backend: numpy
+  log_every: 50
+  track_lineage: true
+  fitness_metric: balanced
+  fast_rng: true
+  # final_population.npz per run: do non-solver populations still hold complementary parts,
+  # and does another training-perfect individual generalise when the champion doesn't?
+  dump_final_population: true
+paired:
+  - {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged, tag_combine: leftmost, selection_mode: tournament}
+  - {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged, tag_combine: leftmost, crossover_rate: 0.0}
+  - {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged, selection_mode: tournament}
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]

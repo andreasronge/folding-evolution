@@ -1014,3 +1014,102 @@ post-mortem instead.
 solve: does it stay conserved, does anything else come to read it, and does it tolerate
 mutation differently once read? Plus the recovery ruler (Step 1) on leftmost, which now has
 real anchors (8 one-run and 4 two-run solvers).
+
+**Corrections after the eleventh (Fable) review** (details in findings items 12–14):
+- *IMAX "rate, not floor" was wrong.* At 0.05×, 18 of 21 solvers contain no IMAX. The rare
+  arm solved OR by the join-free route at that route's speed, so rarity switches routes.
+- *Co-option was overstated.* In 3/4 the helper is a sibling copy of the solver's own output
+  run, reunited by crossover (the §17 pattern, wired by retag + RECV). Only 1/4 helpers
+  already computed at the retag what the solver uses them for, so the retag mostly supplied
+  a wired slot.
+- *The 8 "one-run" solvers* are 1–2 cell edits of near-XOR bodies or of 0.75 specialists,
+  except seed 8, which made the join by run fusion (a SEP deletion in front of a neutral
+  `ADD`).
+- *"No valley" is survivorship.* Only solving paths were inspected, and they show plateaus.
+  The non-solvers need a neighbourhood scan.
+- *Step 3a on these runs can't show reuse:* after the solve, elitism freezes the champion
+  (helper unchanged, one reader, to generation 3000 in all 4). It needs a multi-output task
+  (Step 2) first.
+
+---
+
+## 20. Neighbourhood scan: leftmost-XOR plateau genomes and non-solvers (2026-09-28)
+
+**What would be interesting to see** (eleventh review, item 1): whether the genomes stuck on
+the XOR plateau have any step up. Non-solvers with empty neighbourhoods would mean a
+valley that lexicase can't climb.
+
+**Setup.** `experiments/chem_tape/xor_neighbourhood.py` on `mapbias_xor_leftmost` (§19),
+about 10 s. Genomes scanned: each solver's champion 100 generations before its first exact
+generation, and each non-solver's final champion (generation 3000).
+- **Single mutants (~11,000 per genome):** every op change; tag changes on SEP and RECV cells
+  (other tags are inert); every deletion; and every insertion after a cell, as the mutation
+  operator does it (SEP and RECV with every tag, other ops with one inert tag).
+- **Double mutants:** 20,000 sampled per genome.
+
+Counted: mutants exact on all 10,000 lists; mutants gaining a training case without losing
+one; mutants with higher balanced fitness.
+
+**Sanity check.** One generation before the solve, champions do have exact single mutants
+(seeds 22: 6, 3: 9, 1: 4, 23: 2), so the tool finds steps when they exist. At that point the
+solver itself is not a single mutant of the previous champion (9–121 cells differ); it came
+from elsewhere in the population, by crossover.
+
+**Results** (reworded after an outside read; see the correction below).
+- **No neighbour dominates, none is fitter, many trade or are neutral.** For all 18
+  non-solvers and all 12 solvers' champions 100 generations before the solve, none of
+  ~11,000 single or 20,000 sampled double mutants dominates the champion (gains a training
+  case without losing one) or raises balanced fitness.
+  - Case-*trading* mutants (gain some cases, lose others) are common: 486–6,388 singles
+    per genome, 1,238–13,611 sampled doubles. Lexicase can select those when a gained case
+    comes early in the case order, depending on the rest of the population.
+  - Neutral singles: 854–9,995 per genome.
+  - So these are plateaus with many neutral moves, **not strict local optima**. The
+    supported statement: no fitter or dominating neighbour was found (singles enumerated,
+    doubles sampled). A longer neutral route, or selection of a trade, remains possible.
+- **Where solves came from.** One generation before the solve, the champions do have exact
+  single mutants, but the solver itself came from elsewhere in the population (9–121 cells
+  differ), by crossover.
+- **3/18 non-solvers fit all 64 training cases but are not exact** (seeds 15, 20, 26; 98–100%
+  on all lists). Two of them are one point mutation from exact XOR (seed 20: 9 single
+  mutants; seed 26: 3). Selection can't see it, because training is already perfect. These
+  count as training-set overfit, not stuck; 15/30 runs are genuinely unsolved.
+
+**Take.** The champions' immediate neighbourhoods hold no strict improvement. Improvements
+seen in solvers arrived through the population, mostly by crossover. "Valleys under mutation
+that recombination crosses" is a **hypothesis**. It is consistent with crossover-off XOR
+collapsing to 2/30 (§19), but not shown by this scan. The open question is whether
+non-solver *populations* (not only champions) still hold complementary parts; §21 saves
+final populations to answer that.
+
+**Correction.** The first version of this entry said "strict local optima" and "no step
+improves anything lexicase sees". Both were too strong: the scan's "case gain" required
+gaining without losing any case, which misses lexicase-selectable trades, and the neutral
+counts rule out strict optima.
+
+**Review.** One Codex review before tonight's run: the insertion moves didn't match the
+mutation operator (front insertion; SEP insertions need every tag). Fixed and re-run; the
+conclusion holds.
+
+**Caveats.** Double mutants are sampled (20,000 of ~10⁸). Only the champion of each
+generation is on disk (history.csv), not the population. The plateau genome is the
+champion at a fixed offset (100 generations), not a measured plateau start.
+
+---
+
+## 21. Plan: XOR valley controls (queue_s21)
+
+**What would be interesting to see:** whether the XOR plateau becomes a valley once lexicase
+stops protecting partial solutions, and whether recombination is essential when the join
+has to be built. One sweep, `xor_valley_ctrl` (30 seeds × 3000 gens, ~45 min):
+1. leftmost-wins, **tournament** on balanced fitness. Prediction: well below 12/30. A
+   collapse would mean the partial solutions are no longer reachable under that selection
+   scheme, not that the landscape changed: fitness values are identical, only who gets to
+   reproduce differs.
+2. leftmost-wins, lexicase, **crossover off**. Prediction: ≤ 3/30 (max-join XOR went 13 → 2).
+3. max join, tournament: a reference, so a drop in arm 1 can be told apart from tournament
+   hurting XOR in general.
+`overnight_analysis.py` now also labels tournament arms, and its knockout summary uses the
+run's own join rule (it used max before, which was wrong for leftmost). All runs save
+`final_population.npz`, so non-solver populations can be checked for complementary parts,
+and for training-perfect individuals that generalise when the champion doesn't.

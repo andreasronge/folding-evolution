@@ -69,6 +69,8 @@ def arm_name(c: dict) -> str:
         name += f" {c['tag_combine']}"
     if c.get("crossover_rate", 0.7) != 0.7:
         name += f" x{c['crossover_rate']}"
+    if c.get("selection_mode", "lexicase") == "tournament":
+        name += " tournament"
     return name
 
 
@@ -86,13 +88,13 @@ def exact_many(genomes: list[np.ndarray], cfg: ChemTapeConfig, task_name: str) -
 def structure(g: np.ndarray, cfg: ChemTapeConfig, task_name: str) -> dict:
     runs = tagged.parse_runs(g)
     t = replace(build_task(replace(cfg, task=task_name), cfg.seed), inputs=ALL, labels=LABELS[task_name])
-    base = tagged.evaluate_tagged([g], t)[1][0]
+    base = tagged.evaluate_tagged([g], t, combine=cfg.tag_combine)[1][0]
     rng = random.Random(0)
     kos = []
     for k in range(len(runs)):
         rest = runs[:k] + runs[k + 1:]
         kos.append(tagged.build([], rest, max(1, sum(1 + len(b) for _, b in rest)), rng))
-    load = int((tagged.evaluate_tagged(kos, t)[1] != base).any(axis=1).sum()) if kos else 0
+    load = int((tagged.evaluate_tagged(kos, t, combine=cfg.tag_combine)[1] != base).any(axis=1).sum()) if kos else 0
     owned = {tag for tag, _ in runs}
     recv = [tg for _, body in runs for op, tg in body if op == tagged.RECV]
     out_runs = [body for tag, body in runs if tag == tagged.OUTPUT_TAG]
@@ -242,7 +244,9 @@ def main(day_dir: str) -> None:
                            # §18 (queue_s18)
                            ("mapbias_xor_leftmost", "fixed"), ("mapbias_xor_nox", "fixed"),
                            ("mapbias_xor_stack64", "fixed"), ("mapbias_comb_cross", "fixed"),
-                           ("mapbias_comb_rare", "fixed"), ("mapbias_imax_time", "fixed")):
+                           ("mapbias_comb_rare", "fixed"), ("mapbias_imax_time", "fixed"),
+                           # §21 (queue_s21)
+                           ("mapbias_xor_valley_ctrl", "fixed")):
             sweep = day / name
             if not (sweep / "sweep_index.json").exists():
                 lines += [f"## {name}", "", "not run / no index", ""]

@@ -1,7 +1,7 @@
 sweep_name: xor_stack64
 # §18 control: is the stack's XOR deficit (§16: 5/30, 2/30) tape length? Every stack solver
-# used >= 28 of 32 cells. 64-cell tape at the per-genome-matched rate (0.015) and at the
-# per-cell rate (0.03); v2_imax at 64 cells. Stack reaching ~13/30 -> §16's gap was tape.
+# used >= 28 of 32 cells. 64-cell tape at rate 0.015 and 0.03 (per cell; a tagged cell has three
+# mutation channels, so neither is matched per genome); v2_imax at 64 cells. Stack reaching ~13/30 -> §16's gap was tape.
 base:
   task: mbs_xor
   generations: 3000
