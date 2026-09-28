@@ -1,31 +1,59 @@
-# Plan: crossing the valley — what comes after the lineage post-mortem
+# Plan: crossing the valley, then evolving stable machinery
 
 Written 2026-09-28. Hobby mode: one "what would be interesting to see" paragraph per arm
 in the notebook, results written up plainly afterwards. No pre-registration apparatus.
-Context: map-bias notebook §1–§16, findings.md items 2, 9, 11–13.
+Updated 2026-09-28 after the stable-machinery discussion. This remains an exploratory
+roadmap, not a pre-registration or a queue submission.
+Context: map-bias notebook §1–§18, findings.md items 2, 9, 11–13.
 
 ## Question
 
-How does evolution cross a structural valley — a missing join that no intermediate step
-rewards — without the designer handing it the join? The map-bias line showed that a join
-the chemistry gives away (free max, IMAX, combine markers) becomes easy. It never showed
-evolution *building* one (§9 open problem). The general theme is still map bias: whether
+Can evolution build a missing join, and, where a fitness valley exists, cross it without
+the designer handing it the join? Then: **can yesterday's evolved solution become
+tomorrow's stable building material?** The map-bias line showed that supplied joins
+(free max, IMAX, combine markers) can make particular routes accessible. It has not yet
+established evolution building a join across a valley (§9 open problem).
+The general theme is still map bias: whether
 the genotype→program map makes half-built things harmful (stack: junk on the stack),
 neutral (tagged runs: inert transplants), or useful (a task family that rewards them).
 
-Five routes, from the discussion (literature from memory, not checked):
+Five candidate routes, from the original discussion (these historical references remain
+from memory; checked references for the machinery follow-up are at the end):
+
 1. **Drift / tunnelling** (Weissman et al. 2009): large populations cross narrow valleys;
-   the cost grows roughly exponentially with width. This is the null curve to beat.
+   crossing times depend on mutation, selection, population size and path structure.
+   Measure the recovery curve rather than assuming exponential scaling with width.
 2. **Recombining blocks**: already understood here (§12–§14). It moves parts but doesn't
    create the join.
 3. **Lifetime learning over structure** (Hinton & Nowlan 1987). The earlier threshold-plasticity
    null tuned a number; the valley is structural.
 4. **Silence, then switch** (pseudogenes, Hsp90, Lenski's citrate duplication/promoter
-   capture). Never seen in any chemistry (item 11); the silent-route estimate (§3) is
-   ~1:80 against direct building because silent blocks mutate at the full rate.
+   capture). Not observed in the inspected lineages; §17 shows the setup gives this
+   route little opportunity, so its absence is not a general refutation.
 5. **Useful intermediates** (Lenski, Ofria, Pennock & Adami 2003: EQU evolved only when
-   simpler logic functions were also rewarded). Best supported in nature, and it changes
+   simpler logic functions were also rewarded in their tested setup). This changes
    what the world rewards rather than the machine.
+
+## What stable machinery would mean here
+
+Keep three questions separate:
+
+- **Supplied machinery:** a fixed interpreter operation or join rule, such as max or a
+  threshold. Tests what infrastructure makes evolution accessible.
+- **Protected machinery:** an evolved block that the experimenter freezes or mutates
+  less often. Tests the consequence of imposed protection.
+- **Entrenched machinery:** an evolved block acquires functional dependants; mutations
+  still occur normally, but selection preserves its behaviour because changing it
+  damages those dependants. This is the main new follow-up (Step 3).
+
+Conservation is not necessarily robustness: a core may be fragile to intervention and
+therefore strongly conserved. Nor does conservation alone establish entrenchment: an
+isolated useful block can stay unchanged under selection on its original task.
+
+Leftmost-wins removes automatic aggregation of same-tag runs. It still supplies tag
+lookup, isolated stacks, RECV, arithmetic and comparisons. The immediate question is
+whether evolution assembles a join from those stable primitives. The later question is
+whether the resulting structure itself becomes reusable infrastructure.
 
 ## Revision after Step 0 and the tenth review (2026-09-28)
 
@@ -52,17 +80,25 @@ the first. The tenth (Fable) review changed the plan:
 1. Fix and re-run the post-mortem (done).
 2. Overnight (`queue_s18`): leftmost XOR, crossover-off XOR, stack 64-cell XOR controls,
    then parked map-bias items.
-3. Leftmost XOR ≥ ~8/30: post-mortem its solvers (look for rewiring, the first *built*
-   join). Leftmost XOR ≤ 2/30: the valley is real; build the ruler on leftmost.
-   This needs tagged `seed_tapes` plus a hand-written leftmost XOR solver with k cells
-   deleted from the join run, and rewiring/retag on vs off (~1 h).
+3. Inspect every available leftmost solver, whether common or rare. ≥ ~8/30 gives a
+   useful collection of paths; ≤ 2/30 establishes difficulty at this budget, not a
+   valley. For intermediate counts, use the same lineage inspection before choosing
+   the next probe. Build Step 1's recovery ruler if assembly remains the bottleneck.
 4. Step 2 on leftmost, three arms (family / target-only lexicase / target-only summed);
    needs a coding session.
-5. Route 4 with a promote/wire mutation; structural plasticity parked.
+5. Step 3: follow evolved joins beyond their first solve, looking for reuse, dependency
+   and conservation under ordinary mutation. Start with existing saved lineages.
+6. Route 4 with a promote/wire mutation if needed; threshold machinery and structural
+   plasticity remain separate, parked comparisons.
 
-The original steps below are kept for reference.
+**2026-09-28 update:** Steps 1–4 and the budget below now reflect this order. The former
+Step 3 duplication sweep was dropped after §17; its slot now holds the machinery
+follow-up. No new experiments have been run by this plan revision.
 
-## Step 0 — lineage post-mortem (overnight, runs before this plan starts)
+## Step 0 — lineage post-mortem (completed; original design retained)
+
+Completed in notebook §17, including the corrected matching and both-parent trace.
+The decisions below record the original design; the revision above governs next steps.
 
 Re-run last night's tagged solvers with a both-parents ancestry trace, then classify
 where each output run came from.
@@ -91,29 +127,37 @@ where each output run came from.
 - Mostly "built in place" even for the second run → recombination matters less than
   §12 suggested on these tasks; note it before Step 2.
 
-## Step 1 — valley ruler on XOR (markers off)
+## Step 1 — recovery ruler on leftmost XOR (markers off)
 
-**What would be interesting to see:** the recovery time as a function of valley width k,
-and whether switching off header retags changes it.
+**What would be interesting to see:** how recovery time changes with damage to a built
+join, and whether recovery traverses unrewarded intermediates or finds another route.
 
-- **Design.** Start from tagged XOR two-run solvers (the 8/13 with two SWAP'd output
-  runs). Delete k cells from the *join only* — the second output run's
-  RECV, RECV, SWAP, GT and the header retag to 0 — for k = 1, 2, 3, 4 (the join is only
-  ~4–5 cells, so k stops at 4). Seed the whole population with the damaged genome.
-  mbs_xor, tagged, tape 64, rate 0.015, lexicase, balanced, fast_rng, 1000–2000 gens.
-- **Arms.** Each k × {header-retag mutation on, off}. 30 seeds per cell (spread over the
-  8 base solvers). 8 cells × 30 runs ≈ 1.5–2 h.
+- **Design.** Use leftmost solvers with an identifiable join, or a hand-written exact
+  leftmost solver as an explicitly engineered starting point. Leave the predicate runs
+  undamaged at initialization; they still mutate normally during recovery. Replace k
+  join-body cells with NOP for k = 1, 2, 3, 4, preserving run boundaries
+  and tape length. Use several damage patterns per k and report the initial behaviours;
+  k is damage size, not an established minimum valley width. Verify the undamaged
+  anchor on all 10,000 inputs and include a k = 0 retention control.
+  mbs_xor, tagged, leftmost, tape 64, rate 0.015, lexicase, balanced, fast_rng,
+  1000–2000 gens as an initial budget.
+- **Arms.** First measure ordinary recovery, provisionally 30 seeds per k spread over
+  the available anchors and damage patterns. Add a matched header-retag on/off
+  contrast only if traces implicate that route; keep RECV-target mutations enabled.
 - **Readout per run.** Generations to exact XOR, and the endpoint class: rebuilt the join,
   found a different route (e.g. single-run XOR), or never exact.
 - **New code.**
   - `seed_tapes` currently assumes length-L stack tapes; extend it to TAG genomes (2L).
-  - A header-retag switch: freeze mutation of SEP cells' tags only, so RECV targets
-    still mutate.
-  - A small "damage" script that builds the k-deleted seeds from the solvers.
-- **Interesting if:** the curve is steep (roughly exponential in k), which confirms the
-  valley and gives every other route a baseline. Retag off slowing recovery → the silent
-  route matters. **Kill / boring if:** k = 4 recovers as fast as k = 1 (no valley), or all
-  recoveries take a different route (then the ruler measures that route, not the join).
+  - Optional header-retag switch: freeze mutation of SEP cells' tags only, so RECV
+    targets still mutate. Separate this intervention from the ordinary recovery arm.
+  - A small "damage" script that builds the k-cell NOP-replacement seeds from solvers.
+- **Interpretation.** A steep curve motivates local-neighbourhood and path inspection;
+  it does not by itself prove a valley. Record per-case errors as well as scalar fitness,
+  because lexicase can preserve specialists despite a lower aggregate score. A retag
+  effect needs ancestry evidence before attributing it to silent activation. Flat
+  curves or alternative-route recovery make this a poor ruler for the intended join;
+  they do not rule out valleys elsewhere. Recovery from intact predicates measures
+  conditional assembly, not discovery from random genomes.
 
 ## Step 2 — generic-reward staircase (useful intermediates)
 
@@ -126,19 +170,17 @@ Avida's EQU result on this system.
   included, as EQU was in Avida). Compare:
   - *family*: all 14 rewarded;
   - *target only*: only the target output rewarded (AND, and separately XOR).
-  Chemistry with **no free join**: tagged with leftmost-wins, so max isn't handed out
-  (or the stack, if multi-output is easy there). Otherwise the family is solved by the
-  free max and says nothing.
-- **Open design choice: how to combine 14 outputs into one selection signal.**
-  - Lexicase over the pooled cases of all outputs (natural here).
-  - Avida-style multiplicative bonus per output that is exact.
-  - Summed balanced accuracy.
-
-  These behave very differently. Pick one on purpose and note it; lexicase-pooled is the
-  default. A count output (p1 + p2, values 0/1/2) would need exact-match scoring;
-  leave it out unless added deliberately.
-- **Arms.** family vs target-only, for AND and XOR: 4 arms × 30 seeds × 3000 gens,
-  ~1 h.
+  Chemistry with **no automatic same-tag join**: tagged with leftmost-wins, so max
+  isn't handed out (or the stack, if multi-output is easy there). Supplying max would
+  confound attribution on the compositions it directly helps.
+- **Arms.** For AND and separately XOR: family with pooled-case lexicase, target-only
+  lexicase, target-only summed balanced accuracy with the same documented scalar
+  selector in both target experiments. Six cells × 30 seeds × 3000 gens provisionally.
+  Give each family output equal case weight. Keep training samples, mutation and tape
+  budget comparable; record total case evaluations, since family evaluation costs more.
+  Any search-efficiency comparison also needs an equal-case-evaluation budget view.
+  The target-only summed arm checks the role of specialist-preserving selection; it
+  does not isolate a single numerical fitness transformation from the selector.
 - **New code.** Multi-output evaluation (the output of tag t for each rewarded t), the
   family task definition, and the fitness combiner. About half a day.
 - **Interesting if:** family ≫ target-only on the target's exact solves, with lineages
@@ -146,21 +188,92 @@ Avida's EQU result on this system.
   intermediates don't help here, or the combiner drowns the target (check the per-output
   solve rates before concluding).
 
-## Step 3 — duplication on XOR (markers off)
+## Step 3 — from an evolved join to entrenched machinery
 
-Rerun gene duplication (`run_duplication_rate: 0.1`) vs none on mbs_xor, tagged, 30 seeds
-× 3000 (~25 min). XOR solvers are two SWAP'd copies, so a copy of a working comparison run
-is exactly the right starting material — the place where duplication *should* help.
-**Prediction: null.** Crossover already supplies the copies (7/8 second runs were exact
-copies of the other parent's output run, §16), so duplication supplies something that
-isn't scarce. Write the prediction down before running it.
+**What would be interesting to see:** evolution builds a join, other functions begin
+using it, and its behaviour becomes conserved while surrounding wiring continues to
+change. The core remains exposed to the ordinary mutation operators throughout.
 
-## Step 4 — silent-run protection (only if Steps 0–3 leave route 4 open)
+### 3a. Observe reuse before engineering protection
 
-Lower mutation on runs that nothing reads, like `bond_protection_ratio` but for silent
-runs. Describe it as an **engineered capacitor**, not a biological analogue: in nature,
-expressed genes are repaired *faster* and pseudogenes decay at the neutral rate or faster.
-Test it on the Step 1 ruler (does protection flatten the curve with retag on?).
+Start by inspecting saved leftmost and family solvers. Follow candidate joins beyond
+their first exact solve; extend selected lineages if existing runs stop too early.
+A candidate is an evolved run or connected group of runs with a verified combining
+function, not necessarily the hand-written join or a fixed token sequence.
+
+For each candidate, record body changes separately from header/RECV rewiring, behaviour
+on its interface inputs, and which rewarded outputs functionally depend on it. Count
+dependencies by intervention (perturb the candidate and re-evaluate each output), not
+just by counting RECV references. Repeated computation, unused reads and bypass paths
+can make apparent reuse misleading. Where the interface is Boolean, test all four input
+combinations as well as the actual input lists. Stable output on current data alone may
+hide a changing internal function.
+
+If no shared combining structure appears, report that observation at the tested budget.
+Do not insert a designer join and describe its subsequent preservation as spontaneous
+entrenchment. Predicate reuse alone is useful but distinct from reuse of a combiner.
+
+### 3b. Ask whether acquired dependencies preserve the core
+
+At snapshots before and after additional outputs acquire a dependency, measure how the
+same available single mutations affect the candidate's behaviour and the dependent
+outputs. Record proposed mutations and their survival along lineages, normalized by
+mutation opportunity and block size; raw sequence conservation is insufficient.
+
+For a small causal follow-up, fork the same evolved snapshot into paired continuations:
+
+- **Dependants rewarded:** maintain selection on the acquired downstream functions.
+- **Dependency selection released:** remove those downstream rewards while keeping
+  the original task reward, genome, mutation operators and remaining task weights.
+
+Compare core-behaviour retention, accepted core changes and downstream losses at equal
+continuation budgets. Removing rewards changes selection; that is the intended
+intervention. A matched removal of rewards for non-dependent outputs, when available,
+helps distinguish dependence from simply having fewer objectives. Fix the selector and
+reward normalization before running this comparison. It tests maintenance of existing
+dependencies, not how the first dependency arose.
+Check whether the original task already fully constrains the candidate's behaviour:
+if so, additional rewards may add no detectable constraint and a null contrast is
+uninformative about dependency-driven conservation.
+
+**Interesting evidence:** acquired functional dependencies, broader damage from core
+perturbations, and stronger conservation when those dependants remain rewarded. A
+stable core with no acquired dependency is ordinary conservation; shared dependencies
+without detectable extra conservation demonstrate reuse but leave entrenchment open.
+Mutation intolerance alone is fragility, not evidence that evolution preserved a core.
+
+### 3c. Ask whether stable machinery enables further innovation
+
+Use a separate training curriculum with explicitly held-out combinations, then transfer
+the evolved populations to those goals. Step 2 rewards all 14 non-constant Boolean
+functions, so its training run cannot supply an unseen two-input Boolean combination
+of the same predicates. Specify the held-out goals before this new training run; verify
+that both useful subfunctions and unsolved transfer goals exist.
+
+Measure exact transfer success, evaluations to adaptation, retained old functions and
+whether adaptation reuses the candidate through rewiring or replaces it. Include a
+fixed-goal training control with matched resources. Faster transfer alone does not
+attribute the gain to the candidate: use the lineage and dependency interventions.
+
+Distinguish four possible observations: conservation with useful transfer; conservation
+with poor transfer (entrenchment may constrain innovation); transfer through replacement
+of the core; and neither. The earlier varying-goal null (§16) remains relevant; benefits
+from this new curriculum are a hypothesis, not an assumed consequence of modular goals.
+
+**Practical order.** Do 3a first. Pilot 3b on several independently evolved candidates
+before sizing a sweep. Attempt 3c only when there is identifiable machinery to follow.
+Optional later controls may freeze or lower mutation on the *same evolved* candidates,
+but label these imposed-protection arms. No bonuses for reuse, stability, dependency
+count or modularity in the main arms: those are observations, not rewarded objectives.
+
+## Step 4 — silence, then activation (conditional)
+
+If the silent route remains interesting after Steps 1–3, test a promote-to-output or
+wire-a-RECV mutation against the ordinary mutation operator. Keep the total mutation
+budget comparable and trace whether useful material actually developed while silent.
+Separate increased activation opportunity from survival of the silent material.
+Lowering mutation on silent runs is a later engineered-protection control, not the
+first intervention and not evidence for naturally arising entrenchment.
 
 ## Step 5 — structural lifetime learning
 
@@ -169,6 +282,32 @@ trying the options on its training lists (Hinton & Nowlan style, discrete switch
 Lifetime trials **must be charged against the evaluation budget**, otherwise it is brute
 force hidden inside each individual. Compare against the Step 1 ruler at equal total
 evaluations. The most code of all steps; only after 1–2 have results.
+
+## Separate comparison — supplied threshold machinery (parked)
+
+**What would be interesting to see:** whether a fixed, generic summation/threshold
+interface makes several combinations accessible and robust through small wiring or
+threshold changes. This changes the supplied machinery; it is a separate question from
+building a join in leftmost-wins or observing entrenchment.
+
+For Boolean p1 and p2, `p1 p2 ADD CONST_0 GT` is OR and replacing CONST_0 with CONST_1
+gives AND. That single-edit relationship concerns completed programs; it does not
+establish an easy path to building either, or a valley-free biological transition.
+
+Before implementing this arm, specify where thresholds live, how multiple same-tag
+runs interact, and whether inputs are Boolean or arbitrary integers. **Positive-only
+sum/threshold networks cannot express XOR at any feed-forward depth.** An XOR-capable
+version needs inhibition, negation, signed weights or existing non-monotonic operations
+such as GT. If stack runs retain GT, trace where it supplies that capability rather than
+attributing success to an extra threshold layer alone. Verify expressibility with a
+hand-built witness before an evolutionary sweep.
+
+Measure the fraction of mutations that preserve the whole task and the candidate join's
+interface behaviour separately, alongside access to other useful functions. Report
+whole-genome mutation outcomes under the actual operator, then break them down by body,
+wiring and threshold mutations. Account for inactive cells, block size and mutation
+opportunity. A fixed interpreter join cannot be broken by genome mutations; treating
+that immunity as evolved robustness would make the comparison circular.
 
 ## Parked (map-bias shortlist from the ninth review, and the min-default idea)
 
@@ -184,16 +323,45 @@ has spare budget:
   Predicted ~11/30 each from §16's marker data, plus an offline count of crossover children
   broken under min vs max (the junk-run fragility explanation of the AND/OR gap).
 
-## Order and budget
+## Order and budget (current roadmap)
 
 | step | what | new code | compute |
 |---|---|---|---|
-| 0 | post-mortem, both parents | trace mode + script | ~15 min (tonight) |
-| 1 | XOR valley ruler, retag on/off | TAG seeding, retag switch, damage script | ~2 h |
-| 2 | generic-reward staircase | multi-output eval + combiner | ~1 h, ½ day code |
-| 3 | duplication on XOR | none | ~25 min |
-| 4 | silent-run protection | protection knob | ~1 h, only if needed |
+| 0 | post-mortem, both parents | completed, notebook §17 | done |
+| next | queue_s18 attribution controls, then inspect solvers | existing queue + lineage analysis | existing estimate ~1.5 h for XOR controls |
+| 1 | leftmost recovery ruler | TAG seeding, damage script; optional retag switch | re-estimate after anchor/damage pilot |
+| 2 | useful intermediates, six cells | multi-output evaluation + selectors | profile case cost; about ½ day initial coding estimate |
+| 3a | observe join reuse and conservation | behavioural/dependency tracing | saved-artifact inspection first |
+| 3b–c | dependency release, then held-out transfer | paired continuation + curriculum | size after pilot; no overnight estimate yet |
+| 4 | silent activation opportunity | promote/wire mutation | conditional, profile first |
 | 5 | structural plasticity | wildcard cells + charged budget | later |
+| separate | supplied threshold machinery | threshold semantics + expressibility check | parked |
 
-Steps 1 and 3 fit one night together; the parked XOR controls also fit that night if
-wanted. Step 2 needs a coding session first.
+Keep the current queue unchanged. The first new action is to inspect its available
+solvers; the first machinery action is 3a, which may reuse those artifacts. Follow-ups
+need their own short notebook setup and concrete runtime estimate before execution.
+
+## Biological inspiration and checked reading
+
+The useful analogy is conserved processes recruited through changing regulatory
+connections. Conservation does not imply an experimentally lowered mutation rate, and
+does not by itself establish that acquired dependencies caused it. The staged questions
+above distinguish these possibilities in this system; they do not test the whole
+biological theory.
+
+- [Gerhart & Kirschner (2007), *The theory of facilitated variation*](https://pubmed.ncbi.nlm.nih.gov/17494755/).
+  Conserved core processes and weak regulatory linkage motivate the stable-interface
+  question. Read as a biological framework, not evidence that arbitrary evolved code
+  will acquire those properties.
+- [Buchler, Gerland & Hwa (2003), *On schemes of combinatorial transcription logic*](https://garcialab.berkeley.edu/courses/papers/Buchler2003a.pdf).
+  Promoters are richer than simple perceptrons; their model includes a single-promoter
+  XOR construction. Do not claim that biological XOR necessarily requires another
+  regulatory layer or is rarer on that basis. The project's 0.72 is the best tested
+  `sum + w·max` rule on its input distribution, not a universal XOR linear ceiling.
+- [Parter, Kashtan & Alon (2008), *Facilitated Variation: How Evolution Learns from Past Environments To Generalize to New Environments*](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000206).
+  Computational precedent for modularly varying goals and transfer to unseen goals;
+  motivates 3c without overriding this project's existing varying-goal null.
+
+Generative entrenchment is the conceptual lead for Step 3. Obtain and read a primary
+Wimsatt source before attributing the operational test here to his precise formulation;
+that reference was mentioned from memory in the discussion, not checked in this update.
