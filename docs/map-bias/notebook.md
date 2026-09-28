@@ -742,3 +742,95 @@ balanced fitness, 30 seeds unless noted, each sweep has its own 1× reference ar
 
 Morning: exactness on all 10,000 lists (`overnight_analysis.py` now knows `mbs_xor`), route
 per exact solver (number of tag-0 runs, join marker), first exact generation.
+
+---
+
+## 16. §15 results (2026-09-28)
+
+All 7 sweeps completed (`experiments/output/2026-09-27/mapbias_{knob_*,xor_race,seeds100_*}`,
+commit `7c9cc42`, ~4 h). Analysis: `experiments/chem_tape/overnight_analysis.py` →
+`overnight_summary.md` (exactness now checked every generation). p = two-sided Fisher.
+Caveat for every knob: raising one op's weight lowers every other op's share (at MIN 16× the
+MIN token is 42% of draws), so high weights also dilute the rest of the alphabet.
+
+**Frequency knob: join marker on tagged_comb AND** (share of each marker in draws: 0.25× ≈ 1%, 1× 4%, 4× 14%)
+
+| markers | exact AND | median first exact | multi-run solvers | joins used (min / gate / other) |
+|---|---|---|---|---|
+| 0.25× | 10/30 | 608 | 10/10 | 8 / 2 / 1 |
+| 1× | 12/30 | 556 | 11/12 | 5 / 6 / 1 |
+| 4× (all three) | 6/30 (p = 0.16 vs 1×) | 1219 | 5/6 | 3 / 2 / 0 |
+| gate only 4× | 12/30 | 863 | 11/12 | 4 / 8 / 1 |
+
+- At 0.25× (≈ 2 marker cells per genome, ~30 new marker cells per generation across the
+  population) the joined route is still used by 10/10 solvers. This does not test true rarity.
+- Gate share is ordered as frequency predicts (18% / 50% / 62% at 0.25× / 1× / gate 4×), but
+  only the extreme pair is near significance (p = 0.047; 1× vs gate 4× p = 0.70; §14's 1× run
+  gave 2/9 gate). Consistent with a frequency effect on which join is used, not shown.
+- More markers does not help the solve rate; 4× on all three (35% of all draws) is worse,
+  most likely dilution (runs reaching train 1.0: 24 → 16).
+
+**Frequency knob on the stack baseline**
+
+| setup | 0.25× | 1× | 4× | 16× |
+|---|---|---|---|---|
+| OR, IMAX weight (exact / median first gen) | 9/30 / 857 | 19/30 / 466 | 17/30 / 370 | — |
+| AND, MIN weight | — | 10/30 / 1493 | 9/30 / 1101 | 2/30 / 1852 |
+
+- IMAX frequency sets when the join arrives: median first exact 857 / 466 / 370 at 0.25× /
+  1× / 4× (solves by gen 750: 4 / 15 / 14). Under a fixed 1500-gen budget that becomes fewer
+  solves at 0.25× (9 vs 19, p = 0.02) and saturates above 1× (17).
+- MIN at 16× (42% of draws) hurts (2 vs 10, p = 0.02) — dilution: runs reaching train 1.0
+  fall 15 → 4, the whole program suffers, not just the join. MIN at 4× (16%) changes nothing.
+- Within this protocol MIN adds nothing to stack AND: v2_min 10/30 vs v2_probe 9/30 (§12)
+  and 30/100 (below). §3's 1/30 differed in selection, inputs, fitness and budget.
+
+**XOR** (no linear shortcut)
+
+| arm | exact XOR | median first exact | multi-run solvers |
+|---|---|---|---|
+| stack v2_probe | 5/30 | 990 | — |
+| stack v2_imax | 2/30 | 1466 | — |
+| tagged | 13/30 (p = 0.047 vs stack) | 873 | 8/13 |
+| tagged_comb | **19/30** (p = 0.0005 vs stack) | 1157 | 17/19 |
+
+- Tagged runs beat the stack on XOR, but it is a chemistry-package result with two
+  uncontrolled confounds. (a) Tape: every stack solver uses ≥ 28 of its 32 cells, and the
+  stack fits the training cases in only 6/30 runs (tagged 22/30, tagged_comb 25/30); §14
+  showed a 64-cell tape lifts stack OR 10 → 15/30. (b) Free OR: XOR = max(p1>p2, p2>p1),
+  and 8/13 tagged solvers are exactly that — two near-identical output runs differing by a
+  SWAP, joined by the free max; the second run arrived by crossover in 8/8 (an exact copy of
+  the other parent's output run in 7/8). tagged_comb solvers use 3 output runs (median),
+  with a mix of all four joins.
+- IMAX doesn't help the stack on XOR (2/30): with ~30 of 32 cells in use, one op is not the
+  constraint.
+
+**Seed top-ups (100 seeds, fast_rng; seeds 0–29 re-run, so a replication, not an extension)**
+- Gene duplication on OR: 62/100 vs 67/100 without (p = 0.55). §12's 25 vs 19 was noise;
+  no duplication effect.
+- Varying goals, stack baseline: exact AND at a late-third phase end in 21/100 runs, at any
+  phase end in 36/100; fixed AND 30/100 (fixed ever = final: exact champions persist under
+  elitism, so the extra looks don't matter). p = 0.45 (late-third: 0.19, favouring fixed).
+  The §12 MVG benefit (18/30 vs 9/30) does not replicate at 100 seeds.
+
+Multiple comparisons: of ~10 tests here only XOR tagged_comb vs stack (p = 0.0005) survives
+a family correction; the p ≈ 0.02–0.05 results are trends. All §15 arms use fast_rng, so
+comparisons with §12/§14 are approximate; each sweep's own 1× arm is the comparator.
+
+**Take** (revised after the ninth Fable review).
+- *Arrival of the frequent, causally:* op frequency acts as a supply rate on the join. It
+  sets arrival time (IMAX), converts to fewer solves under a fixed budget when rare, and
+  saturates above uniform; very high weights hurt only through dilution. Whether frequency
+  steers the choice among equivalent joins is suggestive (ordered gate shares), not shown.
+- *XOR* removes the linear-shortcut asterisk, and tagged runs win clearly (13–19/30 vs
+  2–5/30), but until a 64-cell stack and a leftmost-wins tagged arm run on XOR it is a
+  chemistry-package win, not a modularity win.
+- Two suggestive earlier results (duplication, varying goals) are retracted as noise.
+
+**Next (ninth review's ranked shortlist, ~4 h):** (1) XOR controls: stack tape 64 at rates
+0.015 and 0.03, v2_imax tape 64, tagged leftmost-wins, tagged crossover off. (2) Crossed
+min/gate weights on tagged_comb AND (`22:4,24:0.25` vs `22:0.25,24:4`, 50 seeds). (3) True
+rarity: all markers at 0.02× and 0.05×. (4) IMAX 0.05× / 0.25× / 1× at 3000 gens, analysed
+as time to first solve. Then close the chem-tape map-bias line; the core question needs a map
+whose bias differs from direct encoding (folding map or tree-GP generator, as §1 said).
+Tagged-run modularity is a separate, chemistry-design thread.
