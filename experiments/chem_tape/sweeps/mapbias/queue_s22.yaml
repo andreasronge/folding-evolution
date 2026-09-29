@@ -1,0 +1,24 @@
+# §22 queue (overnight, autonomous): leftmost XOR stuck-or-slow, more leftmost solvers, stack crossover-off XOR. Launch:
+#   caffeinate -s uv run python scripts/run_queue.py --queue experiments/chem_tape/sweeps/mapbias/queue_s22.yaml \
+#     --status experiments/chem_tape/sweeps/mapbias/queue_s22.status.json --lock experiments/chem_tape/sweeps/mapbias/queue_s22.lock
+
+- id: mapbias_xor_stack64_nox
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/xor_stack64_nox.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §22: stack 64 XOR crossover off"
+
+- id: mapbias_xor_leftmost_long
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/xor_leftmost_long.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 10800
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §22: leftmost XOR to 10000 gens"
+
+- id: mapbias_xor_leftmost_more
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/xor_leftmost_more.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 7200
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §22: leftmost XOR seeds 30-99"

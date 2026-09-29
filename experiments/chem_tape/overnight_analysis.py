@@ -69,6 +69,8 @@ def arm_name(c: dict) -> str:
         name += f" {c['tag_combine']}"
     if c.get("crossover_rate", 0.7) != 0.7:
         name += f" x{c['crossover_rate']}"
+    if c.get("n_examples", 64) != 64:
+        name += f" n{c['n_examples']}"
     if c.get("selection_mode", "lexicase") == "tournament":
         name += " tournament"
     return name
@@ -246,7 +248,12 @@ def main(day_dir: str) -> None:
                            ("mapbias_xor_stack64", "fixed"), ("mapbias_comb_cross", "fixed"),
                            ("mapbias_comb_rare", "fixed"), ("mapbias_imax_time", "fixed"),
                            # §21 (queue_s21)
-                           ("mapbias_xor_valley_ctrl", "fixed")):
+                           ("mapbias_xor_valley_ctrl", "fixed"),
+                           # §22 (queue_s22)
+                           ("mapbias_xor_stack64_nox", "fixed"), ("mapbias_xor_leftmost_long", "fixed"),
+                           ("mapbias_xor_leftmost_more", "fixed"),
+                           # §23 (queue_s23)
+                           ("mapbias_xor_n256", "fixed")):
             sweep = day / name
             if not (sweep / "sweep_index.json").exists():
                 lines += [f"## {name}", "", "not run / no index", ""]

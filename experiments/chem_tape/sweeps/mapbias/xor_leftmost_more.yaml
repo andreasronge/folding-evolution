@@ -1,0 +1,23 @@
+sweep_name: xor_leftmost_more
+# Map-bias notebook §22. More leftmost-XOR solvers (seeds 30-99, same config as §19) to
+# post-mortem: how common are one-run edits, run fusion and helper wiring (§19: 8 / 1 / 4 of 12)?
+base:
+  task: mbs_xor
+  generations: 3000
+  disable_early_termination: true
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  elite_count: 2
+  crossover_rate: 0.7
+  selection_mode: lexicase
+  backend: numpy
+  log_every: 50
+  track_lineage: true
+  fitness_metric: balanced
+  fast_rng: true
+  dump_final_population: true
+paired:
+  - {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged, tag_combine: leftmost}
+grid:
+  seed: [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99]

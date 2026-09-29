@@ -1,0 +1,27 @@
+sweep_name: xor_n256
+# Map-bias notebook §23. §22: by generation 10,000, 6 of 13 unsolved leftmost-XOR runs fit
+# all 64 training cases without being exact on all 10,000 lists, so selection had nothing
+# left to push on. Same configs with 256 stratified training cases (holdout 256): do those
+# failures turn into solves? Leftmost (no free join) and max (free join), seeds 0-29.
+# Compare xor_leftmost (12/30) and xor_race tagged (13/30) at 64 cases.
+base:
+  task: mbs_xor
+  generations: 3000
+  disable_early_termination: true
+  n_examples: 256
+  holdout_size: 256
+  pop_size: 1024
+  elite_count: 2
+  crossover_rate: 0.7
+  selection_mode: lexicase
+  backend: numpy
+  log_every: 50
+  track_lineage: true
+  fitness_metric: balanced
+  fast_rng: true
+  dump_final_population: true
+paired:
+  - {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged, tag_combine: leftmost}
+  - {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged}
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]

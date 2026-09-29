@@ -1113,3 +1113,87 @@ has to be built. One sweep, `xor_valley_ctrl` (30 seeds × 3000 gens, ~45 min):
 run's own join rule (it used max before, which was wrong for leftmost). All runs save
 `final_population.npz`, so non-solver populations can be checked for complementary parts,
 and for training-perfect individuals that generalise when the champion doesn't.
+
+---
+
+## 22. §21 results: XOR valley controls, and stack crossover-off (2026-09-29, overnight)
+
+`xor_valley_ctrl` (queue_s21, commit `5a85eb5`, 22 min) and `xor_stack64_nox` (queue_s22).
+Outputs in `experiments/output/2026-09-28/`. Population analysis:
+`experiments/chem_tape/population_parts.py`, which evaluates every final-population genome
+on all 10,000 lists, per (max>5, sum>10) quadrant. A genome "covers" a quadrant at ≥ 95%.
+
+| arm | exact XOR | final champion train balanced (median, range) |
+|---|---|---|
+| tagged leftmost, lexicase (§19) | 12/30 | — |
+| tagged leftmost, **tournament** | **0/30** (p = 0.0001) | 0.50 (0.50–0.75) |
+| tagged max, **tournament** | **0/30** (p < 0.0001 vs 13/30) | 0.50 (0.50–0.75) |
+| tagged leftmost, lexicase, **crossover off** | **4/30** (p = 0.04 vs 12/30) | 0.80 (0.67–1.0) |
+| stack 64 cells, **crossover off** | 7/30 (p = 0.27 vs 12/30) | — |
+
+- **Without lexicase, XOR is out of reach under either join rule, and it isn't a valley in
+  the usual sense: it's flat.** Under tournament the champions end at balanced 0.5, the
+  constant-output level. In 26/30 populations the largest class covers only the two
+    quadrants where XOR is 0, i.e. programs that output 0 (or nearly) on every list.
+  - The reason is XOR's parity: a single predicate scores exactly 0.5 on XOR (right on half
+    of each class). So the building blocks carry no aggregate fitness signal. Even the 0.75
+    partial solutions (p1∧¬p2 etc.) need both blocks first.
+  - Lexicase sees the blocks case by case and keeps them. That is the whole difference
+    between 0/30 and 12–13/30.
+  - This also scopes items 13–14: those are lexicase results, and under summed fitness
+    XOR's plateau is at 0.5, not 0.75.
+- **Crossover matters for building the join (4 vs 12/30), less for the stack (7 vs 12/30).**
+  All 26 unsolved crossover-off leftmost populations hold individuals whose quadrant covers
+  together reach all four quadrants. So the parts exist, but without recombination they
+  rarely end up in one genome. That fits "recombination crosses what mutation doesn't"
+  (§20 hypothesis), without proving it. The stack's smaller drop (not significant) matches
+  §19: stack solvers are mostly built in place.
+- 1 stack crossover-off population holds an exact individual that isn't the recorded
+  champion; elsewhere, the champion is exact whenever any individual is.
+
+**Leftmost XOR to 10,000 generations (`xor_leftmost_long`, queue_s22).** Same config and
+seeds as §19, lineage tracking off. **All 30 seeds replay §19's first 3,000 generations
+exactly** (champion genome by generation), so the extension is a pure continuation. The
+machine slept for much of the run: 4.9 h wall time for ~1 h of compute.
+- **Slow, not all stuck.** Exact by generation 3000: 12/30; by 5000: 14; by 10,000: 17.
+  The late solvers (seeds 10, 28, 5, 27, 12 at 3801, 4945, 5027, 5632, 9356) are all among
+  the non-solvers §20 scanned at generation 3000. There, their champions had no fitter or
+  dominating single or sampled double neighbour. So the plateau was left later anyway, by
+  neutral moves or through the rest of the population, as §20's rewording expected.
+- **Training-set overfit grows with time.** The three §20 overfit runs (15, 20, 26) never
+  become exact. By generation 10,000, 6 of the 13 unsolved runs fit all 64 training cases
+  without being exact on all lists, so selection has nothing left to act on. The other 7
+  sit at 0.75–0.97 training balanced.
+  - So at this budget about half the remaining failures are a training-set limitation
+    (64 cases; exactness judged on 10,000), not a landscape property.
+  - Any follow-up on "stuck" runs should use more training cases, or resample them.
+
+**Final populations: the champion-only score undercounts solves**
+(`population_parts.py` on the §22 sweeps).
+- **Exact individuals hide behind training ties.** When several individuals fit all 64
+  training cases, the recorded champion is one of them, arbitrarily, and may not be exact
+  even when many others are.
+  - Long runs: seeds 20, 26, 15 (the "overfit" non-solvers of §20 and above) hold 470, 439
+    and 358 exact individuals out of 1,024 at generation 10,000. Seed 6 holds 6.
+  - Seeds 30–99: seed 45 holds 449.
+  - **Populations containing an exact individual:** long runs 21/30 (vs 17/30 exact
+    champions); seeds 30–99 20/70 (vs 19/70). Every champion-based XOR count in §16–§22
+    is a lower bound. The §20 "overfit" seeds were probably solved at the population level
+    already; the sweeps that ran to 3000 saved no population to check.
+  - Fix for future sweeps: report population-level exactness (saved populations), or pick
+    the champion by holdout among training ties.
+- **Unsolved lexicase populations always hold complementary parts.** In every unsolved
+  population (seeds 30–99: 50/50; long: 9/9; crossover-off: 26/26; stack crossover-off:
+  22/22), the quadrant covers present together reach all four quadrants. Under tournament
+  only 6–7/30 do. The largest class in unsolved lexicase populations covers only the two
+  quadrants where XOR is 0: programs that output 0 on the positive lists.
+  "Parts present" is weak evidence: covers can come from different, incompatible programs.
+
+**More leftmost solvers** (`xor_leftmost_more`, seeds 30–99: 19/70 exact champions;
+post-mortem `postmortem_leftmost_more/`, 19/19 reproduced).
+- 18/19 solve inside a single run, and 1/19 has a helper (retag from a former output run).
+  Seed 54's one "live RECV" reads tag 0, i.e. its own output run, which evaluates as a
+  cycle (0), so it counts as self-contained.
+- Pooled with §19: 31 solvers from 100 seeds; 26 single-run, 5 helper (all from a former
+  output run). §19's 4/12 helpers was high by chance; helper co-option is the minority
+  route (≈ 16%).
