@@ -1342,3 +1342,31 @@ parity.
 - Tournament's failure in the tagged package is a flat start caused by the map (99.3% of
   random programs score exactly 0.5 under balanced fitness), not XOR's parity.
 - Future sweeps should report population-level exactness (`track_exact_any`).
+
+**Corrections after the thirteenth (Fable) review** (details in findings Setup and items
+11, 13–15):
+- *Tournament escapes are small first steps, not whole predicates.* In the 4 tournament OR
+  runs that left 0.5, the first step was 0.53 (one or two cases better than a constant),
+  then tournament climbed to ≥ 0.83 within 65–225 generations. So amplification works. The
+  wait is for the first output run whose 0/1 answers correlate with the input.
+  - 96% of random tagged genomes have no output run at all.
+  - "Set by the map" isn't shown: no stack arm has run under the same tournament setup.
+  - "Not a bug: identical under both random-number paths" tested nothing relevant.
+- *Tagged crossover loses runs.* The child keeps parent A's leading inert cells in full and
+  is truncated to the tape length, so overflow drops runs and a run-free parent A gives a
+  run-free child. With no selection, mutation + crossover takes a random population from
+  2.9 to 0.2 runs per genome in 100 generations. Stuck tournament populations look exactly
+  like that (54% NOP). Under lexicase the output run is held, but unread runs are purged.
+  - Not the main cause of the tournament failure: without crossover the population keeps
+    ~3 runs per genome and still stays at 0.5 (3-seed check).
+  - It does make the silent route (item 11) and helper wiring (16%) rarer, and it works
+    against Step 2's shared helper runs.
+- *Exactness check:* sound; first-exact generation and final count are exact under all
+  three versions. A latent bug remains: with early termination enabled, the final count
+  would be stale (no §24 config uses early termination). `result.json` should record the
+  git commit.
+- *§24 Result 1's table* mixes population-level tournament counts with champion-level
+  lexicase references.
+- *The XOR/valley thread is closed:* the join question is answered, and no valley was found
+  on solving or non-solving paths. The Step 1 recovery ruler is dropped: it would measure
+  reassembly on a plateau, not a valley crossing.

@@ -55,6 +55,49 @@ lookup, isolated stacks, RECV, arithmetic and comparisons. The immediate questio
 whether evolution assembles a join from those stable primitives. The later question is
 whether the resulting structure itself becomes reusable infrastructure.
 
+## Revision after the thirteenth review (2026-09-29)
+
+Notebook §17–§24, findings items 11, 13–15.
+- **XOR/valley thread closed.** A join can be built when none is handed out (leftmost-wins
+  15/30 vs 19/30 with the free max, population level). No valley was found on solving or
+  non-solving paths: plateaus are left by small edits, mostly via crossover, and
+  non-solvers are slow, not stuck. **Step 1 (recovery ruler) is dropped**: it would measure
+  reassembly on a plateau, not a valley crossing.
+- **"Tagged runs make half-built things neutral" needs a qualifier:** inert at evaluation,
+  not neutral under variation. Tagged crossover keeps parent A's leading inert cells and
+  truncates, so runs nothing reads are purged within a few generations (with no selection:
+  2.9 → 0.2 runs per genome in 100 generations).
+- **Before Step 2:**
+  1. The item 14 package contrast: 64-cell stack under balanced tournament on OR; tagged
+     tournament on OR without crossover.
+  2. A crossover variant that doesn't lose runs (fill the child from both parents
+     symmetrically; don't privilege A's leader), rerun on leftmost XOR and tournament OR.
+     Step 2's mechanism, shared sub-function runs read by several outputs, needs unread
+     runs to survive long enough to be read.
+- **Step 2 design choices to fix before coding:**
+  - Tags 0..13 are the 14 non-constant two-input functions of (p1, p2); tag 0 is the target
+    (AND or XOR), so all tag-0 tooling stays valid.
+  - A 128-cell tape in *all* arms (14 output runs don't fit in 64).
+  - Leftmost-wins, no markers.
+  - Pooled lexicase over 14 × 64 output-cases, down-sampled per generation if too slow.
+    The target-only arm uses the same machinery with tag-0 cases only.
+  - Drop the summed-fitness arm for now: under balanced fitness with exact-match labels,
+    all-constant genomes score 0.5 on every output, so it is flat by construction (item
+    14). If a scalar arm is wanted, use plain accuracy and call it a different fitness.
+  - Per-output population-level exactness (`track_exact_any` keyed by output tag).
+  - Reuse measured by knockout (does an output change when another output's run is
+    removed), with the Boolean interface tested on all four quadrants.
+  - Pitfalls:
+    - the crossover run loss;
+    - lexicase rewards cheap constants on every output first;
+    - OR/NOR pairs are one run plus a negation, not independent problems;
+    - under leftmost, a second same-tag run is silent, so reuse must go through RECV.
+- **Core map-bias pivot:** write its plan now and run it after Step 2 — a map whose bias
+  differs from direct encoding (the folding map or a tree-GP generator). Measure behaviour
+  frequency under random genomes vs direct encoding on the same task family, plus one
+  evolutionary comparison. Step 3 (entrenchment) only if Step 2 shows any cross-output
+  dependency.
+
 ## Revision after Step 0 and the tenth review (2026-09-28)
 
 Step 0 ran (notebook §17): no retag-from-silence, and later output runs share ancestry with
