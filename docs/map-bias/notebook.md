@@ -1197,3 +1197,26 @@ post-mortem `postmortem_leftmost_more/`, 19/19 reproduced).
 - Pooled with §19: 31 solvers from 100 seeds; 26 single-run, 5 helper (all from a former
   output run). §19's 4/12 helpers was high by chance; helper co-option is the minority
   route (≈ 16%).
+
+---
+
+## 23. XOR with 256 training cases (2026-09-29, overnight)
+
+**What would be interesting to see** (§22): whether the training-perfect-but-not-exact
+failures go away when there is more to fit. `xor_n256` (queue_s23; configs as §19/§16 but
+256 stratified training cases; 30 seeds × 3000 gens; 61 min; outputs
+`experiments/output/2026-09-29/`). With more than 64 cases, the fast lexicase falls back to
+the per-selection path: correct, and only ~25% slower early on.
+
+| arm | exact champions (64 cases) | exact champions (256) | populations with an exact individual (256) | train 1.0 but not exact (256) |
+|---|---|---|---|---|
+| tagged, max join | 13/30 (§16) | 17/30 (p = 0.44) | 20/30 | 4 |
+| tagged, leftmost | 12/30 (§19) | 14/30 (p = 0.79) | 14/30 | 2 |
+
+- **More training cases help a little and don't remove the ties.** Neither difference is
+  significant at n = 30. Training-perfect champions that aren't exact still occur (6 runs),
+  and with the max join 3 populations hold exact individuals behind a non-exact champion.
+- Unsolved populations again all hold complementary quadrant covers (26/26).
+- So the undercount is structural: the champion is picked by training fitness, and ties are
+  broken arbitrarily. Population-level exactness, or picking the champion by holdout, is
+  the fix for any future count; enlarging the training set only moves it a little.

@@ -1,7 +1,7 @@
 # Map-bias — findings
 
-Short, scoped summary of the map-bias line (notebook: [notebook.md](notebook.md) §1–§19;
-§1–§14 results commit `e05aa5f`, §15–§16 commit `7c9cc42`, §17 `e3e3ff1`, §18–§19 `c922028`).
+Short, scoped summary of the map-bias line (notebook: [notebook.md](notebook.md) §1–§23;
+§1–§14 results commit `e05aa5f`, §15–§16 commit `7c9cc42`, §17 `e3e3ff1`, §18–§19 `c922028`, §21–§22 `5a85eb5`).
 Checked by an eighth Fable review; §16 changes by a ninth, §17 by a tenth, §19 by an eleventh.
 
 **Question.** How does a developmental genotype→program map bias what evolution finds —
@@ -18,6 +18,9 @@ All §15–§19 arms use lexicase selection with balanced fitness. **Leftmost-wi
 (`tag_combine: leftmost`) means only the first run of each tag is read, for the output and
 for RECV alike, so there is no automatic join of same-tag runs. Item 2's valley was found
 under tournament selection; items 13–14 are lexicase results, so the two are not in tension.
+**"Exact" counts the recorded champion only.** When several individuals fit all training
+cases, the champion is one of them, arbitrarily; saved populations show many more exact
+individuals behind training ties (§22). All XOR counts below are lower bounds.
 
 ## Findings
 
@@ -98,7 +101,9 @@ under tournament selection; items 13–14 are lexicase results, so the two are n
     vs 12/30 is p = 0.12. This is still a package comparison: the stack has single-point
     splice crossover, no indels and bond protection, while tagged runs have run-level
     crossover and indels. Tagged XOR falls from 13 to 2/30 without crossover (p = 0.002); no
-    stack crossover-off arm was run on XOR. (§16, §19)
+    stack crossover-off arm was run on XOR at first; later the stack without crossover
+    reached 7/30 (vs 12/30 with it, p = 0.27), so crossover matters less for the stack.
+    (§16, §19, §22)
 14. **A join can be built when none is handed out.** With leftmost-wins, tagged runs still
     solve XOR 12/30 (vs 13/30 with the free max).
     - **8/12 solve inside a single run** with no live RECV. In 7 of them the exact-making
@@ -117,19 +122,42 @@ under tournament selection; items 13–14 are lexicase results, so the two are n
       - Only 1/4 helpers already computed, when retagged, what the solver uses it for (an
         exact XOR half). In the other three the body was rewritten or drifted after being
         wired in. So the retag mostly supplied a wired slot, not a finished part.
+    - **Pooled over 100 seeds** (§22), 31 solvers: 26 single-run, 5 with a helper wired
+      from a former output run. Co-option is the minority route (≈ 16%).
     - **These solving paths show plateaus, not valleys.** Partial solutions stayed selected
       under lexicase (three-quadrant specialists at 0.75, some hosts down to 0.5). Only
       solvers were inspected; the 18 non-solvers weren't. Whether a valley exists on XOR
       that lexicase can't cross is untested.
+    - **Crossover matters for building the join:** leftmost XOR without crossover 4/30 vs
+      12/30 (p = 0.04). Unsolved populations (with or without crossover) always hold
+      complementary quadrant covers.
 
-    (§17, §19)
+    (§17, §19, §22)
+15. **Under summed fitness XOR is flat, not a valley; lexicase is what makes it solvable.**
+    With tournament selection on balanced fitness, XOR is 0/30 with or without the free
+    max join (vs 12–13/30 under lexicase). Champions end at 0.5, the constant-output level.
+    - This follows from XOR's parity: a single predicate scores exactly 0.5 on XOR, so the
+      building blocks carry no aggregate fitness signal.
+    - Lexicase rewards them case by case.
+    - Items 13–14 are therefore lexicase results. (§22)
+16. **Slow, not stuck; many "failures" are training-set ties.**
+    - Leftmost XOR run to 10,000 generations (first 3000 replay exactly) goes from 12 to
+      17/30 exact champions. All 5 late solvers are runs whose generation-3000 champion
+      had no fitter or dominating single or sampled double neighbour (§20).
+    - Counting populations instead of champions: 21/30 hold an exact individual. The 4
+      extra are runs whose training-perfect champion isn't exact while up to 470 population
+      members are.
+    - 64 training cases don't pin XOR down. With 256 cases, exact champions rise only
+      slightly (max join 13 → 17/30, leftmost 12 → 14/30, not significant), and training-
+      perfect but non-exact champions still occur. The undercount comes from arbitrary
+      tie-breaking among training-perfect individuals. (§20, §22, §23)
 
 ## Open
 
-- **Plateaus on XOR.** Solvers sit as exact three-quadrant specialists for hundreds of
-  generations before a 1–2 cell step. Is the neighbourhood of those specialists, and of
-  the non-solvers, empty of exact XOR and of moves that gain a training case? Does the
-  plateau survive summed fitness (no lexicase)?
+- **Plateaus on XOR.** Champions have no fitter or dominating neighbour (§20) but many
+  neutral and case-trading ones, and they escape later (§22). Is the escape neutral drift
+  or crossover? Answering it needs population snapshots over time, not only final
+  populations.
 - **Stable machinery.** On fixed-goal solved runs, elitism freezes the champion: in all 4
   co-option runs the helper stayed unchanged, with one reader, to generation 3000. Reuse
   and entrenchment need a multi-output task (Plans/valley-crossing.md, Step 2 before
