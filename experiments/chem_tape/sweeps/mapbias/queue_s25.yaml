@@ -1,0 +1,46 @@
+# §25 queue: crossover v2 (tagged.fit_runs) vs v1, plus item 14's tournament controls.
+# Budget ~8 h; entries in priority order. Launch:
+#   caffeinate -s uv run python scripts/run_queue.py --queue experiments/chem_tape/sweeps/mapbias/queue_s25.yaml \
+#     --status experiments/chem_tape/sweeps/mapbias/queue_s25.status.json --lock experiments/chem_tape/sweeps/mapbias/queue_s25.lock
+
+- id: mapbias_crossover_drift
+  cmd: uv run python experiments/chem_tape/crossover_drift.py --gens 300 --seeds 10 --out "$RUN_DIR/drift.json"
+  timeout_seconds: 3600
+  expect_outputs: [drift.json]
+  track: map-bias
+  notes: "notebook §25: run counts under variation alone (v1, v2, off), 10 seeds"
+
+- id: mapbias_xover_v2_or_tournament
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/xover_v2_or_tournament.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §25: tournament OR with crossover v2, leftmost and max"
+
+- id: mapbias_or_tournament_ctrl
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/or_tournament_ctrl.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §25: item 14 controls (stack 64 tournament OR; tagged tournament OR crossover off)"
+
+- id: mapbias_xover_v2_xor_leftmost
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/xover_v2_xor_leftmost.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 14400
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §25: leftmost XOR, v2 vs v1, 100 seeds each"
+
+- id: mapbias_xover_v2_or_leftmost
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/xover_v2_or_leftmost.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 3600
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §25: leftmost OR lexicase, v2 vs v1"
+
+- id: mapbias_xover_v2_xor_max
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/xover_v2_xor_max.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 7200
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §25: tagged max XOR, v2 vs v1"

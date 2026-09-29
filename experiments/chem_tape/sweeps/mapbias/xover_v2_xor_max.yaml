@@ -1,0 +1,10 @@
+# Map-bias notebook §25: crossover v2 vs v1 on tagged XOR with the free max join (v1 replays
+# the xor_race TAG arm, 19/30 population-level), lexicase, 30 seeds.
+sweep_name: xover_v2_xor_max
+base: {task: mbs_xor, generations: 3000, disable_early_termination: true, n_examples: 64, holdout_size: 256, pop_size: 1024, elite_count: 2, crossover_rate: 0.7, selection_mode: lexicase, backend: numpy,
+  log_every: 50, track_lineage: false, fitness_metric: balanced, fast_rng: true, track_exact_any: true, dump_final_population: true}
+paired:
+- {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged, tagged_crossover: v2, track_runs: true}
+- {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged, track_runs: true}
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]

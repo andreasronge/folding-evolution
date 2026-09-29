@@ -207,6 +207,16 @@ class ChemTapeConfig:
     # random numbers, so runs replay the untracked ones exactly. Panmictic only.
     track_exact_any: bool = False
 
+    # Map-bias notebook §25, tagged runs only: crossover child assembly. "v1" (default)
+    # keeps parent A's leader cells and cuts the tape at L cells; "v2" strips trailing
+    # NOPs, then deletes whole runs at random, then leader cells (tagged.fit_runs).
+    tagged_crossover: str = "v1"
+
+    # Map-bias notebook §25, tagged runs only: every log_every generations record the
+    # population's run census (tagged.run_census) into result.json ("run_stats"). Draws
+    # no random numbers, so runs replay the untracked ones exactly. Panmictic only.
+    track_runs: bool = False
+
     # Map-bias notebook §15: frequency knob. Relative weights for the ops that
     # random genomes and point mutations draw, as "id:weight,..." (unlisted ids
     # weigh 1). Raising a token's weight is the same as giving it that many
@@ -311,6 +321,10 @@ class ChemTapeConfig:
             d.pop("op_weights", None)
         if not self.track_exact_any:
             d.pop("track_exact_any", None)
+        if self.tagged_crossover == "v1":
+            d.pop("tagged_crossover", None)
+        if not self.track_runs:
+            d.pop("track_runs", None)
         # §v2.5-plasticity-1a: all plasticity fields excluded at defaults so
         # existing sweep hashes remain addressable. When plasticity_enabled
         # is False the fast-path is byte-identical to pre-5c Arm A.
@@ -328,6 +342,10 @@ class ChemTapeConfig:
         return hashlib.sha1(blob).hexdigest()[:12]
 
     def __post_init__(self) -> None:
+        if self.tagged_crossover not in ("v1", "v2"):
+            raise ValueError(f"tagged_crossover must be 'v1' or 'v2', got {self.tagged_crossover!r}")
+        if (self.tagged_crossover != "v1" or self.track_runs) and self.arm != "TAG":
+            raise ValueError("tagged_crossover / track_runs apply to arm TAG only")
         if self.op_weights:
             self.op_probs(64)
 

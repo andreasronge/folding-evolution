@@ -85,6 +85,8 @@ class EvolutionResult:
     generations: dict | None = None
     # cfg.track_exact_any: {"first_gen", "final_count", "gens_with_exact", "n_checked"}.
     exact_any: dict | None = None
+    # cfg.track_runs: one dict of population run-census means per logged generation.
+    run_stats: list | None = None
 
 
 def _trace_lineage(
@@ -364,7 +366,7 @@ def crossover(
     """Single-point splice along the tape (tagged runs: see tagged.crossover)."""
     if cfg.arm == "TAG":
         from . import tagged
-        return tagged.crossover(a, b, rng)
+        return tagged.crossover(a, b, rng, cfg.tagged_crossover)
     L = a.shape[0]
     cut = rng.randint(1, L - 1) if L > 1 else 0
     child = np.empty_like(a)
@@ -833,6 +835,27 @@ class _ExactTracker:
                 "gens_with_exact": self.gens_with_exact, "n_checked": len(self.cache)}
 
 
+def _run_stats(gen: int, population, cfg: ChemTapeConfig) -> dict:
+    """cfg.track_runs: population means of tagged.run_census, plus the share of genomes
+    with no run, no output run, and at least one helper."""
+    from . import tagged
+    combine = cfg.tag_combine
+    seen: dict[bytes, tuple] = {}
+    rows = []
+    for g in population:
+        key = g.tobytes()
+        if key not in seen:
+            seen[key] = tagged.run_census(g, combine)
+        rows.append(seen[key])
+    c = np.asarray(rows, dtype=np.float64)
+    runs, out, read, helpers, tail = c.T
+    return {"gen": gen, "runs": float(runs.mean()), "output_runs": float(out.mean()),
+            "read": float(read.mean()), "unread": float((runs - read).mean()),
+            "helpers": float(helpers.mean()), "no_runs": float((runs == 0).mean()),
+            "no_output": float((out == 0).mean()), "with_helper": float((helpers > 0).mean()),
+            "tail_nops": float(tail.mean()), "distinct": len(seen)}
+
+
 def _is_k_alternating(cfg: ChemTapeConfig) -> bool:
     return cfg.k_alternating_period > 0 and bool(cfg.k_alternating_values)
 
@@ -895,6 +918,7 @@ def _run_evolution_panmictic(
     stats = ChemTapeStatsCollector()
     evolve_k_values_list = cfg.evolve_k_value_list() if cfg.evolve_k else None
     stats.record(0, fitnesses, population, arm=cfg.arm, evolve_k_values=evolve_k_values_list)
+    run_stats = [_run_stats(0, population, cfg)] if cfg.track_runs else None
 
     flip_events: list[dict] = []
     last_k = current_k_0
@@ -956,6 +980,8 @@ def _run_evolution_panmictic(
             track_parents.append(np.asarray(gen_lineage, dtype=np.int32))
         stats.record(gen, fitnesses, population, arm=cfg.arm,
                      evolve_k_values=evolve_k_values_list)
+        if run_stats is not None and (gen % cfg.log_every == 0 or gen == cfg.generations):
+            run_stats.append(_run_stats(gen, population, cfg))
 
         # Record immediate post-flip best.
         if pending_pre_flip is not None:
@@ -1085,6 +1111,7 @@ def _run_evolution_panmictic(
             if cfg.track_lineage else None
         ),
         exact_any=exact_tracker.result() if exact_tracker is not None else None,
+        run_stats=run_stats,
     )
 
 
@@ -1240,6 +1267,8 @@ def run_evolution(cfg: ChemTapeConfig, prediction_cache_size: int = 0) -> Evolut
         if prediction_cache_size > 0 and not cfg.plasticity_enabled
         else None
     )
+    if cfg.n_islands > 1 and cfg.track_runs:
+        raise ValueError("track_runs is panmictic only")
     if cfg.n_islands > 1 and cfg.track_exact_any:
         raise ValueError("track_exact_any is panmictic only")
     if cfg.n_islands > 1:

@@ -418,11 +418,17 @@ def mutate_batch(pop: np.ndarray, mu: float, gen: np.random.Generator, n_ops: in
     return np.concatenate([out_ops[:, :L], out_tags[:, :L]], axis=1)
 
 
-def crossover(a: np.ndarray, b: np.ndarray, rng: random.Random) -> np.ndarray:
+def crossover(a: np.ndarray, b: np.ndarray, rng: random.Random, variant: str = "v1") -> np.ndarray:
     """Half the time homologous (runs with a tag present in both parents take
     the other parent's body with probability 1/2); otherwise a cut between
     runs (a's runs up to i, then b's runs from j). Falls back to the cut when
-    the parents share no tag."""
+    the parents share no tag.
+
+    `variant` sets how the child is assembled (the choice of runs is the same):
+    "v1" keeps a's leader cells in full and cuts the tape at L cells, which drops
+    b's runs first and whole genomes' runs when a has no run (notebook §24);
+    "v2" fits the child with fit_runs(). The two give the same child whenever the
+    v1 child fits the tape uncut."""
     L = len(a) // 2
     ra, rb = parse_runs(a), parse_runs(b)
     b_body = {}
@@ -434,4 +440,55 @@ def crossover(a: np.ndarray, b: np.ndarray, rng: random.Random) -> np.ndarray:
     else:
         i, j = rng.randint(0, len(ra)), rng.randint(0, len(rb))
         runs = ra[:i] + rb[j:]
+    if variant == "v2":
+        return fit_runs(leader_cells(a), runs, L, rng)
     return build(leader_cells(a), runs, L, rng)
+
+
+def _cells_needed(leader, runs) -> int:
+    return len(leader) + sum(1 + len(body) for _, body in runs)
+
+
+def fit_runs(leader: list[tuple[int, int]], runs, L: int, rng: random.Random) -> np.ndarray:
+    """Crossover v2 assembly (map-bias notebook §25). If leader + runs overflow L:
+    1. strip trailing NOPs from every run body (never executed);
+    2. while the runs alone still overflow, delete one run chosen uniformly at random
+       (blind to tag, content and fitness);
+    3. drop leader cells from the front until the rest fits (never executed).
+    Kept runs are whole and in their order. Draws RNG only when step 2 runs."""
+    runs = list(runs)
+    if _cells_needed(leader, runs) > L:
+        runs = [(t, _strip_trailing_nops(b)) for t, b in runs]
+    while _cells_needed((), runs) > L:
+        runs.pop(rng.randrange(len(runs)))
+    over = _cells_needed(leader, runs) - L
+    if over > 0:
+        leader = list(leader)[over:]
+    return build(leader, runs, L, rng)
+
+
+def run_census(g: np.ndarray, combine: str = "max") -> tuple[int, int, int, int, int]:
+    """(runs, output-tag runs, read runs, helper runs, trailing NOP cells) of a genome.
+    Read = the output run(s) plus every run they reach through RECV (structural, no
+    depth cap); under "leftmost" only the first run of a tag is read. Helper = a read
+    run that isn't an output run. Trailing NOPs = NOP cells at the end of the tape
+    (free space before mutation's insertions start cutting into a run)."""
+    runs = parse_runs(g)
+    by_tag: dict[int, list[int]] = {}
+    for k, (tag, _) in enumerate(runs):
+        by_tag.setdefault(tag, []).append(k)
+    readers = (lambda t: by_tag.get(t, [])[:1]) if combine == "leftmost" else (lambda t: by_tag.get(t, []))
+    out = set(readers(OUTPUT_TAG))
+    read: set[int] = set()
+    todo = list(out)
+    while todo:
+        k = todo.pop()
+        if k in read:
+            continue
+        read.add(k)
+        todo += [k2 for op, tg in runs[k][1] if op == RECV for k2 in readers(tg)]
+    ops = split(g)[0]
+    tail = 0
+    while tail < len(ops) and ops[len(ops) - 1 - tail] == 0:
+        tail += 1
+    return len(runs), len(by_tag.get(OUTPUT_TAG, [])), len(read), len(read - out), tail

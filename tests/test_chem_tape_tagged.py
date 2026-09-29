@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import collections
 import itertools
 import random
 from dataclasses import replace
@@ -286,3 +287,95 @@ def test_comb_alphabet_draws_markers_and_plain_alphabet_never_does():
     assert all(tagged.split(g)[0].max() < tagged.N_OPS for g in plain)
     mutated = [tagged.mutate(plain[0], 0.5, rng) for _ in range(50)]
     assert all(tagged.split(g)[0].max() < tagged.N_OPS for g in mutated)
+
+
+# ---------------- crossover v2 (map-bias notebook §25) ----------------
+
+def _runs(g):
+    strip = tagged._strip_trailing_nops
+    return [(t, strip(b)) for t, b in tagged.parse_runs(g)]
+
+
+def test_v2_run_free_first_parent_receives_runs_from_the_second():
+    a = genome([], L=64, leader=[(1, 3)] * 64)            # all leader, no run
+    b = genome([(0, [1, 5, 16, 16, 7, 8]), (4, [1, 18])], L=64)
+    rng = random.Random(0)
+    got_v1 = sum(bool(tagged.parse_runs(tagged.crossover(a, b, rng, "v1"))) for _ in range(200))
+    got_v2 = sum(bool(tagged.parse_runs(tagged.crossover(a, b, rng, "v2"))) for _ in range(200))
+    assert got_v1 == 0 and got_v2 > 100                   # j = len(rb) leaves the child empty, p = 1/3
+
+
+def test_v2_padding_never_displaces_runs_that_fit():
+    # Two runs with long NOP tails: v1's child overflows and loses b's run; v2 strips
+    # the padding and keeps both, whole.
+    a = genome([(0, [1, 5, 16, 16, 7, 8] + [0] * 30)], L=64)
+    b = genome([(4, [1, 18, 16, 8] + [0] * 40)], L=64)
+    ra, rb = tagged.parse_runs(a), tagged.parse_runs(b)
+    assert len(tagged.build([], ra + rb, 64, random.Random(0))) == 128
+    assert len(tagged.parse_runs(tagged.build([], ra + rb, 64, random.Random(0)))) == 1
+    child = tagged.fit_runs([], ra + rb, 64, random.Random(0))
+    assert _runs(child) == [(0, tuple((o, 0) for o in [1, 5, 16, 16, 7, 8])), (4, tuple((o, 0) for o in [1, 18, 16, 8]))]
+
+
+def test_v2_never_cuts_a_kept_run_and_keeps_order():
+    rng = random.Random(3)
+    pop = [tagged.random_genotype(64, rng) for _ in range(40)]
+    for _ in range(2000):
+        a, b = rng.choice(pop), rng.choice(pop)
+        child = tagged.crossover(a, b, rng, "v2")
+        assert len(child) == 128
+        pool = _runs(a) + _runs(b)
+        kept = _runs(child)
+        # Every child run is a whole parent run (the last may carry padding, stripped here).
+        assert all(r in pool for r in kept)
+
+
+def test_v2_equals_v1_when_the_child_fits():
+    rng = random.Random(5)
+    for _ in range(300):
+        runs = [(rng.randrange(64), tuple((rng.randrange(20), 0) for _ in range(rng.randrange(1, 6))))
+                for _ in range(rng.randrange(0, 5))]
+        lead = [(rng.randrange(20), 0) for _ in range(rng.randrange(0, 10))]
+        s = rng.randrange(10 ** 6)
+        assert (tagged.build(lead, runs, 64, random.Random(s)) == tagged.fit_runs(lead, runs, 64, random.Random(s))).all()
+
+
+def test_v2_overflow_deletion_is_uniform_over_runs():
+    # Three 30-cell runs (93 cells incl. SEPs) in L = 64: one must go, whichever it is
+    # with equal chance — output run or not.
+    runs = [(0, tuple((1, 0) for _ in range(30))), (5, tuple((5, 0) for _ in range(30))),
+            (9, tuple((6, 0) for _ in range(30)))]
+    rng = random.Random(0)
+    lost = collections.Counter()
+    for _ in range(3000):
+        kept = {t for t, _ in tagged.parse_runs(tagged.fit_runs([], runs, 64, rng))}
+        assert len(kept) == 2
+        lost[({0, 5, 9} - kept).pop()] += 1
+    assert all(900 < lost[t] < 1100 for t in (0, 5, 9))
+
+
+def test_v2_drops_leader_before_runs():
+    lead = [(1, 0)] * 40
+    runs = [(0, tuple((5, 0) for _ in range(20))), (3, tuple((6, 0) for _ in range(10)))]
+    child = tagged.fit_runs(lead, runs, 64, random.Random(0))
+    assert [t for t, _ in tagged.parse_runs(child)] == [0, 3]
+    assert len(tagged.leader_cells(child)) == 64 - 32
+
+
+def test_run_census_follows_recv_and_leftmost():
+    g = genome([(0, [(RECV, 5), (RECV, 7), 7]), (5, [1, 18]), (7, [(RECV, 5)]), (9, [1]), (0, [(RECV, 9)])], L=40)
+    assert tagged.run_census(g, "max") == (5, 2, 5, 3, 40 - 13)
+    assert tagged.run_census(g, "leftmost") == (5, 2, 3, 2, 40 - 13)
+
+
+def test_crossover_v2_and_track_runs_in_evolution():
+    cfg = ChemTapeConfig(task="mb_max_gt_5", arm="TAG", alphabet="tagged", tape_length=64, pop_size=64,
+                         generations=10, mutation_rate=0.015, selection_mode="lexicase", backend="numpy",
+                         holdout_size=32, seed=2, log_every=5)
+    base = run_evolution(cfg)
+    tracked = run_evolution(replace(cfg, track_runs=True))
+    assert base.best_genotype.tobytes() == tracked.best_genotype.tobytes()      # tracking draws no RNG
+    assert [r["gen"] for r in tracked.run_stats] == [0, 5, 10]
+    v2 = run_evolution(replace(cfg, tagged_crossover="v2", track_runs=True))
+    assert len(v2.best_genotype) == 128
+    assert cfg.hash() == replace(cfg, tagged_crossover="v1").hash() != replace(cfg, tagged_crossover="v2").hash()

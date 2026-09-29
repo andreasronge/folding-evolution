@@ -138,6 +138,8 @@ def execute(cfg: ChemTapeConfig, output_root: Path) -> Path:
         summary["cross_task_fitness"] = result.cross_task_fitness
     if result.exact_any is not None:
         summary["exact_any"] = result.exact_any
+    if result.run_stats is not None:
+        summary["run_stats"] = result.run_stats
     (run_dir / "result.json").write_text(json.dumps(summary, indent=2))
     return run_dir
 

@@ -1,0 +1,10 @@
+# Map-bias notebook §25: tagged OR under balanced tournament (item 14) with crossover v2,
+# leftmost and max, 30 seeds (v1: 0/30 and 2/30, or_tournament.yaml).
+sweep_name: xover_v2_or_tournament
+base: {task: mbs_or, generations: 1500, disable_early_termination: true, n_examples: 64, holdout_size: 256, pop_size: 1024, elite_count: 2, crossover_rate: 0.7, tournament_size: 3, selection_mode: lexicase,
+  backend: numpy, log_every: 50, track_lineage: false, fitness_metric: balanced, fast_rng: true, dump_final_population: true, track_exact_any: true}
+paired:
+- {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged, tag_combine: leftmost, selection_mode: tournament, tagged_crossover: v2, track_runs: true}
+- {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged, selection_mode: tournament, tagged_crossover: v2, track_runs: true}
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
