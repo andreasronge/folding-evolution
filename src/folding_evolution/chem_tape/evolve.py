@@ -746,9 +746,9 @@ class _ExactTracker:
             raise ValueError("track_exact_any needs per-case predictions; plasticity returns none")
         self.cfg = cfg
         self.full: dict[str, object] = {}
-        # (task, K, 8-byte digest of the genome) -> exact; only training-perfect genomes
-        # enter, so the cache stays at tens of thousands of entries per run.
-        self.cache: dict[tuple[str, object, bytes], bool] = {}
+        # (task, K, hash of what the genome computes) -> exact; only training-perfect
+        # genomes enter, and neutral variants share a key.
+        self.cache: dict[tuple[str, object, int], bool] = {}
         self.first_gen: int | None = None
         self.gens_with_exact = 0
         self.final_count = 0
@@ -766,11 +766,26 @@ class _ExactTracker:
                                                holdout_inputs=None, holdout_labels=None)
         return t
 
+    def _semantic_keys(self, genomes, topk_override) -> list[int]:
+        """One key per genome for what it computes, so neutral variants (differences in
+        inactive cells, inert tags, trailing NOPs) are evaluated once: the decoded program
+        on stack arms, the parsed runs with RECV tags on tagged runs."""
+        if self.cfg.arm == "TAG":
+            from . import tagged
+            return [hash(tuple((t, tuple((op, tg if op == tagged.RECV else 0)
+                                         for op, tg in tagged._strip_trailing_nops(body)))
+                               for t, body in tagged.parse_runs(g))) for g in genomes]
+        if self.cfg.arm in ("A", "B", "BP", "BP_TOPK"):
+            from .evaluate import _programs_for_arm
+            progs = _programs_for_arm(self.cfg, np.stack(genomes).astype(np.uint8), topk_override=topk_override)
+            return [hash(tuple(p)) for p in progs]
+        return [hash(g.tobytes()) for g in genomes]
+
     def update(self, gen: int, population, cases: np.ndarray, task, topk_override) -> None:
-        import hashlib
         perfect = np.flatnonzero(cases.all(axis=1))
         tag = (task.name, topk_override)
-        keys = [tag + (hashlib.blake2b(population[i].tobytes(), digest_size=8).digest(),) for i in perfect]
+        sem = self._semantic_keys([population[i] for i in perfect], topk_override) if len(perfect) else []
+        keys = [tag + (k,) for k in sem]
         new_idx = list({k: i for k, i in zip(keys, perfect) if k not in self.cache}.items())
         if new_idx:
             full = self._full_task(task)
