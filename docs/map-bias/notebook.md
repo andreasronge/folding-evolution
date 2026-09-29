@@ -1220,3 +1220,27 @@ the per-selection path: correct, and only ~25% slower early on.
 - So the undercount is structural: the champion is picked by training fitness, and ties are
   broken arbitrarily. Population-level exactness, or picking the champion by holdout, is
   the fix for any future count; enlarging the training set only moves it a little.
+
+**Corrections after the twelfth (Fable) review** (details in findings, Measurement and items
+13–16):
+- *The champion is locked in, not picked arbitrarily.* The recorded champion is the first
+  individual to fit all training cases. Elites go to the front of the population and
+  `argmax` returns the first maximum, so it is never displaced: 0 champion changes after
+  first reaching training 1.0 in 26/29 long runs. §22–§23's "ties broken arbitrarily" was
+  wrong.
+- *The holdout fix proposed in §22–§23 doesn't work.* 10 of 21 locked champions also score
+  1.0 on the 256 holdout cases. The fix is to evaluate training-perfect individuals on all
+  lists.
+- *Lock-in exposure differs by arm* (tagged max 9/30, stack + IMAX 9/30, stack 64 cells
+  4–5, leftmost 3), so champion-based between-arm comparisons are uneven.
+- *"Complementary quadrant covers always present" was too weak.* Constant 0 plus constant 1
+  satisfies it (41/50 unsolved populations of seeds 30–99 hold both). Better: a
+  three-quadrant specialist is present in ~80% of unsolved lexicase populations (vs 1/30
+  under tournament); a complementary pair of specialists in roughly a third to a half.
+- *Late solvers vs §20:* the scan doesn't discriminate. All 18 scanned non-solvers had no
+  improving neighbour, and the 5 late solvers were necessarily among the non-locked ones.
+  The champion is the wrong object to scan under lexicase.
+- *Tournament 0/30:* parity sets the plateau level (0.5); whether it causes the failure
+  needs tournament on OR/AND in the same package.
+- *Crossover-off:* "matters less for the stack" is untested (12→4 vs 12→7 can't be
+  distinguished at n = 30).
