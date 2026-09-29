@@ -753,6 +753,32 @@ class _ExactTracker:
         self.gens_with_exact = 0
         self.final_count = 0
 
+    SUBSET_STEP = 20     # prefilter: every 20th of the 10,000 lists (500), then the full check
+    SPARSE_EVERY = 50    # after the first exact individual: check every 50th generation + the last
+
+    def _subset_task(self, task):
+        key = ("subset", task.name)
+        t = self.full.get(key)
+        if t is None:
+            from dataclasses import replace
+            full = self._full_task(task)
+            t = self.full[key] = replace(full, inputs=full.inputs[::self.SUBSET_STEP],
+                                         labels=full.labels[::self.SUBSET_STEP])
+        return t
+
+    def _exact(self, genomes, task, topk_override) -> np.ndarray:
+        """Exact on all lists; genomes failing the 500-list subset are not run on all."""
+        sub = self._subset_task(task)
+        _, sp = evaluate_population(genomes, sub, self.cfg, topk_override=topk_override)
+        ok = (sp == sub.labels[None, :]).all(axis=1)
+        out = np.zeros(len(genomes), dtype=bool)
+        idx = np.flatnonzero(ok)
+        if len(idx):
+            full = self._full_task(task)
+            _, fp = evaluate_population([genomes[i] for i in idx], full, self.cfg, topk_override=topk_override)
+            out[idx] = (fp == full.labels[None, :]).all(axis=1)
+        return out
+
     def _full_task(self, task):
         t = self.full.get(task.name)
         if t is None:
@@ -781,19 +807,18 @@ class _ExactTracker:
             return [hash(tuple(p)) for p in progs]
         return [hash(g.tobytes()) for g in genomes]
 
-    def update(self, gen: int, population, cases: np.ndarray, task, topk_override) -> None:
+    def update(self, gen: int, population, cases: np.ndarray, task, topk_override, last: bool = False) -> None:
+        if self.first_gen is not None and not last and gen % self.SPARSE_EVERY:
+            return
         perfect = np.flatnonzero(cases.all(axis=1))
         tag = (task.name, topk_override)
         sem = self._semantic_keys([population[i] for i in perfect], topk_override) if len(perfect) else []
         keys = [tag + (k,) for k in sem]
         new_idx = list({k: i for k, i in zip(keys, perfect) if k not in self.cache}.items())
         if new_idx:
-            full = self._full_task(task)
             for lo in range(0, len(new_idx), self.CHUNK):
                 chunk = new_idx[lo:lo + self.CHUNK]
-                _, preds = evaluate_population([population[i] for _, i in chunk], full,
-                                               self.cfg, topk_override=topk_override)
-                for (k, _), e in zip(chunk, (preds == full.labels[None, :]).all(axis=1)):
+                for (k, _), e in zip(chunk, self._exact([population[i] for _, i in chunk], task, topk_override)):
                     self.cache[k] = bool(e)
         n = sum(self.cache[k] for k in keys)
         if n and self.first_gen is None:
@@ -802,6 +827,8 @@ class _ExactTracker:
         self.final_count = n
 
     def result(self) -> dict:
+        # gens_with_exact counts checked generations (every generation until the first
+        # exact individual, then every SPARSE_EVERY-th and the last).
         return {"first_gen": self.first_gen, "final_count": int(self.final_count),
                 "gens_with_exact": self.gens_with_exact, "n_checked": len(self.cache)}
 
@@ -921,7 +948,8 @@ def _run_evolution_panmictic(
         )
         cases = preds == current_task_obj.labels[None, :]
         if exact_tracker is not None:
-            exact_tracker.update(gen, population, cases, current_task_obj, current_k)
+            exact_tracker.update(gen, population, cases, current_task_obj, current_k,
+                             last=gen == cfg.generations)
         if cfg.track_lineage:
             track_pops.append(np.stack(population).astype(np.uint8))
             track_fits.append(np.asarray(fitnesses, dtype=np.float32))
