@@ -136,6 +136,8 @@ def execute(cfg: ChemTapeConfig, output_root: Path) -> Path:
         summary["flip_events"] = result.flip_events
     if result.cross_task_fitness is not None:
         summary["cross_task_fitness"] = result.cross_task_fitness
+    if result.exact_any is not None:
+        summary["exact_any"] = result.exact_any
     (run_dir / "result.json").write_text(json.dumps(summary, indent=2))
     return run_dir
 

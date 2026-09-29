@@ -253,7 +253,9 @@ def main(day_dir: str) -> None:
                            ("mapbias_xor_stack64_nox", "fixed"), ("mapbias_xor_leftmost_long", "fixed"),
                            ("mapbias_xor_leftmost_more", "fixed"),
                            # §23 (queue_s23)
-                           ("mapbias_xor_n256", "fixed")):
+                           ("mapbias_xor_n256", "fixed"),
+                           # §24 (queue_s24)
+                           ("mapbias_or_tournament", "fixed")):
             sweep = day / name
             if not (sweep / "sweep_index.json").exists():
                 lines += [f"## {name}", "", "not run / no index", ""]

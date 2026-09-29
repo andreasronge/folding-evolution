@@ -1244,3 +1244,34 @@ the per-selection path: correct, and only ~25% slower early on.
   needs tournament on OR/AND in the same package.
 - *Crossover-off:* "matters less for the stack" is untested (12→4 vs 12→7 can't be
   distinguished at n = 30).
+
+---
+
+## 24. Plan: population-level exactness by replay, and tournament on OR (queue_s24)
+
+**What would be interesting to see** (twelfth review, items 1–2): whether the champion
+lock-in changes any between-arm comparison, and whether tournament's XOR failure is about
+parity.
+
+- **New option `track_exact_any`.** Each generation, every distinct training-perfect genome
+  is evaluated on all 10,000 lists. It uses chunked evaluation and a digest cache keyed by
+  task and K, and records the first generation with an exact individual and the final count
+  in `result.json`. It draws no random numbers.
+  - Checked: replays are identical (4 test runs, stack and tagged). Seed 7's first exact
+    individual is at generation 444, as its champion. Seed 20, locked on a non-exact
+    champion at 778, has exact individuals from 779.
+  - One Codex review: unbounded cache memory, cache key missing K, a plasticity guard, and
+    the report not excluding mismatched replays. All fixed.
+- **Replays** (`*_pop` sweeps): the §16/§19/§22 lexicase XOR arms, same configs and seeds,
+  with the option on and lineage off. Covered: xor_race (4 arms), xor_leftmost,
+  xor_stack64 (3), xor_nox, leftmost crossover-off, stack64 crossover-off.
+  `experiments/chem_tape/pop_exact_report.py` compares population-level with champion
+  counts. It checks that each replay's final champion equals the original's (and excludes
+  runs where it doesn't), and that the configs are equal apart from the tracking flags.
+  - *Interesting:* tagged max moves up towards ~17 while leftmost stays ~13, so item 14's
+    "no cost" falls.
+  - *Kill:* all arms move by the same 1–2, and items 13–14 stand.
+- **`or_tournament`**: tagged OR under tournament, leftmost and max, 1500 gens (lexicase
+  references 11/30 and 19/30). A single predicate scores 0.83 balanced on OR.
+  - OR ≥ ~10/30 → parity explains tournament's XOR failure.
+  - ~0–2/30 → tournament fails in this package, and parity only sets the XOR plateau level.

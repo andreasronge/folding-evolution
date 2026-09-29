@@ -199,6 +199,14 @@ class ChemTapeConfig:
     # for seed. False keeps prior sweeps reproducible.
     fast_rng: bool = False
 
+    # Map-bias twelfth review: the recorded champion is the first training-perfect
+    # individual and is never displaced, so champion-based exactness undercounts. When
+    # True, every generation each distinct training-perfect genome is also evaluated on
+    # every possible input (length-4 lists over [0, 9]); the first generation with an
+    # exact individual and the final count go into result.json ("exact_any"). Draws no
+    # random numbers, so runs replay the untracked ones exactly. Panmictic only.
+    track_exact_any: bool = False
+
     # Map-bias notebook §15: frequency knob. Relative weights for the ops that
     # random genomes and point mutations draw, as "id:weight,..." (unlisted ids
     # weigh 1). Raising a token's weight is the same as giving it that many
@@ -301,6 +309,8 @@ class ChemTapeConfig:
             d.pop("fast_rng", None)
         if self.op_weights == "":
             d.pop("op_weights", None)
+        if not self.track_exact_any:
+            d.pop("track_exact_any", None)
         # §v2.5-plasticity-1a: all plasticity fields excluded at defaults so
         # existing sweep hashes remain addressable. When plasticity_enabled
         # is False the fast-path is byte-identical to pre-5c Arm A.

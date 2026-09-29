@@ -83,6 +83,8 @@ class EvolutionResult:
     # generation. In memory only (run.py does not save it); used by
     # experiments/chem_tape/crossover_spectrum.py.
     generations: dict | None = None
+    # cfg.track_exact_any: {"first_gen", "final_count", "gens_with_exact", "n_checked"}.
+    exact_any: dict | None = None
 
 
 def _trace_lineage(
@@ -733,6 +735,62 @@ def _migrate(
     return new_islands
 
 
+class _ExactTracker:
+    """cfg.track_exact_any: which training-perfect individuals are exact on every
+    possible input. Each distinct genome is evaluated once per task (cached by bytes)."""
+
+    CHUNK = 128          # genomes per full-domain evaluation (bounds the N x 10,000 matrix)
+
+    def __init__(self, cfg: ChemTapeConfig) -> None:
+        if cfg.plasticity_enabled:
+            raise ValueError("track_exact_any needs per-case predictions; plasticity returns none")
+        self.cfg = cfg
+        self.full: dict[str, object] = {}
+        # (task, K, 8-byte digest of the genome) -> exact; only training-perfect genomes
+        # enter, so the cache stays at tens of thousands of entries per run.
+        self.cache: dict[tuple[str, object, bytes], bool] = {}
+        self.first_gen: int | None = None
+        self.gens_with_exact = 0
+        self.final_count = 0
+
+    def _full_task(self, task):
+        t = self.full.get(task.name)
+        if t is None:
+            import itertools
+            from dataclasses import replace
+            if task.input_type != "intlist" or any(len(x) != 4 for x in task.inputs):
+                raise ValueError("track_exact_any supports length-4 intlist tasks only")
+            inputs = [tuple(x) for x in itertools.product(range(10), repeat=4)]
+            labels = np.array([task.label_fn(x) for x in inputs], dtype=np.int64)
+            t = self.full[task.name] = replace(task, inputs=inputs, labels=labels,
+                                               holdout_inputs=None, holdout_labels=None)
+        return t
+
+    def update(self, gen: int, population, cases: np.ndarray, task, topk_override) -> None:
+        import hashlib
+        perfect = np.flatnonzero(cases.all(axis=1))
+        tag = (task.name, topk_override)
+        keys = [tag + (hashlib.blake2b(population[i].tobytes(), digest_size=8).digest(),) for i in perfect]
+        new_idx = list({k: i for k, i in zip(keys, perfect) if k not in self.cache}.items())
+        if new_idx:
+            full = self._full_task(task)
+            for lo in range(0, len(new_idx), self.CHUNK):
+                chunk = new_idx[lo:lo + self.CHUNK]
+                _, preds = evaluate_population([population[i] for _, i in chunk], full,
+                                               self.cfg, topk_override=topk_override)
+                for (k, _), e in zip(chunk, (preds == full.labels[None, :]).all(axis=1)):
+                    self.cache[k] = bool(e)
+        n = sum(self.cache[k] for k in keys)
+        if n and self.first_gen is None:
+            self.first_gen = gen
+        self.gens_with_exact += bool(n)
+        self.final_count = n
+
+    def result(self) -> dict:
+        return {"first_gen": self.first_gen, "final_count": int(self.final_count),
+                "gens_with_exact": self.gens_with_exact, "n_checked": len(self.cache)}
+
+
 def _is_k_alternating(cfg: ChemTapeConfig) -> bool:
     return cfg.k_alternating_period > 0 and bool(cfg.k_alternating_values)
 
@@ -783,6 +841,9 @@ def _run_evolution_panmictic(
         prediction_cache=prediction_cache,
     )
     cases = preds == task_0.labels[None, :]
+    exact_tracker = _ExactTracker(cfg) if cfg.track_exact_any else None
+    if exact_tracker is not None:
+        exact_tracker.update(0, population, cases, task_0, current_k_0)
 
     if cfg.track_lineage:
         track_pops = [np.stack(population).astype(np.uint8)]
@@ -844,6 +905,8 @@ def _run_evolution_panmictic(
             prediction_cache=prediction_cache,
         )
         cases = preds == current_task_obj.labels[None, :]
+        if exact_tracker is not None:
+            exact_tracker.update(gen, population, cases, current_task_obj, current_k)
         if cfg.track_lineage:
             track_pops.append(np.stack(population).astype(np.uint8))
             track_fits.append(np.asarray(fitnesses, dtype=np.float32))
@@ -978,6 +1041,7 @@ def _run_evolution_panmictic(
             {"pops": track_pops, "fits": track_fits, "parents": track_parents}
             if cfg.track_lineage else None
         ),
+        exact_any=exact_tracker.result() if exact_tracker is not None else None,
     )
 
 
@@ -1133,6 +1197,8 @@ def run_evolution(cfg: ChemTapeConfig, prediction_cache_size: int = 0) -> Evolut
         if prediction_cache_size > 0 and not cfg.plasticity_enabled
         else None
     )
+    if cfg.n_islands > 1 and cfg.track_exact_any:
+        raise ValueError("track_exact_any is panmictic only")
     if cfg.n_islands > 1:
         if cfg.track_lineage:
             raise ValueError("track_lineage is only supported for panmictic runs (n_islands == 1)")

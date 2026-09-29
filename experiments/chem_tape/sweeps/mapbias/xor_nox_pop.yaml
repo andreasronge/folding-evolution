@@ -1,0 +1,11 @@
+# Map-bias notebook §24: population-level replay of xor_nox.yaml (§19).
+# Same configs and seeds with track_exact_any on (every training-perfect genome is
+# checked on all 10,000 lists each generation) and lineage tracking off; neither draws
+# random numbers, so every run replays the original exactly.
+sweep_name: xor_nox_pop
+base: {task: mbs_xor, generations: 3000, disable_early_termination: true, n_examples: 64, holdout_size: 256, pop_size: 1024, elite_count: 2, crossover_rate: 0.0, selection_mode: lexicase, backend: numpy,
+  log_every: 50, track_lineage: false, fitness_metric: balanced, fast_rng: true, track_exact_any: true, dump_final_population: false}
+paired:
+- {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged}
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]

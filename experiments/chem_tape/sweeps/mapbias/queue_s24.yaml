@@ -1,0 +1,53 @@
+# §24 queue: tournament on OR (parity attribution), then population-level replays of the
+# lexicase XOR arms (track_exact_any; runs replay the originals exactly). Launch:
+#   caffeinate -s uv run python scripts/run_queue.py --queue experiments/chem_tape/sweeps/mapbias/queue_s24.yaml \
+#     --status experiments/chem_tape/sweeps/mapbias/queue_s24.status.json --lock experiments/chem_tape/sweeps/mapbias/queue_s24.lock
+
+- id: mapbias_or_tournament
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/or_tournament.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 7200
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §24: tournament on OR, leftmost and max"
+
+- id: mapbias_xor_leftmost_pop
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/xor_leftmost_pop.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 7200
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §24: replay xor_leftmost"
+
+- id: mapbias_xor_race_pop
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/xor_race_pop.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 14400
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §24: replay xor_race"
+
+- id: mapbias_xor_stack64_pop
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/xor_stack64_pop.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 14400
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §24: replay xor_stack64"
+
+- id: mapbias_xor_nox_pop
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/xor_nox_pop.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 7200
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §24: replay xor_nox"
+
+- id: mapbias_xor_leftmost_nox_pop
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/xor_leftmost_nox_pop.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 7200
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §24: replay leftmost crossover-off"
+
+- id: mapbias_xor_stack64_nox_pop
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/xor_stack64_nox_pop.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 7200
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §24: replay stack64 crossover-off"
