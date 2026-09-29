@@ -1,8 +1,8 @@
 # Map-bias — findings
 
-Short, scoped summary of the map-bias line (notebook: [notebook.md](notebook.md) §1–§23;
+Short, scoped summary of the map-bias line (notebook: [notebook.md](notebook.md) §1–§24;
 §1–§14 results commit `e05aa5f`, §15–§16 `7c9cc42`, §17 `e3e3ff1`, §18–§19 `c922028`,
-§21–§22 `5a85eb5`, §23 `fab1d10`). Checked by an eighth Fable review; §16 changes by a
+§21–§22 `5a85eb5`, §23 `fab1d10`, §24 `1b6778b`). Checked by an eighth Fable review; §16 changes by a
 ninth, §17 by a tenth, §19 by an eleventh, §20–§23 by a twelfth.
 
 **Question.** How does a developmental genotype→program map bias what evolution finds —
@@ -33,9 +33,10 @@ champion**.
   solved, however many exact individuals arise later.
 - Holdout doesn't break the tie: 10 of 21 locked champions also score 1.0 on 256 holdout
   cases. Only evaluating training-perfect individuals on all lists does.
-- **All champion-based XOR counts are lower bounds, and how much they can miss differs by
-  arm.** Runs locked on a non-exact champion: tagged max 9/30, stack + IMAX 9/30, stack 64
-  cells 4–5/30, leftmost 3/30, crossover-off arms 1–2/30. (§22, twelfth review)
+- **Population-level exactness** (`track_exact_any`, §24) counts a run as solved if any
+  individual is ever exact. The XOR arms of §16/§19/§22 were replayed with it (330/330
+  runs identical to the originals); items 13–14 use those counts. Champion counts are
+  lower bounds, by 0–6 runs per arm. (§22, §24)
 
 ## Findings
 
@@ -99,40 +100,40 @@ champion**.
     - **Very high weights hurt only through dilution** of the rest of the alphabet.
 
     (§16, §19)
-13. **XOR: no detectable difference between tagged runs and the stack at the champion
-    level, once the stack has room.** A 64-cell stack reaches 11–12/30, the tagged level
-    (13/30). The earlier gap (5/30 and 2/30 at 32 cells) was tape length.
-    - The two arms can miss different numbers of solves (tagged max: 9 locked runs; stack
-      64: 4–5), so the population-level comparison is open.
-    - Still a package comparison.
-
-    (§16, §19)
-14. **A join can be built when none is handed out.** With leftmost-wins, tagged XOR
-    solves 12/30 (vs 13/30 with the free max). No significant cost at n = 30, but every
-    measure that can see hidden solvers favours the free max (256 cases: populations with
-    an exact individual 20 vs 14, p = 0.19).
+13. **XOR: tagged runs lead a 64-cell stack at the population level, but not detectably.**
+    Populations with an exact individual: tagged max 19/30, tagged_comb 22/30, stack 64
+    cells 14–15/30 (p = 0.43 and 0.11). The earlier stack deficit was mostly tape length:
+    32 → 64 cells lifts the stack from 6 to 15/30 (p = 0.03). Still a package comparison.
+    (§16, §19, §24)
+14. **A join can be built when none is handed out.** With leftmost-wins, 15/30 tagged XOR
+    populations hold an exact individual, vs 19/30 with the free max (p = 0.43; at 256
+    training cases 14 vs 20). No significant cost at n = 30, but every measure favours
+    the free max.
     - **How:** pooled over 100 seeds, 31 solvers.
       - 26 solve inside a single run: 1–2 cell edits of a near-XOR body or of a 0.75
         specialist, and once by run fusion.
       - 5 wire a helper by RECV. The helper is a former output run, and in 3/4 a sibling
         copy reunited by crossover.
       - The 4/12 vs 1/19 helper rate across batches is p = 0.06. (§19, §22)
-    - **Crossover off** (all vs 12–13/30 with crossover): tagged max 2/30, leftmost 4/30
-      (p = 0.04; no hidden solvers, so larger at population level), stack 64 cells 7/30
-      (8 populations). Every arm drops; the drops can't be told apart at n = 30.
+    - **Crossover off** (population level): tagged max 19 → 2/30 (p < 0.0001), leftmost
+      15 → 4/30 (p = 0.005), stack 64 cells 15 → 9/30 (p = 0.19). Crossover is essential for
+      tagged runs; the stack's drop is smaller and not significant.
     - When no join is handed out, evolution builds it by small edits, run fusion or retag +
       RECV, and crossover reuniting sibling copies is still the common solving step (as in
       items 8–9).
-15. **Under summed fitness the XOR building blocks carry no signal.** On the stratified
-    sample, any single predicate and any constant score exactly 0.5 balanced; anything
-    above 0.5 needs at least two comparisons combined.
-    - Tournament on balanced fitness: 0/30 with or without the free max (vs 12–13/30 under
-      lexicase). In 52/60 runs no individual ever exceeded 0.5, and populations collapse to
-      constant 0, the most frequent phenotype (item 1).
-    - Parity explains *where* the tournament plateau sits (0.5 vs 0.75). It is not yet
-      shown to be *why* tournament fails: tournament hasn't been run in the tagged package
-      on a task whose blocks carry signal (OR, AND), and stack AND under tournament also
-      failed (§3). (§22)
+15. **Tournament fails in the tagged package because the map makes the start flat.**
+    - Under tournament on balanced fitness, tagged XOR is 0/30 with or without the free max,
+      and tagged OR 0/30 (leftmost) and 2/30 (max), although a single predicate scores
+      0.83 on OR. Under lexicase: 12–13/30 (XOR), 11–19/30 (OR).
+    - Why: among 20,000 random tagged genomes, 99.3% score *exactly* 0.5 balanced (on OR,
+      XOR and AND) and none scores above. Random tagged programs are almost all constants,
+      the map's most frequent phenotype (item 1), and balanced fitness scores every constant
+      the same. So there is no gradient until a whole predicate is assembled by chance.
+      Stack: 88% at 0.5, 0.02% above.
+    - Lexicase escapes because, case by case, a constant-0 and a constant-1 program are
+      different specialists.
+    - XOR's parity only sets the level of the later plateau (0.5 vs 0.75). Not a bug:
+      identical under both random-number paths. (§22, §24)
 16. **Slow, not stuck; and the champion metric hides solves.**
     - Leftmost XOR run to 10,000 generations (the first 3000 replay §19 exactly) goes from
       12 to 17/30 exact champions, and 21/30 populations hold an exact individual.
@@ -154,10 +155,6 @@ champion**.
 
 ## Open
 
-- **Population-level counts.** Evaluate training-perfect individuals on all lists each
-  generation, then replay the §16/§19 XOR arms (runs replay exactly) to get
-  population-level counts. Items 13–14's comparisons depend on it.
-- **Tournament on OR/AND in the tagged package**, to test item 15's attribution.
 - **How plateaus are left:** a parent-level trace of the 5 late solvers (crossover child
   or mutant, and were the parents training-perfect?).
 - **Stable machinery.** On fixed-goal solved runs, elitism freezes the champion (in all 4

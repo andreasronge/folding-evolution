@@ -1275,3 +1275,70 @@ parity.
   references 11/30 and 19/30). A single predicate scores 0.83 balanced on OR.
   - OR ≥ ~10/30 → parity explains tournament's XOR failure.
   - ~0–2/30 → tournament fails in this package, and parity only sets the XOR plateau level.
+
+**Result 1: tournament on OR** (`or_tournament`, 5 min).
+
+| arm | exact (population level) | champion train balanced (median) |
+|---|---|---|
+| tagged leftmost, tournament | 0/30 | 0.50 |
+| tagged max, tournament | 2/30 | 0.50 |
+| (lexicase references: or_leftmost 11/30, or_race tagged 19/30) | | |
+
+- **Tournament fails on OR too, although a single predicate scores 0.83 there.** So parity
+  is not why tournament fails on XOR (twelfth review's kill branch).
+- **Not a bug.** A 300-generation check gives the same flat 0.5 under both random-number
+  paths (fast_rng on and off), while lexicase climbs to 0.84–1.0 in the same setup.
+- **The cause is a flat start, set by the map.** Among 20,000 random genomes:
+  - tagged runs: 99.3% score *exactly* 0.5 balanced on OR, XOR and AND, and none scores
+    above 0.5 (the rest are below);
+  - the stack: 88% exactly 0.5, and 0.02% above.
+
+  Random tagged programs are almost all constant outputs (item 1: the map's most frequent
+  phenotype). Balanced fitness gives every constant exactly 0.5, so under tournament there
+  is no gradient until a whole predicate is assembled by chance. Lexicase escapes because,
+  case by case, a constant-0 program and a constant-1 program are different specialists.
+- So item 15 should read: tournament fails in the tagged package because the map makes
+  nearly every starting program a constant and balanced fitness scores them all the same.
+  XOR's parity only sets the level of the later plateau (0.5 vs 0.75).
+
+**Result 2: population-level replays** (queue_s24, 330 runs; `pop_exact_report.py` →
+`experiments/output/2026-09-29/pop_exact_report.md`).
+- **All 330 replays matched their originals** (same final champion; configs equal apart
+  from the tracking flags).
+- During the queue the metric was made faster twice without changing its results: first a
+  cache keyed by what a genome computes, then a 500-list prefilter plus checks every 50th
+  generation after the first exact individual. First exact generation and final count are
+  unchanged on three test runs; a slow stack run dropped from 5,449 s to 199 s.
+
+| arm | exact champions | populations with an exact individual | hidden |
+|---|---|---|---|
+| tagged, max join | 13/30 | **19/30** | +6 |
+| tagged + combine markers | 19/30 | **22/30** | +3 |
+| tagged, leftmost | 12/30 | **15/30** | +3 |
+| stack, 32 cells | 5/30 | 6/30 | +1 |
+| stack + IMAX, 32 cells | 2/30 | 2/30 | 0 |
+| stack, 64 cells, rate 0.03 | 12/30 | **15/30** | +3 |
+| stack, 64 cells, rate 0.015 | 11/30 | 14/30 | +3 |
+| stack + IMAX, 64 cells | 9/30 | 14/30 | +5 |
+| tagged, max, crossover off | 2/30 | 2/30 | 0 |
+| tagged, leftmost, crossover off | 4/30 | 4/30 | 0 |
+| stack, 64 cells, crossover off | 7/30 | 9/30 | +2 |
+
+- **Item 14: the free max now leads leftmost 19 vs 15** (p = 0.43). Still no significant
+  cost from removing the join, but the gap widened in the direction the twelfth review
+  predicted.
+- **Item 13: tagged vs a 64-cell stack is 19–22 vs 14–15** (p = 0.43; tagged_comb vs stack
+  p = 0.11). Tagged runs are ahead at the population level, but not detectably at n = 30.
+  The 32 → 64-cell tape effect holds (6 vs 15, p = 0.03).
+- **Crossover-off drops are clearer at the population level:** tagged max 19 → 2
+  (p < 0.0001), leftmost 15 → 4 (p = 0.005), stack 64 cells 15 → 9 (p = 0.19). Crossover
+  is essential for tagged runs, and the stack's drop is smaller and not significant.
+- Arms without crossover hide almost nothing. Lock-in needs a training-perfect individual
+  to spread, and those arms rarely get one.
+
+**Take.**
+- Population-level counts change the numbers but none of the directions. Every champion-
+  based comparison was conservative for the arm with more lock-in (tagged max).
+- Tournament's failure in the tagged package is a flat start caused by the map (99.3% of
+  random programs score exactly 0.5 under balanced fitness), not XOR's parity.
+- Future sweeps should report population-level exactness (`track_exact_any`).
