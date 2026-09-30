@@ -262,7 +262,9 @@ def main(day_dir: str, only: list[str] | None = None) -> None:
                            # §25 (queue_s25)
                            ("mapbias_xover_v2_or_tournament", "fixed"), ("mapbias_or_tournament_ctrl", "fixed"),
                            ("mapbias_xover_v2_xor_leftmost", "fixed"), ("mapbias_xover_v2_or_leftmost", "fixed"),
-                           ("mapbias_xover_v2_xor_max", "fixed")):
+                           ("mapbias_xover_v2_xor_max", "fixed"),
+                           # §26
+                           ("mapbias_xover_v1c_xor_leftmost", "fixed")):
             if only and name not in only:
                 continue
             sweep = day / name

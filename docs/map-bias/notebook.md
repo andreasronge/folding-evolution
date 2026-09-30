@@ -1456,3 +1456,64 @@ for Step 2 capacity; then the Step 2 pilot with v2 by default. Dropped: more tou
 arms, OR at higher n, entrenchment before Step 2. One disagreement with the review: if 128
 cells overflow often in Step 2, lengthen the tape rather than delete unread runs first
 (that would protect runs by use, a different intervention).
+
+## 26. Compaction-only control (v1c) and drift at 128 cells (2026-09-30, daytime)
+
+Code from commit `08b315e`: `tagged_crossover: v1c` (`tagged.compact_runs`) is v1 plus v2's
+compaction. On overflow it strips trailing NOPs and trims the leader, then cuts at L like
+v1, so b's last runs go first and the run at the cut is kept partway. No random run
+deletion. Scripts: `s26_dumps.py` → `experiments/output/2026-09-30/s26_dumps.md`.
+
+**Result 1: leftmost XOR, lexicase, 100 seeds** (v1 and v2 from §25, same seeds).
+
+| | v1 | v1c | v2 |
+|---|---|---|---|
+| populations with an exact individual | 38 | **61** | 68 |
+| exact champions | 31 | 38 | 52 |
+| exact members at generation 3000 | 35 | 49 | 58 |
+
+- v1c vs v1: p = 0.002. v1c vs v2: p = 0.38. **Compaction accounts for most of v2's gain;**
+  whole-run random deletion instead of truncation may add a little, not detectably at
+  n = 100.
+- v1c locks in more non-exact champions (61 populations, 38 champions).
+- Solved by generation (population level):
+
+  | | 500 | 1000 | 1500 | 2000 | 2500 | 3000 |
+  |---|---|---|---|---|---|---|
+  | v1 | 4 | 12 | 21 | 29 | 34 | 38 |
+  | v1c | 5 | 14 | 30 | 39 | 51 | 61 |
+  | v2 | 8 | 32 | 45 | 57 | 63 | 68 |
+
+  v2 is ahead early (32 vs 14 at generation 1000); v1c catches up late.
+
+**Result 2: final populations** (checks Fable's §25 numbers, which hold).
+
+| | output body, solved pops | leader | extra output run | exact individuals with a helper | output run is last (exact) |
+|---|---|---|---|---|---|
+| v1 | 46.7 | 6.2 | 12% | 13% | 73% |
+| v1c | 31.8 | 2.7 | 58% | 18% | 5% |
+| v2 | 37.0 | 4.4 | 17% | 9% | 37% |
+
+- The shorter the output body, the more solves: v1c and v2 both compact.
+- Helper use still doesn't track solving (9–18%).
+- v1c genomes carry a silent second output run in 58% of cases (it keeps cut-off tail
+  runs, and these include copies of the output run). Silent output copies are common when
+  crossover doesn't purge them, which is the item 11 observable; whether any become the
+  read copy is untested.
+- What compaction does is not separated: shorter executed code (less mutational load at
+  the same rate) and fewer truncated runs both follow from stripping inert cells.
+
+**Result 3: drift with no selection** (`crossover_drift.py`, 300 generations; 10 seeds at
+64 cells, 5 at 128).
+
+| runs per genome, gen 300 | v1 | v1c | v2 | off |
+|---|---|---|---|---|
+| 64 cells | 0.19 | 1.23 | 0.88 | 2.63 |
+| 128 cells | 0.42 | 2.10 | 1.26 | 5.44 |
+
+- v1c keeps more runs than v2 because a cut-off tail run still counts as a run; v2 deletes
+  whole runs.
+- For Step 2: without selection a 128-cell tape under v2 holds ~1.3 runs, far below 14
+  outputs. Selection has to hold the output runs (under lexicase on XOR it keeps 1.8 per
+  genome at 64 cells), and overflow deletion will hit rewarded runs often. Consider 256
+  cells, or measure the per-output census in a short pilot before a long run.

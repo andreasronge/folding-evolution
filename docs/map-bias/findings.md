@@ -5,7 +5,7 @@ Short, scoped summary of the map-bias line (notebook: [notebook.md](notebook.md)
 §21–§22 `5a85eb5`, §23 `fab1d10`, §24 `02b2606`–`1b6778b`: or_tournament, xor_leftmost_pop and
 xor_race_pop ran under the first version of the exactness check, the other replays under
 the two faster versions; first-exact generation and final count are the same under all
-three; §25 `85e3da1`). Checked by an eighth Fable review; §16 changes by a ninth, §17 by a
+three; §25 `85e3da1`, §26 `08b315e`). Checked by an eighth Fable review; §16 changes by a ninth, §17 by a
 tenth, §19 by an eleventh, §20–§23 by a twelfth, §24 by a thirteenth, §25 by a fourteenth.
 
 **Question.** How does a developmental genotype→program map bias what evolution finds —
@@ -182,7 +182,7 @@ champion**.
       third to a half. (The earlier "complementary quadrant covers always present" was too
       weak: constant 0 plus constant 1 satisfies it.) (§20, §22, §23)
 
-16. **Crossover assembly changes XOR discovery; the mechanism is open.**
+16. **Crossover assembly changes XOR discovery, mostly through compaction.**
     - Leftmost XOR, lexicase, 100 seeds each: populations with an exact individual 68/100
       (v2) vs 38/100 (v1), p = 3.5×10⁻⁵; exact champions 52 vs 31 (p = 0.004); exact
       members still present at generation 3000 in 58 vs 35 (p = 0.002).
@@ -192,8 +192,12 @@ champion**.
       genome, generations ≥ 1000) but helper use is unchanged (8% of genomes in both; 11% vs
       14% of exact individuals), and behaviour diversity is the same. v2 populations carry
       shorter output bodies (37 vs 47 cells in solved populations) and more silent second
-      output runs (17% vs 12%). Candidates: less mutational load from compaction, or whole-
-      run transfer instead of truncated fragments; a compaction-only control separates them.
+      output runs (17% vs 12%).
+    - **Compaction-only control (v1c):** v1 plus stripping trailing NOPs and trimming the
+      leader on overflow, still truncating: 61/100 (vs v1 38, p = 0.002; vs v2 68,
+      p = 0.38). So most of the gain comes from removing inert cells on overflow, not from
+      random whole-run deletion. Whether through shorter executed code (mutational load)
+      or fewer truncated runs is not separated. (§26)
     - Median first-exact generations (1090 vs 1277) are conditional on solving and not
       comparable at 68 vs 38 solvers. (§25, fourteenth review)
 
@@ -201,12 +205,9 @@ champion**.
 
 The XOR/valley thread is closed: the join question is answered (item 13) and no valley was
 found. Remaining:
-- **Item 16's mechanism:** a compaction-only control (v1 plus NOP stripping and leader
-  trimming, still truncating at the tape end) on leftmost XOR, 100 seeds. v1c ≈ v2 →
-  mutational load; v1c ≈ v1 → whole-run transfer.
-- **Step 2 uses crossover v2** by default. Drift at a 128-cell tape first, to see how many
-  runs survive v2's random overflow deletion with 14 outputs; if overflow is frequent,
-  lengthen the tape rather than protect runs by use.
+- **Step 2 uses crossover v2** by default. Without selection a 128-cell tape holds ~1.3
+  runs under v2 (§26), far below 14 outputs: check the per-output census in a short pilot,
+  and lengthen the tape rather than protect runs by use if overflow deletes rewarded runs.
 - **How plateaus are left** (low priority): a parent-level trace of the 5 late solvers.
 - **Stable machinery.** On fixed-goal solved runs, elitism freezes the champion (in all 4
   co-option runs the helper stayed unchanged, with one reader, to generation 3000). Reuse
