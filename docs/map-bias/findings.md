@@ -1,12 +1,12 @@
 # Map-bias — findings
 
-Short, scoped summary of the map-bias line (notebook: [notebook.md](notebook.md) §1–§25;
+Short, scoped summary of the map-bias line (notebook: [notebook.md](notebook.md) §1–§26;
 §1–§14 results commit `e05aa5f`, §15–§16 `7c9cc42`, §17 `e3e3ff1`, §18–§19 `c922028`,
 §21–§22 `5a85eb5`, §23 `fab1d10`, §24 `02b2606`–`1b6778b`: or_tournament, xor_leftmost_pop and
 xor_race_pop ran under the first version of the exactness check, the other replays under
 the two faster versions; first-exact generation and final count are the same under all
 three; §25 `85e3da1`, §26 `08b315e`). Checked by an eighth Fable review; §16 changes by a ninth, §17 by a
-tenth, §19 by an eleventh, §20–§23 by a twelfth, §24 by a thirteenth, §25 by a fourteenth.
+tenth, §19 by an eleventh, §20–§23 by a twelfth, §24 by a thirteenth, §25 by a fourteenth, §26 by a fifteenth.
 
 **Question.** How does a developmental genotype→program map bias what evolution finds —
 and can evolution combine building blocks by recombination without crashing? Items 1 and
@@ -115,8 +115,10 @@ champion**.
     chemistry (§3, §9, §12), including with both parents traced on 44 tagged solvers (§17)
     and on 31 leftmost solvers (§19, §22). A silent run becomes tag 0 at μ/64 per run per
     generation, silent runs are unprotected, and crossover actively removes runs nothing
-    reads (Setup), so a silent run survives only a handful of generations. The route was
-    barely available: untested rather than refuted.
+    reads (Setup), so under crossover v1 a silent run survives only a handful of
+    generations. The route was barely available: untested rather than refuted. Under the
+    compaction-only crossover (v1c, item 16) 58% of genomes in solved populations carry a
+    silent second output run, so the route is now available for a test. (§26)
 12. **Frequency knob — the first direct manipulation of map bias.** Weighting an op in
     random genomes and mutations changes how often it is made, not what is reachable.
     - **Rarity switches routes.** With IMAX at 0.05× on stack OR, 18 of 21 solvers use no
@@ -139,8 +141,9 @@ champion**.
     - **How the join is built** (pooled over 100 seeds, 31 solvers): 26 solve inside a
       single run (1–2 cell edits of a near-XOR body or of a 0.75 specialist, once by run
       fusion); 5 wire a helper by RECV, a former output run, in 3/4 a sibling copy reunited
-      by crossover (4/12 vs 1/19 across batches, p = 0.06). The rarity of helpers is partly
-      an operator property: crossover purges unread runs (Setup).
+      by crossover (4/12 vs 1/19 across batches, p = 0.06). Keeping unread runs does not
+      raise helper use: crossovers v2 and v1c keep 2–6× more of them, and helpers stay at
+      9–18% of exact individuals (item 16).
     - **Crossover off:** tagged max 19 → 2/30 (p < 0.0001), leftmost 15 → 4/30
       (p = 0.005), stack 64 cells 15 → 9/30 (p = 0.19). Crossover matters most for tagged
       runs.
@@ -182,22 +185,24 @@ champion**.
       third to a half. (The earlier "complementary quadrant covers always present" was too
       weak: constant 0 plus constant 1 satisfies it.) (§20, §22, §23)
 
-16. **Crossover assembly changes XOR discovery, mostly through compaction.**
+16. **Crossover assembly changes XOR discovery.**
     - Leftmost XOR, lexicase, 100 seeds each: populations with an exact individual 68/100
       (v2) vs 38/100 (v1), p = 3.5×10⁻⁵; exact champions 52 vs 31 (p = 0.004); exact
       members still present at generation 3000 in 58 vs 35 (p = 0.002).
     - Max-join XOR 25 vs 19/30 (p = 0.14) and leftmost OR 25 vs 24/30 (p = 1) are not
       significant.
     - Not shown: that run loss is the cause. v2 doubles unread runs (0.81 vs 0.36 per
-      genome, generations ≥ 1000) but helper use is unchanged (8% of genomes in both; 11% vs
-      14% of exact individuals), and behaviour diversity is the same. v2 populations carry
+      genome, generations ≥ 1000) but helper use is unchanged (8% of genomes in both; 9% vs
+      13% of exact individuals, §26), and behaviour diversity is the same. v2 populations carry
       shorter output bodies (37 vs 47 cells in solved populations) and more silent second
       output runs (17% vs 12%).
-    - **Compaction-only control (v1c):** v1 plus stripping trailing NOPs and trimming the
-      leader on overflow, still truncating: 61/100 (vs v1 38, p = 0.002; vs v2 68,
-      p = 0.38). So most of the gain comes from removing inert cells on overflow, not from
-      random whole-run deletion. Whether through shorter executed code (mutational load)
-      or fewer truncated runs is not separated. (§26)
+    - **A control sharing v2's compaction but not its deletion** (v1c: strip trailing NOPs
+      and trim the leader on overflow, then truncate as v1) reaches 61/100 at generation
+      3000 (vs v1 38, p = 0.002; vs v2 68, p = 0.38). It does not reproduce v2's early lead:
+      solved by generation 1000, v1 12, v1c 14, v2 32. v1c also keeps a cut-off tail run
+      (a buffer against later truncation, and the source of silent output copies in 58% of
+      genomes), so the design does not isolate compaction as the cause. (§26, fifteenth
+      review)
     - Median first-exact generations (1090 vs 1277) are conditional on solving and not
       comparable at 68 vs 38 solvers. (§25, fourteenth review)
 
@@ -205,13 +210,16 @@ champion**.
 
 The XOR/valley thread is closed: the join question is answered (item 13) and no valley was
 found. Remaining:
-- **Step 2 uses crossover v2** by default. Without selection a 128-cell tape holds ~1.3
-  runs under v2 (§26), far below 14 outputs: check the per-output census in a short pilot,
-  and lengthen the tape rather than protect runs by use if overflow deletes rewarded runs.
+- **Step 2 is skipped (2026-09-30, fifteenth review).** Its substrate signals were weak
+  before it started (helpers in 9–18% of exact individuals; a 128-cell tape holds ~1.3 runs
+  under v2 without selection, against 14 outputs), and any effect would sit inside the range
+  crossover assembly alone moves (items 13–16). The line pivots to the core map-bias
+  question: a map whose bias differs from direct encoding (Plans/map-bias-pivot.md).
+- **Silent-then-switch under v1c** (optional, one night): lineage tracing on v1c solvers
+  for a change in which output run is read.
 - **How plateaus are left** (low priority): a parent-level trace of the 5 late solvers.
-- **Stable machinery.** On fixed-goal solved runs, elitism freezes the champion (in all 4
-  co-option runs the helper stayed unchanged, with one reader, to generation 3000). Reuse
-  and entrenchment need a multi-output task (Plans/valley-crossing.md, Step 2 before
-  Step 3).
+- **Stable machinery** (parked with Step 2). On fixed-goal solved runs, elitism freezes the
+  champion (in all 4 co-option runs the helper stayed unchanged, with one reader, to
+  generation 3000). Reuse and entrenchment would need a multi-output task.
 - **The core map-bias question** needs a map whose bias differs from direct encoding (the
   folding map or a tree-GP generator); chem-tape's decoder is close to identity (item 1).

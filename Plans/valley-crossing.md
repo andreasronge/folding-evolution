@@ -73,6 +73,8 @@ Notebook §17–§24, findings items 11, 13–15.
   2. ~~A crossover variant that loses fewer runs~~: crossover v2 (`fit_runs`) lifts leftmost
      XOR from 38 to 68/100, mechanism open (findings item 16). Step 2 uses v2 by default;
      run the v1c compaction control and a 128-cell drift alongside the pilot.
+- **2026-09-30: Step 2 skipped, line pivots** to the core map-bias question (fifteenth
+  review; findings Open; Plans/map-bias-pivot.md).
 - **Project boundary (2026-09-29):** one crossover comparison (done), the cheap tournament
   controls (done), one bounded Step 2 experiment, then the map-bias pivot. Entrenchment only
   if Step 2 shows identifiable cross-output dependencies.
