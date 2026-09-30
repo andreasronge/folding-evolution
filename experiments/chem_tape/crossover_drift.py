@@ -89,13 +89,16 @@ def main() -> None:
     ap.add_argument("--gens", type=int, default=300)
     ap.add_argument("--seeds", type=int, default=3)
     ap.add_argument("--out", type=Path, default=None)
+    ap.add_argument("--L", type=int, default=64, help="tape length (cells)")
+    ap.add_argument("--variants", default="v1,v2,off", help="comma list of v1, v2, v1c, off")
     args = ap.parse_args()
-    rows = [r for v in ("v1", "v2", "off") for s in range(args.seeds) for r in drift(v, s, args.gens)]
+    variants = args.variants.split(",")
+    rows = [r for v in variants for s in range(args.seeds) for r in drift(v, s, args.gens, L=args.L)]
     if args.out:
         args.out.write_text(json.dumps(rows))
     print("| variant | gen | runs | no runs | output runs | unread | tail NOPs | Δruns crossover | v2−v1 same proposal | Δruns mutation | recovery |")
     print("|---|---|---|---|---|---|---|---|---|---|---|")
-    for v in ("v1", "v2", "off"):
+    for v in variants:
         for g in sorted({r["gen"] for r in rows}):
             rs = [r for r in rows if r["variant"] == v and r["gen"] == g]
             if g not in (0, 10, 20, 50, 100, 200, args.gens):

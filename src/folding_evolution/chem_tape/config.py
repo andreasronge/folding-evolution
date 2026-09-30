@@ -209,7 +209,8 @@ class ChemTapeConfig:
 
     # Map-bias notebook §25, tagged runs only: crossover child assembly. "v1" (default)
     # keeps parent A's leader cells and cuts the tape at L cells; "v2" strips trailing
-    # NOPs, then deletes whole runs at random, then leader cells (tagged.fit_runs).
+    # NOPs, then deletes whole runs at random, then leader cells (tagged.fit_runs); "v1c"
+    # (§26) strips NOPs and leader cells, then cuts at L like v1 (tagged.compact_runs).
     tagged_crossover: str = "v1"
 
     # Map-bias notebook §25, tagged runs only: every log_every generations record the
@@ -342,8 +343,8 @@ class ChemTapeConfig:
         return hashlib.sha1(blob).hexdigest()[:12]
 
     def __post_init__(self) -> None:
-        if self.tagged_crossover not in ("v1", "v2"):
-            raise ValueError(f"tagged_crossover must be 'v1' or 'v2', got {self.tagged_crossover!r}")
+        if self.tagged_crossover not in ("v1", "v2", "v1c"):
+            raise ValueError(f"tagged_crossover must be 'v1', 'v2' or 'v1c', got {self.tagged_crossover!r}")
         if (self.tagged_crossover != "v1" or self.track_runs) and self.arm != "TAG":
             raise ValueError("tagged_crossover / track_runs apply to arm TAG only")
         if self.op_weights:

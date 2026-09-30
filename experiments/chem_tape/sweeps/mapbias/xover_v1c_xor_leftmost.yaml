@@ -1,0 +1,10 @@
+# Map-bias notebook §26: crossover v1c (v1 + v2's compaction, still truncating at the tape end;
+# tagged.compact_runs) on leftmost XOR, 100 seeds. Compare with xover_v2_xor_leftmost (§25):
+# v1c ≈ v2 → the gain is compaction / mutational load; v1c ≈ v1 (38/100) → whole-run transfer.
+sweep_name: xover_v1c_xor_leftmost
+base: {task: mbs_xor, generations: 3000, disable_early_termination: true, n_examples: 64, holdout_size: 256, pop_size: 1024, elite_count: 2, crossover_rate: 0.7, selection_mode: lexicase, backend: numpy,
+  log_every: 50, track_lineage: false, fitness_metric: balanced, fast_rng: true, track_exact_any: true, dump_final_population: true}
+paired:
+- {arm: TAG, tape_length: 64, mutation_rate: 0.015, alphabet: tagged, tag_combine: leftmost, tagged_crossover: v1c, track_runs: true}
+grid:
+  seed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99]

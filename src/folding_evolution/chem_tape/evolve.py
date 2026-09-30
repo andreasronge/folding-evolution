@@ -853,7 +853,9 @@ def _run_stats(gen: int, population, cfg: ChemTapeConfig) -> dict:
             "read": float(read.mean()), "unread": float((runs - read).mean()),
             "helpers": float(helpers.mean()), "no_runs": float((runs == 0).mean()),
             "no_output": float((out == 0).mean()), "with_helper": float((helpers > 0).mean()),
-            "tail_nops": float(tail.mean()), "distinct": len(seen)}
+            "tail_nops": float(tail.mean()), "distinct": len(seen),
+            "extra_output": float(np.maximum(out - 1, 0).mean()),
+            "with_extra_output": float((out > 1).mean())}
 
 
 def _is_k_alternating(cfg: ChemTapeConfig) -> bool:

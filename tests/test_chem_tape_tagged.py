@@ -379,3 +379,25 @@ def test_crossover_v2_and_track_runs_in_evolution():
     v2 = run_evolution(replace(cfg, tagged_crossover="v2", track_runs=True))
     assert len(v2.best_genotype) == 128
     assert cfg.hash() == replace(cfg, tagged_crossover="v1").hash() != replace(cfg, tagged_crossover="v2").hash()
+
+
+def test_v1c_compacts_then_truncates_like_v1():
+    # Padding-only overflow: v1c keeps both runs whole (like v2) ...
+    a = genome([(0, [1, 5, 16, 16, 7, 8] + [0] * 30)], L=64)
+    b = genome([(4, [1, 18, 16, 8] + [0] * 40)], L=64)
+    runs = tagged.parse_runs(a) + tagged.parse_runs(b)
+    assert [t for t, _ in _runs(tagged.compact_runs([(1, 0)] * 10, runs, 64, random.Random(0)))] == [0, 4]
+    # ... but real overflow is cut at the tape end, b's run partway, never deleted at random.
+    runs = [(0, tuple((1, 0) for _ in range(30))), (5, tuple((5, 0) for _ in range(30))),
+            (9, tuple((6, 0) for _ in range(30)))]
+    for s in range(20):
+        kept = _runs(tagged.compact_runs([(1, 0)] * 5, runs, 64, random.Random(s)))
+        assert [t for t, _ in kept] == [0, 5, 9] and len(kept[2][1]) == 64 - 62 - 1
+    # And equals v1 whenever v1 fits.
+    rng = random.Random(5)
+    for _ in range(200):
+        rs = [(rng.randrange(64), tuple((rng.randrange(20), 0) for _ in range(rng.randrange(1, 6))))
+              for _ in range(rng.randrange(0, 5))]
+        lead = [(rng.randrange(20), 0) for _ in range(rng.randrange(0, 10))]
+        s = rng.randrange(10 ** 6)
+        assert (tagged.build(lead, rs, 64, random.Random(s)) == tagged.compact_runs(lead, rs, 64, random.Random(s))).all()

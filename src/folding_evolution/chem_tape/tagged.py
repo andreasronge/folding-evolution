@@ -427,8 +427,9 @@ def crossover(a: np.ndarray, b: np.ndarray, rng: random.Random, variant: str = "
     `variant` sets how the child is assembled (the choice of runs is the same):
     "v1" keeps a's leader cells in full and cuts the tape at L cells, which drops
     b's runs first and whole genomes' runs when a has no run (notebook §24);
-    "v2" fits the child with fit_runs(). The two give the same child whenever the
-    v1 child fits the tape uncut."""
+    "v2" fits the child with fit_runs(); "v1c" (notebook §26) is v1 with v2's
+    compaction only (compact_runs: strip trailing NOPs, trim the leader, then cut at L
+    as v1 does). All three give the same child whenever the v1 child fits uncut."""
     L = len(a) // 2
     ra, rb = parse_runs(a), parse_runs(b)
     b_body = {}
@@ -442,6 +443,8 @@ def crossover(a: np.ndarray, b: np.ndarray, rng: random.Random, variant: str = "
         runs = ra[:i] + rb[j:]
     if variant == "v2":
         return fit_runs(leader_cells(a), runs, L, rng)
+    if variant == "v1c":
+        return compact_runs(leader_cells(a), runs, L, rng)
     return build(leader_cells(a), runs, L, rng)
 
 
@@ -464,6 +467,20 @@ def fit_runs(leader: list[tuple[int, int]], runs, L: int, rng: random.Random) ->
     over = _cells_needed(leader, runs) - L
     if over > 0:
         leader = list(leader)[over:]
+    return build(leader, runs, L, rng)
+
+
+def compact_runs(leader: list[tuple[int, int]], runs, L: int, rng: random.Random) -> np.ndarray:
+    """Crossover v1c assembly (map-bias notebook §26): v2's compaction without its run
+    deletion. If leader + runs overflow L: strip trailing NOPs from every run body, drop
+    leader cells from the front as needed, then cut at L cells like v1 (b's last runs go
+    first, and the run at the cut is cut partway). Draws no RNG beyond build()'s padding."""
+    runs = list(runs)
+    if _cells_needed(leader, runs) > L:
+        runs = [(t, _strip_trailing_nops(b)) for t, b in runs]
+        over = _cells_needed(leader, runs) - L
+        if over > 0:
+            leader = list(leader)[over:]
     return build(leader, runs, L, rng)
 
 
