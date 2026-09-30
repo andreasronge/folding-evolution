@@ -1,0 +1,33 @@
+# Map-bias pivot, night 1 (Plans/map-bias-pivot.md): Phase A (random-genotype bias of the
+# folding map vs direct encoding) and Phase B (evolution on both maps). ~6 h on 10 cores.
+# Launch:
+#   caffeinate -s uv run python scripts/run_queue.py --queue experiments/map_bias/queue_pivot1.yaml \
+#     --status experiments/map_bias/queue_pivot1.status.json --lock experiments/map_bias/queue_pivot1.lock
+
+- id: pivot_phase_a
+  cmd: uv run python experiments/map_bias/fold_direct.py sample --n 20000000 --lengths 30,50,80,120,200 --workers 10
+  timeout_seconds: 5400
+  expect_outputs: [SAMPLE_DONE]
+  track: map-bias
+  notes: "Phase A: behaviour frequencies of 20M random genotypes per map and length (30-200; lengths drift in Phase B)"
+
+- id: pivot_phase_b_L50
+  cmd: uv run python experiments/map_bias/fold_direct.py evolve --seeds 50 --length 50 --budgets 50x300,200x1000,500x2000 --random-budgets 200x1000 --workers 10
+  timeout_seconds: 14400
+  expect_outputs: [EVOLVE_DONE]
+  track: map-bias
+  notes: "Phase B: 11 tasks x 2 maps x 3 budgets x 50 seeds (+ random search 200x1000), start length 50"
+
+- id: pivot_phase_b_L80
+  cmd: uv run python experiments/map_bias/fold_direct.py evolve --seeds 50 --length 80 --budgets 50x300,200x1000,500x2000 --random-budgets 200x1000 --workers 10
+  timeout_seconds: 21600
+  expect_outputs: [EVOLVE_DONE]
+  track: map-bias
+  notes: "Phase B: same at start length 80"
+
+- id: pivot_report
+  cmd: uv run python experiments/map_bias/fold_direct.py analyze --sample "$RUN_DIR/../pivot_phase_a" --evolve "$RUN_DIR/../pivot_phase_b_L50" --report "$RUN_DIR/report_L50.md" && uv run python experiments/map_bias/fold_direct.py analyze --sample "$RUN_DIR/../pivot_phase_a" --evolve "$RUN_DIR/../pivot_phase_b_L80" --report "$RUN_DIR/report_L80.md"
+  timeout_seconds: 3600
+  expect_outputs: [report_L50.md, report_L80.md]
+  track: map-bias
+  notes: "Phase A + B tables, one report per start length"
