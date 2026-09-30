@@ -16,7 +16,7 @@ Varying goals (mvg_p20, mvg_period):
     lists for that goal; early (first third) vs late (last third) of the run
   - tagged phase-end structure as above
 
-Usage: uv run python experiments/chem_tape/overnight_analysis.py experiments/output/<date>
+Usage: uv run python experiments/chem_tape/overnight_analysis.py experiments/output/<date> [sweep ...]
 """
 
 from __future__ import annotations
@@ -73,6 +73,9 @@ def arm_name(c: dict) -> str:
         name += f" n{c['n_examples']}"
     if c.get("selection_mode", "lexicase") == "tournament":
         name += " tournament"
+    # §25: crossover v2 (unchanged names for v1).
+    if c.get("tagged_crossover", "v1") != "v1":
+        name += f" x{c['tagged_crossover']}"
     return name
 
 
@@ -232,7 +235,7 @@ def mvg_report(name: str, rows: list[dict]) -> list[str]:
     return lines
 
 
-def main(day_dir: str) -> None:
+def main(day_dir: str, only: list[str] | None = None) -> None:
     day = Path(day_dir)
     lines = ["# Map-bias overnight results", ""]
     with Pool(10) as pool:
@@ -255,7 +258,13 @@ def main(day_dir: str) -> None:
                            # §23 (queue_s23)
                            ("mapbias_xor_n256", "fixed"),
                            # §24 (queue_s24)
-                           ("mapbias_or_tournament", "fixed")):
+                           ("mapbias_or_tournament", "fixed"),
+                           # §25 (queue_s25)
+                           ("mapbias_xover_v2_or_tournament", "fixed"), ("mapbias_or_tournament_ctrl", "fixed"),
+                           ("mapbias_xover_v2_xor_leftmost", "fixed"), ("mapbias_xover_v2_or_leftmost", "fixed"),
+                           ("mapbias_xover_v2_xor_max", "fixed")):
+            if only and name not in only:
+                continue
             sweep = day / name
             if not (sweep / "sweep_index.json").exists():
                 lines += [f"## {name}", "", "not run / no index", ""]
@@ -266,9 +275,9 @@ def main(day_dir: str) -> None:
             (sweep / "analysis.json").write_text(json.dumps(rows, indent=1, default=str))
             head = f"{name}{'' if complete else ' (INCOMPLETE)'}"
             lines += fixed_report(head, rows) if kind == "fixed" else mvg_report(head, rows)
-    (day / "overnight_summary.md").write_text("\n".join(lines) + "\n")
+    (day / ("overnight_summary.md" if not only else "overnight_summary_selected.md")).write_text("\n".join(lines) + "\n")
     print("\n".join(lines))
 
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    main(sys.argv[1], sys.argv[2:] or None)

@@ -67,13 +67,15 @@ Notebook §17–§24, findings items 11, 13–15.
   not neutral under variation. Tagged crossover keeps parent A's leading inert cells and
   truncates, so runs nothing reads are purged within a few generations (with no selection:
   2.9 → 0.2 runs per genome in 100 generations).
-- **Before Step 2:**
-  1. The item 14 package contrast: 64-cell stack under balanced tournament on OR; tagged
-     tournament on OR without crossover.
-  2. A crossover variant that doesn't lose runs (fill the child from both parents
-     symmetrically; don't privilege A's leader), rerun on leftmost XOR and tournament OR.
-     Step 2's mechanism, shared sub-function runs read by several outputs, needs unread
-     runs to survive long enough to be read.
+- **Before Step 2:** (done, notebook §25)
+  1. ~~The item 14 package contrast~~: the stack fails the same way under tournament;
+     crossover off, v1 and v2 all fail. Closed.
+  2. ~~A crossover variant that loses fewer runs~~: crossover v2 (`fit_runs`) lifts leftmost
+     XOR from 38 to 68/100, mechanism open (findings item 16). Step 2 uses v2 by default;
+     run the v1c compaction control and a 128-cell drift alongside the pilot.
+- **Project boundary (2026-09-29):** one crossover comparison (done), the cheap tournament
+  controls (done), one bounded Step 2 experiment, then the map-bias pivot. Entrenchment only
+  if Step 2 shows identifiable cross-output dependencies.
 - **Step 2 design choices to fix before coding:**
   - Tags 0..13 are the 14 non-constant two-input functions of (p1, p2); tag 0 is the target
     (AND or XOR), so all tag-0 tooling stays valid.

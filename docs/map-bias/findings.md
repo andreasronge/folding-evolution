@@ -1,12 +1,12 @@
 # Map-bias — findings
 
-Short, scoped summary of the map-bias line (notebook: [notebook.md](notebook.md) §1–§24;
+Short, scoped summary of the map-bias line (notebook: [notebook.md](notebook.md) §1–§25;
 §1–§14 results commit `e05aa5f`, §15–§16 `7c9cc42`, §17 `e3e3ff1`, §18–§19 `c922028`,
 §21–§22 `5a85eb5`, §23 `fab1d10`, §24 `02b2606`–`1b6778b`: or_tournament, xor_leftmost_pop and
 xor_race_pop ran under the first version of the exactness check, the other replays under
 the two faster versions; first-exact generation and final count are the same under all
-three). Checked by an eighth Fable review; §16 changes by a ninth, §17 by a tenth, §19 by an
-eleventh, §20–§23 by a twelfth, §24 by a thirteenth.
+three; §25 `85e3da1`). Checked by an eighth Fable review; §16 changes by a ninth, §17 by a
+tenth, §19 by an eleventh, §20–§23 by a twelfth, §24 by a thirteenth, §25 by a fourteenth.
 
 **Question.** How does a developmental genotype→program map bias what evolution finds —
 and can evolution combine building blocks by recombination without crashing? Items 1 and
@@ -35,6 +35,12 @@ selection) from the valley-crossing follow-up (Plans/valley-crossing.md).
   genome), but runs nothing reads are purged continuously. This scopes items 7, 10, 11,
   13 and 14. Crossover-off tagged arms keep ~3 runs per genome, so they differ from the
   crossover-on arms in population structure as well as in recombination. (thirteenth review)
+- **Crossover v2** (`tagged_crossover: v2`, §25) reassembles the child only on overflow:
+  bodies lose trailing NOPs, whole runs are deleted at random (the output run included),
+  then the leader is trimmed. With no selection it keeps 0.88 runs per genome at generation
+  300 (v1 0.19, crossover off 2.63): less loss, not none. It also shortens executed bodies
+  and the leader, so v1-vs-v2 differences are not attributable to run loss alone.
+  (fourteenth review)
 
 **Measurement.** "Exact" = right on all 10,000 possible lists, judged on the **recorded
 champion**.
@@ -141,8 +147,8 @@ champion**.
     - When no join is handed out, evolution builds it by small edits, run fusion or retag +
       RECV, and crossover reuniting sibling copies is still the common solving step (as in
       items 8–9). No valley was found on solving or non-solving paths. (§16, §19, §22, §24)
-14. **Tournament on balanced fitness fails in the tagged package; the landscape is flat from
-    constants.**
+14. **Tournament on balanced fitness fails in both packages, regardless of crossover; the
+    landscape is flat from constants.**
     - Under tournament, tagged XOR is 0/30 with either join, and tagged OR 0/30 (leftmost)
       and 2/30 (max), although a single predicate scores 0.83 on OR (population level).
       Under lexicase: 12–13/30 (XOR) and 11–19/30 (OR, champion level).
@@ -154,14 +160,17 @@ champion**.
     - Why the wait is long: 96% of random tagged genomes have no tag-0 run (output 0,
       balanced 0.5). Those with one mostly output 0, or a non-{0,1} integer that scores 0.0
       under exact-match labels. None of 20,000 scores above 0.5.
-    - Under a flat aggregate fitness, crossover then empties the population: stuck
-      populations are 54% NOP, with a median leader of 64 cells (Setup). This is not the
-      main cause: tournament without crossover also stays at 0.5 (3-seed check).
+    - Crossover run loss is not the cause: stuck v1 populations are 54% NOP (Setup), but
+      crossover-off and v2 arms also stay at 0.5 with 74–83% of genomes lacking an output
+      run.
     - Lexicase escapes because a constant-0 and a constant-1 output run are different
       specialists case by case, which keeps output runs in the population.
-    - Whether the stack escapes under the same selection is untested; its random genomes
-      look the same (88% at 0.5, 0.015% above). XOR's parity only sets the later plateau
-      (0.5 vs 0.75). (§22, §24, thirteenth review)
+    - The 64-cell stack under the same tournament on OR: 0/30 (rate 0.015) and 2/30 (rate
+      0.03); its random genomes look the same (88% at 0.5, 0.015% above). Tagged OR under
+      tournament: 0/30 with crossover off (both joins), 4/30 (max) and 0/30 (leftmost) with
+      crossover v2. The failure is balanced fitness on a map whose frequent phenotype is a
+      constant, in both packages. XOR's parity only sets the later plateau (0.5 vs 0.75).
+      (§22, §24, §25)
 15. **Slow, not stuck.**
     - Leftmost XOR run to 10,000 generations (the first 3000 replay §19 exactly) goes from
       12 to 17/30 exact champions, and 21/30 populations hold an exact individual.
@@ -173,15 +182,31 @@ champion**.
       third to a half. (The earlier "complementary quadrant covers always present" was too
       weak: constant 0 plus constant 1 satisfies it.) (§20, §22, §23)
 
+16. **Crossover assembly changes XOR discovery; the mechanism is open.**
+    - Leftmost XOR, lexicase, 100 seeds each: populations with an exact individual 68/100
+      (v2) vs 38/100 (v1), p = 3.5×10⁻⁵; exact champions 52 vs 31 (p = 0.004); exact
+      members still present at generation 3000 in 58 vs 35 (p = 0.002).
+    - Max-join XOR 25 vs 19/30 (p = 0.14) and leftmost OR 25 vs 24/30 (p = 1) are not
+      significant.
+    - Not shown: that run loss is the cause. v2 doubles unread runs (0.81 vs 0.36 per
+      genome, generations ≥ 1000) but helper use is unchanged (8% of genomes in both; 11% vs
+      14% of exact individuals), and behaviour diversity is the same. v2 populations carry
+      shorter output bodies (37 vs 47 cells in solved populations) and more silent second
+      output runs (17% vs 12%). Candidates: less mutational load from compaction, or whole-
+      run transfer instead of truncated fragments; a compaction-only control separates them.
+    - Median first-exact generations (1090 vs 1277) are conditional on solving and not
+      comparable at 68 vs 38 solvers. (§25, fourteenth review)
+
 ## Open
 
 The XOR/valley thread is closed: the join question is answered (item 13) and no valley was
 found. Remaining:
-- **Item 14's package contrast:** the 64-cell stack under the same balanced tournament
-  on OR, and tagged tournament on OR without crossover (30 seeds).
-- **Crossover run loss:** a control crossover that doesn't lose runs, rerun on leftmost
-  XOR and tournament OR. Needed before Step 2, whose mechanism (shared sub-function runs
-  read by several outputs) needs unread runs to survive.
+- **Item 16's mechanism:** a compaction-only control (v1 plus NOP stripping and leader
+  trimming, still truncating at the tape end) on leftmost XOR, 100 seeds. v1c ≈ v2 →
+  mutational load; v1c ≈ v1 → whole-run transfer.
+- **Step 2 uses crossover v2** by default. Drift at a 128-cell tape first, to see how many
+  runs survive v2's random overflow deletion with 14 outputs; if overflow is frequent,
+  lengthen the tape rather than protect runs by use.
 - **How plateaus are left** (low priority): a parent-level trace of the 5 late solvers.
 - **Stable machinery.** On fixed-goal solved runs, elitism freezes the champion (in all 4
   co-option runs the helper stayed unchanged, with one reader, to generation 3000). Reuse

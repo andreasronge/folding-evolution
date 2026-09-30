@@ -1370,3 +1370,89 @@ parity.
 - *The XOR/valley thread is closed:* the join question is answered, and no valley was found
   on solving or non-solving paths. The Step 1 recovery ruler is dropped: it would measure
   reassembly on a plateau, not a valley crossing.
+
+## 25. Crossover v2, and item 14's tournament controls (2026-09-29, overnight; queue_s25)
+
+Code and sweeps from commit `85e3da1`; analysis scripts `overnight_analysis.py` (§25 sweeps,
+`xv2` arm label) and `s25_report.py` → `experiments/output/2026-09-29/s25_report.md`.
+
+**What changed.**
+- `tagged_crossover: v2` (`tagged.fit_runs`). Same choice of runs as v1 (homologous half
+  the time, else a cut `ra[:i] + rb[j:]`). Only when the child overflows the tape: strip
+  trailing NOPs from every body, delete whole runs uniformly at random until the runs fit,
+  then drop leader cells from the front. v2 equals v1 whenever the v1 child fits uncut.
+  Tests cover: a run-free first parent can receive runs; padding never displaces runs that
+  fit; kept runs are whole and in order; overflow deletion is uniform over runs.
+- `track_runs`: every 50 generations a population census (runs, output runs, runs read
+  from the output through RECV, helpers, trailing NOPs) in `result.json` `run_stats`. Draws
+  no random numbers: all 130 v1 replays end on their original champion.
+- Two codex reviews before launch (no P1; four P2s, all in the drift script and queue file,
+  fixed).
+
+**Result 1: drift, no selection** (`crossover_drift.py`, 10 seeds, 1024 genomes, 300
+generations, μ 0.015, crossover 0.7).
+
+| | runs per genome, gen 300 | run-free genomes | children of a run-free parent A with a run |
+|---|---|---|---|
+| v1 | 0.19 | 83% | 6% |
+| v2 | 0.88 | 42% | 29% (gen 50) |
+| crossover off | 2.63 | 7% | 6% |
+
+- On identical proposals (cloned random state), v2 keeps 0.19–0.26 more runs per crossover
+  than v1.
+- v2's remaining loss is capacity overflow: a cut at a random boundary in each parent gives
+  a variable-length child, and ~39% of gen-0 crossovers overflow 64 cells. A property of
+  the operator on a fixed tape, not a leftover bug. v2 recovers ~28% of v1's loss.
+
+**Result 2: v2 vs v1 under lexicase** (population-level exactness; champion in brackets).
+
+| sweep | v1 | v2 | p (population) |
+|---|---|---|---|
+| leftmost XOR, 100 seeds | 38 (31) | **68 (52)** | 3.5×10⁻⁵ |
+| max XOR, 30 seeds | 19 (13) | 25 (19) | 0.14 |
+| leftmost OR, 30 seeds | 24 (12) | 25 (14) | 1 |
+
+- Leftmost XOR: exact members still present at generation 3000 in 58 vs 35 runs (p = 0.002).
+- Census, generations ≥ 1000, leftmost XOR: runs 1.78 vs 1.32 per genome, unread 0.81 vs
+  0.36, helpers 0.09 vs 0.08, genomes with a helper 8% in both. On leftmost OR helpers rise
+  (16% vs 4% of genomes) with no change in solves.
+- Max XOR: solvers using more than one run 17/19 vs 8/13.
+
+**Result 3: tournament on OR** (item 14; 30 seeds).
+
+| arm | populations with an exact individual |
+|---|---|
+| stack 64 cells, rate 0.015 | 0/30 |
+| stack 64 cells, rate 0.03 | 2/30 |
+| tagged max / leftmost, crossover off | 0/30 / 0/30 |
+| tagged max / leftmost, crossover v2 | 4/30 / 0/30 |
+
+The stack fails the same way, and crossover (off, v1, v2) doesn't matter. 74–83% of tagged
+genomes have no output run in these populations.
+
+**Fourteenth (Fable) review.**
+- v1 is a fair control and the replay check is sound; the exactness tracker's sparse
+  schedule depends only on the first exact generation, so it doesn't bias either arm. Of
+  six v2-vs-v1 tests only leftmost XOR survives any correction.
+- v2 changes three things at once on overflow (NOP stripping, random whole-run deletion
+  including the output run, leader trimming), so the XOR gain is "v1 assembly vs v2
+  assembly", not "run loss".
+- The census doesn't support "surviving unread runs become helpers" on XOR. Fable's read-
+  only pass over the final-population dumps: exact individuals with a helper 11% (v2) vs
+  14% (v1); distinct training behaviours per unsolved population 74 vs 75; output bodies
+  (trailing NOPs stripped) 37 vs 47 cells in solved populations, leaders 4.4 vs 6.2 cells;
+  the output run is the last run in 39% vs 72% of exact individuals; a silent second
+  output run in 17% vs 12% of genomes in solved populations.
+- Two live mechanisms: (a) compaction — shorter executed code takes fewer harmful mutations
+  at the same rate; (b) whole-run transfer — B's runs arrive intact instead of cut. A v1c
+  arm (v1 plus stripping and leader trimming, still truncating) separates them.
+- Median first-exact generations are conditional on solving; use solved-by-generation
+  curves. Add an "extra output runs" census column (the item 11 observable).
+- Item 14 is closed: the failure is balanced fitness in both packages.
+
+**Next** (Fable's ranking, agreed): v1c on leftmost XOR (100 seeds); analysis of the dumps
+(extra output runs, body lengths, solved-by-generation curves); drift at a 128-cell tape
+for Step 2 capacity; then the Step 2 pilot with v2 by default. Dropped: more tournament
+arms, OR at higher n, entrenchment before Step 2. One disagreement with the review: if 128
+cells overflow often in Step 2, lengthen the tape rather than delete unread runs first
+(that would protect runs by use, a different intervention).
