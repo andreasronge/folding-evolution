@@ -1634,7 +1634,8 @@ rank test.
 
 ## 28. Pivot night 2: drift, rest-character weighting, and matched random search (2026-10-01)
 
-**Status:** prepared for launch; full results and Fable review pending. Hobby notebook,
+**Status:** launched; paused for a parser performance repair on 2026-10-01;
+full results and Fable review pending. Hobby notebook,
 not pre-registered. Plan: `Plans/map-bias-pivot-night2.md` (handoff commit `70b4aba`).
 The execution commit will be recorded with the completed results and queue metadata.
 
@@ -1682,3 +1683,26 @@ Fable's review will be recorded after completion. No night-2 claim is promoted h
 inside the runner deadline, with a 30-second kill grace. A compound-command timeout
 probe confirmed the experiment child exited. Random-search jobs always use parents-first
 even when evolution requests another tie rule; missing baselines flag PARTIAL.
+
+**Post-launch repair (2026-10-01).** Phase A completed all four 5M samples. The
+random-tie arm produced 2,196/2,200 rows; four direct-encoding runs were still
+using CPU after an hour. A scratch replay of count(products), 50×300, seed 20
+found more than 200,000 recursive parser calls on one length-114 genotype.
+Failed multi-argument parses retry suffixes via fallback, producing exponential
+reparsing. A scratch memoized parser completed all four slow runs in 15.3 seconds.
+These scratch outputs were excluded from the scientific files.
+
+The queue was interrupted cleanly and completed rows preserved. The repair caches
+immutable parse results for repeated suffixes, with a bounded cache and defensive
+copies of remaining-token lists. The grammar, fallback, evaluation, fitness,
+operators, seeds, and budgets are unchanged. This necessary implementation repair
+also touches `src/folding_evolution/direct.py`, beyond the handoff's initial
+single-file scope. Tests check the pathological genotype, agreement with original
+recursion on 300 random genotypes, mutable remainder isolation, and all 62 repeated
+characters at the experiment's length cap. The prelaunch review count remains two;
+the repair receives a separate post-launch review before a bounded resume.
+
+Full results must cite both the initial execution commit `f483aaf` and the repair
+commit, retain pre-repair metadata and row provenance, and state the interruption.
+No missing row is treated as an unsolved outcome. No sampler/parameter amendment
+or additional scientific arm is introduced by this performance repair.

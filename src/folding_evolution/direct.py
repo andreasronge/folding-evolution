@@ -20,8 +20,28 @@ from .evaluator import evaluate
 from .phenotype import Program, ast_to_string, _count_bonds
 
 
+# AST nodes are frozen; cache remaining tokens immutably too. A bounded cache
+# also covers callers that deliberately bypass develop_direct's genotype cache.
+_PARSE_CACHE: dict[tuple[str, ...], tuple[ASTNode | None, tuple[str, ...]]] = {}
+
+
 def _parse(tokens: list[str]) -> tuple[ASTNode | None, list[str]]:
     """Parse one expression from the token list, return (ast_node, remaining)."""
+    # Failed multi-argument parses retry the same suffix via fallback. Reusing
+    # immutable ASTs avoids exponential reparsing without changing the mapping.
+    key = tuple(tokens)
+    cached = _PARSE_CACHE.get(key)
+    if cached is not None:
+        ast, rest = cached
+        return ast, list(rest)
+    ast, rest = _parse_uncached(tokens)
+    _PARSE_CACHE[key] = (ast, tuple(rest))
+    if len(_PARSE_CACHE) > 4096:
+        del _PARSE_CACHE[next(iter(_PARSE_CACHE))]
+    return ast, rest
+
+
+def _parse_uncached(tokens: list[str]) -> tuple[ASTNode | None, list[str]]:
     if not tokens:
         return None, []
 

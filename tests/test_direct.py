@@ -2,8 +2,54 @@
 
 import random
 
+import folding_evolution.direct as direct
+from folding_evolution.alphabet import ALPHABET
 from folding_evolution.direct import develop_direct
 from folding_evolution.ast_nodes import Literal, NsSymbol
+
+
+def test_fallback_reparsing_is_bounded(monkeypatch):
+    # This short evolved genotype previously made >200,000 parser calls.
+    genotype = 'RUCIREEdTTDLWYTREExxTEQxyFKeEBimKREEdTYm5xTEkTEyKKWYKeYDLWYkRR8FIyFKTDLWYkkm5xTEkxyFdEi2L2xxTEQxyFKeEkx5BimKREEdTY'
+    direct._PARSE_CACHE.clear()
+    original = direct._parse_uncached
+    calls = 0
+
+    def counted(tokens):
+        nonlocal calls
+        calls += 1
+        assert calls <= len(genotype) + 1
+        return original(tokens)
+
+    monkeypatch.setattr(direct, '_parse_uncached', counted)
+    program = develop_direct.__wrapped__(genotype)
+    assert program.source is not None
+
+
+def test_cached_remaining_tokens_are_not_mutable():
+    direct._PARSE_CACHE.clear()
+    ast, rest = direct._parse(list('ST'))
+    assert rest == ['T']
+    rest.clear()
+    assert direct._parse(list('ST')) == (ast, ['T'])
+
+
+def test_parser_handles_experiment_length_cap():
+    # Cache wrappers must not introduce RecursionError at the experiment's cap.
+    for char in ALPHABET:
+        develop_direct.__wrapped__(char * 200)
+
+
+def test_cached_parser_matches_original_recursion(monkeypatch):
+    rng = random.Random(1745)
+    memoized = direct._parse
+    for _ in range(300):
+        tokens = [rng.choice(ALPHABET) for _ in range(rng.randrange(1, 101))]
+        with monkeypatch.context() as context:
+            context.setattr(direct, '_parse', direct._parse_uncached)
+            expected = direct._parse(tokens)
+        direct._PARSE_CACHE.clear()
+        assert memoized(tokens) == expected
 
 
 def test_count_products():
