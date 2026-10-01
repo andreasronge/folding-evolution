@@ -1,11 +1,11 @@
 # Map-bias — findings
 
-Short, scoped summary of the map-bias line (notebook: [notebook.md](notebook.md) §1–§26;
+Short, scoped summary of the map-bias line (notebook: [notebook.md](notebook.md) §1–§27;
 §1–§14 results commit `e05aa5f`, §15–§16 `7c9cc42`, §17 `e3e3ff1`, §18–§19 `c922028`,
 §21–§22 `5a85eb5`, §23 `fab1d10`, §24 `02b2606`–`1b6778b`: or_tournament, xor_leftmost_pop and
 xor_race_pop ran under the first version of the exactness check, the other replays under
 the two faster versions; first-exact generation and final count are the same under all
-three; §25 `85e3da1`, §26 `08b315e`). Checked by an eighth Fable review; §16 changes by a ninth, §17 by a
+three; §25 `85e3da1`, §26 `08b315e`, §27 `cd7d463`). Checked by an eighth Fable review; §16 changes by a ninth, §17 by a
 tenth, §19 by an eleventh, §20–§23 by a twelfth, §24 by a thirteenth, §25 by a fourteenth, §26 by a fifteenth.
 
 **Question.** How does a developmental genotype→program map bias what evolution finds —
@@ -206,6 +206,30 @@ champion**.
     - Median first-exact generations (1090 vs 1277) are conditional on solving and not
       comparable at 68 vs 38 solvers. (§25, fourteenth review)
 
+17. **Folding vs direct encoding: the maps differ in bias, and folding finds solvers more
+    often; but the evolution loop freezes, so night 1 tests a race, not steering.**
+    (pivot, §27, sixteenth review)
+    - **The maps differ in bias.** Over 20M paired random genotypes per length, rank
+      correlation of behaviour frequencies is 0.19–0.30; folding produces more behaviours
+      (2.7–6.1k vs ~2.1k) and more empty programs (71–79% vs 43%), and is 1.3–6× more likely
+      to produce an exact count solver and 10–30× more likely on count∘rest.
+    - **Folding solves more often wherever the two maps differ** (8 cells with more than two
+      discordant seeds, two task families; e.g. count∘rest(products) at 200×1000: 47 vs 21/50,
+      McNemar p = 2×10⁻⁷). Consistent with its higher P(exact), but not discriminating:
+      folding has the higher P(exact) on every task and also differs in mutation effects.
+    - **The loop has no neutral drift.** (μ+λ) truncation with parents first on ties
+      (inherited from `exp_2x2.run_stable`) never admits an equal-fitness child: 87–89% of
+      unsolved final populations hold a single behaviour. Runs freeze on a deceptive plateau:
+      under count∘rest(products) every unsolved run on both maps ends at `count(orders)`
+      (fitness 0.593 > `count(products)` 0.576), whose one-step neighbourhoods hold no
+      solver. So readout 1 measures which map finds the solver before the population freezes.
+    - **Evolution is no better than random search with the same budget,** and much worse for
+      direct on count∘rest(products) (21–27 vs 45–46/50).
+    - **Steering was not testable.** The d-difference is dominated by direct's generation-0
+      best being a raw list output; endpoints of both maps converge on the same numeric
+      plateaus. The rank test only shows that endpoints are more frequent than the fitter
+      behaviours never found.
+
 ## Open
 
 The XOR/valley thread is closed: the join question is answered (item 13) and no valley was
@@ -221,5 +245,9 @@ found. Remaining:
 - **Stable machinery** (parked with Step 2). On fixed-goal solved runs, elitism freezes the
   champion (in all 4 co-option runs the helper stayed unchanged, with one reader, to
   generation 3000). Reuse and entrenchment would need a multi-output task.
-- **The core map-bias question** needs a map whose bias differs from direct encoding (the
-  folding map or a tree-GP generator); chem-tape's decoder is close to identity (item 1).
+- **The core map-bias question** (item 17; Plans/map-bias-pivot.md, night 2):
+  1. restore neutral drift (random tie-breaking in the truncation) — a prerequisite;
+  2. a frequency knob within one map (weight the `rest` character in random genotypes and
+     mutation, as item 12) to make "solve rate follows P(exact)" causal;
+  3. random search at every budget, reported as evolution minus sampling per map;
+  4. steering only with a per-arm design, and only if drift is restored.

@@ -1517,3 +1517,115 @@ deletion. Scripts: `s26_dumps.py` → `experiments/output/2026-09-30/s26_dumps.m
   outputs. Selection has to hold the output runs (under lexicase on XOR it keeps 1.8 per
   genome at 64 cells), and overflow deletion will hit rewarded runs often. Consider 256
   cells, or measure the per-output census in a short pilot before a long run.
+
+## 27. Pivot night 1: folding map vs direct encoding (2026-09-30, overnight; queue_pivot1)
+
+Plan: `Plans/map-bias-pivot.md`. Code and queue from commit `cd7d463`
+(`experiments/map_bias/fold_direct.py`, `queue_pivot1.yaml`); reports
+`experiments/output/2026-09-30/pivot_report/report_L50.md`, `report_L80.md`, Phase A alone in
+`pivot_phase_a/report_phase_a.md`. Two codex reviews before launch (one P1: direct encoding
+returns closures whose `repr` carries a memory address; fixed by canonical behaviour keys).
+
+Folding (`phenotype.develop`) and direct encoding (`direct.develop_direct`) share alphabet,
+operators and evaluator. A behaviour is the canonical output vector on the 8 discriminating
+contexts; 11 tasks (count, count∘rest, count∘filter, a sum of two filtered counts).
+
+**Phase A: random-genotype bias** (20M paired genotypes per map at lengths 30–200; 34 min).
+
+| | fold | direct |
+|---|---|---|
+| distinct behaviours, length 30 → 200 | 2,747 → 6,059 | ~2,000–2,200 (flat) |
+| no output (None) | 71–79% | 43% |
+| Spearman rho of log frequency, well-sampled behaviours | 0.19–0.30 | |
+| P(exact) fold / direct, count tasks | 6.3× (length 30) → 1.3× (200) | |
+| P(exact) fold / direct, count∘rest | 10–30× | |
+| filter tasks | ≤ 1 exact in 20M | 0 |
+
+The kill branch (rho > 0.9, P(exact) within 2×) does not fire: folding is a different-bias
+map at the behaviour grain. Direct encoding's bias doesn't change with length (it parses a
+prefix); folding's does.
+
+**Phase B: evolution** (11 tasks × 2 maps × budgets 50×300, 200×1000, 500×2000 × 50 seeds,
+start lengths 50 and 80, seed-paired; random search at 200×1000; 3.8 h + 3.5 h).
+
+1. *Solve rates follow the random-genotype frequencies.* In every (task, budget) cell where
+   both maps' P(exact) and solve counts differ, the map with more random solvers solves more
+   often: 16/16 at both start lengths. Folding wins clearly at the small budget (count tasks
+   39–47 vs 22–33/50 runs; McNemar p 0.05 to 4×10⁻⁵) and on count∘rest at every budget
+   (200×1000: 47 vs 21 and 46 vs 27; 500×2000: 50 vs 37 and 50 vs 34). Easy tasks saturate at
+   larger budgets; filter tasks are solved in ≤ 1/50 runs.
+2. *No steering by evolution toward the own map's frequent behaviours.* On seed pairs where
+   neither map solved (mostly filter tasks), d = log10 P_fold(b) − log10 P_direct(b) of the
+   endpoint is often larger for fold runs (filter tasks at 50×300: median 0.07–1.3, p down
+   to 10⁻⁹), but:
+   - at 50×300 and 200×1000 it is smaller than the same statistic for the generation-0 best
+     behaviours (1.4–2.2) in every cell;
+   - at 500×2000 the generation-0 separation is ~0 (populations of 500 hold the same top
+     behaviour under both maps) and the evolved one is mixed (−0.66 to +0.48);
+   - against random search with the same budget (200×1000 only) on matched seeds, evolved −
+     random is about 0 or negative (p ≥ 0.11 in all 10 cells).
+   The separation is inherited from each map's starting sample and erodes under evolution.
+3. *Endpoints are the most frequent behaviour at their fitness level.* Rank 1 among own-map
+   behaviours at or above the endpoint's fitness in 92–98% of eligible endpoints at the two
+   larger budgets (55–85% at 50×300), vs 22–39% expected by uniform choice (7–19% at
+   50×300); both maps. As chem-tape item 1.
+
+**Take (first draft, superseded by the review below).** The map's bias predicts which tasks
+are easy; it does not predict where unsolved runs end up beyond random sampling.
+
+Caveats: readout 1 is correlational — folding also differs in neutrality and in what a
+mutation does, so frequency is not isolated as the cause. 21–74 endpoints per (map, budget)
+were unseen in Phase A's samples (4–74 by cell) (more for fold at large budgets, where genotypes grow). The
+d test uses the Phase A length nearest the endpoint genotype's length.
+
+**Sixteenth (Fable) review** (checked against the data; the first two points re-checked here):
+- *The loop has no neutral drift.* `fold_direct.py` keeps `exp_2x2.run_stable`'s (μ+λ)
+  truncation with parents first on ties, so an equal-fitness child never enters a population
+  of plateau parents. 87–89% of unsolved final populations hold a single behaviour. Phase B
+  tested "find the solver before the population freezes", not evolution on a neutral network,
+  so the steering readout ran with its mechanism switched off.
+- *Evolution is no better than random search.* At 200×1000, count∘rest(products): direct
+  evolution 21 (L50) / 27 (L80) of 50 vs direct random search 46 / 45; fold 47 / 46 vs 50 / 50.
+  On count∘rest(employees) evolution isn't worse (direct 48–49 vs 42–47). The report never
+  tabulated random-search solve rates.
+- *A deceptive plateau, not frequency, stops direct runs.* Every unsolved
+  count∘rest(products) run on both maps ends at `count(orders)` (`2|3|1|2|4|1|2|5`, fitness
+  0.593), fitter than `count(products)` (0.576); both one-step routes to the solver are
+  fitness drops. One-step neighbourhoods of 30 stuck direct genotypes (4k mutants + 4k
+  self-crossovers each) hold no solver; fold 26/29 none. Direct at 50×300 also freezes at
+  fitness 0.05 on raw list outputs in most unsolved count runs.
+- *"16/16" overstates.* Half the cells per length have ≤ 2 discordant seeds; the four count
+  tasks are the same program with one data-source character, so the support is two task
+  families. Folding has the higher P(exact) on every task, so "the map with more random
+  solvers wins" can't be told apart from "folding never loses".
+- *The d-test's generation-0 baseline measures kind, not start bias:* d(direct gen 0) =
+  −1.23 because direct's best initial behaviour is a raw list output (rare under folding);
+  both maps' endpoints sit at +0.7…+1.4 and 4–23 of 50 pairs end on the same behaviour. The
+  0.5/n floor is asymmetric at 500×2000 (fold endpoints unseen 20–28/50), so that row is
+  partly an artefact.
+- *The rank test is near-tautological:* the set at or above the endpoint's fitness has a
+  median of 2 (fold) or 5–6 (direct) behaviours; the endpoint is the most frequent data-
+  dependent behaviour overall in 0–53 of 240–406 runs.
+- *Corrections:* "smaller than generation 0 in every cell" fails at L80 50×300 for
+  count(orders) and count(expenses); "count∘rest at every budget" holds for rest(products)
+  only (rest(employees) saturates).
+
+**Take (after review).** The maps differ in bias, and folding finds solvers more often where
+they differ, consistent with its higher P(exact) but not shown to be caused by it. Night 1's
+loop freezes on deceptive plateaus and does no better than random search, so the steering
+question is untested.
+
+**Next** (review's ranking, agreed):
+1. Restore neutral drift: random tie-breaking (or offspring-first) in the truncation. Both
+   tie rules × 2 maps × 11 tasks × {50×300, 200×1000} × 50 seeds, start length 50 (~2.5 h).
+   Prediction: solve rates rise toward random-search levels; the fold/direct gap shrinks if
+   the plateau race is the mechanism, persists if frequency is.
+2. Frequency knob within one map: weight the `rest` character (`k`) at 0.2× and 5× in
+   `random_genotype` and in point mutation / insertion. Reachability unchanged, P(exact) for
+   count∘rest moves. Phase A 2M × 3 weights × 2 maps; Phase B count∘rest + count(products)
+   × 3 weights × 2 maps × 2 budgets × 50 seeds (~1.5 h). Solve rate should track P(exact)
+   within each map; a null kills the frequency story.
+3. Random search at every budget, reported as evolution minus sampling per map (~1 h).
+4. Steering: drop the d-difference; retry only with a per-arm test and restored drift.
+Dropped: the L80 replication, 500×2000 on saturated count tasks, the "at or above fitness"
+rank test.
