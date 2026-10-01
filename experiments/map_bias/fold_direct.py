@@ -28,13 +28,15 @@ import random
 import re
 import sys
 import time
+from functools import lru_cache
+from itertools import accumulate
 from multiprocessing import Pool
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from exp_task_verification_strict import CANDIDATE_TASKS, make_discriminating_contexts  # noqa: E402
-from folding_evolution.alphabet import random_genotype  # noqa: E402
+from folding_evolution.alphabet import ALPHABET, random_genotype  # noqa: E402
 from folding_evolution.direct import develop_direct  # noqa: E402
 from folding_evolution.dynamics import partial_credit  # noqa: E402
 from folding_evolution.operators import crossover, mutate  # noqa: E402
@@ -48,6 +50,64 @@ MAPS = ("fold", "direct")
 CHUNK = 20_000
 SOURCE_SAMPLE = 500_000         # program-source counts use the first 500k genotypes only
 MAX_LEN = 200                   # evolved genotypes are cut to this length (bloat guard)
+
+
+@lru_cache(maxsize=32)
+def _char_weights(k_weight: float) -> tuple[float, ...]:
+    if not math.isfinite(k_weight) or k_weight <= 0:
+        raise ValueError("k_weight must be finite and positive")
+    return tuple(accumulate(k_weight if c == "k" else 1.0 for c in ALPHABET))
+
+
+def draw_char(rng: random.Random, k_weight: float) -> str:
+    return rng.choices(ALPHABET, cum_weights=_char_weights(k_weight), k=1)[0]
+
+
+def rand_genotype(length: int, rng: random.Random, k_weight: float) -> str:
+    if k_weight == 1.0:
+        return random_genotype(length, rng)
+    return "".join(rng.choices(ALPHABET, cum_weights=_char_weights(k_weight), k=length))
+
+
+def mutate_w(g: str, rng: random.Random, k_weight: float) -> str:
+    if k_weight == 1.0:
+        return mutate(g, rng)
+    op = rng.choice(("point", "insertion", "deletion"))
+    if op == "deletion" and len(g) > 1:
+        pos = rng.randrange(len(g))
+        return g[:pos] + g[pos + 1:]
+    if op == "insertion":
+        pos = rng.randrange(len(g) + 1)
+        return g[:pos] + draw_char(rng, k_weight) + g[pos:]
+    if not g:
+        return g
+    pos = rng.randrange(len(g))
+    return g[:pos] + draw_char(rng, k_weight) + g[pos + 1:]
+
+
+def select_survivors(pop, sc, kids, ksc, tie, rng):
+    if tie == "offspring":
+        allg, alls = kids + pop, ksc + sc
+    else:
+        allg, alls = pop + kids, sc + ksc
+    if tie == "random":
+        noise = [rng.random() for _ in allg]
+        order = sorted(range(len(allg)), key=lambda i: (-alls[i][0], noise[i]))[:len(pop)]
+    else:
+        order = sorted(range(len(allg)), key=lambda i: -alls[i][0])[:len(pop)]
+    return [allg[i] for i in order], [alls[i] for i in order]
+
+
+def run_key(r):
+    return (r["task"], r["map"], r["pop"], r["gens"], r["L0"], r["seed"],
+            r["search"], r.get("tie", "parents"), float(r.get("k_weight", 1.0)))
+
+
+def _budgets(text):
+    result = [tuple(int(x) for x in b.split("x")) for b in text.split(",") if b]
+    if any(len(b) != 2 or b[0] < 3 or b[1] < 0 for b in result):
+        raise ValueError("budgets must be POPxGENS with POP >= 3 and GENS >= 0")
+    return list(dict.fromkeys(result))
 
 
 def _out(args) -> Path:
@@ -100,9 +160,9 @@ def exact(outs: list, task: str) -> bool:
 # ---------------- Phase A ----------------
 
 def _sample_chunk(payload):
-    m, L, seed, n = payload
+    m, L, seed, n, k_weight = payload
     rng = random.Random(seed)
-    gs = [random_genotype(L, rng) for _ in range(n)]
+    gs = [rand_genotype(L, rng, k_weight) for _ in range(n)]
     counts: collections.Counter = collections.Counter()
     example: dict[str, str] = {}
     sources: collections.Counter = collections.Counter()
@@ -119,7 +179,12 @@ def cmd_sample(args) -> None:
     out = _out(args)
     out.mkdir(parents=True, exist_ok=True)
     lengths = [int(x) for x in args.lengths.split(",")]
-    jobs = [(m, L, s, CHUNK) for m in MAPS for L in lengths for s in range(args.n // CHUNK)]
+    _char_weights(args.k_weight)
+    if args.n <= 0 or args.workers <= 0 or any(L <= 0 for L in lengths):
+        raise ValueError("sample counts, lengths and workers must be positive")
+    (out / "SAMPLE_DONE").unlink(missing_ok=True)
+    jobs = [(m, L, s, min(CHUNK, args.n - s * CHUNK), args.k_weight)
+            for m in MAPS for L in lengths for s in range(math.ceil(args.n / CHUNK))]
     agg = {(m, L): [collections.Counter(), {}, collections.Counter()] for m in MAPS for L in lengths}
     t0 = time.time()
     os.environ["RAYON_NUM_THREADS"] = "1"
@@ -135,8 +200,9 @@ def cmd_sample(args) -> None:
     for (m, L), (c, ex, src) in agg.items():
         n = sum(c.values())
         rows = [{"behaviour": b, "count": k, "example": ex[b]} for b, k in c.most_common()]
-        (out / f"sample_{m}_L{L}.json").write_text(json.dumps(
-            {"map": m, "length": L, "n": n, "n_source_sample": sum(src.values()),
+        suffix = f"_k{args.k_weight:g}" if args.k_weight != 1.0 else ""
+        (out / f"sample_{m}_L{L}{suffix}.json").write_text(json.dumps(
+            {"map": m, "length": L, "k_weight": args.k_weight, "n": n, "n_source_sample": sum(src.values()),
              "behaviours": rows, "sources_top": src.most_common(200), "n_sources": len(src)}))
         print(f"{m} L{L}: {n:,} genotypes, {len(c):,} behaviours, {len(src):,} sources in the first "
               f"{sum(src.values()):,}", flush=True)
@@ -149,9 +215,11 @@ def _evolve_one(payload) -> dict:
     """search "evolve": the exp_2x2.run_stable loop. search "random": the same budget of
     fresh random genotypes at L0 each generation, keeping the best pop_size (a baseline
     for how far each map's own bias alone carries the endpoint)."""
-    task, m, pop_size, gens, L0, seed, search = payload
+    task, m, pop_size, gens, L0, seed, search, tie, k_weight = payload
+    if search == "random":
+        tie = "parents"  # Fixed night-1 baseline; tie intervention is evolutionary.
     rng = random.Random(f"{task}|{pop_size}|{gens}|{seed}")    # same start for both maps
-    pop = [random_genotype(L0, rng) for _ in range(pop_size)]
+    pop = [rand_genotype(L0, rng, k_weight) for _ in range(pop_size)]
 
     def score(gs):
         res = []
@@ -172,46 +240,54 @@ def _evolve_one(payload) -> dict:
         kids = []
         for _ in range(pop_size):
             if search == "random":
-                kids.append(random_genotype(L0, rng))
+                kids.append(rand_genotype(L0, rng, k_weight))
             elif rng.random() < 0.7:
                 child = crossover(pick(), pick(), rng)
             else:
-                child = mutate(pick(), rng)
+                child = mutate_w(pick(), rng, k_weight)
             if search != "random":
                 kids.append(child[:MAX_LEN])
         ksc = score(kids)
         if first_exact is None and any(e for _, e, _ in ksc):
             first_exact = gen
-        # (mu + lambda) truncation, as exp_2x2.run_stable: parents first on ties.
-        allg, alls = pop + kids, sc + ksc
-        order = sorted(range(2 * pop_size), key=lambda i: -alls[i][0])[:pop_size]
-        pop, sc = [allg[i] for i in order], [alls[i] for i in order]
+        pop, sc = select_survivors(pop, sc, kids, ksc, tie, rng)
     best = max(range(pop_size), key=lambda i: (sc[i][0], sc[i][1]))
     final_beh = collections.Counter(b for _, _, b in sc)
     return {"task": task, "map": m, "pop": pop_size, "gens": gens, "L0": L0, "seed": seed,
-            "search": search, **gen0, "best_len": len(pop[best]),
+            "search": search, "tie": tie, "k_weight": k_weight, **gen0, "best_len": len(pop[best]),
             "best_fitness": sc[best][0], "best_exact": sc[best][1], "best_behaviour": sc[best][2],
             "best_genotype": pop[best], "first_exact_gen": first_exact,
             "final_exact_members": sum(e for _, e, _ in sc),
-            "final_behaviours": final_beh.most_common(20), "mean_len": sum(map(len, pop)) / pop_size}
+            "final_behaviours": final_beh.most_common(20), "n_final_behaviours": len(final_beh),
+            "final_top_share": final_beh.most_common(1)[0][1] / pop_size,
+            "mean_len": sum(map(len, pop)) / pop_size}
 
 
 def cmd_evolve(args) -> None:
     out = _out(args)
     out.mkdir(parents=True, exist_ok=True)
-    budgets = [tuple(int(x) for x in b.split("x")) for b in args.budgets.split(",")]
+    budgets = _budgets(args.budgets)
+    weights = list(dict.fromkeys(float(x) for x in args.k_weights.split(",")))
+    for w in weights:
+        _char_weights(w)
     tasks = args.tasks.split(";") if args.tasks else list(TASKS)
+    if any(t not in TASKS for t in tasks) or args.seeds <= 0 or args.workers <= 0 or args.length <= 0:
+        raise ValueError("unknown task or non-positive seeds/workers/length")
     done = set()
     res_path = out / "evolve.jsonl"
     if res_path.exists():
         for line in res_path.read_text().splitlines():
             r = json.loads(line)
-            done.add((r["task"], r["map"], r["pop"], r["gens"], r["L0"], r["seed"], r["search"]))
-    rbudgets = [tuple(int(x) for x in b.split("x")) for b in args.random_budgets.split(",") if b]
-    jobs = [(t, m, p, g, args.length, s, mode)
+            done.add(run_key(r))
+    rbudgets = _budgets(args.random_budgets)
+    (out / "EVOLVE_DONE").unlink(missing_ok=True)
+    jobs = [(t, m, p, g, args.length, s, mode, tie, w)
             for mode, bs in (("evolve", budgets), ("random", rbudgets)) for (p, g) in bs
-            for t in tasks for s in range(args.seeds) for m in MAPS
-            if (t, m, p, g, args.length, s, mode) not in done]
+            for tie in (args.tie if mode == "evolve" else "parents",)
+            for t in tasks for s in range(args.seeds) for m in MAPS for w in weights
+            if (t, m, p, g, args.length, s, mode, tie, w) not in done]
+    if not budgets and not rbudgets:
+        raise ValueError("at least one evolution or random-search budget is required")
     jobs.sort(key=lambda j: -j[2] * j[3])                      # long jobs first
     print(f"{len(jobs)} runs to do ({len(done)} already done)", flush=True)
     t0 = time.time()
@@ -227,217 +303,228 @@ def cmd_evolve(args) -> None:
 
 # ---------------- analysis ----------------
 
-def _spearman(x, y) -> float:
-    from scipy.stats import spearmanr
-    return float(spearmanr(x, y)[0])
-
-
-def cmd_analyze(args) -> None:
-    import numpy as np
-
-    sd = Path(args.sample)
-    samples = {}
-    for p in sorted(sd.glob("sample_*_L*.json")):
-        d = json.loads(p.read_text())
-        samples[(d["map"], d["length"])] = d
-    lengths = sorted({L for _, L in samples})
-    lines = ["# Map-bias pivot: folding vs direct encoding", ""]
-
-    # Fitness and exactness of every sampled behaviour, from its example genotype.
-    beh_outs: dict[str, list] = {}
-    for (m, L), d in samples.items():
-        for r in d["behaviours"]:
-            if r["behaviour"] not in beh_outs:
-                beh_outs[r["behaviour"]] = outputs(develop_many([r["example"]], m)[0])
-
-    def freq(m, L):
-        d = samples[(m, L)]
-        return {r["behaviour"]: r["count"] / d["n"] for r in d["behaviours"]}, d["n"]
-
-    lines += ["## Phase A: behaviour bias of random genotypes", "",
-              "| length | map | n | distinct behaviours | top-1 share (behaviour) | no output (None) | "
-              "constant output | distinct sources (first 500k) |", "|---|---|---|---|---|---|---|---|"]
-    for L in lengths:
-        for m in MAPS:
-            f, n = freq(m, L)
-            top = max(f, key=f.get)
-            const = sum(v for b, v in f.items() if len(set(b.split("|"))) == 1)
-            lines.append(f"| {L} | {m} | {n:,} | {len(f):,} | {f[top]:.3f} `{top[:40]}` | "
-                         f"{f.get('|'.join(['None'] * 8), 0):.3f} | {const:.3f} | {samples[(m, L)]['n_sources']:,} |")
-    lines += ["", "Cross-map agreement (log10 frequency, unseen floored at 0.5/n):", "",
-              "| length | behaviours (union) | well sampled (≥ 100 in either map) | Spearman rho, well sampled | "
-              "rho, well sampled and data-dependent | top-20 overlap | "
-              "P(fold) / P(direct) of the 20 most common fold behaviours (median) |",
-              "|---|---|---|---|---|---|---|"]
-    for L in lengths:
-        ff, nf = freq("fold", L)
-        fd, nd = freq("direct", L)
-        union = sorted(set(ff) | set(fd))
-        # Rare behaviours seen in one map only would sit on the floor and dominate rho.
-        well = [b for b in union if max(ff.get(b, 0) * nf, fd.get(b, 0) * nd) >= 100]
-        lf = [math.log10(ff.get(b, 0.5 / nf)) for b in well]
-        ld = [math.log10(fd.get(b, 0.5 / nd)) for b in well]
-        dep = [i for i, b in enumerate(well) if len(set(b.split("|"))) > 1]
-        top_f = sorted(ff, key=ff.get, reverse=True)[:20]
-        top_d = sorted(fd, key=fd.get, reverse=True)[:20]
-        ratio = np.median([ff[b] / fd.get(b, 0.5 / nd) for b in top_f])
-        lines.append(f"| {L} | {len(union):,} | {len(well):,} | {_spearman(lf, ld):.2f} | "
-                     f"{_spearman([lf[i] for i in dep], [ld[i] for i in dep]):.2f} | "
-                     f"{len(set(top_f) & set(top_d))}/20 | {ratio:.2f} |")
-    lines += ["", "P(random genotype is exact) and P(fitness ≥ 0.75), per task:", "",
-              "| task | length | P(exact) fold | P(exact) direct | ratio | P(≥0.75) fold | P(≥0.75) direct |",
-              "|---|---|---|---|---|---|---|"]
-    p_exact = {}
-    for t in TASKS:
-        for L in lengths:
-            row = []
-            for m in MAPS:
-                f, n = freq(m, L)
-                pe = sum(v for b, v in f.items() if exact(beh_outs[b], t))
-                p75 = sum(v for b, v in f.items() if fitness(beh_outs[b], t) >= 0.75)
-                p_exact[(t, m, L)] = pe
-                row += [pe, p75]
-            ratio = (row[0] / row[2]) if row[2] else float("inf") if row[0] else float("nan")
-            lines.append(f"| {t} | {L} | {row[0]:.1e} | {row[2]:.1e} | {ratio:.2g} | {row[1]:.1e} | {row[3]:.1e} |")
-
-    if not (sd / "SAMPLE_DONE").exists():
-        lines.insert(1, "**PARTIAL: Phase A did not finish (no SAMPLE_DONE).**\n")
-    if args.evolve:
-        ev_path = Path(args.evolve) / "evolve.jsonl"
-        if not ev_path.exists():
-            lines += ["", f"**Phase B missing: no {ev_path}.**"]
-        else:
-            if not (Path(args.evolve) / "EVOLVE_DONE").exists():
-                lines.insert(1, "**PARTIAL: Phase B did not finish (no EVOLVE_DONE); counts below "
-                                "cover the runs that completed.**\n")
-            lines += phase_b(ev_path, samples, lengths, freq, beh_outs, p_exact)
-    text = "\n".join(lines) + "\n"
-    (Path(args.report) if args.report else _out(args) / "report.md").write_text(text)
-    print(text)
-
 
 def _binom_two_sided(k: int, n: int) -> float:
     from scipy.stats import binomtest
     return float(binomtest(k, n, 0.5).pvalue) if n else 1.0
 
 
-def phase_b(ev_path, samples, lengths, freq, beh_outs, p_exact) -> list[str]:
-    """Phase B tables. Arms are paired: within a (task, budget, seed) both maps start from
-    the same genotypes, so solves are compared by McNemar (exact binomial on discordant
-    pairs) and endpoint frequencies by a signed-rank test on the seed pairs."""
+def _solved(r):
+    return r["first_exact_gen"] is not None
+
+
+def _diversity(r):
+    # Night 1 stores only the top 20, so larger counts cannot be recovered.
+    top = r["final_behaviours"]
+    count = r.get("n_final_behaviours")
+    if count is None and len(top) < 20:
+        count = len(top)
+    return count, r.get("final_top_share", top[0][1] / r["pop"] if top else None)
+
+
+def _trend(groups):
+    """Descriptive pooled Cochran-Armitage score test, scored by measured P(exact).
+
+    Reused seeds are paired across weights; the pooled reference distribution does
+    not model that dependence. Also report the paired low/high comparison below.
+    """
+    from scipy.stats import norm
+    total = sum(n for _, s, n in groups)
+    p = sum(s for _, s, n in groups) / total
+    mean = sum(x * n for x, s, n in groups) / total
+    variance = p * (1 - p) * sum(n * (x - mean) ** 2 for x, s, n in groups)
+    if variance <= 0:
+        return None, None
+    z = sum((x - mean) * (s - n * p) for x, s, n in groups) / math.sqrt(variance)
+    return z, float(2 * norm.sf(abs(z)))
+
+
+def cmd_analyze(args) -> None:
     import numpy as np
-    from scipy.stats import wilcoxon
 
-    runs = [json.loads(x) for x in ev_path.read_text().splitlines()]
-    L0 = runs[0]["L0"]
-    if L0 not in lengths:
-        raise SystemExit(f"no Phase A sample at the evolution start length {L0}")
-    fr = {(m, L): freq(m, L) for m in MAPS for L in lengths}
+    warnings = []
+    samples = {}
+    for directory in args.sample:
+        sd = Path(directory)
+        if not (sd / "SAMPLE_DONE").exists():
+            warnings.append(f"Missing SAMPLE_DONE: {sd}")
+        files = sorted(sd.glob("sample_*_L*.json"))
+        if not files:
+            warnings.append(f"No sample files: {sd}")
+        for path in files:
+            d = json.loads(path.read_text())
+            key = (d["map"], d["length"], float(d.get("k_weight", 1.0)))
+            if key in samples:
+                raise ValueError(f"duplicate sample arm {key}: {path}")
+            if d["n"] <= 0 or sum(r["count"] for r in d["behaviours"]) != d["n"]:
+                raise ValueError(f"invalid sample counts: {path}")
+            samples[key] = d
 
-    def near(L):
-        return min(lengths, key=lambda x: abs(x - L))
+    # Recover exactness from actual program outputs, never from the lossy repr alone.
+    exact_probability = {}
+    for (m, length, weight), d in samples.items():
+        counts = {task: 0 for task in TASKS}
+        for row in d["behaviours"]:
+            outs = outputs(develop_many([row["example"]], m)[0])
+            if behaviour(outs) != row["behaviour"]:
+                raise ValueError("sample behaviour does not replay under this code")
+            for task in TASKS:
+                if exact(outs, task):
+                    counts[task] += row["count"]
+        for task, count in counts.items():
+            exact_probability[(task, m, length, weight)] = count / d["n"]
 
-    def dval(b, L):
-        """log10 P_fold(b) - log10 P_direct(b), both at the sampled length nearest L
-        (evolved genotypes drift in length); unseen floored at 0.5/n."""
-        (ff, nf), (fd, nd) = fr[("fold", near(L))], fr[("direct", near(L))]
-        return math.log10(ff.get(b, 0.5 / nf)) - math.log10(fd.get(b, 0.5 / nd))
+    runs = {}
+    for directory in args.evolve:
+        ed = Path(directory)
+        if not (ed / "EVOLVE_DONE").exists():
+            warnings.append(f"Missing EVOLVE_DONE: {ed}")
+        path = ed / "evolve.jsonl"
+        if not path.exists():
+            warnings.append(f"Missing evolve.jsonl: {ed}")
+            continue
+        for line in path.read_text().splitlines():
+            r = json.loads(line)
+            r.setdefault("tie", "parents")
+            r.setdefault("k_weight", 1.0)
+            key = run_key(r)
+            if key in runs:
+                raise ValueError(f"duplicate run arm {key}: {path}")
+            runs[key] = r
+    rows = list(runs.values())
+    cells = collections.defaultdict(dict)
+    for r in rows:
+        key = (r["task"], r["map"], r["pop"], r["gens"], r["L0"],
+               r["search"], r["tie"], r["k_weight"])
+        cells[key][r["seed"]] = r
+    for key, cell in cells.items():
+        if set(cell) != set(range(args.expected_seeds)):
+            warnings.append(f"Seed coverage {key}: {len(cell)}/{args.expected_seeds}")
 
-    ev = [r for r in runs if r["search"] == "evolve"]
-    budgets = sorted({(r["pop"], r["gens"]) for r in ev})
-    key = lambda r: (r["task"], r["pop"], r["gens"], r["seed"])  # noqa: E731
-    pairs = collections.defaultdict(dict)
-    for r in runs:
-        pairs[(r["search"],) + key(r)][r["map"]] = r
-    lines = ["", f"## Phase B: evolution (start length {L0})", "",
-             "Solved = some individual exact on all 8 contexts at any generation. Pairs share the "
-             "start population; p = McNemar exact test on seeds where only one map solved.", "",
-             "| task | budget | fold solved | direct solved | only fold / only direct | p | "
-             "P(exact) fold / direct at L0 |", "|---|---|---|---|---|---|---|"]
-    agree = total = 0
-    for (pop, gens) in budgets:
-        for t in TASKS:
-            ps = [v for k, v in pairs.items() if k[0] == "evolve" and k[1:4] == (t, pop, gens) and len(v) == 2]
-            if not ps:
-                continue
-            sf = [v["fold"]["first_exact_gen"] is not None for v in ps]
-            sd = [v["direct"]["first_exact_gen"] is not None for v in ps]
-            of = sum(a and not b for a, b in zip(sf, sd))
-            od = sum(b and not a for a, b in zip(sf, sd))
-            pf, pd = p_exact[(t, "fold", L0)], p_exact[(t, "direct", L0)]
-            if pf != pd and of != od:
-                total += 1
-                agree += (pf > pd) == (of > od)
-            lines.append(f"| {t} | {pop}×{gens} | {sum(sf)}/{len(ps)} | {sum(sd)}/{len(ps)} | {of} / {od} | "
-                         f"{_binom_two_sided(of, of + od):.2g} | {pf:.1e} / {pd:.1e} |")
-    lines += ["", f"The map with more random exact solvers also solves more often in {agree}/{total} "
-              "(task, budget) cells where both differ."]
+    def cell(task, m, pop, gens, length, mode, tie="parents", weight=1.0):
+        return cells.get((task, m, pop, gens, length, mode, tie, weight), {})
 
-    lines += ["", "### Do endpoints sit on their own map's frequent behaviours?", "",
-              "d = log10 P_fold(b) − log10 P_direct(b) of a run's best behaviour b, with frequencies "
-              "taken at the Phase A length nearest the genotype's length (unseen floored at 0.5/n). "
-              "Own-map steering predicts d(fold) > d(direct). Seed pairs where neither map ever "
-              "solved; one-sided Wilcoxon signed-rank on d(fold) − d(direct). Baselines: the same pairs' "
-              "generation-0 best behaviours (start bias), and random search with the same budget at "
-              "L0 (how far each map's bias alone carries the endpoint).", "",
-              "| task | budget | pairs | median d(fold) − d(direct): evolved | p | gen 0 | "
-              "random search: matched pairs, median evolved − random, p | "
-              "endpoints unseen in own map's sample (fold / direct) |",
+    def rate(rs):
+        return f"{sum(_solved(r) for r in rs.values())}/{len(rs)}" if rs else "not run"
+
+    def probability(task, m, length, weight):
+        value = exact_probability.get((task, m, length, weight))
+        if value is None:
+            warnings.append(f"Missing P(exact): {task}, {m}, L{length}, k={weight:g}")
+        return value
+
+    lines = ["# Map-bias pivot night 2", "",
+             "Solved = at least one individual exact on all eight contexts at any generation. "
+             "All rates show actual denominators. Paired contrasts use the intersection of seed IDs. "
+             "Legacy rows mean parents-first, k=1. Random search keeps the night-1 parents-first "
+             "selection rule and samples fixed-length genotypes.", "",
+             "P-values are exploratory, uncorrected across tasks/budgets. Count tasks share a "
+             "program family. The k intervention changes initialization and mutation proposals "
+             "together; it does not isolate starting frequency from mutational accessibility.", "",
+             "## Phase A: exact random-genotype frequencies", "",
+             "| task | L | k weight | fold P(exact) | direct P(exact) | sample n fold / direct |",
+             "|---|---|---|---|---|---|"]
+    for length, weight in sorted({(L, w) for m, L, w in samples}):
+        for task in TASKS:
+            values = [probability(task, m, length, weight) for m in MAPS]
+            sizes = [samples.get((m, length, weight), {}).get("n", 0) for m in MAPS]
+            rendered = [f"{v:.6g}" if v is not None else "missing" for v in values]
+            lines.append(f"| {task} | {length} | {weight:g} | {rendered[0]} | {rendered[1]} | {sizes[0]} / {sizes[1]} |")
+
+    lines += ["", "## T1: drift check (unsolved runs, k=1)", "",
+              "Pooled across tasks within each arm. Legacy top-20 lists recover the exact distinct "
+              "count only when fewer than 20 entries were stored; other counts are unavailable.", "",
+              "| L0 | tie | map | budget | unsolved n | median distinct behaviours (available n) | median top share | median best length |",
               "|---|---|---|---|---|---|---|---|"]
-    for (pop, gens) in budgets:
-        for t in TASKS:
-            ps = [v for k, v in pairs.items() if k[0] == "evolve" and k[1:4] == (t, pop, gens) and len(v) == 2
-                  and v["fold"]["first_exact_gen"] is None and v["direct"]["first_exact_gen"] is None]
-            if len(ps) < 5:
-                continue
-            diff = [dval(v["fold"]["best_behaviour"], v["fold"]["best_len"])
-                    - dval(v["direct"]["best_behaviour"], v["direct"]["best_len"]) for v in ps]
-            g0 = [dval(v["fold"]["gen0_behaviour"], L0) - dval(v["direct"]["gen0_behaviour"], L0) for v in ps]
-            nz = [x for x in diff if x != 0]
-            p = wilcoxon(nz, alternative="greater").pvalue if len(nz) >= 5 else float("nan")
-            # Random search on the same seeds: eligible when neither map solved under
-            # evolution nor under random search; paired evolved-minus-random difference.
-            matched = []
-            for v, dv in zip(ps, diff):
-                rv = pairs.get(("random", t, pop, gens, v["fold"]["seed"]), {})
-                if len(rv) == 2 and all(rv[m]["first_exact_gen"] is None for m in MAPS):
-                    rd = dval(rv["fold"]["best_behaviour"], L0) - dval(rv["direct"]["best_behaviour"], L0)
-                    matched.append(dv - rd)
-            mz = [x for x in matched if x != 0]
-            rp = wilcoxon(mz, alternative="greater").pvalue if len(mz) >= 5 else float("nan")
-            rtxt = f"{len(matched)}, {np.median(matched):.2f}, {rp:.2g}" if matched else "-"
-            unseen = [sum(v[m]["best_behaviour"] not in fr[(m, near(v[m]["best_len"]))][0] for v in ps) for m in MAPS]
-            lines.append(f"| {t} | {pop}×{gens} | {len(ps)} | {np.median(diff):.2f} | {p:.2g} | "
-                         f"{np.median(g0):.2f} | {rtxt} | {unseen[0]} / {unseen[1]} |")
+    drift = collections.defaultdict(list)
+    for r in rows:
+        if r["search"] == "evolve" and r["k_weight"] == 1.0 and not _solved(r):
+            drift[(r["L0"], r["tie"], r["map"], r["pop"], r["gens"])].append(r)
+    for (length, tie, m, pop, gens), rs in sorted(drift.items()):
+        counts = [n for n, share in map(_diversity, rs) if n is not None]
+        shares = [share for n, share in map(_diversity, rs) if share is not None]
+        ntext = f"{np.median(counts):.3g} ({len(counts)})" if counts else "unavailable (0)"
+        sharetext = f"{np.median(shares):.3f}" if shares else "unavailable"
+        lines.append(f"| {length} | {tie} | {m} | {pop}×{gens} | {len(rs)} | {ntext} | {sharetext} | {np.median([r['best_len'] for r in rs]):.3g} |")
 
-    lines += ["", "### Endpoint rank among own-map behaviours at or above its fitness", "",
-              "Frequencies at the Phase A length nearest the endpoint genotype's length.", "",
-              "| map | budget | endpoints | unseen | rank 1 | uniform-choice expectation | median rank |",
-              "|---|---|---|---|---|---|---|"]
-    fit_cache: dict = {}
-    for m in MAPS:
-        for (pop, gens) in budgets:
-            rs = [r for r in ev if r["map"] == m and r["pop"] == pop and r["gens"] == gens]
-            ranks, unif, unseen = [], 0.0, 0
-            for r in rs:
-                L = near(r["best_len"])
-                f, _ = fr[(m, L)]
-                if r["best_behaviour"] not in f:
-                    unseen += 1
-                    continue
-                ck = (m, L, r["task"])
-                if ck not in fit_cache:
-                    fit_cache[ck] = (sorted(f, key=f.get, reverse=True),
-                                     {b: fitness(beh_outs[b], r["task"]) for b in f})
-                order, fit_b = fit_cache[ck]
-                above = [b for b in order if fit_b[b] >= r["best_fitness"] - 1e-9]
-                if len(above) < 2:
-                    continue
-                ranks.append(above.index(r["best_behaviour"]) + 1)
-                unif += 1 / len(above)
-            lines.append(f"| {m} | {pop}×{gens} | {len(rs)} | {unseen} | {sum(x == 1 for x in ranks)} of "
-                         f"{len(ranks)} | {unif:.1f} | {np.median(ranks) if ranks else '-'} |")
-    return lines
+    lines += ["", "## T2: solve rates and seed-paired comparisons (k=1)", "",
+              "| task | L0 | budget | search / tie | fold solved | direct solved | paired n | only fold / only direct | McNemar p |",
+              "|---|---|---|---|---|---|---|---|---|"]
+    arms = sorted({(r["task"], r["L0"], r["pop"], r["gens"], r["search"], r["tie"])
+                   for r in rows if r["k_weight"] == 1.0})
+    for task, length, pop, gens, mode, tie in arms:
+        f = cell(task, "fold", pop, gens, length, mode, tie)
+        d = cell(task, "direct", pop, gens, length, mode, tie)
+        paired = sorted(f.keys() & d.keys())
+        of = sum(_solved(f[s]) and not _solved(d[s]) for s in paired)
+        od = sum(_solved(d[s]) and not _solved(f[s]) for s in paired)
+        p = f"{_binom_two_sided(of, of + od):.4g}" if paired else "not paired"
+        lines.append(f"| {task} | {length} | {pop}×{gens} | {mode} / {tie} | {rate(f)} | {rate(d)} | {len(paired)} | {of} / {od} | {p} |")
+    lines += ["", "### Evolution minus random search, paired by seed", "",
+              "Difference is in percentage points on paired seeds, including all solve outcomes.", "",
+              "| task | L0 | budget | tie | map | evolution / random solved | paired n | difference pp | evolution only / random only | McNemar p |",
+              "|---|---|---|---|---|---|---|---|---|---|"]
+    for task, length, pop, gens, mode, tie in arms:
+        if mode != "evolve":
+            continue
+        for m in MAPS:
+            e = cell(task, m, pop, gens, length, "evolve", tie)
+            b = cell(task, m, pop, gens, length, "random")
+            if not b:
+                warnings.append(f"Missing random-search baseline: {task}, {m}, L{length}, {pop}x{gens}")
+            paired = sorted(e.keys() & b.keys())
+            eo = sum(_solved(e[s]) and not _solved(b[s]) for s in paired)
+            bo = sum(_solved(b[s]) and not _solved(e[s]) for s in paired)
+            delta = f"{100 * (eo - bo) / len(paired):+.1f}" if paired else "not paired"
+            p = f"{_binom_two_sided(eo, eo + bo):.4g}" if paired else "not paired"
+            lines.append(f"| {task} | {length} | {pop}×{gens} | {tie} | {m} | {rate(e)} / {rate(b)} | {len(paired)} | {delta} | {eo} / {bo} | {p} |")
+
+    lines += ["", "## T3: frequency knob (random tie rule)", "",
+              "The k=1 reference is the random-tie drift arm. Monotonicity is ordered by measured "
+              "P(exact), not by assumed k ordering. Cochran-Armitage is a descriptive pooled test: "
+              "it treats weights as independent despite reused seeds. The low/high contrast "
+              "also reports an exact seed-paired McNemar test. Constant outcomes have no trend "
+              "variance and are reported as uninformative. count(products) is the control.", "",
+              "| task | map | L0 | budget | k=0.2 P(exact), solves | k=1 P(exact), solves | k=5 P(exact), solves | monotone with P(exact) | pooled z, p | paired low/high n, pp, p |",
+              "|---|---|---|---|---|---|---|---|---|---|"]
+    knob_arms = sorted({(r["task"], r["map"], r["L0"], r["pop"], r["gens"])
+                        for r in rows if r["search"] == "evolve" and r["tie"] == "random" and r["k_weight"] != 1.0})
+    for task, m, length, pop, gens in knob_arms:
+        parts, groups, complete = [], [], True
+        for weight in (0.2, 1.0, 5.0):
+            rs = cell(task, m, pop, gens, length, "evolve", "random", weight)
+            pe = probability(task, m, length, weight)
+            parts.append(f"{pe:.6g}, {rate(rs)}" if pe is not None else f"missing, {rate(rs)}")
+            if rs and pe is not None:
+                groups.append((pe, sum(_solved(r) for r in rs.values()), len(rs)))
+            else:
+                complete = False
+                warnings.append(f"Missing knob arm: {task}, {m}, L{length}, {pop}x{gens}, k={weight:g}")
+        monotone = trend = contrast = "incomplete"
+        if complete:
+            ordered = sorted(groups)
+            rates = [s / n for pe, s, n in ordered]
+            monotone = "flat" if len(set(rates)) == 1 else "yes" if all(a <= b for a, b in zip(rates, rates[1:])) else "no"
+            if len({pe for pe, s, n in groups}) < 3:
+                monotone = "frequency ties; not identifiable"
+            z, p = _trend(groups)
+            trend = f"{z:+.3g}, {p:.4g}" if z is not None else "uninformative"
+            low = cell(task, m, pop, gens, length, "evolve", "random", 0.2)
+            high = cell(task, m, pop, gens, length, "evolve", "random", 5.0)
+            paired = sorted(low.keys() & high.keys())
+            ho = sum(_solved(high[s]) and not _solved(low[s]) for s in paired)
+            lo = sum(_solved(low[s]) and not _solved(high[s]) for s in paired)
+            contrast = f"{len(paired)}, {100 * (ho - lo) / len(paired):+.1f}, {_binom_two_sided(ho, ho + lo):.4g}" if paired else "not paired"
+        lines.append(f"| {task} | {m} | {length} | {pop}×{gens} | " + " | ".join(parts) + f" | {monotone} | {trend} | {contrast} |")
+    if not knob_arms:
+        lines.append("No weighted evolution runs supplied; the knob is not yet tested.")
+    if warnings:
+        lines[1:1] = ["", "**PARTIAL: inputs or seed coverage are incomplete.**", ""]
+        lines += ["", "## Incomplete inputs", ""] + [f"- {w}" for w in dict.fromkeys(warnings)]
+    report = Path(args.report) if args.report else _out(args) / "report.md"
+    report.parent.mkdir(parents=True, exist_ok=True)
+    report.write_text("\n".join(lines) + "\n")
+    print(f"Report: {report}; {len(rows)} runs; {'PARTIAL' if warnings else 'complete supplied inputs'}", flush=True)
 
 
 def main() -> None:
@@ -448,6 +535,7 @@ def main() -> None:
     s.add_argument("--lengths", default="30,50,80")
     s.add_argument("--workers", type=int, default=10)
     s.add_argument("--out", default=None)
+    s.add_argument("--k-weight", type=float, default=1.0)
     e = sub.add_parser("evolve")
     e.add_argument("--seeds", type=int, default=50)
     e.add_argument("--budgets", default="200x1000", help="comma list of POPxGENS")
@@ -456,9 +544,13 @@ def main() -> None:
     e.add_argument("--tasks", default="", help="';'-separated task names (default: all)")
     e.add_argument("--workers", type=int, default=10)
     e.add_argument("--out", default=None)
+    e.add_argument("--tie", choices=("parents", "random", "offspring"), default="parents",
+                   help="evolution tie rule; random-search baselines always use parents")
+    e.add_argument("--k-weights", default="1", help="comma-separated positive rest-character weights")
     a = sub.add_parser("analyze")
-    a.add_argument("--sample", required=True)
-    a.add_argument("--evolve", default=None)
+    a.add_argument("--sample", required=True, nargs="+")
+    a.add_argument("--evolve", default=[], nargs="+")
+    a.add_argument("--expected-seeds", type=int, default=50)
     a.add_argument("--report", default=None)
     a.add_argument("--out", default=None)
     args = ap.parse_args()

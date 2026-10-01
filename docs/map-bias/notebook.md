@@ -1629,3 +1629,56 @@ question is untested.
 4. Steering: drop the d-difference; retry only with a per-arm test and restored drift.
 Dropped: the L80 replication, 500×2000 on saturated count tasks, the "at or above fitness"
 rank test.
+
+---
+
+## 28. Pivot night 2: drift, rest-character weighting, and matched random search (2026-10-01)
+
+**Status:** prepared for launch; full results and Fable review pending. Hobby notebook,
+not pre-registered. Plan: `Plans/map-bias-pivot-night2.md` (handoff commit `70b4aba`).
+The execution commit will be recorded with the completed results and queue metadata.
+
+**What would be interesting to see:** whether allowing equal-fitness offspring changes
+the plateau race, whether solve rates move with measured P(exact) within a map when
+the rest-character weight changes, and whether evolution beats matched random search.
+The character intervention changes initialization and mutation proposals together;
+it cannot attribute an effect specifically to starting frequency alone.
+
+**Implementation.** Parents-first remains the default, with the original random-generation
+and mutation functions at k=1. Random and offspring-first ties are separate run arms.
+Every new row records its tie rule, weight, full final behaviour count, and top share.
+The report merges night 1 and night 2, uses actual denominators and intersecting seed
+IDs, and removes the discarded steering/rank tables. P-values are exploratory and
+uncorrected. The pooled trend test ignores dependence from reused seeds; a paired
+low/high-weight contrast is also printed.
+
+**Prelaunch checks.**
+
+- Replayed seeds 0–2 for count(rest(products)), both maps, both 50×300 and 200×1000:
+  all legacy fields match the twelve night-1 rows, including best genotype and first
+  exact generation. Additional generation/mutation checks preserve RNG state at k=1.
+- One million character draws per weight: observed k shares 0.003219, 0.016261,
+  0.075275 at weights 0.2, 1, 5; each within five sampling standard errors of
+  w/(61+w). Synthetic tied populations keep parents, keep offspring, or mix them
+  under their respective rules.
+- Timing pilot: two seeds × eleven tasks × two maps at 200×1000 for each new tie
+  rule (88 runs). Random ties: 57.98 s; offspring first: 51.72 s with ten workers.
+  Timeout margins remain conservative; faster pilot performance is not a guarantee
+  for every seed or longer random-search budget.
+- End-to-end pilot included weighted Phase A samples (20,000/map/weight), 24 weighted
+  runs, twelve small k=1 reference runs, and two random-only CLI runs. Every report
+  table was inspected; incomplete seed coverage is labelled PARTIAL, constant outcomes
+  are uninformative, and equal estimated frequencies are not treated as ordered.
+  Two-seed pilot outcomes are hypothesis-generating only, excluded from the full sweep.
+- Resume check schedules zero jobs and preserves the two-row random-only result file.
+  Queue validation confirms five sequential entries and the planned 4,400 drift,
+  1,200 weighted, and 2,200 random-search runs.
+
+**Full-run fidelity / write-up still pending.** Phase A draws, all full seed blocks,
+T1–T3, winner inspection where needed, interpretation, findings item 17/Open, and
+Fable's review will be recorded after completion. No night-2 claim is promoted here.
+
+**Queue safeguards.** Each entry uses a GNU timeout process-group watchdog, 60 seconds
+inside the runner deadline, with a 30-second kill grace. A compound-command timeout
+probe confirmed the experiment child exited. Random-search jobs always use parents-first
+even when evolution requests another tie rule; missing baselines flag PARTIAL.

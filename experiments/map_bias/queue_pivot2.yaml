@@ -1,0 +1,35 @@
+# Requires GNU coreutils gtimeout (Homebrew coreutils on macOS).
+# exec exposes the watchdog to the runner; it forwards signals to its process group.
+# Night 2: Plans/map-bias-pivot-night2.md. Sequential entries, ten worker processes;
+# each process uses one Rayon thread. Night 1 is reused at L50.
+# Status and lock should live outside the checkout. All new outputs use RUN_DIR.
+- id: pivot2_phase_a_knob
+  cmd: exec gtimeout --kill-after=30s 5340s sh -c 'uv run --frozen python experiments/map_bias/fold_direct.py sample --n 5000000 --lengths 50 --k-weight 0.2 --workers 10 && uv run --frozen python experiments/map_bias/fold_direct.py sample --n 5000000 --lengths 50 --k-weight 5 --workers 10'
+  timeout_seconds: 5400
+  expect_outputs: [SAMPLE_DONE, sample_fold_L50_k0.2.json, sample_direct_L50_k0.2.json, sample_fold_L50_k5.json, sample_direct_L50_k5.json]
+  track: map-bias
+  notes: "Two weighted Phase A samples, both maps, 5M genotypes each."
+- id: pivot2_drift
+  cmd: exec gtimeout --kill-after=30s 26940s sh -c 'uv run --frozen python experiments/map_bias/fold_direct.py evolve --tie random --seeds 50 --length 50 --budgets 50x300,200x1000 --workers 10 --out "$RUN_DIR/random" && uv run --frozen python experiments/map_bias/fold_direct.py evolve --tie offspring --seeds 50 --length 50 --budgets 50x300,200x1000 --workers 10 --out "$RUN_DIR/offspring"'
+  timeout_seconds: 27000
+  expect_outputs: [random/EVOLVE_DONE, offspring/EVOLVE_DONE]
+  track: map-bias
+  notes: "4400 runs: random and offspring-first ties, all tasks, both maps, two budgets."
+- id: pivot2_knob
+  cmd: exec gtimeout --kill-after=30s 8040s sh -c 'uv run --frozen python experiments/map_bias/fold_direct.py evolve --tie random --k-weights 0.2,5 --seeds 50 --length 50 --budgets 50x300,200x1000 --tasks '"'"'count(rest(products));count(rest(employees));count(products)'"'"' --workers 10'
+  timeout_seconds: 8100
+  expect_outputs: [EVOLVE_DONE]
+  track: map-bias
+  notes: "1200 weighted evolution runs. k=1 comes from the random-tie drift arm."
+- id: pivot2_random
+  cmd: exec gtimeout --kill-after=30s 16140s sh -c 'uv run --frozen python experiments/map_bias/fold_direct.py evolve --budgets '"'"''"'"' --random-budgets 50x300,500x2000 --seeds 50 --length 50 --workers 10'
+  timeout_seconds: 16200
+  expect_outputs: [EVOLVE_DONE]
+  track: map-bias
+  notes: "2200 random-search runs, with the 200x1000 baseline reused from night 1."
+- id: pivot2_report
+  cmd: exec gtimeout --kill-after=30s 840s sh -c 'uv run --frozen python experiments/map_bias/fold_direct.py analyze --sample "$PWD/experiments/output/2026-09-30/pivot_phase_a" "$RUN_DIR/../pivot2_phase_a_knob" --evolve "$PWD/experiments/output/2026-09-30/pivot_phase_b_L50" "$RUN_DIR/../pivot2_drift/random" "$RUN_DIR/../pivot2_drift/offspring" "$RUN_DIR/../pivot2_knob" "$RUN_DIR/../pivot2_random" --report "$RUN_DIR/report.md"'
+  timeout_seconds: 900
+  expect_outputs: [report.md]
+  track: map-bias
+  notes: "T1 drift, T2 solve and random-search comparisons, T3 knob trends; incomplete input is labelled PARTIAL."
