@@ -245,7 +245,7 @@ found. Remaining:
 - **Stable machinery** (parked with Step 2). On fixed-goal solved runs, elitism freezes the
   champion (in all 4 co-option runs the helper stayed unchanged, with one reader, to
   generation 3000). Reuse and entrenchment would need a multi-output task.
-- **The core map-bias question** (item 17; Plans/map-bias-pivot.md, night 2):
+- **The core map-bias question** (item 17; night 2 plan: Plans/map-bias-pivot-night2.md):
   1. restore neutral drift (random tie-breaking in the truncation) — a prerequisite;
   2. a frequency knob within one map (weight the `rest` character in random genotypes and
      mutation, as item 12) to make "solve rate follows P(exact)" causal;
