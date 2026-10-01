@@ -1634,16 +1634,35 @@ rank test.
 
 ## 28. Pivot night 2: drift, rest-character weighting, and matched random search (2026-10-01)
 
-**Status:** launched; paused for a parser performance repair on 2026-10-01;
-full results and Fable review pending. Hobby notebook,
-not pre-registered. Plan: `Plans/map-bias-pivot-night2.md` (handoff commit `70b4aba`).
-The execution commit will be recorded with the completed results and queue metadata.
+**Status:** `INCONCLUSIVE` (mixed Q1–Q3; exploratory; Fable review pending) · n=50 per cell · commits `f483aaf` + `a86c49c` · baseline `cd7d463`
 
-**What would be interesting to see:** whether allowing equal-fitness offspring changes
-the plateau race, whether solve rates move with measured P(exact) within a map when
-the rest-character weight changes, and whether evolution beats matched random search.
-The character intervention changes initialization and mutation proposals together;
-it cannot attribute an effect specifically to starting frequency alone.
+**Plan:** [map-bias-pivot-night2.md](../../Plans/map-bias-pivot-night2.md), handoff `70b4aba`.
+Hobby notebook, **not pre-registered**, as explicitly requested in the plan. There is
+no numeric pre-registered outcome grid to match. The mixed outcome is: behavioural
+concentration persists after tie changes (Q1); the combined initialization/mutation
+weight intervention moves rest-task solve rates (Q2); evolution's advantage over
+matched random search depends on the tested task, map, and budget (Q3).
+
+**Compute and artifacts.** Ten workers, one Rayon thread per worker. Four new 5M
+samples, 4,400 tie-rule runs, 1,200 weighted evolution runs, and 2,200 random-search
+runs completed. The merged report has 12,200 rows including 4,400 reused night-1
+rows. The queue completed at 20:51 UTC. New completed entry times: Phase A 94 s,
+resumed drift 1,496 s, knob 757 s, random search 6,546 s, report 4 s; these exclude
+the interrupted parser attempt. Raw ignored artifacts are under
+`experiments/output/2026-10-01/`; the full generated tables are
+`pivot2_report/report.md`, with endpoint classifications in
+`pivot2_report/endpoint-inspection.json`. Night-1 inputs are under
+`experiments/output/2026-09-30/pivot_phase_a` and `pivot_phase_b_L50`.
+
+**Provenance and completion checks.** Initial Phase A and the first 2,196 random-tie
+rows used `f483aaf`; the four remaining random-tie rows and subsequent computation
+used `a86c49c`. Every new queue entry is done with exit zero and clean-tree metadata;
+DONE markers, exact arm/seed coverage (seeds 0–49 in every cell), absence of duplicate
+run keys, all four sample counts, and the preserved pre-repair row-prefix hash were
+checked independently of the runner's exit status. Night-1 metadata records
+`cd7d463` with a dirty tree; this is inherited baseline provenance, not a claim of a
+clean historical checkout. Pilots and parser scratch runs are excluded. No missing
+row was counted as unsolved; every reported paired contrast has 50 seed pairs.
 
 **Implementation.** Parents-first remains the default, with the original random-generation
 and mutation functions at k=1. Random and offspring-first ties are separate run arms.
@@ -1675,9 +1694,220 @@ low/high-weight contrast is also printed.
   Queue validation confirms five sequential entries and the planned 4,400 drift,
   1,200 weighted, and 2,200 random-search runs.
 
-**Full-run fidelity / write-up still pending.** Phase A draws, all full seed blocks,
-T1–T3, winner inspection where needed, interpretation, findings item 17/Open, and
-Fable's review will be recorded after completion. No night-2 claim is promoted here.
+### T1. Allowing tied offspring: behaviour stays concentrated
+
+The pooled T1 table groups **unsolved runs** over the eleven tasks. For both maps,
+both 50×300 and 200×1000 budgets, and all three tie rules, median final behaviour
+count is **1** and median top-behaviour share is **1.000**. Best-genotype length
+medians among unsolved runs do change:
+
+| budget | map | parents | random ties | offspring first |
+|---|---|---:|---:|---:|
+| 50×300 | direct | 50 | 55 | 56 |
+| 50×300 | fold | 51 | 141 | 132 |
+| 200×1000 | direct | 29 | 84 | 86 |
+| 200×1000 | fold | 53 | 159 | 148 |
+
+The tie intervention permits equal-fitness replacement, but the measured final
+populations remain behaviourally concentrated. Final behaviour counts and best
+lengths do **not** measure genotype diversity or within-run neutral drift. Longer
+best genotypes are compatible with neutral replacement; they do not establish a
+neutral-drift mechanism. Task-specific unsolved populations for count(rest(products))
+and count(rest(employees)) also have median one behaviour and top share one in
+each map/tie/budget cell with unsolved observations. For count(rest(employees)),
+folding parents-first and offspring-first at 200×1000 have **N/A, unsolved n=0**
+because each solved 50/50; no concentration median is assigned to those cells.
+
+### T2. Solve rates and matched random search
+
+Solved means at least one individual exact on the **eight fixed evaluation contexts**
+at any generation. This is an observed task-success metric, not unseen-input
+correctness. Each entry below is fold / direct, each denominator 50.
+
+| task | budget | parents | random ties | offspring first | random search |
+|---|---|---|---|---|---|
+| count(rest(products)) | 50×300 | 24 / 7 | 27 / 5 | 27 / 5 | 50 / 11 |
+| count(rest(products)) | 200×1000 | 47 / 21 | 42 / 29 | 43 / 35 | 50 / 46 |
+| count(rest(products)) | 500×2000 | 50 / 37 | — | — | 50 / 50 |
+| count(rest(employees)) | 50×300 | 32 / 10 | 36 / 15 | 32 / 11 | 50 / 3 |
+| count(rest(employees)) | 200×1000 | 50 / 48 | 49 / 49 | 50 / 48 | 50 / 47 |
+| count(rest(employees)) | 500×2000 | 50 / 48 | — | — | 50 / 50 |
+| count(products) | 50×300 | 44 / 33 | 43 / 35 | 45 / 39 | 50 / 50 |
+| count(products) | 200×1000 | 50 / 49 | 50 / 50 | 50 / 50 | 50 / 50 |
+| count(products) | 500×2000 | 50 / 49 | — | — | 50 / 50 |
+
+The complete T2 tables cover all eleven tasks, including fold/direct McNemar and
+per-map evolution minus random search at every available arm and budget. The 500×2000
+budget has only the reused parents-first evolution arm; new tie rules were not run there.
+
+For count(rest(products)) at 200×1000, the observed fold/direct solve gap shrinks
+from 26 to 13 to 8 seeds under parents/random/offspring ties. Fold-only versus
+direct-only discordances are 27/1, 18/5, and 12/4 respectively (two-sided paired
+McNemar p=2.16e-7, .0106, .0768). This is a gap in solve counts, not an identified
+mechanism. In direct encoding, random ties gain eight solves and offspring ties
+fourteen versus parents; offspring-only / parents-only is 18/4 (p=.00434), while
+random-only / parents-only is 17/9 (p=.169).
+
+Matched sampling still beats each evolution arm on count(rest(products)) at
+200×1000: direct evolution minus random search is −50, −34, −22 percentage points
+(parents/random/offspring); fold is −6, −16, −14 points. For direct offspring ties,
+evolution-only / random-only is 1/12 (p=.00342). Conversely, direct
+count(rest(employees)) at 50×300 favours random-tie evolution: 15 versus 3 solves,
++24 points, evolution-only / random-only 14/2 (p=.00418). Thus the blanket reading
+“evolution is no better than random search” does not survive these tested cells.
+The full table matters: ceilings and near-zero filter outcomes are not evidence
+that the two search procedures are equivalent.
+
+### T3. The rest-character intervention
+
+At L0=50, the measured exact random-genotype frequency changes as follows. Weight
+1 uses the reused 20M sample per map; weights .2 and 5 use 5M each.
+
+| task | map | P(exact), .2 | P(exact), 1 | P(exact), 5 |
+|---|---|---:|---:|---:|
+| count(rest(products)) | fold | .0000816 | .00034015 | .0009682 |
+| count(rest(products)) | direct | .0000028 | .0000129 | .0000428 |
+| count(rest(employees)) | fold | .000079 | .00034405 | .0009816 |
+| count(rest(employees)) | direct | .0000032 | .0000113 | .0000512 |
+| count(products) | fold | .002708 | .00241445 | .0015404 |
+| count(products) | direct | .0005408 | .00052405 | .0004256 |
+
+Random-tie evolution, solved/50 at weights **.2 / 1 / 5**:
+
+| task | map | 50×300 | 200×1000 |
+|---|---|---|---|
+| count(rest(products)) | fold | 10 / 27 / 38 | 24 / 42 / 50 |
+| count(rest(products)) | direct | 0 / 5 / 18 | 10 / 29 / 45 |
+| count(rest(employees)) | fold | 25 / 36 / 42 | 47 / 49 / 50 |
+| count(rest(employees)) | direct | 10 / 15 / 26 | 44 / 49 / 49 |
+| count(products), control | fold | 46 / 43 / 40 | 50 / 50 / 50 |
+| count(products), control | direct | 33 / 35 / 29 | 50 / 50 / 48 |
+
+Solve rates are nondecreasing in measured P(exact) in the eight rest-task map/budget
+cells at the three tested weights; count(rest(employees)) has a high-budget plateau.
+The control does not improve from .2 to 5. The within-map intervention provides
+experimental evidence that the **combined initialization and mutation-proposal
+weight** affects these observed rest-task solve rates. It cannot separate starting
+frequency from mutation accessibility, or establish frequency as the sole source
+of the fold/direct difference. Weight 1 calls the legacy RNG functions, while
+non-unit weights call the weighted sampler; equal seed IDs pair stochastic runs
+but do not align every random draw across weights.
+
+The full T3 table reports the planned pooled Cochran–Armitage trends and paired
+low/high-weight contrasts. For count(rest(products)), low-to-high gains are +56,
++52 points (fold, small/large budgets) and +36, +70 (direct); paired p-values are
+5.77e-8, 2.98e-8, 7.63e-6, 5.53e-10 respectively. For count(rest(employees)), gains
+are +34/+6 fold and +32/+10 direct; large-budget paired p=.25/.125. No
+“statistically significant” claim is gated on these values. All tests are exploratory
+and uncorrected across tasks, maps, budgets, and comparisons. Count tasks share a
+program family; seeds are reused across cells. The pooled trend test ignores that
+dependence and is descriptive; paired contrasts preserve seed matching. Its
+nominal p-value should not be treated as independent-seed confirmatory evidence.
+
+![Rest-character weight versus observed solve counts](figures/pivot-night2-knob.png)
+
+The plot shows observed counts, without an uncertainty or independence claim.
+
+### Endpoint and plateau inspection
+
+Re-developed all 12,200 recorded best genotypes with the repaired code and verified
+stored exactness, behaviour and fitness against the resulting outputs. Classified
+unsolved winners by equality to candidate-task outputs on the eight contexts;
+this is an **output proxy classification**, not proof of the corresponding source
+program or of an attractor basin's geometry.
+
+At 200×1000, unsolved count(rest(products)) winners reproduce count(orders) outputs
+in 29/29 direct parents, 21/21 direct random, 14/15 direct offspring, and 3/3, 8/8,
+7/7 folding parents/random/offspring runs. The residual direct offspring winner has
+another behaviour. This inspection supports persistence of the observed deceptive
+output plateau despite improved direct solve counts. It does not show that no
+neutral genotype motion occurred.
+
+For each evolution cell with at least 48/50 successes in the three knob tasks,
+canonical-source counts versus other exact source forms are listed below. Every
+recorded endpoint retained the run’s observed exact-success state; no endpoint
+loss was detected across the 12,200 rows.
+
+| task | map | budget | tie | weight | exact endpoint | canonical source | other exact source |
+|---|---|---|---|---|---:|---:|---:|
+| count(products) | direct | 200×1000 | offspring | 1 | 50/50 | 49 | 1 |
+| count(products) | direct | 200×1000 | parents | 1 | 49/50 | 44 | 5 |
+| count(products) | direct | 200×1000 | random | 0.2 | 50/50 | 48 | 2 |
+| count(products) | direct | 200×1000 | random | 1 | 50/50 | 49 | 1 |
+| count(products) | direct | 200×1000 | random | 5 | 48/50 | 45 | 3 |
+| count(products) | direct | 500×2000 | parents | 1 | 49/50 | 40 | 9 |
+| count(products) | fold | 200×1000 | offspring | 1 | 50/50 | 28 | 22 |
+| count(products) | fold | 200×1000 | parents | 1 | 50/50 | 41 | 9 |
+| count(products) | fold | 200×1000 | random | 0.2 | 50/50 | 31 | 19 |
+| count(products) | fold | 200×1000 | random | 1 | 50/50 | 29 | 21 |
+| count(products) | fold | 200×1000 | random | 5 | 50/50 | 34 | 16 |
+| count(products) | fold | 500×2000 | parents | 1 | 50/50 | 39 | 11 |
+| count(rest(employees)) | direct | 200×1000 | offspring | 1 | 48/50 | 48 | 0 |
+| count(rest(employees)) | direct | 200×1000 | parents | 1 | 48/50 | 40 | 8 |
+| count(rest(employees)) | direct | 200×1000 | random | 1 | 49/50 | 47 | 2 |
+| count(rest(employees)) | direct | 200×1000 | random | 5 | 49/50 | 43 | 6 |
+| count(rest(employees)) | direct | 500×2000 | parents | 1 | 48/50 | 44 | 4 |
+| count(rest(employees)) | fold | 200×1000 | offspring | 1 | 50/50 | 34 | 16 |
+| count(rest(employees)) | fold | 200×1000 | parents | 1 | 50/50 | 44 | 6 |
+| count(rest(employees)) | fold | 200×1000 | random | 1 | 49/50 | 43 | 6 |
+| count(rest(employees)) | fold | 200×1000 | random | 5 | 50/50 | 43 | 7 |
+| count(rest(employees)) | fold | 500×2000 | parents | 1 | 50/50 | 43 | 7 |
+| count(rest(products)) | fold | 200×1000 | random | 5 | 50/50 | 38 | 12 |
+| count(rest(products)) | fold | 500×2000 | parents | 1 | 50/50 | 45 | 5 |
+
+Saturated count-task cells were inspected at source level as well as replayed; exact
+winners include canonical count/rest programs and wrappers with the same eight-context
+outputs. These are endpoint task successes, not demonstrated novel assemblies or
+out-of-distribution generalization. A particularly revealing new filter-task success
+is direct, random ties, 200×1000, seed 10, for count(filter(amount>300, orders)):
+
+```lisp
+(count (if (rest (if (rest data/employees) (rest data/orders) data/employees))
+           data/expenses
+           (if (rest data/employees) (rest data/orders) data/employees)))
+```
+
+It contains no filter or threshold 300: an eight-context shortcut. The other three
+filter-task successes in the merged data are reused night-1 folding rows (one
+evolution, two random-search), with canonical filters or fallback wrappers. The
+new success therefore does not establish general threshold-predicate synthesis;
+the observed 0/50 cells likewise do not establish unreachability.
+
+### Plan fidelity and interpretation
+
+- [x] All planned scientific arms completed, with unchanged maps, tasks, seeds,
+  budgets, L0 and weight/tie settings. Parents-first and weight-1 reference arms and
+  the 200×1000 random baseline were reused as planned. Four new Phase A samples
+  total 20M draws; all new evolution/random cells contain seeds 0–49.
+- [x] T1 full final behaviour count/top share and best length; T2 solve rates,
+  fold/direct paired tests and evolution-minus-sampling paired contrasts; T3 exact
+  frequencies, monotonicity, pooled trends, paired low/high contrasts and control
+  are present in the full report. No discarded steering or fitness-rank result is
+  reinstated. Genotype drift was not a measured diagnostic.
+- [x] No scientific setting changed mid-run. **Implementation-scope deviation:**
+  bounded suffix memoization in `src/folding_evolution/direct.py` repaired exponential
+  parsing after launch; semantic equivalence checks and exact replays below anchor
+  its use. Two reviews occurred before launch; a separate repair review occurred
+  after launch. Existing rows were preserved, not replaced by scratch outputs.
+- [ ] Findings item 17/Open promotion and Fable review **deferred 2026-10-01**: Fable's
+  access route remains unidentified. This reviewed notebook is the concrete review
+  handoff; findings remain unpromoted pending the named reviewer.
+
+Q1 is mixed: some direct solve rates improve and the fold/direct gap narrows in the
+rest(products) large-budget cell, while final behavioural concentration remains.
+Q2 supports a scoped combined proposal-weight effect in these two rest tasks at
+weights {.2, 1, 5}, maps {fold, direct}, and budgets {50×300, 200×1000}; it does not
+supply the proposed initial-frequency-only explanation. Q3 is task-specific: random
+sampling often wins, but the small direct rest(employees) cell favours evolution.
+No new mechanism name or universal claim is proposed. Unseen contexts, additional
+maps/tasks/weights, genotype-level drift, and separate initialization-only versus
+mutation-only interventions remain open.
+
+**Findings forward-link:** [item 17 and Open](findings.md), TODO after Fable review;
+existing §27 and findings claims are preserved as their historical reasoning trail.
+**Next step:** Fable reviews this section, the complete report, and endpoint shortcut
+inspection before any findings amendment. Any subsequent experiment requires its
+own scoped plan; no additional scientific runs were launched for this write-up.
 
 **Queue safeguards.** Each entry uses a GNU timeout process-group watchdog, 60 seconds
 inside the runner deadline, with a 30-second kill grace. A compound-command timeout
@@ -1700,9 +1930,10 @@ also touches `src/folding_evolution/direct.py`, beyond the handoff's initial
 single-file scope. Tests check the pathological genotype, agreement with original
 recursion on 300 random genotypes, mutable remainder isolation, and all 62 repeated
 characters at the experiment's length cap. The prelaunch review count remains two;
-the repair receives a separate post-launch review before a bounded resume.
+the repair received a separate clean post-launch review before a bounded resume.
 
-Full results must cite both the initial execution commit `f483aaf` and the repair
-commit, retain pre-repair metadata and row provenance, and state the interruption.
+Results cite initial execution commit `f483aaf` and repair commit `a86c49c`.
+The original 2,196-row prefix SHA256 matches the resumed file; pre-repair metadata
+and `pivot2_drift/resume-provenance.json` retain the interruption provenance.
 No missing row is treated as an unsolved outcome. No sampler/parameter amendment
 or additional scientific arm is introduced by this performance repair.
