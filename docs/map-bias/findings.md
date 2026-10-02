@@ -290,9 +290,17 @@ found. Remaining:
 - **Stable machinery** (parked with Step 2). On fixed-goal solved runs, elitism freezes the
   champion (in all 4 co-option runs the helper stayed unchanged, with one reader, to
   generation 3000). Reuse and entrenchment would need a multi-output task.
+- **Next main line (2026-10-02): preservation and reuse of functional parts**
+  (Plans/shared-helper-reuse.md). A three-output task on tagged runs (A, A and B, A or B)
+  where B is an unrewarded helper two outputs need. Stages: build a shared-helper genome by
+  hand, measure its survival under mutation and crossover, then seed populations with shared
+  and duplicated forms and see which is retained at tape lengths 32, 64 and 128; discovery
+  from random starts only after that. This revives the skipped Step 2 at a size the tape can
+  hold, with tape length as the pressure that could make sharing pay.
 - **The core map-bias question** (item 17). Night 2 (Plans/map-bias-pivot-night2.md) is
   done: tie rules, the `rest` weight and random search at every budget are in item 17.
-  Next, a **rarity ladder** (no plan file yet): count(restᵈ(X)) for d = 1–3 on employees
+  Optional background, not blocking the main line: a **rarity ladder** (no plan file yet):
+  count(restᵈ(X)) for d = 1–3 on employees
   and products, both maps, offspring-first ties, 50×300 and 200×1000, 50 seeds, plus random
   search.
   - The existing 20M samples at length 50 give P(exact) on employees of 3.4×10⁻⁴ /
