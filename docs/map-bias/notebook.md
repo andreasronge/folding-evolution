@@ -1975,3 +1975,165 @@ N·P(exact) ≪ 1 on a task with a gradient and compare their ratios to sampling
 Open). P(exact) at length 50 on employees from the existing samples, d = 0–4: fold
 2.4×10⁻³, 3.4×10⁻⁴, 1.6×10⁻⁵, 8.5×10⁻⁷, 1×10⁻⁷; direct 5.2×10⁻⁴, 1.1×10⁻⁵, 3×10⁻⁷, then 0
 in 20M.
+
+## 29. Shared helpers, stages 1–3: can tagged runs hold and keep a shared part? (2026-10-02)
+
+**Status:** exploratory; Fable review pending · stage 3: 30 seeds per cell · code commits
+`9848d08` (stages 1–2) and `7141ecf` (stage 3; queue ran from it) · baseline `fa36ac7`
+
+**Plan:** [shared-helper-reuse.md](../../Plans/shared-helper-reuse.md), run unattended by
+[night-2026-10-02-shared-helper.md](../../Plans/night-2026-10-02-shared-helper.md) (started
+at about 13:00 rather than 23:00; the plan's deadlines were kept). Hobby notebook, not
+pre-registered.
+
+**Before.** Nights 1–2 of the pivot asked which map samples fixed-target solvers more often.
+This section returns to the building-block question: can the chemistry hold a functional part
+that several outputs use, and does evolution keep it? Three outputs are read from tags 0, 1, 2
+under leftmost-wins (alphabet `tagged`, no markers): A = max > 5, A and B, A or B (B = sum > 10).
+B is never rewarded on its own, so a B run read by two outputs is a pure helper; A is the
+"an output is also a helper" case. Stage 1 builds a shared, a partly shared and a duplicated
+solution by hand and checks them on all 10,000 lists with a knockout measure (blank one run's
+body, count the outputs that change). Stage 2 applies variation alone to each form. Stage 3
+starts evolution from populations of these forms and watches which form the fully exact
+individuals take over 1000 generations. Tape length is the sharing knob: the duplicated form
+(33 cells) does not fit in 32.
+
+**Provenance and checks.**
+- Stages 1–2 from `9848d08`. Stage 3 code `7141ecf`. The queue ran from it: 3/3 entries
+  done, exit 0, 210/210 runs (seeds 0–29 in all 7 cells), no duplicate run keys, 1000
+  generations each. The runner records `git_dirty: true` because its own lock and status
+  files were untracked; no tracked file was modified.
+- Defaults unchanged: 3 seeds × both paired arms of `xover_v2_xor_leftmost.yaml` give
+  identical `result.json` and final populations at `fa36ac7` and at `7141ecf`. The stored
+  §25 outputs were not on the Mini, so this compares against a fresh baseline run.
+- Two Codex reviews, no P1, two P2s, both fixed before launch:
+  - Outputs that read each other in a cycle shared a run memo, which made the evaluation
+    order-dependent. Each output now gets a fresh memo. Stages 1–2 re-run: identical tables.
+  - Multi-output tracking under task alternation is now rejected.
+- Pilot: 2 seeds per arm, run twice (before and after the memo fix), same results.
+- Generation 0 is 100% fully exact in every run. The census reads 100% shared (seed-shared),
+  100% duplicated (seed-dup) and 46–52% shared (seed-mixed).
+- Nothing was scaled. The queue took 56 min wall (1030 + 1319 + 1024 s), 140–160 s per run.
+- Census: every 20 generations, on 256 sampled individuals, with its own random generator.
+  It records exactness per output on all 10,000 lists and the knockout form of each fully
+  exact individual.
+- Final populations were also tallied directly (all non-elite fully exact individuals).
+  The tallies agree with the census.
+- Elites (slots 0–1) keep the seeded genome frozen, so they are reported separately. An
+  early inspection that decoded slot 0 made the pilot look contradictory.
+
+**What was built.**
+- `mbs_three`: outputs on tags 0/1/2. Pooled lexicase runs over 3 × 64 cases; above 64
+  cases the cases are packed into several 64-bit words, on multi-output tasks only.
+- Tagged `seed_tapes` (full 2L genomes), and `seed_split` (seeds in exactly equal shares).
+- `run_census` reads from every output tag; `track_shared` records the census.
+- Analysis: `experiments/chem_tape/shared_helper.py` (stages 1–2) and `s29_report.py`
+  (stage 3).
+
+### Stage 1: the forms can be written and measured
+
+| form | cells | fits at | fully exact (all 10,000 lists) | consumer counts by knockout (run tag: outputs that change) |
+|---|---|---|---|---|
+| shared: A [0], B [3], `RECV0 RECV3 ADD C1 GT` [1], `RECV0 RECV3 ADD C0 GT` [2] | 24 | 32, 64, 128 | yes | 0:3, 3:2, 1:1, 2:1 → pure helper (B) and output-as-helper (A) |
+| partly shared: tags 1, 2 read A, recompute B | 27 | 32, 64, 128 | yes | 0:3, 1:1, 2:1 |
+| duplicated: tags 1, 2 recompute A and B | 33 | 64, 128 | yes | 0:1, 1:1, 2:1 |
+
+- The stop rule did not apply: a shared form exists under leftmost-wins with the `tagged`
+  alphabet.
+- Cell counts match the plan, so the lengths stayed 32/64/128. The partly shared form also
+  fits at 32; only the duplicated form is excluded there.
+- A test checks that a RECV that is read and then buried under the real result gets
+  consumer count 0.
+
+### Stage 2: variation alone (fraction of 10,000 children fully exact)
+
+| operator | 32: shared / partly | 64: shared / partly / dup | 128: shared / partly / dup | B helper intact (shared, 64) |
+|---|---|---|---|---|
+| mutation (0.015) | 0.42 / 0.41 | 0.26 / 0.26 / 0.24 | 0.12 / 0.12 / 0.11 | 0.78 |
+| v1, form = A, random B | 0.21 / 0.25 | 0.23 / 0.26 / 0.27 | 0.25 / 0.27 / 0.28 | 0.62 |
+| v1, random A, form = B | 0.03 / 0.02 | 0.08 / 0.09 / 0.08 | 0.11 / 0.14 / 0.12 | 0.22 |
+| v1, form = A, other form = B | – / 0.32 | 0.79 / 0.38 / 0.38 | 0.80 / 0.37 / 0.38 | 0.79 |
+| v2, form = A, random B | 0.16 / 0.19 | 0.19 / 0.22 / 0.21 | 0.23 / 0.26 / 0.26 | 0.59 |
+| v2, random A, form = B | 0.14 / 0.16 | 0.14 / 0.18 / 0.17 | 0.15 / 0.19 / 0.19 | 0.35 |
+| v2, form = A, other form = B | – / 0.26 | 0.80 / 0.37 / 0.38 | 0.79 / 0.38 / 0.38 | 0.80 |
+| v1c, form = A, random B | 0.21 / 0.26 | 0.22 / 0.27 / 0.28 | 0.24 / 0.28 / 0.27 | 0.61 |
+| v1c, random A, form = B | 0.12 / 0.14 | 0.14 / 0.17 / 0.15 | 0.13 / 0.18 / 0.17 | 0.35 |
+| v1c, form = A, other form = B | – / 0.32 | 0.80 / 0.37 / 0.38 | 0.80 / 0.37 / 0.36 | 0.80 |
+
+"Other form" pairs shared with duplicated (each way) and partly shared with shared.
+
+![stage 2](figures/s29_stage2_survival.png)
+
+- **Mutation and crossover with a random genome:** shared and duplicated survive about
+  equally. The smaller target and the single point of failure roughly cancel.
+- **Shared × duplicated crossover is lopsided.**
+  - Shared as parent A: 0.80 of children fully exact. Homologous crossover swaps in
+    duplicated bodies, which are self-contained.
+  - Duplicated as parent A: 0.38. Shared consumer bodies (`RECV0 RECV3 …`) arrive in a
+    genome with no tag-3 run.
+- **Mutation survival falls with tape length for every form.** The NOP padding after the last
+  run belongs to that run's body (tag 2 here), so insertions there change output 2. It is a
+  layout effect, the same for all forms.
+
+### Stage 3: retention from seeded populations (30 seeds per cell, 1000 generations)
+
+![seed-mixed](figures/s29_mixed_shared_fraction.png)
+
+| arm | L | final fully exact (sample) | among fully exact at gen 1000: shared / partly / duplicated | seeds > 90% shared | seeds > 90% duplicated |
+|---|---|---|---|---|---|
+| seed-mixed | 64 | 0.35 | 1.00 / 0.00 / 0.00 (min shared 0.95) | 30/30 | 0/30 |
+| seed-mixed | 128 | 0.38 | 1.00 / 0.00 / 0.00 (min 0.97) | 30/30 | 0/30 |
+| seed-shared | 32 | 0.34 (min 0.26) | 1.00 / 0.00 / 0.00 | 30/30 | 0/30 |
+| seed-shared | 64 | 0.37 (min 0.31) | 1.00 / 0.00 / 0.00 | 30/30 | 0/30 |
+| seed-shared | 128 | 0.36 (min 0.32) | 1.00 / 0.00 / 0.00 | 30/30 | 0/30 |
+| seed-dup | 64 | 0.33 | 0.00 / ≈1.00 / 0.00 | 0/30 | 0/30 |
+| seed-dup | 128 | 0.34 | 0.00 / 0.99 / 0.01 | 0/30 | 0/30 |
+
+- **seed-mixed (main readout):** the neutral expectation was drift around 50%. Instead the
+  shared form takes over in every seed at both 64 and 128 cells: 95% of fully exact
+  individuals at generation 20 (the first logged point), ≥ 95% from then on.
+- **seed-shared:** every population holds fully exact individuals at every logged
+  generation. The shared form is never replaced, at 32, 64 or 128.
+- **seed-dup:**
+  - Sharing of A arises in 60/60 runs. Tags 1 and 2 drop their copy of A for `RECV0`.
+    Partly shared passes 50% of fully exact individuals at a median of generation 80
+    (range 40–440).
+  - A pure B helper practically never arises. Only 1/30 (64) and 3/30 (128) seeds ever
+    show a shared individual, at most 1% of a sample.
+  - "Partly" includes genomes where only one of the two consumers reads A: the tag-0 run
+    then has consumer count 2, not 3.
+- **Fully exact share:** after generation 20, about a third of each sample is fully exact,
+  in every arm and at every length. That fits a mutation-and-crossover load (stage 2: 0.12–0.42
+  of mutants stay fully exact) rather than a loss of the solution, but the load was not
+  measured separately.
+- **Run census, generation 0 → 1000, population means:**
+  - The B helper is kept: helper runs per genome 0.84–0.93 in seed-shared and seed-mixed,
+    0.00–0.01 in seed-dup.
+  - Unread runs pile up with tape length: 0.9 at 32, 3.6 at 64, 7.1 at 128 (seed-shared).
+    In the decoded genomes many of them are shadowed copies of output and helper runs
+    (not counted).
+- **By-eye inspection:** five sampled non-elite fully exact genomes per cell. Their
+  knockout labels match what they visibly do. Neutral substitutions are common: `ANY`,
+  `SUM` or `THR` stand in for `C0` because each pushes 0 here, and `RADD` for `SUM`. No
+  shortcut that changes behaviour was seen.
+
+**What this shows, and what it doesn't.**
+- When evolution starts from a solution, keeping a shared helper is not the obstacle. A
+  fully exact shared form persists, and against an equal mix of duplicated solutions it
+  wins outright and fast, at 64 and 128 cells as well as 32.
+- So sharing needs no size pressure here. Of the plan's three readings, the third applies:
+  retention is not the problem, discovery is.
+- From a duplicated start, evolution finds the cheaper sharing (an output read by RECV)
+  every time. It does not factor B out into a new helper run within 1000 generations,
+  which needs a new run with a fresh tag and two rewired consumers.
+- Not shown: why the shared form wins. Stage 2 points to a crossover asymmetry (shared ×
+  duplicated children stay exact 0.80 vs 0.38) and to a smaller mutation target per
+  consumer, but neither was tested as the cause.
+- The scope is narrow: seeded starts, one task, crossover v2, lexicase, population 1024,
+  1000 generations. Random starts (discovery) are stage 4.
+
+**Next (stage 4, outline in the plan):** the three-output task from random starts at 32, 64
+and 128 cells. Readouts: fully exact populations, the shared / partly / duplicated split by
+knockout, and how often a random genome already has each form. An extra readout from this
+section: does a pure helper ever arise when nothing is seeded, given that seed-dup never
+made one?
