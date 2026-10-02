@@ -140,6 +140,8 @@ def execute(cfg: ChemTapeConfig, output_root: Path) -> Path:
         summary["exact_any"] = result.exact_any
     if result.run_stats is not None:
         summary["run_stats"] = result.run_stats
+    if result.shared_stats is not None:
+        summary["shared_stats"] = result.shared_stats
     (run_dir / "result.json").write_text(json.dumps(summary, indent=2))
     return run_dir
 

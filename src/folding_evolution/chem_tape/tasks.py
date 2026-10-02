@@ -35,6 +35,10 @@ class Task:
     label_fn: Callable[[object], int]
     holdout_inputs: list | None = None
     holdout_labels: np.ndarray | None = None
+    # Map-bias §29: multi-output tasks (tagged runs only). One output per tag; labels
+    # and holdout_labels are output-major, (len(output_tags) * E,), and label_fn
+    # returns one label per output. None = single output (every other task).
+    output_tags: tuple[int, ...] | None = None
 
 
 # ---------------- Sampling helpers ----------------
@@ -537,6 +541,37 @@ make_mbs_or_task = _make_stratified_task(lambda xs: int(max(xs) > 5 or sum(xs) >
 # Map-bias §15: XOR has no near-linear shortcut on these inputs (best
 # `sum + w·max` threshold: 0.72 cell-balanced, vs 0.96-0.97 for AND / OR).
 make_mbs_xor_task = _make_stratified_task(lambda xs: int((max(xs) > 5) != (sum(xs) > 10)), "mbs_xor")
+
+
+
+def _three_labels(xs) -> tuple[int, int, int]:
+    a, b = int(max(xs) > 5), int(sum(xs) > 10)
+    return a, a & b, a | b
+
+
+def make_mbs_three_task(cfg: ChemTapeConfig, seed: int) -> Task:
+    """Map-bias §29 (Plans/shared-helper-reuse.md): three outputs on the stratified
+    inputs of the mbs_* tasks — tag 0: max>5, tag 1: max>5 and sum>10, tag 2: max>5
+    or sum>10. Labels are output-major over the training cases (3 x n_examples)."""
+    if cfg.arm != "TAG":
+        raise ValueError("mbs_three is a multi-output task for arm TAG only")
+    train, hold = _stratified_inputs(seed, cfg.n_examples, cfg.holdout_size)
+
+    def labels(xs):
+        return np.array([_three_labels(x) for x in xs], dtype=np.int64).T.ravel()
+
+    return Task(
+        name="mbs_three",
+        input_type="intlist",
+        inputs=train,
+        labels=labels(train),
+        alphabet=alph.TaskAlphabet(slot_12=alph.OP_NOP, slot_13=alph.OP_NOP),
+        label_fn=_three_labels,
+        holdout_inputs=hold or None,
+        holdout_labels=labels(hold) if hold else None,
+        output_tags=(0, 1, 2),
+    )
+
 
 make_mb_max_gt_5_task = _make_plain_predicate_task(lambda xs: int(max(xs) > 5), "mb_max_gt_5")
 make_mb_sum_gt_10_task = _make_plain_predicate_task(lambda xs: int(sum(xs) > 10), "mb_sum_gt_10")
@@ -1092,6 +1127,7 @@ TASK_REGISTRY = {
     "mbs_and": make_mbs_and_task,
     "mbs_or": make_mbs_or_task,
     "mbs_xor": make_mbs_xor_task,
+    "mbs_three": make_mbs_three_task,
     "mb_sum_gt_10": make_mb_sum_gt_10_task,
     "sum_gt_10_OR_max_gt_5": make_sum_gt_10_OR_max_gt_5_task,
     "sum_gt_10_XOR_max_gt_5": make_sum_gt_10_XOR_max_gt_5_task,
@@ -1132,6 +1168,10 @@ TASK_REGISTRY = {
     "any_char_count_E_gt_1_slot": make_any_char_count_E_gt_1_slot_task,
     "any_char_count_E_gt_3_slot": make_any_char_count_E_gt_3_slot_task,
 }
+
+
+# Multi-output tasks (map-bias §29): name -> output tags.
+MULTI_OUTPUT = {"mbs_three": (0, 1, 2)}
 
 
 def build_task(cfg: ChemTapeConfig, seed: int) -> Task:

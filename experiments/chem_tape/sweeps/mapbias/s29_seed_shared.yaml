@@ -1,0 +1,69 @@
+# Map-bias notebook §29 (Plans/shared-helper-reuse.md stage 3): seed-shared, initial population
+# all copies of the shared form (hand-built forms from experiments/chem_tape/shared_helper.py), three-output
+# task mbs_three, settings as §25 (crossover v2, lexicase, balanced), 1000 generations, 30 seeds.
+sweep_name: s29_seed_shared
+base:
+  task: mbs_three
+  generations: 1000
+  disable_early_termination: true
+  n_examples: 64
+  holdout_size: 256
+  pop_size: 1024
+  elite_count: 2
+  crossover_rate: 0.7
+  selection_mode: lexicase
+  backend: numpy
+  log_every: 20
+  track_lineage: false
+  fitness_metric: balanced
+  fast_rng: true
+  track_exact_any: false
+  dump_final_population: true
+  arm: TAG
+  mutation_rate: 0.015
+  alphabet: tagged
+  tag_combine: leftmost
+  tagged_crossover: v2
+  track_runs: true
+  track_shared: true
+  seed_fraction: 1.0
+  seed_split: true
+paired:
+- tape_length: 32
+  seed_tapes: 1401121008140105101007081415150703081415150702080000000000000000000000000003000000000000010003000000020003000000091b12261e3f0304
+- tape_length: 64
+  seed_tapes: 140112100814010510100708141515070308141515070208000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000030000000000000100030000000200030000003c0f33021a2219120a353819030a330008160d05211c190b033a321b2511362d272e3e1606001d3b
+- tape_length: 128
+  seed_tapes: 14011210081401051010070814151507030814151507020800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000030000000000000100030000000200030000001e332e113d0313282026080e03252f0f3815332d3c293f292c3427201900121308093a22393028362b0533123900373923283e32341c1c3615023f0e2106250917130e08091d24312c1908031b2e16003b392106063e0c020d1532380b3b3c370d323628171d1e03
+grid:
+  seed:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  - 16
+  - 17
+  - 18
+  - 19
+  - 20
+  - 21
+  - 22
+  - 23
+  - 24
+  - 25
+  - 26
+  - 27
+  - 28
+  - 29

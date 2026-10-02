@@ -101,20 +101,8 @@ def machine(inputs: np.ndarray = X_ALL):
 
 def outputs(g: np.ndarray, m, body_cache: dict | None = None) -> np.ndarray:
     """(3, E): the value of output tags 0, 1, 2 under leftmost-wins (first run of the tag;
-    0 if the tag has no run). A run's value with RECVs resolved is the same at the top
-    level as when read as an output, so this is genome_outputs per output tag."""
-    runs = tagged.parse_runs(g)
-    first: dict[int, int] = {}
-    for k, (t, _) in enumerate(runs):
-        first.setdefault(t, k)
-    out = np.zeros((len(OUTPUT_TAGS), m.E), dtype=np.int64)
-    if not any(t in first for t in OUTPUT_TAGS):
-        return out
-    vals = tagged.genome_outputs(g, m, body_cache, all_runs=True, combine="leftmost")
-    for o, t in enumerate(OUTPUT_TAGS):
-        if t in first:
-            out[o] = vals[first[t]]
-    return out
+    0 if the tag has no run), each evaluated as if it were the only output."""
+    return np.stack(tagged.genome_outputs(g, m, body_cache, combine="leftmost", out_tags=OUTPUT_TAGS))
 
 
 def run_spans(g: np.ndarray) -> list[tuple[int, int, int]]:

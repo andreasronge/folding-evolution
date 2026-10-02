@@ -87,6 +87,8 @@ class EvolutionResult:
     exact_any: dict | None = None
     # cfg.track_runs: one dict of population run-census means per logged generation.
     run_stats: list | None = None
+    # cfg.track_shared: one multi_output.SharedCensus record per logged generation.
+    shared_stats: list | None = None
 
 
 def _trace_lineage(
@@ -198,6 +200,8 @@ def _parse_seed_tapes(cfg: ChemTapeConfig) -> list[np.ndarray]:
     """
     if not cfg.seed_tapes:
         return []
+    if cfg.arm == "TAG":
+        return _parse_tagged_seed_tapes(cfg)
     hi = _token_max(cfg)
     L = cfg.tape_length
     out: list[np.ndarray] = []
@@ -222,6 +226,28 @@ def _parse_seed_tapes(cfg: ChemTapeConfig) -> list[np.ndarray]:
                 f"for alphabet={cfg.alphabet!r}: {s!r}"
             )
         out.append(arr)
+    return out
+
+
+def _parse_tagged_seed_tapes(cfg: ChemTapeConfig) -> list[np.ndarray]:
+    """Map-bias §29: tagged seeds are full genomes, 2·tape_length bytes (ops then tags);
+    no padding, since ops and tags are separate halves."""
+    from . import tagged
+    n_ops, L = tagged.n_ops_for(cfg.alphabet), cfg.tape_length
+    out = []
+    for s in cfg.seed_tapes.split(","):
+        s = s.strip()
+        if not s:
+            continue
+        try:
+            g = np.frombuffer(bytes.fromhex(s), dtype=np.uint8).copy()
+        except ValueError as e:
+            raise ValueError(f"seed_tapes entry is not valid hex: {s!r}") from e
+        if len(g) != 2 * L:
+            raise ValueError(f"tagged seed_tapes entry has {len(g)} bytes; arm TAG needs 2*tape_length={2 * L}")
+        if int(g[:L].max()) >= n_ops or int(g[L:].max()) >= tagged.N_TAGS:
+            raise ValueError(f"tagged seed_tapes entry has an op >= {n_ops} or a tag >= {tagged.N_TAGS}")
+        out.append(g)
     return out
 
 
@@ -277,8 +303,8 @@ def build_initial_population(
     n_seed = int(round(cfg.seed_fraction * size))
     n_random = size - n_seed
     pop: list[np.ndarray] = []
-    for _ in range(n_seed):
-        idx = rng.randint(0, len(seeds) - 1)
+    for i in range(n_seed):
+        idx = i % len(seeds) if cfg.seed_split else rng.randint(0, len(seeds) - 1)
         pop.append(seeds[idx].copy())
     for _ in range(n_random):
         pop.append(random_genotype(cfg, rng))
@@ -572,33 +598,66 @@ def _reproduce_one_island(
     return new_pop
 
 
-def _lexicase_batch(cases: np.ndarray, n: int, gen: np.random.Generator) -> np.ndarray:
+def _lexicase_batch(cases: np.ndarray, n: int, gen: np.random.Generator,
+                    wide: bool = False) -> np.ndarray:
     """`n` lexicase selections at once (cfg.fast_rng). With groups built from
     complete case rows, the lone survivor under a case order is the group whose
     row is lexicographically greatest in that order (see _lexicase_select), so
-    each selection is an argmax over rows packed into big-endian integers."""
+    each selection is an argmax over rows packed into big-endian integers.
+    `wide` (multi-output tasks, map-bias §29): more than 64 cases are packed into
+    several 64-bit words and compared word by word; without it such case sets
+    take the per-selection path, as before."""
     group_cases, inverse = np.unique(cases, axis=0, return_inverse=True)
     inverse = inverse.ravel()
     G, E = group_cases.shape
-    if E > 64:
+    if E > 64 and wide:
+        winners = _lex_winners_wide(group_cases, n, gen)
+    elif E > 64:
         groups = [np.flatnonzero(inverse == g) for g in range(G)]
         shim = _GenRandom(gen)
         return np.array([_lexicase_select(groups, group_cases, shim) for _ in range(n)], dtype=np.int64)
-    winners = np.empty(n, dtype=np.int64)
-    for lo in range(0, n, 256):
-        m = min(256, n - lo)
-        perms = gen.random((m, E)).argsort(axis=1)
-        bits = group_cases[:, perms]                          # (G, m, E)
-        packed = np.packbits(bits, axis=-1).astype(np.uint64)  # (G, m, ceil(E/8))
-        keys = np.zeros(packed.shape[:2], dtype=np.uint64)     # (G, m), first case = top byte
-        for b in range(packed.shape[-1]):
-            keys |= packed[..., b] << np.uint64(8 * (7 - b))
-        winners[lo:lo + m] = keys.argmax(axis=0)
+    else:
+        winners = np.empty(n, dtype=np.int64)
+        for lo in range(0, n, 256):
+            m = min(256, n - lo)
+            perms = gen.random((m, E)).argsort(axis=1)
+            bits = group_cases[:, perms]                          # (G, m, E)
+            packed = np.packbits(bits, axis=-1).astype(np.uint64)  # (G, m, ceil(E/8))
+            keys = np.zeros(packed.shape[:2], dtype=np.uint64)     # (G, m), first case = top byte
+            for b in range(packed.shape[-1]):
+                keys |= packed[..., b] << np.uint64(8 * (7 - b))
+            winners[lo:lo + m] = keys.argmax(axis=0)
     by_group = np.argsort(inverse, kind="stable")
     sizes = np.bincount(inverse, minlength=G)
     starts = np.cumsum(sizes) - sizes
     offs = (gen.random(n) * sizes[winners]).astype(np.int64)
     return by_group[starts[winners] + offs]
+
+
+def _lex_winners_wide(group_cases: np.ndarray, n: int, gen: np.random.Generator) -> np.ndarray:
+    """Lexicase winners (group indices) for any number of cases: per selection, a random
+    case order; the winner is the group whose row is lexicographically greatest in it,
+    found word by word over 64-case big-endian words."""
+    G, E = group_cases.shape
+    W = -(-E // 64)
+    winners = np.empty(n, dtype=np.int64)
+    for lo in range(0, n, 256):
+        m = min(256, n - lo)
+        perms = gen.random((m, E)).argsort(axis=1)
+        bits = group_cases[:, perms]                                      # (G, m, E)
+        packed = np.packbits(bits, axis=-1)                               # (G, m, ceil(E/8))
+        pad = 8 * W - packed.shape[-1]
+        if pad:
+            packed = np.concatenate([packed, np.zeros(packed.shape[:2] + (pad,), dtype=np.uint8)], axis=-1)
+        alive = np.ones((G, m), dtype=bool)
+        for w in range(W):
+            key = np.zeros((G, m), dtype=np.uint64)
+            for b in range(8):
+                key |= packed[..., 8 * w + b].astype(np.uint64) << np.uint64(8 * (7 - b))
+            best = np.where(alive, key, np.uint64(0)).max(axis=0)
+            alive &= key == best[None, :]
+        winners[lo:lo + m] = alive.argmax(axis=0)
+    return winners
 
 
 class _GenRandom:
@@ -636,7 +695,8 @@ def _reproduce_batched(
     n_sel = n + int(is_x.sum())
     if cfg.selection_mode in ("lexicase", "lexicase_group"):
         assert cases is not None, "lexicase selection needs per-case results"
-        parents = _lexicase_batch(cases, n_sel, gen)
+        from .tasks import MULTI_OUTPUT
+        parents = _lexicase_batch(cases, n_sel, gen, wide=cfg.task in MULTI_OUTPUT)
     else:
         pop_idx = list(range(len(population)))
         sel_fitnesses = _compute_niched_fitnesses(fitnesses, population, cfg)
@@ -810,6 +870,8 @@ class _ExactTracker:
         return [hash(g.tobytes()) for g in genomes]
 
     def update(self, gen: int, population, cases: np.ndarray, task, topk_override, last: bool = False) -> None:
+        if getattr(task, "output_tags", None):
+            raise ValueError("track_exact_any is single-output; use track_shared on multi-output tasks")
         if self.first_gen is not None and not last and gen % self.SPARSE_EVERY:
             return
         perfect = np.flatnonzero(cases.all(axis=1))
@@ -835,9 +897,10 @@ class _ExactTracker:
                 "gens_with_exact": self.gens_with_exact, "n_checked": len(self.cache)}
 
 
-def _run_stats(gen: int, population, cfg: ChemTapeConfig) -> dict:
+def _run_stats(gen: int, population, cfg: ChemTapeConfig, out_tags=None) -> dict:
     """cfg.track_runs: population means of tagged.run_census, plus the share of genomes
-    with no run, no output run, and at least one helper."""
+    with no run, no output run, and at least one helper. `out_tags`: a multi-output
+    task's output tags (None = tag 0)."""
     from . import tagged
     combine = cfg.tag_combine
     seen: dict[bytes, tuple] = {}
@@ -845,7 +908,8 @@ def _run_stats(gen: int, population, cfg: ChemTapeConfig) -> dict:
     for g in population:
         key = g.tobytes()
         if key not in seen:
-            seen[key] = tagged.run_census(g, combine)
+            seen[key] = (tagged.run_census(g, combine, tuple(out_tags)) if out_tags
+                         else tagged.run_census(g, combine))
         rows.append(seen[key])
     c = np.asarray(rows, dtype=np.float64)
     runs, out, read, helpers, tail = c.T
@@ -920,7 +984,13 @@ def _run_evolution_panmictic(
     stats = ChemTapeStatsCollector()
     evolve_k_values_list = cfg.evolve_k_value_list() if cfg.evolve_k else None
     stats.record(0, fitnesses, population, arm=cfg.arm, evolve_k_values=evolve_k_values_list)
-    run_stats = [_run_stats(0, population, cfg)] if cfg.track_runs else None
+    out_tags = getattr(task_0, "output_tags", None)
+    run_stats = [_run_stats(0, population, cfg, out_tags)] if cfg.track_runs else None
+    shared_census = None
+    if cfg.track_shared:
+        from .multi_output import SharedCensus
+        shared_census = SharedCensus(task_0, cfg.seed, cfg.tag_combine)
+    shared_stats = [shared_census.record(0, population, cases)] if shared_census is not None else None
 
     flip_events: list[dict] = []
     last_k = current_k_0
@@ -983,7 +1053,9 @@ def _run_evolution_panmictic(
         stats.record(gen, fitnesses, population, arm=cfg.arm,
                      evolve_k_values=evolve_k_values_list)
         if run_stats is not None and (gen % cfg.log_every == 0 or gen == cfg.generations):
-            run_stats.append(_run_stats(gen, population, cfg))
+            run_stats.append(_run_stats(gen, population, cfg, out_tags))
+        if shared_stats is not None and (gen % cfg.log_every == 0 or gen == cfg.generations):
+            shared_stats.append(shared_census.record(gen, population, cases))
 
         # Record immediate post-flip best.
         if pending_pre_flip is not None:
@@ -1114,6 +1186,7 @@ def _run_evolution_panmictic(
         ),
         exact_any=exact_tracker.result() if exact_tracker is not None else None,
         run_stats=run_stats,
+        shared_stats=shared_stats,
     )
 
 
@@ -1273,6 +1346,12 @@ def run_evolution(cfg: ChemTapeConfig, prediction_cache_size: int = 0) -> Evolut
         raise ValueError("track_runs is panmictic only")
     if cfg.n_islands > 1 and cfg.track_exact_any:
         raise ValueError("track_exact_any is panmictic only")
+    if cfg.n_islands > 1 and cfg.track_shared:
+        raise ValueError("track_shared is panmictic only")
+    from .tasks import MULTI_OUTPUT
+    if _is_task_alternating(cfg) and (cfg.track_shared or cfg.task in MULTI_OUTPUT
+                                      or set(cfg.task_alternating_value_list()) & set(MULTI_OUTPUT)):
+        raise ValueError("multi-output tasks and track_shared do not support task alternation")
     if cfg.n_islands > 1:
         if cfg.track_lineage:
             raise ValueError("track_lineage is only supported for panmictic runs (n_islands == 1)")

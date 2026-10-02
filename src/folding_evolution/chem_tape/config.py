@@ -218,6 +218,17 @@ class ChemTapeConfig:
     # no random numbers, so runs replay the untracked ones exactly. Panmictic only.
     track_runs: bool = False
 
+    # Map-bias notebook §29, tagged runs only. seed_split: with seed_tapes and
+    # seed_fraction, the seeded individuals are the seed tapes in equal shares (seed i
+    # gets every len(seeds)-th slot) instead of draws with replacement. For TAG, each
+    # seed_tapes entry is the full 2·tape_length genome (ops then tags) in hex.
+    # track_shared: on a multi-output task, every log_every generations record on a
+    # population sample the per-output and full exactness on all lists and the form of
+    # each fully exact genome by knockout (multi_output.SharedCensus) into result.json
+    # ("shared_stats"). Draws from its own generator, so evolution is unchanged.
+    seed_split: bool = False
+    track_shared: bool = False
+
     # Map-bias notebook §15: frequency knob. Relative weights for the ops that
     # random genomes and point mutations draw, as "id:weight,..." (unlisted ids
     # weigh 1). Raising a token's weight is the same as giving it that many
@@ -326,6 +337,10 @@ class ChemTapeConfig:
             d.pop("tagged_crossover", None)
         if not self.track_runs:
             d.pop("track_runs", None)
+        if not self.seed_split:
+            d.pop("seed_split", None)
+        if not self.track_shared:
+            d.pop("track_shared", None)
         # §v2.5-plasticity-1a: all plasticity fields excluded at defaults so
         # existing sweep hashes remain addressable. When plasticity_enabled
         # is False the fast-path is byte-identical to pre-5c Arm A.
@@ -349,6 +364,8 @@ class ChemTapeConfig:
             raise ValueError("tagged_crossover / track_runs apply to arm TAG only")
         if self.op_weights:
             self.op_probs(64)
+        if (self.seed_split or self.track_shared) and self.arm != "TAG":
+            raise ValueError("seed_split / track_shared apply to arm TAG only")
 
     def op_probs(self, n_ops: int):
         """Draw probabilities over ops 0..n_ops-1 from `op_weights`, or None

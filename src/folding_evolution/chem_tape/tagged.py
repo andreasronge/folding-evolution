@@ -202,7 +202,9 @@ def _join(acc: np.ndarray, v: np.ndarray, marker: int | None) -> np.ndarray:
 
 
 def genome_outputs(g: np.ndarray, m: _Machine, body_cache: dict | None = None,
-                   all_runs: bool = False, combine: str = "max"):
+                   all_runs: bool = False, combine: str = "max", out_tags=None):
+    """The value of OUTPUT_TAG; with `all_runs`, every run's own value (tape order);
+    with `out_tags`, a list of the values of those tags (multi-output tasks, §29)."""
     runs = parse_runs(g)
     by_tag: dict[int, list[int]] = {}
     for k, (tag, _) in enumerate(runs):
@@ -241,6 +243,15 @@ def genome_outputs(g: np.ndarray, m: _Machine, body_cache: dict | None = None,
 
     if all_runs:
         return [value_of_run(k, 0, frozenset()) for k in range(len(runs))]
+    if out_tags is not None:
+        # Each output is evaluated as if it were the only one (as OUTPUT_TAG is): a fresh
+        # run memo per output, since memoised values depend on the recursion context
+        # when runs read each other in a cycle.
+        vals = []
+        for t in out_tags:
+            memo.clear()
+            vals.append(value_of_tag(t, 0, frozenset()))
+        return vals
     return value_of_tag(OUTPUT_TAG, 0, frozenset())
 
 
@@ -252,15 +263,22 @@ def run_values(g: np.ndarray, task, body_cache: dict | None = None, combine: str
 def evaluate_tagged(population: list[np.ndarray], task, combine: str = "max") -> tuple[np.ndarray, np.ndarray]:
     """Same contract as evaluate.evaluate_population: (fitnesses, predictions).
     `combine`: how same-tag runs join — "max" (markers apply if present) or
-    "leftmost" (the first run in tape order wins; control, notebook §13)."""
+    "leftmost" (the first run in tape order wins; control, notebook §13).
+    A task with `output_tags` (map-bias §29) has one prediction per output tag and
+    input, output-major: preds[:, o*E:(o+1)*E] is output_tags[o]; labels match."""
     m = _machine_for(task)
     cache: dict = {}
     seen: dict[bytes, np.ndarray] = {}
-    preds = np.zeros((len(population), m.E), dtype=np.int64)
+    out_tags = getattr(task, "output_tags", None)
+    width = m.E * (len(out_tags) if out_tags else 1)
+    preds = np.zeros((len(population), width), dtype=np.int64)
     for p, g in enumerate(population):
         key = g.tobytes()
         if key not in seen:
-            seen[key] = genome_outputs(g, m, cache, combine=combine)
+            if out_tags:
+                seen[key] = np.concatenate(genome_outputs(g, m, cache, combine=combine, out_tags=out_tags))
+            else:
+                seen[key] = genome_outputs(g, m, cache, combine=combine)
         preds[p] = seen[key]
     fits = (preds == task.labels[None, :]).mean(axis=1).astype(np.float64)
     return fits, preds
@@ -484,18 +502,20 @@ def compact_runs(leader: list[tuple[int, int]], runs, L: int, rng: random.Random
     return build(leader, runs, L, rng)
 
 
-def run_census(g: np.ndarray, combine: str = "max") -> tuple[int, int, int, int, int]:
+def run_census(g: np.ndarray, combine: str = "max",
+               out_tags: tuple[int, ...] = (OUTPUT_TAG,)) -> tuple[int, int, int, int, int]:
     """(runs, output-tag runs, read runs, helper runs, trailing NOP cells) of a genome.
     Read = the output run(s) plus every run they reach through RECV (structural, no
     depth cap); under "leftmost" only the first run of a tag is read. Helper = a read
     run that isn't an output run. Trailing NOPs = NOP cells at the end of the tape
-    (free space before mutation's insertions start cutting into a run)."""
+    (free space before mutation's insertions start cutting into a run). `out_tags`:
+    the output tags (several for multi-output tasks, §29)."""
     runs = parse_runs(g)
     by_tag: dict[int, list[int]] = {}
     for k, (tag, _) in enumerate(runs):
         by_tag.setdefault(tag, []).append(k)
     readers = (lambda t: by_tag.get(t, [])[:1]) if combine == "leftmost" else (lambda t: by_tag.get(t, []))
-    out = set(readers(OUTPUT_TAG))
+    out = {k for t in out_tags for k in readers(t)}
     read: set[int] = set()
     todo = list(out)
     while todo:
@@ -508,4 +528,4 @@ def run_census(g: np.ndarray, combine: str = "max") -> tuple[int, int, int, int,
     tail = 0
     while tail < len(ops) and ops[len(ops) - 1 - tail] == 0:
         tail += 1
-    return len(runs), len(by_tag.get(OUTPUT_TAG, [])), len(read), len(read - out), tail
+    return len(runs), sum(len(by_tag.get(t, [])) for t in out_tags), len(read), len(read - out), tail
