@@ -1,12 +1,13 @@
 # Map-bias — findings
 
-Short, scoped summary of the map-bias line (notebook: [notebook.md](notebook.md) §1–§27;
+Short, scoped summary of the map-bias line (notebook: [notebook.md](notebook.md) §1–§28;
 §1–§14 results commit `e05aa5f`, §15–§16 `7c9cc42`, §17 `e3e3ff1`, §18–§19 `c922028`,
 §21–§22 `5a85eb5`, §23 `fab1d10`, §24 `02b2606`–`1b6778b`: or_tournament, xor_leftmost_pop and
 xor_race_pop ran under the first version of the exactness check, the other replays under
 the two faster versions; first-exact generation and final count are the same under all
-three; §25 `85e3da1`, §26 `08b315e`, §27 `cd7d463`). Checked by an eighth Fable review; §16 changes by a ninth, §17 by a
-tenth, §19 by an eleventh, §20–§23 by a twelfth, §24 by a thirteenth, §25 by a fourteenth, §26 by a fifteenth.
+three; §25 `85e3da1`, §26 `08b315e`, §27 `cd7d463`, §28 `f483aaf` + `a86c49c`). Checked by an eighth Fable review; §16 changes by a ninth, §17 by a
+tenth, §19 by an eleventh, §20–§23 by a twelfth, §24 by a thirteenth, §25 by a fourteenth, §26 by a fifteenth,
+§27 by a sixteenth, §28 by a seventeenth.
 
 **Question.** How does a developmental genotype→program map bias what evolution finds —
 and can evolution combine building blocks by recombination without crashing? Items 1 and
@@ -224,11 +225,55 @@ champion**.
       (fitness 0.593 > `count(products)` 0.576), whose one-step neighbourhoods hold no
       solver. So readout 1 measures which map finds the solver before the population freezes.
     - **Evolution is no better than random search with the same budget,** and much worse for
-      direct on count∘rest(products) (21–27 vs 45–46/50).
+      direct on count∘rest(products) (21–27 vs 45–46/50). *Narrowed by night 2, below.*
     - **Steering was not testable.** The d-difference is dominated by direct's generation-0
       best being a raw list output; endpoints of both maps converge on the same numeric
       plateaus. The rank test only shows that endpoints are more frequent than the fitter
       behaviours never found.
+
+    **Night 2** (§28, seventeenth review; runs from commits `f483aaf` + `a86c49c`, n = 50
+    seeds per cell, start length 50, exploratory and uncorrected; reanalysis by
+    `experiments/map_bias/neff_reanalysis.py`):
+    - **On these tasks evolution is mostly a worse sampler than random search, and folding's
+      advantage is a sampling advantage.** Solve rates converted to equivalent independent
+      random samples (−ln(1 − solve rate) / P(exact)), divided by evaluations spent (1 =
+      blind sampling), at k = 1:
+      - fold, count and count∘rest: 0.03–0.75, falling with generations. Most solves come
+        early: count∘rest(products) at 200×1000 has 29–33/50 solved by generation 30 and
+        42–47/50 by generation 1000.
+      - direct, plain count: 0.03–0.3; direct count∘rest(products): 0.2–0.5 at generation
+        1000 (the `count(orders)` plateau persists: 64 of 65 unsolved direct winners).
+      - direct count∘rest(employees): 1.4–1.7 at 200×1000, 2.9–4.1 at generation 300 of
+        those runs, 1.3–2.1 at 50×300. This is the only task where evolution beats sampling;
+        there P(exact) × evaluations is below about 1 and the plateau is not deceptive.
+      Random search itself matches 1 − exp(−N·P(exact)) from Phase A. The suite has no task
+      where folding is in that rare-but-climbable regime: its P(exact) is 25–30× direct's
+      on count∘rest, so sampling alone saturates, and filter tasks (< 1 in 20M) are solved
+      in ≤ 1/50 runs.
+    - **Tie rules do not restore behavioural diversity.** Under random or offspring-first
+      ties the median unsolved final population still holds one behaviour (top share 1.0),
+      as (μ+λ) truncation keeps only the top fitness level. Equal-fitness replacement does
+      happen: median best length in unsolved runs grows (fold 51–53 → 132–159, direct at
+      200×1000 29 → 84–86), and folding's P(exact) falls with length. Offspring-first raises
+      direct count∘rest(products) at 200×1000 from 21 to 35/50 (18 vs 4 discordant seeds,
+      p = 0.004); the fold/direct gap there shrinks from 26 to 8 seeds.
+    - **Raising the `rest` character's weight raises count∘rest solve rates in both maps**
+      (weights 0.2 / 1 / 5; count∘rest(products) at 200×1000: fold 24 / 42 / 50, direct
+      10 / 29 / 45 of 50; nondecreasing with measured P(exact) in all 8 rest cells; the
+      count(products) control does not improve). The gain is sublinear in P(exact): fold's
+      ratio to sampling on count∘rest(employees) at 50×300 falls 0.58 → 0.25 → 0.12 as the
+      weight rises, and direct's 4.6 → 2.1 → 0.95. The weight changes initial genotypes and
+      mutation proposals together, so start frequency is not separated from mutational
+      access.
+    - **"No better than random search" is narrowed, not reversed:** worse than sampling
+      wherever P(exact) × evaluations ≳ 1; 1.3–4.6× better only on direct
+      count∘rest(employees). The cell §28 cites (15 vs 3/50 at 50×300) overstates, as random
+      search drew low there (about 8 expected).
+    - **Filter tasks carry no information on eight contexts.** The one new filter success
+      (direct, count(filter(amount>300, orders)), seed 10) is a nested `if`/`rest` shortcut
+      with no filter or threshold.
+    - Not shown: that folding helps or hinders evolution beyond making solvers common. Both
+      maps have not been compared at matched P(exact) × evaluations.
 
 ## Open
 
@@ -245,9 +290,18 @@ found. Remaining:
 - **Stable machinery** (parked with Step 2). On fixed-goal solved runs, elitism freezes the
   champion (in all 4 co-option runs the helper stayed unchanged, with one reader, to
   generation 3000). Reuse and entrenchment would need a multi-output task.
-- **The core map-bias question** (item 17; night 2 plan: Plans/map-bias-pivot-night2.md):
-  1. restore neutral drift (random tie-breaking in the truncation) — a prerequisite;
-  2. a frequency knob within one map (weight the `rest` character in random genotypes and
-     mutation, as item 12) to make "solve rate follows P(exact)" causal;
-  3. random search at every budget, reported as evolution minus sampling per map;
-  4. steering only with a per-arm design, and only if drift is restored.
+- **The core map-bias question** (item 17). Night 2 (Plans/map-bias-pivot-night2.md) is
+  done: tie rules, the `rest` weight and random search at every budget are in item 17.
+  Next, a **rarity ladder** (no plan file yet): count(restᵈ(X)) for d = 1–3 on employees
+  and products, both maps, offspring-first ties, 50×300 and 200×1000, 50 seeds, plus random
+  search.
+  - The existing 20M samples at length 50 give P(exact) on employees of 3.4×10⁻⁴ /
+    1.6×10⁻⁵ / 8.5×10⁻⁷ for fold and 1.1×10⁻⁵ / 3×10⁻⁷ / 0 seen for direct at d = 1 / 2 / 3,
+    so a larger Phase A sample (about 200M) is needed for direct at d = 3.
+  - Readout: each map's ratio to sampling, compared at matched P(exact) × evaluations.
+    Report employees and products separately (products has the `count(orders)` plateau).
+  - If fold's ratio stays below 1 where direct's is above 1, folding is a better sampler
+    but a worse substrate for evolution on fixed tasks; drop fixed-target map bias and
+    re-test the regime-shift claim in this harness against direct encoding and a
+    random-restart baseline.
+  - Steering stays parked: populations hold one behaviour under every tie rule.

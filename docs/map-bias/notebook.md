@@ -1889,9 +1889,8 @@ the observed 0/50 cells likewise do not establish unreachability.
   parsing after launch; semantic equivalence checks and exact replays below anchor
   its use. Two reviews occurred before launch; a separate repair review occurred
   after launch. Existing rows were preserved, not replaced by scratch outputs.
-- [ ] Findings item 17/Open promotion and Fable review **deferred 2026-10-01**: Fable's
-  access route remains unidentified. This reviewed notebook is the concrete review
-  handoff; findings remain unpromoted pending the named reviewer.
+- [x] Findings item 17/Open promotion and Fable review: deferred 2026-10-01, done
+  2026-10-02 (seventeenth review, at the end of this section).
 
 Q1 is mixed: some direct solve rates improve and the fold/direct gap narrows in the
 rest(products) large-budget cell, while final behavioural concentration remains.
@@ -1903,7 +1902,7 @@ No new mechanism name or universal claim is proposed. Unseen contexts, additiona
 maps/tasks/weights, genotype-level drift, and separate initialization-only versus
 mutation-only interventions remain open.
 
-**Findings forward-link:** [item 17 and Open](findings.md), TODO after Fable review;
+**Findings forward-link:** [item 17 and Open](findings.md), amended 2026-10-02;
 existing §27 and findings claims are preserved as their historical reasoning trail.
 **Next step:** Fable reviews this section, the complete report, and endpoint shortcut
 inspection before any findings amendment. Any subsequent experiment requires its
@@ -1937,3 +1936,42 @@ The original 2,196-row prefix SHA256 matches the resumed file; pre-repair metada
 and `pivot2_drift/resume-provenance.json` retain the interruption provenance.
 No missing row is treated as an unsolved outcome. No sampler/parameter amendment
 or additional scientific arm is introduced by this performance repair.
+
+**Seventeenth (Fable) review (2026-10-02).** Checked against the 12,200 rows; no new runs.
+Reanalysis: `experiments/map_bias/neff_reanalysis.py` (solve rate at generation G from
+`first_exact_gen`, converted to equivalent independent samples −ln(1 − solved/n) / P(exact)
+and divided by evaluations spent; 1 = blind sampling).
+
+- *The suite is sampleable, and that is the main result.* Random search matches
+  1 − exp(−N·P(exact)) from Phase A. Evolution's ratio to sampling at k = 1:
+
+  | cell | ratio |
+  |---|---|
+  | fold, count and count∘rest, any budget | 0.03–0.75, falling with generations |
+  | direct, plain count | 0.03–0.3 |
+  | direct, count∘rest(products), generation 1000 | 0.2–0.5 |
+  | direct, count∘rest(employees), 200×1000 | 1.4–1.7 (2.9–4.1 at generation 300) |
+  | direct, count∘rest(employees), 50×300 | 1.3–2.1 |
+  | direct, count∘rest(employees), k = 0.2 | 3.3 at 200×1000, 4.6 at 50×300 |
+
+  Fold solves early or not at all (count∘rest(products), 200×1000: 29–33/50 by generation
+  30, 42–47/50 by generation 1000). Evolution beats sampling only on direct
+  count∘rest(employees), where N·P(exact) is below about 1 and the plateau is not
+  deceptive. Fold never enters that regime: its P(exact) is 25–30× higher. Filter tasks
+  have no gradient. So folding's solve-rate advantage here is a sampling advantage.
+- *Q1 could not have restored behavioural diversity.* (μ+λ) truncation keeps only the top
+  fitness level, whatever the tie rule. The tie rules do admit equal-fitness children:
+  best lengths grow, and folding's P(exact) falls with length.
+- *Q2 is sublinear.* Fold's ratio on count∘rest(employees) at 50×300 falls 0.58 → 0.25 →
+  0.12 as the weight rises (direct 4.6 → 2.1 → 0.95): frequency acts mostly through
+  sampling.
+- *Q3's cited cell overstates.* Random search solved 3/50 on direct count∘rest(employees)
+  at 50×300 where about 8 are expected; the evolution advantage is real but is 1.3–2.1×
+  there, and clearer at population 200 (43–47 solved by generation 300 vs about 25
+  expected from sampling).
+
+**Next:** a rarity ladder, count(restᵈ(X)) for d = 1–3, to put both maps at
+N·P(exact) ≪ 1 on a task with a gradient and compare their ratios to sampling (findings,
+Open). P(exact) at length 50 on employees from the existing samples, d = 0–4: fold
+2.4×10⁻³, 3.4×10⁻⁴, 1.6×10⁻⁵, 8.5×10⁻⁷, 1×10⁻⁷; direct 5.2×10⁻⁴, 1.1×10⁻⁵, 3×10⁻⁷, then 0
+in 20M.
