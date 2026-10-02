@@ -41,7 +41,8 @@ Nobody will answer questions. You will be killed at ${deadline} local time; the 
 must be finished and pushed before then. If the plan's STATE.md already exists, resume from it."
 
 echo "starting agent at $(date), hard stop ${deadline}, log ${log}"
-git pull --ff-only
+# Works with local uncommitted files, unlike pull under pull.rebase.
+git fetch --quiet && git merge --ff-only --quiet "@{u}" || echo "warning: could not fast-forward; continuing on $(git rev-parse --short HEAD)"
 set +e
 # shellcheck disable=SC2086
 caffeinate -s "$timeout_bin" --kill-after=60 "${max_hours}h" $AGENT_CMD "$prompt" >"$log" 2>&1

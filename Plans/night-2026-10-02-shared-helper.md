@@ -20,7 +20,8 @@ outcome; a rushed stage 3 with unchecked code is not.
 
 ## Rules for working unattended
 
-- **First action:** `git pull --ff-only`, then read `CLAUDE.md`, `Plans/shared-helper-reuse.md`
+- **First action:** `git fetch && git merge --ff-only @{u}` (the launcher has already tried
+  this), then read `CLAUDE.md`, `Plans/shared-helper-reuse.md`
   and the files it lists under "Read first".
 - **State file:** keep `experiments/output/2026-10-02/s29_night/STATE.md` up to date: one line
   per phase (pending / running / done / skipped + reason), the time, and the current commit.
@@ -154,7 +155,7 @@ Do this at 07:00 whatever state the queue is in.
 On the Mini, inside a persistent session (Herdr, tmux, or similar), from the repo root:
 
 ```
-git pull --ff-only
+git fetch && git merge --ff-only @{u}
 AGENT_CMD='<your headless agent command>' scripts/night_agent.sh \
   --at 23:00 --max-hours 9 Plans/night-2026-10-02-shared-helper.md
 ```
