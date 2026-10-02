@@ -28,8 +28,9 @@ outcome; a rushed stage 3 with unchecked code is not.
   Write it before and after every phase. If you are started and it already exists, resume from
   it; never launch a queue entry that `queue_s29.status.json` marks done or that is running
   (check the lock file and `ps`).
-- **Never ask a question and wait.** Decide with the rules here; if they don't cover it, take the
-  more conservative option, record the decision in STATE.md, and continue with whatever does not
+- **Never ask the human a question and wait.** Decide with the rules here. If they don't cover
+  it, or you are stuck, ask Fable (next section). If that is unavailable, take the more
+  conservative option, record the decision in STATE.md, and continue with whatever does not
   depend on it.
 - **Do not change scientific settings to make something finish or pass.** The only allowed
   scaling is the one in "Stage 3 budget" below. Record any scaling you apply.
@@ -47,6 +48,33 @@ outcome; a rushed stage 3 with unchecked code is not.
 - **Failures:** diagnose before retrying; at most one retry of a failed queue entry, and only
   after you can name the cause. Keep partial rows. A post-launch code repair must keep the
   original rows and record provenance, as in notebook §28.
+
+## Asking Fable when stuck
+
+Fable wrote both plans and is the adviser for this night. Ask when:
+- you have spent about 20 minutes on one obstacle without progress;
+- a gate or a rule in either plan is ambiguous for the case in front of you;
+- a check fails and you cannot name the cause;
+- a result looks wrong or surprising enough that it changes what should run next.
+
+How, from the repo root (a fresh headless session; it can read the repository but give it the
+paths that matter and say what you already tried):
+
+```
+claude -p --model claude-fable-5-1 "You are advising the agent running \
+Plans/night-2026-10-02-shared-helper.md unattended. Read that plan and \
+Plans/shared-helper-reuse.md. <situation, file paths, what was tried, the options you see>. \
+Give one recommendation and the reason. Do not edit files."
+```
+
+- At most 6 calls for the night, each with a 10-minute timeout. Do not ask for routine coding
+  help or for permission to continue.
+- Record each question, the answer and what you did in STATE.md.
+- Fable's answer is advice. It cannot override the rules in this file: the scaling order, the
+  03:30 launch deadline, the scope of changes, the git rules, no edits to `findings.md`. If the
+  advice conflicts with them, follow this file and note the conflict in the briefing.
+- If the command fails or the model is unavailable, say so in STATE.md and take the more
+  conservative option. Do not present another model's answer as Fable's.
 
 ## Schedule and gates
 
@@ -93,10 +121,11 @@ each result in STATE.md:
    "shared" by knockout; in seed-dup, 100% "duplicated".
 5. **Pilot:** 2 seeds per arm, full length; read the logged census; measure wall-clock.
 6. **Queue validation:** `scripts/run_queue.py --validate` on `queue_s29.yaml`.
-7. **One independent review.** Use `codex review` if available on this machine; otherwise a
-   fresh-session review by another model or a fresh instance of yourself. Record who actually
-   reviewed (do not label a self-review as an independent or named reviewer). Fix anything that
-   would invalidate the night; note the rest.
+7. **Codex code review** of the stage 3 changes (`codex review` against the last commit before
+   phase B, or the `/codex review` skill). One round, plus one re-review if you fixed a P1. Fix
+   anything that would invalidate the night; note the rest in STATE.md. If Codex is not
+   installed or fails, use a fresh `claude -p` session as reviewer instead and record that the
+   review was not by Codex.
 8. Commit and push. The queue runs from that commit with a clean tree for the files it uses.
 
 **Gate B:** every check passes and it is before 03:30. Otherwise do not launch.
