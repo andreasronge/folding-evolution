@@ -2176,3 +2176,120 @@ individuals take over 1000 generations. Tape length is the sharing knob: the dup
 - Seed-dup with random latent tags (L 64, 128, 1000 generations).
 - Stage 4 (random starts) follows. If crossover is the establishment barrier, it gets a
   crossover-off arm.
+
+## 30. Can a rare shared form establish? Crossover says no (2026-10-03)
+
+**Status:** exploratory; Fable review pending · 30 seeds per cell, 1080 runs · code and
+sweeps `d49f4ec` (the queue ran from it) · plan
+[establishment-s30.md](../../Plans/establishment-s30.md), from Fable's eighteenth review of §29
+
+**Before.** §29 showed that a shared form held from 100% and took over from 50%. A newly
+discovered shared genome starts rare, though, and Fable's 3-seed probe found a rare shared
+form wiped out when crossover was on. This section measures establishment.
+- Arms A and B: the shared form starts at 1/32 to 1/2 of a population, against the
+  duplicated form (A) or the partly shared form (B). Crossover v2 at 0.7 or off, 300
+  generations, census every 5 generations.
+- Arm C repeats §29's seed-dup with random latent tags on the non-RECV cells. §29's seeds
+  carried tag 0 there, so an op → RECV mutation read A.
+
+**Provenance and checks.**
+- Queue: 3/3 entries done, exit 0, 1080/1080 runs, 36/36 cells complete, no duplicate run
+  keys. Wall time 2414 + 2478 + 1075 s. `git_dirty: true` is again only the runner's own
+  untracked lock and status files.
+- Pilot: 2 seeds per arm (72 runs). Tests check exact start counts (32, 103, 256, 512 shared
+  of 1024) and that random-latent forms compute and classify the same as §29's forms.
+- One Codex review, one P2 (the report's "majority of seeds" left out seeds without a fully
+  exact individual), fixed before launch.
+- No run in arms A or B ended without a fully exact individual. The census agrees with
+  direct tallies of three final populations.
+
+### Arm A: shared vs duplicated
+
+![arm A](figures/s30_establishment_dup.png)
+
+| start share | crossover | L = 64: won / lost | L = 128: won / lost |
+|---|---|---|---|
+| 1/32 | 0.7 | 0 / 30 | 0 / 30 |
+| 1/10 | 0.7 | 0 / 29 | 0 / 29 |
+| 1/4 | 0.7 | 6 / 23 | 12 / 15 |
+| 1/2 | 0.7 | 30 / 0 | 30 / 0 |
+| 1/32 | 0 | 19 / 11 | 17 / 13 |
+| 1/10 | 0 | 29 / 1 | 26 / 4 |
+| 1/4 | 0 | 30 / 0 | 30 / 0 |
+| 1/2 | 0 | 30 / 0 | 30 / 0 |
+
+Won = > 90% of fully exact individuals shared at generation 300; lost = shared share 0; the
+remaining seeds are in between.
+
+### Arm B: shared vs partly shared
+
+![arm B](figures/s30_establishment_partly.png)
+
+| start share | crossover | L = 32: won / lost | L = 64 | L = 128 |
+|---|---|---|---|---|
+| 1/32 | 0.7 | 0 / 30 | 0 / 30 | 0 / 30 |
+| 1/10 | 0.7 | 0 / 28 | 0 / 29 | 0 / 29 |
+| 1/2 | 0.7 | 29 / 1 | 16 / 11 | 13 / 13 |
+| 1/32 | 0 | 15 / 13 | 8 / 22 | 7 / 23 |
+| 1/10 | 0 | 24 / 5 | 19 / 10 | 16 / 13 |
+| 1/2 | 0 | 28 / 0 | 30 / 0 | 30 / 0 |
+
+### Arm C: seed-dup with random latent tags (1000 generations, crossover 0.7)
+
+| L | partly shared > 50% at some point | median generation | any shared individual | lost the solution | final partly / duplicated |
+|---|---|---|---|---|---|
+| 64 | 23/30 | 390 | 1/30 | 1/30 | 0.75 / 0.25 |
+| 128 | 22/30 | 640 | 2/30 | 0/30 | 0.72 / 0.28 |
+
+§29, with tag-0 latent cells: 60/60 at a median of generation 80.
+
+**Results.**
+- **With crossover on, a rare shared form does not establish.** From 1/32 or 1/10 it is lost
+  in 294 of 300 runs across both contests, and won in none. It hits 0 at a median of
+  generation 5–12. The population turns partly shared (against duplicated) or stays partly
+  shared (against partly).
+- **With crossover off, it often does.** Against duplicated it wins from 1/10 in 29/30 and
+  26/30 runs, and from 1/32 in 19/30 and 17/30. Against partly shared it wins from 1/10 in
+  24, 19 and 16 of 30 runs (L 32/64/128), and from 1/32 in 15, 8 and 7.
+- **Outcomes are mostly all-or-nothing per seed.** Few seeds end in between, so the
+  establishment probability is what varies, not a stable mix.
+- **Partly shared is the stronger competitor.**
+  - With crossover on, the shared form needs a 1/2 start to beat partly shared at 64 and
+    128 cells, and then wins only 16/30 and 13/30 runs.
+  - At 32 cells it wins 29/30 from 1/2.
+  - Without crossover, a 1/32 start wins against partly shared mainly at 32 cells (15/30
+    vs 8 and 7).
+- **Arm C:** with random latent tags, duplicated populations still turn partly shared in
+  most runs (23/30 and 22/30), but about 5–8 times more slowly (median generation 390 and
+  640, against 80). A pure B helper still practically never appears (3 runs, one individual
+  each).
+
+**What this shows, and what it doesn't.**
+- **Crossover v2 is an establishment barrier for the shared form** in this setting.
+  - A rare shared genome is eliminated within a few generations when crossover is on, and
+    often spreads when it is off.
+  - So §29's "retention is not the obstacle" holds only for a majority. For a newly
+    discovered shared genome, crossover is the obstacle.
+  - This matches §29's stage 2: crossover between the forms turns shared genomes into
+    partly shared and duplicated ones.
+  - Not shown is which part of crossover does it. Homologous body swaps putting `RECV3`
+    consumers into hosts without a tag-3 run is the obvious candidate, but it was not
+    isolated.
+- **The size knob matters only against partly shared, and only with a large start share**
+  (1/2: 29/30 at 32 cells vs 13–16/30 at 64 and 128). It does not rescue a rare shared form
+  with crossover on.
+- **§29's seed-dup speed was helped by the tag-0 latent cells.** The conversion to an
+  output-as-helper still happens, but slowly. §29's caveat stands, and the 60/60 should be
+  read as an upper bound.
+- **Scope:** seeded starts, one task, crossover v2 at 0.7 or off (no intermediate rate),
+  lexicase, population 1024, 300 generations (1000 for arm C).
+
+**Next.**
+- For stage 4 (random starts), the plan's reading applies: crossover is the establishment
+  barrier. Stage 4 needs a crossover-off arm, and probably an intermediate crossover rate.
+- The chemistry change worth trying is one that lets a consumer travel with its helper in
+  crossover. For example, homologous crossover could take a run's body only together with
+  the runs it reads, or take a tag's RECV targets with it.
+- A cheaper first step is to isolate which crossover branch (homologous swap or cut)
+  removes the rare shared form. That can be done without evolution, in the style of
+  stage 2.
