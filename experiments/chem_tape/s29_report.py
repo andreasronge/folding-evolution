@@ -135,26 +135,30 @@ def readouts(runs: list[dict]) -> tuple[list[str], dict]:
         fe = np.array([f["fully_exact"] for f in fin])
         always = sum(all(s["fully_exact"] > 0 for s in r["res"]["shared_stats"]) for r in rs)
         m = {k: np.nanmean([np.nan if f[k] is None else f[k] for f in fin]) for k in ("shared", "partly", "duplicated")}
-        low = sum(1 for f in fin if f["shared"] is None or f["shared"] < 0.5)
+        low = sum(1 for f in fin if f["shared"] is None or f["shared"] < 0.5)   # None = no fully exact
         out.append(f"| {L} | {len(rs)} | {fmt(fe.mean())}, {fmt(fe.min())} | {always}/{len(rs)} | "
                    f"{fmt(m['shared'])} / {fmt(m['partly'])} / {fmt(m['duplicated'])} | {low}/{len(rs)} |")
     # 3. seed-dup
     out += ["", "### Readout 3: seed-dup (does sharing arise from a duplicated start?)", "",
             "| L | seeds | seeds with any shared individual (any log point) | max shared share | "
-            "seeds with any partly shared | final fully exact (mean) | final duplicated share (mean) |",
-            "|---|---|---|---|---|---|---|"]
+            "seeds with any partly shared | final fully exact (mean) | no fully exact at end | "
+            "final partly / duplicated share (mean over seeds with fully exact) |",
+            "|---|---|---|---|---|---|---|---|"]
     for L in EXPECTED["dup"]:
         rs = group(runs, "dup", L)
         if not rs:
-            out.append(f"| {L} | 0 | | | | | |")
+            out.append(f"| {L} | 0 | | | | | | |")
             continue
         anysh = sum(any((s["shared"] or 0) > 0 for s in r["res"]["shared_stats"]) for r in rs)
         mx = max(max((s["shared"] or 0) for s in r["res"]["shared_stats"]) for r in rs)
         anyp = sum(any((s["partly"] or 0) > 0 for s in r["res"]["shared_stats"]) for r in rs)
         fin = [r["res"]["shared_stats"][-1] for r in rs]
+        none = sum(f["n_fully_exact"] == 0 for f in fin)
+        pa = [f["partly"] for f in fin if f["partly"] is not None]
+        du = [f["duplicated"] for f in fin if f["duplicated"] is not None]
         out.append(f"| {L} | {len(rs)} | {anysh}/{len(rs)} | {fmt(mx)} | {anyp}/{len(rs)} | "
-                   f"{fmt(np.mean([f['fully_exact'] for f in fin]))} | "
-                   f"{fmt(np.nanmean([np.nan if f['duplicated'] is None else f['duplicated'] for f in fin]))} |")
+                   f"{fmt(np.mean([f['fully_exact'] for f in fin]))} | {none}/{len(rs)} | "
+                   f"{fmt(np.mean(pa)) if pa else '–'} / {fmt(np.mean(du)) if du else '–'} (n={len(pa)}) |")
     # 4. run census
     out += ["", "### Readout 4: run census (population means, generation 0 → final; reading from tags 0–2)", "",
             "| arm | L | runs | read | unread | helpers (read, not an output run) | with a helper |",

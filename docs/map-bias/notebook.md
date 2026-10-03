@@ -1978,7 +1978,7 @@ in 20M.
 
 ## 29. Shared helpers, stages 1–3: can tagged runs hold and keep a shared part? (2026-10-02)
 
-**Status:** exploratory; Fable review pending · stage 3: 30 seeds per cell · code commits
+**Status:** exploratory; reviewed by Fable (eighteenth review, corrections applied below) · stage 3: 30 seeds per cell · code commits
 `9848d08` (stages 1–2) and `7141ecf` (stage 3; queue ran from it) · baseline `fa36ac7`
 
 **Plan:** [shared-helper-reuse.md](../../Plans/shared-helper-reuse.md), run unattended by
@@ -2012,15 +2012,18 @@ individuals take over 1000 generations. Tape length is the sharing knob: the dup
   - Multi-output tracking under task alternation is now rejected.
 - Pilot: 2 seeds per arm, run twice (before and after the memo fix), same results.
 - Generation 0 is 100% fully exact in every run. The census reads 100% shared (seed-shared),
-  100% duplicated (seed-dup) and 46–52% shared (seed-mixed).
-- Nothing was scaled. The queue took 56 min wall (1030 + 1319 + 1024 s), 140–160 s per run.
+  100% duplicated (seed-dup) and 45–55% shared (seed-mixed).
+- Nothing was scaled. The queue took 56 min wall (1030 + 1319 + 1024 s), 88–196 s per run
+  (median 139).
 - Census: every 20 generations, on 256 sampled individuals, with its own random generator.
   It records exactness per output on all 10,000 lists and the knockout form of each fully
   exact individual.
 - Final populations were also tallied directly (all non-elite fully exact individuals).
   The tallies agree with the census.
-- Elites (slots 0–1) keep the seeded genome frozen, so they are reported separately. An
-  early inspection that decoded slot 0 made the pilot look contradictory.
+- Elites (slots 0–1) are the first two of an unstable sort over tied training fitness. Slot 0
+  kept a seeded genome in the inspected runs; slot 1 sometimes held an evolved one. Elites are
+  reported separately. An early inspection that decoded slot 0 made the pilot look
+  contradictory.
 
 **What was built.**
 - `mbs_three`: outputs on tags 0/1/2. Pooled lexicase runs over 3 × 64 cases; above 64
@@ -2066,11 +2069,14 @@ individuals take over 1000 generations. Tape length is the sharing knob: the dup
 
 - **Mutation and crossover with a random genome:** shared and duplicated survive about
   equally. The smaller target and the single point of failure roughly cancel.
-- **Shared × duplicated crossover is lopsided.**
+- **Shared × duplicated crossover is lopsided in exactness, not in sharing.**
   - Shared as parent A: 0.80 of children fully exact. Homologous crossover swaps in
     duplicated bodies, which are self-contained.
+  - But those exact children are only about a third shared; the rest are partly shared or
+    duplicated (Fable, eighteenth review: 818 / 1161 / 867 of 10,000 at L=64).
   - Duplicated as parent A: 0.38. Shared consumer bodies (`RECV0 RECV3 …`) arrive in a
     genome with no tag-3 run.
+  - So crossover between the forms mostly converts shared genomes into the other forms.
 - **Mutation survival falls with tape length for every form.** The NOP padding after the last
   run belongs to that run's body (tag 2 here), so insertions there change output 2. It is a
   layout effect, the same for all forms.
@@ -2086,26 +2092,47 @@ individuals take over 1000 generations. Tape length is the sharing knob: the dup
 | seed-shared | 32 | 0.34 (min 0.26) | 1.00 / 0.00 / 0.00 | 30/30 | 0/30 |
 | seed-shared | 64 | 0.37 (min 0.31) | 1.00 / 0.00 / 0.00 | 30/30 | 0/30 |
 | seed-shared | 128 | 0.36 (min 0.32) | 1.00 / 0.00 / 0.00 | 30/30 | 0/30 |
-| seed-dup | 64 | 0.33 | 0.00 / ≈1.00 / 0.00 | 0/30 | 0/30 |
-| seed-dup | 128 | 0.34 | 0.00 / 0.99 / 0.01 | 0/30 | 0/30 |
+| seed-dup | 64 | 0.33 | 0.00 / ≈1.00 / 0.00 (29 runs; 1 has no fully exact at end) | 0/30 | 0/30 |
+| seed-dup | 128 | 0.34 | 0.00 / 0.99 / 0.01 (29 runs; 1 has no fully exact at end) | 0/30 | 0/30 |
 
 - **seed-mixed (main readout):** the neutral expectation was drift around 50%. Instead the
-  shared form takes over in every seed at both 64 and 128 cells: 95% of fully exact
-  individuals at generation 20 (the first logged point), ≥ 95% from then on.
+  shared form takes over in every seed at both 64 and 128 cells.
+  - At generation 20 (the first logged point) the shared share is a mean of 96% (L=64) and
+    94% (L=128); the lowest seed is 81%.
+  - The mean stays ≥ 94% from then on.
+  - A 3-seed probe by Fable shows a 19–34% partly shared bump around generation 10, which
+    the 20-generation census cannot see.
 - **seed-shared:** every population holds fully exact individuals at every logged
-  generation. The shared form is never replaced, at 32, 64 or 128.
+  generation. The shared form is never replaced, at 32, 64 or 128. The lowest logged shared
+  share is 0.987; the final share is 1.00 in all 90 runs.
 - **seed-dup:**
   - Sharing of A arises in 60/60 runs. Tags 1 and 2 drop their copy of A for `RECV0`.
     Partly shared passes 50% of fully exact individuals at a median of generation 80
     (range 40–440).
   - A pure B helper practically never arises. Only 1/30 (64) and 3/30 (128) seeds ever
-    show a shared individual, at most 1% of a sample.
+    show a shared individual: each time one individual among the 84–105 fully exact ones in
+    a sample, at one log point, never at the end. The label only needs some non-output run
+    with count ≥ 2, so these may be relays of A rather than a B helper.
   - "Partly" includes genomes where only one of the two consumers reads A: the tag-0 run
-    then has consumer count 2, not 3.
+    then has consumer count 2, not 3. That is 4.9% of partly shared individuals in the
+    final populations (998 of 20,454; Fable).
+  - **In 2/60 runs the solution was lost** (seed 9, at both lengths). The population moved
+    to a shorter tag-1 body, `INPUT SUM C5 C5 ADD C5 ADD GT` (sum > 15). It is right on that
+    seed's 64 training cases and wrong on 1,940 of the 10,000 lists. The census has no fully
+    exact individual from generation 960 (L=64) and 280 (L=128, with brief returns). The
+    final populations hold 4 and 1 fully exact individuals out of 1022.
+  - **The seeds may make this result easier.** The hand-built forms carry tag 0 on every
+    non-RECV cell, and mutation changes op and tag independently. So an op mutation to RECV
+    reads tag 0 (A) by default, and a single point mutation (the `GT` of the A copy → RECV)
+    makes a consumer partly shared. With random latent tags, as in evolved genomes, that
+    route is about 64 times rarer. The 60/60 and the median of generation 80 may not hold
+    there.
 - **Fully exact share:** after generation 20, about a third of each sample is fully exact,
-  in every arm and at every length. That fits a mutation-and-crossover load (stage 2: 0.12–0.42
-  of mutants stay fully exact) rather than a loss of the solution, but the load was not
-  measured separately.
+  in every arm and at every length. That fits a mutation-and-crossover load rather than a loss
+  of the solution, but it is not what stage 2 predicts: hand-built mutant survival falls from
+  0.42 (32) to 0.12 (128). The evolved populations have become more robust than the
+  hand-built forms; decoded genomes often end in a junk run that absorbs the padding. The
+  load was not measured separately.
 - **Run census, generation 0 → 1000, population means:**
   - The B helper is kept: helper runs per genome 0.84–0.93 in seed-shared and seed-mixed,
     0.00–0.01 in seed-dup.
@@ -2117,23 +2144,35 @@ individuals take over 1000 generations. Tape length is the sharing knob: the dup
   `SUM` or `THR` stand in for `C0` because each pushes 0 here, and `RADD` for `SUM`. No
   shortcut that changes behaviour was seen.
 
-**What this shows, and what it doesn't.**
-- When evolution starts from a solution, keeping a shared helper is not the obstacle. A
-  fully exact shared form persists, and against an equal mix of duplicated solutions it
-  wins outright and fast, at 64 and 128 cells as well as 32.
-- So sharing needs no size pressure here. Of the plan's three readings, the third applies:
-  retention is not the problem, discovery is.
-- From a duplicated start, evolution finds the cheaper sharing (an output read by RECV)
-  every time. It does not factor B out into a new helper run within 1000 generations,
-  which needs a new run with a fresh tag and two rewired consumers.
-- Not shown: why the shared form wins. Stage 2 points to a crossover asymmetry (shared ×
-  duplicated children stay exact 0.80 vs 0.38) and to a smaller mutation target per
-  consumer, but neither was tested as the cause.
-- The scope is narrow: seeded starts, one task, crossover v2, lexicase, population 1024,
-  1000 generations. Random starts (discovery) are stage 4.
+**What this shows, and what it doesn't** (revised after the eighteenth review).
+- **Retention from a majority or an equal share is not the obstacle.** A fully exact shared
+  form persists at 32, 64 and 128 cells. Against an equal share of duplicated solutions it
+  wins outright and fast at 64 and 128 cells; at 32 only persistence was tested.
+- **Establishment from a small share was not tested here, and it is the case that matters
+  for discovery,** since a newly found shared genome starts rare. Fable's probe (3 seeds per
+  cell, 100 generations, not a result):
+  - from 10% or 1/32 shared with crossover v2 at 0.7, the shared form was gone within 15
+    generations in 9/9 runs, and the population turned partly shared;
+  - from 10% with crossover off it won (3/3);
+  - from 50% it won with or without crossover.
+- **So the plan's third reading ("discovery is the obstacle") is premature.** Crossover may
+  stop a rare shared form from establishing.
+- **The likely cause of the takeover is the mutation target, not crossover.**
+  - The shared form has fewer critical cells: 24 against 33.
+  - In Fable's one-generation model at 50/50, crossover lowers the shared share (to 0.44 at
+    L=64) while mutation alone raises it (per-capita 0.271 vs 0.230).
+  - The takeover is as fast with crossover off (probe, 3 seeds).
+  - The seed-9 loss shows the same force: among training-perfect genomes, the one with fewer
+    critical cells wins, exact or not.
+- **From a duplicated start, evolution found the cheap sharing (A read by RECV) every time,**
+  possibly helped by the tag-0 latent tags of the seeds. It never factored B out into a
+  helper run within 1000 generations.
+- **Scope:** seeded starts, one task, crossover v2, lexicase, population 1024, 1000
+  generations.
 
-**Next (stage 4, outline in the plan):** the three-output task from random starts at 32, 64
-and 128 cells. Readouts: fully exact populations, the shared / partly / duplicated split by
-knockout, and how often a random genome already has each form. An extra readout from this
-section: does a pure helper ever arise when nothing is seeded, given that seed-dup never
-made one?
+**Next (Fable's recommendation, §30):** establishment from a small share.
+- Shared vs duplicated (L 64, 128) and shared vs partly shared (L 32, 64, 128) from 1/32 to
+  1/2 shared, crossover 0.7 and 0, 300 generations.
+- Seed-dup with random latent tags (L 64, 128, 1000 generations).
+- Stage 4 (random starts) follows. If crossover is the establishment barrier, it gets a
+  crossover-off arm.
