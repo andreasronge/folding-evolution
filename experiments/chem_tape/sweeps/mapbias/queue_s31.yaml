@@ -1,0 +1,35 @@
+# Map-bias §31 queue (Plans/s31-dose-reciprocal-stage4.md). Order D, E, F (cheap), then G (stage 4).
+# Pilot (10 workers shared with G): median / max s per run D 39/48, E 49/77, F 32/37, G 394/473.
+# Expected: D ~35 min, E ~22 min, F ~21 min, G ~4.9 h. Timeouts: 3x for D/E/F; G capped at 6.5 h so
+# the whole queue stays within the 10-hour budget (a cut-short sweep keeps its finished runs).
+# Launch:
+#   caffeinate -s uv run python scripts/run_queue.py --queue experiments/chem_tape/sweeps/mapbias/queue_s31.yaml \
+#     --status experiments/chem_tape/sweeps/mapbias/queue_s31.status.json --lock experiments/chem_tape/sweeps/mapbias/queue_s31.lock
+
+- id: mapbias_s31_dose
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/s31_dose.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 8000
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §31 arm D: crossover 0.1/0.3/0.5, shared from 1/32 and 1/10, 30 seeds"
+
+- id: mapbias_s31_reciprocal
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/s31_reciprocal.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 6600
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §31 arm E: shared at 768/922/992 of 1024, crossover 0.7, 30 seeds"
+
+- id: mapbias_s31_few_copies
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/s31_few_copies.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 4800
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §31 arm F: 1 or 8 shared copies, crossover off, L 64, 100 seeds"
+
+- id: mapbias_s31_stage4
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/s31_stage4.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 23400
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §31 arm G: stage 4 random starts, L 32/64/128 x crossover 0.7/0.3/0, 3000 gens, 50 seeds"

@@ -303,9 +303,16 @@ def build_initial_population(
     n_seed = int(round(cfg.seed_fraction * size))
     n_random = size - n_seed
     pop: list[np.ndarray] = []
-    for i in range(n_seed):
-        idx = i % len(seeds) if cfg.seed_split else rng.randint(0, len(seeds) - 1)
-        pop.append(seeds[idx].copy())
+    if cfg.seed_counts:
+        counts = [int(c) for c in cfg.seed_counts.split(",")]
+        if len(counts) != len(seeds) or sum(counts) != n_seed or min(counts) < 0:
+            raise ValueError("seed_counts needs one count per seed tape, summing to the seeded count "
+                             f"({n_seed}); got {counts} for {len(seeds)} tapes")
+        pop = [seeds[k].copy() for k, c in enumerate(counts) for _ in range(c)]
+    else:
+        for i in range(n_seed):
+            idx = i % len(seeds) if cfg.seed_split else rng.randint(0, len(seeds) - 1)
+            pop.append(seeds[idx].copy())
     for _ in range(n_random):
         pop.append(random_genotype(cfg, rng))
     rng.shuffle(pop)

@@ -228,6 +228,10 @@ class ChemTapeConfig:
     # ("shared_stats"). Draws from its own generator, so evolution is unchanged.
     seed_split: bool = False
     track_shared: bool = False
+    # Map-bias §31, tagged runs only: exact copies per seed tape, "c0,c1,..." summing to the
+    # seeded count (round(pop_size * seed_fraction)); e.g. "1,1023" seeds one copy of the first
+    # tape. "" = off (draws with replacement, or seed_split).
+    seed_counts: str = ""
 
     # Map-bias notebook §15: frequency knob. Relative weights for the ops that
     # random genomes and point mutations draw, as "id:weight,..." (unlisted ids
@@ -341,6 +345,8 @@ class ChemTapeConfig:
             d.pop("seed_split", None)
         if not self.track_shared:
             d.pop("track_shared", None)
+        if self.seed_counts == "":
+            d.pop("seed_counts", None)
         # §v2.5-plasticity-1a: all plasticity fields excluded at defaults so
         # existing sweep hashes remain addressable. When plasticity_enabled
         # is False the fast-path is byte-identical to pre-5c Arm A.
@@ -364,8 +370,10 @@ class ChemTapeConfig:
             raise ValueError("tagged_crossover / track_runs apply to arm TAG only")
         if self.op_weights:
             self.op_probs(64)
-        if (self.seed_split or self.track_shared) and self.arm != "TAG":
-            raise ValueError("seed_split / track_shared apply to arm TAG only")
+        if (self.seed_split or self.track_shared or self.seed_counts) and self.arm != "TAG":
+            raise ValueError("seed_split / track_shared / seed_counts apply to arm TAG only")
+        if self.seed_counts and self.seed_split:
+            raise ValueError("seed_counts and seed_split are alternatives; set one")
 
     def op_probs(self, n_ops: int):
         """Draw probabilities over ops 0..n_ops-1 from `op_weights`, or None

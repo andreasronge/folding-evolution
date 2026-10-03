@@ -78,3 +78,54 @@ def test_latent_arm_seeds_random_latent_duplicated_form():
     for c in _configs("s30_dup_latent"):
         assert c.seed_tapes == sh.form_genome("duplicated", c.tape_length, "random").tobytes().hex()
         assert c.generations == 1000 and c.crossover_rate == 0.7
+
+
+def test_seed_counts_gives_exact_copies_and_is_hash_neutral_when_empty():
+    """Map-bias §31: seed_counts="1,1023" seeds exactly one shared genome."""
+    from folding_evolution.chem_tape.config import ChemTapeConfig
+    base = dict(arm="TAG", alphabet="tagged", tag_combine="leftmost", task="mbs_three", tape_length=64,
+                pop_size=1024, seed_fraction=1.0, fast_rng=True,
+                seed_tapes=",".join(sh.form_genome(f, 64).tobytes().hex() for f in ("shared", "partly")))
+    c = ChemTapeConfig(**base, seed_counts="1,1023")
+    pop = evolve.build_initial_population(c, evolve.make_rng(c), 1024)
+    cnt = Counter(g.tobytes() for g in pop)
+    assert cnt[sh.form_genome("shared", 64).tobytes()] == 1 and cnt[sh.form_genome("partly", 64).tobytes()] == 1023
+    a = ChemTapeConfig(**base, seed_split=True)
+    b = ChemTapeConfig(**base, seed_split=True, seed_counts="")
+    assert a.hash() == b.hash()
+    pa = evolve.build_initial_population(a, evolve.make_rng(a), 1024)
+    pb = evolve.build_initial_population(b, evolve.make_rng(b), 1024)
+    assert all(np.array_equal(x, y) for x, y in zip(pa, pb))
+    with pytest.raises(ValueError):
+        ChemTapeConfig(**base, seed_split=True, seed_counts="512,512")
+    with pytest.raises(ValueError):
+        ChemTapeConfig(seed_counts="1,2")
+    for bad in ("1,1022", "1", "-1,1025"):
+        c = ChemTapeConfig(**base, seed_counts=bad)
+        with pytest.raises(ValueError):
+            evolve.build_initial_population(c, evolve.make_rng(c), 1024)
+
+
+@pytest.mark.parametrize("name,n,cells", [("s31_dose", 540, 18), ("s31_reciprocal", 270, 9),
+                                          ("s31_few_copies", 400, 4), ("s31_stage4", 450, 9)])
+def test_s31_sweep_sizes(name, n, cells):
+    cfgs = _configs(name)
+    assert len(cfgs) == n and len({c.hash() for c in cfgs}) == n
+    assert len({(c.tape_length, c.crossover_rate, c.seed_tapes, c.seed_counts) for c in cfgs}) == cells
+
+
+def test_s31_start_counts():
+    want = {"s31_reciprocal": {768, 922, 992}, "s31_few_copies": {1, 8}}
+    for name, counts in want.items():
+        seen = set()
+        for c in _configs(name):
+            if (c.tape_length, c.seed_counts, c.seed_tapes) in seen:
+                continue
+            seen.add((c.tape_length, c.seed_counts, c.seed_tapes))
+            pop = evolve.build_initial_population(c, evolve.make_rng(c), c.pop_size)
+            n = sum(g.tobytes() == sh.form_genome("shared", c.tape_length).tobytes() for g in pop)
+            assert n in counts and n == int(c.seed_counts.split(",")[0])
+    for c in _configs("s31_stage4"):
+        assert c.seed_tapes == "" and c.seed_fraction == 0.0 and c.generations == 3000 and c.track_shared
+    for c in _configs("s31_dose"):
+        assert c.crossover_rate in (0.1, 0.3, 0.5) and c.seed_split
