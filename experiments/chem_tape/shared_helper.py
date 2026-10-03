@@ -83,12 +83,21 @@ def form_cells(name: str) -> int:
     return sum(1 + len(body) for _, body in FORMS[name])
 
 
-def form_genome(name: str, L: int) -> np.ndarray | None:
+def form_genome(name: str, L: int, latent: str = "zero") -> np.ndarray | None:
     """The hand-built form on an L-cell tape (NOP padding with fixed random tags), or None
-    if it does not fit."""
+    if it does not fit. `latent`: the tag carried by non-RECV body cells, which only matters
+    once a mutation turns the cell into RECV. "zero" (stage 1-3) makes such a RECV read A;
+    "random" (§30) gives each cell a fixed random tag, as in evolved genomes."""
     if form_cells(name) > L:
         return None
-    runs = [(tag, tuple(_cells(body))) for tag, body in FORMS[name]]
+    cells = [(tag, _cells(body)) for tag, body in FORMS[name]]
+    if latent == "random":
+        r = random.Random(1000 + L)
+        cells = [(tag, [c if c[0] == RECV else (c[0], r.randrange(tagged.N_TAGS)) for c in body])
+                 for tag, body in cells]
+    elif latent != "zero":
+        raise ValueError(f"latent must be 'zero' or 'random', got {latent!r}")
+    runs = [(tag, tuple(body)) for tag, body in cells]
     return tagged.build([], runs, L, random.Random(L))
 
 

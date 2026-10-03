@@ -1,0 +1,28 @@
+# Map-bias §30 queue (Plans/establishment-s30.md): can a rare shared form establish?
+# Entries in priority order: arm A (shared vs duplicated), arm B (shared vs partly shared),
+# arm C (seed-dup with random latent tags). Pilot (2 seeds/arm, 10 workers): median 45 / 36 /
+# 114 s per run, max 71 / 73 / 126 s. Timeouts = 3x (ceil(runs/10) x max s), rounded up.
+# Launch:
+#   caffeinate -s uv run python scripts/run_queue.py --queue experiments/chem_tape/sweeps/mapbias/queue_s30.yaml \
+#     --status experiments/chem_tape/sweeps/mapbias/queue_s30.status.json --lock experiments/chem_tape/sweeps/mapbias/queue_s30.lock
+
+- id: mapbias_s30_est_dup
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/s30_est_dup.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 10800
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §30 arm A: shared vs duplicated from 1/32-1/2, crossover 0.7/0, L 64/128, 300 gens, 30 seeds"
+
+- id: mapbias_s30_est_partly
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/s30_est_partly.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 12000
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §30 arm B: shared vs partly shared from 1/32-1/2, crossover 0.7/0, L 32/64/128, 300 gens, 30 seeds"
+
+- id: mapbias_s30_dup_latent
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/s30_dup_latent.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 2700
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §30 arm C: seed-dup with random latent tags, L 64/128, 1000 gens, 30 seeds"
