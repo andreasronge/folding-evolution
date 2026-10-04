@@ -412,3 +412,22 @@ def test_critic_reviews_every_proposal_and_is_optional(repo):
     assert d.run(now_mode=True) == 0
     assert fake.calls[-2:] == ["decide", "critique"] and d.state["phase"] == research.AWAITING
     assert not (d.task_dir() / "critique.md").exists()
+
+
+def test_cycle_commits_and_pushes_notes_and_code(repo, tmp_path):
+    remote = tmp_path / "remote.git"
+    subprocess.run(["git", "init", "-q", "--bare", str(remote)], check=True)
+    subprocess.run(["git", "remote", "add", "origin", str(remote)], cwd=repo, check=True)
+    fake = FakeLauncher()
+    d = make_driver(repo, fake, commit_research=True, push=True)
+    assert d.run(now_mode=True) == 0
+    first = d.state["task"]
+    assert d.approve(None) == 0
+    assert d.run(now_mode=True) == 0
+    pushed = research.git("ls-remote", "--heads", str(remote), cwd=repo)
+    for ref in ("refs/heads/main", "refs/heads/research/main", f"refs/heads/research/{first}"):
+        assert ref in pushed
+    notes = research.git("ls-tree", "-r", "--name-only", "main", cwd=repo)
+    assert f"research/runs/{first}/execution.md" in notes
+    assert f"research/runs/{first}/logs/" not in notes
+    assert "Rerun:" in (d.research / "runs" / first / "execution.md").read_text()

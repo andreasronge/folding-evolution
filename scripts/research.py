@@ -768,7 +768,11 @@ class Driver:
                 f"{status.get(e.id, {}).get('run_dir', '')} |" for e in entries]
         atomic_write(td / "execution.md", (
             f"# Execution\n\nCode: commit `{self.state['commit']}` on `{self.state['branch']}`. "
-            f"Queue runner exit: {code}.\n\n| id | status | wall s | output (repo-relative) |\n"
+            f"Queue runner exit: {code}.\n\nRerun: check out that commit (`git worktree add <dir> "
+            f"{self.state['commit']}`), run the `worktree_setup` commands from research/config.toml "
+            f"in it, then `uv run python scripts/run_queue.py --queue <this folder>/queue.yaml` from "
+            "it. Seeds are fixed, so the runs repeat.\n\n"
+            "| id | status | wall s | output (repo-relative) |\n"
             "|---|---|---|---|\n" + "\n".join(rows) + "\n"))
         # Later experiments build on this code.
         git("branch", "-f", self.cfg["research_branch"], self.state["commit"], cwd=self.repo)
@@ -811,6 +815,12 @@ class Driver:
             git_ok("add", "research", cwd=self.repo)
             git_ok("commit", "-m", f"Research: {cleanup['task']}", "--", "research",
                    cwd=self.repo)
+        if self.cfg.get("push"):
+            # The notes on the current branch, and the code that produced them.
+            refs = ["HEAD", self.cfg["research_branch"], f"research/{cleanup['task']}"]
+            refs = [r for r in refs if git_ok("rev-parse", "--verify", r, cwd=self.repo)]
+            if not git_ok("push", "origin", *refs, cwd=self.repo):
+                self.log(f"push of {' '.join(refs)} failed; push by hand")
         self.state.pop("cleanup", None)
         self.save()
         self.log(f"cycle {cleanup['task']} done; brief: {cleanup['brief']}")

@@ -41,5 +41,9 @@ setup_env = { CARGO_TARGET_DIR = "rust/target" }
 # experiment runs the reviewed code and not the main checkout's.
 import_check = ["folding_evolution", "_folding_rust"]
 
-# Commit research/ (notes only, never code) after each cycle.
-commit_research = false
+# After each cycle, commit research/ (notes, summaries and plots; raw data
+# stays in the ignored experiments/output/ and is reproduced by rerunning) and
+# push it with the experiment's code branch and research_branch, so every
+# result can be rerun from git.
+commit_research = true
+push = true
