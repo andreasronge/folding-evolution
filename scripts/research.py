@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import hashlib
 import json
 import os
 import re
@@ -54,11 +55,15 @@ RESEARCH = REPO / "research"
 STATE_PATH = RESEARCH / "state.json"
 POLL_SECONDS = 5
 KILL_GRACE_SECONDS = 10
+# The queue runner needs longer: it gives its entries 10 s, then SIGKILLs them.
+QUEUE_KILL_GRACE_SECONDS = 45
 QUEUE_LOCKED_EXIT = 3  # run_queue.py: another runner holds the lock
 
 IDLE = "idle"
 AWAITING = "awaiting_approval"
-PHASE_ORDER = ["propose", AWAITING, "prepare", "review_code", "execute", "analyse", "decide"]
+ACCEPT = "accept"  # next proposal written by `decide`, not yet validated
+PHASE_ORDER = ["propose", ACCEPT, AWAITING, "prepare", "review_code", "execute", "analyse",
+               "decide"]
 
 
 class Stop(Exception):
@@ -80,6 +85,10 @@ def read_frontmatter(path: Path) -> tuple[dict[str, Any], str]:
     if not m:
         return {}, text
     return yaml.safe_load(m.group(1)) or {}, m.group(2)
+
+
+def file_sha(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def atomic_write(path: Path, text: str) -> None:
@@ -192,17 +201,44 @@ def _write_script(log_dir: Path, label: str, argv: list[str] | str, cwd: Path,
     return script
 
 
-def _kill_group(pid_file: Path) -> None:
+def _group_alive(pgid: int) -> bool:
+    try:
+        os.killpg(pgid, 0)
+        return True
+    except (ProcessLookupError, PermissionError):  # EPERM: only zombies left
+        return False
+
+
+def _kill_group(pid_file: Path, grace: float | None = None) -> None:
+    """SIGTERM the process group, wait up to `grace` for it to exit, then SIGKILL."""
     try:
         pid = int(pid_file.read_text().strip())
     except (OSError, ValueError):
         return
-    for sig, wait in ((signal.SIGTERM, KILL_GRACE_SECONDS), (signal.SIGKILL, 0)):
-        try:
-            os.killpg(pid, sig)
-        except (ProcessLookupError, PermissionError):
-            return
-        time.sleep(wait)
+    try:
+        os.killpg(pid, signal.SIGTERM)
+    except (ProcessLookupError, PermissionError):
+        return
+    end = time.monotonic() + (KILL_GRACE_SECONDS if grace is None else grace)
+    while time.monotonic() < end and _group_alive(pid):
+        time.sleep(0.2)
+    try:
+        os.killpg(pid, signal.SIGKILL)
+    except (ProcessLookupError, PermissionError):
+        pass
+
+
+def stop_launch(log_dir: Path, label: str, grace: float | None = None) -> None:
+    """Stop whatever a launch left running: its process group and its herdr tab.
+    A launch that wrote its exit code is finished and is not signalled (its
+    PID may have been reused since)."""
+    if not (log_dir / f"{label}.exit").exists():
+        _kill_group(log_dir / f"{label}.pid", grace)
+    tab_file = log_dir / f"{label}.tab"
+    if tab_file.exists():
+        subprocess.run(["herdr", "tab", "close", tab_file.read_text().strip()],
+                       capture_output=True, timeout=30)
+        tab_file.unlink(missing_ok=True)
 
 
 def _wait_exit(exit_file: Path, timeout_s: float, alive: Callable[[], bool]) -> int | None:
@@ -222,21 +258,25 @@ class LocalLauncher:
     name = "local"
 
     def run(self, label: str, argv: list[str] | str, cwd: Path, log_dir: Path,
-            timeout_s: float, env: dict[str, str] | None = None) -> int | None:
+            timeout_s: float, env: dict[str, str] | None = None,
+            kill_grace: float | None = None) -> int | None:
         """Run to completion; return exit code, or None on timeout/kill."""
         log_dir.mkdir(parents=True, exist_ok=True)
-        for suffix in (".exit", ".pid"):
+        for suffix in (".exit", ".pid", ".tab"):
             (log_dir / f"{label}{suffix}").unlink(missing_ok=True)
         script = _write_script(log_dir, label, argv, cwd, env or {})
         proc = subprocess.Popen(["bash", str(script)], start_new_session=True,
                                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        # The script writes the same PID; writing it here too closes the gap
+        # before the script starts.
+        (log_dir / f"{label}.pid").write_text(f"{proc.pid}\n")
         try:
             code = _wait_exit(log_dir / f"{label}.exit", timeout_s, lambda: proc.poll() is None)
         except BaseException:  # driver interrupted: never leave the agent running
-            _kill_group(log_dir / f"{label}.pid")
+            stop_launch(log_dir, label, kill_grace)
             raise
         if code is None:
-            _kill_group(log_dir / f"{label}.pid")
+            stop_launch(log_dir, label, kill_grace)
             proc.wait()
         return code
 
@@ -270,15 +310,22 @@ class HerdrLauncher:
         return found
 
     def run(self, label: str, argv: list[str] | str, cwd: Path, log_dir: Path,
-            timeout_s: float, env: dict[str, str] | None = None) -> int | None:
+            timeout_s: float, env: dict[str, str] | None = None,
+            kill_grace: float | None = None) -> int | None:
         log_dir.mkdir(parents=True, exist_ok=True)
-        for suffix in (".exit", ".pid"):
+        for suffix in (".exit", ".pid", ".tab"):
             (log_dir / f"{label}{suffix}").unlink(missing_ok=True)
         script = _write_script(log_dir, label, argv, cwd, env or {})
         tab = self._herdr("tab", "create", "--workspace", self.workspace, "--label",
                           f"{log_dir.parent.name}:{label}", "--cwd", str(cwd), "--no-focus")
         tab_id, pane_id = tab["tab"]["tab_id"], tab["root_pane"]["pane_id"]
-        self._herdr("pane", "run", pane_id, f"bash {shlex.quote(str(script))}")
+        # Recorded first, so an interrupted start can still be cleaned up.
+        (log_dir / f"{label}.tab").write_text(tab_id + "\n")
+        try:
+            self._herdr("pane", "run", pane_id, f"bash {shlex.quote(str(script))}")
+        except BaseException:
+            stop_launch(log_dir, label, kill_grace)
+            raise
         pid_file = log_dir / f"{label}.pid"
 
         def alive() -> bool:
@@ -295,16 +342,13 @@ class HerdrLauncher:
         try:
             code = _wait_exit(log_dir / f"{label}.exit", timeout_s, alive)
         except BaseException:  # driver interrupted: never leave the agent running
-            _kill_group(pid_file)
+            stop_launch(log_dir, label, kill_grace)
             raise
-        if code is None:
-            _kill_group(pid_file)
         if code == 0 or code is None:
+            stop_launch(log_dir, label, kill_grace)  # just closes the tab if it finished
+        else:
             # Keep failed tabs open for inspection; the log is saved either way.
-            try:
-                self._herdr("tab", "close", tab_id)
-            except RuntimeError:
-                pass
+            (log_dir / f"{label}.tab").unlink(missing_ok=True)
         return code
 
 
@@ -455,24 +499,24 @@ class Driver:
             raise Stop(f"past the run deadline ({self.deadline:%H:%M}); resume next run")
 
     def launch(self, label: str, argv: list[str] | str, cwd: Path, timeout_s: float,
-               env: dict[str, str] | None = None) -> int | None:
+               env: dict[str, str] | None = None, kill_grace: float | None = None) -> int | None:
         """Run via the launcher, recording what runs so a crashed driver's
-        leftover process is found and stopped on the next start."""
+        leftover process is found and stopped on the next start. The record
+        is cleared only after a normal return (the launcher stopped it)."""
         log_dir = self.task_dir() / "logs"
-        self.state["launch"] = {"label": label, "log_dir": str(log_dir)}
+        self.state["launch"] = {"label": label, "log_dir": str(log_dir), "grace": kill_grace}
         self.save()
-        try:
-            return self.launcher.run(label, argv, cwd, log_dir, timeout_s, env)
-        finally:
-            self.state.pop("launch", None)
-            self.save()
+        code = self.launcher.run(label, argv, cwd, log_dir, timeout_s, env, kill_grace)
+        self.state.pop("launch", None)
+        self.save()
+        return code
 
     def reconcile(self) -> None:
         """Finish what a crashed driver left half-done before doing anything new."""
-        if launch := self.state.pop("launch", None):
-            pid_file = Path(launch["log_dir"]) / f"{launch['label']}.pid"
+        if launch := self.state.get("launch"):
             self.log(f"stopping leftover process from an interrupted run: {launch['label']}")
-            _kill_group(pid_file)
+            stop_launch(Path(launch["log_dir"]), launch["label"], launch.get("grace"))
+            self.state.pop("launch")
             self.save()
         if cleanup := self.state.get("cleanup"):
             self.run_cleanup(cleanup)
@@ -484,6 +528,9 @@ class Driver:
             self.check_deadline()
         calls = self.state.get("agent_calls", 0)
         if calls >= self.cfg.get("max_agent_calls", 8) and phase != "decide":
+            if phase == "propose" or "node" not in self.state:
+                raise Stop(f"agent call cap ({calls}) reached while proposing; "
+                           "`research.py propose` starts over")
             self.block(f"agent call cap ({calls}) reached")
             raise _Blocked()
         self.state["agent_calls"] = calls + 1
@@ -539,6 +586,8 @@ class Driver:
             self.create_worktree()
         wt = self.worktree()
         self.call_agent("researcher", "prepare", wt, branch=self.state["branch"])
+        # Rebuild from the final source, so the extension matches the reviewed commit.
+        self.run_setup(wt, "build")
         problems = self.check_prepared(wt)
         if problems:
             self.repair("driver_feedback.md", "Preparation checks failed:\n\n" +
@@ -546,6 +595,7 @@ class Driver:
             return
         (self.task_dir() / "driver_feedback.md").unlink(missing_ok=True)
         self.state["commit"] = git("rev-parse", "HEAD", cwd=wt)
+        self.state["queue_sha"] = file_sha(self.task_dir() / "queue.yaml")
         self.set_phase("review_code")
 
     def create_worktree(self) -> None:
@@ -574,13 +624,16 @@ class Driver:
                 raise _Blocked()
             self.state["base"] = git("rev-parse", "HEAD", cwd=wt)
             self.save()
-        env = {k: str(self.repo / v) for k, v in self.cfg.get("setup_env", {}).items()}
-        for i, cmd in enumerate(self.cfg.get("worktree_setup", [])):
-            code = self.launch(f"setup-{i}", cmd, wt, 3600, env)
-            if code != 0:
-                raise Stop(f"worktree setup failed: {cmd} (exit {code})")
+        self.run_setup(wt, "setup")
         self.state["worktree_ready"] = True
         self.save()
+
+    def run_setup(self, wt: Path, label: str) -> None:
+        env = {k: str(self.repo / v) for k, v in self.cfg.get("setup_env", {}).items()}
+        for i, cmd in enumerate(self.cfg.get("worktree_setup", [])):
+            code = self.launch(f"{label}-{i}", cmd, wt, 3600, env)
+            if code != 0:
+                raise Stop(f"worktree {label} failed: {cmd} (exit {code})")
 
     def check_prepared(self, wt: Path) -> list[str]:
         problems = []
@@ -647,6 +700,8 @@ class Driver:
             raise Stop("worktree changed after review (HEAD moved or uncommitted edits); "
                        "refusing to run unreviewed code")
         queue = td / "queue.yaml"
+        if file_sha(queue) != self.state.get("queue_sha"):
+            raise Stop("queue.yaml changed after review; refusing to run an unreviewed queue")
         entries = load_queue(queue)
         status_path = td / "queue.status.json"
         if not (td / "execution.md").exists():  # a new campaign, not a resumed one
@@ -662,7 +717,7 @@ class Driver:
                 "--status", str(status_path), "--lock", str(self.repo / "queue.lock"),
                 "--output-root", str(self.repo / "experiments" / "output")]
         self.log(f"running queue ({len(entries)} entries)")
-        code = self.launch("queue", argv, wt, timeout)
+        code = self.launch("queue", argv, wt, timeout, kill_grace=QUEUE_KILL_GRACE_SECONDS)
         if code == QUEUE_LOCKED_EXIT:
             raise Stop("another queue runner holds queue.lock; resume when it is done")
         if code is None:
@@ -703,7 +758,7 @@ class Driver:
         # cleaning up, so a crash here never loses the finished cycle.
         cleanup = {"task": self.state["task"], "worktree": self.state.get("worktree"),
                    "brief": str(brief)}
-        self.state = {"phase": "propose", "task": nxt, "cleanup": cleanup}
+        self.state = {"phase": ACCEPT, "task": nxt, "cleanup": cleanup}
         self.save()
         self.run_cleanup(cleanup)
         self.accept_proposal()
@@ -724,7 +779,8 @@ class Driver:
     def advance(self) -> None:
         """Run phases until the loop needs the owner, a deadline, or a fix."""
         self.reconcile()
-        handlers = {"propose": self.phase_propose, "prepare": self.phase_prepare,
+        handlers = {"propose": self.phase_propose, ACCEPT: self.accept_proposal,
+                    "prepare": self.phase_prepare,
                     "review_code": self.phase_review_code, "execute": self.phase_execute,
                     "analyse": self.phase_analyse, "decide": self.phase_decide}
         while True:
@@ -809,7 +865,7 @@ class Driver:
         return 0
 
     def propose(self) -> int:
-        if self.state["phase"] not in (IDLE, AWAITING, "propose"):
+        if self.state["phase"] not in (IDLE, AWAITING, "propose", ACCEPT):
             print(f"[research] an experiment is in progress (phase {self.state['phase']}); "
                   "finish it with `run` first")
             return 1
@@ -824,7 +880,9 @@ class Driver:
             if self.state["phase"] == IDLE:
                 self.state = {"phase": "propose", "task": self.new_task_id()}
                 self.task_dir().mkdir(parents=True, exist_ok=True)
-                self.save()
+            self.state["phase"] = "propose"
+            self.state["agent_calls"] = 0  # the owner asked: a fresh call budget
+            self.save()
             self.phase_propose()
         except Stop as e:
             self.log(f"stopped in propose: {e}")

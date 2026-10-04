@@ -82,3 +82,26 @@ def test_interrupt_kills_entry_ignoring_sigterm(tmp_path):
     proc.wait(timeout=60)
     assert time.monotonic() - start < 30  # grace (10 s) + SIGKILL, not the 4 h timeout
     assert json.loads(status.read_text())["stubborn"]["status"] == "interrupted"
+
+
+def test_driver_timeout_stops_queue_entries_too(tmp_path):
+    """The driver kills the queue runner's group; the runner must get enough
+    grace to SIGKILL its entries, which live in their own process groups."""
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("research", SCRIPTS / "research.py")
+    research = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(research)
+    research.POLL_SECONDS = 0.2
+    marker = tmp_path / "entry_alive"
+    (tmp_path / "q.yaml").write_text(
+        f"runs:\n  - id: stubborn\n    cmd: \"trap '' TERM; sleep 25; touch {marker}\"\n")
+    argv = [sys.executable, str(SCRIPTS / "run_queue.py"), "--queue", str(tmp_path / "q.yaml"),
+            "--status", str(tmp_path / "status.json"), "--lock", str(tmp_path / "q.lock"),
+            "--output-root", str(tmp_path / "out")]
+    code = research.LocalLauncher().run("queue", argv, tmp_path, tmp_path / "logs", timeout_s=2,
+                                        kill_grace=research.QUEUE_KILL_GRACE_SECONDS)
+    assert code is None
+    time.sleep(25)
+    assert not marker.exists(), "queue entry survived the driver's timeout"
+    assert json.loads((tmp_path / "status.json").read_text())["stubborn"]["status"] == "interrupted"

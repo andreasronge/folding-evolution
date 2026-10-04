@@ -106,7 +106,7 @@ class FakeLauncher:
         self.calls: list[str] = []
         self.verdicts = list(review_verdicts)
 
-    def run(self, label, argv, cwd, log_dir, timeout_s, env=None):
+    def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
         d = self.driver
         td = d.task_dir()
         phase = label.rsplit("-", 1)[0]
@@ -204,11 +204,11 @@ def test_agent_failure_stops_and_resumes(repo):
     class Flaky(FakeLauncher):
         fail_once = True
 
-        def run(self, label, argv, cwd, log_dir, timeout_s, env=None):
+        def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
             if label.startswith("analyse") and self.fail_once:
                 self.fail_once = False
                 return None  # timed out
-            return super().run(label, argv, cwd, log_dir, timeout_s, env)
+            return super().run(label, argv, cwd, log_dir, timeout_s, env, kill_grace)
 
     fake = Flaky()
     d = make_driver(repo, fake)
@@ -253,11 +253,11 @@ def test_resumed_execution_is_charged_once(repo):
     class CrashAfterQueue(FakeLauncher):
         crashed = False
 
-        def run(self, label, argv, cwd, log_dir, timeout_s, env=None):
+        def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
             if label == "queue" and not self.crashed:
                 self.crashed = True
                 raise KeyboardInterrupt  # driver killed mid-queue
-            return super().run(label, argv, cwd, log_dir, timeout_s, env)
+            return super().run(label, argv, cwd, log_dir, timeout_s, env, kill_grace)
 
     fake = CrashAfterQueue()
     d = make_driver(repo, fake)
@@ -301,13 +301,15 @@ def test_crash_during_cleanup_resumes_cleanup(repo):
     d.run_cleanup = crash
     with pytest.raises(KeyboardInterrupt):
         d.run(now_mode=True)
-    assert "cleanup" in d.state and d.state["phase"] == "propose"
+    assert "cleanup" in d.state and d.state["phase"] == research.ACCEPT
     d.run_cleanup = original
     wt = Path(d.state["cleanup"]["worktree"])
     assert wt.exists()
+    calls = len(fake.calls)
     d.run(now_mode=True)
     assert not wt.exists() and "cleanup" not in d.state
     assert d.state["phase"] == research.AWAITING
+    assert len(fake.calls) == calls  # the written proposal is accepted, not re-asked
 
 
 def test_queue_not_started_after_deadline(repo):
@@ -321,3 +323,29 @@ def test_queue_not_started_after_deadline(repo):
     with pytest.raises(research.Stop):
         d.phase_execute()
     assert "queue" not in fake.calls
+
+
+def test_call_cap_while_proposing_stops_cleanly(repo):
+    fake = FakeLauncher()
+    d = make_driver(repo, fake, max_agent_calls=0)
+    assert d.run(now_mode=True) == 1
+    assert d.state["phase"] == "propose" and fake.calls == []
+    d.cfg["max_agent_calls"] = 8
+    assert d.propose() == 0 and d.state["phase"] == research.AWAITING
+
+
+def test_queue_edited_after_review_is_refused(repo):
+    class EditQueue(FakeLauncher):
+        def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
+            code = super().run(label, argv, cwd, log_dir, timeout_s, env, kill_grace)
+            if label.startswith("review_code"):
+                with (self.driver.task_dir() / "queue.yaml").open("a") as f:
+                    f.write("  - id: sneaky\n    cmd: echo\n")
+            return code
+
+    fake = EditQueue()
+    d = make_driver(repo, fake)
+    d.run(now_mode=True)
+    d.approve(None)
+    assert d.run(now_mode=True) == 1
+    assert d.state["phase"] == "execute" and "queue" not in fake.calls
