@@ -135,3 +135,34 @@ stated. All unresolved cells park it with reopen condition: instrumented
 deterministic replay recording arrivals and fates in situ. No extra sweeps or
 first-discovery claims. This implementation commits runnable infrastructure and
 the queue, not findings or research-tree decisions.
+
+## Pre-full-run source validation amendment (2026-10-04)
+
+Small-scale infrastructure validation found that seed 23 (`93f5c0aef31a`) has
+34 exact final non-elites but never 20 exact individuals in the saved sampled
+census (maximum 12 of 256). Thus the approved 16-source terminal target contains
+15 sources with observed historical establishment and one unmeasured duration.
+Retain all 16; mark seed 23's duration unmeasured, with conservative range
+0–3000 generations, and report the known-exposure contribution separately.
+The historical first-form criterion is >90% of at least 20 exact **sampled**
+individuals, not 50% and not a full non-elite historical measurement. New
+continuation verdicts still use >=20 full exact non-elites and >=50% share.
+These historical sampled durations are a labelled occupancy proxy. They do not
+silently become full-population establishment times. The known-duration source
+exposure is 21,257,600 offspring, rather than the proposal's approximate 24M.
+
+Trial weighting uses occurrence frequency times exposure/draws for eligible
+non-shared target endpoints with observed duration. An arrival from the source
+with unknown duration has unknown historical mixture weight; preserve its
+occurrences and report p as unmeasured rather than imputing a weight. The
+sampled mixture's exclusions are explicit. Missing duration prevents a whole
+cohort point estimate and a low-arrival stopping claim; a >=10 known-exposure
+contribution can still justify the pre-approved extension to 300 pairs. If no
+weightable natural arrivals exist, skip continuations and label establishment
+unmeasured, even if descriptive or unknown-exposure sources produced arrivals.
+
+The optional replay budget is 600 seconds total, separate from the 7200-second
+main census cap, and the default cheap midpoint census is 32 frozen generations
+per verified replay. Report midpoint uncertainty; fidelity verification by
+itself does not prove temporal representativeness. Conclusions remain scoped to
+measured endpoints/midpoints and historical extrapolation remains a proxy.
