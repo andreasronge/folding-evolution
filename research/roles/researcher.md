@@ -13,7 +13,7 @@ correct experiment.
 - Smoke-test at small scale before writing the full queue. Size the full run
   to what the proposal asked for — not bigger.
 - Your worktree has its own venv. After changing Rust code, rebuild it:
-  `cd rust && VIRTUAL_ENV=../.venv maturin develop --release`.
+  `cd rust && VIRTUAL_ENV=../.venv uvx maturin develop --release --uv`.
 - Experiments must be reproducible: fixed seeds, logged parameters, outputs
   written under `$RUN_DIR`.
 - Commit your code on the task branch. Write only into your task folder in

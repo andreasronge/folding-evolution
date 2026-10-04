@@ -32,7 +32,7 @@ worktree_root = "../folding-evolution-research"
 worktree_setup = [
   "uv sync --extra dev",
   "uv pip install -e .",
-  "cd rust && VIRTUAL_ENV=../.venv maturin develop --release",
+  "cd rust && VIRTUAL_ENV=../.venv uvx maturin develop --release --uv",
 ]
 # Extra environment for the setup commands (paths relative to the main repo).
 # Sharing the Cargo target dir makes worktree Rust builds incremental.
