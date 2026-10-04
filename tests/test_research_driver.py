@@ -349,3 +349,48 @@ def test_queue_edited_after_review_is_refused(repo):
     d.approve(None)
     assert d.run(now_mode=True) == 1
     assert d.state["phase"] == "execute" and "queue" not in fake.calls
+
+
+def test_resume_reruns_interrupted_queue_entries(repo):
+    class InterruptedOnce(FakeLauncher):
+        seen_before: list = []
+
+        def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
+            if label == "queue":
+                path = self.driver.task_dir() / "queue.status.json"
+                self.seen_before.append(json.loads(path.read_text()) if path.exists() else None)
+                if len(self.seen_before) == 1:  # first attempt: killed mid-entry
+                    path.write_text(json.dumps({f"{self.driver.state['task']}-a":
+                                                {"status": "interrupted"}}))
+                    self.calls.append("queue")
+                    return None
+            return super().run(label, argv, cwd, log_dir, timeout_s, env, kill_grace)
+
+    fake = InterruptedOnce()
+    d = make_driver(repo, fake)
+    d.run(now_mode=True)
+    d.approve(None)
+    assert d.run(now_mode=True) == 1 and d.state["phase"] == "execute"
+    assert d.run(now_mode=True) == 0
+    assert fake.seen_before[1] == {}  # the interrupted entry was cleared for re-running
+    task_runs = sorted((d.research / "runs").glob("*/execution.md"))
+    assert "| done |" in task_runs[0].read_text()
+
+
+@pytest.mark.parametrize("outcome", ["exit2", "missing"])
+def test_queue_failure_does_not_advance(repo, outcome):
+    class BrokenQueue(FakeLauncher):
+        def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
+            if label == "queue":
+                self.calls.append("queue")
+                return 2 if outcome == "exit2" else 0  # "missing": no status written
+            return super().run(label, argv, cwd, log_dir, timeout_s, env, kill_grace)
+
+    fake = BrokenQueue()
+    d = make_driver(repo, fake)
+    d.run(now_mode=True)
+    d.approve(None)
+    assert d.run(now_mode=True) == 1
+    assert d.state["phase"] == "execute" and "analyse" not in fake.calls
+    assert not research.git_ok("rev-parse", "--verify", "research/main^{commit}", cwd=repo) or \
+        research.git("rev-parse", "research/main", cwd=repo) != d.state["commit"]

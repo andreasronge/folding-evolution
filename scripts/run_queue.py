@@ -225,7 +225,12 @@ def _run_entry(
 
     returncode: int | None = None
     timed_out = False
-    interrupted_before_this_run = state.interrupts_received
+    if state.interrupts_received:
+        # Shutdown began while this entry was being prepared (parallel group).
+        metadata.update(ended_at=dt.datetime.now(dt.timezone.utc).isoformat(),
+                        exit_code=None, status="interrupted", wall_seconds=0.0)
+        metadata_path.write_text(json.dumps(metadata, indent=2))
+        return metadata
 
     with stdout_path.open("w") as out_f, stderr_path.open("w") as err_f:
         # shell=True so users can write pipe-style cmds in the queue entry.
@@ -240,6 +245,9 @@ def _run_entry(
             start_new_session=True,
         )
         state.children.add(proc)
+        if state.interrupts_received:
+            # The interrupt landed between the check above and registration.
+            _signal_group(proc, signal.SIGTERM)
         try:
             returncode = _wait_entry(proc, entry.timeout_seconds, state)
         except subprocess.TimeoutExpired:
@@ -260,7 +268,7 @@ def _run_entry(
                     returncode = None
         finally:
             state.children.discard(proc)
-    if timed_out or state.interrupts_received > interrupted_before_this_run:
+    if timed_out or state.interrupts_received:
         # Workers that outlived the shell (e.g. a Pool ignoring SIGTERM).
         _signal_group(proc, signal.SIGKILL)
 
@@ -271,7 +279,7 @@ def _run_entry(
         round(rusage["user_cpu_seconds"] / wall_seconds, 2) if wall_seconds > 0 else None
     )
 
-    interrupted = state.interrupts_received > interrupted_before_this_run and not timed_out
+    interrupted = state.interrupts_received > 0 and not timed_out
 
     status = _determine_status(
         returncode=returncode,

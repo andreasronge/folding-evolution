@@ -58,6 +58,8 @@ KILL_GRACE_SECONDS = 10
 # The queue runner needs longer: it gives its entries 10 s, then SIGKILLs them.
 QUEUE_KILL_GRACE_SECONDS = 45
 QUEUE_LOCKED_EXIT = 3  # run_queue.py: another runner holds the lock
+# Entry outcomes that are results (failures included) rather than "not done yet".
+FINISHED_ENTRY_STATUSES = {"done", "failed", "timeout", "suspicious"}
 
 IDLE = "idle"
 AWAITING = "awaiting_approval"
@@ -712,6 +714,15 @@ class Driver:
                 return
             # Writing execution.md charges the budget (see executed_nodes).
             atomic_write(td / "execution.md", "# Execution\n\nStarted; results pending.\n")
+        elif status_path.exists():
+            # Resuming after a crash: run_queue never retries entries it marks
+            # interrupted, so clear those; finished entries are kept.
+            status = json.loads(status_path.read_text())
+            retry = [k for k, v in status.items() if v.get("status") in ("interrupted", "running")]
+            if retry:
+                self.log(f"re-running interrupted queue entries: {retry}")
+                atomic_write(status_path, json.dumps(
+                    {k: v for k, v in status.items() if k not in retry}, indent=2) + "\n")
         timeout = sum(e.timeout_seconds for e in entries) + 900
         argv = ["uv", "run", "python", "scripts/run_queue.py", "--queue", str(queue),
                 "--status", str(status_path), "--lock", str(self.repo / "queue.lock"),
@@ -721,8 +732,14 @@ class Driver:
         if code == QUEUE_LOCKED_EXIT:
             raise Stop("another queue runner holds queue.lock; resume when it is done")
         if code is None:
-            raise Stop("queue runner timed out or was killed; resume continues unfinished entries")
+            raise Stop("queue runner timed out or was killed; resume re-runs unfinished entries")
+        if code != 0:
+            raise Stop(f"queue runner failed (exit {code}); see {td / 'logs' / 'queue.log'}")
         status = json.loads(status_path.read_text()) if status_path.exists() else {}
+        unfinished = [e.id for e in entries
+                      if status.get(e.id, {}).get("status") not in FINISHED_ENTRY_STATUSES]
+        if unfinished:
+            raise Stop(f"queue entries did not finish: {unfinished}; resume re-runs them")
         rows = [f"| {e.id} | {status.get(e.id, {}).get('status', 'not run')} | "
                 f"{status.get(e.id, {}).get('wall_seconds', '')} | "
                 f"{status.get(e.id, {}).get('run_dir', '')} |" for e in entries]
