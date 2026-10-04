@@ -537,3 +537,30 @@ def test_queue_over_the_cap_goes_back_to_the_researcher(repo):
     d.run(now_mode=True)
     assert fake.calls == ["propose", "prepare", "prepare", "decide"]  # one repair, then blocked
     assert "1 h cap" in (d.research / "runs" / task / "driver_feedback.md").read_text()
+
+
+def test_failed_critic_verdict_is_discarded(repo):
+    class HalfCritic(FakeLauncher):
+        def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
+            code = super().run(label, argv, cwd, log_dir, timeout_s, env, kill_grace)
+            return 1 if label.startswith("critique") else code  # wrote a verdict, then failed
+
+    fake = HalfCritic()
+    d = auto_driver(repo, fake)
+    d.run_auto(hours=48)
+    assert "approve" not in fake.calls and "prepare" not in fake.calls
+    assert not (d.task_dir() / "critique.md").exists()
+
+
+def test_missing_proposal_reruns_the_steward(repo):
+    class Forgetful(FakeLauncher):
+        def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
+            if label == "propose-1":
+                self.calls.append("propose")
+                return 0  # exits cleanly without writing proposal.md
+            return super().run(label, argv, cwd, log_dir, timeout_s, env, kill_grace)
+
+    fake = Forgetful()
+    d = auto_driver(repo, fake, strategy_every=1)
+    d.run_auto(hours=48)
+    assert fake.calls[:3] == ["propose", "propose", "critique"]

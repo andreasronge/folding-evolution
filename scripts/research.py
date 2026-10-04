@@ -631,6 +631,7 @@ class Driver:
             strategy = (f"First read {self.task_dir() / 'strategy.md'}, the strategist's direction "
                         "for the program; follow it or say in the proposal why not. ")
         self.call_agent("steward", "propose", self.repo, feedback=feedback, strategy=strategy)
+        self.expect("proposal.md")  # missing → retry the steward, not the acceptance
         self.set_phase(ACCEPT)
         self.accept_proposal()
 
@@ -661,6 +662,7 @@ class Driver:
             self.call_agent("critic", "critique", self.repo)
             self.expect("critique.md")
         except Stop as e:
+            crit.unlink(missing_ok=True)  # never trust a verdict from a failed run
             self.log(f"no critique: {e}")
 
     def phase_prepare(self) -> None:
@@ -791,6 +793,14 @@ class Driver:
             raise Stop("queue.yaml changed after review; refusing to run an unreviewed queue")
         entries = load_queue(queue)
         status_path = td / "queue.status.json"
+        # Queue time without review is capped across retries too. Account for a
+        # crashed attempt before the status file is touched again.
+        used = self.state.get("queue_seconds", 0.0)
+        if started := self.state.pop("queue_started", None):  # the driver died mid-queue
+            end = status_path.stat().st_mtime if status_path.exists() else started
+            used += max(0.0, end - started)
+            self.state["queue_seconds"] = used
+            self.save()
         if not (td / "execution.md").exists():  # a new campaign, not a resumed one
             left = remaining_budget(self.research, self.node_path())
             if left is not None and left <= 0:
@@ -808,11 +818,6 @@ class Driver:
                 self.log(f"re-running interrupted queue entries: {retry}")
                 atomic_write(status_path, json.dumps(
                     {k: v for k, v in status.items() if k not in retry}, indent=2) + "\n")
-        # Queue time without review is capped across retries too.
-        used = self.state.get("queue_seconds", 0.0)
-        if started := self.state.pop("queue_started", None):  # the driver died mid-queue
-            end = status_path.stat().st_mtime if status_path.exists() else started
-            used += max(0.0, end - started)
         cap = float(self.cfg.get("max_queue_hours", 8)) * 3600
         timeout = min(sum(e.timeout_seconds for e in entries) + 900, cap - used)
         if timeout <= 0:
@@ -1090,6 +1095,7 @@ class Driver:
         self.run_info = info
         self.save_run()
         self.deadline = dt.datetime.fromisoformat(info["deadline"])
+        self.reconcile()  # stop leftovers of a crashed run before anything else
         reason, code, last, fails = None, 0, None, 0
         while reason is None:
             if (self.research / "STOP").exists():
@@ -1125,6 +1131,10 @@ class Driver:
         info = self.run_info
         summary = self.research / "briefs" / f"{info['id']}-auto-summary.md"
         self.log(f"autonomous run {info['id']} ends: {reason}")
+        try:
+            self.reconcile()
+        except Exception as e:  # noqa: BLE001 - still write the summary
+            self.log(f"reconcile before the summary failed: {e!r}")
         if self.state.get("task") and not summary.exists():
             self.task_dir().mkdir(parents=True, exist_ok=True)
             try:
