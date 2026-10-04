@@ -2437,7 +2437,8 @@ The predictions assume independent copies, calibrated on §30's 32-copy runs.
   finds solutions (crossover off: almost none), and the same crossover removes a rare
   incompatible form. Against partly shared it does so even at 0.1–0.3.
 - **Which form a population ends with is mostly set at its first solve** (a founder effect).
-  It changed later in only 6 of the 142 runs where both first and final form are known.
+  It changed later in 9 of the 129 runs where both are known: 4 duplicated → partly,
+  3 partly → shared, 2 duplicated → shared.
 - **So sharing is not impossible to discover.** A pure helper arises from random starts in a
   few percent of runs, and once it holds the majority it stays (E). What it lacks is a route
   from rare to common while crossover is on.
