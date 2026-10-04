@@ -33,10 +33,12 @@ Agents: read this first, then your role file in `roles/`.
 
 ## Budgets and stopping
 
-`budget: {experiments: N, used: M}` in `question.md`. Sub-questions draw from
-their ancestors' budgets: an experiment counts against every ancestor, and
-cannot run when any ancestor has none left. The driver increments `used`;
-only the owner raises `experiments`.
+`budget: {experiments: N, used: M}` in `question.md`. Experiments the loop
+runs are counted automatically from `runs/*/execution.md` (by the proposal's
+`node`); `used` is only for experiments counted by hand, normally 0.
+Sub-questions draw from their ancestors' budgets: an experiment counts
+against every ancestor, and cannot run when any ancestor has none left. Only
+the owner raises `experiments`. `research.py status` shows what is left.
 
 Stopping is the default. Park a question after two valid results that
 changed no decision and separated no explanations. Close it when answered.

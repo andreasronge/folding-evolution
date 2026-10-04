@@ -71,6 +71,7 @@ class _InterruptState:
 
     def __init__(self) -> None:
         self.interrupts_received = 0
+        self.first_interrupt_at: float | None = None
         # Every running entry (parallel groups run several at once).
         self.children: set[subprocess.Popen] = set()
 
@@ -86,6 +87,8 @@ def _signal_group(proc: subprocess.Popen, sig: int) -> None:
 def _install_signal_handlers(state: _InterruptState) -> None:
     def handler(signum: int, _frame: Any) -> None:
         state.interrupts_received += 1
+        if state.first_interrupt_at is None:
+            state.first_interrupt_at = time.monotonic()
         children = list(state.children)
         if not children:
             print(f"[run_queue] signal {signum}, no active child, exiting", file=sys.stderr)
@@ -158,6 +161,23 @@ def _determine_status(
     return "done"
 
 
+def _wait_entry(proc: subprocess.Popen, timeout_seconds: float, state: _InterruptState) -> int:
+    """Wait for the entry; raise TimeoutExpired at its timeout. After an
+    interrupt, an entry that ignores SIGTERM is SIGKILLed after the grace
+    period instead of running on until its (possibly hours-long) timeout."""
+    deadline = time.monotonic() + timeout_seconds
+    while True:
+        try:
+            return proc.wait(timeout=1)
+        except subprocess.TimeoutExpired:
+            now = time.monotonic()
+            if now >= deadline:
+                raise
+            if (state.first_interrupt_at is not None
+                    and now - state.first_interrupt_at > SIGTERM_GRACE_SECONDS):
+                _signal_group(proc, signal.SIGKILL)
+
+
 def _run_entry(
     entry: QueueEntry,
     run_dir: Path,
@@ -221,7 +241,7 @@ def _run_entry(
         )
         state.children.add(proc)
         try:
-            returncode = proc.wait(timeout=entry.timeout_seconds)
+            returncode = _wait_entry(proc, entry.timeout_seconds, state)
         except subprocess.TimeoutExpired:
             timed_out = True
             print(

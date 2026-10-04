@@ -143,31 +143,33 @@ def _budget(path: Path) -> dict[str, int]:
     return meta.get("budget") or {}
 
 
+def executed_nodes(research: Path) -> list[Path]:
+    """Question folder of every experiment the loop has started running.
+    A run counts once `execution.md` exists in its task folder, so charging
+    is idempotent: resuming a run never charges it again."""
+    out = []
+    for td in (research / "runs").glob("*/"):
+        if (td / "execution.md").exists() and (td / "proposal.md").exists():
+            node = str(read_frontmatter(td / "proposal.md")[0].get("node", "")).strip("/")
+            if node:
+                out.append((research / node).resolve())
+    return out
+
+
 def remaining_budget(research: Path, node: Path) -> int | None:
     """Experiments still allowed at `node`: the minimum over every ancestor of
-    (its budget − experiments used anywhere in its subtree). None = unlimited."""
-    remaining = None
+    (its budget − experiments used anywhere in its subtree). Used = runs the
+    loop executed there + any `used` recorded by hand. None = unlimited."""
+    remaining, runs = None, executed_nodes(research)
     for q in question_nodes(research, node):
         b = _budget(q / "question.md")
         if "experiments" not in b:
             continue
         used = sum(_budget(p).get("used", 0) for p in q.rglob("question.md"))
+        used += sum(1 for r in runs if r == q or q in r.parents)
         left = int(b["experiments"]) - used
         remaining = left if remaining is None else min(remaining, left)
     return remaining
-
-
-def bump_used(question_md: Path) -> None:
-    text = question_md.read_text()
-    new, n = re.subn(
-        r"(budget:\s*\{[^}]*\bused:\s*)(\d+)",
-        lambda m: f"{m.group(1)}{int(m.group(2)) + 1}",
-        text,
-        count=1,
-    )
-    if n == 0:  # no budget line: record usage without imposing a limit
-        new = text.replace("\n---", "\nbudget: {used: 1}\n---", 1)
-    atomic_write(question_md, new)
 
 
 # --------------------------------------------------------------------------
@@ -228,7 +230,11 @@ class LocalLauncher:
         script = _write_script(log_dir, label, argv, cwd, env or {})
         proc = subprocess.Popen(["bash", str(script)], start_new_session=True,
                                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        code = _wait_exit(log_dir / f"{label}.exit", timeout_s, lambda: proc.poll() is None)
+        try:
+            code = _wait_exit(log_dir / f"{label}.exit", timeout_s, lambda: proc.poll() is None)
+        except BaseException:  # driver interrupted: never leave the agent running
+            _kill_group(log_dir / f"{label}.pid")
+            raise
         if code is None:
             _kill_group(log_dir / f"{label}.pid")
             proc.wait()
@@ -286,7 +292,11 @@ class HerdrLauncher:
             except PermissionError:
                 return True
 
-        code = _wait_exit(log_dir / f"{label}.exit", timeout_s, alive)
+        try:
+            code = _wait_exit(log_dir / f"{label}.exit", timeout_s, alive)
+        except BaseException:  # driver interrupted: never leave the agent running
+            _kill_group(pid_file)
+            raise
         if code is None:
             _kill_group(pid_file)
         if code == 0 or code is None:
@@ -440,11 +450,38 @@ class Driver:
     def worktree(self) -> Path:
         return Path(self.state["worktree"])
 
+    def check_deadline(self) -> None:
+        if self.deadline and self.now() >= self.deadline:
+            raise Stop(f"past the run deadline ({self.deadline:%H:%M}); resume next run")
+
+    def launch(self, label: str, argv: list[str] | str, cwd: Path, timeout_s: float,
+               env: dict[str, str] | None = None) -> int | None:
+        """Run via the launcher, recording what runs so a crashed driver's
+        leftover process is found and stopped on the next start."""
+        log_dir = self.task_dir() / "logs"
+        self.state["launch"] = {"label": label, "log_dir": str(log_dir)}
+        self.save()
+        try:
+            return self.launcher.run(label, argv, cwd, log_dir, timeout_s, env)
+        finally:
+            self.state.pop("launch", None)
+            self.save()
+
+    def reconcile(self) -> None:
+        """Finish what a crashed driver left half-done before doing anything new."""
+        if launch := self.state.pop("launch", None):
+            pid_file = Path(launch["log_dir"]) / f"{launch['label']}.pid"
+            self.log(f"stopping leftover process from an interrupted run: {launch['label']}")
+            _kill_group(pid_file)
+            self.save()
+        if cleanup := self.state.get("cleanup"):
+            self.run_cleanup(cleanup)
+
     def call_agent(self, role: str, phase: str, cwd: Path, **fmt: str) -> None:
         """Launch the role's agent for `phase`; raise Stop if past the deadline,
         over the call cap, or the agent did not finish cleanly."""
-        if phase != "decide" and self.deadline and self.now() >= self.deadline:
-            raise Stop(f"past the run deadline ({self.deadline:%H:%M}); resume next run")
+        if phase != "decide":
+            self.check_deadline()
         calls = self.state.get("agent_calls", 0)
         if calls >= self.cfg.get("max_agent_calls", 8) and phase != "decide":
             self.block(f"agent call cap ({calls}) reached")
@@ -459,7 +496,7 @@ class Driver:
         timeout = float(meta.get("timeout_min", 60)) * 60
         label = f"{phase}-{self.state['agent_calls']}"
         self.log(f"{role} ({meta['agent']}/{meta['model']}) → {phase} [{self.launcher.name}]")
-        code = self.launcher.run(label, argv, cwd, self.task_dir() / "logs", timeout)
+        code = self.launch(label, argv, cwd, timeout)
         if code != 0:
             raise Stop(f"{role} agent for {phase} {'timed out' if code is None else f'exited {code}'}"
                        f"; see {self.task_dir() / 'logs' / (label + '.log')}")
@@ -498,7 +535,7 @@ class Driver:
                  f"{'unlimited' if left is None else left}. Approve with `research.py approve`.")
 
     def phase_prepare(self) -> None:
-        if not self.state.get("worktree"):
+        if not self.state.get("worktree_ready"):
             self.create_worktree()
         wt = self.worktree()
         self.call_agent("researcher", "prepare", wt, branch=self.state["branch"])
@@ -518,8 +555,16 @@ class Driver:
             git("branch", rb, base, cwd=self.repo)
         wt = (self.repo / self.cfg["worktree_root"] / task).resolve()
         branch = f"research/{task}"
-        git("worktree", "add", "-b", branch, str(wt), rb, cwd=self.repo)
-        self.state.update(worktree=str(wt), branch=branch, base=git("rev-parse", "HEAD", cwd=wt))
+        # Idempotent: a crash may have left the branch or worktree behind.
+        if not wt.exists():
+            git_ok("worktree", "prune", cwd=self.repo)
+            if git_ok("rev-parse", "--verify", branch, cwd=self.repo):
+                git("worktree", "add", str(wt), branch, cwd=self.repo)
+            else:
+                git("worktree", "add", "-b", branch, str(wt), rb, cwd=self.repo)
+        if "base" not in self.state:
+            self.state["base"] = git("rev-parse", "HEAD", cwd=wt)
+        self.state.update(worktree=str(wt), branch=branch)
         self.save()
         # Pick up the owner's latest work on the base branch.
         if not git_ok("merge-base", "--is-ancestor", base, "HEAD", cwd=wt):
@@ -531,9 +576,11 @@ class Driver:
             self.save()
         env = {k: str(self.repo / v) for k, v in self.cfg.get("setup_env", {}).items()}
         for i, cmd in enumerate(self.cfg.get("worktree_setup", [])):
-            code = self.launcher.run(f"setup-{i}", cmd, wt, self.task_dir() / "logs", 3600, env)
+            code = self.launch(f"setup-{i}", cmd, wt, 3600, env)
             if code != 0:
                 raise Stop(f"worktree setup failed: {cmd} (exit {code})")
+        self.state["worktree_ready"] = True
+        self.save()
 
     def check_prepared(self, wt: Path) -> list[str]:
         problems = []
@@ -593,33 +640,41 @@ class Driver:
             raise Stop("code_review.md has no 'verdict: pass|fail' frontmatter")
 
     def phase_execute(self) -> None:
-        left = remaining_budget(self.research, self.node_path())
-        if left is not None and left <= 0:
-            self.block(f"no experiment budget left at {self.state['node']} or an ancestor "
-                       "(owner raises `experiments` in question.md)")
-            return
+        self.check_deadline()  # never start a long queue after the night ends
         wt, td = self.worktree(), self.task_dir()
-        if git("rev-parse", "HEAD", cwd=wt) != self.state["commit"]:
-            raise Stop("worktree HEAD moved after review; refusing to run unreviewed code")
+        if git("rev-parse", "HEAD", cwd=wt) != self.state["commit"] or git(
+                "status", "--porcelain", cwd=wt):
+            raise Stop("worktree changed after review (HEAD moved or uncommitted edits); "
+                       "refusing to run unreviewed code")
         queue = td / "queue.yaml"
+        entries = load_queue(queue)
         status_path = td / "queue.status.json"
-        timeout = sum(e.timeout_seconds for e in load_queue(queue)) + 900
+        if not (td / "execution.md").exists():  # a new campaign, not a resumed one
+            left = remaining_budget(self.research, self.node_path())
+            if left is not None and left <= 0:
+                self.block(f"no experiment budget left at {self.state['node']} or an ancestor "
+                           "(owner raises `experiments` in question.md)")
+                return
+            # Writing execution.md charges the budget (see executed_nodes).
+            atomic_write(td / "execution.md", "# Execution\n\nStarted; results pending.\n")
+        timeout = sum(e.timeout_seconds for e in entries) + 900
         argv = ["uv", "run", "python", "scripts/run_queue.py", "--queue", str(queue),
                 "--status", str(status_path), "--lock", str(self.repo / "queue.lock"),
                 "--output-root", str(self.repo / "experiments" / "output")]
-        self.log(f"running queue ({len(load_queue(queue))} entries)")
-        code = self.launcher.run("queue", argv, wt, td / "logs", timeout)
+        self.log(f"running queue ({len(entries)} entries)")
+        code = self.launch("queue", argv, wt, timeout)
         if code == QUEUE_LOCKED_EXIT:
             raise Stop("another queue runner holds queue.lock; resume when it is done")
+        if code is None:
+            raise Stop("queue runner timed out or was killed; resume continues unfinished entries")
         status = json.loads(status_path.read_text()) if status_path.exists() else {}
         rows = [f"| {e.id} | {status.get(e.id, {}).get('status', 'not run')} | "
                 f"{status.get(e.id, {}).get('wall_seconds', '')} | "
-                f"{status.get(e.id, {}).get('run_dir', '')} |" for e in load_queue(queue)]
+                f"{status.get(e.id, {}).get('run_dir', '')} |" for e in entries]
         atomic_write(td / "execution.md", (
             f"# Execution\n\nCode: commit `{self.state['commit']}` on `{self.state['branch']}`. "
             f"Queue runner exit: {code}.\n\n| id | status | wall s | output (repo-relative) |\n"
             "|---|---|---|---|\n" + "\n".join(rows) + "\n"))
-        bump_used(self.node_path() / "question.md")
         # Later experiments build on this code.
         git("branch", "-f", self.cfg["research_branch"], self.state["commit"], cwd=self.repo)
         self.set_phase("analyse")
@@ -644,26 +699,31 @@ class Driver:
         self.expect("decision.md")
         if not brief.exists():
             raise Stop(f"steward did not write the brief {brief}")
-        self.finish_cycle(brief)
-        # Hand over to the next proposal, written by the steward above.
-        self.state = {"phase": "propose", "task": nxt}
+        # Hand over to the next proposal (written by the steward above) before
+        # cleaning up, so a crash here never loses the finished cycle.
+        cleanup = {"task": self.state["task"], "worktree": self.state.get("worktree"),
+                   "brief": str(brief)}
+        self.state = {"phase": "propose", "task": nxt, "cleanup": cleanup}
         self.save()
+        self.run_cleanup(cleanup)
         self.accept_proposal()
 
-    def finish_cycle(self, brief: Path) -> None:
-        if self.state.get("worktree"):
-            wt = self.worktree()
-            if not git("status", "--porcelain", cwd=wt):
-                git_ok("worktree", "remove", str(wt), cwd=self.repo)
+    def run_cleanup(self, cleanup: dict[str, Any]) -> None:
+        wt = cleanup.get("worktree")
+        if wt and Path(wt).exists() and not git("status", "--porcelain", cwd=Path(wt)):
+            git_ok("worktree", "remove", wt, cwd=self.repo)
         if self.cfg.get("commit_research"):
             git_ok("add", "research", cwd=self.repo)
-            git_ok("commit", "-m", f"Research: {self.state['task']}", "--", "research",
+            git_ok("commit", "-m", f"Research: {cleanup['task']}", "--", "research",
                    cwd=self.repo)
-        self.log(f"cycle done; brief: {brief}")
+        self.state.pop("cleanup", None)
+        self.save()
+        self.log(f"cycle {cleanup['task']} done; brief: {cleanup['brief']}")
 
     # -- control --------------------------------------------------------
     def advance(self) -> None:
         """Run phases until the loop needs the owner, a deadline, or a fix."""
+        self.reconcile()
         handlers = {"propose": self.phase_propose, "prepare": self.phase_prepare,
                     "review_code": self.phase_review_code, "execute": self.phase_execute,
                     "analyse": self.phase_analyse, "decide": self.phase_decide}
@@ -760,6 +820,7 @@ class Driver:
             self.save()
         self.deadline = None
         try:
+            self.reconcile()
             if self.state["phase"] == IDLE:
                 self.state = {"phase": "propose", "task": self.new_task_id()}
                 self.task_dir().mkdir(parents=True, exist_ok=True)
@@ -824,6 +885,8 @@ def main(argv: list[str] | None = None) -> int:
     p_run.add_argument("--now", action="store_true", help="daytime run: start immediately")
     args = ap.parse_args(argv)
 
+    # SIGTERM (e.g. from launchd) unwinds like Ctrl-C so running agents are stopped.
+    signal.signal(signal.SIGTERM, signal.default_int_handler)
     driver = Driver()
     if args.cmd == "status":
         return driver.status()

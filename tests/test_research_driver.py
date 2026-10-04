@@ -35,24 +35,30 @@ def question(path: Path, experiments: int | None, used: int = 0, status: str = "
 # -- budgets ---------------------------------------------------------------
 
 
+def executed_run(research_dir: Path, task: str, node: str) -> None:
+    write(research_dir / "runs" / task / "proposal.md", f"---\nnode: {node}\n---\n")
+    write(research_dir / "runs" / task / "execution.md", "# Execution\n")
+
+
 def test_children_draw_from_ancestor_budget(tmp_path):
     q = tmp_path / "questions"
-    question(q / "01-root", experiments=3, used=1)
-    question(q / "01-root" / "02-a", experiments=5, used=1)
-    question(q / "01-root" / "03-b", experiments=5, used=0)
-    assert research.remaining_budget(tmp_path, q / "01-root" / "03-b") == 1  # root: 3 − 2
-    research.bump_used(q / "01-root" / "02-a" / "question.md")
+    question(q / "01-root", experiments=3, used=1)  # one recorded by hand
+    question(q / "01-root" / "02-a", experiments=5)
+    question(q / "01-root" / "03-b", experiments=5)
+    executed_run(tmp_path, "t1", "questions/01-root/02-a")
+    assert research.remaining_budget(tmp_path, q / "01-root" / "03-b") == 1  # root: 3 - 2
+    executed_run(tmp_path, "t2", "questions/01-root/02-a")
     assert research.remaining_budget(tmp_path, q / "01-root" / "03-b") == 0
-    assert "used: 2" in (q / "01-root" / "02-a" / "question.md").read_text()
+    assert research.remaining_budget(tmp_path, q / "01-root" / "02-a") == 0
+    write(tmp_path / "runs" / "t3" / "proposal.md", "---\nnode: questions/01-root/03-b\n---\n")
+    assert research.remaining_budget(tmp_path, q / "01-root") == 0  # proposals don't count
 
 
-def test_no_budget_means_unlimited_and_bump_records_usage(tmp_path):
+def test_no_budget_means_unlimited(tmp_path):
     q = tmp_path / "questions" / "01-free"
     question(q, experiments=None)
+    executed_run(tmp_path, "t1", "questions/01-free")
     assert research.remaining_budget(tmp_path, q) is None
-    research.bump_used(q / "question.md")
-    meta, _ = research.read_frontmatter(q / "question.md")
-    assert meta["budget"] == {"used": 1}
 
 
 # -- night window ----------------------------------------------------------
@@ -188,8 +194,7 @@ def test_exhausted_budget_blocks_execution(repo):
     fake = FakeLauncher()
     d = make_driver(repo, fake)
     d.run(now_mode=True)
-    research.bump_used(d.research / "questions" / "01-root" / "question.md")
-    research.bump_used(d.research / "questions" / "01-root" / "question.md")
+    question(d.research / "questions" / "01-root", experiments=2, used=2)
     d.approve(None)
     d.run(now_mode=True)
     assert "queue" not in fake.calls and fake.calls[-1] == "decide"
@@ -242,3 +247,77 @@ def test_local_launcher_times_out_and_kills_group(tmp_path, monkeypatch):
     assert launcher.run("quick", "true && exit 4", tmp_path, tmp_path / "logs", timeout_s=10) == 4
     assert launcher.run("echo", "echo a; echo b", tmp_path, tmp_path / "logs", timeout_s=10) == 0
     assert (tmp_path / "logs" / "echo.log").read_text() == "a\nb\n"
+
+
+def test_resumed_execution_is_charged_once(repo):
+    class CrashAfterQueue(FakeLauncher):
+        crashed = False
+
+        def run(self, label, argv, cwd, log_dir, timeout_s, env=None):
+            if label == "queue" and not self.crashed:
+                self.crashed = True
+                raise KeyboardInterrupt  # driver killed mid-queue
+            return super().run(label, argv, cwd, log_dir, timeout_s, env)
+
+    fake = CrashAfterQueue()
+    d = make_driver(repo, fake)
+    d.run(now_mode=True)
+    d.approve(None)
+    with pytest.raises(KeyboardInterrupt):
+        d.run(now_mode=True)
+    root = d.research / "questions" / "01-root"
+    assert research.remaining_budget(d.research, root) == 1
+    d2 = research.Driver(research=d.research, repo=repo, launcher=fake, now=d.now)
+    fake.driver = d2
+    assert d2.run(now_mode=True) == 0
+    assert research.remaining_budget(d.research, root) == 1  # not charged twice
+
+
+def test_leftover_launch_is_killed_on_resume(repo):
+    fake = FakeLauncher()
+    d = make_driver(repo, fake)
+    d.run(now_mode=True)
+    log_dir = d.task_dir() / "logs"
+    log_dir.mkdir()
+    orphan = subprocess.Popen(["sleep", "60"], start_new_session=True)
+    (log_dir / "prepare-9.pid").write_text(str(orphan.pid))
+    d.state["launch"] = {"label": "prepare-9", "log_dir": str(log_dir)}
+    d.save()
+    d.reconcile()
+    assert orphan.wait(timeout=15) != 0
+    assert "launch" not in d.state
+
+
+def test_crash_during_cleanup_resumes_cleanup(repo):
+    fake = FakeLauncher()
+    d = make_driver(repo, fake)
+    d.run(now_mode=True)
+    d.approve(None)
+    original = d.run_cleanup
+
+    def crash(_cleanup):
+        raise KeyboardInterrupt
+
+    d.run_cleanup = crash
+    with pytest.raises(KeyboardInterrupt):
+        d.run(now_mode=True)
+    assert "cleanup" in d.state and d.state["phase"] == "propose"
+    d.run_cleanup = original
+    wt = Path(d.state["cleanup"]["worktree"])
+    assert wt.exists()
+    d.run(now_mode=True)
+    assert not wt.exists() and "cleanup" not in d.state
+    assert d.state["phase"] == research.AWAITING
+
+
+def test_queue_not_started_after_deadline(repo):
+    fake = FakeLauncher()
+    d = make_driver(repo, fake)
+    d.run(now_mode=True)
+    d.approve(None)
+    d.state.update(phase="execute", worktree=str(repo),
+                   commit=research.git("rev-parse", "HEAD", cwd=repo))
+    d.deadline = d.now() - dt.timedelta(minutes=1)
+    with pytest.raises(research.Stop):
+        d.phase_execute()
+    assert "queue" not in fake.calls

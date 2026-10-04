@@ -63,3 +63,22 @@ def test_timeout_kills_whole_process_group(tmp_path):
     assert json.loads((tmp_path / "status.json").read_text())["t"]["status"] == "timeout"
     time.sleep(4.5)
     assert not marker.exists(), "worker outlived the timed-out entry"
+
+
+def test_interrupt_kills_entry_ignoring_sigterm(tmp_path):
+    import signal
+
+    (tmp_path / "q.yaml").write_text(
+        "runs:\n  - id: stubborn\n    cmd: \"trap '' TERM; sleep 120\"\n")
+    proc = run_queue(tmp_path, wait=False)
+    status = tmp_path / "status.json"
+    for _ in range(100):
+        if status.exists() and json.loads(status.read_text()).get("stubborn", {}).get("status") == "running":
+            break
+        time.sleep(0.1)
+    time.sleep(0.5)
+    start = time.monotonic()
+    proc.send_signal(signal.SIGINT)
+    proc.wait(timeout=60)
+    assert time.monotonic() - start < 30  # grace (10 s) + SIGKILL, not the 4 h timeout
+    assert json.loads(status.read_text())["stubborn"]["status"] == "interrupted"
