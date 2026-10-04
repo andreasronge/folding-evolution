@@ -1,0 +1,45 @@
+# Settings for scripts/research.py. Edit freely; read at every run.
+
+# Nightly window. `research.py run` waits until night_start unless --now is
+# given, and launches no new agent work after night_end (except the final
+# decide/brief step). The window may wrap midnight.
+night_start = "22:00"
+night_end = "07:00"
+
+# Daytime runs (`run --now`) stop launching new work after this many hours.
+day_max_hours = 8
+
+# How agents are launched: "herdr" (visible in a herdr tab, the default) or
+# "local" (plain background process). Falls back to local if herdr is down.
+launcher = "herdr"
+herdr_workspace = "research"   # herdr workspace label; created if missing
+
+# Repairs allowed after a failed code review or failed preparation check.
+max_repairs = 1
+# Hard cap on agent launches per experiment cycle (repairs included).
+max_agent_calls = 8
+
+# Branches. Each experiment gets research/<task> branched from
+# research_branch; research_branch fast-forwards to it after the run, so
+# experiments build on each other. Merge research_branch into base_branch
+# yourself when you want the code.
+base_branch = "main"
+research_branch = "research/main"
+worktree_root = "../folding-evolution-research"
+
+# Run in each new worktree before the researcher starts: its own venv, the
+# project installed editable, and the Rust extension built from its source.
+worktree_setup = [
+  "uv sync --extra dev",
+  "uv pip install -e .",
+  "cd rust && VIRTUAL_ENV=../.venv maturin develop --release",
+]
+# Extra environment for the setup commands (paths relative to the main repo).
+# Sharing the Cargo target dir makes worktree Rust builds incremental.
+setup_env = { CARGO_TARGET_DIR = "rust/target" }
+# Before running, these modules must import from the worktree, so the
+# experiment runs the reviewed code and not the main checkout's.
+import_check = ["folding_evolution", "_folding_rust"]
+
+# Commit research/ (notes only, never code) after each cycle.
+commit_research = false

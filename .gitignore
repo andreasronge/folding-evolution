@@ -16,3 +16,7 @@ queue.status.json
 # scheduled-tasks harness runtime lock
 .claude/scheduled_tasks.lock
 .DS_Store
+# research loop runtime state (scripts/research.py)
+research/state.json
+research/driver.lock
+research/runs/*/logs/

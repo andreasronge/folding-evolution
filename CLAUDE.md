@@ -47,3 +47,7 @@ For full completed-experiment list and open questions, see `docs/folding/experim
 ## Overnight Runs
 
 Nightly experiment queue runner. User authors `queue.yaml`, `scripts/run_queue.py` executes every entry not marked done in `queue.status.json`, writes per-run output to `experiments/output/YYYY-MM-DD/<id>/` including rusage profile. Experiments must write outputs under `$RUN_DIR` (exported to child env) for `expect_outputs` to match. Claude CLI summarization (`scripts/summarize_runs.py`) is a separate morning phase — phase 1 never depends on it. Launch: `caffeinate -s uv run python scripts/run_queue.py`. Design: [Plans/overnight-queue-runner.md](Plans/overnight-queue-runner.md).
+
+## Research Loop
+
+Autonomous research tree: `research/` (questions, digest, briefs, roles) driven by `scripts/research.py` (steward proposes → owner approves → researcher implements in a worktree → reviewer checks code → queue runs → reviewer analyses → steward decides and writes the brief + next proposal). Nightly by default (`research.py run`), daytime with `run --now`. Agents read `research/README.md`. Design: [Plans/research-tree.md](Plans/research-tree.md).

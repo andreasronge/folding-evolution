@@ -13,9 +13,11 @@ Typical usage:
     caffeinate -s python scripts/run_queue.py
 
 Lock + signal behavior:
-- Refuses to start if queue.lock held by a live PID.
-- First SIGINT: forward to child, short grace period, mark 'interrupted', exit.
-- Second SIGINT: SIGKILL child, best-effort status write, exit.
+- Refuses to start if another runner holds queue.lock (flock).
+- Each entry runs in its own process group, so signals and timeouts reach
+  every worker the entry spawned, not just the shell.
+- First SIGINT: SIGTERM to every running entry, mark 'interrupted', exit.
+- Second SIGINT: SIGKILL every running entry, best-effort status write, exit.
 """
 
 from __future__ import annotations
@@ -67,35 +69,42 @@ def _display_path(path: Path) -> str:
 class _InterruptState:
     """Shared mutable state for signal handlers."""
 
-    interrupts_received = 0
-    current_child: subprocess.Popen | None = None
+    def __init__(self) -> None:
+        self.interrupts_received = 0
+        self.first_interrupt_at: float | None = None
+        # Every running entry (parallel groups run several at once).
+        self.children: set[subprocess.Popen] = set()
+
+
+def _signal_group(proc: subprocess.Popen, sig: int) -> None:
+    """Signal the entry's whole process group (it is the group leader)."""
+    try:
+        os.killpg(proc.pid, sig)
+    except (ProcessLookupError, PermissionError):
+        pass
 
 
 def _install_signal_handlers(state: _InterruptState) -> None:
     def handler(signum: int, _frame: Any) -> None:
         state.interrupts_received += 1
-        child = state.current_child
-        if child is None:
+        if state.first_interrupt_at is None:
+            state.first_interrupt_at = time.monotonic()
+        children = list(state.children)
+        if not children:
             print(f"[run_queue] signal {signum}, no active child, exiting", file=sys.stderr)
             return
+        pids = [c.pid for c in children]
         if state.interrupts_received == 1:
             print(
-                f"[run_queue] signal {signum}, forwarding SIGTERM to child PID {child.pid}",
+                f"[run_queue] signal {signum}, forwarding SIGTERM to process groups {pids}",
                 file=sys.stderr,
             )
-            try:
-                child.terminate()
-            except ProcessLookupError:
-                pass
+            sig = signal.SIGTERM
         else:
-            print(
-                f"[run_queue] second interrupt, SIGKILL child PID {child.pid}",
-                file=sys.stderr,
-            )
-            try:
-                child.kill()
-            except ProcessLookupError:
-                pass
+            print(f"[run_queue] second interrupt, SIGKILL process groups {pids}", file=sys.stderr)
+            sig = signal.SIGKILL
+        for child in children:
+            _signal_group(child, sig)
 
     signal.signal(signal.SIGINT, handler)
     signal.signal(signal.SIGTERM, handler)
@@ -152,6 +161,23 @@ def _determine_status(
     return "done"
 
 
+def _wait_entry(proc: subprocess.Popen, timeout_seconds: float, state: _InterruptState) -> int:
+    """Wait for the entry; raise TimeoutExpired at its timeout. After an
+    interrupt, an entry that ignores SIGTERM is SIGKILLed after the grace
+    period instead of running on until its (possibly hours-long) timeout."""
+    deadline = time.monotonic() + timeout_seconds
+    while True:
+        try:
+            return proc.wait(timeout=1)
+        except subprocess.TimeoutExpired:
+            now = time.monotonic()
+            if now >= deadline:
+                raise
+            if (state.first_interrupt_at is not None
+                    and now - state.first_interrupt_at > SIGTERM_GRACE_SECONDS):
+                _signal_group(proc, signal.SIGKILL)
+
+
 def _run_entry(
     entry: QueueEntry,
     run_dir: Path,
@@ -199,7 +225,12 @@ def _run_entry(
 
     returncode: int | None = None
     timed_out = False
-    interrupted_before_this_run = state.interrupts_received
+    if state.interrupts_received:
+        # Shutdown began while this entry was being prepared (parallel group).
+        metadata.update(ended_at=dt.datetime.now(dt.timezone.utc).isoformat(),
+                        exit_code=None, status="interrupted", wall_seconds=0.0)
+        metadata_path.write_text(json.dumps(metadata, indent=2))
+        return metadata
 
     with stdout_path.open("w") as out_f, stderr_path.open("w") as err_f:
         # shell=True so users can write pipe-style cmds in the queue entry.
@@ -211,34 +242,35 @@ def _run_entry(
             stdout=out_f,
             stderr=err_f,
             env=env,
+            start_new_session=True,
         )
-        state.current_child = proc
+        state.children.add(proc)
+        if state.interrupts_received:
+            # The interrupt landed between the check above and registration.
+            _signal_group(proc, signal.SIGTERM)
         try:
-            returncode = proc.wait(timeout=entry.timeout_seconds)
+            returncode = _wait_entry(proc, entry.timeout_seconds, state)
         except subprocess.TimeoutExpired:
             timed_out = True
             print(
                 f"[run_queue] {entry.id} exceeded {entry.timeout_seconds}s, SIGTERM",
                 file=sys.stderr,
             )
-            try:
-                proc.terminate()
-            except ProcessLookupError:
-                pass
+            _signal_group(proc, signal.SIGTERM)
             try:
                 returncode = proc.wait(timeout=SIGTERM_GRACE_SECONDS)
             except subprocess.TimeoutExpired:
                 print(f"[run_queue] {entry.id} did not exit after SIGTERM, SIGKILL", file=sys.stderr)
-                try:
-                    proc.kill()
-                except ProcessLookupError:
-                    pass
+                _signal_group(proc, signal.SIGKILL)
                 try:
                     returncode = proc.wait(timeout=5)
                 except subprocess.TimeoutExpired:
                     returncode = None
         finally:
-            state.current_child = None
+            state.children.discard(proc)
+    if timed_out or state.interrupts_received:
+        # Workers that outlived the shell (e.g. a Pool ignoring SIGTERM).
+        _signal_group(proc, signal.SIGKILL)
 
     end_wall = time.time()
     rusage = _rusage_snapshot(rusage_before)
@@ -247,7 +279,7 @@ def _run_entry(
         round(rusage["user_cpu_seconds"] / wall_seconds, 2) if wall_seconds > 0 else None
     )
 
-    interrupted = state.interrupts_received > interrupted_before_this_run and not timed_out
+    interrupted = state.interrupts_received > 0 and not timed_out
 
     status = _determine_status(
         returncode=returncode,
@@ -349,6 +381,21 @@ def main() -> int:
         return _validate(args.queue, args.status)
 
     queue = load_queue(args.queue)
+
+    # Lock before reading status: a live runner's 'running' entries must not
+    # be reclassified by a second invocation that is about to be refused.
+    try:
+        acquire_lock(args.lock)
+    except LockError as e:
+        print(f"[run_queue] {e}", file=sys.stderr)
+        return 3
+    try:
+        return _run_locked(args, queue)
+    finally:
+        release_lock(args.lock)
+
+
+def _run_locked(args: argparse.Namespace, queue: list[QueueEntry]) -> int:
     status = load_status(args.status)
 
     reclassified = reclassify_running(status)
@@ -364,12 +411,6 @@ def main() -> int:
         print("[run_queue] nothing pending")
         return 0
 
-    try:
-        acquire_lock(args.lock)
-    except LockError as e:
-        print(f"[run_queue] {e}", file=sys.stderr)
-        return 3
-
     state = _InterruptState()
     _install_signal_handlers(state)
 
@@ -381,86 +422,83 @@ def main() -> int:
         f"({parallel_count} parallel); output root: {date_dir}"
     )
 
-    try:
-        for group in groups:
-            if state.interrupts_received > 0:
-                print("[run_queue] interrupt seen, stopping queue", file=sys.stderr)
-                break
+    for group in groups:
+        if state.interrupts_received > 0:
+            print("[run_queue] interrupt seen, stopping queue", file=sys.stderr)
+            break
 
-            if len(group) == 1:
-                # --- Sequential (single entry) ---
-                entry = group[0]
-                run_dir = date_dir / entry.id
+        if len(group) == 1:
+            # --- Sequential (single entry) ---
+            entry = group[0]
+            run_dir = date_dir / entry.id
+            status[entry.id] = {
+                "status": "running",
+                "run_dir": _display_path(run_dir),
+                "started_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+            }
+            save_status(args.status, status)
+
+            print(f"[run_queue] START {entry.id}  ({entry.cmd})")
+            metadata = _run_entry(entry, run_dir, state)
+
+            status[entry.id] = {
+                "status": metadata["status"],
+                "run_dir": _display_path(run_dir),
+                "started_at": metadata["started_at"],
+                "ended_at": metadata["ended_at"],
+                "wall_seconds": metadata["wall_seconds"],
+                "exit_code": metadata["exit_code"],
+            }
+            save_status(args.status, status)
+            print(
+                f"[run_queue] END   {entry.id}  status={metadata['status']}  "
+                f"wall={metadata['wall_seconds']}s  exit={metadata['exit_code']}"
+            )
+        else:
+            # --- Parallel (multiple entries in same group) ---
+            pg = group[0].parallel_group
+            ids = [e.id for e in group]
+            print(
+                f"[run_queue] PARALLEL GROUP {pg}: starting {len(group)} entries "
+                f"concurrently: {ids}"
+            )
+            import concurrent.futures
+
+            for entry in group:
                 status[entry.id] = {
                     "status": "running",
-                    "run_dir": _display_path(run_dir),
+                    "run_dir": _display_path(date_dir / entry.id),
                     "started_at": dt.datetime.now(dt.timezone.utc).isoformat(),
                 }
-                save_status(args.status, status)
+            save_status(args.status, status)
 
-                print(f"[run_queue] START {entry.id}  ({entry.cmd})")
-                metadata = _run_entry(entry, run_dir, state)
-
-                status[entry.id] = {
-                    "status": metadata["status"],
-                    "run_dir": _display_path(run_dir),
-                    "started_at": metadata["started_at"],
-                    "ended_at": metadata["ended_at"],
-                    "wall_seconds": metadata["wall_seconds"],
-                    "exit_code": metadata["exit_code"],
+            with concurrent.futures.ThreadPoolExecutor(
+                max_workers=len(group)
+            ) as pool:
+                futures = {
+                    pool.submit(
+                        _run_entry, entry, date_dir / entry.id, state
+                    ): entry
+                    for entry in group
                 }
-                save_status(args.status, status)
-                print(
-                    f"[run_queue] END   {entry.id}  status={metadata['status']}  "
-                    f"wall={metadata['wall_seconds']}s  exit={metadata['exit_code']}"
-                )
-            else:
-                # --- Parallel (multiple entries in same group) ---
-                pg = group[0].parallel_group
-                ids = [e.id for e in group]
-                print(
-                    f"[run_queue] PARALLEL GROUP {pg}: starting {len(group)} entries "
-                    f"concurrently: {ids}"
-                )
-                import concurrent.futures
-
-                for entry in group:
+                for future in concurrent.futures.as_completed(futures):
+                    entry = futures[future]
+                    metadata = future.result()
                     status[entry.id] = {
-                        "status": "running",
+                        "status": metadata["status"],
                         "run_dir": _display_path(date_dir / entry.id),
-                        "started_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+                        "started_at": metadata["started_at"],
+                        "ended_at": metadata["ended_at"],
+                        "wall_seconds": metadata["wall_seconds"],
+                        "exit_code": metadata["exit_code"],
                     }
-                save_status(args.status, status)
+                    save_status(args.status, status)
+                    print(
+                        f"[run_queue] END   {entry.id}  status={metadata['status']}  "
+                        f"wall={metadata['wall_seconds']}s  exit={metadata['exit_code']}"
+                    )
 
-                with concurrent.futures.ThreadPoolExecutor(
-                    max_workers=len(group)
-                ) as pool:
-                    futures = {
-                        pool.submit(
-                            _run_entry, entry, date_dir / entry.id, state
-                        ): entry
-                        for entry in group
-                    }
-                    for future in concurrent.futures.as_completed(futures):
-                        entry = futures[future]
-                        metadata = future.result()
-                        status[entry.id] = {
-                            "status": metadata["status"],
-                            "run_dir": _display_path(date_dir / entry.id),
-                            "started_at": metadata["started_at"],
-                            "ended_at": metadata["ended_at"],
-                            "wall_seconds": metadata["wall_seconds"],
-                            "exit_code": metadata["exit_code"],
-                        }
-                        save_status(args.status, status)
-                        print(
-                            f"[run_queue] END   {entry.id}  status={metadata['status']}  "
-                            f"wall={metadata['wall_seconds']}s  exit={metadata['exit_code']}"
-                        )
-
-                print(f"[run_queue] PARALLEL GROUP {pg}: all {len(group)} entries complete")
-    finally:
-        release_lock(args.lock)
+            print(f"[run_queue] PARALLEL GROUP {pg}: all {len(group)} entries complete")
 
     return 0
 
