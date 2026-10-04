@@ -1,10 +1,11 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-04 (last commit `f2e4048`, run 2026-10-04-1839). This covers the **map-bias line**, the current
+As of 2026-10-05 (last commit `f418c91`, run 2026-10-04-2135). This covers the **map-bias line**, the current
 core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
-evolution finds and keeps ("arrival of the frequent")?* The line now studies whether the
-chemistry can discover, preserve and reuse a **shared helper** (one functional part read by
-several outputs).
+evolution finds and keeps ("arrival of the frequent")?* Until 2026-10-05 the line studied
+whether the chemistry can discover, preserve and reuse a **shared helper** (one functional part
+read by several outputs); that line has stopped, and the next one is the README's part 2,
+fitting the map's bias to a task family ([08](questions/01-map-bias/08-evolve-bias/question.md)).
 
 Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per experiment; reviews and report tables in [docs/map-bias/reviews/](../docs/map-bias/reviews/)) and
 [findings](../docs/map-bias/findings.md) (items 1–17; the owner-promoted, reviewed claims).
@@ -40,7 +41,7 @@ Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per e
 - **The XOR/valley thread is closed:** joins can be built by small edits when none is handed
   out; no fitness valley was found. ([items 13–16](../docs/map-bias/findings.md), §16–§26)
 
-## Shared helpers (the live frontier)
+## Shared helpers (line stopped 2026-10-05)
 
 Task: three outputs on tags 0/1/2 (A = max>5, A and B, A or B; B = sum>10, never rewarded
 alone), leftmost-wins, crossover v2, lexicase, population 1024. Forms: **shared** (one A run,
@@ -94,10 +95,21 @@ B), **duplicated** (everything recomputed).
   duplicated (off, self or selected mate), runs that lose shared end *partly shared*, a form
   nobody seeded. Read old "lost to duplicated" rows that way.
 
-What is left: random-start runs still end shared only 0–2 of 50 times under self-mate (§32 J).
-Is that because variation rarely produces exact shared children (arrival), or because a
-single new copy rarely fixes? → [07-shared-arrival](questions/01-map-bias/07-shared-arrival/question.md).
-The claim "shared helpers are rare because they rarely arrive" is **not** shown yet.
+- **Shared children do arrive, and single copies drift out.** In established partly
+  populations (§32 J self/0.3/L 64, final populations), exact shared children appear at about
+  1.6e-6 per child, about 2 per run over the non-shared phase (per run 0–7). Put back as one
+  copy into their own population, 0 of 100 established (≤ 3.6%), all gone within 30
+  generations; untouched controls show the same transient shared individuals. So "shared
+  helpers are rare because they never arrive" is wrong as stated. Fairly sure for these final
+  populations; the mid-phase check had no power.
+  ([07](questions/01-map-bias/07-shared-arrival/question.md),
+  [run analysis](runs/2026-10-04-2135/analysis.md))
+- **But the arrivals are the wrong kind.** All 56 were A-only or other; **0 B-helper** in 30M
+  partly-parent children (≤ 1.2e-7 per child), while both runs that ended shared are B-helper.
+  Hypothesis, not shown: A-only copies arrive and drift out; B-helper almost never arrives and
+  wins when it does. 100 insertions also cannot tell neutral drift (≈ 0.25%) from a
+  disadvantage. Why shared endings are rare is therefore **unresolved**; the shared-helper line
+  stops here by its stop rule (07 and 04 parked).
 
 ## Open questions
 
@@ -108,18 +120,19 @@ The claim "shared helpers are rare because they rarely arrive" is **not** shown 
 - [03-rare-shared-establishment](questions/01-map-bias/03-rare-shared-establishment/question.md)
   (closed): can a rare shared form establish under crossover? No at crossover ≥ 0.3.
 - [04-random-start-discovery](questions/01-map-bias/04-random-start-discovery/question.md)
-  (open, low priority): discovery needs no lineage mixing (§32 J); shortcuts are structural
-  (§32 L). Left: duplication-only companion, 0.3 vs 0.7 parity.
+  (parked): discovery needs no lineage mixing (§32 J); shortcuts are structural (§32 L).
+  Left: duplication-only companion, 0.3 vs 0.7 parity.
 - [05-latent-helper](questions/01-map-bias/05-latent-helper/question.md) (closed): a helper
   already present does not let a rare shared form establish (§32 K).
 - [06-self-mate-establishment](questions/01-map-bias/06-self-mate-establishment/question.md)
   (closed): yes, under self-mating a rare seeded shared form establishes at the crossover-off
   rate; the barrier is mixing between lineages.
-- [07-shared-arrival](questions/01-map-bias/07-shared-arrival/question.md) (open, new): are
-  shared helpers rare in evolved solutions because variation rarely produces them, or because
-  a new copy rarely fixes? Planned as the last shared-helper experiment.
-- Root part 2, letting the map's bias evolve across a task family, is untested and is the
-  natural next direction once the shared-helper line stops.
+- [07-shared-arrival](questions/01-map-bias/07-shared-arrival/question.md) (parked): about 2
+  A-only/other shared arrivals per run, 0/100 single copies established, no B-helper arrival.
+  Reopen if a B-helper single copy becomes testable or in-situ replay exists.
+- [08-evolve-bias](questions/01-map-bias/08-evolve-bias/question.md) (open, new): the README's
+  part 2. Can the map's frequency bias be fitted to a task family and help evolution on unseen
+  members? First experiment proposed in run 2026-10-05-0040.
 
 ## Older context
 
