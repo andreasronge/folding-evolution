@@ -408,6 +408,16 @@ def crossover(
     return child
 
 
+def _mate(population, i: int, j: int, cfg: ChemTapeConfig, rng: random.Random) -> np.ndarray:
+    """Crossover's second parent (cfg.crossover_mate, map-bias §32): the selected parent j,
+    parent i itself, or a fresh random genome."""
+    if cfg.crossover_mate == "self":
+        return population[i]
+    if cfg.crossover_mate == "random":
+        return random_genotype(cfg, rng)
+    return population[j]
+
+
 def _tournament_select(
     indices: list[int],
     fitnesses: np.ndarray,
@@ -591,7 +601,7 @@ def _reproduce_one_island(
         if rng.random() < cfg.crossover_rate:
             i = _select()
             j = _select()
-            child = crossover(population[i], population[j], cfg, rng)
+            child = crossover(population[i], _mate(population, i, j, cfg, rng), cfg, rng)
             kind = 1
         else:
             i = _select()
@@ -720,7 +730,7 @@ def _reproduce_batched(
         i = int(parents[k])
         if x:
             j = int(parents[k + 1])
-            children.append(crossover(population[i], population[j], cfg, rng))
+            children.append(crossover(population[i], _mate(population, i, j, cfg, rng), cfg, rng))
             k += 2
         else:
             j = -1

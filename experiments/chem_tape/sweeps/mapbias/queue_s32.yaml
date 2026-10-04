@@ -1,0 +1,49 @@
+# Map-bias §32 queue (Plans/s32-mate-latent-cases.md). Order K (three sweeps), J, L, G2.
+# Pilot (5 workers each, two sweeps at once): median / max s per run K 40/47 (rare), 36/38 (copy),
+# 35 (alone); J 351/374; L 731; G2 ~440 (§31 G at L 64 / 0.3). Expected total ~4.1 h on 10 workers.
+# Timeouts: 3x for K; J, L and G2 capped at 4 h, 2.5 h and 1.5 h so the queue stays under 10 h.
+# Launch:
+#   caffeinate -s uv run python scripts/run_queue.py --queue experiments/chem_tape/sweeps/mapbias/queue_s32.yaml \
+#     --status experiments/chem_tape/sweeps/mapbias/queue_s32.status.json --lock experiments/chem_tape/sweeps/mapbias/queue_s32.lock
+
+- id: mapbias_s32_latent_rare
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/s32_latent_rare.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 2700
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §32 arm K: shared from 1/32, 1/10 vs partly + unread B, crossover 0.1/0.3/0.7"
+
+- id: mapbias_s32_latent_copy
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/s32_latent_copy.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 2400
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §32 arm K: one shared copy vs partly + unread B, crossover 0 and 0.3, 100 seeds"
+
+- id: mapbias_s32_latent_alone
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/s32_latent_alone.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 600
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §32 arm K: partly + unread B alone, crossover 0.3 (helper decay)"
+
+- id: mapbias_s32_mate
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/s32_mate.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 14400
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §32 arm J: random starts with crossover_mate self / random, 50 seeds"
+
+- id: mapbias_s32_cases256
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/s32_cases256.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 9000
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §32 arm L: 256 training cases, random starts, L 64, crossover 0.3, 50 seeds"
+
+- id: mapbias_s32_stage4_more
+  cmd: uv run python experiments/chem_tape/sweep.py experiments/chem_tape/sweeps/mapbias/s32_stage4_more.yaml --output-root "$RUN_DIR" --workers 10
+  timeout_seconds: 5400
+  expect_outputs: [SWEEP_COMPLETE]
+  track: map-bias
+  notes: "notebook §32 G2: §31 G L 64 / crossover 0.3, seeds 50-99"
