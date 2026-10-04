@@ -2321,3 +2321,140 @@ remaining seeds are in between.
 - F: 1 and 8 shared copies with crossover off, 100 seeds.
 - G: stage 4 from random starts at 32/64/128 cells, crossover 0.7 / 0.3 / 0, 3000
   generations.
+
+## 31. Crossover dose, majority rule, single copies, and stage 4 from random starts (2026-10-03/04)
+
+**Status:** exploratory; Fable review pending · 1660 runs · code and sweeps `8844b6c` (the
+queue ran from it) · plan [s31-dose-reciprocal-stage4.md](../../Plans/s31-dose-reciprocal-stage4.md),
+from Fable's nineteenth review of §30
+
+**Before.** §30 found a rare shared form lost with crossover at 0.7, and established at only
+about 1–3% per copy without it. This section asks four questions:
+- Is the barrier graded in crossover rate? (arm D)
+- Is it symmetric? (arm E)
+- Does one copy behave as independence predicts? (arm F)
+- From random starts, does evolution find solutions, which form comes first, and does a
+  shared form ever appear and stay? (arm G, stage 4)
+
+**Provenance and checks.**
+- Queue: 4/4 entries done, exit 0, 1660/1660 runs, no duplicate run keys, none stopped early.
+- Wall time: 2097 + 1567 + 1501 + 21438 s, from 22:27 to 05:50. G finished inside its
+  6.5-hour cap.
+- `git_dirty: true` is again only the runners' untracked lock and status files.
+- New option `seed_counts` (exact copies per seed tape). It is off by default and
+  hash-neutral when empty; tests cover both.
+- Two Codex reviews. Round 1, one P2: the dose plot would have mixed §30's census-based win
+  counts with the new criterion. Fixed: §30's crossover 0 and 0.7 runs are re-classified the
+  same way. Round 2: no findings.
+- Verdicts come from the final population without elites, classified by knockout. A form
+  verdict needs ≥ 20 fully exact non-elite individuals. Generated tables:
+  `experiments/output/2026-10-03/s31/report/s31_report.md`.
+
+### D: crossover dose (seeds where a rare shared form wins, of 30)
+
+![dose](figures/s31_dose.png)
+
+| contest | start | 0 (§30) | 0.1 | 0.3 | 0.5 | 0.7 (§30) |
+|---|---|---|---|---|---|---|
+| vs duplicated, L 64 | 1/32 | 19 | 16 | 10 | 1 | 0 |
+| vs duplicated, L 64 | 1/10 | 29 | 30 | 24 | 3 | 0 |
+| vs partly, L 64 | 1/32 | 8 | 2 | 0 | 0 | 0 |
+| vs partly, L 64 | 1/10 | 19 | 11 | 0 | 0 | 0 |
+| vs partly, L 32 | 1/32 | 15 | 1 | 0 | 0 | 0 |
+| vs partly, L 32 | 1/10 | 24 | 9 | 0 | 0 | 0 |
+
+One run (vs partly, L 64, 1/32, crossover 0.3) lost the solution and is not counted.
+
+### E: reciprocal (crossover 0.7)
+
+Shared at 768, 922 or 992 of 1024, against duplicated (L 64) or partly shared (L 64, 128):
+shared wins in **270/270** runs. The rare competitor is always removed.
+
+### F: few copies, crossover off, L 64 (100 seeds each)
+
+| contest | 1 copy: wins | predicted | 8 copies: wins | predicted |
+|---|---|---|---|---|
+| vs duplicated | 4 | 3 | 23 | 22 |
+| vs partly | 0 | 1 | 10 | 7 |
+
+The predictions assume independent copies, calibrated on §30's 32-copy runs.
+
+### G: stage 4, random starts (50 seeds, 3000 generations)
+
+![stage 4](figures/s31_stage4.png)
+
+| L | crossover | ever fully exact | median first generation | first form: shared / partly / dup | end ≥ 20 / 1–19 / 0 exact | final: shared / partly / dup | final training-perfect |
+|---|---|---|---|---|---|---|---|
+| 32 | 0.7 | 11 | 1380 | 0 / 7 / 4 | 7 / 0 / 43 | 0 / 3 / 4 | 0.09 |
+| 32 | 0.3 | 15 | 1740 | 0 / 12 / 3 | 12 / 0 / 38 | 0 / 10 / 2 | 0.14 |
+| 32 | 0 | 0 | – | – | 0 / 0 / 50 | – | 0.01 |
+| 64 | 0.7 | 43 | 720 | 2 / 30 / 11 | 28 / 2 / 20 | 0 / 21 / 7 | 0.30 |
+| 64 | 0.3 | 41 | 740 | 4 / 28 / 9 | 30 / 5 / 15 | 4 / 21 / 5 | 0.34 |
+| 64 | 0 | 2 | 2740 | 0 / 2 / 0 | 2 / 0 / 48 | 0 / 2 / 0 | 0.02 |
+| 128 | 0.7 | 43 | 700 | 3 / 26 / 14 | 20 / 8 / 22 | 3 / 11 / 6 | 0.31 |
+| 128 | 0.3 | 42 | 800 | 4 / 29 / 9 | 26 / 3 / 21 | 4 / 16 / 6 | 0.34 |
+| 128 | 0 | 4 | 1660 | 2 / 2 / 0 | 4 / 0 / 46 | 2 / 2 / 0 | 0.03 |
+
+- "First form" is the majority form at the first census with a fully exact individual. "Ever
+  fully exact" comes from the census (256 every 20 generations).
+- Lost after solving (census once ≥ 20 fully exact of 256, end < 20): 1, 1, 3 and 3 runs in the
+  crossover-on cells at 64 and 128.
+- Across all 450 runs, the first form usually persists: partly → partly 82, duplicated →
+  duplicated 30, shared → shared 8.
+- Five runs gained sharing after the first solve: 3 partly → shared, 2 duplicated → shared.
+
+**Results.**
+- **The barrier is graded against duplicated and steep against partly shared.**
+  - From 1/10 against duplicated, shared wins 29, 30, 24, 3 and 0 of 30 as crossover rises
+    from 0 to 0.7.
+  - Against partly shared, crossover 0.1 already cuts wins by about half, and 0.3 stops them
+    at both lengths.
+- **Majority rule holds:** a shared majority removes a rare partly shared or duplicated form
+  in 270/270 runs.
+- **Copies act independently:** single-copy establishment without crossover is about 1–4%,
+  as §30's numbers predicted.
+- **Crossover is needed to find solutions at all:**
+  - Without it, random starts reach a fully exact individual in 0, 2 and 4 of 50 runs at
+    L 32, 64 and 128.
+  - With crossover at 0.3 or 0.7, they reach one in 41–43 of 50 at L 64 and 128, and in 11–15
+    of 50 at L 32.
+  - 0.3 and 0.7 solve about equally often.
+- **Solutions arrive mostly partly shared or duplicated, but shared solutions do arise from
+  random starts.**
+  - The shared form is the final verdict in 13 of 450 runs: 4 at L 64 with crossover 0.3;
+    3, 4 and 2 at L 128 with crossover 0.7, 0.3 and 0.
+  - It never arises at L 32.
+  - Decoded, these are genuine pure helpers. Often a run computing B (`INPUT SUM C5 C5 ADD GT`)
+    is read by both consumers, which recompute A themselves: "B shared, A duplicated", a form
+    the hand-built seeds never had.
+  - In other runs, a helper computes a mix used by both consumers.
+- **Shortcuts:** at L 64 and 128 with crossover, about a third of each final population is
+  training-perfect, a level close to the fully exact share in seeded runs. Of the 450 runs,
+  51 + 14 + 7 reached a fully exact individual at some point but end below 20.
+
+**What this shows, and what it doesn't.**
+- **The establishment barrier and discovery pull in opposite directions.** Crossover is what
+  finds solutions (crossover off: almost none), and the same crossover removes a rare
+  incompatible form. Against partly shared it does so even at 0.1–0.3.
+- **Which form a population ends with is mostly set at its first solve** (a founder effect).
+  It changed later in only 6 of the 142 runs where both first and final form are known.
+- **So sharing is not impossible to discover.** A pure helper arises from random starts in a
+  few percent of runs, and once it holds the majority it stays (E). What it lacks is a route
+  from rare to common while crossover is on.
+- **Size pressure does not produce sharing here.** L 32 solves least often and never ends
+  shared. The hand-built forms make sharing the only fit at 32, but evolution at 32 mostly
+  fails to solve at all.
+- **Not shown:**
+  - why 0.3 and 0.7 discover equally well while 0.1–0.3 already blocks establishment;
+  - whether a schedule (crossover early, off later) would let rare shared forms establish;
+  - the "first form" uses a 20-generation census, so a brief earlier form can be missed.
+- **Scope:** one three-output task, crossover v2, lexicase, population 1024; G runs 3000
+  generations.
+
+**Next (candidates for Fable's review).**
+- A crossover schedule: crossover on until the first fully exact individual, then low or
+  off. Readout: how often a later-arising shared form establishes.
+- A fitness or selection term that breaks ties between exact forms toward fewer critical
+  cells or fewer runs. It would favour sharing without depending on frequency.
+- Stage 5 (extension) from the 13 shared and the partly shared solutions: does a fourth
+  output reuse an existing helper?
