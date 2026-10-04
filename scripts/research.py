@@ -406,6 +406,15 @@ PROMPTS = {
         "You may create a new question folder if the right question does not exist yet. "
         "Write {task_dir}/proposal.md in the proposal format from the README. Do not write code."
     ),
+    "critique": (
+        "Give a second opinion on the steward's proposal {task_dir}/proposal.md before the owner "
+        "decides on it. Read it, then {research}/digest.md and the questions it touches. Write "
+        "{task_dir}/critique.md: is this the experiment that best separates the competing "
+        "explanations, or is a cheaper or more decisive one available? Which outcome would leave "
+        "us no wiser? Is the size right? Is a parked question's reopen condition met and ignored? "
+        "Start the file with frontmatter `recommend: approve`, `revise` or `reject`, then one "
+        "sentence why. Do not edit any other file."
+    ),
     "prepare": (
         "Implement the approved proposal {task_dir}/proposal.md. Also read, if present, "
         "approval.md (owner notes), code_review.md (review to address) and driver_feedback.md "
@@ -530,7 +539,7 @@ class Driver:
             self.check_deadline()
         calls = self.state.get("agent_calls", 0)
         if calls >= self.cfg.get("max_agent_calls", 8) and phase != "decide":
-            if phase == "propose" or "node" not in self.state:
+            if phase in ("propose", "critique") or "node" not in self.state:
                 raise Stop(f"agent call cap ({calls}) reached while proposing; "
                            "`research.py propose` starts over")
             self.block(f"agent call cap ({calls}) reached")
@@ -569,6 +578,7 @@ class Driver:
             feedback = (f"The owner set aside the previous proposal ({rejected}); read it and any "
                         "rejected.md beside it, and propose something that answers the objection. ")
         self.call_agent("steward", "propose", self.repo, feedback=feedback)
+        self.set_phase(ACCEPT)
         self.accept_proposal()
 
     def accept_proposal(self) -> None:
@@ -578,10 +588,23 @@ class Driver:
             raise Stop(f"proposal.md node {node!r} is not a question folder under research/questions")
         self.state["node"] = node
         self.state.pop("rejected", None)
+        self.critique()
         self.set_phase(AWAITING)
         left = remaining_budget(self.research, self.research / node)
         self.log(f"proposal: {meta.get('title', '?')} [{node}] — budget left: "
                  f"{'unlimited' if left is None else left}. Approve with `research.py approve`.")
+
+    def critique(self) -> None:
+        """Second opinion on the proposal, if a critic role exists. Optional:
+        without it (failure, deadline, call cap) the owner still decides."""
+        if (self.task_dir() / "critique.md").exists() or not (
+                self.research / "roles" / "critic.md").exists():
+            return
+        try:
+            self.call_agent("critic", "critique", self.repo)
+            self.expect("critique.md")
+        except Stop as e:
+            self.log(f"no critique: {e}")
 
     def phase_prepare(self) -> None:
         if not self.state.get("worktree_ready"):
@@ -914,6 +937,8 @@ class Driver:
         if s.get("task") and (self.task_dir() / "proposal.md").exists():
             meta, _ = read_frontmatter(self.task_dir() / "proposal.md")
             print(f"proposal: {meta.get('title', '?')}  ({self.task_dir() / 'proposal.md'})")
+            if (crit := self.task_dir() / "critique.md").exists():
+                print(f"critique: {read_frontmatter(crit)[0].get('recommend', '?')}  ({crit})")
         print("\nquestions:")
         for q in sorted((self.research / "questions").rglob("question.md")):
             meta, body = read_frontmatter(q)

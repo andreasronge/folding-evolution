@@ -105,6 +105,7 @@ class FakeLauncher:
         self.driver = None
         self.calls: list[str] = []
         self.verdicts = list(review_verdicts)
+        self.fail_critique = False
 
     def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
         d = self.driver
@@ -120,6 +121,9 @@ class FakeLauncher:
             subprocess.run(["git", "commit", "-qm", "exp"], cwd=cwd, check=True)
             write(td / "plan.md", "If A then X.\n")
             write(td / "queue.yaml", f"runs:\n  - id: {d.state['task']}-a\n    cmd: echo hi\n")
+        elif phase == "critique":
+            if not self.fail_critique:
+                write(td / "critique.md", "---\nrecommend: approve\n---\nFine.\n")
         elif phase == "review_code":
             write(td / "code_review.md", f"---\nverdict: {self.verdicts.pop(0)}\n---\nok\n")
         elif phase == "queue":
@@ -394,3 +398,17 @@ def test_queue_failure_does_not_advance(repo, outcome):
     assert d.state["phase"] == "execute" and "analyse" not in fake.calls
     assert not research.git_ok("rev-parse", "--verify", "research/main^{commit}", cwd=repo) or \
         research.git("rev-parse", "research/main", cwd=repo) != d.state["commit"]
+
+
+def test_critic_reviews_every_proposal_and_is_optional(repo):
+    fake = FakeLauncher()
+    d = make_driver(repo, fake)
+    write(d.research / "roles" / "critic.md", "---\nagent: fake\nmodel: m-critic\n---\nCritic.\n")
+    assert d.run(now_mode=True) == 0
+    assert fake.calls == ["propose", "critique"] and d.state["phase"] == research.AWAITING
+    assert (d.task_dir() / "critique.md").exists()
+    assert d.approve(None) == 0
+    fake.fail_critique = True  # no critique.md: the proposal still reaches the owner
+    assert d.run(now_mode=True) == 0
+    assert fake.calls[-2:] == ["decide", "critique"] and d.state["phase"] == research.AWAITING
+    assert not (d.task_dir() / "critique.md").exists()

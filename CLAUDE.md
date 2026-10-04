@@ -50,4 +50,4 @@ Nightly experiment queue runner. User authors `queue.yaml`, `scripts/run_queue.p
 
 ## Research Loop
 
-Autonomous research tree: `research/` (questions, digest, briefs, roles) driven by `scripts/research.py` (steward proposes → owner approves → researcher implements in a worktree → reviewer checks code → queue runs → reviewer analyses → steward decides and writes the brief + next proposal). Nightly by default (`research.py run`), daytime with `run --now`. Agents read `research/README.md`. Design: [Plans/research-tree.md](Plans/research-tree.md).
+Autonomous research tree: `research/` (questions, digest, briefs, roles) driven by `scripts/research.py` (steward proposes → critic gives a second opinion → owner approves → researcher implements in a worktree → reviewer checks code → queue runs → reviewer analyses → steward decides and writes the brief + next proposal). Nightly by default (`research.py run`), daytime with `run --now`. Agents read `research/README.md`. Design: [Plans/research-tree.md](Plans/research-tree.md).

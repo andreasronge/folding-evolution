@@ -12,7 +12,7 @@ Agents: read this first, then your role file in `roles/`.
   `budget`; summary, competing explanations, `Related:` links, `Reopen if:`)
   and `log.md` (append-only: experiment → result → `Decision: … because …`).
 - `runs/<task>/` — one folder per experiment cycle: `proposal.md`,
-  `plan.md`, `queue.yaml`, `code_review.md`, `execution.md`, `analysis.md`,
+  `critique.md`, `plan.md`, `queue.yaml`, `code_review.md`, `execution.md`, `analysis.md`,
   `decision.md`. Raw data lives in `experiments/output/` (linked from
   `execution.md`).
 - `briefs/` — the owner's morning briefs.

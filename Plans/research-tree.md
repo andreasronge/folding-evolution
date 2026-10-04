@@ -232,6 +232,9 @@ was built from that checkout.
 
 ## Implementation notes
 
+- A critic (Codex gpt-6-astra, `roles/critic.md`) writes `critique.md` on every
+  proposal before it reaches the owner: a second opinion on the steward's choice,
+  advisory only. Delete the role file to turn it off.
 - Every proposal needs owner approval in this version (`research.py approve`),
   including sub-questions. Loosen once the owner's override rate is known.
 - Code chains through `research/main`: each experiment branches from it and it
