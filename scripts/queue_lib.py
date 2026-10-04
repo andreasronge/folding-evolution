@@ -5,15 +5,14 @@ Design: Plans/overnight-queue-runner.md.
 - queue.yaml is user-authored (spec). Never written by the runner.
 - queue.status.json is runner-owned bookkeeping. Status keyed by entry id.
 - Atomic writes (tmp + rename) for any runner-owned file.
-- queue.lock is a PID file; stale locks (dead PID) are reclaimed with a warning.
+- queue.lock is held with flock; the OS releases it when the runner exits.
 """
 
 from __future__ import annotations
 
-import errno
+import fcntl
 import json
 import os
-import sys
 import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -150,52 +149,44 @@ class LockError(Exception):
     pass
 
 
-def acquire_lock(path: Path) -> None:
-    """PID lock. Refuse if lock is held by a live process. Reclaim stale locks.
+# Open lock files, keyed by path, so the flock outlives acquire_lock().
+_LOCK_FDS: dict[Path, int] = {}
 
-    On success, writes this process's PID to the file and does not return
-    until release_lock() is called.
+
+def acquire_lock(path: Path) -> None:
+    """Exclusive flock on the lock file. Refuse if another process holds it.
+
+    The OS drops the lock when the holder exits, so a lock left by a crashed
+    runner never blocks the next one. The file itself is kept (unlinking a
+    flock file lets two processes lock different inodes); it records the
+    holder's PID for humans.
     """
     path.parent.mkdir(parents=True, exist_ok=True)
-    if path.exists():
+    fd = os.open(path, os.O_RDWR | os.O_CREAT, 0o644)
+    try:
+        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
         try:
-            existing_pid = int(path.read_text().strip())
-        except (ValueError, OSError):
-            existing_pid = None
-        if existing_pid is not None and _pid_alive(existing_pid):
-            raise LockError(
-                f"queue.lock held by live PID {existing_pid}; "
-                f"refusing to start a second runner"
-            )
-        # stale lock — reclaim
-        print(
-            f"[queue_lib] reclaiming stale lock (previous PID "
-            f"{existing_pid} not alive)",
-            file=sys.stderr,
+            holder = os.read(fd, 64).decode().strip() or "unknown"
+        finally:
+            os.close(fd)
+        raise LockError(
+            f"queue.lock held by live PID {holder}; "
+            f"refusing to start a second runner"
         )
-    path.write_text(f"{os.getpid()}\n")
+    os.ftruncate(fd, 0)
+    os.write(fd, f"{os.getpid()}\n".encode())
+    _LOCK_FDS[path] = fd
 
 
 def release_lock(path: Path) -> None:
+    fd = _LOCK_FDS.pop(path, None)
+    if fd is None:
+        return
     try:
-        if path.exists():
-            recorded = path.read_text().strip()
-            if recorded == str(os.getpid()):
-                path.unlink()
+        os.ftruncate(fd, 0)
+        fcntl.flock(fd, fcntl.LOCK_UN)
     except OSError:
         pass
-
-
-def _pid_alive(pid: int) -> bool:
-    try:
-        os.kill(pid, 0)
-    except ProcessLookupError:
-        return False
-    except PermissionError:
-        # process exists but owned by another user — treat as alive
-        return True
-    except OSError as e:
-        if e.errno == errno.ESRCH:
-            return False
-        raise
-    return True
+    finally:
+        os.close(fd)

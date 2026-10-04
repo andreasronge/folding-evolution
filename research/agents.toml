@@ -1,0 +1,21 @@
+# How to run each kind of coding agent headless. A role picks a kind and
+# model in its frontmatter (research/roles/*.md). Placeholders: {prompt},
+# {model}, {effort}, {research_dir}. Adding an agent = adding a table.
+#
+# Agents run unattended, so they get full permissions inside their working
+# directory (a dedicated git worktree for code work).
+
+[claude]
+cmd = ["claude", "-p", "{prompt}", "--model", "{model}", "--effort", "{effort}",
+       "--permission-mode", "bypassPermissions", "--add-dir", "{research_dir}"]
+
+[codex]
+cmd = ["codex", "exec", "{prompt}", "-m", "{model}",
+       "-c", "model_reasoning_effort=\"{effort}\"",
+       "--dangerously-bypass-approvals-and-sandbox", "--add-dir", "{research_dir}"]
+
+[gemini]
+cmd = ["gemini", "-p", "{prompt}", "-m", "{model}", "--yolo"]
+
+[opencode]
+cmd = ["opencode", "run", "{prompt}", "-m", "{model}"]

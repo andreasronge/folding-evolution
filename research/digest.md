@@ -1,0 +1,102 @@
+# Digest: what we currently believe, and why
+
+As of 2026-10-04 (last commit `805a641`). This covers the **map-bias line**, the current
+core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
+evolution finds and keeps ("arrival of the frequent")?* The line now studies whether the
+chemistry can discover, preserve and reuse a **shared helper** (one functional part read by
+several outputs).
+
+Sources: [notebook](../docs/map-bias/notebook.md) (§1–§31, one section per experiment) and
+[findings](../docs/map-bias/findings.md) (items 1–17; the owner-promoted, reviewed claims).
+§NN below always means a section of the notebook. Everything is exploratory hobby work, mostly
+30–50 seeds per cell, not pre-registered.
+
+## Map bias itself
+
+- **Random-genotype frequency predicts which tasks are easy, not which hard ones get
+  solved.** Evolution routinely finds behaviours rarer than 1 in 50M random tapes. On the
+  chem-tape alphabet the chem decoder and direct encoding have almost the same bias.
+  ([findings item 1](../docs/map-bias/findings.md), §1)
+- **Folding and direct encoding do differ in bias**, and folding solves more often wherever
+  the two differ, but that looks like a *sampling* advantage: folding makes exact solvers
+  1.3–30× more common. ([findings item 17](../docs/map-bias/findings.md), §27)
+- **On those fixed-target tasks, evolution is mostly a worse sampler than random search**
+  with the same budget. It beat sampling only on one task (direct, count∘rest(employees))
+  where solvers are rare but the plateau is not deceptive. (item 17 "Night 2", §28)
+- **The frequency knob changes how often a part is made, not what is reachable.** Weighting
+  one op switches between equivalent routes (e.g. min vs gate joins, 13:1 vs 2:14) without
+  changing solve rates; very high weights hurt only by diluting the rest of the alphabet.
+  ([item 12](../docs/map-bias/findings.md), §16, §19; also the `rest` weight in §28)
+- Steering is untested: (μ+λ) truncation leaves one behaviour per unsolved population under
+  every tie rule. (§28) → [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)
+
+## Building blocks on chem-tape (tagged runs)
+
+- **Lexicase, not a new primitive, is what supplies blocks**; arrangement is then the
+  bottleneck. ([items 4–5](../docs/map-bias/findings.md), §3, §5, §7)
+- **Tagged runs make transplants safe** (0 crashes in 940), and **crossover merges blocks
+  when the join is cheap**, but a stack with a one-op join does as well: the advantage is the
+  join's cost, not modularity. ([items 7–9](../docs/map-bias/findings.md), §9, §12, §14)
+- **The XOR/valley thread is closed:** joins can be built by small edits when none is handed
+  out; no fitness valley was found. ([items 13–16](../docs/map-bias/findings.md), §16–§26)
+
+## Shared helpers (the live frontier)
+
+Task: three outputs on tags 0/1/2 (A = max>5, A and B, A or B; B = sum>10, never rewarded
+alone), leftmost-wins, crossover v2, lexicase, population 1024. Forms: **shared** (one A run,
+one B helper run, both read by the consumers), **partly shared** (consumers read A, recompute
+B), **duplicated** (everything recomputed).
+
+- **Retention is not the problem.** A fully exact shared form, once at a majority or an equal
+  share, persists at 32/64/128 cells and beats an equal share of duplicated. (§29)
+- **Establishment from rare is the problem, and crossover causes it.** From 1/32 or 1/10 with
+  crossover 0.7, the shared form was lost in 294/300 runs and won none (§30). The barrier is
+  graded against duplicated and steep against partly shared: crossover 0.3 already stops it
+  (§31 D). Both crossover branches remove it: as recipient it takes self-contained bodies, as
+  donor its RECV consumers land in hosts with no helper run (§30).
+- **Whichever form holds the majority wins** (270/270 runs at ≥ 3/4 shared, §31 E). Without
+  crossover, establishment is about 3% per copy against duplicated and 1% against partly
+  shared, consistent with independent copies (§30, §31 F).
+- **But crossover is also what solves.** From random starts, 48–50 of 50 runs solve the
+  training cases with crossover v2 at L 64/128; 0–4 of 50 reach a fully exact individual
+  without it. (§31 G)
+- **The first established form is mostly kept** (121 of 129 runs). Solutions arrive mostly
+  partly shared or duplicated; a real B helper ends the run in 8 of 450 runs, often as "B
+  shared, A duplicated", a form the hand-built seeds never had. Two established populations
+  changed to a helper form from inside. (§31 G)
+- **Shortcuts are common:** about a third of each final population fits the 64 training
+  cases without being exact; 92 of 196 training-solved runs end as shortcut populations.
+  (§31 G)
+- **32 cells does not force sharing**; evolved shared forms are not smaller. (§31 G)
+
+So the current tension: the same crossover that discovers solutions removes rare shared
+forms. §32 (built at `805a641`, results not yet recorded) asks whether discovery needs
+lineage mixing at all (J), whether a helper already present lets a rare shared form
+establish (K), and whether shortcuts are a 64-case artefact (L).
+
+## Open questions
+
+- [01-map-bias](questions/01-map-bias/question.md) (open, root): how does the map bias what
+  evolution finds and keeps?
+- [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)
+  (parked): does folding help evolution beyond making solvers common? Rarity ladder not run.
+- [03-rare-shared-establishment](questions/01-map-bias/03-rare-shared-establishment/question.md)
+  (closed): can a rare shared form establish under crossover? No at crossover ≥ 0.3.
+- [04-random-start-discovery](questions/01-map-bias/04-random-start-discovery/question.md)
+  (open): does discovery need lineage mixing, and are shortcuts a training-sample effect?
+  §32 J, L, G2 pending.
+- [05-latent-helper](questions/01-map-bias/05-latent-helper/question.md) (open): does a
+  helper already present let a rare shared form establish? §32 K pending.
+
+## Older context
+
+Earlier tracks are background, not the current line. The original folding track (3-bond
+ceiling broken via Pareto scaffold preservation, regime-shift result):
+[docs/folding/findings.md](../docs/folding/findings.md). The chem-tape track before the
+reframe: [docs/chem-tape/findings.md](../docs/chem-tape/findings.md) and
+[experiments.md](../docs/chem-tape/experiments.md). The CA track:
+[docs/ca/experiments.md](../docs/ca/experiments.md). Also
+[docs/coevolution.md](../docs/coevolution.md), [docs/theory.md](../docs/theory.md)
+(Altenberg's constructional selection) and
+[docs/python-rewrite-results.md](../docs/python-rewrite-results.md). Process lessons:
+[docs/methodology.md](../docs/methodology.md) (the line now runs in light hobby mode).
