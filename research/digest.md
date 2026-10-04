@@ -1,12 +1,12 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-04 (last commit `805a641`). This covers the **map-bias line**, the current
+As of 2026-10-04 (last commit `7a0491a`). This covers the **map-bias line**, the current
 core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
 evolution finds and keeps ("arrival of the frequent")?* The line now studies whether the
 chemistry can discover, preserve and reuse a **shared helper** (one functional part read by
 several outputs).
 
-Sources: [notebook](../docs/map-bias/notebook.md) (§1–§31, one section per experiment) and
+Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per experiment; reviews and report tables in [docs/map-bias/reviews/](../docs/map-bias/reviews/)) and
 [findings](../docs/map-bias/findings.md) (items 1–17; the owner-promoted, reviewed claims).
 §NN below always means a section of the notebook. Everything is exploratory hobby work, mostly
 30–50 seeds per cell, not pre-registered.
@@ -69,10 +69,19 @@ B), **duplicated** (everything recomputed).
   (§31 G)
 - **32 cells does not force sharing**; evolved shared forms are not smaller. (§31 G)
 
-So the current tension: the same crossover that discovers solutions removes rare shared
-forms. §32 (built at `805a641`, results not yet recorded) asks whether discovery needs
-lineage mixing at all (J), whether a helper already present lets a rare shared form
-establish (K), and whether shortcuts are a 64-case artefact (L).
+- **Discovery does not need mixing between lineages.** Crossing a parent with itself solves
+  68–80% of runs by generation 3000, about three times slower than a selected mate; a random
+  mate solves as rarely as crossover off. (§32 J)
+- **A helper already in the host does not rescue a rare shared form** at crossover ≥ 0.3: it
+  repairs hybrids, but the repaired children are partly shared. (§32 K)
+- **Shortcuts are structural, not a 64-case artefact:** with 256 cases 9 of 35 runs still end
+  as shortcuts, all failing only the OR output. (§32 L, partial)
+- **Shared endings are rare:** 4 in 100 runs at L 64/0.3, all B-type. (§31 G + §32 G2)
+
+So the tension is narrower: crossover between lineages discovers fast and removes rare shared
+forms, but discovery also works (slower) by rearrangement within a genome. Untested: can a
+rare shared form establish under self-mating? If yes, discovery and establishment can coexist
+under one operator. (Fable's proposed next step, §32 "Next")
 
 ## Open questions
 
@@ -83,10 +92,10 @@ establish (K), and whether shortcuts are a 64-case artefact (L).
 - [03-rare-shared-establishment](questions/01-map-bias/03-rare-shared-establishment/question.md)
   (closed): can a rare shared form establish under crossover? No at crossover ≥ 0.3.
 - [04-random-start-discovery](questions/01-map-bias/04-random-start-discovery/question.md)
-  (open): does discovery need lineage mixing, and are shortcuts a training-sample effect?
-  §32 J, L, G2 pending.
-- [05-latent-helper](questions/01-map-bias/05-latent-helper/question.md) (open): does a
-  helper already present let a rare shared form establish? §32 K pending.
+  (open): discovery needs no lineage mixing (§32 J); shortcuts are structural (§32 L). Open:
+  establishment under self-mating.
+- [05-latent-helper](questions/01-map-bias/05-latent-helper/question.md) (closed): a helper
+  already present does not let a rare shared form establish (§32 K).
 
 ## Older context
 

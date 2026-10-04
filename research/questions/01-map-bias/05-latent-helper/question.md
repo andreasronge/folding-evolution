@@ -1,5 +1,5 @@
 ---
-status: open
+status: closed
 tags: [shared-helper, latent-helper, establishment, crossover, helper-first, tagged-runs]
 budget: {experiments: 3, used: 0}
 ---
@@ -9,8 +9,11 @@ Current summary: §30 found that crossover removes a rare shared form from both 
 branch is that its RECV consumers land in hosts without a tag-3 (B) run. §32 arm K tests a
 "helper first, readers later" route: shared from 1/32 and 1/10 (and single copies) against
 "partly shared plus an unread B run" (34 cells), crossover 0 / 0.1 / 0.3 / 0.7, L 64, plus a
-competitor-alone arm measuring how fast the unread B run decays. Built at `805a641`; results
-not yet recorded.
+competitor-alone arm measuring how fast the unread B run decays. Answer (§32): no detectable
+gain. Shared wins 15 vs 11 of 30 from 1/10 at crossover 0.1 (p = 0.43), 2 vs 0 at 0.3, and
+loses everywhere at 0.3–0.7 from 1/32. The contest is lost while the B run is still present:
+it repairs hybrids, but the repaired children are partly shared (explanation B). Decay (C) is
+not the cause, although an unread run has a half-life of about 3 generations under mutation.
 
 Competing explanations:
 - A: The barrier is the missing helper: with a B run already in the host, shared wins from

@@ -20,4 +20,5 @@ Decision: return to the building-block question (shared-helper reuse, Plans/shar
 Decision: test establishment from a small share next (§30) because a newly discovered shared genome starts rare and Fable's 3-seed probe showed it wiped out with crossover on.
 - §30–§31 (commits d49f4ec, 8844b6c; write-ups a623cb3, 3587de6, 4d44db3, d8e8725): establishment, dose, reciprocal, few copies, stage 4 → see [03-rare-shared-establishment](03-rare-shared-establishment/log.md) and [04-random-start-discovery](04-random-start-discovery/log.md).
 Decision: drop the planned tie-break toward fewer cells because evolved shared forms are not smaller (§31, Fable's twentieth review).
-- §32 (commit 805a641): crossover mate (J), latent helper (K), 256 cases (L), more stage-4 seeds (G2) built and committed; results not yet recorded in the notebook → see [04](04-random-start-discovery/log.md) and [05](05-latent-helper/log.md).
+- §32 (commit 805a641): crossover mate (J), latent helper (K), 256 cases (L), more stage-4 seeds (G2) built and committed; results in notebook §32 (dd684f9, 298c1de) → see [04](04-random-start-discovery/log.md) and [05](05-latent-helper/log.md).
+Decision: close 05 (latent helper does not help); keep 04 open on the self-mating establishment test.

@@ -10,8 +10,13 @@ training cases at L 64/128; 0–4 of 50 reach a fully exact individual without i
 of the first established exact population is kept in 121 of 129 runs (§31 G). Solutions arrive
 mostly partly shared or duplicated; a B helper ends the run in 8 of 450 runs, and about half of
 training-solved runs end as shortcut populations that fit 64 cases without being exact. §32
-(J: crossover mate self/random; L: 256 training cases; G2: 50 more seeds of L 64/0.3) is built
-at `805a641`; results not yet recorded.
+J: discovery does not need mixing between lineages. Crossing a parent with itself solves
+34–40 of 50 runs by generation 3000, but about three times more slowly than a selected mate
+(median gen 2120 vs 730); a random mate solves 2 of 50, like crossover off. L: 256 cases do not
+remove shortcuts (9 of 35 still end as shortcuts, all failing only the OR output), so they are
+structural, not a 64-case artefact. G2: shared verdicts are 4 in 100 at L 64/0.3. Open:
+establishment under self-mating was not tested, so the discovery–establishment trade-off may
+not be forced (§32).
 
 Competing explanations:
 - A: Discovery needs mixing between selected lineages, so the trade-off with establishment
