@@ -2498,3 +2498,113 @@ The predictions assume independent copies, calibrated on §30's 32-copy runs.
 - The tie-break toward fewer cells is dropped: evolved shared forms are not smaller.
 - The commit message of `3587de6` repeats the "genuine pure helpers" claim; the bullets above
   correct it.
+
+## 32. Who is the mate, does a latent helper help, and do 256 cases remove shortcuts? (2026-10-04)
+
+**Status:** exploratory; Fable review pending · 695 new runs (+ 200 §31 reference runs) · code
+and sweeps `805a641` (the queue ran from it) · plan
+[s32-mate-latent-cases.md](../../Plans/s32-mate-latent-cases.md), from Fable's twentieth review
+of §31
+
+**Before.** §31 left three questions:
+- Does discovery from random starts need crossover's mixing between lineages, or only v2's
+  run-level rearrangement? (J: crossover with the parent itself, or with a random genome)
+- Does a B run already present in the host let a rare shared form establish? (K)
+- Are the training-perfect shortcut populations a 64-case training-sample effect? (L: 256
+  cases)
+
+G2 adds seeds 50–99 to §31's L 64 / crossover 0.3 cell.
+
+**Provenance and checks.**
+- Queue: 6 entries, five done with exit 0. **L timed out at its 2.5-hour cap and is PARTIAL:**
+  35 of 50 seeds (0–34). Runs took about 25–50 minutes each under full load, against 12 for the
+  single pilot run.
+- No duplicate run keys, none stopped early. `git_dirty: true` is only the runners' untracked
+  lock and status files.
+- New option `crossover_mate` ("selected" default, "self", "random"). The second selection is
+  always drawn, so earlier runs replay; a test replays a §31 config. It is rejected with
+  `track_lineage`.
+- Two Codex reviews. Round 1 had two P2s, both fixed: G2 was merged into the §31 reference row,
+  and lineage would record the wrong mate. Round 2: no findings.
+- Verdicts as §31: non-elite final population, ≥ 20 fully exact for a verdict. Random-start
+  readouts use Fable's definitions:
+  - training-solved = ≥ 10% of the final census training-perfect;
+  - first established form = first census with ≥ 20 of 256 exact and > 90% one form;
+  - helper content = whether the pure helper's value is a function of the sum (B-type) or of
+    the max (A-type).
+- Tables: `experiments/output/2026-10-04/s32/report/s32_report.md`.
+
+### K: shared vs partly shared plus an unread B run (L 64, 300 generations)
+
+| start | crossover | seeds | shared won | shared gone | in between | B run intact at end | same cell without the B run (§31 D / §30 / §31 F) |
+|---|---|---|---|---|---|---|---|
+| 1/32 | 0.1 | 30 | 4 | 26 | 0 | 0.03 | 2 |
+| 1/32 | 0.3 | 30 | 0 | 30 | 0 | 0.00 | 0 |
+| 1/32 | 0.7 | 30 | 0 | 30 | 0 | 0.01 | 0 |
+| 1/10 | 0.1 | 30 | 15 | 14 | 1 | 0.09 | 11 |
+| 1/10 | 0.3 | 30 | 2 | 26 | 2 | 0.02 | 0 |
+| 1/10 | 0.7 | 30 | 0 | 27 | 3 | 0.00 | 0 |
+| 1 copy | 0 | 100 | 2 | 98 | 0 | 0.01 | 0 |
+| 1 copy | 0.3 | 100 | 0 | 99 | 1 | 0.01 | – |
+| competitor alone | 0.3 | 30 | – | – | – | 0.00 | – |
+
+"B run intact" is the share of non-elite final genomes whose first tag-3 run still has B's body.
+
+### J, L, G2: random starts (3000 generations)
+
+| arm | L | crossover | mate | cases | seeds | training-solved at end | exact population at end | first established: shared / partly / dup | final verdict: shared / partly / dup | shared: B-type / A-type / other |
+|---|---|---|---|---|---|---|---|---|---|---|
+| G (§31) | 64 | 0.3 | selected | 64 | 50 | 48 | 30 | 4 / 22 / 5 | 4 / 21 / 5 | 4 / 0 / 0 |
+| G (§31) | 64 | 0.7 | selected | 64 | 50 | 49 | 28 | 0 / 21 / 8 | 0 / 21 / 7 | – |
+| G (§31) | 64 | 0 | – | 64 | 50 | 2 | 2 | 0 / 2 / 0 | 0 / 2 / 0 | – |
+| G (§31) | 128 | 0.3 | selected | 64 | 50 | 49 | 26 | 3 / 19 / 7 | 4 / 16 / 6 | 3 / 1 / 0 |
+| J | 64 | 0.3 | self | 64 | 50 | 34 | 17 | 2 / 15 / 1 | 2 / 15 / 0 | 2 / 0 / 0 |
+| J | 64 | 0.7 | self | 64 | 50 | 40 | 22 | 0 / 20 / 4 | 0 / 19 / 3 | – |
+| J | 64 | 0.3 | random | 64 | 50 | 2 | 2 | 1 / 1 / 0 | 1 / 1 / 0 | 1 / 0 / 0 |
+| J | 128 | 0.3 | self | 64 | 50 | 39 | 21 | 3 / 19 / 2 | 2 / 18 / 1 | 1 / 1 / 0 |
+| G2 | 64 | 0.3 | selected | 64 | 50 (50–99) | 49 | 27 | 0 / 23 / 7 | 0 / 22 / 5 | – |
+| L (PARTIAL) | 64 | 0.3 | selected | 256 | 35 (0–34) | 35 | 26 | 4 / 21 / 3 | 3 / 21 / 2 | 1 / 1 / 1 |
+
+**Results.**
+- **J: run-level rearrangement does most of the discovery; a random mate does nothing.**
+  - Crossing a parent with itself solves the training cases in 34 (0.3) and 40 (0.7) of 50 runs
+    at L 64, and 39 of 50 at L 128.
+  - With a selected mate the same cells solve 48–49 of 50. Exact populations at the end: 17 and
+    22 with self, against 30 and 28 with a selected mate.
+  - With a random genome as mate, 2 of 50 solve, the same as crossover off (2 of 50).
+  - So mixing between selected lineages adds a further 9–14 training-solved runs per 50 on top
+    of rearrangement, and foreign random material adds nothing.
+- **K: a latent B helper barely helps a rare shared form.**
+  - Against "partly shared plus an unread B run", the shared form wins 15 of 30 from 1/10 at
+    crossover 0.1 (11 of 30 without the B run, §31 D), and 2 of 30 at 0.3 (0 without).
+  - From 1/32, or at 0.7, it still loses everywhere. One copy without crossover wins 2 of 100
+    (0 without the B run, §31 F).
+  - The unread B run does not last: at the end it is intact in 0–9% of genomes, and in 0% when
+    the competitor runs alone for 300 generations at crossover 0.3.
+  - So "helper first, readers later" is not a route here: an unread helper decays before it can
+    be used.
+- **L: 256 training cases reduce shortcuts but do not remove them** (PARTIAL, 35 seeds).
+  - All 35 runs solve the training cases. 26 of 35 (74%) end with an exact population, against
+    30 of 50 (60%) with 64 cases.
+  - The plan's threshold for "a training-sample effect" (≥ 45 of 50, 90%) is not reached.
+- **G2: shared endings are rare.** Seeds 50–99 of L 64 / 0.3 give 27 exact populations and no
+  shared verdict. Together with §31 that is 4 shared verdicts (all B-type) in 100 runs.
+
+**What this shows, and what it doesn't.**
+- **The discovery–establishment trade-off is weaker than §31 suggested.**
+  - Most discovery comes from v2's rearrangement within a genome, which does not mix forms
+    between lineages.
+  - Self-mating keeps a rare form's genomes self-contained, so it should not trigger §30's
+    removal. That was not tested: establishment under self-mating is the obvious next probe.
+  - Self-mating discovers less than selected mixing (34–40 vs 48–49 of 50), so dropping mixing
+    has a cost.
+- **A random mate is no substitute for selected mixing:** it behaves like crossover off.
+- **Unread helpers decay within a few hundred generations** under mutation and crossover, so a
+  helper must be read to persist.
+- **Shortcut populations are partly a training-sample effect, partly structural.** Their share
+  falls from 40% to 26% with 256 cases. With 35 seeds the difference from 64 cases is not
+  significant (26/35 vs 30/50, Fisher p ≈ 0.25).
+- **Shared verdicts at L 64 / 0.3 are 4 in 100.** The §31 rate (4 of 50) was on the high side.
+- **Scope:** one three-output task, crossover v2, lexicase, population 1024; L is PARTIAL.
+
+**No further experiments were run after this section, at the user's request.**
