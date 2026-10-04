@@ -7,7 +7,7 @@ night_start = "22:00"
 night_end = "07:00"
 
 # Daytime runs (`run --now`) stop launching new work after this many hours.
-day_max_hours = 8
+day_max_hours = 10
 
 # How agents are launched: "herdr" (visible in a herdr tab, the default) or
 # "local" (plain background process). Falls back to local if herdr is down.
