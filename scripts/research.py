@@ -653,14 +653,16 @@ class Driver:
         """Second opinion on the proposal, if a critic role exists. Optional:
         without it (failure, deadline, call cap) the owner still decides."""
         crit = self.task_dir() / "critique.md"
-        if crit.exists() and read_frontmatter(crit)[0].get("recommend"):
+        if crit.exists() and self.state.get("critique_done"):
             return
-        crit.unlink(missing_ok=True)  # partial output of an interrupted critic
+        crit.unlink(missing_ok=True)  # output of a failed or interrupted critic
         if not (self.research / "roles" / "critic.md").exists():
             return
         try:
             self.call_agent("critic", "critique", self.repo)
             self.expect("critique.md")
+            self.state["critique_done"] = True
+            self.save()
         except Stop as e:
             crit.unlink(missing_ok=True)  # never trust a verdict from a failed run
             self.log(f"no critique: {e}")
@@ -793,12 +795,11 @@ class Driver:
             raise Stop("queue.yaml changed after review; refusing to run an unreviewed queue")
         entries = load_queue(queue)
         status_path = td / "queue.status.json"
-        # Queue time without review is capped across retries too. Account for a
-        # crashed attempt before the status file is touched again.
+        # Queue time without review is capped across retries too. After a crash
+        # the attempt is charged conservatively: everything since it started.
         used = self.state.get("queue_seconds", 0.0)
         if started := self.state.pop("queue_started", None):  # the driver died mid-queue
-            end = status_path.stat().st_mtime if status_path.exists() else started
-            used += max(0.0, end - started)
+            used += max(0.0, time.time() - started)
             self.state["queue_seconds"] = used
             self.save()
         if not (td / "execution.md").exists():  # a new campaign, not a resumed one
@@ -1095,7 +1096,11 @@ class Driver:
         self.run_info = info
         self.save_run()
         self.deadline = dt.datetime.fromisoformat(info["deadline"])
-        self.reconcile()  # stop leftovers of a crashed run before anything else
+        try:
+            self.reconcile()  # stop leftovers of a crashed run before anything else
+        except Exception as e:  # noqa: BLE001
+            self.finish_auto(f"cleaning up after the previous run failed: {e!r}")
+            return 1
         reason, code, last, fails = None, 0, None, 0
         while reason is None:
             if (self.research / "STOP").exists():

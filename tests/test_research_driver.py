@@ -564,3 +564,14 @@ def test_missing_proposal_reruns_the_steward(repo):
     d = auto_driver(repo, fake, strategy_every=1)
     d.run_auto(hours=48)
     assert fake.calls[:3] == ["propose", "propose", "critique"]
+
+
+def test_critique_from_an_interrupted_critic_is_redone(repo):
+    fake = FakeLauncher()
+    d = auto_driver(repo, fake, strategy_every=1)
+    d.run(now_mode=True)  # manual: proposal + critique, awaiting approval
+    d.state.pop("critique_done")  # as if the critic was killed after writing a verdict
+    d.save()
+    fake.critiques = ["reject"]
+    d.run_auto(hours=48)
+    assert fake.calls[:3] == ["propose", "critique", "critique"]  # verdict not reused

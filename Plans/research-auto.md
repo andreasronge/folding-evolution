@@ -83,9 +83,9 @@ starting point for the review.
   timeouts sum to more, or any non-positive timeout (driver feedback to the
   researcher: set realistic `timeout_seconds`, or split into stages). The
   default entry timeout is 4 h.
-- The cap is cumulative: queue time is recorded in state (including after a
-  driver crash, from the status file's mtime), and a resumed queue gets only
-  what is left. Used up → the experiment is blocked and goes to `decide`.
+- The cap is cumulative: queue time is recorded in state, and a resumed queue
+  gets only what is left. After a driver crash the attempt is charged
+  conservatively (all time since it started). Used up → the experiment is blocked and goes to `decide`.
 - The run's deadline is a cutoff for *starting* work: a queue started before
   it may finish after it (by at most the cap). Code review now always runs,
   also when only queue.yaml changed.
@@ -100,8 +100,8 @@ starting point for the review.
 - **Only agent failures are retried** (non-zero exit, timeout, missing or
   incomplete output): after 10 minutes, at most 3 in a row per task+phase.
   Every other stop (changed code after review, queue failure, git error, owner
-  needed, deadline) ends the run with the summary. A partial critique (no
-  verdict) is discarded and redone; the decide prompt asks the steward not to
+  needed, deadline) ends the run with the summary. A critique counts only if the
+  critic finished successfully (recorded in state); otherwise it is redone; the decide prompt asks the steward not to
   log twice when retried. Git calls are time-bounded.
 - **STOP file**: checked between phases in every mode. The running phase
   finishes (a queue may take up to 8 h); Ctrl-C stops at once.
