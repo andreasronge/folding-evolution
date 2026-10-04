@@ -1,0 +1,26 @@
+runs:
+  - id: 2026-10-04-2135-shared-arrival
+    cmd: >-
+      .venv/bin/python experiments/chem_tape/shared_arrival.py
+      --source-root /Users/andreas/developer/folding-evolution/experiments/output/2026-10-04/mapbias_s32_mate
+      --out "$RUN_DIR"
+      --workers 10 --seed 321350
+      --target-partly 30000000 --floor-partly 3000000 --stage1-seconds 7200
+      --replay-count 5 --replay-seconds 600 --mid-rounds 32
+      --initial-trials 100 --max-trials 300 --horizon 500
+    timeout_seconds: 18000
+    expect_outputs:
+      - manifest.json
+      - census.json
+      - arrivals.jsonl
+      - summary.json
+      - report.md
+      - diagnostics.png
+      - COMPLETE
+    track: map-bias
+    notes: >-
+      Approved self/0.3/L64 offspring census and natural single-copy fates.
+      Engine reproduction, all-offspring denominators, source exposure weighting,
+      inserted descendants through actual parents (including elites), matched controls.
+      Historical duration missing for seed 23 is explicit; no transfers.
+      Run with /Users/andreas/developer/folding-evolution-research/2026-10-04-2135 as cwd.

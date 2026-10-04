@@ -557,7 +557,9 @@ def _reproduce_one_island(
 
     `lineage`, when given, gets one (parent_1, parent_2, kind, mutated) row per
     child in new-population order: kind 0 = elite copy, 1 = crossover,
-    2 = clone; parent_2 = -1 unless crossover. Uses no RNG.
+    2 = clone; parent_2 = -1 unless crossover with a population mate.
+    Self-crossover records the same index twice; a fresh random mate is -1.
+    Recording parent rows uses no RNG.
 
     §12b: elitism uses raw `fitnesses`; tournament uses niched fitness when
     cfg.k_niching_alpha > 0 (no-op otherwise).
@@ -610,7 +612,12 @@ def _reproduce_one_island(
             kind = 2
         mutated = mutate(child, cfg, rng, topk_override=topk_override)
         if lineage is not None:
-            lineage.append((i, j, kind, int(not np.array_equal(mutated, child))))
+            # Keep the unused mate selection above for replay-stable RNG draws.
+            # A self-crossover's actual second parent is i, not selected j.
+            mate_idx = i if kind == 1 and cfg.crossover_mate == "self" else j
+            if kind == 1 and cfg.crossover_mate == "random":
+                mate_idx = -1  # fresh external genome, no population parent
+            lineage.append((i, mate_idx, kind, int(not np.array_equal(mutated, child))))
         new_pop.append(mutated)
     return new_pop
 
@@ -731,6 +738,10 @@ def _reproduce_batched(
         if x:
             j = int(parents[k + 1])
             children.append(crossover(population[i], _mate(population, i, j, cfg, rng), cfg, rng))
+            if cfg.crossover_mate == "self":
+                j = i
+            elif cfg.crossover_mate == "random":
+                j = -1
             k += 2
         else:
             j = -1
