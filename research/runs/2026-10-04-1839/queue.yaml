@@ -1,0 +1,28 @@
+# Approved task: 240 contests and 10,000 self-crossovers per seed form.
+# scripts/run_queue.py sets cwd to this worktree and exports RUN_DIR.
+# Evolution: ~20 min on 10 workers; timeout 3x estimate including report.
+- id: 2026-10-04-1839-self-mate-contest
+  cmd: >-
+    .venv/bin/python experiments/chem_tape/sweep.py
+    experiments/chem_tape/sweeps/mapbias/self_mate_establishment.yaml
+    --output-root "$RUN_DIR/evolution" --workers 10
+    && .venv/bin/python experiments/chem_tape/self_mate_establishment.py report
+    --root "$RUN_DIR/evolution" --out "$RUN_DIR/readouts" --workers 10
+  timeout_seconds: 3600
+  expect_outputs:
+    - evolution/SWEEP_COMPLETE
+    - evolution/sweep_index.json
+    - readouts/readouts.json
+    - readouts/readouts.md
+    - readouts/trajectories.png
+  track: map-bias
+  notes: "240 runs: duplicated/partly x 1/32,1/10 x crossover 0.3,0.7 x seeds 0-29; self mate, L64, pop1024, 300 generations; exhaustive §31 final non-elite verdict and sampled early/late trajectories."
+
+- id: 2026-10-04-1839-self-crossover-census
+  cmd: >-
+    .venv/bin/python experiments/chem_tape/self_mate_establishment.py census
+    --events 10000 --seed 0 --out "$RUN_DIR"
+  timeout_seconds: 600
+  expect_outputs: [census.json, census.md]
+  track: map-bias
+  notes: "One v2 self-crossover child per call, 10000 calls per hand-built L64 form, no mutation; exact shared/partly/duplicated/broken counts and byte/semantic clone counts."
