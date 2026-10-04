@@ -8,3 +8,11 @@ Decision: run J (crossover mate), L (256 training cases) and G2 (seeds 50–99 o
 - §32 J/L/G2 (commit 805a641): `crossover_mate` option (selected / self / random, hash-neutral at default); 200 + 50 + 50 runs queued in `experiments/chem_tape/sweeps/mapbias/queue_s32.yaml` → results not yet recorded in the notebook or present in this checkout (2026-10-04). [Plans/s32-mate-latent-cases.md](../../../../Plans/s32-mate-latent-cases.md)
 - §32 results (write-up dd684f9, Fable's twenty-first review 298c1de, tables [reviews/](../../../../docs/map-bias/reviews/)): J self-mate solves 34/40 of 50 (0.3/0.7, L 64) and 39 of 50 at L 128, against 48–49 with a selected mate (Fisher p ≤ 0.008), median 2120 vs 730 generations; random mate 2 of 50 (it mostly deletes and inserts random runs, so it does not test foreign material alone). L (PARTIAL, 35 seeds, timed out): 26 of 35 exact vs 23 of 35 with 64 cases on the same seeds; the 9 shortcuts all fail only the OR output. G2: 0 shared of 50 → 4 shared (all B-type) in 100. [notebook §32](../../../../docs/map-bias/notebook.md)
 Decision (recorded at seeding, steward to confirm): explanation B (rearrangement is enough) holds for discovery, C (foreign material) is not supported, E (shortcuts are structural) over D. Keep the question open: whether a rare shared form can establish under self-mating is the test that decides if the trade-off is forced (Fable's next step in §32).
+
+## 2026-10-04, steward
+
+Decision: confirm the seeding decision (B holds for discovery, C not supported, E over D).
+Move the self-mate establishment test to [06-self-mate-establishment](../06-self-mate-establishment/question.md)
+because it is a seeded contest, not a random-start question. 04 stays open, low priority, for
+Fable's companion (crossover 0 with `run_duplication_rate`: is duplication alone what
+self-mating uses to discover?) and the unexplained 0.3 vs 0.7 discovery parity.

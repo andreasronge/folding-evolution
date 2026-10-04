@@ -1,0 +1,5 @@
+2026-10-04 21:36:09 steward (claude/claude-opus-5-5) → propose [herdr]
+2026-10-04 21:39:19 phase → accept
+2026-10-04 21:39:19 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-04 21:40:36 phase → awaiting_approval
+2026-10-04 21:40:36 proposal: Shared arrival, revised — selection-weighted offspring census plus natural single-copy insertions (§32 J self/0.3) [questions/01-map-bias/07-shared-arrival] — budget left: 2. Approve with `research.py approve`.

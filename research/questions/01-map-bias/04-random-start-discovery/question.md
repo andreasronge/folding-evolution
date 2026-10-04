@@ -14,9 +14,10 @@ J: discovery does not need mixing between lineages. Crossing a parent with itsel
 34–40 of 50 runs by generation 3000, but about three times more slowly than a selected mate
 (median gen 2120 vs 730); a random mate solves 2 of 50, like crossover off. L: 256 cases do not
 remove shortcuts (9 of 35 still end as shortcuts, all failing only the OR output), so they are
-structural, not a 64-case artefact. G2: shared verdicts are 4 in 100 at L 64/0.3. Open:
-establishment under self-mating was not tested, so the discovery–establishment trade-off may
-not be forced (§32).
+structural, not a 64-case artefact. G2: shared verdicts are 4 in 100 at L 64/0.3. Establishment
+under self-mating was tested in [06](../06-self-mate-establishment/question.md): a seeded
+shared form is kept at about the crossover-off rate, so the discovery–establishment trade-off
+is not forced. Open here only: Fable's duplication-only companion and the 0.3 vs 0.7 parity.
 
 Competing explanations:
 - A: Discovery needs mixing between selected lineages, so the trade-off with establishment
@@ -30,6 +31,8 @@ Competing explanations:
 Related: [01-map-bias](../question.md),
 [03-rare-shared-establishment](../03-rare-shared-establishment/question.md),
 [05-latent-helper](../05-latent-helper/question.md),
+[06-self-mate-establishment](../06-self-mate-establishment/question.md),
+[07-shared-arrival](../07-shared-arrival/question.md),
 [notebook §31 G](../../../../docs/map-bias/notebook.md),
 [Plans/s32-mate-latent-cases.md](../../../../Plans/s32-mate-latent-cases.md) (arms J, L, G2
 and Fable's readings), sweeps `experiments/chem_tape/sweeps/mapbias/s32_mate.yaml`,

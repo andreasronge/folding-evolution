@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-04 (last commit `7a0491a`). This covers the **map-bias line**, the current
+As of 2026-10-04 (last commit `f2e4048`, run 2026-10-04-1839). This covers the **map-bias line**, the current
 core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
 evolution finds and keeps ("arrival of the frequent")?* The line now studies whether the
 chemistry can discover, preserve and reuse a **shared helper** (one functional part read by
@@ -49,9 +49,9 @@ B), **duplicated** (everything recomputed).
 
 - **Retention is not the problem.** A fully exact shared form, once at a majority or an equal
   share, persists at 32/64/128 cells and beats an equal share of duplicated. (§29)
-- **Establishment from rare is the problem, and crossover causes it.** From 1/32 or 1/10 with
+- **Establishment from rare is the problem, and crossover with a selected mate causes it.** From 1/32 or 1/10 with
   crossover 0.7, the shared form was lost in 294/300 runs and won none (§30). The barrier is
-  graded against duplicated and steep against partly shared: crossover 0.3 already stops it
+  graded against duplicated (whose "wins" are really partly-shared endings, see below) and steep against partly shared: crossover 0.3 already stops it
   (§31 D). Both crossover branches remove it: as recipient it takes self-contained bodies, as
   donor its RECV consumers land in hosts with no helper run (§30).
 - **Whichever form holds the majority wins** (270/270 runs at ≥ 3/4 shared, §31 E). Without
@@ -78,10 +78,26 @@ B), **duplicated** (everything recomputed).
   as shortcuts, all failing only the OR output. (§32 L, partial)
 - **Shared endings are rare:** 4 in 100 runs at L 64/0.3, all B-type. (§31 G + §32 G2)
 
-So the tension is narrower: crossover between lineages discovers fast and removes rare shared
-forms, but discovery also works (slower) by rearrangement within a genome. Untested: can a
-rare shared form establish under self-mating? If yes, discovery and establishment can coexist
-under one operator. (Fable's proposed next step, §32 "Next")
+- **The establishment barrier is mixing between lineages, not crossover as such.** With
+  self as the mate, crossover v2 at 0.3 or 0.7 lets a rare seeded shared form win 183 of 240
+  contests, against 34 of 240 with a selected mate on the same seeds and 75 of 120 with
+  crossover off; no cell falls below crossover off by more than one win, and the shared share
+  does not drop early. Self-crossover never turns one form into another and breaks shared
+  only about 1 point more often (20% vs 19%). One soft spot: at 0.7 against partly shared, 5
+  of 30 runs reached ≥ 95% shared and then fell back. Fairly sure for these hand-built
+  layouts at L 64; nothing about single copies.
+  ([06](questions/01-map-bias/06-self-mate-establishment/question.md),
+  [run analysis](runs/2026-10-04-1839/analysis.md))
+- **So discovery and establishment can coexist under one operator** (self-mating: slower
+  discovery, §32 J; no establishment barrier, 06).
+- **Shared is never beaten by duplicated as such.** In every seeded contest against
+  duplicated (off, self or selected mate), runs that lose shared end *partly shared*, a form
+  nobody seeded. Read old "lost to duplicated" rows that way.
+
+What is left: random-start runs still end shared only 0–2 of 50 times under self-mate (§32 J).
+Is that because variation rarely produces exact shared children (arrival), or because a
+single new copy rarely fixes? → [07-shared-arrival](questions/01-map-bias/07-shared-arrival/question.md).
+The claim "shared helpers are rare because they rarely arrive" is **not** shown yet.
 
 ## Open questions
 
@@ -92,10 +108,18 @@ under one operator. (Fable's proposed next step, §32 "Next")
 - [03-rare-shared-establishment](questions/01-map-bias/03-rare-shared-establishment/question.md)
   (closed): can a rare shared form establish under crossover? No at crossover ≥ 0.3.
 - [04-random-start-discovery](questions/01-map-bias/04-random-start-discovery/question.md)
-  (open): discovery needs no lineage mixing (§32 J); shortcuts are structural (§32 L). Open:
-  establishment under self-mating.
+  (open, low priority): discovery needs no lineage mixing (§32 J); shortcuts are structural
+  (§32 L). Left: duplication-only companion, 0.3 vs 0.7 parity.
 - [05-latent-helper](questions/01-map-bias/05-latent-helper/question.md) (closed): a helper
   already present does not let a rare shared form establish (§32 K).
+- [06-self-mate-establishment](questions/01-map-bias/06-self-mate-establishment/question.md)
+  (closed): yes, under self-mating a rare seeded shared form establishes at the crossover-off
+  rate; the barrier is mixing between lineages.
+- [07-shared-arrival](questions/01-map-bias/07-shared-arrival/question.md) (open, new): are
+  shared helpers rare in evolved solutions because variation rarely produces them, or because
+  a new copy rarely fixes? Planned as the last shared-helper experiment.
+- Root part 2, letting the map's bias evolve across a task family, is untested and is the
+  natural next direction once the shared-helper line stops.
 
 ## Older context
 
