@@ -2324,7 +2324,7 @@ remaining seeds are in between.
 
 ## 31. Crossover dose, majority rule, single copies, and stage 4 from random starts (2026-10-03/04)
 
-**Status:** exploratory; Fable review pending · 1660 runs · code and sweeps `8844b6c` (the
+**Status:** exploratory; reviewed by Fable (twentieth review, corrections applied below) · 1660 runs · code and sweeps `8844b6c` (the
 queue ran from it) · plan [s31-dose-reciprocal-stage4.md](../../Plans/s31-dose-reciprocal-stage4.md),
 from Fable's nineteenth review of §30
 
@@ -2399,52 +2399,87 @@ The predictions assume independent copies, calibrated on §30's 32-copy runs.
   fully exact" comes from the census (256 every 20 generations).
 - Lost after solving (census once ≥ 20 fully exact of 256, end < 20): 1, 1, 3 and 3 runs in the
   crossover-on cells at 64 and 128.
-- Across all 450 runs, the first form usually persists: partly → partly 82, duplicated →
-  duplicated 30, shared → shared 8.
-- Five runs gained sharing after the first solve: 3 partly → shared, 2 duplicated → shared.
+- First form vs final form (first census with any fully exact individual): partly → partly
+  82, duplicated → duplicated 30, shared → shared 8. That "first form" rests on a single
+  sampled individual in 59 runs; see the founder-effect bullet below for the stricter count.
 
 **Results.**
 - **The barrier is graded against duplicated and steep against partly shared.**
   - From 1/10 against duplicated, shared wins 29, 30, 24, 3 and 0 of 30 as crossover rises
     from 0 to 0.7.
-  - Against partly shared, crossover 0.1 already cuts wins by about half, and 0.3 stops them
-    at both lengths.
-- **Majority rule holds:** a shared majority removes a rare partly shared or duplicated form
-  in 270/270 runs.
-- **Copies act independently:** single-copy establishment without crossover is about 1–4%,
-  as §30's numbers predicted.
-- **Crossover is needed to find solutions at all:**
-  - Without it, random starts reach a fully exact individual in 0, 2 and 4 of 50 runs at
-    L 32, 64 and 128.
+  - Against partly shared, crossover 0.1 cuts wins by half or more from 1/10 and by three
+    quarters or more from 1/32; 0.3 stops them at both lengths.
+- **Majority rule holds:** a shared majority (≥ 3/4, crossover 0.7) removes a rare partly
+  shared or duplicated form in 270/270 runs.
+  - The rule is not symmetric at 1/4. Shared from 1/4 beat duplicated in 6 and 12 of 30 runs
+    (§30); duplicated or partly shared from 1/4 won 0 of 90.
+  - The tipping point is below 1/2 for shared against duplicated, and near 1/2 against
+    partly shared.
+- **Single-copy results are consistent with independent copies:** about 3% per copy against
+  duplicated, about 1% against partly shared. Zero of 100 has a 95% upper bound near 3.6%.
+- **Without crossover, random starts almost never solve** (mutation 0.015, 3000 generations).
+  - Without it, they reach a fully exact individual in 0, 2 and 4 of 50 runs at L 32, 64 and
+    128.
   - With crossover at 0.3 or 0.7, they reach one in 41–43 of 50 at L 64 and 128, and in 11–15
-    of 50 at L 32.
-  - 0.3 and 0.7 solve about equally often.
+    of 50 at L 32. 0.3 and 0.7 solve about equally often.
+  - "Ever fully exact" is a single sampled individual in 59 of the 201 runs that reach it.
+  - At population level (L 64/0.7, 64/0.3, 128/0.7, 128/0.3), runs that solve the training
+    cases at the end (≥ 10% training-perfect) are 49, 48, 50 and 49 of 50. Runs with an exact
+    population at the end are 28, 30, 20 and 26.
 - **Solutions arrive mostly partly shared or duplicated, but shared solutions do arise from
   random starts.**
   - The shared form is the final verdict in 13 of 450 runs: 4 at L 64 with crossover 0.3;
     3, 4 and 2 at L 128 with crossover 0.7, 0.3 and 0.
   - It never arises at L 32.
-  - Decoded, these are genuine pure helpers. Often a run computing B (`INPUT SUM C5 C5 ADD GT`)
-    is read by both consumers, which recompute A themselves: "B shared, A duplicated", a form
-    the hand-built seeds never had.
-  - In other runs, a helper computes a mix used by both consumers.
+  - Decoded (Fable's review), 8 of the 13 have a helper computing B or a function of the sum,
+    read by both consumers: 4 at L 64 / 0.3, 3 at L 128 / 0.3, 1 at L 128 / 0.7. Typically
+    `INPUT SUM C5 C5 ADD GT`, with both consumers recomputing A themselves: "B shared, A
+    duplicated", a form the hand-built seeds never had.
+  - Two of those 8 (64 / 0.3 seed 46, 128 / 0.3 seed 27) also read A as a helper: the full
+    hand-built form.
+  - The other 5 share only A through a non-output run: 3 relay output A (`… RECV0 IF_GT`),
+    2 recompute A in a helper. Neither crossover-off verdict is a B helper.
+  - B-type verdicts by rate at L 64 and 128: 1 of 48 at 0.7, 7 of 56 at 0.3 (Fisher p = 0.07),
+    0 of 6 at 0.
 - **Shortcuts:** at L 64 and 128 with crossover, about a third of each final population is
-  training-perfect, a level close to the fully exact share in seeded runs. Of the 450 runs,
-  51 + 14 + 7 reached a fully exact individual at some point but end below 20.
+  training-perfect. 72 runs reached a fully exact individual at some point but end below 20.
+  - Only 8 of these ever had 20 fully exact individuals in a sample.
+  - The other 64 are training-perfect shortcut populations that throw off occasional exact
+    individuals.
+  - 92 of the 196 training-solved runs at L 64 and 128 with crossover end that way.
 
 **What this shows, and what it doesn't.**
-- **The establishment barrier and discovery pull in opposite directions.** Crossover is what
-  finds solutions (crossover off: almost none), and the same crossover removes a rare
-  incompatible form. Against partly shared it does so even at 0.1–0.3.
-- **Which form a population ends with is mostly set at its first solve** (a founder effect).
-  It changed later in 9 of the 129 runs where both are known: 4 duplicated → partly,
-  3 partly → shared, 2 duplicated → shared.
-- **So sharing is not impossible to discover.** A pure helper arises from random starts in a
-  few percent of runs, and once it holds the majority it stays (E). What it lacks is a route
-  from rare to common while crossover is on.
-- **Size pressure does not produce sharing here.** L 32 solves least often and never ends
-  shared. The hand-built forms make sharing the only fit at 32, but evolution at 32 mostly
-  fails to solve at all.
+- **Crossover is what solves; the same crossover removes a rare hand-built form.** Runs with
+  crossover v2 solve the training cases in 48–50 of 50 runs at L 64 and 128; runs without it
+  in 2–4. Not shown: whether discovery needs mixing between lineages, or only v2's run-level
+  rearrangement (the cut branch also deletes and duplicates run segments).
+- **The form of the first established exact population is mostly kept.**
+  - Counting from the first census with ≥ 20 of 256 exact and > 90% one form, it is kept in
+    121 of 129 runs.
+  - The changes are 4 duplicated → partly, 1 duplicated → shared, 2 partly → shared and
+    1 mixed → partly.
+  - Of the 13 shared endings, 10 were shared from the start; 2 of 12 shared-first
+    populations later lost the solution.
+- **A shared helper can be discovered, and can spread inside a population with crossover on.**
+  - A B helper ends the run in 8 of 450 runs (8 of 129 verdicts).
+  - The hand-built shared form has no route from rare to common against the hand-built
+    competitors once crossover is 0.3 or more (D).
+  - But a variant that arises inside a population can spread with crossover on: 2 of about
+    120 established exact populations changed to a form with a shared helper.
+    - L 128 / 0.3, seed 27, B-type: 1–8% from generation 2020, 100% from 2400.
+    - L 128 / 0.7, seed 1, A-type: 8% at 1000, 97% at 1420.
+  - §30 arm C is the same: partly shared arose and took over duplicated populations in 45 of
+    60 runs at 0.7.
+  - D measures a contest between two unrelated layouts, not the fate of a new mutant.
+- **32 cells does not force sharing.** At 32 only the hand-built duplicated form is excluded.
+  Evolution found duplicated solutions in 31 cells (6 of 19 verdicts at L 32), using `IF_GT`
+  where the hand-built tails use `ADD C1 GT`. L 32 solves least often and never ends shared.
+- **Evolved shared forms are not smaller** (Fable). Median cells that any output depends on:
+  shared 32–42, partly 28–34, duplicated 31–41.
+- **"Partly" is looser in stage 4.** In partly-verdict populations, 31% of exact individuals
+  have A read by only one consumer (4.9% in §29).
+- **D's in-between runs are again the frozen elite** (seeds 4, 9, 16 and 27 with a shared
+  slot-0 elite). Two are real mixes: partly, L 32, 0.1, 1/10, seeds 16 and 27.
 - **Not shown:**
   - why 0.3 and 0.7 discover equally well while 0.1–0.3 already blocks establishment;
   - whether a schedule (crossover early, off later) would let rare shared forms establish;
@@ -2452,10 +2487,14 @@ The predictions assume independent copies, calibrated on §30's 32-copy runs.
 - **Scope:** one three-output task, crossover v2, lexicase, population 1024; G runs 3000
   generations.
 
-**Next (candidates for Fable's review).**
-- A crossover schedule: crossover on until the first fully exact individual, then low or
-  off. Readout: how often a later-arising shared form establishes.
-- A fitness or selection term that breaks ties between exact forms toward fewer critical
-  cells or fewer runs. It would favour sharing without depending on frequency.
-- Stage 5 (extension) from the 13 shared and the partly shared solutions: does a fourth
-  output reuse an existing helper?
+**Next (Fable's twentieth review).**
+- **J: who is the mate?** Random starts with crossover v2 against the parent itself, or
+  against a random genome. This separates mixing between lineages from run-level
+  rearrangement. Needs a `crossover_mate` option.
+- **K: a latent helper.** Shared vs "partly shared plus an unread B run": does a helper
+  already present in the host let the shared form establish?
+- **L: 256 training cases from random starts.** Are shortcut populations a training-sample
+  effect?
+- The tie-break toward fewer cells is dropped: evolved shared forms are not smaller.
+- The commit message of `3587de6` repeats the "genuine pure helpers" claim; the bullets above
+  correct it.
