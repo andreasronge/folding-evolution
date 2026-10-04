@@ -17,7 +17,7 @@ herdr_workspace = "research"   # herdr workspace label; created if missing
 # Repairs allowed after a failed code review or failed preparation check.
 max_repairs = 1
 # Hard cap on agent launches per experiment cycle (repairs included).
-max_agent_calls = 8
+max_agent_calls = 10
 
 # Branches. Each experiment gets research/<task> branched from
 # research_branch; research_branch fast-forwards to it after the run, so
@@ -47,3 +47,13 @@ import_check = ["folding_evolution", "_folding_rust"]
 # result can be rerun from git.
 commit_research = true
 push = true
+
+# Unreviewed compute: one experiment's queue may run at most this long, retries
+# included. Longer studies are split into stages, each analysed before the next.
+max_queue_hours = 8
+
+# Autonomous mode (`run --auto`, Plans/research-auto.md).
+strategy_every = 4       # strategist reviews the program every N cycles
+max_new_roots = 1        # new root questions per autonomous run
+auto_retry_minutes = 10  # wait before retrying a failed agent
+auto_max_retries = 3     # consecutive failures in one phase end the run

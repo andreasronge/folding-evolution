@@ -106,6 +106,8 @@ class FakeLauncher:
         self.calls: list[str] = []
         self.verdicts = list(review_verdicts)
         self.fail_critique = False
+        self.critiques = ["approve"]
+        self.strategy_next = "stop"
 
     def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
         d = self.driver
@@ -122,8 +124,15 @@ class FakeLauncher:
             write(td / "plan.md", "If A then X.\n")
             write(td / "queue.yaml", f"runs:\n  - id: {d.state['task']}-a\n    cmd: echo hi\n")
         elif phase == "critique":
-            if not self.fail_critique:
-                write(td / "critique.md", "---\nrecommend: approve\n---\nFine.\n")
+            if self.fail_critique:
+                return 1 if self.fail_critique == "exit" else 0
+            rec = self.critiques.pop(0) if len(self.critiques) > 1 else self.critiques[0]
+            write(td / "critique.md", f"---\nrecommend: {rec}\n---\nFine.\n")
+        elif phase == "strategy":
+            write(td / "strategy.md", f"---\nnext: {self.strategy_next}\n---\nGo on.\n")
+        elif phase == "summary":
+            prompt = argv[1]
+            write(Path(prompt.split("Write ")[1].split(" for the owner")[0]), "Summary.\n")
         elif phase == "review_code":
             write(td / "code_review.md", f"---\nverdict: {self.verdicts.pop(0)}\n---\nok\n")
         elif phase == "queue":
@@ -431,3 +440,100 @@ def test_cycle_commits_and_pushes_notes_and_code(repo, tmp_path):
     assert f"research/runs/{first}/execution.md" in notes
     assert f"research/runs/{first}/logs/" not in notes
     assert "Rerun:" in (d.research / "runs" / first / "execution.md").read_text()
+
+
+# -- autonomous mode -------------------------------------------------------
+
+
+def auto_driver(repo, fake, **cfg):
+    d = make_driver(repo, fake, **cfg)
+    write(d.research / "roles" / "critic.md", "---\nagent: fake\nmodel: m\n---\nCritic.\n")
+    write(d.research / "roles" / "strategist.md", "---\nagent: fake\nmodel: m\n---\nStrat.\n")
+    d.sleep = lambda s: None
+    return d
+
+
+def test_auto_runs_cycles_until_the_strategist_stops(repo):
+    fake = FakeLauncher(review_verdicts=("pass", "pass"))
+    d = auto_driver(repo, fake, strategy_every=2)
+    fake.critiques = ["approve"]
+    assert d.run_auto(hours=48) == 1  # the strategist said stop: owner needed
+    cycle = ["prepare", "review_code", "queue", "analyse", "decide"]
+    assert fake.calls == (["propose", "critique"] + cycle + ["critique"] + cycle
+                          + ["strategy", "summary"])
+    assert (d.task_dir() / "steward_proposal.md").exists()  # kept for the strategist
+    info = json.loads(d.run_path.read_text())
+    assert info["finished"] and info["cycles"] == 2 and "strategist" in info["reason"]
+    assert (d.research / "briefs" / f"{info['id']}-auto-summary.md").exists()
+
+
+def test_auto_revise_twice_then_runs_with_the_critique(repo):
+    fake = FakeLauncher()
+    d = auto_driver(repo, fake, strategy_every=1)
+    fake.critiques = ["revise"]
+    d.run_auto(hours=48)
+    assert fake.calls[:7] == ["propose", "critique"] * 3 + ["prepare"]
+    approved = [p for p in (d.research / "runs").glob("*/approval.md")]
+    assert len(approved) == 1 and "2 revisions" in approved[0].read_text()
+    assert len(list((d.research / "runs").glob("*/rejected.md"))) == 2
+
+
+def test_auto_three_rejections_need_the_owner(repo):
+    fake = FakeLauncher()
+    d = auto_driver(repo, fake)
+    fake.critiques = ["reject"]
+    assert d.run_auto(hours=48) == 1
+    assert fake.calls == ["propose", "critique"] * 3 + ["summary"]
+    assert "owner is needed" in json.loads(d.run_path.read_text())["reason"]
+
+
+def test_auto_allows_one_new_root(repo):
+    class RootMaker(FakeLauncher):
+        def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
+            if label.startswith("propose"):
+                for name in ("02-new", "03-other"):
+                    question(self.driver.research / "questions" / name, experiments=1)
+            return super().run(label, argv, cwd, log_dir, timeout_s, env, kill_grace)
+
+    fake = RootMaker()
+    d = auto_driver(repo, fake)
+    assert d.run_auto(hours=48) == 1
+    assert fake.calls == ["propose", "summary"]
+    assert "2 new root questions" in json.loads(d.run_path.read_text())["reason"]
+
+
+def test_auto_retries_a_failed_agent(repo):
+    fake = FakeLauncher()
+    d = auto_driver(repo, fake, strategy_every=1)
+    fake.fail_critique = "exit"
+    sleeps = []
+    d.sleep = lambda s: (sleeps.append(s), setattr(fake, "fail_critique", False))
+    d.run_auto(hours=48)
+    # One failed critique at proposal time, one on the auto-approval retry, then a sleep.
+    assert sleeps == [600]
+    assert fake.calls[:5] == ["propose", "critique", "critique", "critique", "prepare"]
+
+
+def test_auto_run_resumes_with_its_deadline(repo):
+    fake = FakeLauncher()
+    d = auto_driver(repo, fake)
+    (d.research / "STOP").write_text("")
+    d.run_auto(hours=1)
+    assert json.loads(d.run_path.read_text())["finished"]
+    info = {"id": "x", "started": "2026-10-04T23:00:00", "deadline": "2026-10-04T23:00:00",
+            "roots_at_start": ["01-root"], "cycles": 3}
+    d.run_path.write_text(json.dumps(info))
+    (d.research / "STOP").unlink()
+    d.run_auto(hours=48)  # resumes run x, whose deadline has passed
+    assert json.loads(d.run_path.read_text())["reason"] == "its time was used up"
+
+
+def test_queue_over_the_cap_goes_back_to_the_researcher(repo):
+    fake = FakeLauncher()
+    d = make_driver(repo, fake, max_queue_hours=1)  # the fake's entry has the 4 h default
+    d.run(now_mode=True)
+    task = d.state["task"]
+    d.approve(None)
+    d.run(now_mode=True)
+    assert fake.calls == ["propose", "prepare", "prepare", "decide"]  # one repair, then blocked
+    assert "1 h cap" in (d.research / "runs" / task / "driver_feedback.md").read_text()
