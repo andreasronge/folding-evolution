@@ -563,7 +563,7 @@ def test_auto_run_ends_after_its_experiment_limit(repo):
     d = auto_driver(repo, fake, strategy_every=9, auto_max_experiments=1)
     assert d.run_auto(hours=48) == 0
     cycle = ["prepare", "review_code", "queue", "analyse", "decide"]
-    assert fake.calls == ["propose", "critique"] + cycle + ["critique", "summary"]
+    assert fake.calls == ["propose", "critique"] + cycle + ["summary"]
     info = json.loads(d.run_path.read_text())
     assert info["executed"] and "1 of its experiments" in info["reason"]
     ledger = (d.research / "briefs" / f"{info['id']}-ledger.md").read_text()
@@ -662,3 +662,21 @@ def test_critique_from_an_interrupted_critic_is_redone(repo):
     fake.critiques = ["reject"]
     d.run_auto(hours=48)
     assert fake.calls[:3] == ["propose", "critique", "critique"]  # verdict not reused
+
+
+def test_auto_pool_ends_the_run_before_more_strategy(repo):
+    fake = FakeLauncher()
+    d = auto_driver(repo, fake, strategy_every=1, auto_max_experiments=1)
+    assert d.run_auto(hours=48) == 0
+    assert "strategy" not in fake.calls
+
+
+def test_ledger_replaces_a_retried_row(repo):
+    fake = FakeLauncher()
+    d = auto_driver(repo, fake)
+    d.run_info = {"id": "r"}
+    d.auto = True
+    d.ledger(["t1", "n", "approve", "pass", "1", "yes", "A", "first"])
+    d.ledger(["t1", "n", "approve", "pass", "1", "yes", "A", "second"])
+    text = (d.research / "briefs" / "r-ledger.md").read_text()
+    assert text.count("| t1 |") == 1 and "second" in text

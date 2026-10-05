@@ -948,6 +948,8 @@ class Driver:
                       "cleanup": cleanup, "after": cleanup["task"]}
         self.save()
         self.run_cleanup(cleanup)
+        if self.auto and len(self.run_info.get("executed", [])) >= self.max_experiments():
+            raise RunComplete(f"the run used all {self.max_experiments()} of its experiments")
         if not to_strategy:
             self.accept_proposal()
 
@@ -971,6 +973,7 @@ class Driver:
                         "may raise `experiments` in a root question's budget (only that "
                         "frontmatter field) in steps of 1–4, naming in strategy.md what each step "
                         "should settle; `research.py status` shows what is left.")
+        self.check_roots()  # raises made before strategy (e.g. in decide) are not the strategist's
         self.call_agent("strategist", "strategy", self.repo, roots_note=roots_note,
                         run_note=run_note)
         meta, _ = read_frontmatter(self.expect("strategy.md"))
@@ -981,8 +984,8 @@ class Driver:
             self.save_run()
         self.check_roots()
         if self.auto:
-            self.ledger([self.state["task"], "", "", "", "", "", f"strategy: next {nxt or '?'}",
-                         ""])
+            self.ledger([f"{self.state['task']} (strategy)", "", "", "", "", "",
+                         f"strategy: next {nxt or '?'}", ""])
         if nxt == "stop":
             raise OwnerNeeded(f"the strategist recommends stopping; see {self.task_dir()}/strategy.md")
         self.set_phase("propose")
@@ -1186,9 +1189,12 @@ class Driver:
         atomic_write(td / "rejected.md", why + "\n")
         self.ledger([td.name, self.state.get("node", ""), rec, "", "", "",
                      "to strategy" if to_strategy else "sent back", why])
+        after = self.state.get("after")  # keep the digest check for the next critique
         self.state = {"phase": "strategy" if to_strategy else "propose",
                       "task": self.new_task_id(), "rejected": str(td / "proposal.md"),
                       "previous": str(td), "rounds": rounds + 1}
+        if after:
+            self.state["after"] = after
         self.task_dir().mkdir(parents=True, exist_ok=True)
         self.save()
         self.log(f"proposal {'sent to the strategist' if to_strategy else 'sent back to the steward'}"
@@ -1206,9 +1212,9 @@ class Driver:
             f"# Autonomous run {self.run_info['id']}: ledger\n\nWritten by the driver. "
             "Proposals that did not run are listed as sent back.\n\n" + self.LEDGER_HEAD)
         row = "| " + " | ".join(str(c).replace("|", "/").replace("\n", " ") for c in cells) + " |\n"
-        if row in text:
-            return  # a retried phase
-        atomic_write(path, text + row)
+        key = f"| {cells[0]} |"
+        lines = [ln for ln in text.splitlines(keepends=True) if not ln.startswith(key)]
+        atomic_write(path, "".join(lines) + row)  # a retried phase replaces its row
 
     def ledger_cycle(self) -> None:
         td = self.task_dir()
