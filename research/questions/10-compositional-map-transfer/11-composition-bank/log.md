@@ -47,3 +47,47 @@ Decision: continue 11 with the same study, the 2242 notes folded in
 ([run 2026-10-05-2247](../../../runs/2026-10-05-2247/proposal.md)), because nothing was measured,
 the block was operational and is now removed, and this feasibility step is still the
 prerequisite for everything under root 10.
+
+## 2026-10-06: run 2026-10-05-2247, composition bank feasibility, third attempt (ran; row 2)
+
+Experiment: [proposal](../../../runs/2026-10-05-2247/proposal.md), the 2242 design with its
+notes folded in. Alphabet `v2_rmin`, latent-allele decoder (R = 23 000) with four arms
+(U uniform, F fixed token bias, G hand-set previous-token grammar, G-marg = G's token
+marginals with context removed). 3 reducer pairs ({S,M}, {S,m}, {M,m}) × 3 combiners (ADD,
+DADD, SEL). Stage A exhaustive alias screen to depth 6; stage B 8 cells × 4 arms × 50 paired
+seeds, cap 524 288, P 256, lexicase on 64 cases, exact check on 625; stage C 8 top-ups × 100
+fresh seeds; 2·10⁸ sampled genotypes per arm. Critic approve_with_notes; code review passed
+on the second pass. Commit `0995d33`, 19 min wall, no failures.
+
+Result ([analysis](../../../runs/2026-10-05-2247/analysis.md)): **row 2**, with row 3 firing as
+a diagnostic.
+- Alias screen: 8 of 9 cells retained. SM-SEL is a real alias (a 6-token program solves it
+  exactly; the other orientation has a 94.4% shorter near-alias).
+- Tractability (U ≥ 35/50 or ≥ 105/150): 7 of 8 pass. Sm-SEL is 27/50 (54%, 95% 39–68%), curve
+  still rising at the cap (17 → 21 → 27/50 at 131k/262k/524k); a reviewer probe on other seeds
+  gave 26/50 at 524k and 36/50 at 2M. Because SM-SEL is aliased and Sm-SEL is not tractable,
+  0 of 6 transversals are eligible: two need SM-SEL, two hold out Sm-SEL, two hold out Mm-SEL
+  and then training has no SEL cell.
+- Headroom (diagnostic, tractability waived): all 4 structurally possible transversals lack
+  headroom, every time because of G. G medians: ADD 768–1 024, DADD 1 792–2 304, SEL 3 584 /
+  4 096 evaluations (intervals of the SEL medians span the 4 096 line). Since every transversal
+  holds out one ADD and one DADD cell, and G is below 4 096 on all of them, **no transversal of
+  this bank can have headroom against this G**, whatever the cap. F alone leaves headroom.
+- Map arms (paired seeds, median-speed ratio, 95% paired bootstrap): F/U 1.9–3.5× on the seven
+  resolved cells; G/U 8.6–13.1× on ADD/DADD and 31× (18–44) on Mm-SEL; G/G-marg 2.6–4.5× on
+  ADD/DADD, 9.9× (4.7–28) on Mm-SEL, 19.5× (4.6–36) on Sm-SEL, all intervals above 1. G raises
+  exact-solver supply 120–1 650× over U; its speed-up is about ten times smaller. G mixes higher
+  supply with a different mutation structure (1.65 vs 0.95 tokens changed per allele mutation),
+  so G/G-marg names no mechanism.
+- 67–100% of each cell's canonical bigrams occur in other cells' canonical programs: the
+  bank is one shallow syntactic family (INPUT → reducer; int → INPUT/ADD/DUP/IF_GT), which is
+  exactly what G's rows spell out.
+- 43 of 2 400 runs met training-perfect but inexact programs; all caught by the exact check.
+
+Decision: close 11 because it is answered for this candidate bank: no eligible split exists
+at 524 288 evaluations (the pre-stated row 2), and, independently and more bindingly, no
+transversal can have headroom against the hand-set grammar G, so a larger cap would not
+rescue it. Return to strategy (as rows 2 and 3 prescribe) with two bottlenecks — a thin SEL
+column and a family G already covers — and the redesign question opened as
+[12-generic-grammar-headroom](../12-generic-grammar-headroom/question.md). This is a
+limitation of this bank against this control, not a negative answer to root 10.

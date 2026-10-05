@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-05 (last run 2026-10-05-1957, commit `2a002a8`, pilot only; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 blocked before running, so no belief below changed since 1957). This covers the **map-bias line**, the current
+As of 2026-10-06 (last run 2026-10-05-2247, commit `0995d33`: root 10's first feasibility study; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 were blocked before running). This covers the **map-bias line**, the current
 core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
 evolution finds and keeps ("arrival of the frequent")?* Until 2026-10-05 the line studied
 whether the chemistry can discover, preserve and reuse a **shared helper** (one functional part
@@ -9,7 +9,8 @@ to a task family ([08](questions/01-map-bias/08-evolve-bias/question.md),
 [09](questions/01-map-bias/09-generic-bias-speedup/question.md)), gave a bounded answer and is
 parked too; root 01's budget is spent (last slot: run 1957, stopped at its pilot). The strategist
 opened root [10-compositional-map-transfer](questions/10-compositional-map-transfer/question.md)
-to test part 2 on held-out operation combinations with an adaptable decoder; it has no result yet.
+to test part 2 on held-out operation combinations with an adaptable decoder; its first task
+bank failed feasibility (see "Composition bank" below) and no transfer has been measured.
 
 Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per experiment; reviews and report tables in [docs/map-bias/reviews/](../docs/map-bias/reviews/)) and
 [findings](../docs/map-bias/findings.md) (items 1–17; the owner-promoted, reviewed claims).
@@ -176,19 +177,51 @@ B), **duplicated** (everything recomputed).
   disadvantage. Why shared endings are rare is therefore **unresolved**; the shared-helper line
   stops here by its stop rule (07 and 04 parked).
 
+## Composition bank (root 10, run 2026-10-05-2247)
+
+One run, 50 paired seeds per cell × arm (150 where topped up), cap 524 288 evaluations, stack
+tape `v2_rmin`, length-4 lists in {-2..2}, P 256, lexicase on 64 cases with an exact check on
+all 625 inputs. Reviewed analysis; fairly sure of the numbers, narrow in scope (one bank, one
+harness, one hand-set grammar). ([11](questions/10-compositional-map-transfer/11-composition-bank/question.md),
+[run analysis](runs/2026-10-05-2247/analysis.md))
+
+- **The 3×3 reducer/combiner bank has no usable split at 524k.** Exhaustive screening to depth
+  6 kept 8 of 9 cells (SM-SEL is an exact alias). Uniform search solved 7 of the 8 in ≥ 35/50
+  runs; Sm-SEL reached 27/50 (95% 39–68%), still rising at the cap. That leaves 0 of 6
+  transversals eligible. Whether a 2–4× larger cap fixes this is untested (a reviewer probe
+  on other seeds: 36/50 at 2M).
+- **A hand-set previous-token grammar leaves no headroom on this bank, whatever the cap.** G
+  (INPUT → reducer; int → INPUT/ADD/DUP/IF_GT; ≥ 0.25× uniform mass everywhere) solved every
+  cell in every seed: median 768–1 024 evaluations on ADD, 1 792–2 304 on DADD, 3 584–4 096
+  on SEL (the SEL intervals span 4 096). Every split holds out an ADD and a DADD cell, so every
+  split has two holdouts under the 4 096 line. G's rows are this bank's syntax (67–100% of
+  each cell's canonical bigrams occur in other cells), so whether G is a fair "generic"
+  control here or an oracle is a design question, now
+  [12](questions/10-compositional-map-transfer/12-generic-grammar-headroom/question.md).
+- **Context in the decoder speeds search beyond its token frequencies, on this bank.** Median
+  evaluations to solve, paired bootstrap 95%: G vs G-marg (same token marginals, no context)
+  2.6–4.5× faster on the six ADD/DADD cells, 9.9× (4.7–28) and 19.5× (4.6–36) on the two SEL
+  cells; all eight intervals exclude 1. Not a mechanism: G also emits more exact solvers
+  (10–47× G-marg's sampling rate) and changes 1.65 tokens per allele mutation against 0.95.
+- **A fixed token bias gives about 2–3.5×, and supply again overstates speed.** F/U 1.9–3.5×
+  on the seven resolved cells (interval lower ends 1.45–2.26); G/U 8.6–13× on ADD/DADD and 31× (18–44)
+  on Mm-SEL. Exact-solver sampling rates rose 11–82× (F) and 120–1 650× (G) over U, so search
+  gained roughly a tenth of the supply gain or less — the same direction as root 01's
+  pass-through below 1, on a different alphabet and task family.
+- **64 training cases do not pin these targets down:** training-perfect but inexact programs
+  appeared in 43 of 2 400 runs (all caught by the 625-input check).
+
 ## Open questions
 
 - [10-compositional-map-transfer](questions/10-compositional-map-transfer/question.md) (open,
-  root, budget 4, 0 used): can a decoder adapted across related tasks help fresh populations
-  solve unseen operation combinations beyond a token-frequency bias? Nothing measured.
+  root, budget 4, 1 used): can a decoder adapted across related tasks help fresh populations
+  solve unseen operation combinations beyond a token-frequency bias? No transfer measured.
   - [11-composition-bank](questions/10-compositional-map-transfer/11-composition-bank/question.md)
-    (open, budget 1): is there a non-aliased, tractable reducer/combiner bank with headroom?
-    Runs 2026-10-05-2039 and 2026-10-05-2242 were blocked by a merge conflict (now resolved);
-    re-proposed as run 2026-10-05-2247. Steward probes only (unreviewed, one run each): the
-    plan's ANY/GT cells are near-aliases of constants or thresholds (ANY constant on 624/625
-    inputs; GT ≥ 96.6% single-reducer thresholds). For X+Y, 2X+Y, S>0?X:Y of SUM/MAX/MIN,
-    the listed simple comparator families reach at most 69% agreement; exhaustive
-    shorter-program screening is pending and no MIN cell has been searched.
+    (closed, run 2026-10-05-2247): this 3×3 bank has no eligible split at 524k (Sm-SEL 27/50
+    under U) and no split with headroom against the hand-set grammar G.
+  - [12-generic-grammar-headroom](questions/10-compositional-map-transfer/12-generic-grammar-headroom/question.md)
+    (open, budget 1, unmeasured): which bank and which fixed control leave room for a learned
+    decoder? Sent to the strategist first.
 - [01-map-bias](questions/01-map-bias/question.md) (open, root, budget spent): how does the map
   bias what evolution finds and keeps?
 - [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)

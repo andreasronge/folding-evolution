@@ -1,39 +1,47 @@
 ---
-status: open
+status: closed
 tags: [compositional-transfer, task-bank, feasibility, decoder, stack-tape, reduce-min]
 budget: {experiments: 1, used: 0}
 ---
 # Is there a tractable bank of held-out reducer/combiner compositions with room for a learned decoder?
 
-Current summary: Unmeasured as a bank; steward probes only (unreviewed, one run each).
-Two attempts (runs 2026-10-05-2039 and 2026-10-05-2242) were blocked by the same merge
-conflict before any code ran; the steward resolved it on `research/main` (merge `823bc27`)
-and re-proposed the study as run 2026-10-05-2247. Slot not yet charged.
-The plan's candidate bank (SUM/MAX/ANY with ADD and GT on signed length-4 lists) mostly fails
-the alias check: ANY is 1 on 624 of 625 inputs, so every ANY task is within one input of a
-constant-substituted single-reducer task, and every GT comparison agrees ≥ 96.6% with a
-single-reducer threshold, i.e. the old threshold family. For integer-valued compositions
-(X+Y, 2X+Y, "S>0 ? X : Y") of SUM, MAX and MIN, label-vector probes against the listed simple
-comparator families (single, doubled and constant-shifted reducers, two-reducer sums,
-constants) found at most 69% agreement; selects conditioned on MAX or MIN were 87–98% and are
-excluded. Exhaustive shorter-program screening is pending, and MIN has no executor yet, so
-nothing about MIN cells has been searched. Among the four MIN-free probe cells, uniform
-evolution on the stack tape (P 256, lexicase) solved 6/6, 8/8, 7/8 and 4/8 runs by 524k
-evaluations; successful runs often solved in tens of thousands.
+Current summary: **Not this bank** (run 2026-10-05-2247, commit `0995d33`, row 2; slot spent).
+The 3 reducer-pair ({S,M}, {S,m}, {M,m}) × 3 combiner (X+Y, 2X+Y, S>0 ? X : Y) bank on
+`v2_rmin`, length-4 lists in {-2..2}, fails for two independent reasons:
+- **Tractability at 524 288 evaluations.** Exhaustive screening to depth 6 kept 8 of 9 cells
+  (SM-SEL is an exact alias). Uniform search solved 7 of the 8 in ≥ 35/50 runs, but Sm-SEL only
+  27/50 (95% 39–68%, still rising at the cap; a reviewer probe reached 36/50 at 2M). With one
+  SEL cell aliased and the other slow, 0 of 6 transversals are eligible. A 2–4× larger cap might
+  fix this; untested.
+- **Headroom against the hand-set grammar G (binding).** G solved every retained cell in every
+  seed, with medians 768–1 024 (ADD), 1 792–2 304 (DADD) and 3 584–4 096 (SEL) evaluations.
+  Every transversal holds out an ADD and a DADD cell, both below the 4 096 line under G, so no
+  split of this bank can have headroom against G at any cap. G's rows (INPUT → reducer; int →
+  INPUT/ADD/DUP/IF_GT) are the syntax of every canonical program here; 67–100% of each cell's
+  canonical bigrams occur in other cells.
 
-Competing explanations for a failure here (each is about this design, not root 10's answer):
-- Bank: too few cells survive exhaustive alias and near-alias screens for a crossed split.
-- Tractability: held-out cells are too hard for uniform evolution at the measured budget.
-- Headroom: a hand-set, task-agnostic grammar decoder already solves held-out cells almost
-  at once, leaving no room for learned family structure.
-- Cost: the nested adaptation loop needed next does not fit an 8-hour queue.
+Descriptive map-bias numbers from the same run (paired seeds, 95% paired bootstrap): F/U
+1.9–3.5×; G/U 8.6–13× (ADD/DADD), 31× (18–44) on Mm-SEL; G/G-marg 2.6–4.5× (ADD/DADD), 9.9×
+and 19.5× on the SEL cells, all intervals above 1. G raised exact-solver supply 120–1 650× over
+U; the search speed-up was about ten times smaller. G/G-marg mixes supply with mutation
+structure (1.65 vs 0.95 tokens changed per allele mutation), so it is not a mechanism. Nothing
+here tests a learned decoder.
+
+Competing explanations as tested (about this design, not root 10's answer):
+- Bank (too few non-aliased cells): **no** — 8 of 9 survive exhaustive screening.
+- Tractability: **yes, at 524k, for one cell** (Sm-SEL), which is enough to block every split.
+- Headroom: **yes, and it alone blocks every split** — the generic grammar already covers this
+  family's syntax.
+- Cost: not reached; no split was selected, so no experiment-2 cost was computed.
 
 Related: [root 10](../question.md), [plan](../../../plans/compositional-map-transfer.md),
-[first proposal](../../../runs/2026-10-05-2039/proposal.md) and
-[critique](../../../runs/2026-10-05-2039/critique.md),
-[second proposal](../../../runs/2026-10-05-2242/proposal.md) and
-[critique](../../../runs/2026-10-05-2242/critique.md),
-[third proposal](../../../runs/2026-10-05-2247/proposal.md).
+[run 2247 proposal](../../../runs/2026-10-05-2247/proposal.md),
+[analysis](../../../runs/2026-10-05-2247/analysis.md),
+[decision](../../../runs/2026-10-05-2247/decision.md); blocked earlier attempts
+[2039](../../../runs/2026-10-05-2039/proposal.md), [2242](../../../runs/2026-10-05-2242/proposal.md);
+follow-up [12-generic-grammar-headroom](../12-generic-grammar-headroom/question.md).
 
-Reopen if parked: a different reducer set or domain gives at least seven cells (the minimum for an
-eligible split) passing the same screens.
+Reopen if: the strategist decides that G was an oracle rather than a fair control for this
+bank (for example, root 10 adopts a weaker, type-valid generic grammar as its fixed control)
+**and** a larger cap (≥ 1M) makes Sm-SEL tractable; then only the new control arm and a
+larger-cap Sm-SEL top-up need running; stage A and the U/F data stand.

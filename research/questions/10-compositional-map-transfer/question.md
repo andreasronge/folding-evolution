@@ -5,12 +5,18 @@ budget: {experiments: 4, used: 0}
 ---
 # Can an adapted decoder help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 
-Current summary: Unmeasured. Root 01 showed useful transfer of fitted token frequencies
-between constant thresholds, but a hand-set scaffold performed comparably. This question
-changes both the transfer target and what can adapt: hold out combinations of operations,
-and let a small decoder carry context-dependent assembly preferences. Transfer only the
-decoder; discard all training programs before testing on new tasks. First establish an
-expressible, tractable task suite and measure the cost of the proposed adaptation loop.
+Current summary: No transfer measured yet. The first feasibility study (run
+2026-10-05-2247, 11) found its 3×3 reducer/combiner bank unusable: no eligible split at
+524 288 evaluations (Sm-SEL 27/50 under uniform search, SM-SEL an exact alias), and, more
+bindingly, a hand-set previous-token grammar G solved every held-out cell in a median of
+768–4 096 evaluations, so no split could have headroom against it. In median evaluations to
+solve, G was 8.6–31× faster than uniform (seven cells with intervals) and 2.6–19.5× faster
+than its own context-free marginals (G-marg, all eight paired intervals above 1) — context-dependent decoding is a large lever on this tape, but here a generic grammar
+already supplies it. Root 01 earlier showed useful transfer of fitted token frequencies
+between constant thresholds, with a hand-set scaffold performing comparably. This question
+holds out combinations of operations and lets a small decoder carry context-dependent
+assembly preferences; only the decoder transfers. Before experiment 2 it needs a bank and a
+fixed control under which held-out cells keep headroom ([12](12-generic-grammar-headroom/question.md)).
 See the [plan](../../plans/compositional-map-transfer.md) and
 [opening strategy](../../runs/2026-10-05-2039/strategy.md).
 
@@ -27,9 +33,10 @@ Competing explanations:
 - E: The proposed tasks or adaptation loop are not tractable at the measured budget.
   This is a feasibility result about this design, not a negative answer to A.
 
-Sub-questions: [11-composition-bank](11-composition-bank/question.md) (feasibility; runs
-2026-10-05-2039 and 2026-10-05-2242 blocked by a merge conflict before running; conflict
-resolved, re-proposed as run 2026-10-05-2247).
+Sub-questions: [11-composition-bank](11-composition-bank/question.md) (closed: this bank
+fails on tractability at 524k and on headroom against G; run 2026-10-05-2247),
+[12-generic-grammar-headroom](12-generic-grammar-headroom/question.md) (open, unmeasured:
+which bank and which fixed control leave room for a learned decoder; strategist's call).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
