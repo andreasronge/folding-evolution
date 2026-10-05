@@ -11,7 +11,9 @@ correct experiment.
 - Reuse existing harnesses and the `dynamics.py` engine where possible; keep
   changes small. Follow the repo's AGENTS.md / CLAUDE.md conventions.
 - Smoke-test at small scale before writing the full queue. Size the full run
-  to what the proposal asked for — not bigger.
+  to what the proposal asked for — not bigger. Give every queue entry a
+  realistic `timeout_seconds` (the default is 4 h); together they may not
+  exceed the 8 h cap on running without review.
 - Your worktree has its own venv. After changing Rust code, rebuild it:
   `cd rust && VIRTUAL_ENV=../.venv uvx maturin develop --release --uv`.
 - Experiments must be reproducible: fixed seeds, logged parameters, outputs

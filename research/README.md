@@ -15,7 +15,9 @@ Agents: read this first, then your role file in `roles/`.
   `critique.md`, `plan.md`, `queue.yaml`, `code_review.md`, `execution.md`, `analysis.md`,
   `decision.md`. Raw data lives in `experiments/output/` (linked from
   `execution.md`).
-- `briefs/` — the owner's morning briefs.
+- `briefs/` — the owner's morning briefs, and `<run>-auto-summary.md` after
+  an autonomous run.
+- `plans/` — plans for root questions, written by the strategist.
 - `roles/`, `agents.toml`, `config.toml` — who plays which role, how agents
   are launched, loop settings.
 
@@ -56,4 +58,23 @@ Why this now · what would be run (arms, seeds, rough runtime) · what each
 outcome would mean · alternatives considered.
 ```
 
-Every proposal is approved by the owner before it runs.
+Every proposal is approved by the owner before it runs, or in autonomous
+mode (`research.py run --auto`) by the critic: `approve` runs it; `revise`
+or `reject` sends it back to the steward (with critique.md) up to two times.
+
+## Experiment size
+
+Size an experiment by what the question needs: short is fine, and up to 8 h
+of queue time when that is justified. The driver refuses queues whose entry
+`timeout_seconds` sum to more than `max_queue_hours`, because nothing may run
+longer than that without an agent reviewing the results. Split longer studies
+into stages, each analysed and decided before the next.
+
+## Autonomous mode
+
+The strategist (`roles/strategist.md`) reviews the whole program every few
+cycles, when a proposal moves to another root question, and when the steward
+ends `decide` with `next: strategy` in decision.md's frontmatter instead of a
+proposal. It writes `runs/<task>/strategy.md`, which the next proposal reads,
+and may open one new root question per autonomous run. Only the strategist
+opens root questions (top-level folders); the steward adds sub-questions.

@@ -19,4 +19,6 @@ queue.status.json
 # research loop runtime state (scripts/research.py)
 research/state.json
 research/driver.lock
+research/auto_run.json
+research/STOP
 research/runs/*/logs/
