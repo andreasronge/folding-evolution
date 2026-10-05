@@ -1,0 +1,31 @@
+runs:
+  - id: 2026-10-05-1558-family-bias
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-05-1558 &&
+      RAYON_NUM_THREADS=8 .venv/bin/python experiments/chem_tape/family_bias.py
+      --out "$RUN_DIR" --seed 202610051558 --seconds 10500
+    timeout_seconds: 10800
+    expect_outputs:
+      - result.json
+      - progress.jsonl
+      - report.md
+      - diagnostics.png
+      - COMPLETE
+    track: map-bias
+    notes: >-
+      Sampling only, approved constant-threshold split. Worktree cwd is
+      /Users/andreas/developer/folding-evolution-research/2026-10-05-1558.
+      One unscaled 200M uniform calibration; sum1/sum5 and max1/max5 fit,
+      sum2 and max2 held out, no substitutes. sum6/sum7/max3/max6 counts
+      are descriptive only. Three starts and six updates per fit, 10M
+      per fresh iteration, equal-weight exact elites and low-elite fallback;
+      calibration elites initialize only start 0 iteration 0. Independent
+      5M validation per start. Four transfer looks at up to 125M each per
+      uniform/sum/max/prune arm, at most 500M per arm. Runtime caps only
+      shrink; reduced-cap decisive comparisons stay U. Both-fit and
+      aggregator swaps at 10M each are optional and cut first. Four-look
+      simultaneous decision bounds, one-holdout labels, CONST_2 and swap
+      reporting. Internal 10500-second deadline, three-hour queue ceiling;
+      completed verdict survives diagnostic timeout. The separate 5M
+      reconnaissance probe is not part of the run data. Rebuild this
+      worktree's Rust extension during research driver setup.
