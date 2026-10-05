@@ -10,7 +10,7 @@ A: fitted supply enrichment passes through to a ≥2× median evolutionary speed
 
 ## Setup
 - **Sweep file:** queue.yaml; harness experiments/chem_tape/evolve_bias.py; frozen input experiments/chem_tape/evolve_bias_vectors.json. Copy of this plan is committed in the worktree research/runs/2026-10-05-1705/.
-- **Arms / conditions:** sum2 and max2 × uniform, matched, mismatched, hand. Matched uses sum/max respectively; mismatched uses max/sum. Five unique 22-probability vectors below. Hand holds INPUT (1), GT (8), SUM (5) and REDUCE_ADD (11), or REDUCE_MAX (18), at matched probabilities; CONST_0/1/2/5 (2/3/4/16) are exactly 1/22. Every other probability shares the remaining mass equally. No fit, refit or vector selection here.
+- **Arms / conditions:** sum2 and max2 × uniform, matched, mismatched, hand. Matched uses sum/max respectively; mismatched uses max/sum. Five unique 22-probability vectors below. Hand holds INPUT (1), GT (8), SUM (5) and REDUCE_ADD (11), or REDUCE_MAX (18), at matched probabilities; CONST_0/1/2/5 (2/3/15/16) are exactly 1/22. Every other probability shares the remaining mass equally. No fit, refit or vector selection here.
 - **Seeds:** master 202610051705. Training/evolution replicate seed is master+100000+replicate (look 1 indices 0–49, look 2 50–99), shared across arms within each family, with independent training and evolution substreams. Pilot master+10000+index 0–9 shared across sizes/arms; smoke master+20000+index; sampling uses named SHA256-derived streams. None use 1558 seed streams. Bootstrap master+300000+family/comparison/look offsets; 100000 paired seed resamples per comparison.
 - **Fixed params:** TAG alphabet 22 ops, 64 tags, L=64; max combine; preserve semantics, slots 12/13 NOP and threshold binding 0. Lexicase, crossover v2, crossover rate **0.7**, mate policy **selected** (both parents independently lexicase selected, self-selection possible), mutation 0.015 on each op and each tag, tags resampled uniformly; elite_count=2, panmictic, no duplication, fast_rng=True. All arms explicitly supply 22 op probabilities to initialization and op mutation. Changes in this probability vector alter initial supply, mutational supply, effective no-op mutation probability, and program/run architecture together; no isolated causal-op or mechanism claim.
 - **Training sampler:** uniform draws with replacement within each label, 32 negative + 32 positive cases, shuffled per replicate/family; duplicates allowed (sum2 has only 15 negative domain inputs, so 32 unique negatives are impossible). Same cases for every arm/size at the paired seed. Full verification is all 10000 length-4 lists over [0,9]. This explicitly adapts the 1558 label-balanced sampler; no mbs four-stratum sampler or task-bound constant.
@@ -37,12 +37,12 @@ A: fitted supply enrichment passes through to a ≥2× median evolutionary speed
 
 **hand_sum** (op ids 0–21):
 ```json
-[0.026665923537464893, 0.12997486558237975, 0.045454545454545456, 0.045454545454545456, 0.045454545454545456, 0.08924745070289453, 0.026665923537464893, 0.026665923537464893, 0.1470277886559739, 0.026665923537464893, 0.026665923537464893, 0.07860878371606148, 0.026665923537464893, 0.026665923537464893, 0.026665923537464893, 0.026665923537464893, 0.045454545454545456, 0.026665923537464893, 0.026665923537464893, 0.026665923537464893, 0.026665923537464893, 0.026665923537464893]
+[0.026665923537464893, 0.12997486558237975, 0.045454545454545456, 0.045454545454545456, 0.026665923537464893, 0.08924745070289453, 0.026665923537464893, 0.026665923537464893, 0.1470277886559739, 0.026665923537464893, 0.026665923537464893, 0.07860878371606148, 0.026665923537464893, 0.026665923537464893, 0.026665923537464893, 0.045454545454545456, 0.045454545454545456, 0.026665923537464893, 0.026665923537464893, 0.026665923537464893, 0.026665923537464893, 0.026665923537464893]
 ```
 
 **hand_max** (op ids 0–21):
 ```json
-[0.02906636929206079, 0.11800448951454848, 0.045454545454545456, 0.045454545454545456, 0.045454545454545456, 0.02906636929206079, 0.02906636929206079, 0.02906636929206079, 0.13490493868427017, 0.02906636929206079, 0.02906636929206079, 0.02906636929206079, 0.02906636929206079, 0.02906636929206079, 0.02906636929206079, 0.02906636929206079, 0.045454545454545456, 0.02906636929206079, 0.12927685060208766, 0.02906636929206079, 0.02906636929206079, 0.02906636929206079]
+[0.02906636929206079, 0.11800448951454848, 0.045454545454545456, 0.045454545454545456, 0.02906636929206079, 0.02906636929206079, 0.02906636929206079, 0.02906636929206079, 0.13490493868427017, 0.02906636929206079, 0.02906636929206079, 0.02906636929206079, 0.02906636929206079, 0.02906636929206079, 0.02906636929206079, 0.045454545454545456, 0.045454545454545456, 0.02906636929206079, 0.12927685060208766, 0.02906636929206079, 0.02906636929206079, 0.02906636929206079]
 ```
 
 ## Baseline measurement (required)
@@ -99,3 +99,5 @@ A/A' → close practical question 08, strategist handles heritable follow-up. B 
 
 ## Critique disposition and fidelity
 All critique points accepted: estimator selected before pilot; unestimable KM data remain unresolved; stopped contrasts frozen despite shared-cell growth; crossover/mating fully specified; precision assumptions caveated; tail/cap differences remain visible; positive effects may be entirely supply-driven. No code_review.md or driver_feedback.md was present on entry. No full run is launched in this turn; the queue includes pilot, hand sampling, both affordable looks and analyses, with runtime feasibility decided before confirmatory data.
+
+Pre-data correction: checked against alphabet.py, CONST_2 is id 15 (id 4 is CHARS). Corrected the hand-vector constant ids to 2/3/15/16 before any execution.
