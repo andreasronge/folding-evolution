@@ -434,12 +434,23 @@ def runtime_design(pilot, powered, seconds_left, workers):
     if not complete(pilot):
         design["reason"] = "incomplete pilot"
         return design
-    costs = {c: 1.5 * max(r["cells"][c]["seconds"] / r["cells"][c]["processed_candidates"]
-                         for r in pilot) * CAP for c in CELLS}
-    design["conservative_cap_seconds_by_cell"] = costs
+    means = {c: float(np.mean([r["cells"][c]["seconds"] for r in pilot])) for c in CELLS}
+    # Price the main stage at actual pilot cost, including capped runs.
+    # Short runs can have high verification cost per candidate; extrapolating
+    # that rate to the cap for every main run would make the gate unusable.
+    cap_costs = {c: 1.5 * max(r["cells"][c]["seconds"] / r["cells"][c]["processed_candidates"]
+                             for r in pilot) * CAP for c in CELLS}
+    mean_seed_seconds = sum(means.values())
+    cap_reserve = max(cap_costs.values())
+    design.update(mean_pilot_seconds_by_cell=means,
+                  mean_pilot_worker_seconds_per_seed=mean_seed_seconds,
+                  main_cost_multiplier=1.5, conservative_cap_seconds_by_cell=cap_costs,
+                  cap_run_reserve_seconds=cap_reserve, analysis_reserve_seconds=600)
     if powered["feasible"]:
-        estimate = powered["n"] * sum(costs.values()) / workers + max(costs.values()) + 600
-        design.update(estimated_seconds=estimate, feasible=estimate <= seconds_left,
+        main_seconds = 1.5 * powered["n"] * mean_seed_seconds / workers
+        estimate = main_seconds + cap_reserve + 600
+        design.update(estimated_main_seconds=main_seconds,
+                      estimated_seconds=estimate, feasible=estimate <= seconds_left,
                       reason=None if estimate <= seconds_left else "main exceeds remaining deadline")
     return design
 

@@ -203,6 +203,43 @@ def test_runtime_gate_and_no_downsizing():
     assert not sv.runtime_design(rows, dict(n=None, feasible=False), 100000, 4)['feasible']
 
 
+def test_runtime_gate_prices_actual_cost_and_reserves_one_cap_run():
+    rows = [record(i) for i in range(50)]
+    # 8.4 worker-seconds per paired four-cell seed, with one expensive
+    # short verification run. Pricing every run at cap would refuse this.
+    for row in rows:
+        for cell, seconds in zip(sv.CELLS, (2., 2.2, 2., 2.2)):
+            row['cells'][cell].update(seconds=seconds, processed_candidates=32768)
+    rows[0]['cells']['R-veto']['processed_candidates'] = 4096
+    powered = dict(n=600, feasible=True, reason=None)
+    d = sv.runtime_design(rows, powered, 9500, 4)
+    assert d['feasible'] and d['n'] == 600
+    assert d['mean_pilot_worker_seconds_per_seed'] == pytest.approx(8.4)
+    assert d['mean_pilot_seconds_by_cell']['R-veto'] == pytest.approx(2.2)
+    assert d['estimated_main_seconds'] == pytest.approx(1890)
+    assert d['cap_run_reserve_seconds'] == pytest.approx(211.2)
+    assert d['estimated_seconds'] == pytest.approx(2701.2)
+    assert d['analysis_reserve_seconds'] == 600
+    # The measured-cost gate still refuses when the remaining time is too
+    # short, without trying a smaller n; equality fits the deadline.
+    assert sv.runtime_design(rows, powered, d['estimated_seconds'], 4)['feasible']
+    refused = sv.runtime_design(rows, powered, d['estimated_seconds'] - 1, 4)
+    assert not refused['feasible'] and refused['n'] == 600
+    assert refused['reason'] == 'main exceeds remaining deadline'
+    # Mean cost includes all runs, including cap-censored failures.
+    rows[-1]['cells']['R-veto'].update(event=False, time=sv.CAP,
+                                     seconds=20., processed_candidates=sv.CAP)
+    expensive = sv.runtime_design(rows, powered, 9500, 4)
+    assert expensive['mean_pilot_worker_seconds_per_seed'] == pytest.approx(8.756)
+    assert expensive['estimated_main_seconds'] > d['estimated_main_seconds']
+    assert expensive['cap_run_reserve_seconds'] == d['cap_run_reserve_seconds']
+    # An incomplete pilot is infrastructure missingness, not cost evidence.
+    rows[-1]['cells']['R-veto']['complete'] = False
+    missing = sv.runtime_design(rows, powered, 9500, 4)
+    assert not missing['feasible'] and missing['reason'] == 'incomplete pilot'
+    assert 'estimated_seconds' not in missing
+
+
 @pytest.mark.parametrize('feasible,incomplete', [(True, False), (False, False), (True, True)])
 def test_orchestration_separate_pilot_and_main_one_look(tmp_path, monkeypatch, feasible, incomplete):
     monkeypatch.setenv('RUN_DIR', str(tmp_path))
