@@ -1,0 +1,6 @@
+2026-10-05 15:05:14 proposal sent back to the steward (The critic recommends `revise`; see critique.md beside the proposal.)
+2026-10-05 15:05:14 steward (claude/claude-opus-5-5) → propose [herdr]
+2026-10-05 15:09:15 phase → accept
+2026-10-05 15:09:15 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-05 15:10:52 phase → awaiting_approval
+2026-10-05 15:10:52 proposal: Sum vs max families — does a fitted op-frequency bias transfer to held-out members, and only within its family? (sampling stage, gated) [questions/01-map-bias/08-evolve-bias] — budget left: 3. Approve with `research.py approve`.

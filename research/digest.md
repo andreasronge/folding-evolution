@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-05 (last commit `f418c91`, run 2026-10-04-2135). This covers the **map-bias line**, the current
+As of 2026-10-05 (last commit `f418c91`, run 2026-10-04-2135; run 2026-10-05-1510 blocked, code at `3803bca`). This covers the **map-bias line**, the current
 core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
 evolution finds and keeps ("arrival of the frequent")?* Until 2026-10-05 the line studied
 whether the chemistry can discover, preserve and reuse a **shared helper** (one functional part
@@ -28,6 +28,11 @@ Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per e
   one op switches between equivalent routes (e.g. min vs gate joins, 13:1 vs 2:14) without
   changing solve rates; very high weights hurt only by diluting the rest of the alphabet.
   ([item 12](../docs/map-bias/findings.md), §16, §19; also the `rest` weight in §28)
+- **On the TAG alphabet, simple threshold tasks are only reachable by sampling when the
+  threshold is a built-in constant.** sum/max > 1, 2, 5 on length-4 lists come up about once
+  per 1M uniform tapes; one ADD away (max>3, sum>7) about once per 30–100M; larger thresholds
+  not once in 95M. Reviewer probes, one seed each; good enough for task design, not a claim.
+  ([run 2026-10-05-1510 code review](runs/2026-10-05-1510/code_review.md))
 - Steering is untested: (μ+λ) truncation leaves one behaviour per unsolved population under
   every tie rule. (§28) → [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)
 
@@ -130,9 +135,11 @@ B), **duplicated** (everything recomputed).
 - [07-shared-arrival](questions/01-map-bias/07-shared-arrival/question.md) (parked): about 2
   A-only/other shared arrivals per run, 0/100 single copies established, no B-helper arrival.
   Reopen if a B-helper single copy becomes testable or in-situ replay exists.
-- [08-evolve-bias](questions/01-map-bias/08-evolve-bias/question.md) (open, new): the README's
+- [08-evolve-bias](questions/01-map-bias/08-evolve-bias/question.md) (open): the README's
   part 2. Can the map's frequency bias be fitted to a task family and help evolution on unseen
-  members? First experiment proposed in run 2026-10-05-0040.
+  members? The first build (run 2026-10-05-1510) was blocked before running: its thresholds
+  were unreachable by sampling. Re-proposed on the constant thresholds (run 2026-10-05-1558).
+  A descriptive hint says mismatched fits help too (generic gain, C).
 
 ## Older context
 

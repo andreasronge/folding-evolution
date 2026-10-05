@@ -1,0 +1,27 @@
+runs:
+  - id: 2026-10-05-1510-family-bias
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-05-1510 &&
+      RAYON_NUM_THREADS=8 .venv/bin/python experiments/chem_tape/family_bias.py
+      --out "$RUN_DIR" --seed 202610051510 --seconds 21000
+    timeout_seconds: 21600
+    expect_outputs:
+      - result.json
+      - progress.jsonl
+      - report.md
+      - diagnostics.png
+      - COMPLETE
+    track: map-bias
+    notes: >-
+      Sampling only. Run with /Users/andreas/developer/folding-evolution-research/2026-10-05-1510 as cwd.
+      Uniform eligibility freezes sum/max fitting and held-out thresholds; exact elites,
+      per-task observed-use and joint pruning, three starts per fit, fresh validation,
+      reciprocal fresh transfer. Decision bounds adjusted across four scheduled looks;
+      unresolved and mixed patterns cannot force C/D. Six-hour ceiling, internal
+      runtime scaling with descriptive diagnostics cut before decisive precision.
+      Start 0 uses uniform calibration elites for iteration 0, keeping six updates
+      and the 15M-per-fit cap. No-update starts and descriptive deadlines are explicit.
+      Review blocker remains: uniform probes predict that the frozen task set will
+      fail calibration at the approved 60M cap. Steward agreement is needed to amend
+      that cap or the task set; this queue preserves the approved limits.
+      Build the worktree Rust extension before execution (research driver setup).

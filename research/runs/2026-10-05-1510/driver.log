@@ -1,0 +1,18 @@
+2026-10-05 15:10:52 proposal sent back to the steward (The critic recommends `revise`; see critique.md beside the proposal.)
+2026-10-05 15:10:52 steward (claude/claude-opus-5-5) → propose [herdr]
+2026-10-05 15:14:48 phase → accept
+2026-10-05 15:14:48 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-05 15:16:10 phase → awaiting_approval
+2026-10-05 15:16:10 proposal: Sum vs max families — is there a family-specific op-frequency bias that transfers to held-out members? (sampling only, CI-gated) [questions/01-map-bias/08-evolve-bias] — budget left: 3. Approve with `research.py approve`.
+2026-10-05 15:16:10 auto-approved (critic: revise, revisions: 2)
+2026-10-05 15:16:10 phase → prepare
+2026-10-05 15:16:26 researcher (codex/gpt-6.1-sol) → prepare [herdr]
+2026-10-05 15:38:47 phase → review_code
+2026-10-05 15:38:47 reviewer (claude/claude-fable-5-1) → review_code [herdr]
+2026-10-05 15:43:08 phase → prepare
+2026-10-05 15:43:08 researcher (codex/gpt-6.1-sol) → prepare [herdr]
+2026-10-05 15:54:40 phase → review_code
+2026-10-05 15:54:40 reviewer (claude/claude-fable-5-1) → review_code [herdr]
+2026-10-05 15:58:29 blocked: still failing after 1 repair(s); see code_review.md
+2026-10-05 15:58:29 phase → decide
+2026-10-05 15:58:29 steward (claude/claude-opus-5-5) → decide [herdr]
