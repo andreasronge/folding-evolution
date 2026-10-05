@@ -33,3 +33,44 @@ Decision: continue 08 with an amended task set built from the constant threshold
 1 and 5, hold out 2, in both families) and a larger fit pool, reusing the reviewed code,
 because the blocker is the task set, not the design or the code, and a corrected run costs
 about an hour of queue. Lesson: probe uniform hit rates before freezing a task set.
+
+## 2026-10-05 — run 2026-10-05-1558: sum vs max family bias on constant thresholds, sampling only
+
+Experiment: [proposal](../../../runs/2026-10-05-1558/proposal.md),
+[plan](../../../runs/2026-10-05-1558/plan.md). Same design and code as 1510 with a feasible
+task set (commit `cd69bce`, branch `research/2026-10-05-1558`, master seed 202610051558, one
+run). TAG alphabet, L 64. Fit `op_weights` on sum>1, sum>5 (Σ) and max>1, max>5 (M); hold out
+sum>2 and max>2. 200M uniform calibration; three starts × six iterations of 10M per fit;
+decisive transfer arms uniform, Σ-fit, M-fit and prune at 125M each (look 1 of 4); exact =
+correct on all 10,000 lists; bounds at α = 0.05/64. 2309 s wall, no runtime cut.
+
+Result: **verdict A** as pre-registered
+([analysis](../../../runs/2026-10-05-1558/analysis.md)). Holdout hits per 125M:
+
+| Arm | sum>2 | max>2 |
+|---|---:|---:|
+| uniform | 173 | 69 |
+| Σ-fit | 852 | 92 |
+| M-fit | 176 | 612 |
+| prune | 161 | 86 |
+
+Specificity (matched / mismatched) 4.84× (adj. 3.36–7.08) for Σ, 6.65× (4.13–11.08) for M;
+gain (matched / uniform) 4.92× (3.42–7.22) and 8.87× (5.24–15.73). All lower bounds above 3.
+Fit tasks gained 18–34×; the holdouts about a quarter of that. Mismatched fits did nothing for
+the other family's holdout (1.02×, 1.33×), though they raised its fit thresholds 3.9–6.1×.
+Pruning alone did nothing (0.93×, 1.25×). Both fits pushed CONST_2 down to 0.36–0.37× (CONST_5
+up 1.6–1.7×): the constant overfitting the proposal feared, costing about 2.7× of holdout
+gain, but not enough to reach D. Reviewer's post-hoc reading: every rate in the run (30
+vector×task cells, swaps included) is reproduced within 1.5× by the product of four op folds
+(INPUT, GT, the aggregator, the threshold constant); the aggregator-swap pools turn the Σ
+vector into a 13.9× max>2 sampler. So what transferred is the aggregator weight (plus INPUT
+and GT), not richer family structure. The Σ holdout gain repeats across 3 starts; the M fit is
+one trajectory (cold starts 1–2 never reached 10 elites). This also refutes the 1510 hint that
+mismatched fits help held-out members about as much (C).
+
+Decision: continue 08 with the pre-registered next step, an evolution test on the two holdouts
+(uniform, matched fit, mismatched fit, and a hand-set vector with only INPUT, GT and the
+aggregator raised), because sampling A leaves A vs B (supply vs success) open, and item 12
+predicts B. The hand-set arm is needed so a win for the fitted vector is not just "knowing the
+aggregator helps". Fairly sure of the sampling numbers; narrow in meaning (one seed, one
+holdout per family, thresholds that differ only in the constant).

@@ -17,7 +17,9 @@ parked): established partly populations produce exact shared children about twic
 A-only or other, and a natural single copy never established (0/100); the B-helper form that
 won in both shared-ending runs never arrived in 30M partly-parent children. The shared-helper
 line stops there (03–07 closed or parked). The README's second part, letting the map's bias
-itself fit a task family, is untested and is now [08](08-evolve-bias/question.md).
+itself fit a task family, is [08](08-evolve-bias/question.md): by sampling, a fitted
+`op_weights` vector transfers to a held-out threshold (4.9× and 8.9× over uniform, run
+2026-10-05-1558), but only through the aggregator's weight; whether evolution benefits is next.
 
 Competing explanations:
 - A: The map mainly decides what arrives often; selection then keeps whatever form arrived
