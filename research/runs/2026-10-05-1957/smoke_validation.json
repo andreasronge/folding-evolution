@@ -1,9 +1,9 @@
 {
   "smoke_only": true,
   "complete": true,
-  "source_commit": "3fa0405b85bfb6b501fca0a5ce0d7e3bcfdc545a",
+  "source_commit": "8eea5190f17efe9ca4e38b99eb97130a4c57253c",
   "source_dirty": false,
-  "output_directory": "/Users/andreas/developer/folding-evolution-research/2026-10-05-1957/experiments/output/2026-10-05-1957-smoke-final-v2",
+  "output_directory": "/Users/andreas/developer/folding-evolution-research/2026-10-05-1957/experiments/output/2026-10-05-1957-smoke-runtime-v3",
   "masters": {
     "master_seed": 202610051957,
     "pilot_master_seed": 202610051958,
@@ -171,6 +171,21 @@
       "domain_disagreements": 66
     }
   ],
+  "tests_passed": 84,
+  "runtime_regression": {
+    "data": "synthetic only; no pilot/main data used",
+    "n": 600,
+    "workers": 4,
+    "remaining_seconds": 9500,
+    "mean_worker_seconds_per_seed": 8.4,
+    "padded_main_seconds": 1890,
+    "cap_run_reserve_seconds": 211.2,
+    "analysis_reserve_seconds": 600,
+    "estimated_seconds": 2701.2,
+    "feasible": true,
+    "insufficient_time_refused_without_downsizing": true,
+    "incomplete_pilot_refused": true
+  },
   "records": [
     {
       "seed": 202610071959,
@@ -195,7 +210,7 @@
           "time": 16384,
           "event": false,
           "complete": true,
-          "seconds": 0.3902557920082472,
+          "seconds": 0.39268058398738503,
           "first_max_gen": null,
           "reproductive_exposure": false,
           "processed_candidates": 16384
@@ -204,7 +219,7 @@
           "time": 16384,
           "event": false,
           "complete": true,
-          "seconds": 0.35398470802465454,
+          "seconds": 0.3558879580232315,
           "first_max_gen": null,
           "reproductive_exposure": false,
           "processed_candidates": 16384
@@ -213,7 +228,7 @@
           "time": 16384,
           "event": false,
           "complete": true,
-          "seconds": 0.3930528339697048,
+          "seconds": 0.3975942500401288,
           "first_max_gen": null,
           "reproductive_exposure": false,
           "processed_candidates": 16384
@@ -222,7 +237,7 @@
           "time": 16384,
           "event": false,
           "complete": true,
-          "seconds": 0.33717412495752797,
+          "seconds": 0.33864420803729445,
           "first_max_gen": null,
           "reproductive_exposure": false,
           "processed_candidates": 16384
@@ -252,7 +267,7 @@
           "time": 16384,
           "event": false,
           "complete": true,
-          "seconds": 0.36387233302230015,
+          "seconds": 0.3680075830197893,
           "first_max_gen": null,
           "reproductive_exposure": false,
           "processed_candidates": 16384
@@ -261,7 +276,7 @@
           "time": 16384,
           "event": false,
           "complete": true,
-          "seconds": 0.3211713330238126,
+          "seconds": 0.32149833400035277,
           "first_max_gen": null,
           "reproductive_exposure": false,
           "processed_candidates": 16384
@@ -270,7 +285,7 @@
           "time": 16384,
           "event": false,
           "complete": true,
-          "seconds": 0.3667859999695793,
+          "seconds": 0.37144279200583696,
           "first_max_gen": null,
           "reproductive_exposure": false,
           "processed_candidates": 16384
@@ -279,7 +294,7 @@
           "time": 16384,
           "event": false,
           "complete": true,
-          "seconds": 0.32488950004335493,
+          "seconds": 0.3277011250029318,
           "first_max_gen": null,
           "reproductive_exposure": false,
           "processed_candidates": 16384
