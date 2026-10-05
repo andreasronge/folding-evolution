@@ -45,3 +45,44 @@ Task-owned plan/queue/proposal/approval/critique and these verification notes ar
 mirrored into this branch's `research/runs/2026-10-05-1510/` for a reproducible
 commit snapshot. The live task folder in the owner's research tree contains the
 same plan and queue; driver logs are left to the autonomous loop.
+
+## Code-review repair — 2026-10-05
+
+Addressed the fitting-capacity issue within the approved 15M-per-fit cap: start 0
+uses retained fitting tasks' exact uniform calibration solvers for iteration 0.
+This replaces one fresh fitting pool rather than adding a seventh update. Starts
+1–2 retain their independent Dirichlet initializations. Calibration never seeds
+their updates, and no holdout elites enter any fit. Validation and transfer remain
+fresh. Bootstrap support, predicted uniform elite counts, per-start fresh updates,
+and a distinct no-task-updated status/gate are recorded. An unadapted fit is no
+longer described as an adapted fit that failed validation.
+
+Completed decisive transfer results now survive deadlines in either the prune
+extension or the both/swap diagnostics. Fitting-task rechecks are saved before
+optional diagnostics. Diagnostic interruptions remain explicit, and deadlines
+during decisive sampling remain inconclusive. Descriptive fixed-look confidence
+intervals are named accurately, the prune floor is logged as a raw-weight ratio,
+and swaps report probabilities falling below the fitting floor without changing
+their literal mass exchange.
+
+The calibration design blocker in code_review.md is **not resolved**. Its 35M
+uniform probe results strongly predict ineligibility at the approved 60M cap.
+No proposal amendment or steward agreement permits expanding calibration to 1B
+or changing thresholds. Those changes were requested as a clarification; absent
+authorization, this repair preserves the approved task set and caps. The queue
+is syntactically runnable but should not be treated as scientifically cleared by
+this repair. An infeasible outcome cannot support C/D or parking frequency bias.
+
+Repair validation:
+
+- 57 focused tests passed: 15 family-bias tests plus the existing TAG, op-weight
+  and exact-any regressions. Added tests cover rare-task bootstrap with equal
+  task weight, untouched holdouts/other starts, six-update/sample caps, no-update
+  status, and primary versus descriptive deadlines (both prune and both-fit).
+- Real smoke: 2,000 tapes per benchmark arm, 20,000 uniform calibration tapes,
+  zero exact hits, correct eligibility stop and all five queued output artifacts.
+  Synthetic all-stage tests are fixtures only, not experimental observations.
+- Ruff, whitespace checks and queue schema/cap/output validation passed. The
+  diagnostic PNG was visually inspected. Rust was not changed in this repair.
+- Smoke artifacts: `experiments/output/smoke-family-bias-review-repair/` in this
+  worktree (ignored). No full experiment was executed.

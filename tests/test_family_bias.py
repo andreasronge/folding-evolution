@@ -12,6 +12,7 @@ from experiments.chem_tape.family_bias import (
     FITS,
     TASKS,
     UNIFORM,
+    Deadline,
     Experiment,
     constrained,
     executed_counts,
@@ -186,13 +187,92 @@ def test_prune_observed_support_joint_and_under_supported(tmp_path):
     assert p[0] / p[5] == pytest.approx(0.05)
 
 
-@pytest.mark.parametrize("transfer_hits", ["gain", "zero"])
+def empty_fit_pool(name, n, weights, collect=False, previous=None):
+    return pool(n, **dict.fromkeys(TASKS, 0)), {t: [] for t in TASKS}
+
+
+def test_calibration_bootstrap_is_one_iteration_with_equal_retained_task_weight(
+    tmp_path, monkeypatch
+):
+    e = Experiment(tmp_path, smoke=True)
+    tasks = FITS["sum"][:2]
+    counts = {t: 20 for t in TASKS}
+    counts[tasks[1]] = 9  # Unsupported contribution stays uniform.
+    e.results["calibration"] = pool(30_000_000, **counts)
+    elites = {t: [planted(t)] * counts[t] for t in TASKS}
+    calls = []
+
+    def fresh(name, n, weights, collect=False, previous=None):
+        calls.append((name, n, weights.copy()))
+        return empty_fit_pool(name, n, weights, collect, previous)
+
+    monkeypatch.setattr(e, "pool", fresh)
+    starts = e.fit("sum", tasks, 1, calibration_elites=elites)
+    r = e.results["fitting"]["sum"]
+    freq = executed_counts(planted(tasks[0])).astype(float)
+    freq /= freq.sum()
+    expected = constrained(0.5 * UNIFORM + 0.5 * np.mean([freq, UNIFORM], axis=0))
+    assert np.allclose(r["iterations"][0]["next_weights"], expected)
+    assert r["iterations"][0]["source"] == "uniform calibration"
+    assert r["bootstrap"]["updated_tasks"] == tasks[:1]
+    assert set(r["bootstrap"]["counts"]) == set(tasks)  # Holdouts cannot enter.
+    assert len(r["iterations"]) == 18 and len(calls) == 17
+    assert sum(n for _, n, _ in calls) <= 18 * 2000
+    assert calls[0][0] == "fit/sum/0/1"
+    assert r["start_updates"][0]["status"] == "updated"
+    assert not r["start_updates"][0]["fresh_updated_tasks"]
+    for start in (1, 2):
+        assert r["start_updates"][start]["status"] == "no task updated"
+        initial = next(w for name, _, w in calls if name == f"fit/sum/{start}/0")
+        assert np.allclose(starts[start], initial)
+    assert np.min(starts[0]) >= FLOOR
+
+
+def test_no_fitting_updates_distinct_from_failed_adaptation(tmp_path, monkeypatch):
+    e = Experiment(tmp_path, smoke=True)
+    monkeypatch.setattr(e, "pool", empty_fit_pool)
+    starts = e.fit("sum", FITS["sum"], 1)
+    r = e.results["fitting"]["sum"]
+    assert r["status"] == "no task updated"
+    assert not r["bootstrap"]["used"]
+    assert np.allclose(starts[0], UNIFORM)
+    assert not e.results["gates"][-1]["passed"]
+    assert (
+        e.validate(
+            "sum", FITS["sum"], starts, pool(30_000_000, **dict.fromkeys(TASKS, 20)), 1
+        )
+        is None
+    )
+    assert r["status"] == "no task updated"
+
+
+def test_deadline_before_decisive_completion_is_inconclusive(tmp_path):
+    e = Experiment(tmp_path, smoke=True)
+    # A provisional early look does not survive a timeout in an unresolved pool.
+    e.results["transfer"] = {"outcome": "A"}
+    e.stage = "transfer"
+    e.handle_deadline(Deadline("transfer/uniform/look2"))
+    assert e.results["outcome"] == "inconclusive"
+    assert "look2" in e.results["reason"]
+    assert not e.results["gates"][-1]["decisive_complete"]
+
+
+@pytest.mark.parametrize(
+    "transfer_hits", ["gain", "zero", "diagnostic_deadline", "prune_deadline"]
+)
 def test_all_stages_with_synthetic_counts(tmp_path, monkeypatch, transfer_hits):
     """Exercise gates/pool scheduling without turning tiny smoke into evidence."""
     e = Experiment(tmp_path, smoke=True)
     calls = []
 
     def fake_pool(name, n, weights, collect=False, previous=None):
+        if (
+            transfer_hits == "diagnostic_deadline"
+            and name == "transfer/both/descriptive"
+        ):
+            raise Deadline(name)
+        if transfer_hits == "prune_deadline" and name == "transfer/prune/side2":
+            raise Deadline(name)
         calls.append(name)
         p = previous or {
             "n": 0,
@@ -218,14 +298,25 @@ def test_all_stages_with_synthetic_counts(tmp_path, monkeypatch, transfer_hits):
                 k = hit
             if name.startswith("transfer/") and transfer_hits == "zero":
                 k = 0
+            if name.startswith("transfer/prune") and transfer_hits == "prune_deadline":
+                k = 35  # Side comparison is U; primary comparisons already G.
             p["counts"][t] += k
         e.results["pools"][name] = p
         return p, {t: [planted(t)] * hit if collect else [] for t in TASKS}
 
     monkeypatch.setattr(e, "pool", fake_pool)
-    e.run()
+    if transfer_hits.endswith("deadline"):
+        with pytest.raises(Deadline) as error:
+            e.run()
+        e.handle_deadline(error.value)
+        assert "remaining diagnostics incomplete" in e.results["diagnostics_status"]
+        assert e.results["transfer"]["decisive_complete"]
+        assert e.results["gates"][-1]["decisive_complete"]
+        assert set(e.results["fitting_recheck"]) == set(FITS)
+    else:
+        e.run()
     e.finish()
-    assert e.results["outcome"] == ("A" if transfer_hits == "gain" else "inconclusive")
+    assert e.results["outcome"] == ("inconclusive" if transfer_hits == "zero" else "A")
     if transfer_hits == "zero":
         assert len(e.results["transfer"]["looks"]) == 4
         assert all(
@@ -233,7 +324,7 @@ def test_all_stages_with_synthetic_counts(tmp_path, monkeypatch, transfer_hits):
             for k in ("uniform", "sum", "max", "prune")
         )
     assert len(e.results["validation"]) == 3
-    assert set(e.results["transfer"]["pools"]) == {
+    expected_pools = {
         "uniform",
         "sum",
         "max",
@@ -242,5 +333,8 @@ def test_all_stages_with_synthetic_counts(tmp_path, monkeypatch, transfer_hits):
         "sum_swap",
         "max_swap",
     }
+    if transfer_hits.endswith("deadline"):
+        expected_pools -= {"both", "sum_swap", "max_swap"}
+    assert set(e.results["transfer"]["pools"]) == expected_pools
     assert all(e.results["validation"][f]["selected"] is not None for f in FITS)
     assert (tmp_path / "COMPLETE").exists()

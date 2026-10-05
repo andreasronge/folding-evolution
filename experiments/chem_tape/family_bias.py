@@ -223,6 +223,7 @@ class Experiment:
                 "starts": 3,
                 "iterations": 6,
                 "elites_min": 10,
+                "fit_initialization": "start 0 iteration 0 uses retained-task uniform calibration elites when supported",
             },
             "streams": [],
             "pools": {},
@@ -488,12 +489,16 @@ class Experiment:
             "low_support_kept": [o for o in range(20) if support[o] < 5],
             "under_supported": any(len(elites[t]) < 20 for t in tasks),
             "weights": weights.tolist(),
+            "raw_weight_floor": 0.05,
+            "normalized_floored_probability": float(
+                0.05 / (22 - 0.95 * len(candidates))
+            ),
             "executed_definition": "distinct visited cells including SEP and NOP",
         }
         self.gate("pruning_frozen", **self.results["pruning"])
         return weights
 
-    def fit(self, name, tasks, scale, remaining_fits=1):
+    def fit(self, name, tasks, scale, remaining_fits=1, calibration_elites=None):
         self.stage = "fitting/" + name
         iterations = []
         starts = []
@@ -512,7 +517,28 @@ class Experiment:
                 ),
             )
         n = max(1, int(unit * scale))
-        self.gate("fit_budget", fit=name, per_iteration=n, total_cap=18 * n)
+        cal = self.results.get("calibration")
+        if calibration_elites is not None and cal is None:
+            raise ValueError("bootstrap elites require their uniform calibration pool")
+        self.gate(
+            "fit_budget",
+            fit=name,
+            per_iteration=n,
+            total_cap=18 * n,
+            expected_elites_from_uniform={
+                t: n * cal["counts"][t] / cal["n"] for t in tasks
+            }
+            if cal
+            else None,
+        )
+        bootstrap = {
+            "start": 0,
+            "iteration": 0,
+            "source": "uniform calibration",
+            "updated_tasks": [],
+            "counts": {t: len((calibration_elites or {}).get(t, [])) for t in tasks},
+        }
+        start_updates = []
         for start in range(3):
             weights = (
                 UNIFORM.copy()
@@ -522,21 +548,46 @@ class Experiment:
                 )
             )
             contributions = {t: weights.copy() for t in tasks}
-            for iteration in range(6):
-                p, elites = self.pool(
-                    f"fit/{name}/{start}/{iteration}", n, weights, True
+            updated_tasks = set()
+            fresh_updated_tasks = set()
+            # A uniform pool legitimately seeds the uniform start. Never use
+            # its elites as observations from either Dirichlet distribution,
+            # and never allow held-out tasks into this update.
+            if start == 0:
+                bootstrap["updated_tasks"] = sorted(
+                    t for t in tasks if bootstrap["counts"][t] >= 10
                 )
+            for iteration in range(6):
+                use_calibration = start == iteration == 0 and bool(
+                    bootstrap["updated_tasks"]
+                )
+                if use_calibration:
+                    p, elites = cal, calibration_elites
+                else:
+                    p, elites = self.pool(
+                        f"fit/{name}/{start}/{iteration}", n, weights, True
+                    )
                 objective = mean_log_rate(p, tasks)
                 for t in tasks:
                     if len(elites[t]) >= 10:
                         freq = np.sum([executed_counts(g) for g in elites[t]], axis=0)
                         contributions[t] = freq / freq.sum()
+                        updated_tasks.add(t)
+                        if not use_calibration:
+                            fresh_updated_tasks.add(t)
                 update = np.mean(list(contributions.values()), axis=0)
                 weights = constrained(0.5 * weights + 0.5 * update)
+                if start == iteration == 0:
+                    bootstrap["used"] = use_calibration
+                    bootstrap["next_weights"] = weights.tolist()
+                    self.gate("fit_bootstrap", fit=name, **bootstrap)
                 iterations.append(
                     {
                         "start": start,
                         "iteration": iteration,
+                        "source": "uniform calibration"
+                        if use_calibration
+                        else "fresh fitting pool",
                         "objective": objective,
                         "counts": {t: p["counts"][t] for t in tasks},
                         "updated_tasks": [t for t in tasks if len(elites[t]) >= 10],
@@ -545,12 +596,30 @@ class Experiment:
                 )
             # Final update is itself a candidate; use it as the fitted vector.
             starts.append(weights)
+            start_updates.append(
+                {
+                    "start": start,
+                    "updated_tasks": sorted(updated_tasks),
+                    "fresh_updated_tasks": sorted(fresh_updated_tasks),
+                    "status": "updated" if updated_tasks else "no task updated",
+                }
+            )
         self.results.setdefault("fitting", {})[name] = {
             "iterations": iterations,
             "starts": [w.tolist() for w in starts],
             "objective": "mean log P(exact)",
+            "bootstrap": bootstrap,
+            "start_updates": start_updates,
+            "status": "updated"
+            if any(r["updated_tasks"] for r in start_updates)
+            else "no task updated",
         }
-        self.save()
+        self.gate(
+            "fit_updates",
+            fit=name,
+            passed=self.results["fitting"][name]["status"] == "updated",
+            starts=start_updates,
+        )
         return starts
 
     def validate(self, name, tasks, starts, cal, scale, remaining_fits=1):
@@ -599,6 +668,11 @@ class Experiment:
             "starts": rows,
             "selected": selected,
             "objective_spread": [r["objective"] for r in rows],
+            "selected_start_status": (
+                self.results["fitting"][name]["start_updates"][selected]["status"]
+                if selected is not None
+                else None
+            ),
         }
         self.gate(
             "fit_validation", fit=name, passed=selected is not None, selected=selected
@@ -623,8 +697,12 @@ class Experiment:
                 result[f][axis] = ratio_record(
                     pools[f], pools[reference], hold[f], alpha
                 )
-                result[f][axis]["descriptive_95"] = ratio_record(
+                result[f][axis]["descriptive_fixed_95"] = ratio_record(
                     pools[f], pools[reference], hold[f], 0.05 / 4
+                )
+                result[f][axis]["descriptive_fixed_95"]["interval_method"] = (
+                    "conservative fixed-look 95% simultaneous Poisson bounds over "
+                    "at most two members and two rates; not a stopping gate"
                 )
         return result
 
@@ -684,6 +762,18 @@ class Experiment:
                 pools[k], _ = self.pool(
                     f"transfer/{k}/look{look + 1}", step, vectors[k], previous=pools[k]
                 )
+        # The primary result is fixed before optional diagnostics start. A
+        # diagnostic timeout cannot erase a completed decisive comparison.
+        self.results["transfer"]["decisive_complete"] = True
+        self.results["outcome"] = self.results["transfer"]["outcome"]
+        self.results["fitting_recheck"] = {
+            f: {
+                t: ratio_record(pools[f], pools["uniform"], [t], 0.05 / 2)
+                for t in self.results["frozen_tasks"]["fits"][f]
+            }
+            for f in FITS
+        }
+        self.save()
         # Beyond-pruning unresolved does not block the primary verdict. Extend
         # prune only after decisive comparisons have reached their final look.
         for look in range(2, 5):
@@ -717,13 +807,6 @@ class Experiment:
                 continue
             pools[k], _ = self.pool(f"transfer/{k}/descriptive", step, vectors[k])
         self.results["transfer"]["pools"] = pools
-        self.results["fitting_recheck"] = {
-            f: {
-                t: ratio_record(pools[f], pools["uniform"], [t], 0.05 / 2)
-                for t in self.results["frozen_tasks"]["fits"][f]
-            }
-            for f in FITS
-        }
         self.results["outcome"] = self.results["transfer"]["outcome"]
         self.results["descriptive_comparisons"] = {
             k: {f: ratio_record(p, pools["uniform"], hold[f], 0.05 / 4) for f in FITS}
@@ -757,13 +840,26 @@ class Experiment:
         for index, (f, ts) in enumerate(
             [*fits.items(), ("both", sum(fits.values(), []))]
         ):
-            starts = self.fit(f, ts, scale, remaining_fits=3 - index)
+            starts = self.fit(
+                f, ts, scale, remaining_fits=3 - index, calibration_elites=elites
+            )
             selected[f] = self.validate(
                 f, ts, starts, cal, scale, remaining_fits=3 - index
             )
         if selected["sum"] is None or selected["max"] is None:
             self.results["outcome"] = "inconclusive"
-            self.results["reason"] = "no validated family fit; transfer not run"
+            no_updates = [
+                f
+                for f in FITS
+                if self.results["fitting"][f]["status"] == "no task updated"
+            ]
+            self.results["reason"] = (
+                "no fitting task updated in "
+                + ", ".join(no_updates)
+                + "; no validated family fit; transfer not run"
+                if no_updates
+                else "adapted family fit not validated; transfer not run"
+            )
             self.results["diagnostics_status"] = (
                 "transfer/prune-vs-uniform/swaps not estimated: validation gate failed"
             )
@@ -779,7 +875,40 @@ class Experiment:
         if selected["both"] is not None:
             vectors["both"] = selected["both"]
         self.results["vectors"] = {k: v.tolist() for k, v in vectors.items()}
+        self.results["swap_diagnostics"] = {
+            k: {
+                "below_fit_floor_ops": np.flatnonzero(v < FLOOR).tolist(),
+                "mass_exchange": "SUM+REDUCE_ADD exchanged with REDUCE_MAX; other ops unchanged",
+            }
+            for k, v in vectors.items()
+            if k.endswith("_swap")
+        }
         self.transfer(vectors, hold, scale)
+
+    def handle_deadline(self, error):
+        transfer = self.results.get("transfer", {})
+        decisive_complete = transfer.get("decisive_complete", False)
+        self.results["outcome"] = (
+            transfer["outcome"] if decisive_complete else "inconclusive"
+        )
+        reason = "internal deadline at " + str(error)
+        if decisive_complete:
+            # Only completed side pools enter comparisons. Partial counts in
+            # results["pools"] remain available as interrupted raw diagnostics.
+            transfer["comparisons"] = self.comparisons(
+                transfer["pools"], transfer["holdouts"]
+            )
+            self.results["diagnostics_status"] = (
+                reason + "; remaining diagnostics incomplete"
+            )
+        else:
+            self.results["reason"] = reason
+        self.gate(
+            "deadline",
+            passed=False,
+            interrupted_stage=self.stage,
+            decisive_complete=decisive_complete,
+        )
 
     def finish(self):
         self.save()
@@ -855,6 +984,16 @@ class Experiment:
                     + str(self.results["pruning"]["under_supported"]),
                 ]
             )
+        for name, fit in self.results.get("fitting", {}).items():
+            lines.extend(
+                [
+                    "",
+                    f"{name} fitting status: {fit['status']}",
+                    "Calibration bootstrap tasks: "
+                    + str(fit["bootstrap"]["updated_tasks"]),
+                    "Start update support: " + str(fit["start_updates"]),
+                ]
+            )
         comparisons = self.results.get("transfer", {}).get("comparisons", {})
         if comparisons:
             member_notes = []
@@ -893,9 +1032,7 @@ def main():
     try:
         experiment.run()
     except Deadline as e:
-        experiment.results["outcome"] = "inconclusive"
-        experiment.results["reason"] = "internal deadline at " + str(e)
-        experiment.gate("deadline", passed=False, stage=experiment.stage)
+        experiment.handle_deadline(e)
     experiment.finish()
 
 
