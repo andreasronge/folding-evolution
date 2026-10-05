@@ -20,6 +20,7 @@ Usage:
     uv run python scripts/research.py reject "reason"
     uv run python scripts/research.py run              # waits for the night window
     uv run python scripts/research.py run --now        # daytime run, starts at once
+    uv run python scripts/research.py run --auto --hours 48   # no approvals (research-auto.md)
 
 Nightly: `caffeinate -s uv run python scripts/research.py run` in the
 evening (or from cron/launchd). With nothing approved it only writes a
@@ -70,6 +71,14 @@ PHASE_ORDER = ["propose", ACCEPT, AWAITING, "prepare", "review_code", "execute",
 
 class Stop(Exception):
     """Stop the loop for now; state is saved and the next run resumes."""
+
+
+class OwnerNeeded(Stop):
+    """Autonomous mode cannot continue without the owner (not retried)."""
+
+
+class AgentFailed(Stop):
+    """An agent exited badly, timed out or wrote nothing: worth a retry."""
 
 
 # --------------------------------------------------------------------------
@@ -386,8 +395,12 @@ def git(*args: str, cwd: Path) -> str:
     return out.stdout.strip()
 
 
-def git_ok(*args: str, cwd: Path) -> bool:
-    return subprocess.run(["git", *args], cwd=cwd, capture_output=True).returncode == 0
+def git_ok(*args: str, cwd: Path, timeout: float = 600) -> bool:
+    try:
+        return subprocess.run(["git", *args], cwd=cwd, capture_output=True,
+                              timeout=timeout).returncode == 0
+    except subprocess.TimeoutExpired:
+        return False
 
 
 # --------------------------------------------------------------------------
@@ -402,7 +415,7 @@ COMMON = (
 PROMPTS = {
     "propose": (
         "Choose the next experiment. Read {research}/digest.md and explore {research}/questions "
-        "(statuses, budgets, logs, parked questions' reopen conditions). {feedback}"
+        "(statuses, budgets, logs, parked questions' reopen conditions). {strategy}{feedback}"
         "You may create a new question folder if the right question does not exist yet. "
         "Write {task_dir}/proposal.md in the proposal format from the README. Do not write code."
     ),
@@ -417,7 +430,8 @@ PROMPTS = {
     ),
     "prepare": (
         "Implement the approved proposal {task_dir}/proposal.md. Also read, if present, "
-        "approval.md (owner notes), code_review.md (review to address) and driver_feedback.md "
+        "approval.md (owner notes), critique.md (second opinion on the proposal; address its points "
+        "or say in plan.md why not), code_review.md (review to address) and driver_feedback.md "
         "(failed checks to fix) in the task folder. The current directory is your git worktree on "
         "branch {branch}. 1) Before running anything, write {task_dir}/plan.md: conditions, seeds, "
         "measurements, and what each outcome would mean for the competing explanations. "
@@ -427,10 +441,13 @@ PROMPTS = {
         "4) Commit all changes on {branch} so `git status` is clean."
     ),
     "review_code": (
-        "Review the code written for this experiment: run `git diff {base}..{commit}` in the "
-        "current directory (the experiment's worktree). Read {task_dir}/proposal.md, plan.md and "
-        "queue.yaml. Write {task_dir}/code_review.md starting with frontmatter `verdict: pass` or "
-        "`verdict: fail`, then numbered blocking issues and brief minor notes."
+        "Review this experiment before it runs: the code (`git diff {base}..{commit}` in the "
+        "current directory, the experiment's worktree; it may be empty when only the queue "
+        "changed), and {task_dir}/proposal.md, plan.md and queue.yaml (arms, seeds, parameters, "
+        "timeouts). If {task_dir}/critique.md exists, check that its points are addressed or that "
+        "plan.md says why not; an unanswered substantive point is a blocking issue. Write "
+        "{task_dir}/code_review.md starting with frontmatter `verdict: pass` or `verdict: fail`, "
+        "then numbered blocking issues and brief minor notes."
     ),
     "analyse": (
         "Analyse the results. Inputs: {task_dir}/proposal.md, queue.yaml, execution.md (run status "
@@ -445,12 +462,38 @@ PROMPTS = {
         "to log.md (experiment → result → `Decision: … because …`), update question.md (status, "
         "summary, Related, Reopen if), and update {research}/digest.md if beliefs changed. Re-check "
         "parked questions whose reopen condition may now be met. 2) Write {task_dir}/decision.md: "
-        "continue, park, close or new question, and why. 3) Write the next proposal to "
-        "{next_dir}/proposal.md (README format). 4) Write the owner's brief to {brief}, under one "
+        "continue, park, close or new question, and why. If this step was interrupted before, "
+        "check what is already written and do not add a log entry twice. 3) {next_step} "
+        "4) Write the owner's brief to {brief}, under one "
         "page: what was tested and why · what happened (key numbers) · what we learned (1–3 "
         "sentences) · how the tree changed · the next proposal and why · failures and uncertainty."
     ),
+    "strategy": (
+        "Review the whole research program. Read the core question in {repo}/README.md, "
+        "{research}/digest.md, the question tree, the latest decisions and the recent briefs in "
+        "{research}/briefs. Write {task_dir}/strategy.md: what the program has learned so far · "
+        "which root questions matter most for the core question now, and why · what the steward "
+        "should work on next (a question and why, not a full design) · what to stop. {roots_note} "
+        "Start strategy.md with frontmatter `next: proposal`, or `next: stop` if nothing deserves "
+        "more experiments now (the run then ends and waits for the owner)."
+    ),
+    "summary": (
+        "The autonomous run that started at {started} has ended: {reason}. Write {summary} for the "
+        "owner, who will review the run and may change how the loop works: each cycle of the run in "
+        "one or two lines (see the briefs and research/runs/ folders since then) · how the question "
+        "tree and digest changed (`git log -p --since=\"{started}\" -- research/` helps) · what you "
+        "would do next · where the agents were least sure · what the owner should check first, "
+        "including decisions you disagree with. Under two pages. Edit no other file."
+    ),
 }
+
+NEXT_PROPOSAL = "Write the next proposal to {next_dir}/proposal.md (README format)."
+NEXT_PROPOSAL_AUTO = (
+    "Write the next proposal to {next_dir}/proposal.md (README format) — or, if no open question "
+    "deserves another experiment, write none and start decision.md with frontmatter "
+    "`next: strategy`; the strategist then reviews the program first.")
+NEXT_STRATEGY = ("Write no next proposal: the strategist reviews the whole program before the "
+                 "next one.")
 
 
 # --------------------------------------------------------------------------
@@ -466,6 +509,10 @@ class Driver:
         self.state = load_state(self.state_path)
         self._launcher = launcher
         self.deadline: dt.datetime | None = None
+        self.auto = False  # `run --auto`: the critic approves, the strategist steers
+        self.run_path = research / "auto_run.json"  # survives task changes and restarts
+        self.run_info: dict[str, Any] = {}
+        self.sleep = time.sleep
 
     # -- helpers --------------------------------------------------------
     @property
@@ -535,11 +582,11 @@ class Driver:
     def call_agent(self, role: str, phase: str, cwd: Path, **fmt: str) -> None:
         """Launch the role's agent for `phase`; raise Stop if past the deadline,
         over the call cap, or the agent did not finish cleanly."""
-        if phase != "decide":
+        if phase not in ("decide", "summary"):
             self.check_deadline()
         calls = self.state.get("agent_calls", 0)
-        if calls >= self.cfg.get("max_agent_calls", 8) and phase != "decide":
-            if phase in ("propose", "critique") or "node" not in self.state:
+        if calls >= self.cfg.get("max_agent_calls", 8) and phase not in ("decide", "summary"):
+            if phase in ("propose", "critique", "strategy") or "node" not in self.state:
                 raise Stop(f"agent call cap ({calls}) reached while proposing; "
                            "`research.py propose` starts over")
             self.block(f"agent call cap ({calls}) reached")
@@ -547,7 +594,8 @@ class Driver:
         self.state["agent_calls"] = calls + 1
         self.save()
         meta = load_role(self.research, role)
-        values = {"role": role, "research": str(self.research), "task_dir": str(self.task_dir()),
+        values = {"role": role, "research": str(self.research), "repo": str(self.repo),
+                  "task_dir": str(self.task_dir()),
                   "task": self.state["task"], **fmt}
         prompt = (COMMON + PROMPTS[phase]).format(**values)
         argv = agent_argv(self.research, meta, prompt)
@@ -556,7 +604,8 @@ class Driver:
         self.log(f"{role} ({meta['agent']}/{meta['model']}) → {phase} [{self.launcher.name}]")
         code = self.launch(label, argv, cwd, timeout)
         if code != 0:
-            raise Stop(f"{role} agent for {phase} {'timed out' if code is None else f'exited {code}'}"
+            raise AgentFailed(f"{role} agent for {phase} "
+                              f"{'timed out' if code is None else f'exited {code}'}"
                        f"; see {self.task_dir() / 'logs' / (label + '.log')}")
 
     def block(self, reason: str) -> None:
@@ -568,16 +617,21 @@ class Driver:
     def expect(self, name: str) -> Path:
         path = self.task_dir() / name
         if not path.exists():
-            raise Stop(f"agent finished but did not write {path}")
+            raise AgentFailed(f"agent finished but did not write {path}")
         return path
 
     # -- phases ---------------------------------------------------------
     def phase_propose(self) -> None:
-        feedback = ""
+        feedback = strategy = ""
         if rejected := self.state.get("rejected"):
-            feedback = (f"The owner set aside the previous proposal ({rejected}); read it and any "
-                        "rejected.md beside it, and propose something that answers the objection. ")
-        self.call_agent("steward", "propose", self.repo, feedback=feedback)
+            feedback = (f"The previous proposal ({rejected}) was set aside; read it and the "
+                        "rejected.md and critique.md beside it (whichever exist), and propose "
+                        "something that answers the objections. ")
+        if (self.task_dir() / "strategy.md").exists():
+            strategy = (f"First read {self.task_dir() / 'strategy.md'}, the strategist's direction "
+                        "for the program; follow it or say in the proposal why not. ")
+        self.call_agent("steward", "propose", self.repo, feedback=feedback, strategy=strategy)
+        self.expect("proposal.md")  # missing → retry the steward, not the acceptance
         self.set_phase(ACCEPT)
         self.accept_proposal()
 
@@ -586,6 +640,7 @@ class Driver:
         node = str(meta.get("node", "")).strip().strip("/")
         if not node.startswith("questions/") or not (self.research / node / "question.md").exists():
             raise Stop(f"proposal.md node {node!r} is not a question folder under research/questions")
+        self.check_roots()
         self.state["node"] = node
         self.state.pop("rejected", None)
         self.critique()
@@ -597,13 +652,19 @@ class Driver:
     def critique(self) -> None:
         """Second opinion on the proposal, if a critic role exists. Optional:
         without it (failure, deadline, call cap) the owner still decides."""
-        if (self.task_dir() / "critique.md").exists() or not (
-                self.research / "roles" / "critic.md").exists():
+        crit = self.task_dir() / "critique.md"
+        if crit.exists() and self.state.get("critique_done"):
+            return
+        crit.unlink(missing_ok=True)  # output of a failed or interrupted critic
+        if not (self.research / "roles" / "critic.md").exists():
             return
         try:
             self.call_agent("critic", "critique", self.repo)
             self.expect("critique.md")
+            self.state["critique_done"] = True
+            self.save()
         except Stop as e:
+            crit.unlink(missing_ok=True)  # never trust a verdict from a failed run
             self.log(f"no critique: {e}")
 
     def phase_prepare(self) -> None:
@@ -676,6 +737,15 @@ class Driver:
                 for e in entries:
                     if not e.id.startswith(f"{self.state['task']}-"):
                         problems.append(f"queue id {e.id!r} must start with '{self.state['task']}-'")
+                if any(e.timeout_seconds <= 0 for e in entries):
+                    problems.append("every queue entry needs a positive `timeout_seconds`")
+                cap = float(self.cfg.get("max_queue_hours", 8))
+                total = sum(e.timeout_seconds for e in entries) / 3600
+                if total > cap:
+                    problems.append(
+                        f"queue entry timeouts sum to {total:.1f} h, over the {cap:g} h cap on "
+                        "running without review: set realistic `timeout_seconds` per entry (the "
+                        "default is 4 h), or run a first stage now and the rest in a later cycle")
             except Exception as e:  # noqa: BLE001 - any parse error is feedback
                 problems.append(f"queue.yaml does not load: {e}")
         for module in self.cfg.get("import_check", []):
@@ -702,10 +772,6 @@ class Driver:
 
     def phase_review_code(self) -> None:
         wt = self.worktree()
-        if not git("diff", "--stat", f"{self.state['base']}..{self.state['commit']}", cwd=wt):
-            self.log("no code changes; skipping code review")
-            self.set_phase("execute")
-            return
         self.call_agent("reviewer", "review_code", wt, base=self.state["base"],
                         commit=self.state["commit"])
         meta, _ = read_frontmatter(self.expect("code_review.md"))
@@ -729,6 +795,13 @@ class Driver:
             raise Stop("queue.yaml changed after review; refusing to run an unreviewed queue")
         entries = load_queue(queue)
         status_path = td / "queue.status.json"
+        # Queue time without review is capped across retries too. After a crash
+        # the attempt is charged conservatively: everything since it started.
+        used = self.state.get("queue_seconds", 0.0)
+        if started := self.state.pop("queue_started", None):  # the driver died mid-queue
+            used += max(0.0, time.time() - started)
+            self.state["queue_seconds"] = used
+            self.save()
         if not (td / "execution.md").exists():  # a new campaign, not a resumed one
             left = remaining_budget(self.research, self.node_path())
             if left is not None and left <= 0:
@@ -746,12 +819,20 @@ class Driver:
                 self.log(f"re-running interrupted queue entries: {retry}")
                 atomic_write(status_path, json.dumps(
                     {k: v for k, v in status.items() if k not in retry}, indent=2) + "\n")
-        timeout = sum(e.timeout_seconds for e in entries) + 900
+        cap = float(self.cfg.get("max_queue_hours", 8)) * 3600
+        timeout = min(sum(e.timeout_seconds for e in entries) + 900, cap - used)
+        if timeout <= 0:
+            self.block(f"the queue used its {cap / 3600:g} h of unreviewed running time")
+            return
         argv = ["uv", "run", "python", "scripts/run_queue.py", "--queue", str(queue),
                 "--status", str(status_path), "--lock", str(self.repo / "queue.lock"),
                 "--output-root", str(self.repo / "experiments" / "output")]
         self.log(f"running queue ({len(entries)} entries)")
+        self.state.update(queue_seconds=used, queue_started=time.time())
+        self.save()
         code = self.launch("queue", argv, wt, timeout, kill_grace=QUEUE_KILL_GRACE_SECONDS)
+        self.state["queue_seconds"] = used + time.time() - self.state.pop("queue_started")
+        self.save()
         if code == QUEUE_LOCKED_EXIT:
             raise Stop("another queue runner holds queue.lock; resume when it is done")
         if code is None:
@@ -792,44 +873,107 @@ class Driver:
         blocked = (f" It was stopped before completion: {self.state['blocked']}."
                    if self.state.get("blocked") else "")
         cwd = Path(self.state["worktree"]) if self.state.get("worktree") else self.repo
-        self.call_agent("steward", "decide", cwd, node=self.state["node"],
-                        next_dir=str(self.research / "runs" / nxt), brief=str(brief),
-                        blocked=blocked)
+        cycles = self.run_info.get("cycles_since_strategy", 0) + 1
+        strategy_due = self.auto and cycles >= self.cfg.get("strategy_every", 4)
+        next_dir = self.research / "runs" / nxt
+        next_step = (NEXT_STRATEGY if strategy_due else
+                     NEXT_PROPOSAL_AUTO if self.auto else NEXT_PROPOSAL).format(next_dir=next_dir)
+        self.call_agent("steward", "decide", cwd, node=self.state["node"], next_step=next_step,
+                        brief=str(brief), blocked=blocked)
         self.expect("decision.md")
         if not brief.exists():
             raise Stop(f"steward did not write the brief {brief}")
+        proposal = next_dir / "proposal.md"
+        to_strategy = False
+        if self.auto:
+            wants = str(read_frontmatter(self.task_dir() / "decision.md")[0].get("next", ""))
+            to_strategy = (strategy_due or wants.strip().lower() == "strategy"
+                           or self.changes_root(proposal))
+            if not to_strategy and not proposal.exists():
+                raise AgentFailed("steward wrote neither a next proposal nor `next: strategy`")
+            if to_strategy and proposal.exists():  # the strategist sees it as a suggestion
+                proposal.rename(next_dir / "steward_proposal.md")
+            self.run_info["cycles"] = self.run_info.get("cycles", 0) + 1
+            self.run_info["cycles_since_strategy"] = cycles
+            self.save_run()
         # Hand over to the next proposal (written by the steward above) before
         # cleaning up, so a crash here never loses the finished cycle.
         cleanup = {"task": self.state["task"], "worktree": self.state.get("worktree"),
                    "brief": str(brief)}
-        self.state = {"phase": ACCEPT, "task": nxt, "cleanup": cleanup}
+        self.state = {"phase": "strategy" if to_strategy else ACCEPT, "task": nxt,
+                      "cleanup": cleanup}
         self.save()
         self.run_cleanup(cleanup)
-        self.accept_proposal()
+        if not to_strategy:
+            self.accept_proposal()
+
+    def phase_strategy(self) -> None:
+        allowed = self.cfg.get("max_new_roots", 1)
+        roots_note = ("This run may not open a new root question; work with the existing roots."
+                      if len(self.new_roots()) >= allowed else
+                      "You may open one new root question with a plan (see your role file).")
+        if (self.task_dir() / "steward_proposal.md").exists():
+            roots_note += (f" The steward suggested {self.task_dir() / 'steward_proposal.md'}; "
+                           "weigh it.")
+        self.call_agent("strategist", "strategy", self.repo, roots_note=roots_note)
+        meta, _ = read_frontmatter(self.expect("strategy.md"))
+        self.check_roots()
+        if self.auto:
+            self.run_info["cycles_since_strategy"] = 0
+            self.save_run()
+        if str(meta.get("next", "")).strip().lower() == "stop":
+            raise OwnerNeeded(f"the strategist recommends stopping; see {self.task_dir()}/strategy.md")
+        self.set_phase("propose")
+
+    def changes_root(self, proposal: Path) -> bool:
+        """Does this proposal move to a different root question than the cycle that wrote it?"""
+        if not proposal.exists() or "node" not in self.state:
+            return False
+        node = str(read_frontmatter(proposal)[0].get("node", "")).strip().strip("/")
+        return node.split("/")[:2] != self.state["node"].split("/")[:2]
+
+    def new_roots(self) -> set[str]:
+        return self.top_level_questions() - set(self.run_info.get("roots_at_start", []))
+
+    def check_roots(self) -> None:
+        """At most `max_new_roots` new root questions per autonomous run."""
+        if not self.auto:
+            return
+        new, allowed = self.new_roots(), self.cfg.get("max_new_roots", 1)
+        if len(new) > allowed:
+            raise OwnerNeeded(f"the run has opened {len(new)} new root questions "
+                              f"({', '.join(sorted(new))}); at most {allowed} allowed")
+
+    def top_level_questions(self) -> set[str]:
+        return {q.name for q in (self.research / "questions").iterdir()
+                if (q / "question.md").exists()}
 
     def run_cleanup(self, cleanup: dict[str, Any]) -> None:
         wt = cleanup.get("worktree")
         if wt and Path(wt).exists() and not git("status", "--porcelain", cwd=Path(wt)):
             git_ok("worktree", "remove", wt, cwd=self.repo)
-        if self.cfg.get("commit_research"):
-            git_ok("add", "research", cwd=self.repo)
-            git_ok("commit", "-m", f"Research: {cleanup['task']}", "--", "research",
-                   cwd=self.repo)
-        if self.cfg.get("push"):
-            # The notes on the current branch, and the code that produced them.
-            refs = ["HEAD", self.cfg["research_branch"], f"research/{cleanup['task']}"]
-            refs = [r for r in refs if git_ok("rev-parse", "--verify", r, cwd=self.repo)]
-            if not git_ok("push", "origin", *refs, cwd=self.repo):
-                self.log(f"push of {' '.join(refs)} failed; push by hand")
+        self.publish(f"Research: {cleanup['task']}", f"research/{cleanup['task']}")
         self.state.pop("cleanup", None)
         self.save()
         self.log(f"cycle {cleanup['task']} done; brief: {cleanup['brief']}")
+
+    def publish(self, message: str, code_branch: str | None = None) -> None:
+        """Commit research/ and push it with the code that produced it."""
+        if self.cfg.get("commit_research"):
+            git_ok("add", "research", cwd=self.repo)
+            git_ok("commit", "-m", message, "--", "research", cwd=self.repo)
+        if self.cfg.get("push"):
+            refs = ["HEAD", self.cfg["research_branch"]] + ([code_branch] if code_branch else [])
+            refs = [r for r in refs if git_ok("rev-parse", "--verify", r, cwd=self.repo)]
+            if not git_ok("push", "origin", *refs, cwd=self.repo):
+                self.log(f"push of {' '.join(refs)} failed; push by hand")
 
     # -- control --------------------------------------------------------
     def advance(self) -> None:
         """Run phases until the loop needs the owner, a deadline, or a fix."""
         self.reconcile()
         handlers = {"propose": self.phase_propose, ACCEPT: self.accept_proposal,
+                    "strategy": self.phase_strategy,
                     "prepare": self.phase_prepare,
                     "review_code": self.phase_review_code, "execute": self.phase_execute,
                     "analyse": self.phase_analyse, "decide": self.phase_decide}
@@ -841,7 +985,12 @@ class Driver:
                 self.save()
                 continue
             if phase == AWAITING:
-                return
+                if not self.auto:
+                    return
+                self.auto_approve()
+                continue
+            if (self.research / "STOP").exists():
+                raise Stop("research/STOP exists; remove it to continue")
             try:
                 handlers[phase]()
             except _Blocked:
@@ -890,6 +1039,126 @@ class Driver:
         while self.now() < start:
             time.sleep(min(60, max(1, (start - self.now()).total_seconds())))
             self.cfg = load_config(self.research)
+
+    # -- autonomous mode ------------------------------------------------
+    def save_run(self) -> None:
+        atomic_write(self.run_path, json.dumps(self.run_info, indent=2) + "\n")
+
+    def auto_approve(self) -> None:
+        """The critic's verdict stands in for the owner's (Plans/research-auto.md)."""
+        self.check_roots()
+        td, rounds = self.task_dir(), self.state.get("rounds", 0)
+        self.critique()  # no-op when a complete critique exists
+        crit = td / "critique.md"
+        rec = (str(read_frontmatter(crit)[0].get("recommend", "")).strip().lower()
+               if crit.exists() else "")
+        if rec not in ("approve", "revise", "reject"):
+            raise AgentFailed("no critique with `recommend: approve|revise|reject`")
+        left = remaining_budget(self.research, self.node_path())
+        if left is not None and left <= 0:
+            rec, why = "reject", (f"No experiment budget left at {self.state['node']} or an "
+                                  "ancestor. Propose within budget, or another question.")
+        else:
+            why = f"The critic recommends `{rec}`; see critique.md beside the proposal."
+        if rec == "approve" or (rec == "revise" and rounds >= 2):
+            note = ("Approved by the critic in autonomous mode." if rec == "approve" else
+                    f"Run in autonomous mode after {rounds} revisions, although the critic still "
+                    "asks for changes: address critique.md or say in plan.md why not. The code "
+                    "reviewer checks this.")
+            atomic_write(td / "approval.md", note + "\n")
+            self.state.update(approved=True, approved_at=self.now().isoformat())
+            self.log(f"auto-approved (critic: {rec}, revisions: {rounds})")
+            self.set_phase("prepare")
+            return
+        if rounds >= 2:
+            raise OwnerNeeded(f"three proposals in a row were turned down (last: {td}); {why}")
+        atomic_write(td / "rejected.md", why + "\n")
+        self.state = {"phase": "propose", "task": self.new_task_id(),
+                      "rejected": str(td / "proposal.md"), "rounds": rounds + 1}
+        self.task_dir().mkdir(parents=True, exist_ok=True)
+        self.save()
+        self.log(f"proposal sent back to the steward ({why})")
+
+    def run_auto(self, hours: float) -> int:
+        """Cycle without the owner until the time is up, research/STOP appears,
+        or the owner is needed; then the strategist summarises the run."""
+        self.auto = True
+        info = json.loads(self.run_path.read_text()) if self.run_path.exists() else {}
+        if info and not info.get("finished"):
+            print(f"[research] resuming autonomous run {info['id']} (deadline {info['deadline']}; "
+                  f"--hours ignored). Delete {self.run_path} to start a new run instead.")
+        else:
+            now = self.now()
+            info = {"id": f"{now:%Y-%m-%d-%H%M}", "started": now.isoformat(timespec="seconds"),
+                    "deadline": (now + dt.timedelta(hours=hours)).isoformat(timespec="seconds"),
+                    "roots_at_start": sorted(self.top_level_questions()), "cycles": 0,
+                    "cycles_since_strategy": 0}
+        self.run_info = info
+        self.save_run()
+        self.deadline = dt.datetime.fromisoformat(info["deadline"])
+        try:
+            self.reconcile()  # stop leftovers of a crashed run before anything else
+        except Exception as e:  # noqa: BLE001
+            self.finish_auto(f"cleaning up after the previous run failed: {e!r}")
+            return 1
+        reason, code, last, fails = None, 0, None, 0
+        while reason is None:
+            if (self.research / "STOP").exists():
+                reason = "the research/STOP file was found"
+            elif self.now() >= self.deadline:
+                reason = "its time was used up"
+            if reason:
+                break
+            phase = self.state.get("phase")
+            try:
+                self.advance()
+            except OwnerNeeded as e:
+                reason, code = f"the owner is needed: {e}", 1
+            except AgentFailed as e:
+                key = (self.state.get("task"), self.state.get("phase"))
+                fails, last = (fails + 1 if key == last else 1), key
+                self.log(f"agent failure {fails} in {key[1]}: {e}")
+                if fails >= self.cfg.get("auto_max_retries", 3):
+                    reason, code = f"{fails} agent failures in a row in {key[1]}: {e}", 1
+                else:
+                    self.sleep(self.cfg.get("auto_retry_minutes", 10) * 60)
+            except Stop as e:
+                if self.now() >= self.deadline:
+                    reason = "its time was used up"
+                else:
+                    reason, code = f"it stopped in {self.state.get('phase', phase)}: {e}", 1
+            except Exception as e:  # noqa: BLE001 - end the run with a summary, not a traceback
+                reason, code = f"an unexpected error in {self.state.get('phase', phase)}: {e!r}", 1
+        self.finish_auto(reason)
+        return code
+
+    def finish_auto(self, reason: str) -> None:
+        info = self.run_info
+        summary = self.research / "briefs" / f"{info['id']}-auto-summary.md"
+        self.log(f"autonomous run {info['id']} ends: {reason}")
+        try:
+            self.reconcile()
+        except Exception as e:  # noqa: BLE001 - still write the summary
+            self.log(f"reconcile before the summary failed: {e!r}")
+        if self.state.get("task") and not summary.exists():
+            self.task_dir().mkdir(parents=True, exist_ok=True)
+            try:
+                self.call_agent("strategist", "summary", self.repo, started=info["started"],
+                                reason=reason, summary=str(summary))
+            except Exception as e:  # noqa: BLE001 - fall back to a plain summary
+                self.log(f"summary agent failed: {e}")
+        if not summary.exists():
+            started = dt.datetime.fromisoformat(info["started"]).timestamp()
+            briefs = sorted(b for b in (self.research / "briefs").glob("*.md")
+                            if b.stat().st_mtime >= started and b != summary)
+            atomic_write(summary, (
+                f"# Autonomous run {info['id']}\n\nStarted {info['started']}; ended: {reason}. "
+                f"Cycles: {info.get('cycles', 0)}. The strategist's summary failed; the briefs "
+                "of this run:\n\n" + "".join(f"- {b.name}\n" for b in briefs)))
+        info.update(finished=self.now().isoformat(timespec="seconds"), reason=reason)
+        self.save_run()
+        self.publish(f"Research: autonomous run {info['id']} ({reason})")
+        print(f"[research] summary: {summary}")
 
     def approve(self, note: str | None) -> int:
         if self.state["phase"] != AWAITING:
@@ -944,6 +1213,11 @@ class Driver:
         print(f"phase: {s['phase']}   task: {s.get('task')}   node: {s.get('node', '-')}")
         if s.get("blocked"):
             print(f"blocked: {s['blocked']}")
+        if self.run_path.exists():
+            info = json.loads(self.run_path.read_text())
+            state = (f"ended {info['finished']}: {info.get('reason')}" if info.get("finished")
+                     else f"active until {info['deadline']}")
+            print(f"autonomous run {info['id']}: {info.get('cycles', 0)} cycles, {state}")
         if s.get("task") and (self.task_dir() / "proposal.md").exists():
             meta, _ = read_frontmatter(self.task_dir() / "proposal.md")
             print(f"proposal: {meta.get('title', '?')}  ({self.task_dir() / 'proposal.md'})")
@@ -993,6 +1267,9 @@ def main(argv: list[str] | None = None) -> int:
     p_reject.add_argument("reason")
     p_run = sub.add_parser("run", help="run the approved experiment (waits for night by default)")
     p_run.add_argument("--now", action="store_true", help="daytime run: start immediately")
+    p_run.add_argument("--auto", action="store_true",
+                       help="autonomous: cycle without approvals (Plans/research-auto.md)")
+    p_run.add_argument("--hours", type=float, default=48, help="length of an --auto run")
     args = ap.parse_args(argv)
 
     # SIGTERM (e.g. from launchd) unwinds like Ctrl-C so running agents are stopped.
@@ -1000,13 +1277,14 @@ def main(argv: list[str] | None = None) -> int:
     driver = Driver()
     if args.cmd == "status":
         return driver.status()
-    if args.cmd == "run" and not args.now:
+    if args.cmd == "run" and not (args.now or args.auto):
         driver.wait_for_night()
     actions = {
         "propose": driver.propose,
         "approve": lambda: driver.approve(args.note),
         "reject": lambda: driver.reject(args.reason),
-        "run": lambda: driver.run(now_mode=args.now),
+        "run": lambda: (driver.run_auto(args.hours) if args.auto
+                        else driver.run(now_mode=args.now)),
     }
 
     def fresh() -> int:  # re-read state under the lock

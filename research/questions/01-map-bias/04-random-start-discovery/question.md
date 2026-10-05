@@ -1,5 +1,5 @@
 ---
-status: open
+status: parked
 tags: [shared-helper, stage-4, random-start, crossover, crossover-mate, first-form-persistence, shortcuts, training-cases]
 budget: {experiments: 3, used: 0}
 ---
@@ -40,3 +40,7 @@ and Fable's readings), sweeps `experiments/chem_tape/sweeps/mapbias/s32_mate.yam
 
 Not yet shown (§31): why 0.3 and 0.7 discover equally well while 0.1–0.3 already blocks
 establishment; the 20-generation census can miss a brief earlier "first form".
+
+Reopen if: 07 reopens and needs random-start dynamics (e.g. where B-helper children first
+arrive), or the shared-helper line resumes; then run Fable's duplication-only companion
+(crossover 0, `run_duplication_rate`) first, as it is the cheapest open item.

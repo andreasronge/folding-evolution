@@ -12,13 +12,18 @@ discover, preserve and reuse a shared helper? Retention is easy. Establishment f
 blocked by crossover v2 with a selected mate (§29–§31), but the barrier is mixing between
 lineages: with self as the mate, crossover still discovers (§32 J, about three times slower)
 and a seeded shared form establishes at the crossover-off rate (06, run 2026-10-04-1839).
-What is left is why shared forms rarely appear in random-start runs: arrival or fixation of a
-single new copy (07). The
-README's second part, letting the map's bias itself evolve across a task family, is untested.
+Why shared forms rarely appear in random-start runs was the last shared-helper question (07,
+parked): established partly populations produce exact shared children about twice per run, all
+A-only or other, and a natural single copy never established (0/100); the B-helper form that
+won in both shared-ending runs never arrived in 30M partly-parent children. The shared-helper
+line stops there (03–07 closed or parked). The README's second part, letting the map's bias
+itself fit a task family, is untested and is now [08](08-evolve-bias/question.md).
 
 Competing explanations:
 - A: The map mainly decides what arrives often; selection then keeps whatever form arrived
-  first (arrival of the frequent, first-form persistence).
+  first (arrival of the frequent, first-form persistence). At the level of program forms
+  (07) this is mixed: A-only shared children arrive about twice per run and drift out; the
+  B-helper form was never seen arriving. Unresolved.
 - B: The variation operators (crossover v2 in particular) decide what is kept, independent
   of how often a form arrives. True for selected-mate crossover vs a rare seeded form (03);
   removed by self-mating (06).
@@ -31,6 +36,7 @@ Related: [02-fixed-target-sampling](02-fixed-target-sampling/question.md),
 [05-latent-helper](05-latent-helper/question.md),
 [06-self-mate-establishment](06-self-mate-establishment/question.md),
 [07-shared-arrival](07-shared-arrival/question.md),
+[08-evolve-bias](08-evolve-bias/question.md),
 [findings](../../../docs/map-bias/findings.md), [notebook](../../../docs/map-bias/notebook.md),
 [shared-helper plan](../../../Plans/shared-helper-reuse.md),
 [digest](../../digest.md), [README core question](../../../README.md)

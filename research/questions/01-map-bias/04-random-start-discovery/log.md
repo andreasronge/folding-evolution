@@ -16,3 +16,11 @@ Move the self-mate establishment test to [06-self-mate-establishment](../06-self
 because it is a seeded contest, not a random-start question. 04 stays open, low priority, for
 Fable's companion (crossover 0 with `run_duplication_rate`: is duplication alone what
 self-mating uses to discover?) and the unexplained 0.3 vs 0.7 discovery parity.
+
+## 2026-10-05, steward
+
+Decision: park 04 because 07's stop rule ends the shared-helper line after run 2026-10-04-2135,
+and 04's two leftovers (duplication-only companion, 0.3 vs 0.7 parity) change no decision on
+the root question. Related side fact from that run: in established partly populations,
+self-crossover produces many of the exact shared children that do arrive (half differ from
+the parent at > 10 of 128 cells), so rearrangement is the main source of new forms there too.
