@@ -1,0 +1,12 @@
+{
+  "genotypes": 100,
+  "input_executions": 62500,
+  "all_arms": [
+    "U",
+    "F",
+    "G",
+    "G-marg"
+  ],
+  "seconds": 0.03696612501516938,
+  "identical": true
+}

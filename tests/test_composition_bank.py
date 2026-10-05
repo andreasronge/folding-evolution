@@ -221,3 +221,111 @@ def test_seed_pairing_and_reproducibility():
     assert first["training_indices"] == grammar["training_indices"]
     for key in ("solved", "evaluations", "curve", "shortcuts", "training_indices"):
         assert first[key] == again[key]
+
+
+def test_inner_budget_borderline_topups_and_pooled_routing():
+    from experiments.chem_tape.composition_calibrate import select_bank
+    from experiments.chem_tape.composition_bank import screen
+    from experiments.chem_tape.composition_report import (
+        BUDGETS,
+        CAP,
+        decision,
+        summaries,
+        topup_requests,
+    )
+
+    bank = select_bank(screen(6))
+    retained = [c for c in bank if not c["rejects"]]
+
+    def row(cid, arm, seed, at_budget):
+        return dict(
+            cell=cid,
+            arm=arm,
+            seed=seed,
+            solved=True,
+            evaluations=16384 if at_budget else 262144,
+            seconds=0.01,
+            budget_seconds={str(b): 0.01 for b in (*BUDGETS, 262144, CAP)},
+            shortcuts=3,
+            unique_shortcuts=1,
+            decode_seconds=0.001,
+            generations=64,
+        )
+
+    rows = [
+        row(c["id"], arm, seed, arm != "U" or seed < 24)
+        for c in retained
+        for arm in ("U", "F", "G", "G-marg")
+        for seed in range(50)
+    ]
+    # All cells solve by the cap, so this isolates the new inner-budget gate.
+    requests = topup_requests(bank, summaries(rows))
+    assert len(requests) == len(retained)
+    assert all(r["arm"] == "U" and len(r["reasons"]) == 3 for r in requests)
+    result = decision(bank, rows, True)
+    assert result["outcome"] == "U"
+    assert result["pending_inner_budgets"] == list(BUDGETS)
+
+    for extra_hits, expected in ((50, "4a"), (51, "5")):
+        pooled = rows + [
+            row(c["id"], "U", 22472000 + seed, seed < extra_hits)
+            for c in retained
+            for seed in range(100)
+        ]
+        result = decision(bank, pooled, True)
+        assert result["outcome"] == expected
+        assert not topup_requests(bank, summaries(pooled))
+        s = result["summaries"][retained[0]["id"] + "|U"]
+        assert s["budgets"]["131072"]["solves"] == 24 + extra_hits
+        assert s["unique_shortcuts"] == 150
+        assert s["shortcuts"] == 450
+
+    # The same U seed block satisfies both gates; no duplicate job request.
+    both = [
+        {
+            **r,
+            "solved": r["seed"] < 35,
+            "evaluations": (16384 if r["seed"] < 24 else CAP),
+        }
+        if r["arm"] == "U"
+        else r
+        for r in rows
+    ]
+    requests = topup_requests(bank, summaries(both))
+    assert len(requests) == len(retained)
+    assert all("tractability" in r["reasons"] for r in requests)
+
+
+def test_row_two_keeps_structural_headroom_diagnostics():
+    from experiments.chem_tape.composition_calibrate import select_bank
+    from experiments.chem_tape.composition_bank import screen
+    from experiments.chem_tape.composition_report import BUDGETS, CAP, decision
+
+    bank = select_bank(screen(6))
+    rows = [
+        dict(
+            cell=c["id"],
+            arm=arm,
+            seed=seed,
+            solved=arm != "U",
+            evaluations=CAP if arm == "U" else 256,
+            seconds=0.01,
+            budget_seconds={str(b): 0.01 for b in (*BUDGETS, 262144, CAP)},
+            shortcuts=0,
+            decode_seconds=0.001,
+            generations=64,
+        )
+        for c in bank
+        if not c["rejects"]
+        for arm in ("U", "F", "G", "G-marg")
+        for seed in range(50)
+    ]
+    result = decision(bank, rows, True)
+    assert result["outcome"] == "2"
+    assert result["deciding_cap"] == CAP
+    structural = [s for s in result["structural_transversals"] if s["eligible"]]
+    assert len(structural) == 4
+    assert all(s["holdout_medians"]["G"] == [256] * 3 for s in structural)
+    assert result["all_structural_candidates_lack_headroom"]
+    assert result["structural_headroom_complete"]
+    assert not decision(bank, rows, True, False)["structural_headroom_complete"]

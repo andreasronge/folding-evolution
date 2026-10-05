@@ -1,0 +1,9 @@
+{
+  "stage_b_seconds": 1.7958520566268512,
+  "capped_stage_b_seconds": 2.8874780035112053,
+  "topup_reserve_seconds": 146.87401160937347,
+  "capped_all_possible_topups_seconds": 108.2804251316702,
+  "sampling_per_arm": 0,
+  "sampling_seconds": 0.0,
+  "measured_sampling_genotypes_per_second_8_workers": 879504.245790442
+}

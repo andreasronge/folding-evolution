@@ -11,7 +11,9 @@ runs:
     track: chem-tape
     notes: >-
       Approved composition-bank feasibility. Fixed seeds; full 50-seed blocks,
-      524288-evaluation cap, gated 100-seed top-ups, 160-minute internal
+      524288-evaluation cap, gated 100-seed tractability, headroom and borderline inner-budget top-ups, 160-minute internal
       deadline with a 5-minute output reserve. All outputs use RUN_DIR.
       A completed alias failure may stop before search; incomplete data is
-      explicitly unresolved. Expected queue wall time approximately 60 minutes.
+      explicitly unresolved. Expected queue wall time approximately 30 minutes.
+      Row-2 reports structural headroom separately; cap retained for the
+      experiment-2 inner-budget scope, as explained in plan.md.

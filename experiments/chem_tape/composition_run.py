@@ -20,6 +20,7 @@ from experiments.chem_tape.composition_report import (
     paired_ratios,
     splits,
     summaries,
+    topup_requests,
 )
 from experiments.chem_tape.composition_search import ARMS, R, Decoder, outputs, search
 
@@ -309,36 +310,29 @@ def run(args):
                     )
                 if complete and not args.smoke:
                     summary = summaries(rows)
-                    jobs = []
-                    for c in retained:
-                        for arm in ("U", "F", "G"):
-                            s = summary[c["id"] + "|" + arm]
-                            low, high = s["km_median_95_interval"]
-                            triggered = (
-                                (30 <= s["solves"] <= 39)
-                                if arm == "U"
-                                else (
-                                    low is not None
-                                    and low <= 4096
-                                    and (high is None or high >= 4096)
-                                )
-                            )
-                            if triggered:
-                                jobs.extend(
-                                    (
-                                        c,
-                                        arm,
-                                        tables[arm],
-                                        22472000 + seed,
-                                        args.cap,
-                                        256,
-                                    )
-                                    for seed in range(100)
-                                )
+                    requests = topup_requests(bank, summary)
+                    by_id = {c["id"]: c for c in retained}
+                    jobs = [
+                        (
+                            by_id[r["cell"]],
+                            r["arm"],
+                            tables[r["arm"]],
+                            22472000 + seed,
+                            args.cap,
+                            256,
+                        )
+                        for r in requests
+                        for seed in range(100)
+                    ]
                     write_json(
                         out,
                         "topup_plan.json",
-                        [dict(cell=j[0]["id"], arm=j[1], seed=j[3]) for j in jobs],
+                        [
+                            dict(
+                                **r, seeds=list(range(22472000, 22472100)), cap=args.cap
+                            )
+                            for r in requests
+                        ],
                     )
                     topup_deadline = min(work_deadline, time.monotonic() + 1800)
                     topups_complete = run_jobs(
@@ -416,12 +410,40 @@ def run(args):
     meanings = {
         "U": "Unresolved: missing complete search or top-up data.",
         "1": "Bank fails the alias screens.",
-        "2": "No eligible tractable split.",
+        "2": "No eligible split passes tractability at 524288 evaluations; larger caps are untested.",
         "3": "Every eligible split lacks fixed-control headroom.",
         "4a": "Selected split has no feasible tested inner budget.",
         "4": "Feasible split, but experiment two needs a staged allocation.",
         "5": "Go: freeze the selected split and controls; use fresh seeds next.",
     }
+    headroom_lines = []
+    for s in result.get("structural_transversals", []):
+        if s["eligible"]:
+            headroom_lines.append(
+                "- "
+                + ", ".join(s["holdouts"])
+                + ": "
+                + ("has headroom" if s["headroom"] else "lacks headroom")
+                + "; F medians="
+                + str(s["holdout_medians"]["F"])
+                + "; G medians="
+                + str(s["holdout_medians"]["G"])
+            )
+    headroom_text = ""
+    if headroom_lines:
+        headroom_text = (
+            "\nStructural headroom (ignoring tractability; "
+            + ("complete" if result["structural_headroom_complete"] else "partial")
+            + "; None denotes an unresolved median):\n\n"
+            + "\n".join(headroom_lines)
+            + "\n"
+        )
+        if result["all_structural_candidates_lack_headroom"]:
+            headroom_text += (
+                "\nEvery structural candidate lacks fixed-control headroom. "
+                "G is a generic grammar within this canonical family. "
+                "This diagnostic does not change the pre-stated outcome order.\n"
+            )
     (out / "summary.md").write_text(
         "# Composition-bank feasibility\n\nOutcome "
         + result["outcome"]
@@ -430,6 +452,9 @@ def run(args):
         + "\n\n"
         "Raw per-seed data: searches.jsonl. Full metrics and selection: result.json.\n"
         "This feasibility study does not test learned transfer.\n"
+        "Cells share seeds and are correlated; cross-cell comparisons must retain pairing.\n"
+        "Bigram overlap includes all nine canonical cells, including rejected cells.\n"
+        + headroom_text
     )
     print(
         json.dumps(dict(outcome=result["outcome"], seconds=time.monotonic() - start)),

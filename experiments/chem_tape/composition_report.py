@@ -58,15 +58,17 @@ def summarize(rows, rng):
     ci = interval(bootstrap_medians(rows, rng))
     budgets = {}
     for b in (*BUDGETS, 262144, CAP):
+        budget_hits = sum(r["solved"] and r["evaluations"] <= b for r in rows)
         x = np.log2([min(r["evaluations"], b) for r in rows])
         sd = float(np.std(x, ddof=1)) if n > 1 else None
         times = [
             r["budget_seconds"][str(b)] for r in rows if str(b) in r["budget_seconds"]
         ]
         budgets[str(b)] = dict(
-            solve_fraction=sum(r["solved"] and r["evaluations"] <= b for r in rows) / n
-            if n
-            else None,
+            n=n,
+            solves=budget_hits,
+            solve_fraction=budget_hits / n if n else None,
+            solve_fraction_95_interval=count_interval(budget_hits, n),
             objective_sd=sd,
             k=max(1, math.ceil((2 * sd) ** 2)) if sd is not None else None,
             mean_seconds=float(np.mean(times)) if len(times) == n and n else None,
@@ -86,6 +88,8 @@ def summarize(rows, rng):
         ranking_value=m if m is not None else CAP,
         mean_seconds=float(np.mean([r["seconds"] for r in rows])) if n else None,
         shortcuts=sum(r["shortcuts"] for r in rows),
+        unique_shortcuts=sum(r.get("unique_shortcuts", 0) for r in rows),
+        unique_shortcuts_scope="sum of distinct programs within each seed; not deduplicated across seeds",
         budgets=budgets,
         decode_seconds_per_generation=sum(r["decode_seconds"] for r in rows)
         / sum(r["generations"] for r in rows)
@@ -218,6 +222,42 @@ def paired_ratios(rows):
     return result
 
 
+def topup_requests(bank, summary):
+    """One request per cell/arm, sharing the original stage-C seed block."""
+    training = {
+        cid
+        for split in splits(bank, summary, True)
+        if split["eligible"]
+        for cid in split["training"]
+    }
+    requests = []
+    for cell in bank:
+        if cell["rejects"]:
+            continue
+        cid = cell["id"]
+        for arm in ("U", "F", "G"):
+            s = summary[cid + "|" + arm]
+            if s["n"] != 50:
+                continue
+            reasons = []
+            if arm == "U":
+                if 30 <= s["solves"] <= 39:
+                    reasons.append("tractability")
+                if cid in training:
+                    reasons.extend(
+                        "inner_budget_" + str(b)
+                        for b in BUDGETS
+                        if 20 <= s["budgets"][str(b)]["solves"] <= 30
+                    )
+            else:
+                low, high = s["km_median_95_interval"]
+                if low is not None and low <= 4096 and (high is None or high >= 4096):
+                    reasons.append("headroom")
+            if reasons:
+                requests.append(dict(cell=cid, arm=arm, reasons=reasons))
+    return requests
+
+
 def costs(split, summary, rows):
     result = dict(holdouts=split["holdouts"], training=split["training"], budgets={})
     groups = group(rows)
@@ -225,7 +265,14 @@ def costs(split, summary, rows):
         train = {
             cid: summary[cid + "|U"]["budgets"][str(b)] for cid in split["training"]
         }
-        feasible = all(x["solve_fraction"] >= 0.5 for x in train.values())
+        pending = [
+            cid
+            for cid, x in train.items()
+            if b in BUDGETS and x["n"] == 50 and 20 <= x["solves"] <= 30
+        ]
+        feasible = not pending and all(
+            x["solve_fraction"] >= 0.5 for x in train.values()
+        )
         base_inner = sum(x["k"] * x["mean_seconds"] for x in train.values())
         # Capped-runtime upper projection uses per-evaluation time from each
         # observed run (including decoder and reproduction); no assumed solves.
@@ -277,6 +324,7 @@ def costs(split, summary, rows):
             )
         result["budgets"][str(b)] = dict(
             feasible=feasible,
+            pending_topup_cells=pending,
             per_cell=train,
             trajectories=trajectories if feasible or b not in BUDGETS else None,
         )
@@ -292,9 +340,19 @@ def costs(split, summary, rows):
 def decision(bank, rows, complete, topups_complete=True):
     summary = summaries(rows)
     candidates = splits(bank, summary)
+    structural = splits(bank, summary, True)
     result = dict(
         summaries=summary,
         transversals=candidates,
+        structural_transversals=structural,
+        deciding_cap=CAP,
+        tractability_scope="operational threshold at 524288 evaluations; larger caps untested",
+        structural_headroom_complete=complete and topups_complete,
+        all_structural_candidates_lack_headroom=all(
+            not s["headroom"] for s in structural if s["eligible"]
+        )
+        if any(s["eligible"] for s in structural)
+        else None,
         complete=complete,
         topups_complete=topups_complete,
         selected_split=None,
@@ -303,7 +361,6 @@ def decision(bank, rows, complete, topups_complete=True):
     if not complete or not topups_complete:
         result["outcome"] = "U"
         return result
-    structural = splits(bank, summary, True)
     if sum(not c["rejects"] for c in bank) < 7 or not any(
         s["eligible"] for s in structural
     ):
@@ -329,7 +386,19 @@ def decision(bank, rows, complete, topups_complete=True):
     )
     chosen = projected[0]
     b = chosen["inner_budget"]
-    if b is None:
+    # An unresolved smaller budget prevents choosing a larger one as the
+    # smallest feasible budget, even if the latter has a stable pass count.
+    pending = [
+        budget
+        for budget in BUDGETS
+        if (b is None or budget <= b)
+        and chosen["budgets"][str(budget)]["pending_topup_cells"]
+    ]
+    if pending:
+        result["outcome"] = "U"
+        result["reason"] = "required borderline inner-budget top-up missing"
+        result["pending_inner_budgets"] = pending
+    elif b is None:
         result["outcome"] = "4a"
     else:
         cost = chosen["budgets"][str(b)]["trajectories"]
