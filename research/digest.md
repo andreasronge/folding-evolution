@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-06 (last run 2026-10-05-2247, commit `0995d33`: root 10's first feasibility study; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 were blocked before running). This covers the **map-bias line**, the current
+As of 2026-10-06 (last run 2026-10-06-0001, commit `a65ded0`: root 10's second feasibility study, an assembly-family alias screen; before it run 2026-10-05-2247, `0995d33`; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 were blocked before running). This covers the **map-bias line**, the current
 core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
 evolution finds and keeps ("arrival of the frequent")?* Until 2026-10-05 the line studied
 whether the chemistry can discover, preserve and reuse a **shared helper** (one functional part
@@ -9,8 +9,9 @@ to a task family ([08](questions/01-map-bias/08-evolve-bias/question.md),
 [09](questions/01-map-bias/09-generic-bias-speedup/question.md)), gave a bounded answer and is
 parked too; root 01's budget is spent (last slot: run 1957, stopped at its pilot). The strategist
 opened root [10-compositional-map-transfer](questions/10-compositional-map-transfer/question.md)
-to test part 2 on held-out operation combinations with an adaptable decoder; its first task
-bank failed feasibility (see "Composition bank" below) and no transfer has been measured.
+to test part 2 on held-out operation combinations with an adaptable decoder; both task banks
+tried so far failed feasibility (see "Composition bank" and "Assembly-family screen" below) and
+no transfer has been measured.
 
 Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per experiment; reviews and report tables in [docs/map-bias/reviews/](../docs/map-bias/reviews/)) and
 [findings](../docs/map-bias/findings.md) (items 1–17; the owner-promoted, reviewed claims).
@@ -190,11 +191,13 @@ harness, one hand-set grammar). ([11](questions/10-compositional-map-transfer/11
   runs; Sm-SEL reached 27/50 (95% 39–68%), still rising at the cap. That leaves 0 of 6
   transversals eligible. Whether a 2–4× larger cap fixes this is untested (a reviewer probe
   on other seeds: 36/50 at 2M).
-- **A hand-set previous-token grammar leaves no headroom on this bank, whatever the cap.** G
+- **All four structural splits fail the 4 096-evaluation headroom rule under a hand-set
+  previous-token grammar; raising the search cap alone does not remedy this.** G
   (INPUT → reducer; int → INPUT/ADD/DUP/IF_GT; ≥ 0.25× uniform mass everywhere) solved every
   cell in every seed: median 768–1 024 evaluations on ADD, 1 792–2 304 on DADD, 3 584–4 096
   on SEL (the SEL intervals span 4 096). Every split holds out an ADD and a DADD cell, so every
-  split has two holdouts under the 4 096 line. G's rows are this bank's syntax (67–100% of
+  split has two holdouts under the 4 096 line. Whether another decoder could improve on G here
+  was not tested. G's rows are this bank's syntax (67–100% of
   each cell's canonical bigrams occur in other cells), so whether G is a fair "generic"
   control here or an oracle is a design question, now
   [12](questions/10-compositional-map-transfer/12-generic-grammar-headroom/question.md).
@@ -211,17 +214,47 @@ harness, one hand-set grammar). ([11](questions/10-compositional-map-transfer/11
 - **64 training cases do not pin these targets down:** training-perfect but inexact programs
   appeared in 43 of 2 400 runs (all caught by the 625-input check).
 
+## Assembly-family screen (root 10, run 2026-10-06-0001)
+
+One run, commit `a65ded0`, complete data. Same tape, harness, cap and frozen U/F/G/G-marg tables
+as 2247; ten-token canonicals; exhaustive ≤ 9-token alias screen (typed-stack dedup) on three
+domains (625, 1 331, 2 401 inputs); search on the 16 cells retained on D1331, 50 paired seeds per
+cell × arm. Reviewed analysis; fairly sure of the numbers, narrow in scope.
+([12](questions/10-compositional-map-transfer/12-generic-grammar-headroom/question.md),
+[run analysis](runs/2026-10-06-0001/analysis.md))
+
+- **None of the six screened same-primitive shapes gives two families with enough distinct
+  cells.** Of 162 canonicals over {S, M, m} (gate `(A+B)>0 ? C : D`, branch-then, branch-else,
+  post-addition `(S>0 ? X : Y) + Z`, two linear DUP placements), 11/16/16 survive on the three
+  domains: gate and branch-then 0, branch-else ≤ 2, post-addition 4–8, linear 3 + 3 by
+  construction. 0 of 45 shape-pair × domain rows meet the frozen ≥ 4-cell rule; unchanged for
+  any alias cutoff in 0.70–0.85. Mechanism from the witnesses: ADD distributes out of an IF_GT
+  branch via CONST_0, DUP reuses the condition, and S-sign correlation and constant substitution
+  give near-aliases. Scope: these six shapes and rules only; other tokens, longer canonicals or
+  a fourth reducer were not screened, and the run does not show an alphabet change is required.
+- **Ten-token branch cells leave room above the frozen G.** G medians 8 192–41 728 on the ten
+  post-addition/branch-else cells (2–10× the 4 096 line; ≥ 42/50 solves); linear cells 2 304–5 120
+  (3 below the line). F and G-marg medians above the line on all 16. So G's sub-4 096 speed on
+  2247's 5–7-token cells does not extend to these ten-token branch cells. Uniform search is uneven: 13/16
+  cells ≥ 35/50, BE:S?M:(S+m) 8/50 (F 22/50, G 42/50).
+- **G's advantages replicate on a second bank.** Paired capped-time ratios: G/U 8.4–11.3×
+  (16/16 intervals exclude 1), G/G-marg 1.5–6.0× (15/16), F/U 1.0–3.6× (4 intervals include 1).
+  Capped-time ratios, not KM medians, so not directly comparable with 2247's figures. G samples
+  13–180 exact solvers per 10⁸ genotypes; U none on any cell (≤ 3×10⁻⁸ each), so supply ratios
+  are lower bounds and the supply-versus-speed pass-through is not estimable here.
+
 ## Open questions
 
 - [10-compositional-map-transfer](questions/10-compositional-map-transfer/question.md) (open,
-  root, budget 4, 1 used): can a decoder adapted across related tasks help fresh populations
-  solve unseen operation combinations beyond a token-frequency bias? No transfer measured.
+  root, budget 5, 2 used): can a decoder adapted across related tasks help fresh populations
+  solve unseen operation combinations beyond a token-frequency bias? No transfer measured; two
+  banks failed feasibility. Next design is the strategist's call.
   - [11-composition-bank](questions/10-compositional-map-transfer/11-composition-bank/question.md)
     (closed, run 2026-10-05-2247): this 3×3 bank has no eligible split at 524k (Sm-SEL 27/50
-    under U) and no split with headroom against the hand-set grammar G.
+    under U), and all four splits fail the 4 096 headroom rule under the hand-set grammar G.
   - [12-generic-grammar-headroom](questions/10-compositional-map-transfer/12-generic-grammar-headroom/question.md)
-    (open, budget 1, unmeasured): which bank and which fixed control leave room for a learned
-    decoder? Sent to the strategist first.
+    (closed, run 2026-10-06-0001): ten-token branch cells leave 2–10× headroom above G, but none
+    of six same-primitive assembly shapes yields an eligible two-family pair (alias identities).
 - [01-map-bias](questions/01-map-bias/question.md) (open, root, budget spent): how does the map
   bias what evolution finds and keeps?
 - [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)
