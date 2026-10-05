@@ -1,0 +1,19 @@
+{
+  "task": "2026-10-05-2247",
+  "workers": 8,
+  "cap": 8192,
+  "population": 256,
+  "alleles": 32,
+  "allele_range": 23000,
+  "mutation": 0.03,
+  "crossover": 0.7,
+  "training_cases": 64,
+  "domain_size": 625,
+  "seeds": 2,
+  "stage_b_seed_start": 22471000,
+  "stage_c_seed_start": 22472000,
+  "bootstrap_seed": 22474000,
+  "deadline_seconds": 180,
+  "reserve_seconds": 10,
+  "smoke": true
+}

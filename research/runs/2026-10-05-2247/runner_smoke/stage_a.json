@@ -1,0 +1,468 @@
+{
+  "domain_size": 625,
+  "threshold_matches": 500,
+  "token_ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    22
+  ],
+  "alphabet": "v2_rmin",
+  "threshold_slot": 0,
+  "stage_a_complete": true,
+  "depth_completed": 6,
+  "counts": [
+    {
+      "depth": 0,
+      "states": 1,
+      "total_states": 1,
+      "distinct_outputs": 1,
+      "values": 8,
+      "seconds": 0.0002044999855570495,
+      "proven_failed": [],
+      "peak_rss_mb": 113.171875
+    },
+    {
+      "depth": 1,
+      "states": 8,
+      "total_states": 9,
+      "distinct_outputs": 4,
+      "values": 8,
+      "seconds": 0.0002524999435991049,
+      "proven_failed": [],
+      "peak_rss_mb": 113.1875
+    },
+    {
+      "depth": 2,
+      "states": 58,
+      "total_states": 67,
+      "distinct_outputs": 8,
+      "values": 8,
+      "seconds": 0.00035099999513477087,
+      "proven_failed": [],
+      "peak_rss_mb": 113.1875
+    },
+    {
+      "depth": 3,
+      "states": 443,
+      "total_states": 510,
+      "distinct_outputs": 16,
+      "values": 16,
+      "seconds": 0.0010522909578867257,
+      "proven_failed": [],
+      "peak_rss_mb": 113.21875
+    },
+    {
+      "depth": 4,
+      "states": 3407,
+      "total_states": 3917,
+      "distinct_outputs": 48,
+      "values": 48,
+      "seconds": 0.004068915965035558,
+      "proven_failed": [],
+      "peak_rss_mb": 114.015625
+    },
+    {
+      "depth": 5,
+      "states": 26335,
+      "total_states": 30252,
+      "distinct_outputs": 136,
+      "values": 136,
+      "seconds": 0.025734208000358194,
+      "proven_failed": [],
+      "peak_rss_mb": 119.09375
+    },
+    {
+      "depth": 6,
+      "states": 203653,
+      "total_states": 233905,
+      "distinct_outputs": 357,
+      "values": 357,
+      "seconds": 0.2043634579749778,
+      "proven_failed": [
+        "SM-SEL"
+      ],
+      "peak_rss_mb": 192.65625
+    }
+  ],
+  "oriented_cells": [
+    {
+      "id": "SM-ADD",
+      "x": "S",
+      "y": "M",
+      "canonical": [
+        1,
+        5,
+        1,
+        18,
+        7
+      ],
+      "best_shorter_matches": 369,
+      "agreement": 0.5904,
+      "witness": [
+        1,
+        5,
+        15,
+        7
+      ],
+      "rejects": false
+    },
+    {
+      "id": "SM-DADD",
+      "x": "S",
+      "y": "M",
+      "canonical": [
+        1,
+        5,
+        9,
+        7,
+        1,
+        18,
+        7
+      ],
+      "best_shorter_matches": 369,
+      "agreement": 0.5904,
+      "witness": [
+        1,
+        5,
+        3,
+        7,
+        9,
+        7
+      ],
+      "rejects": false
+    },
+    {
+      "id": "SM-DADD",
+      "x": "M",
+      "y": "S",
+      "canonical": [
+        1,
+        18,
+        9,
+        7,
+        1,
+        5,
+        7
+      ],
+      "best_shorter_matches": 369,
+      "agreement": 0.5904,
+      "witness": [
+        1,
+        5,
+        15,
+        7,
+        15,
+        7
+      ],
+      "rejects": false
+    },
+    {
+      "id": "SM-SEL",
+      "x": "S",
+      "y": "M",
+      "canonical": [
+        1,
+        18,
+        1,
+        5,
+        1,
+        5,
+        17
+      ],
+      "best_shorter_matches": 625,
+      "agreement": 1.0,
+      "witness": [
+        1,
+        18,
+        1,
+        5,
+        9,
+        17
+      ],
+      "rejects": true
+    },
+    {
+      "id": "SM-SEL",
+      "x": "M",
+      "y": "S",
+      "canonical": [
+        1,
+        5,
+        1,
+        18,
+        1,
+        5,
+        17
+      ],
+      "best_shorter_matches": 590,
+      "agreement": 0.944,
+      "witness": [
+        1,
+        5,
+        9,
+        15,
+        10,
+        17
+      ],
+      "rejects": true
+    },
+    {
+      "id": "Sm-ADD",
+      "x": "S",
+      "y": "m",
+      "canonical": [
+        1,
+        5,
+        1,
+        22,
+        7
+      ],
+      "best_shorter_matches": 85,
+      "agreement": 0.136,
+      "witness": [
+        1,
+        22
+      ],
+      "rejects": false
+    },
+    {
+      "id": "Sm-DADD",
+      "x": "S",
+      "y": "m",
+      "canonical": [
+        1,
+        5,
+        9,
+        7,
+        1,
+        22,
+        7
+      ],
+      "best_shorter_matches": 145,
+      "agreement": 0.232,
+      "witness": [
+        1,
+        22,
+        1,
+        5,
+        9,
+        17
+      ],
+      "rejects": false
+    },
+    {
+      "id": "Sm-DADD",
+      "x": "m",
+      "y": "S",
+      "canonical": [
+        1,
+        22,
+        9,
+        7,
+        1,
+        5,
+        7
+      ],
+      "best_shorter_matches": 85,
+      "agreement": 0.136,
+      "witness": [
+        1,
+        22,
+        9,
+        7
+      ],
+      "rejects": false
+    },
+    {
+      "id": "Sm-SEL",
+      "x": "S",
+      "y": "m",
+      "canonical": [
+        1,
+        22,
+        1,
+        5,
+        1,
+        5,
+        17
+      ],
+      "best_shorter_matches": 625,
+      "agreement": 1.0,
+      "witness": [
+        1,
+        22,
+        1,
+        5,
+        9,
+        17
+      ],
+      "rejects": true
+    },
+    {
+      "id": "Sm-SEL",
+      "x": "m",
+      "y": "S",
+      "canonical": [
+        1,
+        5,
+        1,
+        22,
+        1,
+        5,
+        17
+      ],
+      "best_shorter_matches": 419,
+      "agreement": 0.6704,
+      "witness": [
+        1,
+        5,
+        2,
+        1,
+        5,
+        17
+      ],
+      "rejects": false
+    },
+    {
+      "id": "Mm-ADD",
+      "x": "M",
+      "y": "m",
+      "canonical": [
+        1,
+        18,
+        1,
+        22,
+        7
+      ],
+      "best_shorter_matches": 369,
+      "agreement": 0.5904,
+      "witness": [
+        1,
+        22,
+        15,
+        7
+      ],
+      "rejects": false
+    },
+    {
+      "id": "Mm-DADD",
+      "x": "M",
+      "y": "m",
+      "canonical": [
+        1,
+        18,
+        9,
+        7,
+        1,
+        22,
+        7
+      ],
+      "best_shorter_matches": 369,
+      "agreement": 0.5904,
+      "witness": [
+        1,
+        22,
+        15,
+        7,
+        15,
+        7
+      ],
+      "rejects": false
+    },
+    {
+      "id": "Mm-DADD",
+      "x": "m",
+      "y": "M",
+      "canonical": [
+        1,
+        22,
+        9,
+        7,
+        1,
+        18,
+        7
+      ],
+      "best_shorter_matches": 369,
+      "agreement": 0.5904,
+      "witness": [
+        1,
+        22,
+        3,
+        7,
+        9,
+        7
+      ],
+      "rejects": false
+    },
+    {
+      "id": "Mm-SEL",
+      "x": "M",
+      "y": "m",
+      "canonical": [
+        1,
+        22,
+        1,
+        18,
+        1,
+        5,
+        17
+      ],
+      "best_shorter_matches": 590,
+      "agreement": 0.944,
+      "witness": [
+        1,
+        22,
+        15,
+        1,
+        5,
+        17
+      ],
+      "rejects": true
+    },
+    {
+      "id": "Mm-SEL",
+      "x": "m",
+      "y": "M",
+      "canonical": [
+        1,
+        18,
+        1,
+        22,
+        1,
+        5,
+        17
+      ],
+      "best_shorter_matches": 419,
+      "agreement": 0.6704,
+      "witness": [
+        1,
+        18,
+        2,
+        1,
+        5,
+        17
+      ],
+      "rejects": false
+    }
+  ],
+  "proven_failed": [
+    "SM-SEL"
+  ],
+  "maximum_possible_survivors": 8,
+  "wall_seconds": 0.21541991597041488
+}
