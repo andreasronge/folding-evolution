@@ -55,9 +55,11 @@ def write_json(path, value):
     tmp.replace(path)
 
 
-def stream_seed(name):
+def stream_seed(name, master=None):
     words = np.frombuffer(hashlib.sha256(name.encode()).digest()[:16], dtype="<u4")
-    return np.random.SeedSequence([MASTER, *words.tolist()])
+    return np.random.SeedSequence(
+        [MASTER if master is None else master, *words.tolist()]
+    )
 
 
 def vectors(spec, task):
@@ -91,8 +93,8 @@ def validate_spec(spec):
         assert np.ptp(q[other]) == 0
 
 
-def training_indices(task, seed):
-    rng = np.random.default_rng(stream_seed(f"training/{task}/{seed}"))
+def training_indices(task, seed, master=None):
+    rng = np.random.default_rng(stream_seed(f"training/{task}/{seed}", master))
     y = labels(task, DOMAIN)
     idx = np.concatenate(
         [rng.choice(np.flatnonzero(y == v), 32, replace=True) for v in (0, 1)]
@@ -100,8 +102,8 @@ def training_indices(task, seed):
     return idx[rng.permutation(64)]
 
 
-def make_task(task, seed):
-    idx = training_indices(task, seed)
+def make_task(task, seed, master=None):
+    idx = training_indices(task, seed, master)
     # All slots inert, threshold 0: literal constants must be encoded in tapes.
     return Task(
         task,
@@ -113,11 +115,11 @@ def make_task(task, seed):
     )
 
 
-def config(task, arm, seed, pop, cap, probs):
+def config(task, arm, seed, pop, cap, probs, master=None):
     if cap % pop or cap < pop or pop <= 2:
         raise ValueError("cap must be a positive whole number of populations")
     # Evolution gets an independent substream; paired cells share its seed.
-    evo_seed = int(stream_seed(f"evolution/{task}/{seed}").generate_state(1)[0])
+    evo_seed = int(stream_seed(f"evolution/{task}/{seed}", master).generate_state(1)[0])
     return ChemTapeConfig(
         task=task,
         arm="TAG",
@@ -146,13 +148,14 @@ def predictions(population, inputs):
     return np.asarray(rust_tag_outputs(tapes.tobytes(), 64, inputs), dtype=np.int64)
 
 
-def first_exact(population, cases, task, cache):
+def first_exact(population, cases, task, cache, saved=None, gen=None):
     """Return the earliest exact candidate, not a training champion.
 
     Full genome byte keys preserve order and avoid semantic-hash collisions.
     A cache hit is the same exhaustive verification, not a sampled proxy.
     """
     full_y = labels(task, DOMAIN)
+    other_y = labels("max2" if task == "sum2" else "sum2", DOMAIN)
     checked = shortcuts = 0
     for i in np.flatnonzero(cases.all(axis=1)):
         genome = population[i]
@@ -161,9 +164,18 @@ def first_exact(population, cases, task, cache):
             # Bounded cache; eviction may cause re-verification but no aliasing.
             if len(cache) >= 65536:
                 cache.clear()
-            cache[key] = bool(
-                np.array_equal(predictions([genome], DOMAIN_LIST)[0], full_y)
-            )
+            full_pred = predictions([genome], DOMAIN_LIST)[0]
+            cache[key] = bool(np.array_equal(full_pred, full_y))
+            if saved is not None and not cache[key] and len(saved) < 20:
+                saved.setdefault(
+                    key.hex(),
+                    dict(
+                        genome=key.hex(),
+                        first_gen=gen,
+                        target_agreement=float((full_pred == full_y).mean()),
+                        other_family_agreement=float((full_pred == other_y).mean()),
+                    ),
+                )
             checked += 1
         if cache[key]:
             return int(i), checked, shortcuts
@@ -174,13 +186,14 @@ def first_exact(population, cases, task, cache):
 def run_one(job, initial=None):
     start = time.monotonic()
     task, arm, seed, pop, cap = (job[k] for k in ("task", "arm", "seed", "pop", "cap"))
-    cfg = config(task, arm, seed, pop, cap, job["probs"])
-    t = make_task(task, seed)
+    master_kw = {"master": job["master"]} if "master" in job else {}
+    cfg = config(task, arm, seed, pop, cap, job["probs"], **master_kw)
+    t = make_task(task, seed, **master_kw)
     rng = make_rng(cfg)
     row = {k: v for k, v in job.items() if k not in ("deadline", "out")}
     row.update(
         config=asdict(cfg),
-        training_indices=training_indices(task, seed).tolist(),
+        training_indices=training_indices(task, seed, **master_kw).tolist(),
         complete=False,
         event=False,
         time=None,
@@ -198,6 +211,11 @@ def run_one(job, initial=None):
     ).hexdigest()
     population = initial
     cache = {}
+    saved = {} if job.get("component_diagnostics") else None
+    if saved is not None:
+        row.update(
+            training_history=[], first_training_075=None, first_training_100=None
+        )
     try:
         if time.monotonic() >= job["deadline"]:
             raise Deadline("deadline before initialization")
@@ -212,7 +230,18 @@ def run_one(job, initial=None):
             row["processed_candidates"] += pop
             cases = pred == t.labels[None, :]
             fits = cases.mean(axis=1)
-            pos, checked, shortcuts = first_exact(population, cases, task, cache)
+            pos, checked, shortcuts = first_exact(
+                population, cases, task, cache, saved, gen
+            )
+            if saved is not None:
+                best = float(fits.max())
+                row["training_history"].append(dict(gen=gen, best=best))
+                for threshold, name in (
+                    (0.75, "first_training_075"),
+                    (1.0, "first_training_100"),
+                ):
+                    if row[name] is None and best >= threshold:
+                        row[name] = gen
             row["verifications"] += checked
             row["shortcut_candidates"] += shortcuts
             last = pos is not None or gen == cfg.generations
@@ -245,6 +274,8 @@ def run_one(job, initial=None):
         row.update(complete=True, time=row["time"] if row["event"] else cap)
     except Deadline as exc:
         row["error"] = str(exc)
+    if saved is not None:
+        row["shortcuts"] = list(saved.values())
     row["seconds"] = time.monotonic() - start
     if job.get("out"):
         write_json(job["out"], row)
@@ -285,11 +316,11 @@ def bootstrap_medians(rows, draws):
     return np.partition(v[draws], k, axis=1)[:, k]
 
 
-def compare(a, b, seed, boot=100000):
+def compare(a, b, seed, boot=100000, alpha=ALPHA):
     out = dict(
         n=len(a),
         seed=seed,
-        alpha=ALPHA,
+        alpha=alpha,
         bootstrap_draws=boot,
         method="paired KM median ratio percentile bootstrap",
         verdict="U",
@@ -320,11 +351,11 @@ def compare(a, b, seed, boot=100000):
             r = aa / bb
         ratio_chunks.append((np.where(ok, r, 0.0), np.where(ok, r, np.inf)))
     lower = np.quantile(
-        np.concatenate([v[0] for v in ratio_chunks]), ALPHA / 2, method="inverted_cdf"
+        np.concatenate([v[0] for v in ratio_chunks]), alpha / 2, method="inverted_cdf"
     )
     upper = np.quantile(
         np.concatenate([v[1] for v in ratio_chunks]),
-        1 - ALPHA / 2,
+        1 - alpha / 2,
         method="inverted_cdf",
     )
     out.update(

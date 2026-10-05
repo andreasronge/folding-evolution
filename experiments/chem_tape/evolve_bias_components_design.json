@@ -1,0 +1,67 @@
+{
+  "n": 250,
+  "master": 202610051814,
+  "alpha": 0.005,
+  "bootstrap_draws": 100000,
+  "bootstrap_min_finite_fraction": 0.99,
+  "comparisons": 10,
+  "looks": 1,
+  "pop": 1024,
+  "cap": 262144,
+  "precision_passed": true,
+  "precision_sha256": "efef02e608ce00044bc1ff92553145ee0ad3a71e8e2faa50c8e2501f829b068c",
+  "prior_sha256": "a679ae5321547bea7628571adc205f1e43e42abc635a57decda53486713776da",
+  "vectors_sha256": "ea3c3749fcb93a8f0ba3130fb2f2ba3cdebe8bd56e38dd8b32aa7caa8ea645af",
+  "precision": {
+    "master": 202610051814,
+    "trials": 200,
+    "bootstrap_draws": 100000,
+    "alpha": 0.005,
+    "sizes": {
+      "250": {
+        "sum2": {
+          "within_probability": 0.845,
+          "short_probability": 0.815,
+          "within_mc_interval": {
+            "hits": 169,
+            "n": 200,
+            "p": 0.845,
+            "lower": 0.787262356784294,
+            "upper": 0.8921905998959034
+          },
+          "short_mc_interval": {
+            "hits": 163,
+            "n": 200,
+            "p": 0.815,
+            "lower": 0.7541365375513216,
+            "upper": 0.8662713398202384
+          },
+          "median_upper": 1.347575363404039
+        },
+        "max2": {
+          "within_probability": 0.88,
+          "short_probability": 0.9,
+          "within_mc_interval": {
+            "hits": 176,
+            "n": 200,
+            "p": 0.88,
+            "lower": 0.8267276488358778,
+            "upper": 0.9215797520036373
+          },
+          "short_mc_interval": {
+            "hits": 180,
+            "n": 200,
+            "p": 0.9,
+            "lower": 0.8497872121322442,
+            "upper": 0.937840633745934
+          },
+          "median_upper": 1.3624761982179796
+        }
+      }
+    },
+    "source_sha256": "a679ae5321547bea7628571adc205f1e43e42abc635a57decda53486713776da",
+    "note": "Per-comparison precision, not joint-verdict or intermediate-effect power.",
+    "n": 250,
+    "precision_passed": true
+  }
+}

@@ -79,3 +79,13 @@ Every outcome returns to strategy; only shared replicated positive sufficiency c
 
 ## Critique disposition and fidelity
 All critique points retained: exclusive labels, lower>1.5 evidence for short, unresolved≠no improvement, no non-additivity inference, same two-task closure scope, no mechanism inference, historical sampling intervals≠equivalence, final n chosen using old data only, per-comparison precision caveat and maximum350. approval.md contains no additional owner conditions. No code_review.md or driver_feedback.md exists on entry.
+
+## Frozen old-data precision check (before any new outcomes)
+
+Final n=250 per cell; precision pass=True. 200 synthetic experiments/task,100000 paired bootstrap draws each,alpha=.005. Source:650 archived main rows from1705; only mismatched/X rows used for calibration. The source snapshot and each original-file hash are committed in evolve_bias_components_prior.json; no full-run dependency on mutable external files. Results in precision.json and frozen evolve_bias_components_design.json.
+
+sum2: P(upper<1.5)=0.845, P(scaled lower>1.5)=0.815, median exact-match upper=1.347575363404039. Monte Carlo95% intervals: within[0.787,0.892], short[0.754,0.866].
+
+max2: P(upper<1.5)=0.88, P(scaled lower>1.5)=0.9, median exact-match upper=1.3624761982179796. Monte Carlo95% intervals: within[0.827,0.922], short[0.850,0.938].
+
+Both probabilities met80% on each task; no n increase. The results do not guarantee sufficient precision for intermediate effects or the joint two-task verdict. No new sampling or evolution has yet run.
