@@ -1,0 +1,21 @@
+runs:
+  - id: 2026-10-05-1510-family-bias
+    cmd: >-
+      RAYON_NUM_THREADS=8 .venv/bin/python experiments/chem_tape/family_bias.py
+      --out "$RUN_DIR" --seed 202610051510 --seconds 21000
+    timeout_seconds: 21600
+    expect_outputs:
+      - result.json
+      - progress.jsonl
+      - report.md
+      - diagnostics.png
+      - COMPLETE
+    track: map-bias
+    notes: >-
+      Sampling only. Run with /Users/andreas/developer/folding-evolution-research/2026-10-05-1510 as cwd.
+      Uniform eligibility freezes sum/max fitting and held-out thresholds; exact elites,
+      per-task observed-use and joint pruning, three starts per fit, fresh validation,
+      reciprocal fresh transfer. Decision bounds adjusted across four scheduled looks;
+      unresolved and mixed patterns cannot force C/D. Six-hour ceiling, internal
+      runtime scaling with descriptive diagnostics cut before decisive precision.
+      Build the worktree Rust extension before execution (research driver setup).

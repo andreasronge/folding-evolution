@@ -6,6 +6,7 @@ mod engine;
 mod chemistry;
 mod vm;
 mod chem_tape;
+mod tag_sampling;
 
 use pyo3::prelude::*;
 use pyo3::types::{PyDict, PyList};
@@ -224,6 +225,8 @@ fn _folding_rust(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(chem_tape::rust_chem_execute_pop_batch, m)?)?;
     m.add_function(wrap_pyfunction!(chem_tape::rust_chem_topk_mask, m)?)?;
     m.add_function(wrap_pyfunction!(chem_tape::rust_chem_decode_topk, m)?)?;
+    m.add_function(wrap_pyfunction!(tag_sampling::rust_tag_screen, m)?)?;
+    m.add_function(wrap_pyfunction!(tag_sampling::rust_tag_outputs, m)?)?;
     m.add_class::<RustContexts>()?;
     m.add_class::<RustTargetOutputs>()?;
     Ok(())
