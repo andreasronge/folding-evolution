@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-05 (last commit `f418c91`, run 2026-10-04-2135; run 2026-10-05-1510 blocked, code at `3803bca`). This covers the **map-bias line**, the current
+As of 2026-10-05 (last run 2026-10-05-1558, commit `cd69bce`; run 2026-10-05-1510 blocked before running). This covers the **map-bias line**, the current
 core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
 evolution finds and keeps ("arrival of the frequent")?* Until 2026-10-05 the line studied
 whether the chemistry can discover, preserve and reuse a **shared helper** (one functional part
@@ -33,6 +33,17 @@ Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per e
   per 1M uniform tapes; one ADD away (max>3, sum>7) about once per 30–100M; larger thresholds
   not once in 95M. Reviewer probes, one seed each; good enough for task design, not a claim.
   ([run 2026-10-05-1510 code review](runs/2026-10-05-1510/code_review.md))
+- **A frequency bias fitted on two members of a threshold family transfers to a held-out
+  member, but only through one op's weight.** Fitting `op_weights` on sum>1, sum>5 (or max>1,
+  max>5) raised held-out sum>2 (max>2) P(exact) 4.9× (8.9×) over uniform and 4.8× (6.7×) over
+  the other family's fit; mismatched fits gave the holdouts nothing (1.0×, 1.3×). Every rate
+  is reproduced by multiplying four op folds (INPUT, GT, the aggregator, the threshold
+  constant), and swapping aggregator mass swaps the family, so the transferable part is the
+  aggregator weight. The fits also suppressed the unseen constant (CONST_2 0.37×), costing
+  about 2.7× of holdout gain. Sampling only, one seed, M from one fit trajectory; the product
+  model is post hoc. Fairly sure of the numbers, narrow in meaning.
+  ([08](questions/01-map-bias/08-evolve-bias/question.md),
+  [run analysis](runs/2026-10-05-1558/analysis.md))
 - Steering is untested: (μ+λ) truncation leaves one behaviour per unsolved population under
   every tie rule. (§28) → [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)
 
@@ -137,9 +148,9 @@ B), **duplicated** (everything recomputed).
   Reopen if a B-helper single copy becomes testable or in-situ replay exists.
 - [08-evolve-bias](questions/01-map-bias/08-evolve-bias/question.md) (open): the README's
   part 2. Can the map's frequency bias be fitted to a task family and help evolution on unseen
-  members? The first build (run 2026-10-05-1510) was blocked before running: its thresholds
-  were unreachable by sampling. Re-proposed on the constant thresholds (run 2026-10-05-1558).
-  A descriptive hint says mismatched fits help too (generic gain, C).
+  members? Sampling says yes, narrowly (verdict A via the aggregator weight, run
+  2026-10-05-1558). Next: does the 5–9× sampling lift change evolution on the holdouts (A vs
+  B), with a hand-set aggregator vector as control.
 
 ## Older context
 
