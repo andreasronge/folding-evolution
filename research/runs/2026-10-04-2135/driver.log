@@ -3,3 +3,13 @@
 2026-10-04 21:39:19 critic (codex/gpt-6-astra) → critique [herdr]
 2026-10-04 21:40:36 phase → awaiting_approval
 2026-10-04 21:40:36 proposal: Shared arrival, revised — selection-weighted offspring census plus natural single-copy insertions (§32 J self/0.3) [questions/01-map-bias/07-shared-arrival] — budget left: 2. Approve with `research.py approve`.
+2026-10-04 21:47:02 phase → prepare
+2026-10-04 21:48:09 researcher (codex/gpt-6.1-sol) → prepare [herdr]
+2026-10-04 22:11:22 phase → review_code
+2026-10-04 22:11:22 reviewer (claude/claude-fable-5-1) → review_code [herdr]
+2026-10-04 22:15:48 phase → execute
+2026-10-04 22:15:48 running queue (1 entries)
+2026-10-05 00:36:06 phase → analyse
+2026-10-05 00:36:06 reviewer (claude/claude-fable-5-1) → analyse [herdr]
+2026-10-05 00:40:37 phase → decide
+2026-10-05 00:40:37 steward (claude/claude-opus-5-5) → decide [herdr]
