@@ -1,9 +1,9 @@
 {
   "smoke_only": true,
   "complete": true,
-  "source_commit": "8462ab3e8e7a7ef26a3c7b9c0b401c44b72b114d",
-  "source_dirty": true,
-  "output_directory": "/Users/andreas/developer/folding-evolution-research/2026-10-05-1957/experiments/output/2026-10-05-1957-smoke-final",
+  "source_commit": "3fa0405b85bfb6b501fca0a5ce0d7e3bcfdc545a",
+  "source_dirty": false,
+  "output_directory": "/Users/andreas/developer/folding-evolution-research/2026-10-05-1957/experiments/output/2026-10-05-1957-smoke-final-v2",
   "masters": {
     "master_seed": 202610051957,
     "pilot_master_seed": 202610051958,
@@ -195,32 +195,36 @@
           "time": 16384,
           "event": false,
           "complete": true,
-          "seconds": 0.3931462920154445,
+          "seconds": 0.3902557920082472,
           "first_max_gen": null,
+          "reproductive_exposure": false,
           "processed_candidates": 16384
         },
         "U-veto": {
           "time": 16384,
           "event": false,
           "complete": true,
-          "seconds": 0.356066791980993,
+          "seconds": 0.35398470802465454,
           "first_max_gen": null,
+          "reproductive_exposure": false,
           "processed_candidates": 16384
         },
         "R-ord": {
           "time": 16384,
           "event": false,
           "complete": true,
-          "seconds": 0.39695191697683185,
+          "seconds": 0.3930528339697048,
           "first_max_gen": null,
+          "reproductive_exposure": false,
           "processed_candidates": 16384
         },
         "R-veto": {
           "time": 16384,
           "event": false,
           "complete": true,
-          "seconds": 0.3398759170086123,
+          "seconds": 0.33717412495752797,
           "first_max_gen": null,
+          "reproductive_exposure": false,
           "processed_candidates": 16384
         }
       }
@@ -248,32 +252,36 @@
           "time": 16384,
           "event": false,
           "complete": true,
-          "seconds": 0.36618008295772597,
+          "seconds": 0.36387233302230015,
           "first_max_gen": null,
+          "reproductive_exposure": false,
           "processed_candidates": 16384
         },
         "U-veto": {
           "time": 16384,
           "event": false,
           "complete": true,
-          "seconds": 0.3236347920028493,
+          "seconds": 0.3211713330238126,
           "first_max_gen": null,
+          "reproductive_exposure": false,
           "processed_candidates": 16384
         },
         "R-ord": {
           "time": 16384,
           "event": false,
           "complete": true,
-          "seconds": 0.3708320829900913,
+          "seconds": 0.3667859999695793,
           "first_max_gen": null,
+          "reproductive_exposure": false,
           "processed_candidates": 16384
         },
         "R-veto": {
           "time": 16384,
           "event": false,
           "complete": true,
-          "seconds": 0.3266782920109108,
+          "seconds": 0.32488950004335493,
           "first_max_gen": null,
+          "reproductive_exposure": false,
           "processed_candidates": 16384
         }
       }
