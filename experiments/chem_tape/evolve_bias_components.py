@@ -547,26 +547,30 @@ def plot_results(out, rows, cells):
                     color=colors[arm],
                     alpha=0.1,
                 )
-            for r in rr:
+            trajectory_alpha = min(0.6, max(0.025, 3 / len(rr)))
+            for ri, r in enumerate(rr):
                 h = r["training_history"]
                 hist.plot(
                     [v["gen"] for v in h],
                     [v["best"] for v in h],
                     color=colors[arm],
-                    alpha=0.1,
+                    alpha=trajectory_alpha,
+                    label=arm if ri == 0 else None,
                 )
                 sparse = r["history"]
                 s_axes[ti, 0].plot(
                     [v["evaluations"] for v in sparse],
                     [v["distinct"] / r["pop"] for v in sparse],
                     color=colors[arm],
-                    alpha=0.12,
+                    alpha=trajectory_alpha,
+                    label=arm if ri == 0 else None,
                 )
                 s_axes[ti, 1].plot(
                     [v["evaluations"] for v in sparse],
                     [v["run_census"]["runs"] for v in sparse],
                     color=colors[arm],
-                    alpha=0.12,
+                    alpha=trajectory_alpha,
+                    label=arm if ri == 0 else None,
                 )
         ax.set(
             xscale="symlog",
@@ -582,6 +586,7 @@ def plot_results(out, rows, cells):
             ylim=(0, 1.02),
             title=task,
         )
+        hist.legend(fontsize=8)
         for j, name in enumerate(("Distinct / population", "Mean runs / genome")):
             s_axes[ti, j].set(
                 xscale="log", xlabel="Candidate evaluations", ylabel=name, title=task

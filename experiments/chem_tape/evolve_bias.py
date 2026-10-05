@@ -155,7 +155,11 @@ def first_exact(population, cases, task, cache, saved=None, gen=None):
     A cache hit is the same exhaustive verification, not a sampled proxy.
     """
     full_y = labels(task, DOMAIN)
-    other_y = labels("max2" if task == "sum2" else "sum2", DOMAIN)
+    other_y = (
+        labels("max2" if task == "sum2" else "sum2", DOMAIN)
+        if saved is not None and len(saved) < 20
+        else None
+    )
     checked = shortcuts = 0
     for i in np.flatnonzero(cases.all(axis=1)):
         genome = population[i]

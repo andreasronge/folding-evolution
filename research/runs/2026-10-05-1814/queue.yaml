@@ -1,0 +1,34 @@
+runs:
+  - id: 2026-10-05-1814-evolve-bias-components
+    cmd: RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.evolve_bias_components --workers 4 --seconds 9900
+    timeout_seconds: 10800
+    expect_outputs:
+      - COMPLETE
+      - result.json
+      - report.md
+      - design.json
+      - comparisons.json
+      - sampling.json
+      - sampler_audit.json
+      - vectors.json
+      - progress.jsonl
+      - decoded.json
+      - diagnostics.png
+      - structure.png
+    track: map-bias
+    notes: >-
+      Approved sum2/max2 x U/IG/R/X factorial study, n250 fresh paired seeds
+      per cell (2000 runs), one fixed look, P1024 and cap262144. Final n250
+      was frozen using only archived 1705 X times; both old-data precision
+      checks passed in both tasks. Five paired KM median ratios per task,
+      100000 bootstrap resamples and Bonferroni alpha0.005 (99.5% intervals).
+      Samples 125M tapes for each of four IG/R vectors; U/X sampling is
+      historical and labelled. Initialization and mutation remain coupled.
+      Saves per-generation best accuracy, first0.75/1.0 crossings, up to20
+      distinct shortcuts per run, full-domain other-family agreement, and
+      structural output dependencies for old and new saved genomes.
+      Labels carry/short/unresolved follow proposal.md; diagnostic logs
+      cannot upgrade them. Computation deadline9000s leaves900s for output
+      inside9900s; queue timeout10800s (3h) stays below the8h review cap.
+      Any interrupted/incomplete run exits nonzero without COMPLETE.
+      Run using this worktree's scripts/run_queue.py; all outputs use RUN_DIR.
