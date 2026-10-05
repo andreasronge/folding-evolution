@@ -25,13 +25,12 @@ At `awaiting_approval`, `--auto` reads `critique.md`'s `recommend:`:
 
 | critic says | first proposal | after one re-proposal | after two |
 |---|---|---|---|
-| approve | run it | run it | run it |
-| revise | steward re-proposes, reading critique.md | steward re-proposes | run it; the code reviewer fails it if critique points are unanswered |
-| reject | steward re-proposes | steward re-proposes | stop: owner needed |
+| approve / approve_with_notes | run it | run it | run it |
+| revise or reject | steward re-proposes | steward re-proposes | strategist redesigns or redirects, then up to two more proposals; then owner needed |
 | (no verdict) | agent failure, retried | | |
 
-A proposal at a node with no budget left counts as `reject` (the steward is
-told to stay within budget). `approval.md` records how it was approved. The
+A proposal at a node with no budget left goes to the strategist, who may
+raise the root's budget or redirect (v2). `approval.md` records how it was approved. The
 researcher always reads `critique.md`, in both modes, and the code reviewer
 checks that its points are answered in plan.md.
 
@@ -120,3 +119,37 @@ approval table.
 
 Parallel experiments, the owner being notified (push notifications), raising
 budgets automatically, merging `research/main` into `main`.
+
+## v2, after the first autonomous run (2026-10-05)
+
+The first run (2026-10-05-1503) stopped after 5.5 of 48 h: root 01's budget
+ran out and the strategist chose `next: stop`. A Claude and a Codex review of
+the run's record led to these changes:
+
+- **Run pool.** A run executes at most `auto_max_experiments = 40`
+  experiments (charged when a queue first starts; revised, set-aside and
+  infeasible proposals cost nothing). Question budgets become allocations:
+  the strategist may raise a root's budget in steps of 1–4, the driver
+  refuses raises by anyone else, and a proposal with no budget goes to the
+  strategist instead of being rejected. Up to two new roots per run.
+- **Stopping.** The strategist stops only after comparing at least two
+  directions and saying why none deserves a feasibility probe; it may write
+  plans instead. "Stopping is the default" is gone from the README.
+- **Feasibility first.** Proposals state the rates and runtime they depend
+  on, or start with a probe. The researcher can write `infeasible.md`; the
+  driver then skips the build and review and goes to `decide`, uncharged.
+- **Critic.** New `approve_with_notes`; `revise` only for a blocking point;
+  a revision is checked against the previous critique first; after two
+  revisions the strategist steps in instead of running a contested proposal.
+- **Reviewer.** Gates and stop rules that decide whether the main stage runs
+  must be stable and sized to the queue time, or the review fails.
+- **Statistics.** README "Statistics": simple pre-stated comparisons, one
+  95% interval, heavier machinery only when a decision depends on it.
+- **Digest check.** The critic checks the previous cycle's belief updates
+  against its analysis (`## Digest check` in critique.md); the steward fixes
+  them in its next decide.
+- **Deadline drain.** A queue that finished is still analysed and decided
+  after the deadline.
+- **Ledger.** The driver writes `briefs/<run>-ledger.md`, one row per cycle
+  (critic verdict, code review, queue minutes against the estimate, charged,
+  outcome, decision), the owner's first table to read.

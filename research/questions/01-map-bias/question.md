@@ -21,8 +21,8 @@ itself fit a task family, is [08](08-evolve-bias/question.md): by sampling, a fi
 `op_weights` vector transfers to a held-out threshold (4.9× and 8.9× over uniform, run
 2026-10-05-1558), mainly through the aggregator's weight. In evolution (run 2026-10-05-1705)
 it speeds the exact solve about 4× over uniform and a hand-set INPUT/GT/aggregator scaffold
-does as well, but the other family's fit, with no sampling lift, is already 3.3× / 1.9×
-faster: most of the gain is generic, and sampling lift does not predict evolution speed.
+does as well, but the other family's fit, with no resolved sampling lift, is already 3.3× / 1.9×
+faster: both fits helped and family specificity is unresolved, and sampling lift does not predict evolution speed.
 [09](09-generic-bias-speedup/question.md) (run 2026-10-05-1814) replicated that speed-up on
 fresh seeds (2.73× / 2.02×) and split the vector: on max>2 raising INPUT and GT alone carries
 it, on sum>2 neither part is resolved; the vector's flat sampling rate is INPUT/GT's 3–4× lift
