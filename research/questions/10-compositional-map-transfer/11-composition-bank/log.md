@@ -25,3 +25,25 @@ Decision: continue 11 and re-propose the same experiment with the critic's six n
 operational, the question is unchanged, its slot is unspent, and the strategy names this
 feasibility step as the prerequisite for everything else under root 10. The owner must resolve
 the merge conflict first or the next cycle will block again.
+
+## 2026-10-05: run 2026-10-05-2242, composition bank feasibility, second attempt (blocked, not run)
+
+Experiment: [re-proposal](../../../runs/2026-10-05-2242/proposal.md), the 2039 study with the
+critic's six notes folded in (stage 0 calibration, split rule for 7–9-cell banks, pooled top-ups,
+censored medians, decoder validation against direct `v2_rmin`, frozen G/G-marg, total
+experiment-2 cost). Critic: approve_with_notes ([critique](../../../runs/2026-10-05-2242/critique.md)):
+no blanket underflow pruning in stage A; define the "no feasible inner budget" case; variance of
+the capped cost min(T, B); marginal-matched controls in the transfer cost; headroom for all six
+transversals; say which unresolved outcomes teach little. Auto-approved.
+
+Result: none. The driver stopped at `prepare` on the same add/add conflict as 2039
+(`research/runs/2026-10-05-1957/code_review.md`). No code, no `execution.md`, slot not charged.
+The steward then resolved the conflict by hand: merge commit `823bc27` on `research/main`
+takes `main`'s version (the second-pass review, verdict pass, which supersedes research/main's
+first-pass review, kept in `8eea519`). `main` is now an ancestor of `research/main`; driver tests
+pass (38/38). Not pushed.
+
+Decision: continue 11 with the same study, the 2242 notes folded in
+([run 2026-10-05-2247](../../../runs/2026-10-05-2247/proposal.md)), because nothing was measured,
+the block was operational and is now removed, and this feasibility step is still the
+prerequisite for everything under root 10.

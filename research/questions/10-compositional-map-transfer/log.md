@@ -14,3 +14,12 @@ Result: none; the cycle stopped at `prepare` on a `main` → `research/main` mer
 Decision: continue root 10 through 11, re-proposing the same feasibility study with the
 critic's notes ([run 2026-10-05-2242](../../runs/2026-10-05-2242/proposal.md)), because no
 evidence changed and the block was operational.
+
+## 2026-10-05: run 2026-10-05-2242, bank feasibility, second attempt (blocked, not run)
+
+Experiment: the 11 feasibility study again ([proposal](../../runs/2026-10-05-2242/proposal.md)).
+Result: none; the same merge conflict stopped it at `prepare`. The steward resolved it on
+`research/main` (merge `823bc27`, taking `main`'s second-pass review of run 1957). No slot charged.
+
+Decision: continue root 10 through 11 ([run 2026-10-05-2247](../../runs/2026-10-05-2247/proposal.md)),
+because no evidence changed and the operational block is gone.
