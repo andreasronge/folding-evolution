@@ -548,6 +548,7 @@ def _reproduce_one_island(
     topk_override: int | None = None,
     cases: np.ndarray | None = None,
     lineage: list | None = None,
+    eligible: np.ndarray | None = None,
 ) -> list[np.ndarray]:
     """Produce the next generation's population for one island (or the whole
     panmictic pool). `topk_override` flows through to `mutate()` for §10.
@@ -561,23 +562,38 @@ def _reproduce_one_island(
     Self-crossover records the same index twice; a fresh random mate is -1.
     Recording parent rows uses no RNG.
 
+    `eligible`, when supplied, excludes individuals from both parent roles and
+    elitism. All-true masks preserve the ordinary RNG path exactly; an empty
+    eligible pool raises ValueError for the caller to handle.
+
     §12b: elitism uses raw `fitnesses`; tournament uses niched fitness when
     cfg.k_niching_alpha > 0 (no-op otherwise).
     """
+    if eligible is not None:
+        eligible = np.asarray(eligible, dtype=bool)
+        if eligible.shape != (len(population),):
+            raise ValueError("eligibility mask must match population")
+        if not eligible.any():
+            raise ValueError("no eligible individuals")
+        if eligible.all():
+            eligible = None
     if _np_rng(rng) is not None:
-        return _reproduce_batched(population, fitnesses, cfg, rng, topk_override, cases, lineage)
+        return _reproduce_batched(population, fitnesses, cfg, rng, topk_override, cases, lineage, eligible)
     order = np.argsort(-fitnesses)
+    if eligible is not None:
+        order = order[eligible[order]]
     elites = [population[i].copy() for i in order[: cfg.elite_count]]
     new_pop: list[np.ndarray] = list(elites)
     if lineage is not None:
         lineage.extend((int(i), -1, 0, 0) for i in order[: cfg.elite_count])
-    pop_idx = list(range(len(population)))
+    pop_idx = list(range(len(population))) if eligible is None else np.flatnonzero(eligible).tolist()
     sel_fitnesses = _compute_niched_fitnesses(fitnesses, population, cfg)
     if cfg.selection_mode in ("lexicase", "lexicase_group"):
         assert cases is not None, "lexicase selection needs per-case results"
-        group_cases, inverse = np.unique(cases, axis=0, return_inverse=True)
+        pool_idx = np.asarray(pop_idx)
+        group_cases, inverse = np.unique(cases[pool_idx], axis=0, return_inverse=True)
         inverse = inverse.ravel()
-        groups = [np.flatnonzero(inverse == g) for g in range(group_cases.shape[0])]
+        groups = [pool_idx[np.flatnonzero(inverse == g)] for g in range(group_cases.shape[0])]
 
     # §v2.4-proxy-5c: dispatch by selection_mode. At default "tournament"
     # the RNG sequence is byte-identical to the pre-5c implementation
@@ -705,12 +721,15 @@ def _reproduce_batched(
     topk_override: int | None,
     cases: np.ndarray | None,
     lineage: list | None,
+    eligible: np.ndarray | None = None,
 ) -> list[np.ndarray]:
     """_reproduce_one_island for cfg.fast_rng: the same operators, with
     crossover coins, lexicase selections and tagged mutation drawn for the
     whole generation at once."""
     gen = _np_rng(rng)
     order = np.argsort(-fitnesses)
+    if eligible is not None:
+        order = order[eligible[order]]
     new_pop: list[np.ndarray] = [population[i].copy() for i in order[: cfg.elite_count]]
     if lineage is not None:
         lineage.extend((int(i), -1, 0, 0) for i in order[: cfg.elite_count])
@@ -720,9 +739,13 @@ def _reproduce_batched(
     if cfg.selection_mode in ("lexicase", "lexicase_group"):
         assert cases is not None, "lexicase selection needs per-case results"
         from .tasks import MULTI_OUTPUT
-        parents = _lexicase_batch(cases, n_sel, gen, wide=cfg.task in MULTI_OUTPUT)
+        if eligible is None:
+            parents = _lexicase_batch(cases, n_sel, gen, wide=cfg.task in MULTI_OUTPUT)
+        else:
+            pool_idx = np.flatnonzero(eligible)
+            parents = pool_idx[_lexicase_batch(cases[pool_idx], n_sel, gen, wide=cfg.task in MULTI_OUTPUT)]
     else:
-        pop_idx = list(range(len(population)))
+        pop_idx = list(range(len(population))) if eligible is None else np.flatnonzero(eligible).tolist()
         sel_fitnesses = _compute_niched_fitnesses(fitnesses, population, cfg)
         if cfg.selection_mode == "ranking":
             parents = [_ranking_select(pop_idx, sel_fitnesses, rng) for _ in range(n_sel)]
