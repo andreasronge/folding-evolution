@@ -1,0 +1,4 @@
+2026-10-05 17:03:32 cycle 2026-10-05-1558 done; brief: /Users/andreas/developer/folding-evolution/research/briefs/2026-10-05-2026-10-05-1558.md
+2026-10-05 17:03:32 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-05 17:05:05 phase → awaiting_approval
+2026-10-05 17:05:05 proposal: Does a fitted op-frequency bias help evolution on held-out sum>2 / max>2? (uniform vs matched vs mismatched vs hand-set aggregator) [questions/01-map-bias/08-evolve-bias] — budget left: 2. Approve with `research.py approve`.
