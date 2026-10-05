@@ -17,7 +17,9 @@ Agents: read this first, then your role file in `roles/`.
   `execution.md`).
 - `briefs/` — the owner's morning briefs, and `<run>-auto-summary.md` after
   an autonomous run.
-- `plans/` — plans for root questions, written by the strategist.
+- `plans/` — plans for root questions, written by the strategist, and the
+  owner's notes (`owner-*.md`): directions and constraints to weigh, not
+  approved experiments.
 - `roles/`, `agents.toml`, `config.toml` — who plays which role, how agents
   are launched, loop settings.
 
