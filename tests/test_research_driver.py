@@ -108,6 +108,8 @@ class FakeLauncher:
         self.fail_critique = False
         self.critiques = ["approve"]
         self.strategy_next = "stop"
+        self.infeasible = False
+        self.on_queue = None  # called when the queue "runs"
 
     def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
         d = self.driver
@@ -116,6 +118,8 @@ class FakeLauncher:
         self.calls.append(phase)
         if phase == "propose":
             write(td / "proposal.md", "---\nnode: questions/01-root\ntitle: First\n---\nWhy.\n")
+        elif phase == "prepare" and self.infeasible:
+            write(td / "infeasible.md", "0 hits in 1M tapes.\n")
         elif phase == "prepare":
             with (Path(cwd) / "exp.py").open("a") as f:  # each repair changes the code
                 f.write("print('hi')\n")
@@ -139,6 +143,8 @@ class FakeLauncher:
             status = {f"{d.state['task']}-a": {"status": "done", "wall_seconds": 1.0,
                                                "run_dir": "experiments/output/x"}}
             (td / "queue.status.json").write_text(json.dumps(status))
+            if self.on_queue:
+                self.on_queue()
         elif phase == "analyse":
             write(td / "analysis.md", "All seeds present.\n")
         elif phase == "decide":
@@ -467,31 +473,47 @@ def test_auto_runs_cycles_until_the_strategist_stops(repo):
     assert (d.research / "briefs" / f"{info['id']}-auto-summary.md").exists()
 
 
-def test_auto_revise_twice_then_runs_with_the_critique(repo):
+def test_auto_revise_twice_then_strategy_redesigns(repo):
     fake = FakeLauncher()
-    d = auto_driver(repo, fake, strategy_every=1)
-    fake.critiques = ["revise"]
+    d = auto_driver(repo, fake, strategy_every=9)
+    fake.critiques = ["revise", "revise", "revise", "approve"]
+    fake.strategy_next = "proposal"
     d.run_auto(hours=48)
-    assert fake.calls[:7] == ["propose", "critique"] * 3 + ["prepare"]
-    approved = [p for p in (d.research / "runs").glob("*/approval.md")]
-    assert len(approved) == 1 and "2 revisions" in approved[0].read_text()
-    assert len(list((d.research / "runs").glob("*/rejected.md"))) == 2
+    assert fake.calls[:10] == (["propose", "critique"] * 3 + ["strategy", "propose", "critique",
+                                                             "prepare"])
+    approved = sorted((d.research / "runs").glob("*/approval.md"))
+    assert "Approved by the critic" in approved[0].read_text()
+    assert len(list((d.research / "runs").glob("*/rejected.md"))) == 3
+    ledger = next((d.research / "briefs").glob("*-ledger.md")).read_text()
+    assert ledger.count("| sent back |") == 2 and "| to strategy |" in ledger
 
 
-def test_auto_three_rejections_need_the_owner(repo):
+def test_auto_five_rejections_need_the_owner(repo):
     fake = FakeLauncher()
     d = auto_driver(repo, fake)
     fake.critiques = ["reject"]
+    fake.strategy_next = "proposal"
     assert d.run_auto(hours=48) == 1
-    assert fake.calls == ["propose", "critique"] * 3 + ["summary"]
+    assert fake.calls == (["propose", "critique"] * 3 + ["strategy"] + ["propose", "critique"] * 2
+                          + ["summary"])
     assert "owner is needed" in json.loads(d.run_path.read_text())["reason"]
 
 
-def test_auto_allows_one_new_root(repo):
+def test_auto_approve_with_notes_runs_and_passes_the_notes_on(repo):
+    fake = FakeLauncher()
+    d = auto_driver(repo, fake, strategy_every=1)
+    fake.critiques = ["approve_with_notes"]
+    d.run_auto(hours=48)
+    assert fake.calls[:3] == ["propose", "critique", "prepare"]
+    approval = next((d.research / "runs").glob("*/approval.md")).read_text()
+    assert "notes" in approval
+
+
+def test_auto_allows_two_new_roots(repo):
     class RootMaker(FakeLauncher):
         def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
             if label.startswith("propose"):
-                for name in ("02-new", "03-other"):
+                for name in ("02-new", "03-other", "04-third"):
                     question(self.driver.research / "questions" / name, experiments=1)
             return super().run(label, argv, cwd, log_dir, timeout_s, env, kill_grace)
 
@@ -499,7 +521,72 @@ def test_auto_allows_one_new_root(repo):
     d = auto_driver(repo, fake)
     assert d.run_auto(hours=48) == 1
     assert fake.calls == ["propose", "summary"]
-    assert "2 new root questions" in json.loads(d.run_path.read_text())["reason"]
+    assert "3 new root questions" in json.loads(d.run_path.read_text())["reason"]
+
+
+def test_auto_steward_may_not_raise_a_root_budget(repo):
+    class Raiser(FakeLauncher):
+        def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
+            if label.startswith("propose"):
+                question(self.driver.research / "questions" / "01-root", experiments=9)
+            return super().run(label, argv, cwd, log_dir, timeout_s, env, kill_grace)
+
+    fake = Raiser()
+    d = auto_driver(repo, fake)
+    assert d.run_auto(hours=48) == 1
+    assert "raised outside strategy" in json.loads(d.run_path.read_text())["reason"]
+
+
+def test_auto_strategist_may_raise_a_root_budget(repo):
+    class Granter(FakeLauncher):
+        def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
+            if label.startswith("strategy"):
+                assert "used 1 of its 40 experiments" in argv[1]
+                question(self.driver.research / "questions" / "01-root", experiments=5)
+            return super().run(label, argv, cwd, log_dir, timeout_s, env, kill_grace)
+
+    fake = Granter(review_verdicts=("pass", "pass"))
+    d = auto_driver(repo, fake, strategy_every=9)
+    question(d.research / "questions" / "01-root", experiments=1)
+    fake.strategy_next = "proposal"
+    fake.on_queue = lambda: None
+    d.run_auto(hours=48)
+    # Budget used up → the next proposal goes to the strategist, who grants more.
+    i = fake.calls.index("strategy")
+    assert fake.calls[i - 1] == "decide" and fake.calls[i + 1:i + 4] == ["propose", "critique",
+                                                                         "prepare"]
+    assert (d.research / "runs").glob("*/steward_proposal.md")
+
+
+def test_auto_run_ends_after_its_experiment_limit(repo):
+    fake = FakeLauncher()
+    d = auto_driver(repo, fake, strategy_every=9, auto_max_experiments=1)
+    assert d.run_auto(hours=48) == 0
+    cycle = ["prepare", "review_code", "queue", "analyse", "decide"]
+    assert fake.calls == ["propose", "critique"] + cycle + ["critique", "summary"]
+    info = json.loads(d.run_path.read_text())
+    assert info["executed"] and "1 of its experiments" in info["reason"]
+    ledger = (d.research / "briefs" / f"{info['id']}-ledger.md").read_text()
+    assert "| yes |" in ledger and "Continue." in ledger
+
+
+def test_infeasible_design_goes_to_decide_uncharged(repo):
+    fake = FakeLauncher()
+    d = auto_driver(repo, fake, strategy_every=9, auto_max_experiments=1)
+    fake.infeasible = True
+    d.run_auto(hours=48)
+    assert fake.calls[:4] == ["propose", "critique", "prepare", "decide"]
+    assert not list((d.research / "runs").glob("*/execution.md"))
+    assert "infeasible" in next((d.research / "briefs").glob("*-ledger.md")).read_text()
+
+
+def test_auto_finished_queue_is_analysed_after_the_deadline(repo):
+    fake = FakeLauncher()
+    d = auto_driver(repo, fake, strategy_every=9)
+    fake.on_queue = lambda: setattr(d, "deadline", dt.datetime(2000, 1, 1))
+    d.run_auto(hours=48)
+    assert fake.calls[-4:] == ["queue", "analyse", "decide", "summary"]
+    assert json.loads(d.run_path.read_text())["reason"] == "its time was used up"
 
 
 def test_auto_retries_a_failed_agent(repo):

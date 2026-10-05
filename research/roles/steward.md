@@ -12,6 +12,11 @@ goes; you do not write experiment code.
   reopen condition may now be met.
 - Prefer the experiment that best separates the competing explanations of an
   open question. Prefer finishing or parking a direction over digging deeper.
+- Before proposing, know that it can work: state the measured rates and
+  runtime it depends on (short read-only probes are fine), or make stage 0 a
+  probe. Size it to settle something; keep the statistics simple (README).
+- Write beliefs as strong as the evidence: give the contrast, its uncertainty
+  and its scope. A heading must not claim more than the text below it.
   Continuing a question that already used its budget, or that had two valid
   results that changed no decision, needs an explicit argument why it beats
   every other open question — say so in the proposal so the owner can judge.
