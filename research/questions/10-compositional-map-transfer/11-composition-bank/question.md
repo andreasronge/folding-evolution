@@ -15,8 +15,10 @@ The 3 reducer-pair ({S,M}, {S,m}, {M,m}) × 3 combiner (X+Y, 2X+Y, S>0 ? X : Y) 
   fix this; untested.
 - **Headroom against the hand-set grammar G (binding).** G solved every retained cell in every
   seed, with medians 768–1 024 (ADD), 1 792–2 304 (DADD) and 3 584–4 096 (SEL) evaluations.
-  Every transversal holds out an ADD and a DADD cell, both below the 4 096 line under G, so no
-  split of this bank can have headroom against G at any cap. G's rows (INPUT → reducer; int →
+  Every transversal holds out an ADD and a DADD cell, both below the 4 096 line under G, so all
+  four structural splits fail the 4 096-evaluation headroom rule under G; raising the search
+  cap alone does not remedy this (whether another decoder could improve on G here was not
+  tested). G's rows (INPUT → reducer; int →
   INPUT/ADD/DUP/IF_GT) are the syntax of every canonical program here; 67–100% of each cell's
   canonical bigrams occur in other cells.
 
@@ -39,7 +41,7 @@ Related: [root 10](../question.md), [plan](../../../plans/compositional-map-tran
 [analysis](../../../runs/2026-10-05-2247/analysis.md),
 [decision](../../../runs/2026-10-05-2247/decision.md); blocked earlier attempts
 [2039](../../../runs/2026-10-05-2039/proposal.md), [2242](../../../runs/2026-10-05-2242/proposal.md);
-follow-up [12-generic-grammar-headroom](../12-generic-grammar-headroom/question.md).
+follow-up [12-generic-grammar-headroom](../12-generic-grammar-headroom/question.md) (closed, run 2026-10-06-0001).
 
 Reopen if: the strategist decides that G was an oracle rather than a fair control for this
 bank (for example, root 10 adopts a weaker, type-valid generic grammar as its fixed control)

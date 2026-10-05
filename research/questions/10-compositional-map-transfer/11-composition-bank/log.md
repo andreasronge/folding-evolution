@@ -91,3 +91,13 @@ rescue it. Return to strategy (as rows 2 and 3 prescribe) with two bottlenecks â
 column and a family G already covers â€” and the redesign question opened as
 [12-generic-grammar-headroom](../12-generic-grammar-headroom/question.md). This is a
 limitation of this bank against this control, not a negative answer to root 10.
+
+## 2026-10-06: wording correction (critic's digest check, run 2026-10-06-0001)
+
+No new experiment. The entry above says no transversal "can have headroom against this G,
+whatever the cap" and that "a larger cap would not rescue it". Read both as operational:
+all four structural splits fail the pre-stated 4 096-evaluation headroom rule under G, and
+raising the search cap alone does not remedy this. The run did not show that no other decoder
+could improve on G on this bank. The same qualifier applies to
+[run 2247's decision](../../../runs/2026-10-05-2247/decision.md). question.md and the digest
+now use this wording.
