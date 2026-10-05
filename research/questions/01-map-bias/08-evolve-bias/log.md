@@ -74,3 +74,46 @@ aggregator raised), because sampling A leaves A vs B (supply vs success) open, a
 predicts B. The hand-set arm is needed so a win for the fitted vector is not just "knowing the
 aggregator helps". Fairly sure of the sampling numbers; narrow in meaning (one seed, one
 holdout per family, thresholds that differ only in the constant).
+
+## 2026-10-05 — run 2026-10-05-1705: does the fitted bias speed evolution on sum>2 / max>2?
+
+Experiment: [proposal](../../../runs/2026-10-05-1705/proposal.md) (revision of 1700),
+[plan](../../../runs/2026-10-05-1705/plan.md), code `experiments/chem_tape/evolve_bias.py` at
+commit `9abc25c` (branch `research/2026-10-05-1705`). Four frozen `op_weights` arms per task
+(uniform, matched fit, mismatched fit, hand-set scaffold: INPUT, GT and the family aggregator at
+the fit's probabilities, CONST_0/1/2/5 at 1/22). Tagged harness: lexicase, crossover v2 0.7 with
+a selected mate, mutation 0.015, L 64, P1024, 64 training cases, no early stop on training
+fitness; every training-perfect candidate checked on all 10,000 lists. Endpoint: evaluations
+to first exact solve, cap 262,144; paired KM median ratio, bootstrap, α = 0.05/12; two looks
+(50 then up to 100 seeds per cell). 650 runs, 1,197 s wall of an 8 h budget, complete.
+
+Result: **Partial** as pre-registered ([analysis](../../../runs/2026-10-05-1705/analysis.md)).
+
+| Comparison (ratio of medians) | sum>2 | max>2 | Verdict |
+|---|---|---|---|
+| uniform ÷ matched (50 pairs) | 4.33 (2.60–6.92) | 3.58 (1.91–6.00) | faster, both |
+| mismatched ÷ matched (100 pairs) | 1.66 (0.96–2.34) | 1.80 (1.23–2.80) | unresolved, both |
+| matched ÷ hand-set | 0.93 (0.61–1.57) | 1.08 (0.71–1.56) | no difference, both |
+
+So B is out for these tasks: the bias speeds evolution about 4× over uniform. The hand-set
+scaffold matches the fit. Family specificity is probably real but small (point 1.7–1.8×,
+below the 2× bar; the max>2 interval excludes 1, the sum>2 one does not). Unregistered and the
+main surprise: the **mismatched vector, with no sampling lift on these holdouts (1.02×, 1.33×),
+is itself 3.3× (sum>2) and 1.9× (max>2) faster than uniform** (95% intervals 2.18–3.93,
+1.30–2.79; 50 pairs). Most of the matched speed-up is therefore generic and not predicted by
+exact-solver supply; sampling lift does not predict evolution speed-up (pass-through
+0.35–3.2). The four-op product model failed out of sample: it predicted hand-set sampling
+lifts of 17× / 22×, measured 5.45× / 11.07× (hand-set still samples 1.11× / 1.25× better than
+the fit). Evolution reached its median solve 9–40× sooner than computed random search with
+the same vector, in every arm. Shortcuts (training-perfect, not exact) were common and never
+counted; mismatched met them most and holds 5 of the 8 censored runs. All 642 solvers
+re-verified exact; 2 of 650 solved in generation 0.
+
+Decision: keep 08 open with its last slot unspent and send the program to strategy
+(`next: strategy`), because that is the plan's frozen route for Partial, and the one thing 08
+could still buy (more seeds on matched vs mismatched) can at best show a specific gain near
+1.7×, under the 2× the proposal called worthwhile. The new question the run raised, why a
+vector with no sampling lift speeds evolution 2–3×, is opened as
+[09-generic-bias-speedup](../09-generic-bias-speedup/question.md) rather than buried here.
+Fairly sure of "≈ 4× over uniform" and "hand-set ≈ fit"; the generic/specific split is
+unregistered and rough.

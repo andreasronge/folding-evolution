@@ -1,80 +1,70 @@
 ---
 status: open
-tags: [map-bias, evolve-the-bias, task-family, transfer, op-weights, arrival-of-the-frequent, chem-tape]
+tags: [map-bias, evolve-the-bias, task-family, transfer, op-weights, arrival-of-the-frequent, chem-tape, evolution-speed]
 budget: {experiments: 3, used: 0}
 ---
 # Can the map's bias be fitted to a family of tasks, and does that help evolution on unseen members?
 
-Current summary (2026-10-05): The README's second part ("evolve the bias") has never been
-tested. What we know that bears on it: the chem-tape map is extremely biased (one constant
-behaviour takes 66–88% of random tapes, §1); random-tape frequency predicts easy tasks but
-evolution routinely finds behaviours rarer than 1 in 50M (§1, findings item 1); and op
-frequency acts as a supply rate: it changes how often a part is made and when it arrives,
-saturates above uniform, and hurts through dilution when very high, without changing what is
-reachable (findings item 12, §15–§19). Varying goals (Kashtan & Alon) showed nothing beyond
-noise in §11. The cheapest map-level knob that exists is `op_weights`, the draw distribution
-over ops for random genomes and mutations; it is equivalent to letting codon redundancy in the
-token→op table change. Decoder rules themselves are not yet a parameter.
+Current summary (2026-10-05, after run 1705): **Yes against uniform, barely against the other
+family.** A fitted `op_weights` vector speeds evolution on its held-out threshold about 4×
+over uniform (sum>2 4.33×, max>2 3.58× in median evaluations to an exact solve; lower bounds
+2.6× and 1.9×), so B is out for these tasks. A hand-set scaffold (INPUT, GT and the family
+aggregator raised, constants uniform) does as well as the fit (0.93×, 1.08×). Matched beats
+the *other* family's fit by only 1.66× / 1.80×, unresolved against the 2× bar. And the
+mismatched vector, which adds no exact solvers on these holdouts, is itself 3.3× / 1.9×
+faster than uniform (unregistered): most of the gain is generic, and sampling lift does not
+predict evolution speed-up. Pre-registered outcome: **Partial** → strategy, last slot unspent.
+The generic speed-up is now its own question,
+[09-generic-bias-speedup](../09-generic-bias-speedup/question.md).
 
-Feasibility (2026-10-05, run 1510, reviewer probes, not run data): on the TAG alphabet,
-threshold predicates on length-4 lists over [0,9] are reachable by uniform sampling at ~1e-6
-only when the threshold is an alphabet constant (1, 2, 5); one ADD away (max>3, sum>7) is
-~1e-8, and sum>10, sum>15, max>7 and the like had 0 hits in 95M. So the first design (fit
-on 5/10/15 and 2/5/7) was infeasible and never ran.
-
-Sampling result (2026-10-05, run 1558, one seed): **A at the sampling level.** Fitting on >1
-and >5 and holding out >2, the matched fit raised held-out P(exact) 4.9× (sum>2) and 8.9×
-(max>2) over uniform, and 4.8× / 6.7× over the other family's fit; all adjusted lower bounds
-above 3. Mismatched fits did nothing for the holdouts (1.0×, 1.3×), so C is out for these
-holdouts. What transferred is narrow: every rate is reproduced by the product of four op
-weights (INPUT, GT, the aggregator, the threshold constant), and swapping aggregator mass
-swaps the family. The fits also overfit their constants (CONST_2 down to 0.37×), which cost
-the holdouts ~2.7× of gain. M rests on one fit trajectory. Evolution untested, so A vs B is
-open; item 12 predicts B. Next: evolution on sum>2 and max>2 with uniform, matched, mismatched
-and a hand-set aggregator vector.
-
-Before letting the bias evolve inside evolution, the first test is whether there is anything
-for it to find: does a frequency bias fitted on some members of a task family raise P(exact)
-and evolution's success on held-out members, more than a bias fitted on another family?
+Earlier steps: feasibility (run 1510, reviewer probes) showed only thresholds equal to an
+alphabet constant (1, 2, 5) are sampleable on TAG at ~1e-6, so the family is "sum/max > c"
+with c ∈ {1, 2, 5}. Sampling (run 1558, one seed) read A: the matched fit raised held-out
+P(exact) 4.9× / 8.9× over uniform and 4.8× / 6.7× over the mismatched fit, via INPUT, GT
+and the aggregator weight; the fits suppressed CONST_2 (0.37×). Run 1705 measured the
+hand-set scaffold's sampling lift at 5.45× / 11.07×, against the four-op product model's 17×
+/ 22×: the model, fitted post hoc in 1558, failed out of sample.
 
 Competing explanations:
-- A (fit and transfer): a family-fitted bias raises held-out P(exact) and solve rate or speed
-  beyond uniform and beyond a mismatched family's bias. The map's bias can usefully adapt to a
-  family; next is making it heritable.
-- B (supply, not success): held-out P(exact) rises, but evolution's solve rate does not move,
-  as item 12 would predict. Frequency bias matters to sampling, not to what selection reaches;
-  part 2 would then need structural map changes (decoder rules), not frequencies.
-- C (generic dilution): matched and mismatched fitted biases help about equally, because both
-  just remove useless ops. No family-specific fit. *Out for the sum>2/max>2 holdouts (run
-  1558: mismatched 1.0–1.3×).*
-- D (no transfer): the fit raises P(exact) on training members only. *Out at this fit
-  strength (gain 4.9× / 8.9×), but CONST_2 suppression is a live route to it under a harder
-  fit (run 1558).*
-- A' (one-op transfer, a narrowing of A): the only family information a frequency fit carries
-  is the aggregator's weight (plus INPUT, GT), so a hand-set aggregator vector does at least as
-  well as the fitted one. Run 1558's product model and swap pools point here (post hoc).
+- A (fit and transfer): a family-fitted bias speeds evolution on held-out members beyond
+  uniform and beyond a mismatched family's bias. *Half met (run 1705): beyond uniform yes,
+  beyond mismatched 1.7–1.8×, unresolved.*
+- B (supply, not success): held-out P(exact) rises but evolution does not speed up (item 12's
+  prediction). *Out for sum>2 / max>2 on median speed (run 1705).*
+- C (generic): matched and mismatched biases help about equally because both carry the same
+  generic content (raised INPUT/GT, suppressed junk ops). *Out for sampling (1558), but
+  carries most of the evolution gain (run 1705, unregistered); see 09.*
+- D (no transfer): *out at this fit strength (1558).*
+- A' (one-op scaffold suffices): a hand-set INPUT/GT/aggregator vector does as well as the
+  fit. *Holds at cell level in both families (run 1705), though not awarded as an outcome
+  because A was not established.*
 
 Related: [01-map-bias](../question.md), [README core question](../../../../README.md),
+[09-generic-bias-speedup](../09-generic-bias-speedup/question.md),
 [findings items 1, 12, 17](../../../../docs/map-bias/findings.md),
-[notebook §1, §11, §15–§19](../../../../docs/map-bias/notebook.md),
+[notebook §1, §11, §15–§19, §28](../../../../docs/map-bias/notebook.md),
 [02-fixed-target-sampling](../02-fixed-target-sampling/question.md) (fixed-target map bias,
-parked), `experiments/chem_tape/arrival_frequent.py` (random-tape sampler),
+parked; run 1705 saw evolution beat computed random search 9–40×, unlike §28),
+`experiments/chem_tape/arrival_frequent.py` (random-tape sampler),
 `ChemTapeConfig.op_weights` / `op_probs` in `src/folding_evolution/chem_tape/config.py`,
 [run 2026-10-05-1510](../../../runs/2026-10-05-1510/code_review.md) (blocked: infeasible task
-set; code `experiments/chem_tape/family_bias.py` at commit `3803bca`, branch
-`research/2026-10-05-1510`),
+set; code `experiments/chem_tape/family_bias.py` at commit `3803bca`),
 [run 2026-10-05-1558](../../../runs/2026-10-05-1558/analysis.md) (sampling verdict A; fitted
 vectors in `experiments/output/2026-10-05/2026-10-05-1558-family-bias/result.json`, key
-`vectors`; code at commit `cd69bce`), `src/folding_evolution/chem_tape/evolve.py` (uses
-`op_probs` for initial genomes and mutation)
+`vectors`; commit `cd69bce`),
+[run 2026-10-05-1705](../../../runs/2026-10-05-1705/analysis.md) (evolution, Partial; code
+`experiments/chem_tape/evolve_bias.py` at commit `9abc25c`; data
+`experiments/output/2026-10-05/2026-10-05-1705-evolve-bias/`),
+`src/folding_evolution/chem_tape/evolve.py` (uses `op_probs` for initial genomes and mutation)
 
-Stop rule: if the first experiment reads B, C or D cleanly, park the frequency-only version of
-part 2 and say so in the digest; a decoder-rule version needs its own plan file and owner go-ahead.
-The sampling test read A, so the evolution test (A vs B) runs next. If evolution reads B,
-park the frequency-only version of 08. If it reads A, close 08 as answered; if the hand-set
-aggregator vector does as well as the fitted one (A'), say the answer is "yes, through one op
-weight", and only open a heritable-bias sub-question if the strategist judges it worth more
-than other open lines.
+Stop rule: the evolution test read Partial, which the plan routes to strategy with 08's last
+slot unspent. Spending that slot on more matched-vs-mismatched seeds is not worth it on its
+own: the point estimates (1.7–1.8×) sit under the 2× bar, so the best case is "real but
+small". Close 08 as answered ("yes over uniform, mostly generic, a hand-set scaffold
+suffices") once 09 has said what the generic part is, or park it if the strategist moves the
+program elsewhere. A heritable-bias follow-up goes through the strategist only.
 
-Reopen if (once parked): a richer alphabet makes non-constant thresholds sampleable, or a
-decoder-rule version of part 2 gets its own plan and owner go-ahead.
+Reopen if (once parked or closed): a richer alphabet makes non-constant thresholds sampleable
+(a family with more than a constant's difference between members), 09 shows the generic
+speed-up is something a heritable bias could exploit, or a decoder-rule version of part 2
+gets its own plan and owner go-ahead.

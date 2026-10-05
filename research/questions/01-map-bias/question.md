@@ -19,7 +19,11 @@ won in both shared-ending runs never arrived in 30M partly-parent children. The 
 line stops there (03–07 closed or parked). The README's second part, letting the map's bias
 itself fit a task family, is [08](08-evolve-bias/question.md): by sampling, a fitted
 `op_weights` vector transfers to a held-out threshold (4.9× and 8.9× over uniform, run
-2026-10-05-1558), but only through the aggregator's weight; whether evolution benefits is next.
+2026-10-05-1558), mainly through the aggregator's weight. In evolution (run 2026-10-05-1705)
+it speeds the exact solve about 4× over uniform and a hand-set INPUT/GT/aggregator scaffold
+does as well, but the other family's fit, with no sampling lift, is already 3.3× / 1.9×
+faster: most of the gain is generic, and sampling lift does not predict evolution speed.
+Why is [09](09-generic-bias-speedup/question.md).
 
 Competing explanations:
 - A: The map mainly decides what arrives often; selection then keeps whatever form arrived
@@ -39,6 +43,7 @@ Related: [02-fixed-target-sampling](02-fixed-target-sampling/question.md),
 [06-self-mate-establishment](06-self-mate-establishment/question.md),
 [07-shared-arrival](07-shared-arrival/question.md),
 [08-evolve-bias](08-evolve-bias/question.md),
+[09-generic-bias-speedup](09-generic-bias-speedup/question.md),
 [findings](../../../docs/map-bias/findings.md), [notebook](../../../docs/map-bias/notebook.md),
 [shared-helper plan](../../../Plans/shared-helper-reuse.md),
 [digest](../../digest.md), [README core question](../../../README.md)

@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-05 (last run 2026-10-05-1558, commit `cd69bce`; run 2026-10-05-1510 blocked before running). This covers the **map-bias line**, the current
+As of 2026-10-05 (last run 2026-10-05-1705, commit `9abc25c`; run 2026-10-05-1510 blocked before running). This covers the **map-bias line**, the current
 core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
 evolution finds and keeps ("arrival of the frequent")?* Until 2026-10-05 the line studied
 whether the chemistry can discover, preserve and reuse a **shared helper** (one functional part
@@ -23,7 +23,10 @@ Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per e
   1.3–30× more common. ([findings item 17](../docs/map-bias/findings.md), §27)
 - **On those fixed-target tasks, evolution is mostly a worse sampler than random search**
   with the same budget. It beat sampling only on one task (direct, count∘rest(employees))
-  where solvers are rare but the plateau is not deceptive. (item 17 "Night 2", §28)
+  where solvers are rare but the plateau is not deceptive. (item 17 "Night 2", §28) Not
+  general: on TAG threshold tasks with lexicase (run 2026-10-05-1705) every arm reached its
+  median exact solve 9–40× sooner than random search with the same vector would (random
+  search computed from sampling rates, not run).
 - **The frequency knob changes how often a part is made, not what is reachable.** Weighting
   one op switches between equivalent routes (e.g. min vs gate joins, 13:1 vs 2:14) without
   changing solve rates; very high weights hurt only by diluting the rest of the alphabet.
@@ -40,10 +43,25 @@ Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per e
   is reproduced by multiplying four op folds (INPUT, GT, the aggregator, the threshold
   constant), and swapping aggregator mass swaps the family, so the transferable part is the
   aggregator weight. The fits also suppressed the unseen constant (CONST_2 0.37×), costing
-  about 2.7× of holdout gain. Sampling only, one seed, M from one fit trajectory; the product
-  model is post hoc. Fairly sure of the numbers, narrow in meaning.
+  about 2.7× of holdout gain. Sampling only, one seed, M from one fit trajectory. The product
+  model was post hoc and **failed out of sample** (run 1705): a hand-set INPUT/GT/aggregator
+  vector sampled 5.45× / 11.07× over uniform, not the predicted 17× / 22×, though still a bit
+  better than the fit (1.11×, 1.25×). Fairly sure of the numbers, narrow in meaning.
   ([08](questions/01-map-bias/08-evolve-bias/question.md),
   [run analysis](runs/2026-10-05-1558/analysis.md))
+- **In evolution, the fitted bias helps about 4×, but mostly generically.** Same holdouts,
+  tagged harness (lexicase, crossover v2 0.7 selected mate, L 64, P1024), median evaluations
+  to an exact solve, paired seeds: matched is 4.33× (sum>2) and 3.58× (max>2) faster than
+  uniform (lower bounds 2.6×, 1.9×), so "supply, not success" (item 12's prediction) is out
+  here. A hand-set INPUT/GT/aggregator scaffold matches the fit (0.93×, 1.08×). Matched beats
+  the other family's fit only 1.66× / 1.80× (unresolved against a 2× bar, 100 pairs). And the
+  other family's fit, with **no sampling lift** on these tasks, is itself 3.3× / 1.9× faster
+  than uniform (unregistered, 50 pairs). So exact-solver supply does not predict evolution
+  speed (pass-through 0.35–3.2). Fairly sure of the 4× and of hand-set ≈ fit; the
+  generic/specific split is rough. Median speed only; one evolution setup.
+  ([08](questions/01-map-bias/08-evolve-bias/question.md),
+  [09](questions/01-map-bias/09-generic-bias-speedup/question.md),
+  [run analysis](runs/2026-10-05-1705/analysis.md))
 - Steering is untested: (μ+λ) truncation leaves one behaviour per unsolved population under
   every tie rule. (§28) → [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)
 
@@ -148,9 +166,12 @@ B), **duplicated** (everything recomputed).
   Reopen if a B-helper single copy becomes testable or in-situ replay exists.
 - [08-evolve-bias](questions/01-map-bias/08-evolve-bias/question.md) (open): the README's
   part 2. Can the map's frequency bias be fitted to a task family and help evolution on unseen
-  members? Sampling says yes, narrowly (verdict A via the aggregator weight, run
-  2026-10-05-1558). Next: does the 5–9× sampling lift change evolution on the holdouts (A vs
-  B), with a hand-set aggregator vector as control.
+  members? Yes over uniform (about 4×), barely over the other family's fit (1.7–1.8×,
+  unresolved), and a hand-set scaffold does as well: Partial (run 2026-10-05-1705). Last slot
+  unspent; sent to strategy.
+- [09-generic-bias-speedup](questions/01-map-bias/09-generic-bias-speedup/question.md)
+  (open, new): why does a vector with no sampling lift speed evolution 2–3×? Shared INPUT/GT
+  scaffold, junk-op suppression, or a shortcut stepping stone. No experiment yet.
 
 ## Older context
 

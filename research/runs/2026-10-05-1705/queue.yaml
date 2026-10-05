@@ -1,0 +1,26 @@
+runs:
+  - id: 2026-10-05-1705-evolve-bias
+    cmd: RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.evolve_bias --workers 4 --seconds 27900
+    timeout_seconds: 28800
+    expect_outputs:
+      - COMPLETE
+      - result.json
+      - report.md
+      - design.json
+      - pilot.json
+      - sampling.json
+      - sampler_audit.json
+      - vectors.json
+      - progress.jsonl
+      - diagnostics.png
+      - structure.png
+    track: map-bias
+    notes: >-
+      Approved four-arm sum2/max2 evolution study. Frozen paired KM median
+      ratios, six comparisons and two-look Bonferroni allocation. Pilot
+      (80 runs at P256/P1024, 4M cap) and 125M tapes per hand vector precede
+      design.json; pilot runtime determines whether one or two looks fit.
+      Look 1 has 50 seeds/cell; look 2 adds 50 only to unresolved cells.
+      Every stopped comparison is immutable. A finished runtime-infeasible
+      calibration reports Unresolved explicitly; partial/deadline execution
+      exits nonzero without COMPLETE. Total timeout equals the 8-hour cap.
