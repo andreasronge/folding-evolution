@@ -25,6 +25,7 @@ from folding_evolution.chem_tape.evolve import (
 )
 
 MASTER = 202610051957
+PILOT_MASTER, SMOKE_MASTER = 202610051958, 202610051959
 CELLS = ("U-ord", "U-veto", "R-ord", "R-veto")
 POP, CAP, BOOT = 1024, 262144, 100000
 ALPHA, TAU = .05 / 4, 1.25
@@ -41,8 +42,8 @@ METRIC_DEFINITIONS = {
 }
 
 
-def training_indices(seed):
-    rng = np.random.default_rng(eb.stream_seed(f"training/sum2/{seed}", MASTER))
+def training_indices(seed, master=MASTER):
+    rng = np.random.default_rng(eb.stream_seed(f"training/sum2/{seed}", master))
     idx = np.concatenate([
         rng.choice(np.flatnonzero(SUM_Y == 0), 32, replace=True),
         rng.choice(np.flatnonzero((SUM_Y == 1) & (MAX_Y == 1)), 32, replace=True),
@@ -54,11 +55,11 @@ def sampler_audit():
     assert int((SUM_Y != MAX_Y).sum()) == 66
     assert int(((SUM_Y == 1) & (MAX_Y == 1)).sum()) == 9919
     audits = []
-    for seed in (MASTER + 10000, MASTER + 100000):
-        idx = training_indices(seed)
+    for master, seed in ((PILOT_MASTER, PILOT_MASTER + 10000), (MASTER, MASTER + 100000)):
+        idx = training_indices(seed, master)
         y, proxy = SUM_Y[idx], MAX_Y[idx]
         assert y.sum() == 32 and np.array_equal(y, proxy)
-        audits.append(dict(seed=seed, indices=idx.tolist(), positives=int(y.sum()),
+        audits.append(dict(seed=seed, master=master, indices=idx.tolist(), positives=int(y.sum()),
                            n=len(y), balance=float(y.mean()), both_labels=True,
                            constant_accuracy=.5, proxy="max>2",
                            proxy_train_accuracy=float((proxy == y).mean()),
@@ -97,19 +98,20 @@ def run_one(job, cell, initial=None):
     start = time.monotonic()
     seed, pop, cap = (job[k] for k in ("seed", "pop", "cap"))
     arm, mode = cell.split("-")
-    cfg = eb.config("sum2", arm, seed, pop, cap, job["vectors"][arm], MASTER)
-    idx = training_indices(seed)
+    master = job["master"]
+    cfg = eb.config("sum2", arm, seed, pop, cap, job["vectors"][arm], master)
+    idx = training_indices(seed, master)
     inputs, y = eb.DOMAIN[idx].tolist(), SUM_Y[idx]
     rng = make_rng(cfg)
     row = dict(cell=cell, arm=arm, veto=mode == "veto", phase=job["phase"],
-               seed=seed, replicate=job["replicate"], master=MASTER, pop=pop, cap=cap,
+               seed=seed, replicate=job["replicate"], master=master, pop=pop, cap=cap,
                config=asdict(cfg), probs=job["vectors"][arm], training_indices=idx.tolist(),
                training_sha256=hashlib.sha256(eb.DOMAIN[idx].astype("<i8").tobytes()
                                              + y.astype("<i8").tobytes()).hexdigest(),
                complete=False, event=False, time=None, first_gen=None, position=None,
                solver=None, solver_parents=None, verifications=0, processed_candidates=0,
                first_training_100=None, first_max_gen=None, first_max_position=None,
-               max_before_solve=False, fully_vetoed=False, peak_veto_fraction=0.,
+               max_before_solve=False, reproductive_exposure=False, fully_vetoed=False, peak_veto_fraction=0.,
                history=[], population_digests=[], other_examples=[])
     cache, examples = {}, {}
     parents, previous_classes = None, None
@@ -165,6 +167,8 @@ def run_one(job, cell, initial=None):
             row["max_before_solve"] = not row["event"] or (
                 (row["first_max_gen"], row["first_max_position"]) <
                 (row["first_gen"], row["position"]))
+            row["reproductive_exposure"] = row["first_max_gen"] < (
+                row["first_gen"] if row["event"] else cfg.generations)
     except eb.Deadline as exc:
         row["error"] = str(exc)
     row["other_examples"] = list(examples.values())
@@ -210,26 +214,34 @@ def run_seed(job):
 
 def jobs_for(spec, out, phase, n, deadline, smoke=False):
     offset = dict(pilot=10000, smoke=20000, main=100000)[phase]
+    master = dict(pilot=PILOT_MASTER, smoke=SMOKE_MASTER, main=MASTER)[phase]
     vectors = {a: ec.vectors(spec, "sum2")[a] for a in ("U", "R")}
-    return [dict(seed=MASTER + offset + i, replicate=i, phase=phase,
+    return [dict(seed=master + offset + i, master=master, replicate=i, phase=phase,
                  pop=64 if smoke else POP, cap=16384 if smoke else CAP,
                  vectors=vectors, deadline=deadline,
-                 out=str(out / "runs" / phase / f"{MASTER + offset + i}.json")) for i in range(n)]
+                 out=str(out / "runs" / phase / f"{master + offset + i}.json")) for i in range(n)]
 
 
 def run_jobs(jobs, workers, out):
     records = []
     with ProcessPoolExecutor(max_workers=workers) as pool:
         futures = [pool.submit(run_seed, job) for job in jobs]
-        for future in as_completed(futures):
-            record = future.result()
-            records.append(record)
-            with (out / "progress.jsonl").open("a") as log:
-                log.write(json.dumps(dict(seed=record["seed"], phase=record["phase"],
-                    cells={c: {k: r[k] for k in ("time", "event", "complete", "seconds")}
-                           for c, r in record["cells"].items()})) + "\n")
-            print(f"{record['phase']} seed {record['seed']}: " +
-                  ", ".join(f"{c}={r['time']}" for c, r in record["cells"].items()), flush=True)
+        try:
+            for future in as_completed(futures):
+                record = future.result()
+                records.append(record)
+                with (out / "progress.jsonl").open("a") as log:
+                    log.write(json.dumps(dict(seed=record["seed"], phase=record["phase"],
+                        cells={c: {k: r[k] for k in ("time", "event", "complete", "seconds")}
+                               for c, r in record["cells"].items()})) + "\n")
+                print(f"{record['phase']} seed {record['seed']}: " +
+                      ", ".join(f"{c}={r['time']}" for c, r in record["cells"].items()), flush=True)
+        except BaseException:
+            # Identity failures stop admission of queued seeds. Already-running
+            # workers finish their bounded seed job; none enters inference.
+            for future in futures:
+                future.cancel()
+            raise
     return sorted(records, key=lambda r: r["seed"])
 
 
@@ -314,8 +326,9 @@ def outcome(c):
 
 
 def exposure_mask(records):
-    # First occurrence strictly before solve (or before the cap for failures).
-    return np.array([[r["cells"][f"{a}-ord"]["max_before_solve"] for a in ("U", "R")]
+    # A shortcut in the terminal batch has no opportunity to reproduce, even
+    # if its position is earlier than the solver. It cannot acquire an effect.
+    return np.array([[r["cells"][f"{a}-ord"]["reproductive_exposure"] for a in ("U", "R")]
                      for r in records], dtype=bool)
 
 
@@ -366,7 +379,9 @@ def power(records, out, deadline, trials=300, boot=2000, sizes=(600, 800)):
     null, null_info = inject(v, exposed, 1.)
     alt, alt_info = inject(v, exposed, 1.6)
     result = dict(trials=trials, inner_bootstrap_draws=boot, alpha=ALPHA,
-                  exposure_counts=exposed.sum(axis=0).tolist(), injection_null=null_info,
+                  exposure_counts=exposed.sum(axis=0).tolist(),
+                  exposure_definition="ordinary shortcut present before a reproduction step, not merely earlier in the terminal batch",
+                  injection_null=null_info,
                   injection_alternative=alt_info, sizes={}, n=None, feasible=False,
                   reason=None, paired_log_time_correlations={}, pilot_censoring={})
     for ai, arm in enumerate(("U", "R")):
@@ -437,6 +452,7 @@ def cell_summary(records):
             solves=sum(r["complete"] and r["event"] for r in rows),
             km_median=eb.km_curve(rows)[2],
             exposed_before_solve=sum(r["max_before_solve"] for r in rows),
+            reproductive_exposure=sum(r["reproductive_exposure"] for r in rows),
             fully_vetoed=sum(r["fully_vetoed"] for r in rows),
             peak_exact_max_fraction=[r["peak_veto_fraction"] for r in rows],
             first_training_100=[r["first_training_100"] for r in rows],
@@ -517,7 +533,7 @@ def main():
     eb.write_json(out / "vectors.json", {a: ec.vectors(spec, "sum2")[a] for a in ("U", "R")})
     eb.write_json(out / "sampler_audit.json", sampler_audit())
     result = dict(stage="initializing", smoke_only=args.smoke, incomplete=False,
-        master_seed=MASTER, workers=args.workers, internal_seconds=args.seconds,
+        master_seed=MASTER, pilot_master_seed=PILOT_MASTER, smoke_master_seed=SMOKE_MASTER, workers=args.workers, internal_seconds=args.seconds,
         comparisons={}, metric_definitions=METRIC_DEFINITIONS, next="stop",
         vector_source_sha256=hashlib.sha256(eb.SPEC_PATH.read_bytes()).hexdigest(),
         statistics=dict(family="2026-10-05-1957 exact-shortcut reproductive-access",

@@ -25,7 +25,7 @@ def record(seed=0, times=(100, 100, 60, 60), exposed=(True, True)):
     cells = {}
     for i, cell in enumerate(sv.CELLS):
         cells[cell] = dict(seed=seed, cell=cell, cap=sv.CAP, time=times[i],
-            event=True, complete=True, max_before_solve=exposed[i // 2],
+            event=True, complete=True, max_before_solve=exposed[i // 2], reproductive_exposure=exposed[i // 2],
             seconds=1., processed_candidates=sv.CAP, fully_vetoed=False,
             peak_veto_fraction=.1, first_training_100=2, history=[], solver_parents=None)
     return dict(seed=seed, cells=cells, identity=[dict(passed=True)] * 2)
@@ -40,6 +40,9 @@ def test_sampler_and_frozen_vectors():
     assert all(a["balance"] == .5 and a["proxy_train_accuracy"] == 1 for a in audit)
     j = sv.jobs_for(spec(), __import__('pathlib').Path('/tmp'), 'pilot', 50, 999.)
     assert len(j) == 50
+    assert {k["master"] for k in j} == {sv.PILOT_MASTER}
+    assert sv.PILOT_MASTER != sv.MASTER != sv.SMOKE_MASTER
+    assert sv.training_indices(j[0]["seed"], j[0]["master"]).tolist() != sv.training_indices(j[0]["seed"]).tolist()
     assert all(k['pop'] == 1024 and k['cap'] == 262144 for k in j)
     assert sv.training_indices(j[0]['seed']).tolist() != sv.training_indices(j[1]['seed']).tolist()
     for arm in ('U', 'R'):
@@ -102,6 +105,7 @@ def test_all_vetoed_and_solver_never_vetoed(tmp_path):
     r = sv.run_one(j, 'R-veto', [planted('max2'), planted('sum2'), planted('max2'), planted('max2')])
     assert r['event'] and r['time'] == 2 and r['solver_parents'] is None
     assert not r['fully_vetoed']
+    assert r['max_before_solve'] and not r['reproductive_exposure']
 
 
 def test_immediate_parent_diagnostic_uses_previous_classes(tmp_path, monkeypatch):
@@ -237,3 +241,36 @@ def test_power_gate_reports_joint_and_uses_smallest_passing_size(tmp_path, monke
     assert result['feasible'] and result['n'] == 600
     assert result['sizes']['600']['complete_route']['p'] == 1
     assert set(result['sizes']) == {'600'}
+
+
+def test_exposed_real_pair_excludes_shortcut_from_reproduction(tmp_path):
+    j = job(tmp_path, pop=64, cap=1024)
+    initial = [planted('max2')] + [genome([0])] * 63
+    a = sv.run_one(j, 'R-ord', initial)
+    b = sv.run_one(j, 'R-veto', initial)
+    assert a['complete'] and b['complete'] and a['first_max_gen'] == b['first_max_gen'] == 0
+    assert sv.check_identity(a, b)['verified_generations'] == 1
+    # In the absence of max2 parents, generation-one perfect max phenotypes
+    # can arise only through variation of the eligible constant population.
+    assert b['history'][1]['exact_max'] == 0
+    assert a['population_digests'][1] != b['population_digests'][1]
+
+
+def test_identity_failure_cancels_queued_seed_jobs(tmp_path, monkeypatch):
+    from concurrent.futures import Future
+    broken, pending = Future(), Future()
+    broken.set_exception(RuntimeError('identity failure'))
+    class Pool:
+        def __init__(self, **kwargs):
+            self.futures = iter([broken, pending])
+        def __enter__(self):
+            return self
+        def __exit__(self, *args):
+            return False
+        def submit(self, *args):
+            return next(self.futures)
+    monkeypatch.setattr(sv, 'ProcessPoolExecutor', Pool)
+    monkeypatch.setattr(sv, 'as_completed', lambda futures: iter(futures))
+    with pytest.raises(RuntimeError, match='identity failure'):
+        sv.run_jobs([{}, {}], 1, tmp_path)
+    assert pending.cancelled()

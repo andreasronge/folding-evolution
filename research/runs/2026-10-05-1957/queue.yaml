@@ -1,0 +1,21 @@
+runs:
+  - id: 2026-10-05-1957-shortcut-veto
+    cmd: .venv/bin/python -m experiments.chem_tape.evolve_shortcut_veto --workers 4 --seconds 10500
+    timeout_seconds: 10800
+    track: chem-tape
+    expect_outputs:
+      - COMPLETE
+      - result.json
+      - report.md
+      - diagnostics.png
+      - vectors.json
+      - sampler_audit.json
+      - pilot.json
+      - power.json
+      - design.json
+    notes: >-
+      Approved sum2 U/R x ordinary/exact-max2 reproduction veto. All outputs
+      go under RUN_DIR. Separate 50-seed pilot chooses 600 or 800 main seeds
+      only if all three frozen powers pass and conservative runtime fits.
+      Pilot-only feasibility stop is valid completion; infrastructure
+      missingness or identity failure exits nonzero without COMPLETE.
