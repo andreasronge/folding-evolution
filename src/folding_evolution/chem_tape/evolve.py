@@ -166,7 +166,7 @@ def _token_max(cfg: ChemTapeConfig) -> int:
     """
     if cfg.alphabet == "v2_split":
         return 23
-    if cfg.alphabet in ("v2_min", "v2_imax"):
+    if cfg.alphabet in ("v2_min", "v2_imax", "v2_rmin"):
         return 22
     if cfg.alphabet == "v3_domains":
         return 25

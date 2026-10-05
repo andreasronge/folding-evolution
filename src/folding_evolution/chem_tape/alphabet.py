@@ -80,6 +80,9 @@ MIN = 22
 # the stack baseline one op (`[max>5] [sum>10] IMAX`) as it does tagged runs.
 IMAX = 22
 
+# v2-rmin: generic list minimum (distinct from integer MIN).
+REDUCE_MIN = 22
+
 N_TOKENS_V1 = 16
 N_TOKENS_V2 = 22
 N_TOKENS_V2_SPLIT = 24
@@ -182,7 +185,7 @@ def masks_for(alphabet_name: str) -> dict[str, np.ndarray]:
     `alphabet_name` is one of "v1", "v2_probe", or "v2_split". Keys:
     `active`, `separator`, `transparent`, `non_separator`.
     """
-    if alphabet_name in ("v2_min", "v2_imax"):
+    if alphabet_name in ("v2_min", "v2_imax", "v2_rmin"):
         return {
             "active": ACTIVE_MASK_V2_MIN,
             "separator": SEPARATOR_MASK_V2,
@@ -214,7 +217,7 @@ def masks_for(alphabet_name: str) -> dict[str, np.ndarray]:
 def is_active(tid: int, alphabet_name: str = "v1") -> bool:
     if alphabet_name == "v2_split":
         return (1 <= tid <= 19) or (22 <= tid <= 23)
-    if alphabet_name in ("v2_min", "v2_imax"):
+    if alphabet_name in ("v2_min", "v2_imax", "v2_rmin"):
         return (1 <= tid <= 19) or tid == 22
     if alphabet_name == "v2_probe":
         return 1 <= tid <= 19
@@ -222,7 +225,7 @@ def is_active(tid: int, alphabet_name: str = "v1") -> bool:
 
 
 def is_separator(tid: int, alphabet_name: str = "v1") -> bool:
-    if alphabet_name in ("v2_probe", "v2_split", "v2_min", "v2_imax"):
+    if alphabet_name in ("v2_probe", "v2_split", "v2_min", "v2_imax", "v2_rmin"):
         return tid in (20, 21)
     return tid in (14, 15)
 

@@ -51,6 +51,7 @@ const SUM_RIGHT2: u8 = 23;
 const MIN: u8 = 22;
 // v2_imax extension (map-bias notebook §13): integer MAX at id 22.
 const IMAX: u8 = 22;
+const REDUCE_MIN: u8 = 22;
 
 const OP_CAP: usize = 256;
 
@@ -233,6 +234,7 @@ enum Alphabet {
     V2Split,
     V2Min,
     V2IMax,
+    V2RMin,
 }
 
 impl Alphabet {
@@ -414,6 +416,14 @@ fn op_reduce_max(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
     stack.push(Value::Int(best));
 }
 
+fn op_reduce_min(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
+    let xs = match safe_pop(stack, TypeTag::IntList, ctx.safe_pop_consume) {
+        Value::IntList(v) => v,
+        _ => Vec::new(),
+    };
+    stack.push(Value::Int(xs.into_iter().min().unwrap_or(0)));
+}
+
 fn op_sum_left2(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
     let v = match ctx.input {
         Value::IntList(xs) if xs.len() >= 2 => xs[0].wrapping_add(xs[1]),
@@ -509,6 +519,7 @@ fn execute_inner(tokens: &[u8], ctx: &ExecCtx<'_>) -> i64 {
             (SUM_RIGHT2, Alphabet::V2Split) => op_sum_right2(&mut stack, ctx),
             (MIN, Alphabet::V2Min) => op_min(&mut stack, ctx),
             (IMAX, Alphabet::V2IMax) => op_imax(&mut stack, ctx),
+            (REDUCE_MIN, Alphabet::V2RMin) => op_reduce_min(&mut stack, ctx),
 
             // Everything else (including v2 separators 20/21 and v1's 14/15
             // when not in V2Probe dispatch) executes as NOP.
@@ -528,6 +539,7 @@ fn parse_alphabet(name: Option<&str>) -> Alphabet {
         "v2_split" => Alphabet::V2Split,
         "v2_min" => Alphabet::V2Min,
         "v2_imax" => Alphabet::V2IMax,
+        "v2_rmin" => Alphabet::V2RMin,
         _ => Alphabet::V1,
     }
 }
@@ -658,5 +670,42 @@ pub fn rust_chem_execute_pop_batch(
             });
     });
 
+    Ok(out)
+}
+
+/// Independent latent-allele path for differential validation. Rows are indexed
+/// by the previous emitted token, with row 23 as the start row.
+#[pyfunction]
+pub fn rust_chem_execute_alleles(
+    py: Python<'_>,
+    alleles: Vec<Vec<u16>>,
+    cumulative: Vec<Vec<u32>>,
+    input_values: &Bound<'_, pyo3::types::PyList>,
+) -> PyResult<Vec<i64>> {
+    if cumulative.len() != 24 || cumulative.iter().any(|r| {
+        r.len() != 23 || r[22] != 23000 || r[0] == 0 || r.windows(2).any(|w| w[0] >= w[1])
+    }) || alleles.iter().flatten().any(|&a| a >= 23000) {
+        return Err(pyo3::exceptions::PyValueError::new_err("invalid latent decoder input"));
+    }
+    let inputs: Vec<Value> = input_values.iter()
+        .map(|item| py_to_value(&item, "intlist")).collect::<PyResult<_>>()?;
+    let e = inputs.len();
+    let mut out = vec![0i64; alleles.len()*e];
+    py.allow_threads(|| {
+        out.par_chunks_mut(e.max(1)).zip(alleles.par_iter()).for_each(|(row, genome)| {
+            let mut previous = 23usize;
+            let mut tokens = Vec::with_capacity(genome.len());
+            for &allele in genome {
+                let token = cumulative[previous].partition_point(|&c| c <= allele as u32);
+                tokens.push(token as u8);
+                previous = token;
+            }
+            for (j, inp) in inputs.iter().enumerate() {
+                let ctx = ExecCtx { slot_12_fn: op_nop, slot_13_fn: op_nop,
+                    threshold: 0, alphabet: Alphabet::V2RMin, input: inp, safe_pop_consume: false };
+                row[j] = execute_inner(&tokens, &ctx);
+            }
+        });
+    });
     Ok(out)
 }

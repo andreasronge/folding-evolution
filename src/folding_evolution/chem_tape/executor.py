@@ -215,6 +215,12 @@ def _op_reduce_max(stack: list, inp_value, inp_type: str, ta: alph.TaskAlphabet)
     push_int(stack, max(xs))
 
 
+def _op_reduce_min(stack: list, inp_value, inp_type: str, ta: alph.TaskAlphabet) -> None:
+    """Reduce top intlist to its minimum; empty or wrong type yields zero."""
+    xs = safe_pop(stack, "intlist")
+    push_int(stack, min(xs) if xs else 0)
+
+
 def _op_threshold_slot(stack: list, inp_value, inp_type: str, ta: alph.TaskAlphabet) -> None:
     """Push the task-bound integer `ta.threshold`. No stack consumption."""
     push_int(stack, int(ta.threshold))
@@ -296,7 +302,10 @@ _OPS_V2_SPLIT: dict[int, OpFn] = {**_OPS_V2,
     alph.SUM_RIGHT2: _op_sum_right2,
 }
 
-# v2-min dispatch: extends v2 with MIN (map-bias notebook §3).
+# v2-rmin dispatch: generic list minimum.
+_OPS_V2_RMIN: dict[int, OpFn] = {**_OPS_V2, alph.REDUCE_MIN: _op_reduce_min}
+
+# v2-min dispatch: integer MIN (map-bias notebook §3).
 _OPS_V2_MIN: dict[int, OpFn] = {**_OPS_V2, alph.MIN: _op_min}
 
 
@@ -325,6 +334,8 @@ _SLOT_OPS: dict[str, OpFn] = {
 def _dispatch_table(alphabet_name: str) -> dict[int, OpFn]:
     if alphabet_name == "v2_split":
         return _OPS_V2_SPLIT
+    if alphabet_name == "v2_rmin":
+        return _OPS_V2_RMIN
     if alphabet_name == "v2_min":
         return _OPS_V2_MIN
     if alphabet_name == "v2_imax":
