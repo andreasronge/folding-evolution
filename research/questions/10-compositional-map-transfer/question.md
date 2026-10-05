@@ -27,8 +27,9 @@ Competing explanations:
 - E: The proposed tasks or adaptation loop are not tractable at the measured budget.
   This is a feasibility result about this design, not a negative answer to A.
 
-Sub-questions: [11-composition-bank](11-composition-bank/question.md) (feasibility; run
-2026-10-05-2039 blocked before running, re-proposed as run 2026-10-05-2242).
+Sub-questions: [11-composition-bank](11-composition-bank/question.md) (feasibility; runs
+2026-10-05-2039 and 2026-10-05-2242 blocked by a merge conflict before running; conflict
+resolved, re-proposed as run 2026-10-05-2247).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),

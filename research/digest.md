@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-05 (last run 2026-10-05-1957, commit `2a002a8`, pilot only; runs 2026-10-05-1510 and 2026-10-05-2039 blocked before running, so no belief below changed since 1957). This covers the **map-bias line**, the current
+As of 2026-10-05 (last run 2026-10-05-1957, commit `2a002a8`, pilot only; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 blocked before running, so no belief below changed since 1957). This covers the **map-bias line**, the current
 core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
 evolution finds and keeps ("arrival of the frequent")?* Until 2026-10-05 the line studied
 whether the chemistry can discover, preserve and reuse a **shared helper** (one functional part
@@ -183,9 +183,12 @@ B), **duplicated** (everything recomputed).
   solve unseen operation combinations beyond a token-frequency bias? Nothing measured.
   - [11-composition-bank](questions/10-compositional-map-transfer/11-composition-bank/question.md)
     (open, budget 1): is there a non-aliased, tractable reducer/combiner bank with headroom?
-    First attempt (run 2026-10-05-2039) blocked by a merge conflict; re-proposed as run
-    2026-10-05-2242. Steward probes only (unreviewed, one run each): the plan's ANY/GT cells
-    are near-aliases of constants or thresholds; X+Y, 2X+Y, S>0?X:Y of SUM/MAX/MIN are not.
+    Runs 2026-10-05-2039 and 2026-10-05-2242 were blocked by a merge conflict (now resolved);
+    re-proposed as run 2026-10-05-2247. Steward probes only (unreviewed, one run each): the
+    plan's ANY/GT cells are near-aliases of constants or thresholds (ANY constant on 624/625
+    inputs; GT ≥ 96.6% single-reducer thresholds). For X+Y, 2X+Y, S>0?X:Y of SUM/MAX/MIN,
+    the listed simple comparator families reach at most 69% agreement; exhaustive
+    shorter-program screening is pending and no MIN cell has been searched.
 - [01-map-bias](questions/01-map-bias/question.md) (open, root, budget spent): how does the map
   bias what evolution finds and keeps?
 - [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)
