@@ -26,7 +26,12 @@ faster: most of the gain is generic, and sampling lift does not predict evolutio
 [09](09-generic-bias-speedup/question.md) (run 2026-10-05-1814) replicated that speed-up on
 fresh seeds (2.73× / 2.02×) and split the vector: on max>2 raising INPUT and GT alone carries
 it, on sum>2 neither part is resolved; the vector's flat sampling rate is INPUT/GT's 3–4× lift
-cancelled by the rest's 3–4× loss. 08 and 09 are parked; the program is with the strategist.
+cancelled by the rest's 3–4× loss. Run 2026-10-05-1957 reopened 09 for root 01's last
+experiment, a direct test of the max>2 shortcut behind the rest-of-vector arm's sum>2 gain
+(veto exact max>2 from reproduction). It stopped at its 50-seed pilot on the power gate, so
+there is no registered result; at pilot strength the shortcut is the usual last step to the
+solve but blocking it only delays the solve, as near-max programs take over. 08 and 09 are
+parked, root 01's budget is spent, and the program is with the strategist.
 
 Competing explanations:
 - A: The map mainly decides what arrives often; selection then keeps whatever form arrived

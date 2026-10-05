@@ -1,13 +1,14 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-05 (last run 2026-10-05-1814, commit `31d4408`; run 2026-10-05-1510 blocked before running). This covers the **map-bias line**, the current
+As of 2026-10-05 (last run 2026-10-05-1957, commit `2a002a8`, pilot only; run 2026-10-05-1510 blocked before running). This covers the **map-bias line**, the current
 core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
 evolution finds and keeps ("arrival of the frequent")?* Until 2026-10-05 the line studied
 whether the chemistry can discover, preserve and reuse a **shared helper** (one functional part
 read by several outputs); that line has stopped. The README's part 2, fitting the map's bias
 to a task family ([08](questions/01-map-bias/08-evolve-bias/question.md),
 [09](questions/01-map-bias/09-generic-bias-speedup/question.md)), gave a bounded answer and is
-parked too; the program is back with the strategist (root 01 has 1 experiment left).
+parked too; root 01's budget is spent (last slot: run 1957, stopped at its pilot) and the program
+is back with the strategist.
 
 Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per experiment; reviews and report tables in [docs/map-bias/reviews/](../docs/map-bias/reviews/)) and
 [findings](../docs/map-bias/findings.md) (items 1–17; the owner-promoted, reviewed claims).
@@ -79,6 +80,17 @@ Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per e
   descriptive. Initialization and mutation coupled, so no mechanism is named.
   ([09](questions/01-map-bias/09-generic-bias-speedup/question.md),
   [run analysis](runs/2026-10-05-1814/analysis.md))
+- **On sum>2 the exact max>2 shortcut is used as the last step, but it is not needed.**
+  Pilot only (run 1957, 50 seeds, 4 cells; the registered main stage did not run because a
+  pilot-based power gate failed). On training sets where max>2 always fits, in runs where an
+  exact max>2 program appears (U 25/50, R 35/50), it is the solver's immediate parent in 55/60
+  and the solve follows within 1–2 generations. Barring it from reproduction delays those runs
+  (49/55 pairs slower; a few to ten generations) but every run still solves (100/100), through
+  near-max inexact programs whose share rises 2–3×. Whether the shortcut explains R's advantage
+  over uniform is **not known** (R's gain on these sets 1.30, 0.71–2.32; interaction 1.38,
+  0.82–2.00). Exploratory; do not read the stop as a null on the stepping stone.
+  ([09](questions/01-map-bias/09-generic-bias-speedup/question.md),
+  [run analysis](runs/2026-10-05-1957/analysis.md))
 - Steering is untested: (μ+λ) truncation leaves one behaviour per unsolved population under
   every tie rule. (§28) → [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)
 
@@ -164,8 +176,8 @@ B), **duplicated** (everything recomputed).
 
 ## Open questions
 
-- [01-map-bias](questions/01-map-bias/question.md) (open, root): how does the map bias what
-  evolution finds and keeps?
+- [01-map-bias](questions/01-map-bias/question.md) (open, root, budget spent): how does the map
+  bias what evolution finds and keeps?
 - [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)
   (parked): does folding help evolution beyond making solvers common? Rarity ladder not run.
 - [03-rare-shared-establishment](questions/01-map-bias/03-rare-shared-establishment/question.md)
@@ -185,12 +197,14 @@ B), **duplicated** (everything recomputed).
   part 2. Can the map's frequency bias be fitted to a task family and help evolution on unseen
   members? Yes over uniform (about 4×), barely over the other family's fit (1.7–1.8×,
   unresolved), and a hand-set scaffold does as well (run 2026-10-05-1705). Parked with 09;
-  last slot unspent.
+  root 01's last slot went to 09 (run 1957).
 - [09-generic-bias-speedup](questions/01-map-bias/09-generic-bias-speedup/question.md)
   (parked): why does a vector with no sampling lift speed evolution 2–3×? Replicated; INPUT/GT
   raise carries it on max>2, unresolved on sum>2; the "no lift" was a cancellation (run
-  2026-10-05-1814). Reopen on a no-lift speed-up in another family, a heritable-bias design
-  that needs the answer, or a direct test of the sum>2 stepping stone.
+  2026-10-05-1814). The direct shortcut test (run 2026-10-05-1957) stopped at its pilot: the
+  max>2 shortcut is used but not needed; its share of the gain is unmeasured. Budget spent.
+  Reopen on a no-lift speed-up in another family, a heritable-bias design that needs the
+  answer, or an owner-funded rerun of the veto at n ≈ 1600.
 
 ## Older context
 
