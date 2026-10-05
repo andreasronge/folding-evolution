@@ -117,3 +117,18 @@ vector with no sampling lift speeds evolution 2–3×, is opened as
 [09-generic-bias-speedup](../09-generic-bias-speedup/question.md) rather than buried here.
 Fairly sure of "≈ 4× over uniform" and "hand-set ≈ fit"; the generic/specific split is
 unregistered and rough.
+
+## Run 2026-10-05-1814 (via 09): parked
+
+The component test ran under [09](../09-generic-bias-speedup/log.md)
+([analysis](../../../runs/2026-10-05-1814/analysis.md), commit `31d4408`). It replicated the
+mismatched vector's speed-up on fresh seeds (uniform ÷ mismatched 2.73× sum>2, 2.02× max>2,
+250 pairs) and found that on max>2 its INPUT/GT raise alone carries it, while on sum>2 the
+split is unresolved. The mismatched vector's flat sampling rate is a cancellation of INPUT/GT's
+3–4× lift and the rest of the vector's 3–4× loss. 09 parked on task disagreement.
+
+Decision: park 08, because 1814's proposal fixed that 08 follows 09 ("if 09 parks, park the
+unfinished part of 08 with its 1705 result") and the only open part, family specificity at
+1.66× / 1.80× against a 2× bar, can at best show "real but small". The answered part stands:
+about 4× over uniform on the held-out member, a hand-set scaffold does as well, mostly
+generic. Last slot unspent; the program returns to strategy.
