@@ -1,11 +1,13 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-05 (last run 2026-10-05-1705, commit `9abc25c`; run 2026-10-05-1510 blocked before running). This covers the **map-bias line**, the current
+As of 2026-10-05 (last run 2026-10-05-1814, commit `31d4408`; run 2026-10-05-1510 blocked before running). This covers the **map-bias line**, the current
 core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
 evolution finds and keeps ("arrival of the frequent")?* Until 2026-10-05 the line studied
 whether the chemistry can discover, preserve and reuse a **shared helper** (one functional part
-read by several outputs); that line has stopped, and the next one is the README's part 2,
-fitting the map's bias to a task family ([08](questions/01-map-bias/08-evolve-bias/question.md)).
+read by several outputs); that line has stopped. The README's part 2, fitting the map's bias
+to a task family ([08](questions/01-map-bias/08-evolve-bias/question.md),
+[09](questions/01-map-bias/09-generic-bias-speedup/question.md)), gave a bounded answer and is
+parked too; the program is back with the strategist (root 01 has 1 experiment left).
 
 Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per experiment; reviews and report tables in [docs/map-bias/reviews/](../docs/map-bias/reviews/)) and
 [findings](../docs/map-bias/findings.md) (items 1–17; the owner-promoted, reviewed claims).
@@ -62,6 +64,21 @@ Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per e
   ([08](questions/01-map-bias/08-evolve-bias/question.md),
   [09](questions/01-map-bias/09-generic-bias-speedup/question.md),
   [run analysis](runs/2026-10-05-1705/analysis.md))
+- **The generic speed-up is real, and on max>2 it is the INPUT/GT raise.** On fresh seeds
+  (250 pairs, pre-registered) the other family's vector is 2.73× (sum>2) and 2.02× (max>2)
+  faster than uniform (lower bounds 2.12, 1.45). Raising only its INPUT and GT (rest thinned
+  evenly) matches it on max>2 (0.90×, 0.71–1.08); the rest of the vector alone gives no gain
+  there and leaves more runs unsolved. On sum>2 both parts beat uniform (2.11×, 1.61×) and
+  neither is resolved against a 1.5× margin of the full vector. And the "no sampling lift" was
+  a **cancellation**: INPUT/GT alone raises exact solvers 3.2× / 3.9×, the rest alone cuts
+  them to 0.23× / 0.35×. So on max>2 the carrying part is a supply-raising change (speed-up
+  smaller than its lift). Speed-up against supply survives only for the rest-of-vector arm on
+  sum>2 (1.61× faster, 0.23× the solvers), where a max>2 shortcut stepping stone fits but was
+  not tested. Arms differ in when a training-perfect program first appears, not in the step
+  from it to exact. Fairly sure of the replication and of max>2; sum>2 open; sampling split
+  descriptive. Initialization and mutation coupled, so no mechanism is named.
+  ([09](questions/01-map-bias/09-generic-bias-speedup/question.md),
+  [run analysis](runs/2026-10-05-1814/analysis.md))
 - Steering is untested: (μ+λ) truncation leaves one behaviour per unsolved population under
   every tie rule. (§28) → [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)
 
@@ -164,14 +181,16 @@ B), **duplicated** (everything recomputed).
 - [07-shared-arrival](questions/01-map-bias/07-shared-arrival/question.md) (parked): about 2
   A-only/other shared arrivals per run, 0/100 single copies established, no B-helper arrival.
   Reopen if a B-helper single copy becomes testable or in-situ replay exists.
-- [08-evolve-bias](questions/01-map-bias/08-evolve-bias/question.md) (open): the README's
+- [08-evolve-bias](questions/01-map-bias/08-evolve-bias/question.md) (parked): the README's
   part 2. Can the map's frequency bias be fitted to a task family and help evolution on unseen
   members? Yes over uniform (about 4×), barely over the other family's fit (1.7–1.8×,
-  unresolved), and a hand-set scaffold does as well: Partial (run 2026-10-05-1705). Last slot
-  unspent; sent to strategy.
+  unresolved), and a hand-set scaffold does as well (run 2026-10-05-1705). Parked with 09;
+  last slot unspent.
 - [09-generic-bias-speedup](questions/01-map-bias/09-generic-bias-speedup/question.md)
-  (open, new): why does a vector with no sampling lift speed evolution 2–3×? Shared INPUT/GT
-  scaffold, junk-op suppression, or a shortcut stepping stone. No experiment yet.
+  (parked): why does a vector with no sampling lift speed evolution 2–3×? Replicated; INPUT/GT
+  raise carries it on max>2, unresolved on sum>2; the "no lift" was a cancellation (run
+  2026-10-05-1814). Reopen on a no-lift speed-up in another family, a heritable-bias design
+  that needs the answer, or a direct test of the sum>2 stepping stone.
 
 ## Older context
 

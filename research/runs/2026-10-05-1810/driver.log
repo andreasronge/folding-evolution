@@ -1,0 +1,6 @@
+2026-10-05 18:10:31 proposal sent back to the steward (The critic recommends `revise`; see critique.md beside the proposal.)
+2026-10-05 18:10:31 steward (claude/claude-opus-5-5) → propose [herdr]
+2026-10-05 18:13:40 phase → accept
+2026-10-05 18:13:40 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-05 18:14:52 phase → awaiting_approval
+2026-10-05 18:14:52 proposal: Does INPUT/GT mass or the rest of the fitted vector carry the no-lift speed-up? (2×2, fresh seeds, n 250) [questions/01-map-bias/09-generic-bias-speedup] — budget left: 2. Approve with `research.py approve`.

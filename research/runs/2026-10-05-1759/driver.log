@@ -1,0 +1,8 @@
+2026-10-05 18:02:45 cycle 2026-10-05-1705 done; brief: /Users/andreas/developer/folding-evolution/research/briefs/2026-10-05-2026-10-05-1705.md
+2026-10-05 18:02:45 strategist (codex/gpt-6-astra) → strategy [herdr]
+2026-10-05 18:06:46 phase → propose
+2026-10-05 18:06:46 steward (claude/claude-opus-5-5) → propose [herdr]
+2026-10-05 18:09:14 phase → accept
+2026-10-05 18:09:14 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-05 18:10:31 phase → awaiting_approval
+2026-10-05 18:10:31 proposal: Split the no-lift speed-up into INPUT/GT and the rest of the fitted vector (2×2, fresh seeds) [questions/01-map-bias/09-generic-bias-speedup] — budget left: 2. Approve with `research.py approve`.

@@ -1,0 +1,14 @@
+---
+recommend: approve
+---
+The four-arm experiment is the best bounded test of component sufficiency, and the revised outcome rules now keep unresolved comparisons from becoming mechanistic conclusions.
+
+The proposal addresses the [previous critique](../2026-10-05-1810/critique.md): labels are exclusive, failure of the 1.5× criterion requires positive evidence, both arms carrying does not imply non-additivity, and the two-task closure rule applies throughout. Fresh paired U/X runs replicate the exploratory result; IG/R supply the missing interventions. Existing solver decoding cannot replace them, and 1705 saved no shortcut genomes. An initialization/mutation split or a junk-only arm would answer a different, larger question. Retain both tasks: the proposed max-as-sum shortcut cannot explain both directions.
+
+This separates **which vector intervention suffices**, not G1 scaffold supply from G2 junk suppression or G3 shortcut ancestry. IG dilutes every other op; R changes useful aggregators and constants as well as junk. Even a clear winner leaves those mechanisms open. Closing 09 should therefore mean its bounded component question is answered, as the proposal now specifies. In particular, “carries” on max>2 need not mean most of the gain. Sampling intervals containing 1 also remain absence of resolved lift, not proof of equal sampling rates.
+
+**Least informative outcome:** X replicates, but both component intervals straddle 1.5, or their improvements over U remain unresolved. That confirms the original effect while leaving component sufficiency undecided; shortcut logs cannot rescue the decision. Task disagreement still provides local information but no common answer. The proposal correctly parks these outcomes without purchasing another study.
+
+**Size:** 250 pairs per cell is reasonable for the reported 1.5-hour estimate and the old-data precision check. Retain the frozen check and its maximum of 350, with the final n chosen before new outcomes are observed. Its reported power is per comparison for an arm exactly matching X, not the probability of resolving the full two-task verdict or an intermediate effect. That limitation is acceptable for a single bounded experiment. The short sampling addition is useful context; a smaller evolution run would save little while increasing the main risk of an unresolved result.
+
+**Parked questions:** no reopen condition is met. [02](../../questions/01-map-bias/02-fixed-target-sampling/question.md) still lacks the required owner request; [07](../../questions/01-map-bias/07-shared-arrival/question.md) has no newly testable B-helper copy, instrumented replay, or helper-establishment dependency here; [04](../../questions/01-map-bias/04-random-start-discovery/question.md) consequently stays parked. Leaving 08's last slot unspent and returning to strategy after this experiment follows the [strategy](../2026-10-05-1759/strategy.md).
