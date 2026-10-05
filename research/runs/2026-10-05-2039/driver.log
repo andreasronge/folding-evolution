@@ -2,3 +2,15 @@
 2026-10-05 20:41:15 strategist (codex/gpt-6-astra) → strategy [herdr]
 2026-10-05 20:43:59 autonomous run 2026-10-05-1503 ends: the owner is needed: the strategist recommends stopping; see /Users/andreas/developer/folding-evolution/research/runs/2026-10-05-2039/strategy.md
 2026-10-05 20:43:59 strategist (codex/gpt-6-astra) → summary [herdr]
+2026-10-05 22:25:38 strategist (codex/gpt-6-astra) → strategy [herdr]
+2026-10-05 22:30:36 phase → propose
+2026-10-05 22:30:36 steward (claude/claude-opus-5-5) → propose [herdr]
+2026-10-05 22:40:50 phase → accept
+2026-10-05 22:40:50 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-05 22:42:23 phase → awaiting_approval
+2026-10-05 22:42:23 proposal: Composition bank, decoder harness and headroom feasibility (root 10, experiment 1) [questions/10-compositional-map-transfer/11-composition-bank] — budget left: 1. Approve with `research.py approve`.
+2026-10-05 22:42:23 auto-approved (critic: approve_with_notes, revisions: 0)
+2026-10-05 22:42:23 phase → prepare
+2026-10-05 22:42:23 blocked: merging main into research/main conflicts; resolve by hand
+2026-10-05 22:42:23 phase → decide
+2026-10-05 22:42:23 steward (claude/claude-opus-5-5) → decide [herdr]
