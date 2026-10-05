@@ -1,0 +1,22 @@
+runs:
+  - id: 2026-10-06-0001-assembly-family
+    cmd: >-
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.assembly_run
+      --workers 8 --deadline-seconds 7800 --reserve-seconds 180
+    timeout_seconds: 9000
+    track: chem-tape
+    expect_outputs:
+      - roster.json
+      - maps.json
+      - config.json
+      - search.json
+      - sampling.json
+      - result.json
+      - summary.md
+      - curves.png
+    notes: >-
+      Approved 162-cell, three-domain depth-9 screen; 50 paired seeds per retained
+      cell/control, F-only 100-seed borderline top-ups, conditional diagnostic
+      grammars, secondary sampling up to 100M genotypes per control.
+      Serial memory-bounded screens, eight search workers, 130-minute internal
+      deadline, 150-minute timeout. All output paths derive from RUN_DIR.

@@ -1,0 +1,169 @@
+{
+  "domain": "D1331",
+  "screen_seconds": 95.06015270802891,
+  "screen_peak_rss_mib": 4686.21875,
+  "retained_counts": {
+    "GA": 0,
+    "BT": 0,
+    "BE": 2,
+    "PA": 8,
+    "D1": 3,
+    "D2": 3
+  },
+  "retained_ids": [
+    "BE:S?M:(S+m)",
+    "BE:S?m:(S+M)",
+    "D1:2M+S+m",
+    "D1:2S+M+m",
+    "D1:2m+S+M",
+    "D2:2(M+m)+S",
+    "D2:2(S+M)+m",
+    "D2:2(S+m)+M",
+    "PA:(S?M:S)+M",
+    "PA:(S?M:S)+m",
+    "PA:(S?M:m)+M",
+    "PA:(S?M:m)+S",
+    "PA:(S?m:M)+S",
+    "PA:(S?m:M)+m",
+    "PA:(S?m:S)+M",
+    "PA:(S?m:S)+m"
+  ],
+  "paired_seeds": [
+    260609100,
+    260609101
+  ],
+  "jobs": 128,
+  "workers": 8,
+  "cap": 524288,
+  "search_wall_seconds": 46.746339083008934,
+  "mean_run_seconds": 2.6362462909673923,
+  "arms": {
+    "U": {
+      "n": 32,
+      "solves": 28,
+      "mean_seconds": 4.662043913996968,
+      "max_seconds": 17.908225333027076,
+      "table_hash": "7885df0c0ff826b86719fcc0939546b711c84418acf3455040e85d69c7a53da1"
+    },
+    "F": {
+      "n": 32,
+      "solves": 30,
+      "mean_seconds": 2.346095236907786,
+      "max_seconds": 14.06073904200457,
+      "table_hash": "09840cf031d26f2f8a9efaa93bde5dd57eba13700bc5213f8cb7fddcd521b9f3"
+    },
+    "G": {
+      "n": 32,
+      "solves": 32,
+      "mean_seconds": 0.4611414296505245,
+      "max_seconds": 3.961235583992675,
+      "table_hash": "8b73c272400ece220bc88eae64513b5c35e7b1646fe24927cc09abdae9620b89"
+    },
+    "G-marg": {
+      "n": 32,
+      "solves": 29,
+      "mean_seconds": 3.075704583314291,
+      "max_seconds": 18.075073249987327,
+      "table_hash": "56f302e380862a87a9d1ff8c9be7120e07098ec2c6b9ef17198050ae45d7d147"
+    }
+  },
+  "sampling": {
+    "U": {
+      "genotypes": 100000,
+      "seed": 260609200,
+      "seconds": 0.5939973330241628,
+      "hits": {
+        "BE:S?M:(S+m)": 0,
+        "BE:S?m:(S+M)": 0,
+        "D1:2M+S+m": 0,
+        "D1:2S+M+m": 0,
+        "D1:2m+S+M": 0,
+        "D2:2(M+m)+S": 0,
+        "D2:2(S+M)+m": 0,
+        "D2:2(S+m)+M": 0,
+        "PA:(S?M:S)+M": 0,
+        "PA:(S?M:S)+m": 0,
+        "PA:(S?M:m)+M": 0,
+        "PA:(S?M:m)+S": 0,
+        "PA:(S?m:M)+S": 0,
+        "PA:(S?m:M)+m": 0,
+        "PA:(S?m:S)+M": 0,
+        "PA:(S?m:S)+m": 0
+      }
+    },
+    "F": {
+      "genotypes": 100000,
+      "seed": 260609201,
+      "seconds": 0.6711651670048013,
+      "hits": {
+        "BE:S?M:(S+m)": 0,
+        "BE:S?m:(S+M)": 0,
+        "D1:2M+S+m": 0,
+        "D1:2S+M+m": 0,
+        "D1:2m+S+M": 0,
+        "D2:2(M+m)+S": 0,
+        "D2:2(S+M)+m": 0,
+        "D2:2(S+m)+M": 0,
+        "PA:(S?M:S)+M": 0,
+        "PA:(S?M:S)+m": 0,
+        "PA:(S?M:m)+M": 0,
+        "PA:(S?M:m)+S": 0,
+        "PA:(S?m:M)+S": 0,
+        "PA:(S?m:M)+m": 0,
+        "PA:(S?m:S)+M": 0,
+        "PA:(S?m:S)+m": 0
+      }
+    },
+    "G": {
+      "genotypes": 100000,
+      "seed": 260609202,
+      "seconds": 0.7121498330379836,
+      "hits": {
+        "BE:S?M:(S+m)": 0,
+        "BE:S?m:(S+M)": 0,
+        "D1:2M+S+m": 0,
+        "D1:2S+M+m": 0,
+        "D1:2m+S+M": 0,
+        "D2:2(M+m)+S": 0,
+        "D2:2(S+M)+m": 0,
+        "D2:2(S+m)+M": 1,
+        "PA:(S?M:S)+M": 0,
+        "PA:(S?M:S)+m": 0,
+        "PA:(S?M:m)+M": 0,
+        "PA:(S?M:m)+S": 1,
+        "PA:(S?m:M)+S": 0,
+        "PA:(S?m:M)+m": 0,
+        "PA:(S?m:S)+M": 0,
+        "PA:(S?m:S)+m": 0
+      }
+    },
+    "G-marg": {
+      "genotypes": 100000,
+      "seed": 260609203,
+      "seconds": 0.7067988329799846,
+      "hits": {
+        "BE:S?M:(S+m)": 0,
+        "BE:S?m:(S+M)": 0,
+        "D1:2M+S+m": 0,
+        "D1:2S+M+m": 0,
+        "D1:2m+S+M": 0,
+        "D2:2(M+m)+S": 0,
+        "D2:2(S+M)+m": 0,
+        "D2:2(S+m)+M": 0,
+        "PA:(S?M:S)+M": 0,
+        "PA:(S?M:S)+m": 0,
+        "PA:(S?M:m)+M": 0,
+        "PA:(S?M:m)+S": 0,
+        "PA:(S?m:M)+S": 0,
+        "PA:(S?m:M)+m": 0,
+        "PA:(S?m:S)+M": 0,
+        "PA:(S?m:S)+m": 0
+      }
+    }
+  },
+  "raw_sha256": {
+    "screen_D1331.json": "da90cb53f46eb4588deb45d6cf10eb98416a980394140701231ec1dbb8e07300",
+    "benchmark.json": "72450165d64c433f77b798f26955995eca6067f53aba883aa6a292edec1192d0"
+  },
+  "scope": "implementation feasibility smoke; two seeds per cell/arm; no full-run outcome or transfer conclusion"
+}

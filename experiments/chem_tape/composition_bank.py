@@ -74,14 +74,16 @@ def cells():
 class SemanticMachine:
     # -1=input intlist, -2=empty intlist, -3=empty charlist. No string
     # input/producer exists. Integer vector IDs are >=0.
-    def __init__(self):
+    def __init__(self, inputs=None):
+        inputs = INPUTS if inputs is None else inputs
+        n = len(inputs)
         self.values = []
         self.ids = {}
-        self.zero = self.intern(np.zeros(625, dtype=np.int64))
+        self.zero = self.intern(np.zeros(n, dtype=np.int64))
         self.constants = {
-            k: self.intern(np.full(625, k, dtype=np.int64)) for k in (0, 1, 2, 5)
+            k: self.intern(np.full(n, k, dtype=np.int64)) for k in (0, 1, 2, 5)
         }
-        xs = np.array(INPUTS)
+        xs = np.array(inputs)
         self.reduced = {
             a.SUM: self.intern(xs.sum(1)),
             a.REDUCE_ADD: self.intern(xs.sum(1)),

@@ -94,7 +94,8 @@ def outputs(programs, inputs):
 
 
 def search(job):
-    cell, arm, table, seed, cap, pop_size = job
+    cell, arm, table, seed, cap, pop_size = job[:6]
+    inputs = job[6] if len(job) == 7 else INPUTS
     start = time.monotonic()
     decoder = Decoder(table)
     # Independent streams prevent arm-dependent selection from changing the
@@ -103,8 +104,8 @@ def search(job):
     initial_rng = np.random.default_rng([seed, 1])
     variation = np.random.default_rng([seed, 2])
     selection = FastRandom(seed + 100000000)
-    indices = cases_rng.choice(625, 64, replace=False)
-    training = [INPUTS[i] for i in indices]
+    indices = cases_rng.choice(len(inputs), 64, replace=False)
+    training = [inputs[i] for i in indices]
     label = np.asarray(cell["labels"])
     pop = initial_rng.integers(R, size=(pop_size, 32), dtype=np.int32)
     shortcuts = 0
@@ -131,7 +132,7 @@ def search(job):
             key = programs[i].tobytes()
             if key not in checked:
                 checked[key] = bool(
-                    np.array_equal(outputs(programs[i : i + 1], INPUTS)[0], label)
+                    np.array_equal(outputs(programs[i : i + 1], inputs)[0], label)
                 )
                 if not checked[key]:
                     unique_shortcuts += 1
