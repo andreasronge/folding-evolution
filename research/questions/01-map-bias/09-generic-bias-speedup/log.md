@@ -66,3 +66,59 @@ has also narrowed: the "no-lift" speed-up was mostly IG's lift and R's loss canc
 what is left unexplained is R's sum>2 gain, a one-task effect that G3 fits but nothing here
 tests. Fairly sure of the replication and of IG ≈ X on max>2; the sampling decomposition is
 descriptive with small historical denominators; sum>2 component status is genuinely open.
+
+## Run 2026-10-05-1957: does R's sum>2 gain use the exact max>2 shortcut? (reopened under (c))
+
+Reopened under condition (c) on the [strategy](../../../runs/2026-10-05-1945/strategy.md)'s
+direction, for root 01's last experiment. Experiment: [proposal](../../../runs/2026-10-05-1957/proposal.md)
+(revision of 1945, approved by the critic), [plan](../../../runs/2026-10-05-1957/plan.md), code
+`experiments/chem_tape/evolve_shortcut_veto.py` plus an `eligible` mask in `chem_tape/evolve.py`
+at commit `2a002a8` (branch `research/2026-10-05-1957`; code review passed on the second pass
+after a runtime-gate fix). 1814's harness on sum>2 only, with training sets on which max>2 is
+training-perfect by construction (A). Four cells: U / R × ordinary / veto, where *veto* bars any
+program equal to max>2 on all 10,000 lists from reproduction (parents, clones, elites). Stage 1:
+50-seed pilot. Stage 2 (600 or 800 seeds) only if pilot-based power reached 0.80 for all of
+(a) interaction I, (b) R's veto penalty P_R, (c) "P_R upper < 1.25 when P_R = 1".
+Data `experiments/output/2026-10-05/2026-10-05-1957-shortcut-veto/`, 223 s wall.
+
+Result: **pilot-only stop; no registered contrast, no outcome label**
+([analysis](../../../runs/2026-10-05-1957/analysis.md)). Power (a) and (b) were 300/300 at both
+sizes; (c) was 0.48 (n=600) and 0.53 (n=800), so stage 2 did not run, as frozen. Pilot complete
+and clean: 200/200 runs solved, 0 censored, 200/200 solvers re-verified exact, 100/100 identity
+checks, veto never leaked.
+
+Pilot only (n=50, exploratory, outside the registered family):
+
+| Median ratio (98.75% CI) | Pilot |
+|---|---|
+| C1 = U-ord ÷ R-ord (R's gain on A) | 1.30 (0.71–2.32) |
+| P_R = R-veto ÷ R-ord | 1.46 (0.99–2.08) |
+| P_U = U-veto ÷ U-ord | 1.06 (1.00–1.46) |
+| I = P_R ÷ P_U | 1.38 (0.82–2.00) |
+
+- The exact max>2 phenotype is the usual last step: in ordinary runs where it appears (U 25/50,
+  R 35/50), the first exact solver has an exact-max>2 parent in 55/60, and the solve follows
+  within a median 1–2 generations. It appears late (median generation 21 U, 13 R).
+- Vetoing it delays exposed runs in both arms (veto slower in 49 of 55 untied exposed pairs;
+  median delay first-max>2 → solve 1 → 4 generations in U, 2 → 10 in R) but never prevents the
+  solve (100/100). Near-max inexact programs take over (their share rises 2.4× in U, 3.3× in R;
+  sampled ones agree with max>2 on ~99% of the domain).
+- R meets the shortcut more often and earlier than U, as in 1814. Whether it costs R more than U
+  (I) and whether R's gain even holds on A (C1) are unresolved at n=50.
+- The reviewer finds the (c) power estimate fragile: it comes from resampling 50 pilot rows, and
+  under resampling of the pilot itself it ranged 0.05–1.00 at n=800 (11/16 ≥ 0.80). Runtime did
+  not force the stop; n≈1600 would have fitted the queue. So the honest reading is "the
+  registered gate was not met", not "no affordable design can decide".
+
+Against the explanations: G3 is neither supported nor excluded as an explanation of R's
+advantage. At pilot strength, exact max>2 is *used* as a stepping stone in both arms and blocking
+it costs a few generations, but it is not *needed*: a family of near-max programs serves as the
+same route. G1 and G2 are untouched.
+
+Decision: park 09 again, because the proposal and strategy committed to stopping this threshold
+line after one valid run whatever the result, and a pilot-only stop under the frozen gate is that
+result (the plan names it a feasibility outcome, not evidence against G3); 09's and root 01's
+budgets are now spent. Running stage 2 after seeing the pilot would be a second look. Reopen
+condition (c) is used up; I do not add a new one from this line beyond an owner-funded rerun.
+Fairly sure of the pilot's descriptive pattern (direction is clear in 49/55 exposed pairs);
+nothing is known at registered strength about R's advantage.

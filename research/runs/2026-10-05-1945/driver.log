@@ -1,0 +1,8 @@
+2026-10-05 19:48:44 cycle 2026-10-05-1814 done; brief: /Users/andreas/developer/folding-evolution/research/briefs/2026-10-05-2026-10-05-1814.md
+2026-10-05 19:48:44 strategist (codex/gpt-6-astra) → strategy [herdr]
+2026-10-05 19:51:22 phase → propose
+2026-10-05 19:51:22 steward (claude/claude-opus-5-5) → propose [herdr]
+2026-10-05 19:55:33 phase → accept
+2026-10-05 19:55:33 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-05 19:57:16 phase → awaiting_approval
+2026-10-05 19:57:16 proposal: Is R's sum>2 speed-up the max>2 shortcut route? REDUCE_MAX removal × shortcut-blocking training sets (sum>2, n 600) [questions/01-map-bias/09-generic-bias-speedup] — budget left: 1. Approve with `research.py approve`.

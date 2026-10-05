@@ -1,13 +1,15 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-05 (last run 2026-10-05-1814, commit `31d4408`; run 2026-10-05-1510 blocked before running). This covers the **map-bias line**, the current
+As of 2026-10-05 (last run 2026-10-05-1957, commit `2a002a8`, pilot only; runs 2026-10-05-1510 and 2026-10-05-2039 blocked before running, so no belief below changed since 1957). This covers the **map-bias line**, the current
 core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
 evolution finds and keeps ("arrival of the frequent")?* Until 2026-10-05 the line studied
 whether the chemistry can discover, preserve and reuse a **shared helper** (one functional part
 read by several outputs); that line has stopped. The README's part 2, fitting the map's bias
 to a task family ([08](questions/01-map-bias/08-evolve-bias/question.md),
 [09](questions/01-map-bias/09-generic-bias-speedup/question.md)), gave a bounded answer and is
-parked too; the program is back with the strategist (root 01 has 1 experiment left).
+parked too; root 01's budget is spent (last slot: run 1957, stopped at its pilot). The strategist
+opened root [10-compositional-map-transfer](questions/10-compositional-map-transfer/question.md)
+to test part 2 on held-out operation combinations with an adaptable decoder; it has no result yet.
 
 Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per experiment; reviews and report tables in [docs/map-bias/reviews/](../docs/map-bias/reviews/)) and
 [findings](../docs/map-bias/findings.md) (items 1–17; the owner-promoted, reviewed claims).
@@ -33,13 +35,13 @@ Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per e
   one op switches between equivalent routes (e.g. min vs gate joins, 13:1 vs 2:14) without
   changing solve rates; very high weights hurt only by diluting the rest of the alphabet.
   ([item 12](../docs/map-bias/findings.md), §16, §19; also the `rest` weight in §28)
-- **On the TAG alphabet, simple threshold tasks are only reachable by sampling when the
-  threshold is a built-in constant.** sum/max > 1, 2, 5 on length-4 lists come up about once
+- **On the TAG alphabet, simple threshold tasks were observed at usable sampling rates only
+  when the threshold is a built-in constant.** sum/max > 1, 2, 5 on length-4 lists come up about once
   per 1M uniform tapes; one ADD away (max>3, sum>7) about once per 30–100M; larger thresholds
-  not once in 95M. Reviewer probes, one seed each; good enough for task design, not a claim.
+  not once in 95M (an upper bound, not unreachability). Reviewer probes, one seed each; good enough for task design, not a claim.
   ([run 2026-10-05-1510 code review](runs/2026-10-05-1510/code_review.md))
 - **A frequency bias fitted on two members of a threshold family transfers to a held-out
-  member, but only through one op's weight.** Fitting `op_weights` on sum>1, sum>5 (or max>1,
+  member, mainly through one op's weight (a post-hoc model that later failed out of sample).** Fitting `op_weights` on sum>1, sum>5 (or max>1,
   max>5) raised held-out sum>2 (max>2) P(exact) 4.9× (8.9×) over uniform and 4.8× (6.7×) over
   the other family's fit; mismatched fits gave the holdouts nothing (1.0×, 1.3×). Every rate
   is reproduced by multiplying four op folds (INPUT, GT, the aggregator, the threshold
@@ -51,13 +53,14 @@ Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per e
   better than the fit (1.11×, 1.25×). Fairly sure of the numbers, narrow in meaning.
   ([08](questions/01-map-bias/08-evolve-bias/question.md),
   [run analysis](runs/2026-10-05-1558/analysis.md))
-- **In evolution, the fitted bias helps about 4×, but mostly generically.** Same holdouts,
+- **In evolution, the fitted bias helps about 4×; how much of that is family-specific is
+  unresolved.** Same holdouts,
   tagged harness (lexicase, crossover v2 0.7 selected mate, L 64, P1024), median evaluations
   to an exact solve, paired seeds: matched is 4.33× (sum>2) and 3.58× (max>2) faster than
   uniform (lower bounds 2.6×, 1.9×), so "supply, not success" (item 12's prediction) is out
   here. A hand-set INPUT/GT/aggregator scaffold matches the fit (0.93×, 1.08×). Matched beats
   the other family's fit only 1.66× / 1.80× (unresolved against a 2× bar, 100 pairs). And the
-  other family's fit, with **no sampling lift** on these tasks, is itself 3.3× / 1.9× faster
+  other family's fit, with **no resolved sampling lift** on these tasks (1.02×, 1.33×), is itself 3.3× / 1.9× faster
   than uniform (unregistered, 50 pairs). So exact-solver supply does not predict evolution
   speed (pass-through 0.35–3.2). Fairly sure of the 4× and of hand-set ≈ fit; the
   generic/specific split is rough. Median speed only; one evolution setup.
@@ -69,7 +72,7 @@ Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per e
   faster than uniform (lower bounds 2.12, 1.45). Raising only its INPUT and GT (rest thinned
   evenly) matches it on max>2 (0.90×, 0.71–1.08); the rest of the vector alone gives no gain
   there and leaves more runs unsolved. On sum>2 both parts beat uniform (2.11×, 1.61×) and
-  neither is resolved against a 1.5× margin of the full vector. And the "no sampling lift" was
+  neither is resolved against a 1.5× margin of the full vector. And the flat sampling rate was
   a **cancellation**: INPUT/GT alone raises exact solvers 3.2× / 3.9×, the rest alone cuts
   them to 0.23× / 0.35×. So on max>2 the carrying part is a supply-raising change (speed-up
   smaller than its lift). Speed-up against supply survives only for the rest-of-vector arm on
@@ -79,6 +82,17 @@ Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per e
   descriptive. Initialization and mutation coupled, so no mechanism is named.
   ([09](questions/01-map-bias/09-generic-bias-speedup/question.md),
   [run analysis](runs/2026-10-05-1814/analysis.md))
+- **On sum>2 the exact max>2 shortcut is used as the last step, but it is not needed.**
+  Pilot only (run 1957, 50 seeds, 4 cells; the registered main stage did not run because a
+  pilot-based power gate failed). On training sets where max>2 always fits, in runs where an
+  exact max>2 program appears (U 25/50, R 35/50), it is the solver's immediate parent in 55/60
+  and the solve follows within 1–2 generations. Barring it from reproduction delays those runs
+  (49/55 pairs slower; a few to ten generations) but every run still solves (100/100), through
+  near-max inexact programs whose share rises 2–3×. Whether the shortcut explains R's advantage
+  over uniform is **not known** (R's gain on these sets 1.30, 0.71–2.32; interaction 1.38,
+  0.82–2.00). Exploratory; do not read the stop as a null on the stepping stone.
+  ([09](questions/01-map-bias/09-generic-bias-speedup/question.md),
+  [run analysis](runs/2026-10-05-1957/analysis.md))
 - Steering is untested: (μ+λ) truncation leaves one behaviour per unsolved population under
   every tie rule. (§28) → [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)
 
@@ -164,8 +178,16 @@ B), **duplicated** (everything recomputed).
 
 ## Open questions
 
-- [01-map-bias](questions/01-map-bias/question.md) (open, root): how does the map bias what
-  evolution finds and keeps?
+- [10-compositional-map-transfer](questions/10-compositional-map-transfer/question.md) (open,
+  root, budget 4, 0 used): can a decoder adapted across related tasks help fresh populations
+  solve unseen operation combinations beyond a token-frequency bias? Nothing measured.
+  - [11-composition-bank](questions/10-compositional-map-transfer/11-composition-bank/question.md)
+    (open, budget 1): is there a non-aliased, tractable reducer/combiner bank with headroom?
+    First attempt (run 2026-10-05-2039) blocked by a merge conflict; re-proposed as run
+    2026-10-05-2242. Steward probes only (unreviewed, one run each): the plan's ANY/GT cells
+    are near-aliases of constants or thresholds; X+Y, 2X+Y, S>0?X:Y of SUM/MAX/MIN are not.
+- [01-map-bias](questions/01-map-bias/question.md) (open, root, budget spent): how does the map
+  bias what evolution finds and keeps?
 - [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)
   (parked): does folding help evolution beyond making solvers common? Rarity ladder not run.
 - [03-rare-shared-establishment](questions/01-map-bias/03-rare-shared-establishment/question.md)
@@ -185,12 +207,14 @@ B), **duplicated** (everything recomputed).
   part 2. Can the map's frequency bias be fitted to a task family and help evolution on unseen
   members? Yes over uniform (about 4×), barely over the other family's fit (1.7–1.8×,
   unresolved), and a hand-set scaffold does as well (run 2026-10-05-1705). Parked with 09;
-  last slot unspent.
+  root 01's last slot went to 09 (run 1957).
 - [09-generic-bias-speedup](questions/01-map-bias/09-generic-bias-speedup/question.md)
-  (parked): why does a vector with no sampling lift speed evolution 2–3×? Replicated; INPUT/GT
+  (parked): why does a vector with no resolved sampling lift speed evolution 2–3×? Replicated; INPUT/GT
   raise carries it on max>2, unresolved on sum>2; the "no lift" was a cancellation (run
-  2026-10-05-1814). Reopen on a no-lift speed-up in another family, a heritable-bias design
-  that needs the answer, or a direct test of the sum>2 stepping stone.
+  2026-10-05-1814). The direct shortcut test (run 2026-10-05-1957) stopped at its pilot: the
+  max>2 shortcut is used but not needed; its share of the gain is unmeasured. Budget spent.
+  Reopen on a no-lift speed-up in another family, a heritable-bias design that needs the
+  answer, or an owner-funded rerun of the veto at n ≈ 1600.
 
 ## Older context
 

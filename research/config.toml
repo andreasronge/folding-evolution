@@ -53,7 +53,8 @@ push = true
 max_queue_hours = 8
 
 # Autonomous mode (`run --auto`, Plans/research-auto.md).
+auto_max_experiments = 40  # experiments one autonomous run may execute
 strategy_every = 4       # strategist reviews the program every N cycles
-max_new_roots = 1        # new root questions per autonomous run
+max_new_roots = 2        # new root questions per autonomous run
 auto_retry_minutes = 10  # wait before retrying a failed agent
 auto_max_retries = 3     # consecutive failures in one phase end the run

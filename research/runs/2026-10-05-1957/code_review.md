@@ -1,86 +1,70 @@
 ---
-verdict: fail
+verdict: pass
 ---
-# Code review: 2026-10-05-1957 shortcut reproduction veto
+# Code review (second pass): 2026-10-05-1957 shortcut reproduction veto
 
-Reviewed `fc29dcb..8681cb7` (`experiments/chem_tape/evolve_shortcut_veto.py`, the `eligible`
-mask in `chem_tape/evolve.py`, tests), plus proposal, critique, plan and queue.
-
-One blocking issue. The veto, pairing, statistics and outcome routing are correct as far as I
-can find; the run as queued would nonetheless end as a pilot-only stop with near certainty,
-for a reason that has nothing to do with power or the hypothesis.
+Reviewed `fc29dcb..2a002a8` (`experiments/chem_tape/evolve_shortcut_veto.py`, the `eligible`
+mask in `chem_tape/evolve.py`, tests), plus proposal, critique, plan and queue. The first pass
+failed on one issue, the runtime gate. That is fixed, and I found no new blocking issue.
 
 ## Blocking issues
 
-1. **The runtime gate will refuse the main stage whatever the pilot shows.**
-   `runtime_design` (`evolve_shortcut_veto.py:431-444`) prices every main run at the full cap,
-   at 1.5 × the *largest* seconds-per-candidate seen in any pilot run of that cell. Real runs
-   solve at a median of roughly 25–40k of 262,144 evaluations, and the largest
-   seconds-per-candidate comes from short runs dominated by full-domain verification, so the
-   estimate is about 30× too high.
-   - **Measured in this harness:** I ran 8 full-size seeds (P1024, cap 262,144) on the smoke
-     master, not pilot or main seeds. Actual cost was 2.7–14.0 worker-seconds per four-cell
-     seed (mean 8.4), which puts n = 600 at about 21 min on 4 workers. The gate, given those
-     same 8 records and n = 600, estimated **35,587 s against about 9,500 s available** and
-     returned `main exceeds remaining deadline`.
-   - **Cross-check on 1814's 500 sum>2 runs:** the largest seconds-per-candidate over 50
-     seeds gives 137 s (U) and 208 s (R) per priced run, so about 100,000 s for n = 600. Even
-     the *median* seconds-per-candidate with every run priced at cap gives about 11,300 s,
-     which still fails. With 50 pilot seeds the maximum is larger than with my 8.
-   - **Consequence:** root 01's last experiment would be spent on a `pilot-only feasibility
-     stop` that the plan itself says is not evidence about G3, while the main stage would
-     actually fit in well under an hour.
-   - **Fix:** estimate from what the pilot runs actually cost, for example
-     1.5 × n × (mean pilot worker-seconds per four-cell seed) ÷ workers, plus one worst-case
-     cap run and the 600 s reserve. Pricing every run at cap is not needed for safety:
-     deadline truncation is already handled as infrastructure missingness with a nonzero
-     exit. Update plan.md's "Runtime gate" paragraph and the runtime-refusal test to match.
-     No pilot or main data have been seen, so changing this now costs nothing statistically.
+None.
 
-## Checked and found correct
+## The earlier blocking issue is resolved
 
-- **Veto wiring.** `eligible = classes != 2` in veto cells only. Both engine paths filter
-  elites and the lexicase pool by the mask; the offspring count is taken from the actual
-  number of elites, so population size is kept when fewer than two are eligible. An all-true
-  mask becomes `None`, so the ordinary RNG path is untouched. A per-generation lineage
-  assertion checks no vetoed parent in either role.
-- **Detection.** Every training-perfect row is classified on all 10,000 lists, exact sum>2
-  first. The A sampler draws positives only where max>2 agrees, so every exact-max>2 program
-  is training-perfect. The cache is keyed on full genome bytes.
-- **Seeds and pairing.** Pilot, main and smoke use separate masters and offsets; none
-  overlaps 1814. Ordinary and veto share training set, evolution seed and initial population
-  within a vector and seed. Bootstrap and power streams are separate.
-- **Identity check on real trajectories.** The committed smoke had no exposure, so it did not
-  exercise divergence. In my 8 full-size seeds, 5 U and 6 R pairs were exposed, all pairs
-  passed the pre-exposure digest check, the 5 unexposed pairs had identical endpoints, and
-  exposed pairs diverged afterwards. So the veto does act on real runs.
-- **Statistics.** Whole four-cell seed rows are resampled with the same indices for all four
-  ratios. Censored runs enter as infinity; the lower median matches `km_curve`. Non-estimable
-  draws widen the interval instead of being dropped, and a gate needs ≥ 99% finite draws.
-  Intervals are 98.75%. `outcome()` follows the registered order exactly.
-- **Power procedure.** Injection scales only exposed veto event times, keeps censored runs
-  censored, censors at the cap, and stops if the target is unreachable. The three registered
-  powers and the joint route probability are computed as planned.
-- **Missingness.** Deadline-truncated or identity-failed runs make the stage incomplete: no
-  `COMPLETE`, nonzero exit, no contrasts.
-- **Critique.** Every point is implemented or stated in plan.md (whole-record resampling,
-  censored-median safeguards, frozen injection, no assumed correlation, unexposed pairs
-  untouched, joint probability, explicit eligibility filtering, identity invariant,
-  interpretation limits). The runtime-fit requirement is implemented, but miscalibrated as
-  in issue 1.
-- **Tests and queue.** `tests/test_evolve_shortcut_veto.py`: 34 passed. One queue entry,
-  10,800 s timeout, 10,500 s internal budget.
+`runtime_design` now estimates the main stage as 1.5 × n × mean pilot worker-seconds per
+four-cell seed ÷ workers, plus one worst-case cap run and the 600 s analysis reserve. plan.md's
+"Runtime gate" paragraph, the queue notes and a new regression test match the code.
+
+I checked it on 16 full-size seeds (P1024, cap 262,144, 4 workers) drawn from the smoke
+master, so no pilot or main seed was touched:
+
+| | n = 600 | n = 800 |
+|---|---|---|
+| Mean cost per four-cell seed | 9.2 worker-s | 9.2 worker-s |
+| Estimated main stage | 2,072 s | 2,763 s |
+| Cap-run reserve | 133 s | 133 s |
+| Total with 600 s reserve | 2,806 s | 3,496 s |
+| Gate (about 9,500 s available) | admits | admits |
+
+- **Actual cost:** the 16 seeds took 41 s of wall time, so the estimate's 1.5× margin is real
+  headroom, not a tight fit.
+- **Other stages:** the power simulation ran at about 0.08 s per trial at n = 600, so about a
+  minute for 300 trials at both sizes. A 100,000-draw bootstrap at n = 800 took 2.5 s.
+- **Tests:** `tests/test_evolve_shortcut_veto.py` has 35 passing.
+
+## Re-checked on this commit
+
+- **Veto wiring.** Both engine paths filter elites and the lexicase pool by the mask. The
+  offspring count follows the actual number of elites. An all-true mask becomes `None`, so
+  ordinary cells keep the unmodified RNG path. With `crossover_mate="selected"` the mate comes
+  from the same filtered draw.
+- **Identity on real trajectories.** All 32 pairs in my 16 seeds passed the pre-exposure digest
+  check. 8 of 16 U pairs and 12 of 16 R pairs had a reproductive exposure and diverged after it.
+- **Arms and seeds.** U is uniform 1/22 and R is 1814's frozen vector. Pilot, main and smoke
+  masters are separate. Ordinary and veto share the training set and evolution seed within a
+  vector and seed.
+- **Statistics and routing.** Unchanged since the first pass: whole-seed resampling with shared
+  indices, censored runs as infinity, 98.75% intervals, and `outcome()` in the registered order.
+- **Critique.** Every point is implemented or answered in plan.md, including the runtime-fit
+  requirement that was miscalibrated before.
+- **Queue.** One entry, 10,800 s timeout, 10,500 s internal budget, outputs under `RUN_DIR`.
 
 ## Minor notes (not blocking)
 
-- Power is estimated by resampling 50 pilot records up to n = 600 or 800. The result is
-  conditional on those 50 and will be lumpy; read `power.json` with its Monte Carlo intervals
-  and the exposure counts, not as a precise number.
-- If the R exposure fraction in the pilot is low, the P_R = 1.6 target can be unreachable and
-  the run stops as `injection infeasible`. That is as registered, but the analysis should
-  report it as a statement about exposure, not about power.
-- `cell_summary` counts `exposed_before_solve` and `reproductive_exposure` from each cell's
-  own run. In veto cells these describe the veto trajectory; only the ordinary-cell counts
-  feed the power mask. Label them accordingly in the analysis.
-- In my 8 seeds the veto slowed R in 4 of 6 exposed pairs and sped it up in 2. This is far
-  too few to mean anything; it shows only that the effect has either sign per seed.
+- **The C1 gate may fail.** In my 16 seeds the U-ord median was about 23,700 evaluations and
+  R-ord about 25,900. 1814 had 39,481 and 24,484 on natural sets. Sixteen seeds are far too few
+  to conclude anything, but uniform may be faster on shortcut-admitting sets. That is a
+  registered outcome ("gate failed"), and the analysis should be ready for it.
+- **Joint route power can be near zero.** The power alternative injects P_R and P_U but not
+  C1, so `complete_route` depends on the pilot's own C1. It was 0 of 20 in my check. It is
+  descriptive and does not gate the main stage, as registered.
+- **Power is lumpy.** It resamples 50 pilot records up to n = 600 or 800, so it is conditional
+  on those 50. Read `power.json` with its Monte Carlo intervals and the exposure counts.
+- **Injection can be infeasible.** If the pilot's R exposure fraction is low, P_R = 1.6 is
+  unreachable and the run stops as `injection infeasible`. Report that as a statement about
+  exposure, not about power.
+- **Veto-cell exposure counts.** `cell_summary` counts `exposed_before_solve` and
+  `reproductive_exposure` from each cell's own run. Only the ordinary-cell counts feed the
+  power mask; label the veto-cell ones accordingly.

@@ -39,11 +39,15 @@ Agents: read this first, then your role file in `roles/`.
 runs are counted automatically from `runs/*/execution.md` (by the proposal's
 `node`); `used` is only for experiments counted by hand, normally 0.
 Sub-questions draw from their ancestors' budgets: an experiment counts
-against every ancestor, and cannot run when any ancestor has none left. Only
-the owner raises `experiments`. `research.py status` shows what is left.
+against every ancestor, and cannot run when any ancestor has none left.
+Budgets are allocations, not verdicts: the owner sets them, and in an
+autonomous run the strategist may raise a root's budget (the run itself is
+capped at `auto_max_experiments`). `research.py status` shows what is left.
 
-Stopping is the default. Park a question after two valid results that
-changed no decision and separated no explanations. Close it when answered.
+Park a question when further experiments would not change a decision, not to
+save budget; an unresolved result that a larger or better-sized run could
+settle is a reason to propose that run, unless another question is worth
+more. Close a question when it is answered.
 
 ## Proposal format
 
@@ -54,18 +58,36 @@ changed no decision and separated no explanations. Close it when answered.
 node: questions/01-map-bias/04-random-start-discovery   # relative to research/
 title: Short name of the experiment
 ---
-Why this now · what would be run (arms, seeds, rough runtime) · what each
-outcome would mean · alternatives considered.
+Why this now · what would be run (arms, seeds, rough runtime) · feasibility
+(measured hit or solve rates and runtime the design depends on, or a stage 0
+probe that measures them) · what each outcome would mean, as outcome rules
+that do not overlap, with an `unresolved` row · alternatives considered.
 ```
 
 Every proposal is approved by the owner before it runs, or in autonomous
-mode (`research.py run --auto`) by the critic: `approve` runs it; `revise`
-or `reject` sends it back to the steward (with critique.md) up to two times.
+mode (`research.py run --auto`) by the critic: `approve` and
+`approve_with_notes` run it; `revise` or `reject` sends it back to the
+steward (with critique.md). After two revisions the strategist redesigns or
+redirects instead; five turned-down proposals in a row need the owner. If the
+researcher finds an approved design infeasible, it writes `infeasible.md` and
+the steward re-plans.
+
+## Statistics
+
+This is a lab notebook, not a paper. Prefer simple pre-stated comparisons:
+one effect size with a 95% interval, a fixed n chosen so the interval can
+change a decision. Use multiplicity corrections, sequential looks, power
+gates and equivalence margins only when the decision really depends on them;
+a design whose gates are longer than its question is too heavy. A finite
+sample with no hits is an upper bound, not absence; an unresolved difference
+is not equality.
 
 ## Experiment size
 
-Size an experiment by what the question needs: short is fine, and up to 8 h
-of queue time when that is justified. The driver refuses queues whose entry
+Size an experiment by what the question needs, up to 8 h of queue time when
+that is justified. Each cycle costs about an hour of agent work, so prefer one
+well-sized experiment over several tiny ones: a queue under 30 min usually
+should have done more, or had a later stage gated in code. The driver refuses queues whose entry
 `timeout_seconds` sum to more than `max_queue_hours`, because nothing may run
 longer than that without an agent reviewing the results. Split longer studies
 into stages, each analysed and decided before the next.
@@ -75,6 +97,12 @@ into stages, each analysed and decided before the next.
 The strategist (`roles/strategist.md`) reviews the whole program every few
 cycles, when a proposal moves to another root question, and when the steward
 ends `decide` with `next: strategy` in decision.md's frontmatter instead of a
-proposal. It writes `runs/<task>/strategy.md`, which the next proposal reads,
-and may open one new root question per autonomous run. Only the strategist
-opens root questions (top-level folders); the steward adds sub-questions.
+proposal, when the next proposal has no budget left, and after two critic
+revisions. It writes `runs/<task>/strategy.md`, which the next proposal reads,
+may raise root budgets, write plans in `plans/`, and open up to two new root
+questions per autonomous run. Only the strategist opens root questions
+(top-level folders); the steward adds sub-questions. A run ends after
+`auto_max_experiments` experiments, at its deadline (a finished queue is
+still analysed), on `research/STOP`, or when the strategist writes
+`next: stop`. The driver keeps a one-row-per-cycle table in
+`briefs/<run>-ledger.md`.
