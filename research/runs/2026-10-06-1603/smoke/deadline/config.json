@@ -1,0 +1,58 @@
+{
+  "task": "2026-10-06-1603",
+  "arguments": {
+    "workers": 2,
+    "deadline_seconds": 181,
+    "seeds": 2,
+    "cap": 4096,
+    "screen_depth": 3,
+    "smoke": true
+  },
+  "git_commit": "e5b133d15f456d48496496ba8cc31d14d853c1db",
+  "alphabet": "v2_rmin_first",
+  "allele_range": 24000,
+  "length": 32,
+  "population": 256,
+  "training_cases": 64,
+  "crossover": 0.7,
+  "mutation": 0.03,
+  "pilot_parameters": {
+    "trajectories_per_family": 2,
+    "outer_mu": 4,
+    "outer_lambda": 12,
+    "generations": 25,
+    "dimensions": 24,
+    "inner_searches_per_candidate": 24,
+    "inner_cap": 65536,
+    "multiplier_bounds": [
+      0.0625,
+      16
+    ],
+    "mutation_coordinates": 3,
+    "mutation_sigma": 0.5,
+    "minimum_token_count": 250,
+    "objective": "mean log2 evaluations; unsolved assigned 2*inner_cap",
+    "final_parent_selection_seeds_per_training_cell": 20,
+    "normalization": "proportional lower-bound water filling; stable largest remainder"
+  },
+  "seed_blocks": {
+    "validation": 1603001,
+    "bootstrap": 1603002,
+    "calibration": [
+      1603100,
+      1603149
+    ],
+    "learning": [
+      1603200,
+      1603203
+    ],
+    "fresh_training": [
+      1603300,
+      1603349
+    ],
+    "fresh_holdout": [
+      1603400,
+      1603499
+    ]
+  }
+}

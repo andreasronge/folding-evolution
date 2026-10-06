@@ -9,12 +9,13 @@ Current summary: **closed (run 2026-10-06-1425, row 3): the shift did not replic
 six unscored "b" continuations R / M+ was 0.94× [0.77, 1.16] on branch-else (BE) and 1.29×
 [0.88, 1.91] on linear (LIN); the BE-over-LIN shift was 0.73× [0.57, 0.94], below 1 in 6/6
 starts, the opposite sign to the "a" maps. The six "a" maps repeat their 0811 pattern on 200
-fresh seeds (shift 1.86× [1.41, 2.44]), so that pattern belongs to those saved maps, not to the
-learner: two runs of the same learner from the same starts disagree in sign. On "b", a G-context
-token-only map fitted to R's pooled emitted token frequencies (R_fm) matches R (R / R_fm BE 1.04×
+fresh seeds (shift 1.86× [1.41, 2.44]), so the positive shift replicated on the saved "a" maps but
+reversed on the "b" continuations from the same six starts; a consistently positive
+learner-level shift was not demonstrated. On "b", a G-context
+token-only map fitted to R's pooled emitted token frequencies (R_fm) was not resolved from R (R / R_fm BE 1.04×
 [0.91, 1.17], shift 1.02× [0.92, 1.12]); the pooled a/b layer's residual effect (shift 1.23×
-[1.11, 1.36]) comes from the selected "a" maps and is a linear slow-down with an unresolved BE
-gain. Both learners, both letters, were faster than their M start on BE (lower bounds
+[1.11, 1.36]) comes from the selected "a" maps; its point estimates combine a linear slow-down
+and a BE gain, neither resolved alone. Both learners, both letters, were faster than their M start on BE (lower bounds
 1.05–1.10×). Scope: six M starts (not new starts), eight frozen off-family cells on D1331,
 saved maps only; 95% t intervals over six start clusters. An S1 (residual shape preference) at
 the learner level is not supported at these bounds; it is not shown to be zero, and nothing here
@@ -39,9 +40,10 @@ Competing explanations:
 - S4: It was noise or selection on six maps and does not replicate.
 
 After 1425: S4's "does not replicate" holds for the learner, but not as seed noise: the "a"
-maps keep their pattern on fresh seeds, so it was selection of six particular learning runs.
+maps keep their pattern on fresh seeds but it did not generalize to the "b" continuations, so in
+this sample the shift depends on the learning run (selection as an isolated cause is not shown).
 S1–S3 presupposed a replicating shift and are moot at the learner level; on the "b" maps the
-S2-type control (R_fm) reproduces R, which is the only dependency evidence free of selection.
+S2-type control (R_fm) was not resolved from R (bounds above), which is the only dependency evidence free of selection.
 
 Scope: eight frozen non-PA cells from run 0001 (two branch-else, six linear) on D1331; saved
 maps only, no new learning. Branch-else is a related shape, not an independently trained

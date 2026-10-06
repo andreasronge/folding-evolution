@@ -156,3 +156,25 @@ learner, and on the unselected maps R's pooled token frequencies on G's context 
 Context gets at most a secondary arm in the two-family study; the token learner is the primary
 one. Root 10 is at 5 of 7. Return to strategy before the four-reducer feasibility slot, as
 strategy 1400 asked.
+
+## 2026-10-06: runs 2026-10-06-1536 / 1603 (15), four-reducer FIRST bank — ran; row 1
+
+Strategy 1536 gave slot 6 to the four-reducer feasibility study and opened
+[15](15-four-reducer-family-bank/question.md). The 1536 proposal was sent back because it read a
+missing hand-set grammar contrast as decoder incapacity. The revision (1603) made that contrast a
+descriptive positive witness, and the critic approved it with notes. The run (commit `92ba7c5`,
+43.7 min, complete) reproduced the probe's screen exactly. On D1331, 13 of 36 cells survive
+(BE 5, PA 8). **BE has no role-covered holdout pair on any of the three domains.** PA splits
+(2 holdouts, 6 training). G4 solves 45–50/50 on every cell, with medians 8.7k–28.7k, above the
+4 096 line. Hand-set family grammars show a crossed preference: matched over swapped is 1.68×
+[1.39, 2.05] on BE and 1.32× [1.12, 1.57] on PA. That preference sits in context rather than
+marginals (paired contrasts 1.51× [1.09, 2.09], 1.46× [1.16, 1.82]). The PA grammar does not
+beat G4 on PA (0.87× [0.75, 1.04]). A 4-trajectory token-learner pilot on this bank projects to
+2.4–4.7 h, so stage C could not have run in this queue
+([analysis](../../runs/2026-10-06-1603/analysis.md)).
+
+Decision: close 15 and return to strategy, because the frozen split rule rejects this candidate.
+Root 10 now has 6 of 7 slots used. Its last slot (the matched/mismatched comparison) has no
+symmetric bank to run on. Only strategy can approve an asymmetric design, a new candidate, or a
+reallocation. Correction to the 1425 entry above (critique 1603 note 7): "reproduce it" should
+read "was not resolved from it" (R's advantage bounded to about 1.17× on BE, 1.12× on the shift).

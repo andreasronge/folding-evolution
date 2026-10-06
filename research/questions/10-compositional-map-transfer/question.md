@@ -8,8 +8,19 @@ budget: {experiments: 7, used: 0}
 Current summary: **learned token weights on G transfer about 2× to the withheld compositions
 and to branch-else; allowing learned contextual moves added no resolved training gain on top (≤ 1.11×),
 their holdout increment is unresolved, and the one off-family hint that they shift speed toward
-branch shapes did not replicate in a second set of learning runs from the same starts** (5 of 7
+branch shapes did not replicate in a second set of learning runs from the same starts. The
+four-reducer bank meant for the two-family test has no role-covered branch-else split** (6 of 7
 slots used; strategy 1400 raised the budget from 5 to 7).
+Run 2026-10-06-1603 ([15](15-four-reducer-family-bank/question.md), commit `92ba7c5`, row 1):
+adding FIRST to SUM/MAX/MIN leaves 13 of 36 ten-token cells on D1331 (BE 5, PA 8). BE has no
+holdout pair whose roles are covered by training, on any of three domains; PA splits. On all 13
+cells G4 solved 45–50/50 with medians 8.7k–28.7k. A hand-set BE grammar and a hand-set PA
+grammar showed a crossed family preference: matched over swapped 1.68× [1.39, 2.05] on BE,
+1.32× [1.12, 1.57] on PA. That preference sits in context rather than marginals (paired
+contrasts 1.51×, 1.46×, lower bounds 1.09, 1.16). Only the BE grammar beat G4 on its own family;
+the PA grammar was 0.87× [0.75, 1.04] of G4. This is a positive witness for a decoder class, not
+learned evidence. The symmetric matched/mismatched test cannot run on this bank under the frozen
+rules.
 Run 2026-10-06-0811 ([13](13-post-addition-map-learning/question.md), commit `0709104`, row 4):
 from the six saved M maps, 12 matched pairs × 35 generations compared R (token steps plus
 whole-row contextual residuals) with M+ (token steps only). R / M+ on fresh training 1.00×
@@ -29,9 +40,10 @@ approved twice before as runs 1400 and 1419, both blocked by a merge conflict): 
 the eight frozen off-family cells, 200 fresh seeds each. On the six unscored "b" continuations
 R / M+ was 0.94× [0.77, 1.16] on branch-else and 1.29× [0.88, 1.91] on linear; the shift was
 0.73× [0.57, 0.94], opposite to "a" in 6/6 starts. The "a" maps repeat their pattern on the
-fresh seeds (shift 1.86× [1.41, 2.44]), so the shift is a property of individual learning runs,
-not of the contextual learner. On "b", a G-context token-only map matched to R's pooled emitted
-token frequencies reproduced R within about 1.17× (BE) and 1.12× (shift). Both learners, in both
+fresh seeds (shift 1.86× [1.41, 2.44]); a consistently positive learner-level shift was not
+demonstrated (two continuations of six shared starts disagree in sign). On "b", a G-context
+token-only map matched to R's pooled emitted token frequencies was not resolved from R; R's
+advantage is bounded to about 1.17× (BE) and 1.12× (shift). Both learners, in both
 letters, were faster than their M start on BE (lower bounds 1.05–1.10×). Six shared M starts
 only.
 
@@ -87,13 +99,18 @@ increment unresolved; runs
 [14-saved-map-shape-shift](14-saved-map-shape-shift/question.md) (closed, 1 of 1 slot, run
 2026-10-06-1425, row 3: 0811's branch-versus-linear shift of R over M+ did not replicate on
 the "b" continuations (shift 0.73× [0.57, 0.94]); on those maps a frequency-matched token-only
-control reproduces R).
+control was not resolved from R, shift 1.02× [0.92, 1.12]).
+[15-four-reducer-family-bank](15-four-reducer-family-bank/question.md) (closed, 1 of 1 slot, run
+2026-10-06-1603, row 1: with FIRST added, branch-else has no role-covered holdout pair on three
+domains; PA splits; G4 tractable with headroom on all 13 cells; hand-set family grammars give a
+crossed, context-located preference, descriptive only; learner pilot projected at 2.4–4.7 h).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
 [08-evolve-bias](../01-map-bias/08-evolve-bias/question.md),
 [09-generic-bias-speedup](../01-map-bias/09-generic-bias-speedup/question.md),
 [run 0811 decision](../../runs/2026-10-06-0811/decision.md),
+[run 1603 decision](../../runs/2026-10-06-1603/decision.md),
 [digest](../../digest.md), [chem-tape findings](../../../docs/chem-tape/findings.md).
 
 Review after the feasibility experiment and after the four allocated experiments. A

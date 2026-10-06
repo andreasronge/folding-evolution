@@ -1,0 +1,65 @@
+{
+  "outcome": "smoke_only",
+  "per_cell_arm": {},
+  "families": {},
+  "gates": {
+    "split": null
+  },
+  "splits": {
+    "BE": {
+      "holdouts": [
+        "BE:F?M:(S+m)",
+        "BE:F?S:(M+m)"
+      ],
+      "training": [
+        "BE:F?m:(S+M)",
+        "BE:S?F:(M+m)",
+        "BE:S?M:(m+F)",
+        "BE:S?m:(M+F)",
+        "BE:m?F:(S+M)",
+        "BE:m?M:(S+F)",
+        "BE:m?S:(M+F)"
+      ]
+    },
+    "PA": {
+      "holdouts": [
+        "PA:(F?M:S)+m",
+        "PA:(F?M:m)+S"
+      ],
+      "training": [
+        "PA:(F?S:M)+m",
+        "PA:(F?S:m)+M",
+        "PA:(F?m:M)+S",
+        "PA:(F?m:S)+M",
+        "PA:(M?F:S)+m",
+        "PA:(M?F:m)+S",
+        "PA:(M?S:F)+m",
+        "PA:(M?S:m)+F",
+        "PA:(M?m:F)+S",
+        "PA:(M?m:S)+F",
+        "PA:(S?F:M)+m",
+        "PA:(S?F:m)+M",
+        "PA:(S?M:F)+m",
+        "PA:(S?M:m)+F",
+        "PA:(S?m:F)+M",
+        "PA:(S?m:M)+F",
+        "PA:(m?F:M)+S",
+        "PA:(m?F:S)+M",
+        "PA:(m?M:F)+S",
+        "PA:(m?M:S)+F",
+        "PA:(m?S:F)+M",
+        "PA:(m?S:M)+F"
+      ]
+    }
+  },
+  "cost": {},
+  "pilot": {},
+  "per_cell_control_ratios": {},
+  "interpretation": "Split failure rejects only this candidate. Headroom failure means failure of the frozen 4096 rule. No negative capacity inference. A W reading in one family is a matched-prior advantage there; crossed preference requires W in both. Context attribution requires the directly paired contrast. All intervals are descriptive; incomplete search remains unresolved.",
+  "fresh_per_cell_arm": {},
+  "wall_seconds": 1.038061416009441,
+  "b_complete": false,
+  "c_started": false,
+  "c_complete": false,
+  "smoke_only": true
+}

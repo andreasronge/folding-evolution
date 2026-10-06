@@ -1,0 +1,21 @@
+{
+  "split": false,
+  "headroom": null,
+  "tractability": null,
+  "cost": {
+    "inner_searches": 38784,
+    "final_parent_selection_searches": 4640,
+    "final_scoring_searches": 9250,
+    "g4_inner_mean_seconds_worst_cell": 0.08038552151992917,
+    "g4_final_mean_seconds_worst_cell": 0.08038552151992917,
+    "candidate_slowdown_allowance": 2,
+    "worker_overhead_factor": 1.25,
+    "workers": 2,
+    "projected_c_seconds": 5472.783700675936,
+    "c_conditional_on_splits": false,
+    "projected_b_remaining_seconds": null,
+    "remaining_work_seconds": 417.29990591702517,
+    "first_block_cost_blocked": true,
+    "fits": false
+  }
+}

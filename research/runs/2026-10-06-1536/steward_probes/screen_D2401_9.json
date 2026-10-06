@@ -1,0 +1,598 @@
+{
+ "domain": "D2401",
+ "depth": 9,
+ "cells": [
+  {
+   "id": "BE:S?M:(m+F)",
+   "agree": 0.709,
+   "witness": [
+    1,
+    22,
+    2,
+    1,
+    5,
+    17,
+    1,
+    23,
+    7
+   ],
+   "dups": [],
+   "survive": true
+  },
+  {
+   "id": "BE:S?m:(M+F)",
+   "agree": 0.684,
+   "witness": [
+    1,
+    18,
+    2,
+    1,
+    5,
+    17,
+    1,
+    23,
+    7
+   ],
+   "dups": [],
+   "survive": true
+  },
+  {
+   "id": "BE:S?F:(M+m)",
+   "agree": 0.709,
+   "witness": [
+    1,
+    18,
+    1,
+    22,
+    2,
+    1,
+    5,
+    17,
+    7
+   ],
+   "dups": [],
+   "survive": true
+  },
+  {
+   "id": "BE:M?S:(m+F)",
+   "agree": 0.935,
+   "witness": [
+    1,
+    22,
+    9,
+    7,
+    1,
+    5,
+    1,
+    18,
+    17
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "BE:M?m:(S+F)",
+   "agree": 0.935,
+   "witness": [
+    1,
+    5,
+    2,
+    1,
+    18,
+    17,
+    1,
+    22,
+    7
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "BE:M?F:(S+m)",
+   "agree": 0.935,
+   "witness": [
+    1,
+    5,
+    2,
+    1,
+    18,
+    17,
+    1,
+    23,
+    7
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "BE:m?S:(M+F)",
+   "agree": 0.975,
+   "witness": [
+    1,
+    18,
+    1,
+    23,
+    16,
+    1,
+    22,
+    17,
+    7
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "BE:m?M:(S+F)",
+   "agree": 0.981,
+   "witness": [
+    1,
+    5,
+    2,
+    1,
+    22,
+    17,
+    1,
+    23,
+    7
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "BE:m?F:(S+M)",
+   "agree": 0.981,
+   "witness": [
+    1,
+    5,
+    1,
+    18,
+    7,
+    1,
+    22,
+    9,
+    17
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "BE:F?S:(M+m)",
+   "agree": 0.748,
+   "witness": [
+    1,
+    18,
+    1,
+    22,
+    7,
+    1,
+    5,
+    9,
+    17
+   ],
+   "dups": [],
+   "survive": true
+  },
+  {
+   "id": "BE:F?M:(S+m)",
+   "agree": 0.856,
+   "witness": [
+    1,
+    5,
+    1,
+    22,
+    7,
+    1,
+    23,
+    9,
+    17
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "BE:F?m:(S+M)",
+   "agree": 0.618,
+   "witness": [
+    1,
+    5,
+    1,
+    18,
+    7,
+    2,
+    1,
+    23,
+    17
+   ],
+   "dups": [],
+   "survive": true
+  },
+  {
+   "id": "PA:(S?M:m)+F",
+   "agree": 0.663,
+   "witness": [
+    1,
+    22,
+    15,
+    1,
+    5,
+    17,
+    1,
+    23,
+    7
+   ],
+   "dups": [],
+   "survive": true
+  },
+  {
+   "id": "PA:(S?M:F)+m",
+   "agree": 0.709,
+   "witness": [
+    1,
+    22,
+    1,
+    23,
+    7
+   ],
+   "dups": [],
+   "survive": true
+  },
+  {
+   "id": "PA:(S?m:M)+F",
+   "agree": 0.647,
+   "witness": [
+    1,
+    18,
+    1,
+    23,
+    7,
+    2,
+    1,
+    5,
+    17
+   ],
+   "dups": [],
+   "survive": true
+  },
+  {
+   "id": "PA:(S?m:F)+M",
+   "agree": 0.703,
+   "witness": [
+    1,
+    18,
+    1,
+    23,
+    1,
+    22,
+    9,
+    17,
+    7
+   ],
+   "dups": [],
+   "survive": true
+  },
+  {
+   "id": "PA:(S?F:M)+m",
+   "agree": 0.805,
+   "witness": [
+    1,
+    18,
+    1,
+    23,
+    9,
+    17,
+    1,
+    22,
+    7
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "PA:(S?F:m)+M",
+   "agree": 0.803,
+   "witness": [
+    1,
+    18,
+    1,
+    22,
+    1,
+    23,
+    9,
+    17,
+    7
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "PA:(M?S:m)+F",
+   "agree": 0.935,
+   "witness": [
+    1,
+    23,
+    9,
+    1,
+    5,
+    1,
+    18,
+    17,
+    7
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "PA:(M?S:F)+m",
+   "agree": 0.935,
+   "witness": [
+    1,
+    22,
+    9,
+    1,
+    5,
+    1,
+    18,
+    17,
+    7
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "PA:(M?m:S)+F",
+   "agree": 0.906,
+   "witness": [
+    1,
+    22,
+    9,
+    1,
+    23,
+    1,
+    18,
+    17,
+    7
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "PA:(M?m:F)+S",
+   "agree": 0.935,
+   "witness": [
+    1,
+    5,
+    1,
+    22,
+    7
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "PA:(M?F:S)+m",
+   "agree": 0.899,
+   "witness": [
+    1,
+    22,
+    9,
+    1,
+    23,
+    1,
+    18,
+    17,
+    7
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "PA:(M?F:m)+S",
+   "agree": 0.935,
+   "witness": [
+    1,
+    5,
+    1,
+    23,
+    7
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "PA:(m?S:M)+F",
+   "agree": 0.97,
+   "witness": [
+    1,
+    18,
+    1,
+    23,
+    16,
+    1,
+    22,
+    17,
+    7
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "PA:(m?S:F)+M",
+   "agree": 0.968,
+   "witness": [
+    1,
+    18,
+    1,
+    23,
+    16,
+    1,
+    22,
+    17,
+    7
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "PA:(m?M:S)+F",
+   "agree": 0.974,
+   "witness": [
+    1,
+    5,
+    1,
+    23,
+    7,
+    16,
+    1,
+    22,
+    17
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "PA:(m?M:F)+S",
+   "agree": 0.981,
+   "witness": [
+    1,
+    5,
+    1,
+    23,
+    7
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "PA:(m?F:S)+M",
+   "agree": 0.981,
+   "witness": [
+    1,
+    5,
+    1,
+    22,
+    9,
+    17,
+    1,
+    18,
+    7
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "PA:(m?F:M)+S",
+   "agree": 0.981,
+   "witness": [
+    1,
+    5,
+    1,
+    18,
+    7
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "PA:(F?S:M)+m",
+   "agree": 0.721,
+   "witness": [
+    1,
+    18,
+    1,
+    5,
+    9,
+    17,
+    1,
+    22,
+    7
+   ],
+   "dups": [],
+   "survive": true
+  },
+  {
+   "id": "PA:(F?S:m)+M",
+   "agree": 0.706,
+   "witness": [
+    1,
+    18,
+    1,
+    22,
+    1,
+    5,
+    9,
+    17,
+    7
+   ],
+   "dups": [],
+   "survive": true
+  },
+  {
+   "id": "PA:(F?M:S)+m",
+   "agree": 0.856,
+   "witness": [
+    1,
+    5,
+    1,
+    23,
+    9,
+    17,
+    1,
+    22,
+    7
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "PA:(F?M:m)+S",
+   "agree": 0.856,
+   "witness": [
+    1,
+    5,
+    1,
+    22,
+    1,
+    23,
+    9,
+    17,
+    7
+   ],
+   "dups": [],
+   "survive": false
+  },
+  {
+   "id": "PA:(F?m:S)+M",
+   "agree": 0.698,
+   "witness": [
+    1,
+    5,
+    1,
+    18,
+    7,
+    2,
+    1,
+    23,
+    17
+   ],
+   "dups": [],
+   "survive": true
+  },
+  {
+   "id": "PA:(F?m:M)+S",
+   "agree": 0.618,
+   "witness": [
+    1,
+    5,
+    1,
+    18,
+    2,
+    1,
+    23,
+    17,
+    7
+   ],
+   "dups": [],
+   "survive": true
+  }
+ ]
+}

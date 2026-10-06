@@ -1,0 +1,11 @@
+{
+  "complete": false,
+  "passed": true,
+  "brute_depth": 2,
+  "raw_programs": 381,
+  "typed_states": 68,
+  "random_programs": 1000,
+  "random_seed": 1603001,
+  "canonical_cells_per_domain": 36,
+  "seconds": 0.045074791996739805
+}

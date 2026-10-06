@@ -1,0 +1,830 @@
+{
+  "outcome": "smoke_only",
+  "per_cell_arm": {
+    "BE:F?M:(S+m)|F4": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.07513191647012718,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "BE:F?M:(S+m)|G4": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.08038552151992917,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "BE:F?M:(S+m)|G4-BE": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.08253814550698735,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "BE:F?M:(S+m)|G4-BE-marg": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.07742264599073678,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "BE:F?M:(S+m)|G4-PA": {
+      "n": 2,
+      "solves": 2,
+      "cap": 4096,
+      "km_median": 2560,
+      "km_median_label": "2560",
+      "km_median_interval_95": [
+        2560.0,
+        2560.0
+      ],
+      "km_median_interval_labels": [
+        "2560.0",
+        "2560.0"
+      ],
+      "mean_seconds": 0.0565907709824387,
+      "capped_fraction": 0.0,
+      "solve_curve": {
+        "4096": 1.0,
+        "32768": 1.0,
+        "131072": 1.0,
+        "524288": 1.0
+      }
+    },
+    "BE:F?M:(S+m)|G4-PA-marg": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.0734030420135241,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "BE:F?M:(S+m)|G4-marg": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.0781382709974423,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "BE:F?M:(S+m)|U": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.07017610399634577,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "PA:(F?M:S)+m|F4": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.07171189549262635,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "PA:(F?M:S)+m|G4": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.07837781248963438,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "PA:(F?M:S)+m|G4-BE": {
+      "n": 2,
+      "solves": 1,
+      "cap": 4096,
+      "km_median": 4096,
+      "km_median_label": "4096",
+      "km_median_interval_95": [
+        4096.0,
+        null
+      ],
+      "km_median_interval_labels": [
+        "4096.0",
+        "> 4096"
+      ],
+      "mean_seconds": 0.08368266650359146,
+      "capped_fraction": 0.5,
+      "solve_curve": {
+        "4096": 0.5,
+        "32768": 0.5,
+        "131072": 0.5,
+        "524288": 0.5
+      }
+    },
+    "PA:(F?M:S)+m|G4-BE-marg": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.07747212500544265,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "PA:(F?M:S)+m|G4-PA": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.08184645848814398,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "PA:(F?M:S)+m|G4-PA-marg": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.07283779201679863,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "PA:(F?M:S)+m|G4-marg": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.07799281299230643,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "PA:(F?M:S)+m|U": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.0743169164925348,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    }
+  },
+  "families": {
+    "BE": {
+      "grammar": {
+        "ratio": 0.6249999999999998,
+        "interval_95": [
+          0.6249999999999998,
+          0.6249999999999998
+        ],
+        "paired_seeds": {
+          "BE:F?M:(S+m)": 2
+        },
+        "coefficients": {
+          "G4-PA": 1,
+          "G4-BE": -1
+        },
+        "scope": "geometric mean of paired capped-time speed ratios; cells fixed",
+        "complete": true,
+        "capped_fractions": {
+          "G4-BE": 1.0,
+          "G4-PA": 0.0
+        },
+        "reading": "C",
+        "large": false
+      },
+      "marginal": {
+        "ratio": 1.0,
+        "interval_95": [
+          1.0,
+          1.0
+        ],
+        "paired_seeds": {
+          "BE:F?M:(S+m)": 2
+        },
+        "coefficients": {
+          "G4-PA-marg": 1,
+          "G4-BE-marg": -1
+        },
+        "scope": "geometric mean of paired capped-time speed ratios; cells fixed",
+        "complete": true,
+        "capped_fractions": {
+          "G4-BE-marg": 1.0,
+          "G4-PA-marg": 1.0
+        },
+        "reading": "C",
+        "large": false
+      },
+      "context_over_marginal": {
+        "ratio": 0.6249999999999998,
+        "interval_95": [
+          0.6249999999999998,
+          0.6249999999999998
+        ],
+        "paired_seeds": {
+          "BE:F?M:(S+m)": 2
+        },
+        "coefficients": {
+          "G4-PA": 1,
+          "G4-BE": -1,
+          "G4-PA-marg": -1,
+          "G4-BE-marg": 1
+        },
+        "scope": "geometric mean of paired capped-time speed ratios; cells fixed",
+        "complete": true
+      },
+      "matched_over_G4": {
+        "ratio": 1.0,
+        "interval_95": [
+          1.0,
+          1.0
+        ],
+        "paired_seeds": {
+          "BE:F?M:(S+m)": 2
+        },
+        "coefficients": {
+          "G4": 1,
+          "G4-BE": -1
+        },
+        "scope": "geometric mean of paired capped-time speed ratios; cells fixed",
+        "complete": true
+      },
+      "controls": {
+        "G4/U": {
+          "ratio": 1.0,
+          "interval_95": [
+            1.0,
+            1.0
+          ],
+          "paired_seeds": {
+            "BE:F?M:(S+m)": 2
+          },
+          "coefficients": {
+            "U": 1,
+            "G4": -1
+          },
+          "scope": "geometric mean of paired capped-time speed ratios; cells fixed",
+          "complete": true
+        },
+        "F4/U": {
+          "ratio": 1.0,
+          "interval_95": [
+            1.0,
+            1.0
+          ],
+          "paired_seeds": {
+            "BE:F?M:(S+m)": 2
+          },
+          "coefficients": {
+            "U": 1,
+            "F4": -1
+          },
+          "scope": "geometric mean of paired capped-time speed ratios; cells fixed",
+          "complete": true
+        },
+        "G4/G4-marg": {
+          "ratio": 1.0,
+          "interval_95": [
+            1.0,
+            1.0
+          ],
+          "paired_seeds": {
+            "BE:F?M:(S+m)": 2
+          },
+          "coefficients": {
+            "G4-marg": 1,
+            "G4": -1
+          },
+          "scope": "geometric mean of paired capped-time speed ratios; cells fixed",
+          "complete": true
+        }
+      },
+      "censoring": {
+        "U": 1.0,
+        "F4": 1.0,
+        "G4": 1.0,
+        "G4-marg": 1.0,
+        "G4-BE": 1.0,
+        "G4-PA": 0.0,
+        "G4-BE-marg": 1.0,
+        "G4-PA-marg": 1.0
+      }
+    },
+    "PA": {
+      "grammar": {
+        "ratio": 1.0,
+        "interval_95": [
+          1.0,
+          1.0
+        ],
+        "paired_seeds": {
+          "PA:(F?M:S)+m": 2
+        },
+        "coefficients": {
+          "G4-BE": 1,
+          "G4-PA": -1
+        },
+        "scope": "geometric mean of paired capped-time speed ratios; cells fixed",
+        "complete": true,
+        "capped_fractions": {
+          "G4-PA": 1.0,
+          "G4-BE": 0.5
+        },
+        "reading": "C",
+        "large": false
+      },
+      "marginal": {
+        "ratio": 1.0,
+        "interval_95": [
+          1.0,
+          1.0
+        ],
+        "paired_seeds": {
+          "PA:(F?M:S)+m": 2
+        },
+        "coefficients": {
+          "G4-BE-marg": 1,
+          "G4-PA-marg": -1
+        },
+        "scope": "geometric mean of paired capped-time speed ratios; cells fixed",
+        "complete": true,
+        "capped_fractions": {
+          "G4-PA-marg": 1.0,
+          "G4-BE-marg": 1.0
+        },
+        "reading": "C",
+        "large": false
+      },
+      "context_over_marginal": {
+        "ratio": 1.0,
+        "interval_95": [
+          1.0,
+          1.0
+        ],
+        "paired_seeds": {
+          "PA:(F?M:S)+m": 2
+        },
+        "coefficients": {
+          "G4-BE": 1,
+          "G4-PA": -1,
+          "G4-BE-marg": -1,
+          "G4-PA-marg": 1
+        },
+        "scope": "geometric mean of paired capped-time speed ratios; cells fixed",
+        "complete": true
+      },
+      "matched_over_G4": {
+        "ratio": 1.0,
+        "interval_95": [
+          1.0,
+          1.0
+        ],
+        "paired_seeds": {
+          "PA:(F?M:S)+m": 2
+        },
+        "coefficients": {
+          "G4": 1,
+          "G4-PA": -1
+        },
+        "scope": "geometric mean of paired capped-time speed ratios; cells fixed",
+        "complete": true
+      },
+      "controls": {
+        "G4/U": {
+          "ratio": 1.0,
+          "interval_95": [
+            1.0,
+            1.0
+          ],
+          "paired_seeds": {
+            "PA:(F?M:S)+m": 2
+          },
+          "coefficients": {
+            "U": 1,
+            "G4": -1
+          },
+          "scope": "geometric mean of paired capped-time speed ratios; cells fixed",
+          "complete": true
+        },
+        "F4/U": {
+          "ratio": 1.0,
+          "interval_95": [
+            1.0,
+            1.0
+          ],
+          "paired_seeds": {
+            "PA:(F?M:S)+m": 2
+          },
+          "coefficients": {
+            "U": 1,
+            "F4": -1
+          },
+          "scope": "geometric mean of paired capped-time speed ratios; cells fixed",
+          "complete": true
+        },
+        "G4/G4-marg": {
+          "ratio": 1.0,
+          "interval_95": [
+            1.0,
+            1.0
+          ],
+          "paired_seeds": {
+            "PA:(F?M:S)+m": 2
+          },
+          "coefficients": {
+            "G4-marg": 1,
+            "G4": -1
+          },
+          "scope": "geometric mean of paired capped-time speed ratios; cells fixed",
+          "complete": true
+        }
+      },
+      "censoring": {
+        "U": 1.0,
+        "F4": 1.0,
+        "G4": 1.0,
+        "G4-marg": 1.0,
+        "G4-BE": 0.5,
+        "G4-PA": 1.0,
+        "G4-BE-marg": 1.0,
+        "G4-PA-marg": 1.0
+      }
+    }
+  },
+  "gates": {
+    "split": null
+  },
+  "splits": {
+    "BE": {
+      "holdouts": [
+        "BE:F?M:(S+m)",
+        "BE:F?S:(M+m)"
+      ],
+      "training": [
+        "BE:F?m:(S+M)",
+        "BE:S?F:(M+m)",
+        "BE:S?M:(m+F)",
+        "BE:S?m:(M+F)",
+        "BE:m?F:(S+M)",
+        "BE:m?M:(S+F)",
+        "BE:m?S:(M+F)"
+      ]
+    },
+    "PA": {
+      "holdouts": [
+        "PA:(F?M:S)+m",
+        "PA:(F?M:m)+S"
+      ],
+      "training": [
+        "PA:(F?S:M)+m",
+        "PA:(F?S:m)+M",
+        "PA:(F?m:M)+S",
+        "PA:(F?m:S)+M",
+        "PA:(M?F:S)+m",
+        "PA:(M?F:m)+S",
+        "PA:(M?S:F)+m",
+        "PA:(M?S:m)+F",
+        "PA:(M?m:F)+S",
+        "PA:(M?m:S)+F",
+        "PA:(S?F:M)+m",
+        "PA:(S?F:m)+M",
+        "PA:(S?M:F)+m",
+        "PA:(S?M:m)+F",
+        "PA:(S?m:F)+M",
+        "PA:(S?m:M)+F",
+        "PA:(m?F:M)+S",
+        "PA:(m?F:S)+M",
+        "PA:(m?M:F)+S",
+        "PA:(m?M:S)+F",
+        "PA:(m?S:F)+M",
+        "PA:(m?S:M)+F"
+      ]
+    }
+  },
+  "cost": {
+    "inner_searches": 38784,
+    "final_parent_selection_searches": 4640,
+    "final_scoring_searches": 9250,
+    "g4_inner_mean_seconds_worst_cell": 0.08038552151992917,
+    "g4_final_mean_seconds_worst_cell": 0.08038552151992917,
+    "candidate_slowdown_allowance": 2,
+    "worker_overhead_factor": 1.25,
+    "workers": 2,
+    "projected_c_seconds": 5472.783700675936,
+    "c_conditional_on_splits": false,
+    "projected_b_remaining_seconds": null,
+    "remaining_work_seconds": 417.29990591702517,
+    "first_block_cost_blocked": true,
+    "fits": false
+  },
+  "pilot": {},
+  "per_cell_control_ratios": {
+    "BE:F?M:(S+m)": {
+      "G4/U": {
+        "ratio": 1.0,
+        "interval_95": [
+          1.0,
+          1.0
+        ],
+        "paired_seeds": {
+          "BE:F?M:(S+m)": 2
+        },
+        "coefficients": {
+          "U": 1,
+          "G4": -1
+        },
+        "scope": "geometric mean of paired capped-time speed ratios; cells fixed",
+        "complete": true
+      },
+      "F4/U": {
+        "ratio": 1.0,
+        "interval_95": [
+          1.0,
+          1.0
+        ],
+        "paired_seeds": {
+          "BE:F?M:(S+m)": 2
+        },
+        "coefficients": {
+          "U": 1,
+          "F4": -1
+        },
+        "scope": "geometric mean of paired capped-time speed ratios; cells fixed",
+        "complete": true
+      },
+      "G4/G4-marg": {
+        "ratio": 1.0,
+        "interval_95": [
+          1.0,
+          1.0
+        ],
+        "paired_seeds": {
+          "BE:F?M:(S+m)": 2
+        },
+        "coefficients": {
+          "G4-marg": 1,
+          "G4": -1
+        },
+        "scope": "geometric mean of paired capped-time speed ratios; cells fixed",
+        "complete": true
+      }
+    },
+    "PA:(F?M:S)+m": {
+      "G4/U": {
+        "ratio": 1.0,
+        "interval_95": [
+          1.0,
+          1.0
+        ],
+        "paired_seeds": {
+          "PA:(F?M:S)+m": 2
+        },
+        "coefficients": {
+          "U": 1,
+          "G4": -1
+        },
+        "scope": "geometric mean of paired capped-time speed ratios; cells fixed",
+        "complete": true
+      },
+      "F4/U": {
+        "ratio": 1.0,
+        "interval_95": [
+          1.0,
+          1.0
+        ],
+        "paired_seeds": {
+          "PA:(F?M:S)+m": 2
+        },
+        "coefficients": {
+          "U": 1,
+          "F4": -1
+        },
+        "scope": "geometric mean of paired capped-time speed ratios; cells fixed",
+        "complete": true
+      },
+      "G4/G4-marg": {
+        "ratio": 1.0,
+        "interval_95": [
+          1.0,
+          1.0
+        ],
+        "paired_seeds": {
+          "PA:(F?M:S)+m": 2
+        },
+        "coefficients": {
+          "G4-marg": 1,
+          "G4": -1
+        },
+        "scope": "geometric mean of paired capped-time speed ratios; cells fixed",
+        "complete": true
+      }
+    }
+  },
+  "interpretation": "Split failure rejects only this candidate. Headroom failure means failure of the frozen 4096 rule. No negative capacity inference. A W reading in one family is a matched-prior advantage there; crossed preference requires W in both. Context attribution requires the directly paired contrast. All intervals are descriptive; incomplete search remains unresolved.",
+  "wall_seconds": 2.7051452500163577,
+  "b_complete": true,
+  "c_started": false,
+  "c_complete": false,
+  "smoke_only": true
+}

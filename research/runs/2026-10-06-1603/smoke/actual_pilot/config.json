@@ -1,0 +1,37 @@
+{
+  "task": "2026-10-06-1603",
+  "arguments": {
+    "smoke": true,
+    "cap": 256,
+    "deadline_seconds": 600,
+    "workers": 2
+  },
+  "git_commit": "e5b133d15f456d48496496ba8cc31d14d853c1db",
+  "alphabet": "v2_rmin_first",
+  "allele_range": 24000,
+  "length": 32,
+  "population": 256,
+  "training_cases": 64,
+  "crossover": 0.7,
+  "mutation": 0.03,
+  "seed_blocks": {
+    "validation": 1603001,
+    "bootstrap": 1603002,
+    "calibration": [
+      1603100,
+      1603149
+    ],
+    "learning": [
+      1603200,
+      1603203
+    ],
+    "fresh_training": [
+      1603300,
+      1603349
+    ],
+    "fresh_holdout": [
+      1603400,
+      1603499
+    ]
+  }
+}
