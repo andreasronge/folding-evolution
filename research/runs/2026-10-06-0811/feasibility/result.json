@@ -1,0 +1,377 @@
+{
+  "complete": false,
+  "completed_pairs": [],
+  "planned_pairs": 12,
+  "outcome": null,
+  "contrasts": {},
+  "map_costs": {},
+  "between_pair_differences": {},
+  "scope": "Learned procedures on a screened PA bank; residual ablation is a dependency check, not unique contextual causation. No mechanism/family-specificity claim.",
+  "test_counts": {
+    "G:PA:(S?M:m)+M": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "G:PA:(S?M:m)+S": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "G:PA:(S?m:M)+S": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "G:PA:(S?m:M)+m": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "G:PA:(S?m:S)+M": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "G:PA:(S?m:S)+m": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "G:PA:(S?M:S)+M": {
+      "expected": 200,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "holdouts"
+    },
+    "G:PA:(S?M:S)+m": {
+      "expected": 200,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "holdouts"
+    },
+    "M1:PA:(S?M:m)+M": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M1:PA:(S?M:m)+S": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M1:PA:(S?m:M)+S": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M1:PA:(S?m:M)+m": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M1:PA:(S?m:S)+M": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M1:PA:(S?m:S)+m": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M1:PA:(S?M:S)+M": {
+      "expected": 200,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "holdouts"
+    },
+    "M1:PA:(S?M:S)+m": {
+      "expected": 200,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "holdouts"
+    },
+    "M2:PA:(S?M:m)+M": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M2:PA:(S?M:m)+S": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M2:PA:(S?m:M)+S": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M2:PA:(S?m:M)+m": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M2:PA:(S?m:S)+M": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M2:PA:(S?m:S)+m": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M2:PA:(S?M:S)+M": {
+      "expected": 200,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "holdouts"
+    },
+    "M2:PA:(S?M:S)+m": {
+      "expected": 200,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "holdouts"
+    },
+    "M3:PA:(S?M:m)+M": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M3:PA:(S?M:m)+S": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M3:PA:(S?m:M)+S": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M3:PA:(S?m:M)+m": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M3:PA:(S?m:S)+M": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M3:PA:(S?m:S)+m": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M3:PA:(S?M:S)+M": {
+      "expected": 200,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "holdouts"
+    },
+    "M3:PA:(S?M:S)+m": {
+      "expected": 200,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "holdouts"
+    },
+    "M4:PA:(S?M:m)+M": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M4:PA:(S?M:m)+S": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M4:PA:(S?m:M)+S": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M4:PA:(S?m:M)+m": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M4:PA:(S?m:S)+M": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M4:PA:(S?m:S)+m": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M4:PA:(S?M:S)+M": {
+      "expected": 200,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "holdouts"
+    },
+    "M4:PA:(S?M:S)+m": {
+      "expected": 200,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "holdouts"
+    },
+    "M5:PA:(S?M:m)+M": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M5:PA:(S?M:m)+S": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M5:PA:(S?m:M)+S": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M5:PA:(S?m:M)+m": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M5:PA:(S?m:S)+M": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M5:PA:(S?m:S)+m": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M5:PA:(S?M:S)+M": {
+      "expected": 200,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "holdouts"
+    },
+    "M5:PA:(S?M:S)+m": {
+      "expected": 200,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "holdouts"
+    },
+    "M6:PA:(S?M:m)+M": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M6:PA:(S?M:m)+S": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M6:PA:(S?m:M)+S": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M6:PA:(S?m:M)+m": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M6:PA:(S?m:S)+M": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M6:PA:(S?m:S)+m": {
+      "expected": 50,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "training"
+    },
+    "M6:PA:(S?M:S)+M": {
+      "expected": 200,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "holdouts"
+    },
+    "M6:PA:(S?M:S)+m": {
+      "expected": 200,
+      "actual": 0,
+      "unique_seeds": 0,
+      "set": "holdouts"
+    }
+  },
+  "coverage_by_start": {
+    "1": [],
+    "2": [],
+    "3": [],
+    "4": [],
+    "5": [],
+    "6": []
+  },
+  "log_gain_shrinkage": {},
+  "incomplete_rule": "Report observed contrasts/coverage, without a planned-study outcome or full-run power claim.",
+  "smoke_only": false,
+  "sampling_complete": null,
+  "learned_off_family_complete": null,
+  "stop_reason": "Calibration-only feasibility check; no reference tests or learning executed",
+  "elapsed_seconds": 222.15164874994662,
+  "adaptation": {},
+  "cumulative_inner_evaluations": 56491520,
+  "schedule": {
+    "generations": 35,
+    "sampling": true,
+    "off_family": true,
+    "learning_seconds": 13529.762524210819,
+    "test_seconds": 2100.0,
+    "reference_seconds": 1935.0103060855733,
+    "off_family_seconds": 547.1999999999999,
+    "sampling_seconds": 2219.245199987199,
+    "pair_seconds": 1302.4802103509016,
+    "projected_total_seconds": 22766.441521061915
+  }
+}

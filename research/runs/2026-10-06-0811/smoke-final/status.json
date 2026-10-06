@@ -1,0 +1,27 @@
+{
+  "state": "complete",
+  "phase": "sampling",
+  "elapsed_seconds": 49.85513899999205,
+  "cumulative_inner_evaluations": 8176896,
+  "finished_map_ids": [
+    "M+1a",
+    "R1a",
+    "R_abl1a"
+  ],
+  "completed_pairs": [
+    {
+      "start": 1,
+      "rep": "a",
+      "seconds": 19.675200833007693
+    }
+  ],
+  "schedule": {
+    "generations": 1,
+    "sampling": true,
+    "off_family": true,
+    "pair_seconds": 0,
+    "projected_total_seconds": null,
+    "smoke_only": true
+  },
+  "stop_reason": null
+}
