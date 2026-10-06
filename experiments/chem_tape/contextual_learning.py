@@ -60,7 +60,7 @@ def diagnostics(vector, start, controls):
     return result
 
 
-def projection(rates, workers, elapsed, sample_seconds, gate_passed=True):
+def projection(rates, workers, elapsed, sample_seconds):
     """Headroom once; all reductions in the approved priority order."""
     attempts = []
     choices = [
@@ -69,22 +69,14 @@ def projection(rates, workers, elapsed, sample_seconds, gate_passed=True):
         (35, False, False),
         (28, False, False),
     ]
-    if not gate_passed:
-        choices = [(0, True, False), (0, False, False)]
     for gens, sampling, off_family in choices:
         learn = (
             12
             * (gens * 384 + 480)
             * (rates["M+"]["train"] + rates["R"]["train"])
             / workers
-            if gens
-            else 0
         )
-        test = (
-            12 * 700 * sum(rates[a]["test"] for a in ("M+", "R", "R_abl")) / workers
-            if gens
-            else 0
-        )
+        test = 12 * 700 * sum(rates[a]["test"] for a in ("M+", "R", "R_abl")) / workers
         references = (
             7
             * (700 * rates["reference"]["test"] + 400 * rates["reference"]["off"])
@@ -95,7 +87,7 @@ def projection(rates, workers, elapsed, sample_seconds, gate_passed=True):
             if off_family
             else 0
         )
-        sample = (18 if gens else 6) * sample_seconds if sampling else 0
+        sample = 18 * sample_seconds if sampling else 0
         total = elapsed + 1.1 * (learn + test + references + off + sample) + 180
         attempts.append(
             dict(

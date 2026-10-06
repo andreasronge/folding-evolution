@@ -171,6 +171,7 @@ class Runner:
                 normalization="250-count support; proportional water filling; stable largest remainder",
                 test_values_never_select=True,
                 timing_only_schedule=True,
+                calibration_role="descriptive only; spread never gates learning (code-review amendment)",
             ),
         )
 
@@ -345,7 +346,6 @@ class Runner:
             )
             for a in effects
         }
-        gate_passed = self.args.smoke or spread["R"]["true_effect_sd"] >= 0.15
         rates = {}
         for arm in effects:
             rs = [r for r in cal_rows if r["arm"].startswith(arm + ":")]
@@ -410,12 +410,11 @@ class Runner:
             self.args.workers,
             time.monotonic() - self.started,
             sample_seconds,
-            gate_passed,
         )
         record.update(
             variation=spread,
             calibration_children=child_records,
-            contextual_gate_passed=gate_passed,
+            calibration_role="descriptive only; spread never gates learning (code-review amendment)",
             calibration_solves={
                 a: dict(
                     n=sum(r["arm"].startswith(a + ":") for r in cal_rows),
@@ -442,7 +441,7 @@ class Runner:
             sample_seconds_per_1e8_per_map=sample_seconds,
             sampling_timing_chunks=chunks,
             projection=decision,
-            decision_inputs="training-only calibration and timings; no holdout/off-family scores",
+            decision_inputs="training-only timings; calibration spread descriptive; no holdout/off-family scores",
         )
         write_json(self.out, "stage0.json", record)
         return record
@@ -615,7 +614,7 @@ class Runner:
         self.pool = mp.get_context("spawn").Pool(self.args.workers)
         complete, sampling_complete, reason = False, None, None
         off_family_complete = None
-        mismatch, gate_failed = False, False
+        mismatch = False
         interrupted = None
 
         def stop(signum, _frame):
@@ -633,7 +632,6 @@ class Runner:
             if mismatch:
                 reason = "G harness mismatch; no interpretation or further stages"
                 return
-            gate_failed = not self.stage0["contextual_gate_passed"]
             self.schedule = self.stage0["projection"]["selected"]
             if self.args.smoke:
                 # Tiny smoke batches have startup/tail costs unsuitable for
@@ -673,53 +671,48 @@ class Runner:
             pairs = [(k, rep) for rep in ("a", "b") for k in range(1, 7)]
             if self.args.smoke:
                 pairs = [(1, "a")]
-            if not gate_failed:
-                for i, (k, rep) in enumerate(pairs):
-                    # Admit only a whole pair with its immediate PA tests.
-                    # Rates may increase; previous learning/test timings can
-                    # only strengthen the reservation, never change design.
-                    measured = [p["seconds"] for p in self.completed_pairs]
-                    pair_reserve = max(
-                        [1.1 * self.schedule["pair_seconds"]]
-                        + [1.1 * s for s in measured]
+            for i, (k, rep) in enumerate(pairs):
+                # Admit only a whole pair with its immediate PA tests.
+                # Rates may increase; previous learning/test timings can
+                # only strengthen the reservation, never change design.
+                measured = [p["seconds"] for p in self.completed_pairs]
+                pair_reserve = max(
+                    [1.1 * self.schedule["pair_seconds"]] + [1.1 * s for s in measured]
+                )
+                if (
+                    not self.args.smoke
+                    and time.monotonic() + pair_reserve > self.work_deadline
+                ):
+                    raise TimeoutError(
+                        "Insufficient reserved time for next whole pair and immediate tests"
                     )
-                    if (
-                        not self.args.smoke
-                        and time.monotonic() + pair_reserve > self.work_deadline
-                    ):
-                        raise TimeoutError(
-                            "Insufficient reserved time for next whole pair and immediate tests"
-                        )
-                    tick = time.monotonic()
-                    for arm in ("M+", "R"):
-                        self.evolve(arm, k, rep, i)
-                    names = [f"{a}{k}{rep}" for a in ("M+", "R", "R_abl")]
-                    self.evaluate({n: np.array(self.finals[n]["table"]) for n in names})
-                    self.completed_pairs.append(
-                        dict(start=k, rep=rep, seconds=time.monotonic() - tick)
-                    )
-                    self.checkpoint("running")
-                complete = True
-                if self.schedule["off_family"]:
-                    names = [
-                        f"{a}{k}a"
-                        for k in range(1, 2 if self.args.smoke else 7)
-                        for a in ("M+", "R")
-                    ]
-                    self.evaluate(
-                        {n: np.array(self.finals[n]["table"]) for n in names}, off=True
-                    )
-                    off_family_complete = True
-            else:
-                complete = True
+                tick = time.monotonic()
+                for arm in ("M+", "R"):
+                    self.evolve(arm, k, rep, i)
+                names = [f"{a}{k}{rep}" for a in ("M+", "R", "R_abl")]
+                self.evaluate({n: np.array(self.finals[n]["table"]) for n in names})
+                self.completed_pairs.append(
+                    dict(start=k, rep=rep, seconds=time.monotonic() - tick)
+                )
+                self.checkpoint("running")
+            complete = True
+            if self.schedule["off_family"]:
+                names = [
+                    f"{a}{k}a"
+                    for k in range(1, 2 if self.args.smoke else 7)
+                    for a in ("M+", "R")
+                ]
+                self.evaluate(
+                    {n: np.array(self.finals[n]["table"]) for n in names}, off=True
+                )
+                off_family_complete = True
             if self.schedule["sampling"]:
                 names = list(self.inherited)
-                if not gate_failed:
-                    names += [
-                        f"{a}{k}a"
-                        for k in range(1, 2 if self.args.smoke else 7)
-                        for a in ("M+", "R")
-                    ]
+                names += [
+                    f"{a}{k}a"
+                    for k in range(1, 2 if self.args.smoke else 7)
+                    for a in ("M+", "R")
+                ]
                 sampling_complete = self.sampling(names)
         except TimeoutError as error:
             reason = f"Interrupted by {interrupted}" if interrupted else str(error)
@@ -738,7 +731,6 @@ class Runner:
                 self.completed_pairs,
                 1 if self.args.smoke else 12,
                 complete,
-                gate_failed,
                 mismatch,
                 200 if self.args.smoke else 10000,
                 self.seed("bootstrap"),

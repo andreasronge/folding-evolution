@@ -78,7 +78,7 @@ def test_start_clusters_and_shared_seed_bootstrap_are_not_twelve_starts():
         contrast(rows[:-1], a, b, ["h"], replicates=20)
 
 
-def test_priority_cuts_and_failed_gate_never_schedule_learning():
+def test_priority_cuts_preserve_learning():
     rates = {
         a: dict(train=0.45, test=0.8, off=1.14)
         for a in ("M+", "R", "R_abl", "reference")
@@ -87,9 +87,7 @@ def test_priority_cuts_and_failed_gate_never_schedule_learning():
     assert p["selected"]["generations"] == 35 and p["selected"]["sampling"]
     p = projection(rates, 10, 500, 10000)
     assert not p["selected"]["sampling"] and p["selected"]["off_family"]
-    p = projection(rates, 10, 500, 68, False)
-    assert p["selected"]["generations"] == 0
-    assert p["selected"]["learning_seconds"] == p["selected"]["test_seconds"] == 0
+    assert all(p["generations"] > 0 for p in p["attempts"])
     rates["R"]["train"] = 100
     assert not projection(rates, 10, 500, 68)["feasible"]
 
@@ -104,17 +102,13 @@ def test_outcome_language_and_incomplete_coverage():
     }
     contrasts["training524:R/R_abl"] = dict(classification="unresolved")
     assert "unresolved" in outcome(contrasts)["residual_reading"]
-    result = report(
-        [], dict(training=["t"], holdouts=["h1", "h2"]), [], [], 12, False, False
-    )
+    result = report([], dict(training=["t"], holdouts=["h1", "h2"]), [], [], 12, False)
     assert result["outcome"] is None
     assert result["coverage_by_start"] == {str(k): [] for k in range(1, 7)}
 
 
 def test_complete_flag_cannot_override_missing_or_duplicated_test_seeds():
-    result = report(
-        [], dict(training=["t"], holdouts=["h1", "h2"]), [], [], 12, True, False
-    )
+    result = report([], dict(training=["t"], holdouts=["h1", "h2"]), [], [], 12, True)
     assert not result["complete"] and result["outcome"] is None
     assert result["test_counts"]["G:t"]["expected"] == 50
 
@@ -151,7 +145,7 @@ def test_learning_and_selection_seed_sets_match_between_arms(tmp_path, monkeypat
     )
 
 
-def test_reserved_pair_and_gate_failure_routing(tmp_path, monkeypatch):
+def test_reserved_pair_and_harness_mismatch_routing(tmp_path, monkeypatch):
     import experiments.chem_tape.contextual_learning_run as module
 
     monkeypatch.setenv("RUN_DIR", str(tmp_path))
@@ -166,7 +160,6 @@ def test_reserved_pair_and_gate_failure_routing(tmp_path, monkeypatch):
         "calibration",
         lambda: dict(
             harness_mismatch=False,
-            contextual_gate_passed=True,
             projection=dict(
                 selected=dict(
                     generations=35, pair_seconds=10000, off_family=True, sampling=True
@@ -187,29 +180,81 @@ def test_reserved_pair_and_gate_failure_routing(tmp_path, monkeypatch):
     assert not result["complete"] and result["outcome"] is None
     assert "reserved time" in result["stop_reason"]
 
-    # Gate failure must keep only frozen maps and never invoke evolve.
-    other = tmp_path / "gate"
+    # Harness mismatch stops all stages and interpretation.
+    other = tmp_path / "mismatch"
     monkeypatch.setenv("RUN_DIR", str(other))
     runner = Runner(SimpleNamespace(smoke=False, workers=10, deadline_seconds=600))
     monkeypatch.setattr(
         runner,
         "calibration",
         lambda: dict(
-            harness_mismatch=False,
-            contextual_gate_passed=False,
-            projection=dict(
-                selected=dict(
-                    generations=0, pair_seconds=0, off_family=False, sampling=True
-                )
-            ),
+            harness_mismatch=True,
         ),
     )
-    monkeypatch.setattr(runner, "evaluate", lambda *_args, **_kwargs: None)
     monkeypatch.setattr(
-        runner, "evolve", lambda *_: pytest.fail("Gate failure must not learn")
+        runner,
+        "evaluate",
+        lambda *_args, **_kwargs: pytest.fail("Mismatch must stop tests"),
+    )
+    monkeypatch.setattr(
+        runner, "evolve", lambda *_: pytest.fail("Mismatch must stop learning")
     )
     called = []
     monkeypatch.setattr(runner, "sampling", lambda names: called.extend(names) or True)
     runner.run()
-    assert called == [f"M{k}" for k in range(1, 7)]
-    assert json.loads((other / "result.json").read_text())["outcome"]["row"] == 0
+    assert called == []
+    result = json.loads((other / "result.json").read_text())
+    assert result["outcome"]["row"] == 0 and not result["complete"]
+
+
+def test_zero_calibration_spread_is_descriptive_and_still_admits_learning(
+    tmp_path, monkeypatch
+):
+    import experiments.chem_tape.contextual_learning_run as module
+
+    monkeypatch.setenv("RUN_DIR", str(tmp_path))
+    runner = Runner(SimpleNamespace(smoke=False, workers=10, deadline_seconds=27600))
+
+    def fake_searches(tables, cells, seeds, cap, phase):
+        return (
+            [
+                dict(
+                    arm=a,
+                    cell=c,
+                    seed=s,
+                    solved=True,
+                    evaluations=2**13.84,
+                    seconds=0.1,
+                )
+                for a in tables
+                for c in cells
+                for s in seeds
+            ],
+            0.1,
+        )
+
+    monkeypatch.setattr(runner, "searches", fake_searches)
+    monkeypatch.setattr(module, "run_jobs", lambda *_: True)
+    stage0 = runner.calibration()
+    assert not stage0["harness_mismatch"]
+    assert stage0["variation"]["R"]["true_effect_sd"] == 0
+    assert "contextual_gate_passed" not in stage0
+    assert stage0["projection"]["selected"]["generations"] == 35
+
+    fake_pool = SimpleNamespace(terminate=lambda: None, join=lambda: None)
+    monkeypatch.setattr(
+        module.mp, "get_context", lambda *_: SimpleNamespace(Pool=lambda *_: fake_pool)
+    )
+    monkeypatch.setattr(runner, "calibration", lambda: stage0)
+    monkeypatch.setattr(runner, "evaluate", lambda *_args, **_kwargs: None)
+    learned = []
+
+    def first_learning_call(arm, *_):
+        learned.append(arm)
+        raise TimeoutError("End synthetic routing check")
+
+    monkeypatch.setattr(runner, "evolve", first_learning_call)
+    runner.run()
+    assert learned == ["M+"]
+    result = json.loads((tmp_path / "result.json").read_text())
+    assert result["outcome"] is None and not result["complete"]

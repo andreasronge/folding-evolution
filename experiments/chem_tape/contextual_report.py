@@ -137,7 +137,6 @@ def report(
     completed_pairs,
     planned_pairs,
     complete,
-    gate_failed,
     harness_mismatch=False,
     replicates=10000,
     seed=818000000,
@@ -184,7 +183,7 @@ def report(
     )
     result["complete"] = (
         complete
-        and (gate_failed or pair_coverage)
+        and pair_coverage
         and all(
             v["actual"] == v["expected"] == v["unique_seeds"] for v in counts.values()
         )
@@ -303,12 +302,7 @@ def report(
             )
             for i in range(2)
         }
-    if gate_failed:
-        result["outcome"] = dict(
-            row=0,
-            meaning="Calibration did not establish usable row variation; frozen checks descriptive only.",
-        )
-    elif result["complete"] and len(completed_pairs) == planned_pairs:
+    if result["complete"] and len(completed_pairs) == planned_pairs:
         result["outcome"] = outcome(result["contrasts"])
     else:
         result["incomplete_rule"] = (

@@ -11,6 +11,22 @@ and question ledger: those files are outside the researcher's permitted write
 scope and are left for the steward. This implements an approved design rather
 than opening a new preregistration or promoting a finding.
 
+## Reviewer-required amendment, recorded before revision execution
+
+The [code review](code_review.md) requires removing the contextual spread gate.
+The existing pilot measured R spread .164 and M+ spread .170 log2, but the
+start-cluster/within-start-child bootstrap puts them below .15 in 55% and 51%
+of draws. R's paired noise variance .089 exceeds its inferred signal variance
+.027; split halves give .21 versus .09. Even lowering the threshold to .09
+fails in 43% of R draws. This gate would cancel the main comparison on noisy
+calibration estimates. Apply the review's explicitly permitted amendment:
+retain the full calibration as a descriptive diagnostic, and let only the
+harness mismatch produce outcome row 0. The arms, budgets, seeds, comparisons,
+timing cuts and substantive outcome rows remain as approved. Verify the
+amendment with focused tests and a fresh small-scale pipeline smoke; do not
+repeat the full pilot or run the full queue. This is an implementation review
+correction, not an experiment outcome or a new design.
+
 ## Conditions and fixed resources
 
 Reuse the 0132 PA bank, production `composition_search.search`, frozen G, and
@@ -55,7 +71,7 @@ runs the substantive learning study or chooses a map using test scores.
 ## Gates, timing, and measurements
 
 First smoke at reduced seeds/generations/sample count without interpreting its
-gate. Stage 0 of the full queue scores G on 6×20 fresh searches at 65k; a mean
+scores or spread. Stage 0 of the full queue scores G on 6×20 fresh searches at 65k; a mean
 more than .6 from 13.84 is a harness mismatch and stops interpretation entirely.
 Calibrate sixteen actual R row children and sixteen M children per inherited
 map, each paired with its parent on 6×4 training searches. Subtract estimated
@@ -64,9 +80,9 @@ negative variance to zero. Treat cells as fixed strata when estimating the
 sampling variance. Save all signed child effects, beneficial fractions, solve
 counts, and a start-cluster/within-start-child bootstrap diagnostic interval.
 Shared parent noise makes this an approximate variation diagnostic, not proof
-of beneficial signal. If pooled R row spread is below .15, run frozen-reference
-stage 1 and frozen-M-only stage 5, and report row 0 (variation not established
-by this calibration). This is the proposal's approved gate, not redesign.
+of beneficial signal. The reviewer-required amendment removes spread-based
+routing: all finite spread estimates, including zero, retain the learning
+schedule. Only the harness mismatch stops interpretation (outcome row 0).
 
 Measure throughput including pool overhead on calibration and representative
 G/M/R/R_abl training and 524k training/holdout/non-PA searches. Use only training
@@ -86,8 +102,8 @@ and non-PA 8×50. Stage 2 tests all twelve pairs' M+, R, R_abl on identical
 fresh PA seeds. Stage 4 tests only the a continuation's M+ and R (12 maps) on
 8×50 non-PA searches. Stage 5 samples 10^8 genotypes each for six inherited M
 and twelve stage-4 maps, even if off-family tests were dropped; reuse G's
-0001 rates. If the contextual gate fails there are only six frozen M maps to
-sample. Sparse hits are descriptive estimates/bounds, zero is not absence.
+0001 rates. A harness mismatch stops before these stages. Sparse hits are
+descriptive estimates/bounds, zero is not absence.
 
 All outputs go under RUN_DIR: config/source hashes, copied banks and starts,
 stage0 diagnostics and frozen schedule, raw search and generation JSONL,
@@ -123,7 +139,7 @@ Apply the proposal's first-match rows, with these narrower interpretations:
 
 | Row | Condition | Meaning |
 |---|---|---|
-| 0 | Calibration spread <.15, or harness mismatch | Calibration did not establish usable row variation; frozen checks remain descriptive. A harness mismatch stops all interpretation. |
+| 0 | Harness mismatch | Stop all interpretation; the baseline check indicates a possible harness change. Calibration spread alone never selects an outcome row. |
 | 1 | R/M+ faster on both holdouts | Allowing contextual moves improves this learning procedure's transfer in the screened PA family. An unresolved R/R_abl leaves residual contribution unresolved; ablation is a dependency check, not unique contextual causation. |
 | 2 | R/M+ faster on fresh training, no practical gain on both holdouts | Training improves; holdout gains are bounded below 1.25, not proven absent. Investigate generalization. |
 | 3 | R/M+ no practical gain on training and both holdouts | At this budget/operator, no resolved gain ≥1.25 from allowing row moves. R/R_abl faster indicates useful residual dependence with token-step displacement; otherwise report no resolved residual benefit, explicitly distinguishing bounded-small from unresolved. |
@@ -140,7 +156,7 @@ the steward; no evidence-ledger changes are made by this implementation.
 ## Verification and handoff
 
 Check exact inherited reconstruction, coordinate bounds, deterministic operator
-behavior, paired seed schedules, gate routing, priority cuts, cluster-preserving
+behavior, paired seed schedules, harness-only routing, priority cuts, cluster-preserving
 bootstrap, completeness handling, and queue loading. Smoke the complete pipeline
 with the real backend at small scale, storing observations in this task folder.
 If measured assumptions make the approved design impossible, write infeasible.md,

@@ -9,7 +9,7 @@ Implemented the approved M-start comparison in `experiments/chem_tape/contextual
 The approved Stage-0 workload ran on separate verification namespaces (+20,000,000), with no holdout/off-family search or adaptation: 222.2 seconds, 5,016 training searches. The full queue uses its original unused namespaces and repeats Stage 0 before freezing its schedule.
 
 - G training mean log2 capped cost: 13.743 versus 13.84, difference 0.097, within .6; 108/120 solved by 65k.
-- Actual R row moves: estimated true-effect SD 0.164 log2, above .15. Approximate diagnostic interval 0.000–0.341. Signed mean child-minus-parent effect +0.199; 25.0% of child means were beneficial. Spread alone does not establish beneficial signal.
+- Actual R row moves: estimated true-effect SD 0.164 log2. Approximate diagnostic interval 0.000–0.341. Signed mean child-minus-parent effect +0.199; 25.0% of child means were beneficial. Spread alone does not establish beneficial signal. The reviewer-required amendment below removes spread-based gating.
 - M token moves: true-effect SD 0.170, signed mean +0.259. Approximate subtraction retains shared-parent uncertainty and fixed task strata; these diagnostics are not optimization outcomes.
 - Calibration solves: M+ 2258/2304, R 2244/2304. Effective worker-seconds/search: M+ 0.407, R 0.402; approximately 24.7 searches/second across ten workers.
 - Representative 524k training timings: M+, mixed R and R_abl each solved 36/36; G 35/36. No score selected these timing maps. Conservative reference allowance 2.513 worker-seconds/search; PA test allowance for each learned map 0.833.
@@ -27,3 +27,39 @@ Artifacts: [smoke-final/result.json](smoke-final/result.json), [smoke-final/sear
 Validation: 39 tests passed across `test_contextual_learning.py`, `test_map_learning.py`, `test_assembly_family.py`, and `test_composition_bank.py`; Ruff formatting/lint and git whitespace checks pass. Tests cover inherited reconstruction, bounded operators, whole-row changes, clustered/shared-seed bootstrap, priority cuts, gate routing, pairing/reservation, ablation, and missing-seed completeness. Python and the Rust extension load from this worktree/venv. No Rust source changed.
 
 [Queue](queue.yaml) loads with `scripts.queue_lib.load_queue`: one entry with required task prefix and timeout 28,800 seconds, at the eight-hour cap. Internal deadline is 27,600 seconds with a 180-second reporting reserve. Commands run from the worktree and every output is under RUN_DIR. The full queue has not been launched.
+
+
+## Code-review repair
+
+The blocking issue in [code_review.md](code_review.md) is addressed by its
+explicitly permitted amendment, recorded in [plan.md](plan.md) before revision
+execution. Calibration spread remains descriptive: remove the .15 spread gate,
+its frozen-only scheduling branch, and its outcome-row-0 report path. Only
+harness mismatch produces row 0 and stops subsequent stages. Raw signed effects,
+pooled spread uncertainty, beneficial fractions, and calibration solve counts
+remain saved. The prior pilot observations above remain unchanged.
+
+Regression checks use a synthetic full-size calibration with zero child-effect
+spread: it retains 35 generations and admits learning. Separate checks confirm
+that harness mismatch stops testing, learning and sampling, and that a deadline
+cannot admit a pair without reserving its immediate tests. The existing
+clustered-bootstrap, exact ablation and completeness checks still pass.
+
+Validation: 40 tests passed in 18.01 seconds across the four suites listed above.
+Ruff lint/format and whitespace checks passed. The fresh real-backend smoke
+[smoke-review-fix/result.json](smoke-review-fix/result.json) completed in
+48.6 seconds with 712 searches, one reduced matched pair,
+80 valid PA map/cell coverage checks, learned off-family testing and bounded
+sampling. Generation and final-selection seeds match between arms; the selected
+R_abl table exactly reconstructs R's multipliers with residuals removed. Smoke
+has no study outcome. All queue expected outputs exist in this smoke directory.
+
+Queue loading passes with one task-prefixed entry, timeout 28,800 seconds and
+internal deadline 27,600 seconds. Recomputing the amended projection on the
+existing pilot timings retains the uncut schedule at 379.4 minutes (6.32 h).
+No feasibility rerun or full queue was needed for this routing correction.
+Full-run Stage 0 will obtain fresh training-only timings and freeze its schedule.
+
+The amended plan, queue, this verification record, review input and new smoke
+artifacts are mirrored into this branch's task folder for the commit. The
+substantive full experiment remains unrun.
