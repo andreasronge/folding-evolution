@@ -1,0 +1,22 @@
+runs:
+  - id: 2026-10-06-0132-post-addition-map-learning
+    cmd: >-
+      env RAYON_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
+      .venv/bin/python -m experiments.chem_tape.map_learning_run
+      --workers 10 --deadline-seconds 27600
+    timeout_seconds: 28800
+    expect_outputs:
+      - config.json
+      - bank.json
+      - reused_sampling.json
+      - stage0.json
+      - result.json
+      - status.json
+      - summary.md
+    track: chem-tape
+    notes: >-
+      Approved PA decoder refinement: stage-0 gate, C/M/T matched trajectories,
+      immediate fresh-training and holdout evaluation, learned marginals,
+      optional sampling last. Runtime reductions use timings only and are
+      fixed before learning. A gate failure or incomplete fixed schedule is
+      explicit in result.json/status.json and cannot yield a transfer verdict.
