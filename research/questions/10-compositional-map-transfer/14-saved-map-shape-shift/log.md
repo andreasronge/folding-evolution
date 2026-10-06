@@ -31,3 +31,25 @@
   controls match R's emitted token frequencies within the stated tolerance (TV < 1e-4 in the
   probe; 0.000029–0.000070 after production `normalize()`); the emitted frequencies are
   computed exactly, but the fitted distributions are not exactly equal.
+
+- 2026-10-06 (run 2026-10-06-1425, result): ran as approved (commit `b397f72`, 88 000 searches,
+  48 min, all 55 maps × 8 cells × 200 fresh seeds complete; gate passed, G within −0.05 log2 of
+  0811; 12/12 R_fm fits TV ≤ 7e-5; every linear cell 200/200 solved, censoring only on
+  `S?M:(S+m)`, learned maps 193–200/200). **Outcome row 3**
+  ([analysis](../../../runs/2026-10-06-1425/analysis.md)). On the six "b" pairs, R / M+ on BE
+  0.94× [0.77, 1.16], LIN 1.29× [0.88, 1.91], shift 0.73× [0.57, 0.94]; the shift is below 1 in
+  6/6 starts, i.e. opposite to "a". Re-scored on the same fresh seeds the "a" maps repeat 0811
+  (shift 1.86× [1.41, 2.44], BE 1.24× [0.92, 1.68]), so the "a" pattern is a stable property of
+  those six map pairs, not seed noise; what fails is the learner-level claim. Dependency (read
+  descriptively, since rows 1–2 did not match): "b"-only R / R_fm BE 1.04× [0.91, 1.17], shift
+  1.02× [0.92, 1.12] (D-c), and R_fm / M+ shows the same reversed shift as R / M+ (0.72×
+  [0.54, 0.95]); pooled D-a (shift 1.23× [1.11, 1.36]) is carried by the selected "a" maps, with
+  BE R / R_fm lower bound 0.97. Exact IF_GT emitted frequency does not track the shift (r = 0.28,
+  n = 12). Side result: against their M starts both learners got faster on BE in both letters
+  (M+ / M 1.40× "a", 1.42× "b"; R / M 1.74×, 1.34×; lower bounds 1.05–1.10). Decision: close 14,
+  because row 3 answers it at the stated bounds: the branch/linear shift is not a reproducible
+  property of the contextual learner from these starts (it differs between learning runs in
+  sign), and on the unselected "b" maps a G-context token-only map with R's pooled emitted
+  frequencies reproduces R within about 1.17× (BE) and 1.12× (shift). Context gets at most a
+  secondary arm in the four-reducer study. Root 10 is at 5 of 7; return to strategy as strategy
+  1400 asked.
