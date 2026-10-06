@@ -1,25 +1,34 @@
 ---
 status: open
 tags: [map-bias, evolve-the-bias, task-family, compositional-transfer, decoder, fresh-start]
-budget: {experiments: 7, used: 0}
+budget: {experiments: 9, used: 0}
 ---
 # Can an adapted decoder help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 
 Current summary: **learned token weights on G transfer about 2× to the withheld compositions
 and to branch-else; allowing learned contextual moves added no resolved training gain on top (≤ 1.11×),
 their holdout increment is unresolved, and the one off-family hint that they shift speed toward
-branch shapes did not replicate in a second set of learning runs from the same starts. The
-four-reducer bank meant for the two-family test has no role-covered branch-else split** (6 of 7
-slots used; strategy 1400 raised the budget from 5 to 7).
+branch shapes did not replicate in a second set of learning runs from the same starts. On the
+four-reducer bank, with a narrower split (one BE, two PA holdouts), the same token learner
+improves G4 about 2.2× on both families' training sets, mostly generically; its in-sample
+family preference is about 1.1× and unresolved. Holdouts not yet scored** (7 of 9 slots used;
+strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9).
+Run 2026-10-06-1723 ([16](16-crossed-family-adaptation/question.md), commit `db96645`, row 4):
+10 independent G4-based token-multiplier trajectories per family (BE trains on 4 cells, PA on 6).
+Own-family gain over G4 on fresh training searches: BE 2.18× [1.98, 2.40], PA 2.27× [1.95, 2.65].
+Off-family training cells: 2.07× [1.94, 2.21] and 1.93× [1.61, 2.30]. Matched over mismatched
+in-sample: 1.13× [0.93, 1.37] on BE cells and 1.10× [0.93, 1.29] on PA cells, both unresolved;
+a post hoc within-map interaction 1.24× [1.09, 1.41]. Learning cost 10–14 min per trajectory.
 Run 2026-10-06-1603 ([15](15-four-reducer-family-bank/question.md), commit `92ba7c5`, row 1):
 adding FIRST to SUM/MAX/MIN leaves 13 of 36 ten-token cells on D1331 (BE 5, PA 8). BE has no
 holdout pair whose roles are covered by training, on any of three domains; PA splits. On all 13
 cells G4 solved 45–50/50 with medians 8.7k–28.7k. A hand-set BE grammar and a hand-set PA
 grammar showed a crossed family preference: matched over swapped 1.68× [1.39, 2.05] on BE,
-1.32× [1.12, 1.57] on PA. That preference sits in context rather than marginals (paired
-contrasts 1.51×, 1.46×, lower bounds 1.09, 1.16). Only the BE grammar beat G4 on its own family;
-the PA grammar was 0.87× [0.75, 1.04] of G4. This is a positive witness for a decoder class, not
-learned evidence. The symmetric matched/mismatched test cannot run on this bank under the frozen
+1.32× [1.12, 1.57] on PA. Context strengthens it relative to the tied-marginal controls (paired
+contrasts 1.51×, 1.46×, lower bounds 1.09, 1.16); the marginal contrasts alone are unresolved
+(BE [0.90, 1.36], PA [0.76, 1.10]). Only the BE grammar had a resolved own-family gain over G4;
+for the PA grammar no gain was resolved (0.87× [0.75, 1.04], admitting gains up to about 4%). This is a positive witness for a decoder class, not learned
+evidence. The symmetric matched/mismatched test cannot run on this bank under the frozen
 rules.
 Run 2026-10-06-0811 ([13](13-post-addition-map-learning/question.md), commit `0709104`, row 4):
 from the six saved M maps, 12 matched pairs × 35 generations compared R (token steps plus
@@ -103,7 +112,13 @@ control was not resolved from R, shift 1.02× [0.92, 1.12]).
 [15-four-reducer-family-bank](15-four-reducer-family-bank/question.md) (closed, 1 of 1 slot, run
 2026-10-06-1603, row 1: with FIRST added, branch-else has no role-covered holdout pair on three
 domains; PA splits; G4 tractable with headroom on all 13 cells; hand-set family grammars give a
-crossed, context-located preference, descriptive only; learner pilot projected at 2.4–4.7 h).
+crossed preference that context strengthens over the marginal controls, descriptive only; a
+conservative learner-pilot projection excluded stage C, whose runtime was not measured there).
+[16-crossed-family-adaptation](16-crossed-family-adaptation/question.md) (open, slots 7–9 from
+strategy 1723: crossed BE/PA token-multiplier learning on the 1603 bank with one BE and two PA
+holdouts; stage 1, run 2026-10-06-1723, row 4: both families learn about 2.2×, mostly generic,
+in-sample preference about 1.1× unresolved; stage 2 holdout evaluation proposed as run
+2026-10-06-2229).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
@@ -111,6 +126,7 @@ Related: [core question](../../../README.md#core-question),
 [09-generic-bias-speedup](../01-map-bias/09-generic-bias-speedup/question.md),
 [run 0811 decision](../../runs/2026-10-06-0811/decision.md),
 [run 1603 decision](../../runs/2026-10-06-1603/decision.md),
+[run 1723 decision](../../runs/2026-10-06-1723/decision.md),
 [digest](../../digest.md), [chem-tape findings](../../../docs/chem-tape/findings.md).
 
 Review after the feasibility experiment and after the four allocated experiments. A
