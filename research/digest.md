@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-06 (last run 2026-10-06-0132, commit `02cf76f`: root 10's first decoder-learning study, on the post-addition split; before it run 2026-10-06-0001, `a65ded0`, and run 2026-10-05-2247, `0995d33`; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 were blocked before running). This covers the **map-bias line**, the current
+As of 2026-10-06 (last completed run 2026-10-06-0811, commit `0709104`: contextual moves versus continued token learning from the learned post-addition maps; runs 2026-10-06-1400 and 2026-10-06-1419, the saved-map shape-shift check, were approved but blocked before running by a merge conflict, now resolved; before 0811 run 2026-10-06-0132, `02cf76f`, root 10's first decoder-learning study; run 2026-10-06-0001, `a65ded0`, and run 2026-10-05-2247, `0995d33`; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 were blocked before running). This covers the **map-bias line**, the current
 core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
 evolution finds and keeps ("arrival of the frequent")?* Until 2026-10-05 the line studied
 whether the chemistry can discover, preserve and reuse a **shared helper** (one functional part
@@ -13,8 +13,9 @@ to test part 2 on held-out operation combinations with an adaptable decoder. The
 failed its split/headroom requirements; the second failed the two-family requirement but kept a
 usable one-family post-addition split (see "Composition bank" and "Assembly-family screen"
 below). On that split, learned token multipliers on the hand-set grammar G transferred to the
-two withheld compositions (1.7–2.0×); a learner of contextual weights did not move under its
-mutation operator (see "Decoder learning on post-addition").
+two withheld compositions (about 2×) and to the related branch-else cells; allowing learned
+contextual moves on top gave no resolved training gain (≤ 1.11×) and an unresolved holdout
+increment (see "Decoder learning on post-addition" and "Contextual moves on top of M").
 
 Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per experiment; reviews and report tables in [docs/map-bias/reviews/](../docs/map-bias/reviews/)) and
 [findings](../docs/map-bias/findings.md) (items 1–17; the owner-promoted, reviewed claims).
@@ -259,37 +260,86 @@ one screened family, starts at G, one optimizer and budget.
 ([13](questions/10-compositional-map-transfer/13-post-addition-map-learning/question.md),
 [run analysis](runs/2026-10-06-0132/analysis.md))
 
-- **Learned token multipliers on G's template speed the withheld compositions 1.7–2.0×.** M (23
+- **Learned token multipliers on G's template speed the withheld compositions about 2×** (1.7–2.25× across two seed sets). M (23
   global multipliers applied to every row of G) vs frozen G: fresh training 2.23× [1.82, 2.75];
   holdouts 2.01× [1.47, 2.81] and 1.71× [1.26, 2.32]; all 6 trajectories faster on every set.
-  A ≥ 1.5× holdout gain is not established (both lower bounds below 1.5). About a third of the
-  training gain is lost on the holdouts (holdout cost +0.38 log2 above training, G +0.12). The
-  context is G's, supplied by hand; what was learned is token weighting, mainly INPUT up (×3.4,
-  6/6) and DUP down (×0.5, 6/6), IF_GT and reducers up. Still improving at generation 25, so the
-  gain is not M's ceiling. Whether it is PA-specific or a generic improvement of G on this
-  alphabet is untested (only PA cells were scored); no mechanism (sampling was dropped by the
-  stage-0 runtime gate).
-- **The full contextual learner did not move with three-coordinate steps.** C (all 552 log-weights,
-  from G): fresh training 0.92× [0.78, 1.09] vs G (no practical gain), flat curves in all six
-  trajectories, L1 drift 1.1–1.5 vs M's 11–14; its context-free marginals are no better than G's
-  (C-marg/G-marg 1.01–1.10). Holdouts split: 1.16× [0.86, 1.54] and 0.80× [0.60, 1.07]. Each child
-  changes three table cells by about e^±0.5, far below the per-run score sd (≈ 1.6 log2, 24 runs
-  per candidate). This diagnoses the operator at this budget; it does not show that contextual
-  preferences cannot be learned or would not transfer.
+  On 0132's 100 holdout seeds a ≥ 1.5× gain was not established (lower bounds 1.47, 1.26);
+  re-scored on 200 new seeds in run 0811 the same maps give 2.25× [1.81, 2.81] and 2.06×
+  [1.60, 2.63]. About a quarter of the training log-gain is lost on the holdouts on average
+  (≈ 22% pooled; 14% and 33% per holdout; descriptive). The context is G's, supplied by hand;
+  what was learned is token weighting: INPUT up (×3.4) and DUP down (×0.5) in all six M maps and
+  in T, IF_GT up in all six M maps, reducer changes with exceptions. Curves were still declining
+  at generation 25; 35 more generations of the same steps gave another 1.45× on training (run
+  0811). Branch-else results are in the next section.
+- **The full contextual learner showed no resolved gain with three-coordinate steps.** C (all 552
+  log-weights, from G): fresh training 0.92× [0.78, 1.09] vs G, so a gain above 1.09× is excluded
+  at this budget; flat curves; it drifted modestly (L1 1.1–1.5 vs M's 11–14). Its context-free
+  marginals show no resolved improvement over G's (C-marg/G-marg 1.01–1.10; training interval
+  [0.92, 1.23], holdouts [0.79, 1.30] and [0.79, 1.52], which admit appreciable gains).
+  Holdouts split: 1.16× [0.86, 1.54] and 0.80× [0.60, 1.07]. Each child changes three table cells by about e^±0.5, far below the per-run score sd (≈ 1.6 log2, 24 runs
+  per candidate). The operator is a plausible explanation, not an isolated cause; the result does
+  not show that contextual preferences cannot be learned or would not transfer.
 - **Frequency-only learning helps a context-free start but does not reach G.** T (23 tied weights,
   from G-marg): 1.69–2.12× faster than G-marg on all sets, still 0.41–0.57× of G's speed. It
   agrees with M on DUP down and INPUT up. G/G-marg on these seeds 3.0–4.8×, replicating 0001.
-- **G was not near a local optimum of its token weights,** contrary to the steward's pre-run
-  expectation (random whole-table perturbations and a hand-set PA grammar had not beaten G): a 23-parameter search found 2.2×.
+- **Token-weight learning found maps 2.2× faster than G on fresh training searches,** contrary to
+  the steward's pre-run expectation (random whole-table perturbations and a hand-set PA grammar
+  had not beaten G). This shows accessible improvement, not the shape of G's neighbourhood.
+
+## Contextual moves on top of M (root 10, run 2026-10-06-0811)
+
+One run, commit `0709104`, complete data (12/12 matched pairs, 376 796 searches, 4 h 50 min).
+Same harness and split as 0132. From each of the six saved M maps, two continuations per arm,
+35 generations, same outer loop and shared seeds within a pair: M+ (M's token steps) vs R
+(M's multipliers plus 24 × 23 row residuals; half token steps, half whole-row N(0, 0.5 or 1.0)
+steps). Shared fresh test seeds (training 6 × 50, holdouts 2 × 200, 524k cap); bootstrap over
+six start clusters and seeds. Reviewed analysis; fairly sure of the numbers, narrow in scope:
+one screened family, one outer loop and operator, starts at M.
+([13](questions/10-compositional-map-transfer/13-post-addition-map-learning/question.md),
+[run analysis](runs/2026-10-06-0811/analysis.md))
+
+- **Allowing contextual row moves gave no resolved training gain over continued token
+  learning.** R / M+ on fresh training 1.00× [0.90, 1.11]: a gain above 1.11× is excluded. Both
+  arms gained the same 0.54 log2 over their starts (R / M 1.46×, M+ / M 1.45×).
+- **On the withheld pair the increment is unresolved (points 1.06–1.16×).** R / M+ 1.16× [0.91, 1.48]
+  and 1.06× [0.83, 1.31]; R faster in 8 and 9 of 12 pairs. The between-start spread (0.41–0.45
+  log2) is about twice the planned one; bounding a true null below 1.25× needs about 7–9
+  independent starts, resolving a true 1.16× about 20. The residual ablation (R / R_abl
+  1.15× [0.97, 1.41], 1.10× [0.97, 1.25], 1.17× [0.88, 1.53] on the three PA sets) has no
+  resolved speed advantage anywhere; appreciable gains remain possible, so no gain is
+  attributed to the residuals, which is not the same as showing they contribute nothing.
+- **Operator acceptance was near the chance rate.** Children of every operator (token,
+  row σ 0.5, row σ 1.0) entered the next parent set at 23.7–25.8% against 25%. Equal average
+  acceptance across operator classes can coexist with selection of better children within each
+  class, so these counts do not establish how well selection ranks individual steps. Slow
+  cumulative improvement is a proposed explanation, not an isolated mechanism.
+- **M's learned change also speeds the branch-else cells, so its benefit is not confined to
+  post-addition.** Frozen M / G on the two branch-else cells 2.23× [1.66, 3.06], a point
+  estimate similar to the PA holdout gains (2.25×, 2.06×; separate estimates, not an
+  equivalence test, so a PA preference is not ruled out); on the six linear cells 1.08×
+  [0.72, 1.57], unresolved with G near the population floor. Branch-else is a related shape,
+  not an independently trained family.
+- **Unregistered hint: allowing row moves shifted speed toward branch shapes and away from
+  linear ones.** Six "a" maps: R / M+
+  1.33× [1.05, 1.66] on branch-else (faster in 5/6) and 0.65× [0.44, 0.88] on linear (slower in 6/6), while M+
+  alone got 1.52× faster than M on linear. R doubled PA-training solver supply over M+ in 5 of
+  6 starts and lowered linear supply in 5 of 6, without a resolved PA search gain. Post hoc, six
+  maps, no attribution to residuals: a pattern to test, not a finding. A pre-registered check on
+  the unscored "b" continuations with a frequency-matched control was approved twice (runs 1400,
+  1419) but did not run (merge conflict before prepare, now resolved; re-proposed as 1425); question
+  [14](questions/10-compositional-map-transfer/14-saved-map-shape-shift/question.md) is open.
 
 ## Open questions
 
 - [10-compositional-map-transfer](questions/10-compositional-map-transfer/question.md) (open,
-  root, budget 5, 3 used): can a decoder adapted across related tasks help fresh populations
+  root, budget 7, 4 used): can a decoder adapted across related tasks help fresh populations
   solve unseen operation combinations beyond a token-frequency bias? Two feasibility studies
   (one bank failed split/headroom, one failed the two-family requirement but kept a PA split),
-  then a first learning study: learned token multipliers on G transfer 1.7–2.0×, learned context
-  untested because C did not move. Next slot is the strategist's call.
+  then two learning studies: learned token multipliers on G transfer about 2× to the withheld
+  pair and to branch-else; contextual row moves on top add no resolved training gain (≤ 1.11×),
+  holdout increment unresolved. Strategy 1400 raised the budget to 7: one slot for the
+  saved-map shape-shift check (14), then a four-reducer two-family feasibility study and, if
+  feasible, a matched/mismatched family comparison.
   - [11-composition-bank](questions/10-compositional-map-transfer/11-composition-bank/question.md)
     (closed, run 2026-10-05-2247): this 3×3 bank has no eligible split at 524k (Sm-SEL 27/50
     under U), and all four splits fail the 4 096 headroom rule under the hand-set grammar G.
@@ -297,9 +347,15 @@ one screened family, starts at G, one optimizer and budget.
     (closed, run 2026-10-06-0001): ten-token branch cells leave 2–10× headroom above G, but none
     of six same-primitive assembly shapes yields an eligible two-family pair (alias identities).
   - [13-post-addition-map-learning](questions/10-compositional-map-transfer/13-post-addition-map-learning/question.md)
-    (open, 1 of 2 slots used, run 2026-10-06-0132): G-based token multipliers transfer to the
-    withheld PA pair (2.0×, 1.7×); the 552-weight contextual learner showed no training gain
-    (0.92× [0.78, 1.09]) under three-coordinate mutations.
+    (closed, runs 2026-10-06-0132 and 2026-10-06-0811): G-based token multipliers transfer to the
+    withheld PA pair (2.25×, 2.06× on 200 seeds); the 552-weight learner showed no resolved
+    training gain (0.92× [0.78, 1.09]); row residuals on top of M vs continued token steps:
+    training 1.00× [0.90, 1.11], holdouts 1.16× and 1.06×, unresolved.
+  - [14-saved-map-shape-shift](questions/10-compositional-map-transfer/14-saved-map-shape-shift/question.md)
+    (open, 1 slot, not yet run): does 0811's branch-versus-linear shift of R over M+ replicate on
+    the unscored "b" continuations, and does it need R's residuals beyond its emitted token
+    frequencies? Runs 1400 and 1419 were approved but blocked by a merge conflict (resolved in
+    `e37c4a7`); re-proposed as 1425.
 - [01-map-bias](questions/01-map-bias/question.md) (open, root, budget spent): how does the map
   bias what evolution finds and keeps?
 - [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)
