@@ -1,0 +1,19 @@
+{
+  "source_run": "2026-10-06-1723",
+  "source_commit": "db96645f54b72e890f55d9236dbeec85c41df256",
+  "source_directory": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-06/2026-10-06-1723-crossed-family-training",
+  "files": {
+    "config.json": {
+      "file": "config.json",
+      "sha256": "f345d3e277569cd3e380b98dbd1cfd362b9796bd3e850f1cc135209f258156b5"
+    },
+    "trajectories.json": {
+      "file": "trajectories.json",
+      "sha256": "94138e35c6aa36b583704a69e83cab8437f11a5c55f7e3c1696fe03fc5a481b3"
+    },
+    "fresh_scores.json": {
+      "file": "fresh_scores.json.gz",
+      "sha256": "bbca73201e88acb5620d171841dfe779a735f0408d4d7663bdb102e972e1aa96"
+    }
+  }
+}
