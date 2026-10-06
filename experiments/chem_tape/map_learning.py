@@ -11,7 +11,7 @@ BOUND = np.log(16.0)
 MIN_COUNT = 250
 
 
-def normalize(weights):
+def normalize(weights, allele_range=R):
     """Proportional water filling with support, then stable largest remainder.
 
     Fix underweight tokens at 250 and distribute the remaining mass among
@@ -19,26 +19,29 @@ def normalize(weights):
     """
     weights = np.asarray(weights, dtype=float)
     if (
-        weights.shape != (24, 23)
+        weights.ndim != 2
+        or weights.shape[0] != weights.shape[1] + 1
+        or weights.shape[1] not in (23, 24)
+        or allele_range < MIN_COUNT * weights.shape[1]
         or not np.all(np.isfinite(weights))
         or np.any(weights <= 0)
     ):
         raise ValueError("invalid positive weights")
     result = []
     for row in weights:
-        fixed = np.zeros(23, dtype=bool)
+        fixed = np.zeros(weights.shape[1], dtype=bool)
         while True:
-            shares = row * (R - MIN_COUNT * fixed.sum()) / row[~fixed].sum()
+            shares = row * (allele_range - MIN_COUNT * fixed.sum()) / row[~fixed].sum()
             shares[fixed] = MIN_COUNT
             new_fixed = (~fixed) & (shares < MIN_COUNT)
             if not new_fixed.any():
                 break
             fixed |= new_fixed
         counts = np.floor(shares).astype(np.int64)
-        remaining = R - int(counts.sum())
+        remaining = allele_range - int(counts.sum())
         order = np.argsort(-(shares - counts), kind="stable")
         counts[order[:remaining]] += 1
-        assert counts.min() >= MIN_COUNT and counts.sum() == R
+        assert counts.min() >= MIN_COUNT and counts.sum() == allele_range
         result.append(np.cumsum(counts))
     return np.asarray(result)
 
@@ -48,7 +51,7 @@ def initial(learner, controls):
     if learner == "C":
         return np.log(counts).ravel()
     if learner == "M":
-        return np.zeros(23)
+        return np.zeros(counts.shape[1])
     if learner == "T":
         return np.log(counts[0])
     raise ValueError(learner)
@@ -65,7 +68,7 @@ def table_for(learner, vector, controls):
         weights = np.diff(controls["G"], prepend=0, axis=1) * np.exp(vector)[None, :]
     else:
         weights = np.tile(np.exp(vector), (24, 1))
-    return normalize(weights)
+    return normalize(weights, int(controls["G"][0, -1]))
 
 
 def mutate(vector, start, rng):

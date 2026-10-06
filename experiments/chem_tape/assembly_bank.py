@@ -113,14 +113,23 @@ def deadline_check(deadline):
         raise TimeoutError("assembly screen deadline reached")
 
 
-def screen_domain(domain, max_depth=9, deadline=None):
+def screen_domain(
+    domain,
+    max_depth=9,
+    deadline=None,
+    *,
+    cells=None,
+    tokens=TOKENS,
+    machine_type=SemanticMachine,
+    alphabet="v2_rmin",
+):
     started = time.monotonic()
     inputs = inputs_for(domain)
-    cells = roster(domain)
+    cells = roster(domain) if cells is None else cells
     labels = np.asarray([c["labels"] for c in cells])
-    canonical = outputs([[0] * 22 + c["canonical"] for c in cells], inputs)
+    canonical = outputs([[0] * 22 + c["canonical"] for c in cells], inputs, alphabet)
     assert np.array_equal(canonical, labels), "canonical executor disagreement"
-    m = SemanticMachine(inputs)
+    m = machine_type(inputs)
     best = np.full(len(cells), -1)
     witnesses = [None] * len(cells)
     checked = set()
@@ -148,7 +157,7 @@ def screen_domain(domain, max_depth=9, deadline=None):
         for i, (state, program) in enumerate(frontier.items()):
             if i % 10000 == 0:
                 deadline_check(deadline)
-            for token in TOKENS:
+            for token in tokens:
                 child = m.apply(state, token)
                 if nxt is None:
                     check(child, program + bytes([token]))
@@ -171,7 +180,7 @@ def screen_domain(domain, max_depth=9, deadline=None):
         print(domain, counts[-1], flush=True)
         if nxt is not None:
             frontier = nxt
-    observed = outputs(witnesses, inputs)
+    observed = outputs(witnesses, inputs, alphabet)
     duplicate_groups = {}
     for c in cells:
         duplicate_groups.setdefault(c["label_hash"], []).append(c["id"])
@@ -198,7 +207,7 @@ def screen_domain(domain, max_depth=9, deadline=None):
         cells=cells,
         counts=counts,
         wall_seconds=time.monotonic() - started,
-        token_ids=list(TOKENS),
+        token_ids=list(tokens),
     )
 
 

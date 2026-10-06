@@ -52,6 +52,7 @@ const MIN: u8 = 22;
 // v2_imax extension (map-bias notebook §13): integer MAX at id 22.
 const IMAX: u8 = 22;
 const REDUCE_MIN: u8 = 22;
+const FIRST: u8 = 23;
 
 const OP_CAP: usize = 256;
 
@@ -235,6 +236,7 @@ enum Alphabet {
     V2Min,
     V2IMax,
     V2RMin,
+    V2RMinFirst,
 }
 
 impl Alphabet {
@@ -424,6 +426,14 @@ fn op_reduce_min(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
     stack.push(Value::Int(xs.into_iter().min().unwrap_or(0)));
 }
 
+fn op_first(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
+    let xs = match safe_pop(stack, TypeTag::IntList, ctx.safe_pop_consume) {
+        Value::IntList(v) => v,
+        _ => Vec::new(),
+    };
+    stack.push(Value::Int(xs.first().copied().unwrap_or(0)));
+}
+
 fn op_sum_left2(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>) {
     let v = match ctx.input {
         Value::IntList(xs) if xs.len() >= 2 => xs[0].wrapping_add(xs[1]),
@@ -519,7 +529,9 @@ fn execute_inner(tokens: &[u8], ctx: &ExecCtx<'_>) -> i64 {
             (SUM_RIGHT2, Alphabet::V2Split) => op_sum_right2(&mut stack, ctx),
             (MIN, Alphabet::V2Min) => op_min(&mut stack, ctx),
             (IMAX, Alphabet::V2IMax) => op_imax(&mut stack, ctx),
-            (REDUCE_MIN, Alphabet::V2RMin) => op_reduce_min(&mut stack, ctx),
+            (REDUCE_MIN, Alphabet::V2RMin | Alphabet::V2RMinFirst) => op_reduce_min(&mut stack, ctx),
+
+            (FIRST, Alphabet::V2RMinFirst) => op_first(&mut stack, ctx),
 
             // Everything else (including v2 separators 20/21 and v1's 14/15
             // when not in V2Probe dispatch) executes as NOP.
@@ -540,6 +552,7 @@ fn parse_alphabet(name: Option<&str>) -> Alphabet {
         "v2_min" => Alphabet::V2Min,
         "v2_imax" => Alphabet::V2IMax,
         "v2_rmin" => Alphabet::V2RMin,
+        "v2_rmin_first" => Alphabet::V2RMinFirst,
         _ => Alphabet::V1,
     }
 }

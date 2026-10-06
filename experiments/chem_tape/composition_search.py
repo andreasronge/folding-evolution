@@ -15,11 +15,11 @@ R = 23000
 ARMS = ("U", "F", "G", "G-marg")
 
 
-def cumulative(weights):
-    shares = np.asarray(weights, dtype=float) * R / np.sum(weights)
+def cumulative(weights, allele_range=R):
+    shares = np.asarray(weights, dtype=float) * allele_range / np.sum(weights)
     counts = np.floor(shares).astype(np.int64)
     order = np.argsort(-(shares - counts), kind="stable")
-    counts[order[: R - int(counts.sum())]] += 1
+    counts[order[: allele_range - int(counts.sum())]] += 1
     return np.cumsum(counts)
 
 
@@ -49,26 +49,37 @@ class Decoder:
     def __init__(self, table):
         table = np.asarray(table, dtype=np.int64)
         if (
-            table.shape != (24, 23)
+            table.ndim != 2
+            or table.shape[0] != table.shape[1] + 1
+            or table.shape[1] not in (23, 24)
             or np.any(np.diff(table, prepend=0, axis=1) <= 0)
-            or np.any(table[:, -1] != R)
+            or np.any(table[:, -1] != table[0, -1])
         ):
             raise ValueError("invalid cumulative decoder table")
+        self.allele_range = int(table[0, -1])
+        self.n_tokens = table.shape[1]
         self.table = table
         self.lookup = np.array(
-            [np.searchsorted(row, np.arange(R), side="right") for row in table],
+            [
+                np.searchsorted(row, np.arange(self.allele_range), side="right")
+                for row in table
+            ],
             dtype=np.uint8,
         )
         self.tied = np.all(table == table[0])
 
     def decode(self, alleles):
         alleles = np.asarray(alleles)
-        if alleles.ndim != 2 or np.any(alleles < 0) or np.any(alleles >= R):
+        if (
+            alleles.ndim != 2
+            or np.any(alleles < 0)
+            or np.any(alleles >= self.allele_range)
+        ):
             raise ValueError("invalid allele array")
         if self.tied:
             return self.lookup[0, alleles]
         out = np.empty(alleles.shape, dtype=np.uint8)
-        previous = np.full(len(alleles), 23)
+        previous = np.full(len(alleles), self.n_tokens)
         for j in range(alleles.shape[1]):
             out[:, j] = self.lookup[previous, alleles[:, j]]
             previous = out[:, j]
@@ -78,7 +89,7 @@ class Decoder:
         return hashlib.sha256(self.table.astype("<i8").tobytes()).hexdigest()
 
 
-def outputs(programs, inputs):
+def outputs(programs, inputs, alphabet="v2_rmin"):
     return np.array(
         rust_chem_execute_pop_batch(
             programs.tolist() if isinstance(programs, np.ndarray) else programs,
@@ -86,7 +97,7 @@ def outputs(programs, inputs):
             "NOP",
             inputs,
             "intlist",
-            "v2_rmin",
+            alphabet,
             0,
         ),
         dtype=np.int64,
@@ -95,7 +106,8 @@ def outputs(programs, inputs):
 
 def search(job):
     cell, arm, table, seed, cap, pop_size = job[:6]
-    inputs = job[6] if len(job) == 7 else INPUTS
+    inputs = job[6] if len(job) >= 7 else INPUTS
+    alphabet = job[7] if len(job) >= 8 else "v2_rmin"
     start = time.monotonic()
     decoder = Decoder(table)
     # Independent streams prevent arm-dependent selection from changing the
@@ -107,7 +119,9 @@ def search(job):
     indices = cases_rng.choice(len(inputs), 64, replace=False)
     training = [inputs[i] for i in indices]
     label = np.asarray(cell["labels"])
-    pop = initial_rng.integers(R, size=(pop_size, 32), dtype=np.int32)
+    pop = initial_rng.integers(
+        decoder.allele_range, size=(pop_size, 32), dtype=np.int32
+    )
     shortcuts = 0
     unique_shortcuts = 0
     training_perfect_individuals = 0
@@ -117,12 +131,12 @@ def search(job):
     budget_times = {}
     solved_at = None
     evaluations = 0
-    budgets = (32768, 65536, 131072, 262144, 524288)
+    budgets = (4096, 32768, 65536, 131072, 262144, 524288)
     for generation in range(cap // pop_size):
         tick = time.monotonic()
         programs = decoder.decode(pop)
         decode_seconds += time.monotonic() - tick
-        observed = outputs(programs, training)
+        observed = outputs(programs, training, alphabet)
         correct = observed == label[indices]
         scores = correct.sum(1)
         evaluations += pop_size
@@ -132,7 +146,9 @@ def search(job):
             key = programs[i].tobytes()
             if key not in checked:
                 checked[key] = bool(
-                    np.array_equal(outputs(programs[i : i + 1], inputs)[0], label)
+                    np.array_equal(
+                        outputs(programs[i : i + 1], inputs, alphabet)[0], label
+                    )
                 )
                 if not checked[key]:
                     unique_shortcuts += 1
@@ -165,7 +181,9 @@ def search(job):
         crossing = variation.random(n) < 0.7
         points = variation.integers(1, 32, size=n)
         mask = variation.random((n, 32)) < 0.03
-        replacements = variation.integers(R, size=(n, 32), dtype=np.int32)
+        replacements = variation.integers(
+            decoder.allele_range, size=(n, 32), dtype=np.int32
+        )
         child = pop[parents[0]].copy()
         splice = crossing[:, None] & (np.arange(32)[None, :] >= points[:, None])
         child = np.where(splice, pop[parents[1]], child)

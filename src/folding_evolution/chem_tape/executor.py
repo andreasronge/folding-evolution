@@ -302,8 +302,14 @@ _OPS_V2_SPLIT: dict[int, OpFn] = {**_OPS_V2,
     alph.SUM_RIGHT2: _op_sum_right2,
 }
 
+def _op_first(stack: list, inp_value, inp_type: str, ta: alph.TaskAlphabet) -> None:
+    xs = safe_pop(stack, "intlist")
+    push_int(stack, xs[0] if xs else 0)
+
+
 # v2-rmin dispatch: generic list minimum.
 _OPS_V2_RMIN: dict[int, OpFn] = {**_OPS_V2, alph.REDUCE_MIN: _op_reduce_min}
+_OPS_V2_RMIN_FIRST: dict[int, OpFn] = {**_OPS_V2_RMIN, alph.FIRST: _op_first}
 
 # v2-min dispatch: integer MIN (map-bias notebook §3).
 _OPS_V2_MIN: dict[int, OpFn] = {**_OPS_V2, alph.MIN: _op_min}
@@ -334,6 +340,8 @@ _SLOT_OPS: dict[str, OpFn] = {
 def _dispatch_table(alphabet_name: str) -> dict[int, OpFn]:
     if alphabet_name == "v2_split":
         return _OPS_V2_SPLIT
+    if alphabet_name == "v2_rmin_first":
+        return _OPS_V2_RMIN_FIRST
     if alphabet_name == "v2_rmin":
         return _OPS_V2_RMIN
     if alphabet_name == "v2_min":
