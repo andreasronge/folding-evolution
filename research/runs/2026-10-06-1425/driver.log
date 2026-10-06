@@ -1,0 +1,16 @@
+2026-10-06 14:27:43 push of HEAD research/main research/2026-10-06-1419 failed; push by hand
+2026-10-06 14:27:43 cycle 2026-10-06-1419 done; brief: /Users/andreas/developer/folding-evolution/research/briefs/2026-10-06-2026-10-06-1419.md
+2026-10-06 14:27:43 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-06 14:29:05 phase → awaiting_approval
+2026-10-06 14:29:05 proposal: Saved-map branch/linear shift — replication on the "b" continuations, residual ablation and a frequency-matched control (re-proposal of 1400/1419) [questions/10-compositional-map-transfer/14-saved-map-shape-shift] — budget left: 1. Approve with `research.py approve`.
+2026-10-06 14:29:05 auto-approved (critic: approve, revisions: 0)
+2026-10-06 14:29:05 phase → prepare
+2026-10-06 14:29:21 researcher (codex/gpt-6.1-sol) → prepare [herdr]
+2026-10-06 14:38:23 phase → review_code
+2026-10-06 14:38:23 reviewer (claude/claude-fable-5-1) → review_code [herdr]
+2026-10-06 14:43:36 phase → execute
+2026-10-06 14:43:36 running queue (1 entries)
+2026-10-06 15:31:33 phase → analyse
+2026-10-06 15:31:33 reviewer (claude/claude-fable-5-1) → analyse [herdr]
+2026-10-06 15:36:15 phase → decide
+2026-10-06 15:36:15 steward (claude/claude-opus-5-5) → decide [herdr]

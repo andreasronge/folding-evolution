@@ -1,0 +1,29 @@
+runs:
+  - id: 2026-10-06-1425-saved-map-shape-shift
+    cmd: >-
+      env RAYON_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
+      .venv/bin/python -m experiments.chem_tape.saved_shape_run
+      --workers 10 --deadline-seconds 8700
+    timeout_seconds: 9000
+    expect_outputs:
+      - config.json
+      - maps.json
+      - fits.json
+      - cells.json
+      - gate.json
+      - search.jsonl
+      - result.json
+      - status.json
+      - summary.md
+      - diagnostics.png
+    track: chem-tape
+    notes: >-
+      55 frozen maps, eight frozen cells, 200 fresh shared seeds (base 1419000000),
+      88000 searches at P256/L32 and cap 524288. Hash-checked 0132/0811 sources;
+      exact pooled uniform-allele marginal matching, production normalization and
+      evaluator TV<0.005 check. G runs once, with 0.6-log2 prior-mean gate; then
+      complete b starts, a starts, M references. Dropped frequency fits leave the
+      affected dependency layer unresolved. Exactly six clusters, t df=5, b-only
+      primary and b-only/pooled dependency separately; no new learning or cells.
+      All outputs use RUN_DIR; internal search stop after 8640 seconds reserves
+      reporting time inside the 2.5-hour timeout. Raw partial data remain available.

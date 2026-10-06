@@ -6,9 +6,10 @@ budget: {experiments: 7, used: 0}
 # Can an adapted decoder help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 
 Current summary: **learned token weights on G transfer about 2× to the withheld compositions
-and to branch-else; allowing learned contextual moves added no resolved training gain on top (≤ 1.11×), and
-their holdout increment is unresolved** (4 of 7 slots used; strategy 1400 raised the budget
-from 5 to 7).
+and to branch-else; allowing learned contextual moves added no resolved training gain on top (≤ 1.11×),
+their holdout increment is unresolved, and the one off-family hint that they shift speed toward
+branch shapes did not replicate in a second set of learning runs from the same starts** (5 of 7
+slots used; strategy 1400 raised the budget from 5 to 7).
 Run 2026-10-06-0811 ([13](13-post-addition-map-learning/question.md), commit `0709104`, row 4):
 from the six saved M maps, 12 matched pairs × 35 generations compared R (token steps plus
 whole-row contextual residuals) with M+ (token steps only). R / M+ on fresh training 1.00×
@@ -19,16 +20,20 @@ on the two branch-else cells (2.23× [1.66, 3.06]), with a point estimate simila
 holdouts (2.25×, 2.06×; lower bounds 1.81, 1.60; separate estimates, not an equivalence test),
 and unresolved on linear cells, so its benefit is not confined to PA on the cells scored; a PA
 preference is not ruled out. An unregistered six-map pattern, R faster than M+ on branch-else
-(1.33× [1.05, 1.66], 5/6 starts) and slower on linear (0.65× [0.44, 0.88]), is the only hint of
-learned context tied to the training shape. Operator acceptance was near 25% for every
+(1.33× [1.05, 1.66], 5/6 starts) and slower on linear (0.65× [0.44, 0.88]), was the only hint of
+learned context tied to the training shape; run 1425 (below) did not replicate it. Operator acceptance was near 25% for every
 operator; these counts do not establish how well selection ranks individual steps.
 
-Run 2026-10-06-1400 ([14](14-saved-map-shape-shift/question.md)): the pre-registered check of
-that pattern on the unscored "b" continuations, with residual ablation and a frequency-matched
-token-only control (R_fm), was approved by the critic but did not run: the driver stopped at
-prepare on a merge conflict (main into research/main). Run 1419 re-proposed it, was approved
-and blocked the same way. The steward resolved the conflict on research/main (`e37c4a7`); no
-data, no slot used (still 4 of 7); re-proposed as run 1425.
+Run 2026-10-06-1425 ([14](14-saved-map-shape-shift/question.md), commit `b397f72`, row 3;
+approved twice before as runs 1400 and 1419, both blocked by a merge conflict): 55 saved maps on
+the eight frozen off-family cells, 200 fresh seeds each. On the six unscored "b" continuations
+R / M+ was 0.94× [0.77, 1.16] on branch-else and 1.29× [0.88, 1.91] on linear; the shift was
+0.73× [0.57, 0.94], opposite to "a" in 6/6 starts. The "a" maps repeat their pattern on the
+fresh seeds (shift 1.86× [1.41, 2.44]), so the shift is a property of individual learning runs,
+not of the contextual learner. On "b", a G-context token-only map matched to R's pooled emitted
+token frequencies reproduced R within about 1.17× (BE) and 1.12× (shift). Both learners, in both
+letters, were faster than their M start on BE (lower bounds 1.05–1.10×). Six shared M starts
+only.
 
 Run 2026-10-06-0132 ([13](13-post-addition-map-learning/question.md), commit `02cf76f`): on the
 one-family post-addition split (six training, two withheld cells on D1331), 23 learned token
@@ -79,10 +84,10 @@ slots: G-based token multipliers transfer about 2× to the withheld pair and to 
 contextual row moves on top add no resolved training gain (R / M+ 1.00× [0.90, 1.11]), holdout
 increment unresolved; runs
 2026-10-06-0132 and 2026-10-06-0811).
-[14-saved-map-shape-shift](14-saved-map-shape-shift/question.md) (open, 1 slot, run 1400
-blocked before running: does 0811's
-branch-versus-linear shift of R over M+ replicate in the unscored "b" continuations, and does
-it need R's residuals beyond its token frequencies? Saved maps only).
+[14-saved-map-shape-shift](14-saved-map-shape-shift/question.md) (closed, 1 of 1 slot, run
+2026-10-06-1425, row 3: 0811's branch-versus-linear shift of R over M+ did not replicate on
+the "b" continuations (shift 0.73× [0.57, 0.94]); on those maps a frequency-matched token-only
+control reproduces R).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),

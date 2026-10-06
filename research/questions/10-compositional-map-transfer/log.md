@@ -140,3 +140,19 @@ into research/main cleanly (`git merge-tree`).
 Decision: re-propose 14's check as run 1425 with the 1419 critic's two interpretation notes
 applied, because the design has been approved twice, no belief changed, and the only blocker is
 gone. Root 10 stays at 4 of 7; the slot after 14 still goes to the four-reducer feasibility study.
+
+## 2026-10-06: run 2026-10-06-1425 (14), saved-map shape shift — ran; row 3
+
+The 1400/1419 design ran unchanged (commit `b397f72`, 88 000 searches, 48 min, complete; gate
+passed). On the six "b" continuations R / M+: BE 0.94× [0.77, 1.16], LIN 1.29× [0.88, 1.91],
+shift 0.73× [0.57, 0.94] (below 1 in 6/6 starts). The "a" maps repeat 0811 on 200 fresh seeds
+(shift 1.86× [1.41, 2.44]). "b"-only R / R_fm shift 1.02× [0.92, 1.12]; the pooled D-a (1.23×
+[1.11, 1.36]) is carried by the selected "a" maps. Both learners faster than M on BE in both
+letters ([analysis](../../runs/2026-10-06-1425/analysis.md)).
+
+Decision: close 14, because row 3 answers it: the branch/linear shift differs in sign between two
+learning runs from the same starts, so it is not a reproducible property of the contextual
+learner, and on the unselected maps R's pooled token frequencies on G's context reproduce it.
+Context gets at most a secondary arm in the two-family study; the token learner is the primary
+one. Root 10 is at 5 of 7. Return to strategy before the four-reducer feasibility slot, as
+strategy 1400 asked.
