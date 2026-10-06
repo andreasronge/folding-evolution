@@ -201,3 +201,19 @@ strengthens the crossed preference relative to the tied-marginal controls; the m
 alone are unresolved"; and "so stage C could not have run in this queue" should read "the frozen
 2× allowance excluded stage C; actual learner runtime was not measured there" (run 1723 has now
 measured it: 10–14 min per trajectory).
+
+## 2026-10-06: run 2026-10-06-2229 (16), frozen crossed maps on the three holdouts, stage 2 — ran; row 4
+
+Slot 8. The 20 frozen stage-1 maps and G4 on BE `S?m:(M+F)`, PA `(F?S:M)+m` and PA `(S?M:m)+F`,
+400 shared fresh seeds each, 524k cap, no learning (commit `33fcee2`, 35 min, complete, G4 gate
+passed). Gains over G4: all six arm × cell estimates resolved, 1.97×–2.93×. Matched over
+mismatched: BE 1.02× [0.835, 1.2485], PA 0.96× [0.79, 1.15], both bounded below 1.25×, neither
+resolved; interaction 0.98× [0.83, 1.15]. The BE bound is at the margin (leave-one-map-out
+upper bounds 1.25–1.30) ([analysis](../../runs/2026-10-06-2229/analysis.md)).
+
+Decision: close 16 and return to strategy, because the crossed question is answered at this
+design's resolution (generic transfer about 2–3×, a matched-family advantage above about 1.25×
+excluded on these three cells, a 1.1× one not), and a detection-sized rerun (about 64–75
+trajectories per family, 14–30 h) would most likely only tighten a bound around 1. Root 10 has
+one slot left; whether it buys a mechanism arm (union-trained or scrambled-family maps),
+learned context, or a wrap-up is the strategist's call.

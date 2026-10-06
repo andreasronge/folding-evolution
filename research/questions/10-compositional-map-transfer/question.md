@@ -10,10 +10,17 @@ and to branch-else; allowing learned contextual moves added no resolved training
 their holdout increment is unresolved, and the one off-family hint that they shift speed toward
 branch shapes did not replicate in a second set of learning runs from the same starts. On the
 four-reducer bank, with a narrower split (one BE, two PA holdouts), the same token learner
-improves G4 about 2.2× on both families' training sets, mostly generically; its in-sample
-family preference is about 1.1× and unresolved. Holdouts not yet scored** (7 of 9 slots used;
-strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9).
-Run 2026-10-06-1723 ([16](16-crossed-family-adaptation/question.md), commit `db96645`, row 4):
+improves G4 about 2–3× on both families' withheld cells, and which family it was trained on
+made no detectable difference there: matched over mismatched 1.02× [0.84, 1.25] (BE) and 0.96×
+[0.79, 1.15] (PA). A family advantage above about 1.25× is excluded on these three cells; one of
+1.1× is not** (8 of 9 slots used; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9).
+Run 2026-10-06-2229 ([16](16-crossed-family-adaptation/question.md), commit `33fcee2`, row 4):
+the 20 frozen stage-1 maps and G4 on the three holdouts, 400 shared fresh seeds each. Gains over
+G4 resolved in all six arm × cell estimates (1.97×–2.93×, lowest lower bound 1.63×); holdout
+gains match or exceed the training gains. Pre-stated within-map interaction 0.98× [0.83, 1.15].
+The BE bound holds by 0.0015 and is not robust to dropping single maps (upper bound then
+1.25–1.30).
+Run 2026-10-06-1723 (16, stage 1, commit `db96645`, row 4):
 10 independent G4-based token-multiplier trajectories per family (BE trains on 4 cells, PA on 6).
 Own-family gain over G4 on fresh training searches: BE 2.18× [1.98, 2.40], PA 2.27× [1.95, 2.65].
 Off-family training cells: 2.07× [1.94, 2.21] and 1.93× [1.61, 2.30]. Matched over mismatched
@@ -114,11 +121,11 @@ control was not resolved from R, shift 1.02× [0.92, 1.12]).
 domains; PA splits; G4 tractable with headroom on all 13 cells; hand-set family grammars give a
 crossed preference that context strengthens over the marginal controls, descriptive only; a
 conservative learner-pilot projection excluded stage C, whose runtime was not measured there).
-[16-crossed-family-adaptation](16-crossed-family-adaptation/question.md) (open, slots 7–9 from
-strategy 1723: crossed BE/PA token-multiplier learning on the 1603 bank with one BE and two PA
-holdouts; stage 1, run 2026-10-06-1723, row 4: both families learn about 2.2×, mostly generic,
-in-sample preference about 1.1× unresolved; stage 2 holdout evaluation proposed as run
-2026-10-06-2229).
+[16-crossed-family-adaptation](16-crossed-family-adaptation/question.md) (closed, 2 of 3
+slots, runs 2026-10-06-1723 and 2026-10-06-2229: crossed BE/PA token-multiplier learning on the
+1603 bank with one BE and two PA holdouts; both families learn about 2.2× on training, mostly
+generically; on the holdouts every arm beats G4 2–3× and the matched-family advantage is 1.02×
+(BE) and 0.96× (PA), bounded below about 1.25×, a 1.1× preference not excluded).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
