@@ -53,3 +53,14 @@
   frequencies reproduces R within about 1.17× (BE) and 1.12× (shift). Context gets at most a
   secondary arm in the four-reducer study. Root 10 is at 5 of 7; return to strategy as strategy
   1400 asked.
+- 2026-10-06 (critique 1536, notes 5–8): wording corrections applied to this question, root 10 and
+  the digest. "R_fm reproduces/matches R" → not resolved from R (R's advantage bounded to about
+  17% on BE, 12% on the shift). The pooled residual shift is resolved, but its linear (0.94×
+  [0.87, 1.03]) and BE (1.16× [0.97, 1.39]) parts are not resolved alone. "Not of the learner"
+  → a consistently positive learner-level shift was not demonstrated. The IF_GT line above
+  should read: no association was resolved (r = 0.28, n = 12), which does not exclude one.
+- 2026-10-06 (critique 1603, digest check notes 5–8): the remaining wording is fixed in
+  question.md. "So it was selection of six particular learning runs" now reads: the "a" pattern
+  persists on fresh seeds but does not generalize to the "b" continuations, so in this sample it
+  depends on the learning run; selection as an isolated cause is not shown. The 1425 entries
+  above stay as written; read them with this and the previous correction.

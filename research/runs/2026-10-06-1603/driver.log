@@ -1,0 +1,17 @@
+2026-10-06 16:03:22 proposal sent back to the steward (The critic recommends `revise`; see critique.md beside the proposal.)
+2026-10-06 16:03:22 steward (claude/claude-opus-5-5) → propose [herdr]
+2026-10-06 16:06:36 phase → accept
+2026-10-06 16:06:36 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-06 16:08:29 phase → awaiting_approval
+2026-10-06 16:08:29 proposal: Four-reducer bank (FIRST added) — reviewed alias/split screen, 13-cell search calibration under G4, descriptive family-grammar witness, learner cost pilot gated on split/headroom/cost only (root 10, slot 6 of 7; revision of 1536) [questions/10-compositional-map-transfer/15-four-reducer-family-bank] — budget left: 1. Approve with `research.py approve`.
+2026-10-06 16:08:29 auto-approved (critic: approve_with_notes, revisions: 1)
+2026-10-06 16:08:29 phase → prepare
+2026-10-06 16:08:45 researcher (codex/gpt-6.1-sol) → prepare [herdr]
+2026-10-06 16:23:55 phase → review_code
+2026-10-06 16:23:55 reviewer (claude/claude-fable-5-1) → review_code [herdr]
+2026-10-06 16:32:52 phase → execute
+2026-10-06 16:32:52 running queue (1 entries)
+2026-10-06 17:16:39 phase → analyse
+2026-10-06 17:16:39 reviewer (claude/claude-fable-5-1) → analyse [herdr]
+2026-10-06 17:23:55 phase → decide
+2026-10-06 17:23:55 steward (claude/claude-opus-5-5) → decide [herdr]

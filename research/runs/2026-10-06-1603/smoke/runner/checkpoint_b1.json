@@ -1,0 +1,391 @@
+{
+  "offset": 0,
+  "completed": 32,
+  "requested": 32,
+  "wall_seconds": 1.8838890829938464,
+  "mean_seconds": 0.09616361984626565,
+  "solves": {
+    "BE:F?M:(S+m)|F4": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.09497947953059338,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "BE:F?M:(S+m)|G4": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.10207599998102523,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "BE:F?M:(S+m)|G4-BE": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.10135302052367479,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "BE:F?M:(S+m)|G4-BE-marg": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.09693102052551694,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "BE:F?M:(S+m)|G4-PA": {
+      "n": 2,
+      "solves": 2,
+      "cap": 4096,
+      "km_median": 2560,
+      "km_median_label": "2560",
+      "km_median_interval_95": [
+        2560.0,
+        2560.0
+      ],
+      "km_median_interval_labels": [
+        "2560.0",
+        "2560.0"
+      ],
+      "mean_seconds": 0.06830283350427635,
+      "capped_fraction": 0.0,
+      "solve_curve": {
+        "4096": 1.0,
+        "32768": 1.0,
+        "131072": 1.0,
+        "524288": 1.0
+      }
+    },
+    "BE:F?M:(S+m)|G4-PA-marg": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.09421958346501924,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "BE:F?M:(S+m)|G4-marg": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.09950514600495808,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "BE:F?M:(S+m)|U": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.09799518750514835,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "PA:(F?M:S)+m|F4": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.09076097948127426,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "PA:(F?M:S)+m|G4": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.09737362549640238,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "PA:(F?M:S)+m|G4-BE": {
+      "n": 2,
+      "solves": 1,
+      "cap": 4096,
+      "km_median": 4096,
+      "km_median_label": "4096",
+      "km_median_interval_95": [
+        4096.0,
+        null
+      ],
+      "km_median_interval_labels": [
+        "4096.0",
+        "> 4096"
+      ],
+      "mean_seconds": 0.10457733302609995,
+      "capped_fraction": 0.5,
+      "solve_curve": {
+        "4096": 0.5,
+        "32768": 0.5,
+        "131072": 0.5,
+        "524288": 0.5
+      }
+    },
+    "PA:(F?M:S)+m|G4-BE-marg": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.10052825004095212,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "PA:(F?M:S)+m|G4-PA": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.1002959374745842,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "PA:(F?M:S)+m|G4-PA-marg": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.09507635451154783,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "PA:(F?M:S)+m|G4-marg": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.10184354148805141,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    },
+    "PA:(F?M:S)+m|U": {
+      "n": 2,
+      "solves": 0,
+      "cap": 4096,
+      "km_median": null,
+      "km_median_label": "> 4096",
+      "km_median_interval_95": [
+        null,
+        null
+      ],
+      "km_median_interval_labels": [
+        "> 4096",
+        "> 4096"
+      ],
+      "mean_seconds": 0.09279962498112582,
+      "capped_fraction": 1.0,
+      "solve_curve": {
+        "4096": 0.0,
+        "32768": 0.0,
+        "131072": 0.0,
+        "524288": 0.0
+      }
+    }
+  },
+  "projection": {
+    "inner_searches": 38784,
+    "final_parent_selection_searches": 4640,
+    "final_scoring_searches": 9250,
+    "g4_inner_mean_seconds_worst_cell": 0.10207599998102523,
+    "g4_final_mean_seconds_worst_cell": 0.10207599998102523,
+    "candidate_slowdown_allowance": 2,
+    "worker_overhead_factor": 1.25,
+    "workers": 2,
+    "projected_c_seconds": 6900.939028750654,
+    "c_conditional_on_splits": false,
+    "projected_b_remaining_seconds": 0.0
+  },
+  "projected_total_seconds": 6904.255616584633
+}

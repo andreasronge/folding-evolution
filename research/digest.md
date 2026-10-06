@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-06 (last completed run 2026-10-06-1425, commit `b397f72`: the saved-map shape-shift check, after runs 1400 and 1419 with the same design were blocked by a merge conflict; before it run 2026-10-06-0811, `0709104`, contextual moves versus continued token learning from the learned post-addition maps; before 0811 run 2026-10-06-0132, `02cf76f`, root 10's first decoder-learning study; run 2026-10-06-0001, `a65ded0`, and run 2026-10-05-2247, `0995d33`; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 were blocked before running). This covers the **map-bias line**, the current
+As of 2026-10-06 (last completed run 2026-10-06-1603, commit `92ba7c5`: the four-reducer FIRST bank feasibility study; before it run 2026-10-06-1425, `b397f72`, the saved-map shape-shift check, after runs 1400 and 1419 with the same design were blocked by a merge conflict; before it run 2026-10-06-0811, `0709104`, contextual moves versus continued token learning from the learned post-addition maps; before 0811 run 2026-10-06-0132, `02cf76f`, root 10's first decoder-learning study; run 2026-10-06-0001, `a65ded0`, and run 2026-10-05-2247, `0995d33`; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 were blocked before running). This covers the **map-bias line**, the current
 core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
 evolution finds and keeps ("arrival of the frequent")?* Until 2026-10-05 the line studied
 whether the chemistry can discover, preserve and reuse a **shared helper** (one functional part
@@ -16,7 +16,9 @@ below). On that split, learned token multipliers on the hand-set grammar G trans
 two withheld compositions (about 2×) and to the related branch-else cells; allowing learned
 contextual moves on top gave no resolved training gain (≤ 1.11×) and an unresolved holdout
 increment, and their one off-family hint did not replicate (see "Decoder learning on
-post-addition", "Contextual moves on top of M" and "Saved-map shape shift").
+post-addition", "Contextual moves on top of M" and "Saved-map shape shift"). The four-reducer
+bank meant to supply a second family fails the split rule for branch-else (see "Four-reducer
+bank").
 
 Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per experiment; reviews and report tables in [docs/map-bias/reviews/](../docs/map-bias/reviews/)) and
 [findings](../docs/map-bias/findings.md) (items 1–17; the owner-promoted, reviewed claims).
@@ -351,15 +353,54 @@ numbers, narrow in scope.
   (0811: 2.03×). Two sets of runs of the same learner from the same starts disagree in sign;
   both were selected on post-addition cells only, so off-family linear speed is unconstrained
   and wanders by about 0.5 log2 within a family.
-- **On the unselected "b" maps, R's pooled emitted token frequencies on G's context reproduce
-  R.** R / R_fm: BE 1.04× [0.91, 1.17], LIN 1.02× [0.97, 1.06], shift 1.02× [0.92, 1.12]; R_fm / M+
+- **On the unselected "b" maps, a token-only map matched to R's pooled emitted token
+  frequencies on G's context was not resolved from R; R's advantage is bounded to about 17% on
+  BE and 12% on the shift.** R / R_fm: BE 1.04× [0.91, 1.17], LIN 1.02× [0.97, 1.06], shift 1.02× [0.92, 1.12]; R_fm / M+
   shows the same reversed shift as R / M+ (0.72× [0.54, 0.95]). The pooled a/b residual effect
-  (shift 1.23× [1.11, 1.36]) comes from the selected "a" maps and is a linear slow-down with an
-  unresolved BE gain (BE R / R_fm lower bound 0.97). This bounds, not excludes, a residual
+  (shift 1.23× [1.11, 1.36]) comes from the selected "a" maps; its point estimates combine a
+  linear slow-down (0.94× [0.87, 1.03]) and a BE gain (1.16× [0.97, 1.39]), neither resolved alone. This bounds, not excludes, a residual
   contribution, and matches only pooled frequencies, not positional or in-population ones.
 - **Continued post-addition learning carried over to branch-else for both learners.** Against
   their M start on BE: M+ 1.40× ("a") and 1.42× ("b"), R 1.74× and 1.34×; lower bounds
   1.05–1.10. Branch-else is a related shape, not a separately trained family.
+
+## Four-reducer bank (root 10, run 2026-10-06-1603)
+
+One run, commit `92ba7c5`, complete data (validation, three exhaustive screens, 5 200 searches,
+43.7 min). FIRST (first list element) added to SUM/MAX/MIN as a 24-token alphabet. Cells:
+branch-else (BE) `A?B:(C+D)` and post-addition (PA) `(A?B:C)+D`, with A–D a permutation of
+S, M, m, F. Ten tokens each, with identical token counts. 0001's ≤ 9-token, 80% alias screen and
+role-covered split rule. Search on the 13 retained D1331 cells, 8 arms × 50 paired seeds, with
+G4 (G extended to four reducers before the data). Reviewed analysis. Sure of the screen (exact);
+fairly sure of the search numbers; narrow in scope.
+([15](questions/10-compositional-map-transfer/15-four-reducer-family-bank/question.md),
+[run analysis](runs/2026-10-06-1603/analysis.md))
+
+- **This bank cannot carry the symmetric two-family test: branch-else has no role-covered
+  holdout pair.** 13 of 36 cells survive on D1331 (BE 5, PA 8; D625 4 + 6, D2401 5 + 8). Every
+  M- or m-conditioned cell is a near-alias, because M > 0 and m > 0 are nearly constant on these
+  domains. In BE's `then` role, S, F and M each occur once, so no BE pair is covered on any of the
+  three domains. One BE cell, `S?m:(M+F)`, could be held out alone. PA splits (2 holdouts, 6
+  training). Scope: this shape pair, these domains and the frozen rules. The asymmetric designs
+  were not tested.
+- **G4 is tractable and leaves room above the 4 096 line on all 13 cells.** G4 solves 45–50/50,
+  KM medians 8.7k–28.7k. G4 / U is 10.3× [7.9, 13.5] (BE) and 8.1× [6.8, 9.6] (PA). G4 / G4-marg
+  is 4.4× [3.4, 5.6] and 3.3× [2.7, 4.0]: the contextual grammar beats its own marginals on a
+  third bank.
+- **Two hand-set family grammars carried a crossed family preference, located in context.**
+  Matched over swapped: BE 1.68× [1.39, 2.05], PA 1.32× [1.12, 1.57]; per-cell point estimates
+  are above 1 on 13 of 13 cells. Their tied marginals give no resolved contrast (BE 1.11× [0.90,
+  1.36]; PA 0.91× [0.76, 1.10]). The directly paired context-over-marginal contrast is resolved
+  in both families (1.51× [1.09, 2.09], 1.46× [1.16, 1.82]). This is asymmetric against G4: the BE
+  grammar beats G4 on BE (1.36× [1.04, 1.75]) and slows PA (0.66× [0.56, 0.77]). The PA grammar
+  does not beat G4 on PA (0.87× [0.75, 1.04], unresolved). So the PA half is "the BE grammar
+  hurts PA", not "the PA grammar helps PA", as with 0001's hand-set PA grammar against G. This
+  witnesses what a fixed previous-token decoder can express. It says nothing about what a
+  learner would find.
+- **Measured learner cost on this bank.** G4 takes about 1.9 s per full-cap search and 0.4–1.2 s
+  per 65k-cap inner search. A 4-trajectory × 25-generation token-learner pilot projects to about
+  2.4 h, or 4.7 h with a 2× slower-candidate allowance. The 10–20 min per trajectory carried over
+  from 0132 does not hold here.
 
 ## Open questions
 
@@ -370,8 +411,9 @@ numbers, narrow in scope.
   then two learning studies: learned token multipliers on G transfer about 2× to the withheld
   pair and to branch-else; contextual row moves on top add no resolved training gain (≤ 1.11×),
   holdout increment unresolved, and their off-family branch shift did not replicate (14).
-  Budget 7, 5 used: strategy 1400 planned the remaining two slots for a four-reducer
-  two-family feasibility study and, if feasible, a matched/mismatched family comparison.
+  Budget 7, 6 used: the four-reducer feasibility study (15) failed the branch-else split, so
+  the last slot (a matched/mismatched family comparison) has no symmetric bank; back to
+  strategy.
   - [11-composition-bank](questions/10-compositional-map-transfer/11-composition-bank/question.md)
     (closed, run 2026-10-05-2247): this 3×3 bank has no eligible split at 524k (Sm-SEL 27/50
     under U), and all four splits fail the 4 096 headroom rule under the hand-set grammar G.
@@ -387,7 +429,11 @@ numbers, narrow in scope.
     (closed, run 2026-10-06-1425, row 3): 0811's branch-versus-linear shift of R over M+ did not
     replicate on the "b" continuations (shift 0.73× [0.57, 0.94], opposite sign); the "a" maps
     keep it on fresh seeds, so it is run-specific; on "b" a frequency-matched token-only map
-    reproduces R (shift 1.02× [0.92, 1.12]).
+    was not resolved from R (shift 1.02× [0.92, 1.12]).
+  - [15-four-reducer-family-bank](questions/10-compositional-map-transfer/15-four-reducer-family-bank/question.md)
+    (closed, run 2026-10-06-1603, row 1): with FIRST added, branch-else has no role-covered
+    holdout pair on three domains; PA splits; G4 has headroom on all 13 cells; hand-set family
+    grammars show a crossed, context-located preference (descriptive).
 - [01-map-bias](questions/01-map-bias/question.md) (open, root, budget spent): how does the map
   bias what evolution finds and keeps?
 - [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)
