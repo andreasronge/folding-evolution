@@ -1,0 +1,69 @@
+{
+  "smoke_only": true,
+  "wall_seconds": 36.765507042000536,
+  "mutation": {
+    "coordinates": [
+      10,
+      18,
+      5
+    ],
+    "deltas": [
+      0.27757070283141827,
+      -0.45972489704517056,
+      -0.20929780146855453
+    ]
+  },
+  "perturbation_vector": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    -0.20929780146855453,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.27757070283141827,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    -0.45972489704517056,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "rows": 400,
+  "cells": {
+    "BE:G4": {
+      "searches": 80,
+      "mean_seconds": 1.038262388050498,
+      "solve_fraction": 0.7125,
+      "evaluations": 2276608
+    },
+    "BE:perturbation": {
+      "searches": 80,
+      "mean_seconds": 0.9068520260378137,
+      "solve_fraction": 0.8,
+      "evaluations": 1974272
+    },
+    "PA:G4": {
+      "searches": 120,
+      "mean_seconds": 0.763636725397373,
+      "solve_fraction": 0.9166666666666666,
+      "evaluations": 2665216
+    },
+    "PA:perturbation": {
+      "searches": 120,
+      "mean_seconds": 0.8839776732900646,
+      "solve_fraction": 0.8583333333333333,
+      "evaluations": 3061760
+    }
+  }
+}

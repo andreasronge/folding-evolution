@@ -1,0 +1,24 @@
+[
+  {
+    "completed_pairs": 0,
+    "remaining_seconds": 599.9087687910069,
+    "fresh_per_search_seconds": 1.88,
+    "reserve": {
+      "pair_seconds": 60,
+      "fresh_seconds": 60,
+      "reporting_seconds": 180
+    },
+    "admitted": true
+  },
+  {
+    "completed_pairs": 1,
+    "remaining_seconds": 586.0684314160026,
+    "fresh_per_search_seconds": 1.88,
+    "reserve": {
+      "pair_seconds": 13.839948083041236,
+      "fresh_seconds": 60,
+      "reporting_seconds": 180
+    },
+    "admitted": true
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "code_sha256": {
+    "experiments/chem_tape/crossed_learning_run.py": "d54a43afef0ba5699f876c44a696c0f8990719f857465e2d9d91bb3ff8e6c420",
+    "experiments/chem_tape/crossed_learning_report.py": "f9c5c67c028ae2a795ba2cd132047bc4c371b82557bb09211c5b5f57af84645b",
+    "tests/test_crossed_learning.py": "8137b7c779e6bb4acf3043f1105d073abce5a397690e17fc7c445648a77c1680",
+    "experiments/chem_tape/data/four_reducer_1603_bank.json": "b2b856cb6d051e65599b22409cf49f654ba8d87539f073d2e9b7d061079aceb9"
+  },
+  "artifact_sha256": {
+    "config.json": "30470fde10adb2c311618e3f653522a3d1dec7b23a5154c21aa21594c100d327",
+    "diagnostics.png": "c83cd7fe9a86d720a06f57f4d6b933cd508494275b541a0b80d28090d503417d",
+    "probe-20-config.json": "3eb8bb413e97afc911cb764ea2b2d1ae703e5f7cf4071bc1324cae8efa08453c",
+    "probe-20.json": "70235c249ad639f5be81b8476b40a255cb95432681405d1c04c47ea2be2c9003",
+    "result.json": "4396a84574b8ff105f3e40f291d13acc959ebbdddda086c463c49cbc15f3fe36",
+    "schedule.json": "a8eac06c7290b46f1b8a57c2988edc1ef503e3a1f02c7bdb022ec99c7b567235",
+    "search_curves.png": "180b39fe97c512e900301884b425f9bb4ab94de5c91fa756cbb5aa4cbe359b84",
+    "summary.md": "b5cce4e309005eefc5842c5bb53554eca355a7c5f2a84fa650893810c5e156bc",
+    "trajectories.json": "f49536258b61bf385ec234bf8a993560ab27796ddfb89398965b8cdf8b9659ea",
+    "validation.json": "5f121955626dd06523a5157e7dbc86f37b849d20e8da3b9ee059608041c88b42"
+  },
+  "raw_output_directories": [
+    "/Users/andreas/developer/folding-evolution-research/2026-10-06-1723/experiments/output/1723-smoke-final",
+    "/Users/andreas/developer/folding-evolution-research/2026-10-06-1723/experiments/output/1723-probe-20"
+  ]
+}

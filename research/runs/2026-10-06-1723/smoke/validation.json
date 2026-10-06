@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "frozen_hash_verified": true,
+  "labels_verified": true,
+  "training_holdout_labels_disjoint": true,
+  "holdout_roles_covered": true,
+  "search_payload_fields": [
+    "id",
+    "labels"
+  ],
+  "g4_hash": "8a7b3091f411e659f553981b8680dc5db4bd5f3f34b6eca9c8ab3ee3e728dc10"
+}

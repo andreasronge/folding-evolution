@@ -1,0 +1,28 @@
+runs:
+  - id: 2026-10-06-1723-crossed-family-training
+    cmd: >-
+      .venv/bin/python -m experiments.chem_tape.crossed_learning_run
+      --bank experiments/chem_tape/data/four_reducer_1603_bank.json
+      --workers 10 --deadline-seconds 27000
+    timeout_seconds: 28800
+    expect_outputs:
+      - config.json
+      - validation.json
+      - bank.json
+      - generations.jsonl
+      - trajectories.json
+      - schedule.json
+      - search.jsonl
+      - fresh_scores.json
+      - result.json
+      - summary.md
+      - diagnostics.png
+      - search_curves.png
+    track: chem-tape
+    notes: >-
+      Approved 1723 stage 1 only: target ten independent BE and PA trajectories
+      from G4, sequential balanced pairs with ten workers total. Operational
+      early gate after two pairs; runtime admission reserves selection, all saved
+      maps' fresh scoring and reporting. Fresh scoring on all ten training cells
+      only, seeds 1723300-1723349. No holdout search or holdout seed allocation.
+      Expected wall time about 345 minutes, internal deadline 7.5 hours.

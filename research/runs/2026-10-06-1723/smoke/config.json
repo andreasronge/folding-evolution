@@ -1,0 +1,85 @@
+{
+  "task": "2026-10-06-1723",
+  "arguments": {
+    "bank": "/Users/andreas/developer/folding-evolution-research/2026-10-06-1723/experiments/chem_tape/data/four_reducer_1603_bank.json",
+    "workers": 10,
+    "deadline_seconds": 600,
+    "smoke": true,
+    "probe": false,
+    "probe_seeds": 5
+  },
+  "git_commit": "1ae6eb7c0d8dd92b7fbdea05f11fc4d038f34873",
+  "bank_sha256": "b2b856cb6d051e65599b22409cf49f654ba8d87539f073d2e9b7d061079aceb9",
+  "bank_source": "experiments/output/2026-10-06/2026-10-06-1603-four-reducer-family/bank.json",
+  "g4_hash": "8a7b3091f411e659f553981b8680dc5db4bd5f3f34b6eca9c8ab3ee3e728dc10",
+  "alphabet": "v2_rmin_first",
+  "domain": "D1331",
+  "training": {
+    "BE": [
+      "BE:F?S:(M+m)",
+      "BE:F?m:(S+M)",
+      "BE:S?F:(M+m)",
+      "BE:S?M:(m+F)"
+    ],
+    "PA": [
+      "PA:(F?S:m)+M",
+      "PA:(F?m:M)+S",
+      "PA:(F?m:S)+M",
+      "PA:(S?M:F)+m",
+      "PA:(S?m:F)+M",
+      "PA:(S?m:M)+F"
+    ]
+  },
+  "excluded_holdouts": {
+    "BE": [
+      "BE:S?m:(M+F)"
+    ],
+    "PA": [
+      "PA:(F?S:M)+m",
+      "PA:(S?M:m)+F"
+    ]
+  },
+  "population": 256,
+  "length": 32,
+  "allele_range": 24000,
+  "training_cases": 64,
+  "crossover": 0.7,
+  "mutation": 0.03,
+  "outer_mu": 4,
+  "outer_lambda": 12,
+  "dimensions": 24,
+  "multiplier_bounds": [
+    0.0625,
+    16
+  ],
+  "minimum_count": 250,
+  "mutation_coordinates": 3,
+  "mutation_sigma": 0.5,
+  "objective": "mean log2 evaluations; unsolved=2*inner_cap",
+  "inner_searches": 24,
+  "inner_cap": 4096,
+  "generations": 1,
+  "selection_searches_per_candidate": 12,
+  "fresh_cap": 8192,
+  "fresh_seeds": [
+    1723300,
+    1723301
+  ],
+  "trajectories_per_family": 2,
+  "workers": 10,
+  "outer_seeds": {
+    "BE": [
+      1723200,
+      1723202
+    ],
+    "PA": [
+      1723201,
+      1723203
+    ]
+  },
+  "selection_seed_rule": "outer_seed*10000+5000+j",
+  "inner_seed_rule": "outer_seed*10000+generation*100+j",
+  "permutation_seed": 1723500,
+  "smoke_only": true,
+  "probe_only": false
+}
