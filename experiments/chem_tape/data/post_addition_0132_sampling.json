@@ -1,0 +1,164 @@
+{
+  "source": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-06/2026-10-06-0001-assembly-family/sampling.json",
+  "source_sha256": "4b599122bb6f758ef258eff4f2b12576b48e115b6267e6eadc99368a0bca7db7",
+  "maps": {
+    "G": {
+      "genotypes": 100000000,
+      "cpu_seconds": 676.8368195501389,
+      "genotypes_per_second": 147746.0993721725,
+      "cells": {
+        "PA:(S?M:S)+M": {
+          "hits": 20,
+          "rate": 2e-07,
+          "interval_95": [
+            1.221651999975658e-07,
+            3.0888376209938697e-07
+          ],
+          "zero_hit_upper_95": null
+        },
+        "PA:(S?M:S)+m": {
+          "hits": 27,
+          "rate": 2.7e-07,
+          "interval_95": [
+            1.7793170861892455e-07,
+            3.92835800358453e-07
+          ],
+          "zero_hit_upper_95": null
+        },
+        "PA:(S?M:m)+M": {
+          "hits": 24,
+          "rate": 2.4e-07,
+          "interval_95": [
+            1.5377253440771064e-07,
+            3.571009550473989e-07
+          ],
+          "zero_hit_upper_95": null
+        },
+        "PA:(S?M:m)+S": {
+          "hits": 15,
+          "rate": 1.5e-07,
+          "interval_95": [
+            8.395386368047812e-08,
+            2.4740217660077e-07
+          ],
+          "zero_hit_upper_95": null
+        },
+        "PA:(S?m:M)+S": {
+          "hits": 21,
+          "rate": 2.1e-07,
+          "interval_95": [
+            1.2999331439096287e-07,
+            3.2100728967404007e-07
+          ],
+          "zero_hit_upper_95": null
+        },
+        "PA:(S?m:M)+m": {
+          "hits": 15,
+          "rate": 1.5e-07,
+          "interval_95": [
+            8.395386368047812e-08,
+            2.4740217660077e-07
+          ],
+          "zero_hit_upper_95": null
+        },
+        "PA:(S?m:S)+M": {
+          "hits": 19,
+          "rate": 1.9e-07,
+          "interval_95": [
+            1.1439241539617273e-07,
+            2.967085197658925e-07
+          ],
+          "zero_hit_upper_95": null
+        },
+        "PA:(S?m:S)+m": {
+          "hits": 18,
+          "rate": 1.8e-07,
+          "interval_95": [
+            1.066794111814971e-07,
+            2.844775877968184e-07
+          ],
+          "zero_hit_upper_95": null
+        }
+      }
+    },
+    "G-marg": {
+      "genotypes": 100000000,
+      "cpu_seconds": 677.7812005466549,
+      "genotypes_per_second": 147540.2385302903,
+      "cells": {
+        "PA:(S?M:S)+M": {
+          "hits": 0,
+          "rate": 0.0,
+          "interval_95": [
+            0.0,
+            3.688879386074778e-08
+          ],
+          "zero_hit_upper_95": 2.9957322286819324e-08
+        },
+        "PA:(S?M:S)+m": {
+          "hits": 0,
+          "rate": 0.0,
+          "interval_95": [
+            0.0,
+            3.688879386074778e-08
+          ],
+          "zero_hit_upper_95": 2.9957322286819324e-08
+        },
+        "PA:(S?M:m)+M": {
+          "hits": 0,
+          "rate": 0.0,
+          "interval_95": [
+            0.0,
+            3.688879386074778e-08
+          ],
+          "zero_hit_upper_95": 2.9957322286819324e-08
+        },
+        "PA:(S?M:m)+S": {
+          "hits": 0,
+          "rate": 0.0,
+          "interval_95": [
+            0.0,
+            3.688879386074778e-08
+          ],
+          "zero_hit_upper_95": 2.9957322286819324e-08
+        },
+        "PA:(S?m:M)+S": {
+          "hits": 0,
+          "rate": 0.0,
+          "interval_95": [
+            0.0,
+            3.688879386074778e-08
+          ],
+          "zero_hit_upper_95": 2.9957322286819324e-08
+        },
+        "PA:(S?m:M)+m": {
+          "hits": 1,
+          "rate": 1e-08,
+          "interval_95": [
+            2.531780798108492e-10,
+            5.571643258042459e-08
+          ],
+          "zero_hit_upper_95": null
+        },
+        "PA:(S?m:S)+M": {
+          "hits": 1,
+          "rate": 1e-08,
+          "interval_95": [
+            2.531780798108492e-10,
+            5.571643258042459e-08
+          ],
+          "zero_hit_upper_95": null
+        },
+        "PA:(S?m:S)+m": {
+          "hits": 0,
+          "rate": 0.0,
+          "interval_95": [
+            0.0,
+            3.688879386074778e-08
+          ],
+          "zero_hit_upper_95": 2.9957322286819324e-08
+        }
+      }
+    }
+  }
+}
