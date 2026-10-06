@@ -50,3 +50,31 @@ shapes, three domains: gate and branch-then 0 retained everywhere, branch-else �
 Decision: close 12 and return to strategy because row 1 and strategy 0001 both send a second
 bank failure there; root 10 has 3 of 5 slots left, and whether to use a one-family post-addition
 split, another contrast or an alphabet change is a program-level choice.
+
+## 2026-10-06: strategy 0132, one-family learning (13)
+
+Strategy 0132 chose the one-family post-addition route
+([plan](../../plans/post-addition-map-adaptation.md)) and asked for a new child. Opened
+[13-post-addition-map-learning](13-post-addition-map-learning/question.md) (budget 2). Steward
+probes (unreviewed): G is a repeatable training start (13.75 / 13.94 mean log2 cost at 65k),
+random perturbations mostly hurt, a hand-set PA grammar does not beat G, inner runs 0.65–1.2 s.
+
+Decision: propose three learners (contextual C, G × token multipliers M, token-only T) × 6
+independent outer-loop trajectories, evaluated on fresh training seeds and both holdouts, with a
+stage-0 runtime gate ([proposal](../../runs/2026-10-06-0132/proposal.md)), because this is the
+first test of learned transfer the root has been unable to run and the probes show it fits in
+one ≤ 8 h queue.
+
+## 2026-10-06: run 2026-10-06-0132, result (13)
+
+Result: outcome row 1 on complete data (commit `02cf76f`). Contextual learner C: no practical
+training gain over G (0.92× [0.78, 1.09]), flat curves. G-based token multipliers M: 2.23× faster
+than G on fresh training, 2.01× [1.47, 2.81] and 1.71× [1.26, 2.32] on the two withheld
+compositions, 6/6 trajectories. Token-only T: 1.7–2.1× over G-marg, 0.41–0.57× of G. Details in
+[13's log](13-post-addition-map-learning/log.md).
+
+Decision: return to strategy with 2 of 5 root slots left, because row 1 and strategy 0132 both
+send the first adaptive result there. The root now has a positive held-out result for a learned
+token-weight change on a supplied contextual template, but not for learned context; the next
+slot should go to whichever of (a) a contextual learner that can move, (b) a generic-vs-PA check
+of M's change, or (c) a supply/mutation split the strategist judges most decisive.

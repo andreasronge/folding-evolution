@@ -55,3 +55,11 @@ line under the frozen G and are tractable under G, F and G-marg, so headroom aga
 available at this length. Return to strategy (row 1, and strategy 0001's "review after another
 bank failure"): whether root 10 continues with a one-family post-addition split, a different
 contrast, or an alphabet change is a program-level choice.
+
+## 2026-10-06: wording correction (critique of run 0132, digest check notes 7–8)
+
+The 0001 decision above says the obstacle is "not a threshold or domain artefact". The evidence
+is narrower: pair failure persists on the three tested domains and for alias cutoffs 0.70–0.85;
+retained rosters change with the domain and a pair appears at 0.90 on D1331. Likewise "not
+supported at length 10" for the generic-grammar explanation tested only the frozen G. question.md
+now says both at that scope. No result changed.
