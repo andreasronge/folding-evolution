@@ -30,9 +30,11 @@ vs M+ (token steps only):
   what keeps them open; more seeds would not help.
 - Continuing token learning still pays: M+ / M 1.45× [1.26, 1.69] on training, 1.43× and 1.21×
   (unresolved) on the holdouts. R / M 1.41–1.51× everywhere.
-- Residual ablation R / R_abl: 1.10–1.17×, resolved nowhere; bounded below 1.25 on one holdout.
-- Every operator's children entered the parent set at the chance rate (24–26% vs 25%): selection
-  on 24 searches per candidate does not discriminate steps; progress is slow cumulative bias.
+- Residual ablation R / R_abl: 1.15× [0.97, 1.41], 1.10× [0.97, 1.25], 1.17× [0.88, 1.53]; no
+  resolved advantage on the three PA sets, appreciable gains still possible.
+- Operator acceptance fractions were near 25% (23.7–25.8%) for every operator; these counts do
+  not establish how well selection ranks individual steps. Slow cumulative improvement is a
+  proposed explanation, not an isolated mechanism.
 - Off-family: frozen M / G 2.23× [1.66, 3.06] on the two branch-else cells, 1.08× [0.72, 1.57] on
   the six linear cells (G near the floor). So M's change is not specific to post-addition among
   the IF_GT shapes scored. Unregistered, six maps: R / M+ 1.33× [1.05, 1.66] on branch-else and
@@ -52,15 +54,19 @@ Competing explanations (root 10's A–E, narrowed to one family):
   weights on G. **Not supported on training** (R / M+ ≤ 1.11×); **unresolved on the holdouts**
   (points 1.06–1.16×, upper bounds 1.31–1.48×). R / R_abl does not attribute anything to the
   residuals.
-- B1: any gain is token-weight retuning. **Consistent with everything resolved so far**: M and M+
-  carry every resolved gain. Not shown to be the whole story, since the holdout R / M+ is open.
+- B1: any gain is token-weight retuning. **Consistent with the planned PA comparisons**:
+  token-only adaptation (M, M+) has demonstrated gains; an additional contribution from learned
+  residuals has not been established (R / M gains are resolved, R / M+ and R / R_abl are not).
+  Not shown to be the whole story: the holdout R / M+ is open, and an exploratory R / M+
+  branch-else advantage (1.33×) is under test in [14](../14-saved-map-shape-shift/question.md).
 - C1: the learned map improves training more than the withheld compositions. **Partly**: M lost
   about a quarter of its log-gain; M+ lost 48% / 5% of its increment, R 8% / none (descriptive).
 - E1: the outer loop does not improve fresh training search. **Does not hold** for M, M+, R or T;
-  held for C under three-coordinate steps. But per-generation selection is at chance, so the
-  loop is weak, not discriminating.
+  for C under three-coordinate steps there was no resolved improvement (a gain above 1.09× is
+  excluded). Operator acceptance near 25% does not establish how well selection ranks steps.
 - G1: M's change is generic on this alphabet, not a PA preference. **Partly supported**: the
-  frozen M maps are as much faster on branch-else (2.2×) as on the PA holdouts; linear is
+  frozen M maps are also faster than G on branch-else (2.23× [1.66, 3.06]; point estimate similar
+  to the PA holdouts, not an equivalence test, so a PA preference is not ruled out); linear is
   unresolved near the floor. Branch-else is not an independently trained family.
 
 Not answerable here: family specificity proper (no second trained family), supply versus

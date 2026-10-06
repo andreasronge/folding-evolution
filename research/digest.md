@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-06 (last run 2026-10-06-0811, commit `0709104`: contextual moves versus continued token learning from the learned post-addition maps; before it run 2026-10-06-0132, `02cf76f`, root 10's first decoder-learning study; run 2026-10-06-0001, `a65ded0`, and run 2026-10-05-2247, `0995d33`; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 were blocked before running). This covers the **map-bias line**, the current
+As of 2026-10-06 (last completed run 2026-10-06-0811, commit `0709104`: contextual moves versus continued token learning from the learned post-addition maps; run 2026-10-06-1400, the saved-map shape-shift check, was approved but blocked before running; before 0811 run 2026-10-06-0132, `02cf76f`, root 10's first decoder-learning study; run 2026-10-06-0001, `a65ded0`, and run 2026-10-05-2247, `0995d33`; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 were blocked before running). This covers the **map-bias line**, the current
 core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
 evolution finds and keeps ("arrival of the frequent")?* Until 2026-10-05 the line studied
 whether the chemistry can discover, preserve and reuse a **shared helper** (one functional part
@@ -305,31 +305,41 @@ one screened family, one outer loop and operator, starts at M.
   and 1.06× [0.83, 1.31]; R faster in 8 and 9 of 12 pairs. The between-start spread (0.41–0.45
   log2) is about twice the planned one; bounding a true null below 1.25× needs about 7–9
   independent starts, resolving a true 1.16× about 20. The residual ablation (R / R_abl
-  1.10–1.17×) is faster nowhere and bounded below 1.25× on one holdout, so no gain is
-  attributed to the residuals.
-- **At 24 searches per candidate the outer loop does not discriminate single steps.** Children of every operator (token,
-  row σ 0.5, row σ 1.0) entered the next parent set at the chance rate (24–26% vs 25%); both
-  arms improved through slow cumulative bias on 24 searches per candidate.
-- **M's learned change is not specific to post-addition among the IF_GT shapes scored.**
-  Frozen M / G on the two branch-else cells 2.23× [1.66, 3.06], the size of the PA holdout
-  gains; on the six linear cells 1.08× [0.72, 1.57], unresolved with G near the population
-  floor. Branch-else is a related shape, not an independently trained family.
+  1.15× [0.97, 1.41], 1.10× [0.97, 1.25], 1.17× [0.88, 1.53] on the three PA sets) has no
+  resolved speed advantage anywhere; appreciable gains remain possible, so no gain is
+  attributed to the residuals, which is not the same as showing they contribute nothing.
+- **Operator acceptance was near the chance rate.** Children of every operator (token,
+  row σ 0.5, row σ 1.0) entered the next parent set at 23.7–25.8% against 25%. Equal average
+  acceptance across operator classes can coexist with selection of better children within each
+  class, so these counts do not establish how well selection ranks individual steps. Slow
+  cumulative improvement is a proposed explanation, not an isolated mechanism.
+- **M's learned change also speeds the branch-else cells, so its benefit is not confined to
+  post-addition.** Frozen M / G on the two branch-else cells 2.23× [1.66, 3.06], a point
+  estimate similar to the PA holdout gains (2.25×, 2.06×; separate estimates, not an
+  equivalence test, so a PA preference is not ruled out); on the six linear cells 1.08×
+  [0.72, 1.57], unresolved with G near the population floor. Branch-else is a related shape,
+  not an independently trained family.
 - **Unregistered hint: allowing row moves shifted speed toward branch shapes and away from
   linear ones.** Six "a" maps: R / M+
-  1.33× [1.05, 1.66] on branch-else and 0.65× [0.44, 0.88] on linear (slower in 6/6), while M+
+  1.33× [1.05, 1.66] on branch-else (faster in 5/6) and 0.65× [0.44, 0.88] on linear (slower in 6/6), while M+
   alone got 1.52× faster than M on linear. R doubled PA-training solver supply over M+ in 5 of
   6 starts and lowered linear supply in 5 of 6, without a resolved PA search gain. Post hoc, six
-  maps, no attribution to residuals: a pattern to test, not a finding.
+  maps, no attribution to residuals: a pattern to test, not a finding. A pre-registered check on
+  the unscored "b" continuations with a frequency-matched control was approved (run 1400) but
+  did not run (merge conflict before prepare); question
+  [14](questions/10-compositional-map-transfer/14-saved-map-shape-shift/question.md) is open.
 
 ## Open questions
 
 - [10-compositional-map-transfer](questions/10-compositional-map-transfer/question.md) (open,
-  root, budget 5, 4 used): can a decoder adapted across related tasks help fresh populations
+  root, budget 7, 4 used): can a decoder adapted across related tasks help fresh populations
   solve unseen operation combinations beyond a token-frequency bias? Two feasibility studies
   (one bank failed split/headroom, one failed the two-family requirement but kept a PA split),
   then two learning studies: learned token multipliers on G transfer about 2× to the withheld
   pair and to branch-else; contextual row moves on top add no resolved training gain (≤ 1.11×),
-  holdout increment unresolved. The last slot is the strategist's call.
+  holdout increment unresolved. Strategy 1400 raised the budget to 7: one slot for the
+  saved-map shape-shift check (14), then a four-reducer two-family feasibility study and, if
+  feasible, a matched/mismatched family comparison.
   - [11-composition-bank](questions/10-compositional-map-transfer/11-composition-bank/question.md)
     (closed, run 2026-10-05-2247): this 3×3 bank has no eligible split at 524k (Sm-SEL 27/50
     under U), and all four splits fail the 4 096 headroom rule under the hand-set grammar G.
@@ -341,6 +351,10 @@ one screened family, one outer loop and operator, starts at M.
     withheld PA pair (2.25×, 2.06× on 200 seeds); the 552-weight learner showed no resolved
     training gain (0.92× [0.78, 1.09]); row residuals on top of M vs continued token steps:
     training 1.00× [0.90, 1.11], holdouts 1.16× and 1.06×, unresolved.
+  - [14-saved-map-shape-shift](questions/10-compositional-map-transfer/14-saved-map-shape-shift/question.md)
+    (open, 1 slot, not yet run): does 0811's branch-versus-linear shift of R over M+ replicate on
+    the unscored "b" continuations, and does it need R's residuals beyond its emitted token
+    frequencies? Run 1400 was approved but blocked by a merge conflict; re-proposed as 1419.
 - [01-map-bias](questions/01-map-bias/question.md) (open, root, budget spent): how does the map
   bias what evolution finds and keeps?
 - [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)

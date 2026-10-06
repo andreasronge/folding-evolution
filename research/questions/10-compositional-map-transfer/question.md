@@ -1,24 +1,32 @@
 ---
 status: open
 tags: [map-bias, evolve-the-bias, task-family, compositional-transfer, decoder, fresh-start]
-budget: {experiments: 5, used: 0}
+budget: {experiments: 7, used: 0}
 ---
 # Can an adapted decoder help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 
 Current summary: **learned token weights on G transfer about 2× to the withheld compositions
 and to branch-else; allowing learned contextual moves added no resolved training gain on top (≤ 1.11×), and
-their holdout increment is unresolved** (4 of 5 slots used).
+their holdout increment is unresolved** (4 of 7 slots used; strategy 1400 raised the budget
+from 5 to 7).
 Run 2026-10-06-0811 ([13](13-post-addition-map-learning/question.md), commit `0709104`, row 4):
 from the six saved M maps, 12 matched pairs × 35 generations compared R (token steps plus
 whole-row contextual residuals) with M+ (token steps only). R / M+ on fresh training 1.00×
 [0.90, 1.11] (a gain above 1.11× excluded); on the two holdouts 1.16× [0.91, 1.48] and 1.06×
 [0.83, 1.31], unresolved because the between-start spread is about twice the planned one.
-Continued token learning still helped (M+ / M 1.45× on training). Frozen M was as much faster
-than G on the two branch-else cells (2.23× [1.66, 3.06]) as on the PA holdouts (2.25×, 2.06×;
-lower bounds 1.81, 1.60), and unresolved on linear cells, so its change is not PA-specific
-among the IF_GT shapes scored. An unregistered six-map pattern, R faster than M+ on branch-else
-(1.33×) and slower on linear (0.65×), is the only hint of learned context tied to the training
-shape. Per-generation selection accepted every operator at the chance rate.
+Continued token learning still helped (M+ / M 1.45× on training). Frozen M was faster than G
+on the two branch-else cells (2.23× [1.66, 3.06]), with a point estimate similar to the PA
+holdouts (2.25×, 2.06×; lower bounds 1.81, 1.60; separate estimates, not an equivalence test),
+and unresolved on linear cells, so its benefit is not confined to PA on the cells scored; a PA
+preference is not ruled out. An unregistered six-map pattern, R faster than M+ on branch-else
+(1.33× [1.05, 1.66], 5/6 starts) and slower on linear (0.65× [0.44, 0.88]), is the only hint of
+learned context tied to the training shape. Operator acceptance was near 25% for every
+operator; these counts do not establish how well selection ranks individual steps.
+
+Run 2026-10-06-1400 ([14](14-saved-map-shape-shift/question.md)): the pre-registered check of
+that pattern on the unscored "b" continuations, with residual ablation and a frequency-matched
+token-only control (R_fm), was approved by the critic but did not run: the driver stopped at
+prepare on a merge conflict (main into research/main). No data; re-proposed as run 1419.
 
 Run 2026-10-06-0132 ([13](13-post-addition-map-learning/question.md), commit `02cf76f`): on the
 one-family post-addition split (six training, two withheld cells on D1331), 23 learned token
@@ -66,8 +74,13 @@ branch cells leave headroom above G, but no same-primitive family pair survives 
 screen; run 2026-10-06-0001).
 [13-post-addition-map-learning](13-post-addition-map-learning/question.md) (closed, 2 of 2
 slots: G-based token multipliers transfer about 2× to the withheld pair and to branch-else;
-contextual row moves on top add no training gain, holdout increment unresolved; runs
+contextual row moves on top add no resolved training gain (R / M+ 1.00× [0.90, 1.11]), holdout
+increment unresolved; runs
 2026-10-06-0132 and 2026-10-06-0811).
+[14-saved-map-shape-shift](14-saved-map-shape-shift/question.md) (open, 1 slot, run 1400
+blocked before running: does 0811's
+branch-versus-linear shift of R over M+ replicate in the unscored "b" continuations, and does
+it need R's residuals beyond its token frequencies? Saved maps only).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),

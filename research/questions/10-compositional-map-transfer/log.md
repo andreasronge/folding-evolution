@@ -102,3 +102,29 @@ slot's use (replication, second family or mechanism) for the strategist. The roo
 far: a learned decoder change transfers about 2× to withheld compositions and to the related
 branch-else shape, but every resolved gain is token-weight retuning of a hand-supplied context;
 learned context beyond that is bounded below 1.11× on training and unresolved on the holdouts.
+
+## 2026-10-06: correction to the 0811 decision (critique 1400, digest check)
+
+"Every resolved gain is token-weight retuning of a hand-supplied context" overstates attribution.
+It should read: token-only adaptation has demonstrated gains; an additional contribution from
+learned residuals has not been established in the planned PA comparisons (R / M+ training 1.00×
+[0.90, 1.11], holdouts unresolved; R / R_abl unresolved; an exploratory branch-else R / M+ 1.33×
+[1.05, 1.66] on six maps). "M was as much faster on branch-else as on PA" means similar point
+estimates (about 2.2×), not an equivalence result.
+
+## 2026-10-06: strategy 1400 and run 2026-10-06-1400 (14), blocked before running
+
+Strategy 1400 raised root 10's budget from 5 to 7: one slot for the saved-map shape-shift check
+(new sub-question [14](14-saved-map-shape-shift/question.md)), then a four-reducer two-family
+feasibility study, then (if feasible) a matched/mismatched family comparison. Proposal: score the
+"b" continuations (with "a", G and M1–M6 as references) on the eight frozen off-family cells, with
+R_abl and a frequency-matched token-only control R_fm, 88 000 searches, ≈ 1 h at 10 workers
+([proposal](../../runs/2026-10-06-1400/proposal.md)); critic approve_with_notes, auto-approved.
+
+Result: none. The driver stopped at prepare because merging main into research/main conflicts
+(add/add on `research/runs/2026-10-06-0811/code_review.md`: main holds the second-pass `pass`
+review, research/main the first-pass `fail` review). No code was written and no slot was used.
+
+Decision: keep 14 open and re-propose the same check as run 1419 with the critic's notes folded
+in, because nothing was learned, the design was approved, and the conflict is a one-file
+bookkeeping fix (keep main's second-pass review), not a design problem. Root 10 stays at 4 of 7.

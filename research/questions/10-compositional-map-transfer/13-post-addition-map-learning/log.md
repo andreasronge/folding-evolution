@@ -117,3 +117,21 @@ bounding a true null below 1.25 needs about 9 independent starts and resolving a
 about 20, so a new M-map screen first; more seeds or continuations would not help. The
 unregistered off-family pattern (R better on branch-else, worse on linear, PA supply up) is the
 part worth a pre-registered test; it goes to the strategist with root 10's last slot.
+
+## 2026-10-06: correction to the 0811 entries (critique 1400, digest check)
+
+No new experiment. Language corrections only; numbers unchanged.
+- "Selection on 24 searches per candidate does not tell row moves from token moves; both arms
+  improved by slow cumulative bias" should read: operator acceptance fractions were near 25%
+  (23.7–25.8%); equal average acceptance across classes can coexist with selection of better
+  children within each class, so these counts do not establish how well selection ranks
+  individual steps. Slow cumulative improvement is a proposed explanation, not an isolated mechanism.
+- "Allowing contextual row moves added no training gain" should read "no resolved training gain,
+  R / M+ 1.00× [0.90, 1.11]"; small positive effects are allowed.
+- R / R_abl "resolved nowhere" means no resolved advantage on the three PA sets (1.15× [0.97, 1.41],
+  1.10× [0.97, 1.25], 1.17× [0.88, 1.53]), not proof that residuals contribute nothing.
+- "M and M+ carry every resolved gain" should read: token-only adaptation has demonstrated gains;
+  an additional contribution from learned residuals has not been established in the planned PA
+  comparisons.
+
+Decision: none (no experiment); 13 stays closed because the corrections narrow wording, not results.
