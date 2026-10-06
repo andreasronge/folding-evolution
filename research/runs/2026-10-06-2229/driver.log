@@ -1,0 +1,16 @@
+2026-10-06 22:34:58 push of HEAD research/main research/2026-10-06-1723 failed; push by hand
+2026-10-06 22:34:58 cycle 2026-10-06-1723 done; brief: /Users/andreas/developer/folding-evolution/research/briefs/2026-10-06-2026-10-06-1723.md
+2026-10-06 22:34:58 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-06 22:36:41 phase → awaiting_approval
+2026-10-06 22:36:41 proposal: Crossed BE/PA token maps on the three holdouts, stage 2 (frozen evaluation, no new learning) [questions/10-compositional-map-transfer/16-crossed-family-adaptation] — budget left: 2. Approve with `research.py approve`.
+2026-10-06 22:36:41 auto-approved (critic: approve_with_notes, revisions: 0)
+2026-10-06 22:36:41 phase → prepare
+2026-10-06 22:36:57 researcher (codex/gpt-6.1-sol) → prepare [herdr]
+2026-10-06 22:47:27 phase → review_code
+2026-10-06 22:47:27 reviewer (claude/claude-fable-5-1) → review_code [herdr]
+2026-10-06 22:51:07 phase → execute
+2026-10-06 22:51:07 running queue (1 entries)
+2026-10-06 23:25:59 phase → analyse
+2026-10-06 23:25:59 reviewer (claude/claude-fable-5-1) → analyse [herdr]
+2026-10-06 23:31:52 phase → decide
+2026-10-06 23:31:52 steward (claude/claude-opus-5-5) → decide [herdr]

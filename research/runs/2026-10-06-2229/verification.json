@@ -1,0 +1,1626 @@
+{
+  "tests": {
+    "command": ".venv/bin/python -m pytest tests/test_crossed_holdout.py tests/test_crossed_learning.py tests/test_four_reducer.py tests/test_composition_bank.py -q",
+    "passed": 45
+  },
+  "lint": "ruff check and ruff format --check passed",
+  "queue": {
+    "entries": 1,
+    "expected_searches": 25200,
+    "timeout_seconds": 7200,
+    "internal_deadline_seconds": 6300,
+    "expected_outputs": [
+      "config.json",
+      "validation.json",
+      "bank.json",
+      "trajectories.json",
+      "training_gains.json",
+      "search.jsonl",
+      "fresh_scores.json",
+      "result.json",
+      "summary.md",
+      "holdout_solves.png",
+      "search_curves.png"
+    ]
+  },
+  "final_implementation_sha256": {
+    "experiments/chem_tape/crossed_holdout_run.py": "9912fe64affe39ab420d21114b5509a2179f1f46d20aa2a9e78e7a7d98756cd6",
+    "experiments/chem_tape/crossed_holdout_report.py": "37d0c1e22d70b0934c775cf46f95a20ce99489e6eed58cbd1d19dea2d0324043",
+    "tests/test_crossed_holdout.py": "23c75120e2df359b5ac140cc5953aa5b1e881fc020062e8a24ccd61c7116d9a7"
+  },
+  "diagnostics": {
+    "initial_smoke": {
+      "output_directory": "/Users/andreas/developer/folding-evolution-research/2026-10-06-2229/experiments/output/2026-10-06-2229-smoke",
+      "seeds": [
+        2229000,
+        2229001
+      ],
+      "cap": 8192,
+      "searches": 126,
+      "complete": true,
+      "scientific_inference_performed": false,
+      "runtime": {
+        "wall_seconds_before_reporting": 3.2333197919651866,
+        "sum_search_seconds": 21.78750870906515,
+        "mean_search_seconds": 0.17291673578623135,
+        "projected_full_queue_minutes_at_observed_rate": 10.262502903021716,
+        "wall_seconds": 4.892493708990514
+      },
+      "per_map_cell_counts": {
+        "G4": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE1": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE2": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 19,
+            "searches_with_shortcuts": 1,
+            "unique_shortcuts": 4
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 0,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE3": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE4": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE5": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE6": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 0,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE7": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE8": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 0,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE9": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE10": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 0,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA1": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA2": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA3": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA4": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA5": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 0,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA6": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA7": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA8": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA9": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 0,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA10": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        }
+      },
+      "g4_solve_gate": {
+        "BE:S?m:(M+F)": {
+          "fraction": 0.5,
+          "passed": false
+        },
+        "PA:(F?S:M)+m": {
+          "fraction": 0.5,
+          "passed": false
+        },
+        "PA:(S?M:m)+F": {
+          "fraction": 1.0,
+          "passed": true
+        }
+      },
+      "artifact_sha256": {
+        "config.json": "d9327e729e5370aa2441a7f574ed8d38824e5c6435b01da232520169ffe7da24",
+        "validation.json": "a3a44fa5de2599ac0e614283a22e8b3ea9913864c9120274b8cdf41685b469f1",
+        "bank.json": "b2b856cb6d051e65599b22409cf49f654ba8d87539f073d2e9b7d061079aceb9",
+        "trajectories.json": "63bbe1de2ef52df8a8a84cdf096634bf9b3027bfca24055c3c02add776f2c9e2",
+        "training_gains.json": "7e7b092094674303c416bb7851297e9b4016520789d8c046fe64919dca25b0d0",
+        "search.jsonl": "8ddabe9c8e40426b353748a08709ba5265bc6ff09a5d9d9cff4267f6f53dbc83",
+        "fresh_scores.json": "0030a84cef8ed43f8f8602a152392206db7dc3964c8d450e545123f908f03264",
+        "result.json": "b380c6b6b5da0064b4cb516125db01537c3b46ce8ca6f6d6056aecd27eccd179",
+        "summary.md": "9a0eeaa44fc45387f80c010ae37c2d8ca18c009cb5889a0978f90a442c6f3f87",
+        "holdout_solves.png": "b27bde4e30876a6bd4dac5db5748c09085b8f6135251c8f95549c24d98a46ff2",
+        "search_curves.png": "f0615b79fc0c9b1fb3e51c963aed6ffee1ab455b1b2023cee02a9d521f0aa248"
+      }
+    },
+    "smoke": {
+      "output_directory": "/Users/andreas/developer/folding-evolution-research/2026-10-06-2229/experiments/output/2026-10-06-2229-smoke-final",
+      "seeds": [
+        2229400,
+        2229401
+      ],
+      "cap": 8192,
+      "searches": 126,
+      "complete": true,
+      "scientific_inference_performed": false,
+      "runtime": {
+        "wall_seconds_before_reporting": 3.4774556669872254,
+        "sum_search_seconds": 24.255219295504503,
+        "mean_search_seconds": 0.19250174044051194,
+        "projected_full_queue_minutes_at_observed_rate": 11.085073098501502,
+        "wall_seconds": 3.9094965829863213
+      },
+      "per_map_cell_counts": {
+        "G4": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 0,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 0,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE1": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE2": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE3": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE4": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE5": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 0,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE6": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE7": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE8": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE9": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 0,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE10": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA1": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA2": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA3": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA4": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA5": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA6": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 16,
+            "searches_with_shortcuts": 1,
+            "unique_shortcuts": 1
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA7": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 0,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 0,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA8": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA9": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 0,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA10": {
+          "BE:S?m:(M+F)": {
+            "searches": 2,
+            "solved": 2,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 2,
+            "solved": 0,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 2,
+            "solved": 1,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        }
+      },
+      "g4_solve_gate": {
+        "BE:S?m:(M+F)": {
+          "fraction": 0.0,
+          "passed": false
+        },
+        "PA:(F?S:M)+m": {
+          "fraction": 0.0,
+          "passed": false
+        },
+        "PA:(S?M:m)+F": {
+          "fraction": 0.5,
+          "passed": false
+        }
+      },
+      "artifact_sha256": {
+        "config.json": "09c8d90fe07b8bb13c8aa7bacaabdbd7c8144cdd595f4564d56215347d5ec950",
+        "validation.json": "60255625a953ef49e5771408be81496f9f737f11229d62ae0260e87b385172ce",
+        "bank.json": "b2b856cb6d051e65599b22409cf49f654ba8d87539f073d2e9b7d061079aceb9",
+        "trajectories.json": "63bbe1de2ef52df8a8a84cdf096634bf9b3027bfca24055c3c02add776f2c9e2",
+        "training_gains.json": "7e7b092094674303c416bb7851297e9b4016520789d8c046fe64919dca25b0d0",
+        "search.jsonl": "47486a6c953de8bee0d19153ba73a76c3562fd67f77f7047f0851ca80daa21b8",
+        "fresh_scores.json": "45117ad2f2dd46915231a4eaa949301ef15f9d12d203112b6e57676d393486ad",
+        "result.json": "f7e18bd114114ff2af3d8e4af7eb98b893bf483e6f2f4dd9078202b5f4feb07f",
+        "summary.md": "205dc9a6560bbd32ffeedceb66489ed3ae27b6cdef4c0f9f22a045ed5fea02cf",
+        "holdout_solves.png": "a0b6e5e4d75144c619325845ab3100b1723331200f966370dc970932de9433eb",
+        "search_curves.png": "26f01e483b6674c99ee17d8967423aab395e119ddc2ef14014c1e4dc751d2aaf"
+      }
+    },
+    "probe": {
+      "output_directory": "/Users/andreas/developer/folding-evolution-research/2026-10-06-2229/experiments/output/2026-10-06-2229-probe",
+      "seeds": [
+        2229500,
+        2229501,
+        2229502,
+        2229503,
+        2229504
+      ],
+      "cap": 524288,
+      "searches": 315,
+      "complete": true,
+      "scientific_inference_performed": false,
+      "runtime": {
+        "wall_seconds_before_reporting": 33.698926457960624,
+        "sum_search_seconds": 236.4560830789269,
+        "mean_search_seconds": 0.7506542319965933,
+        "projected_full_queue_minutes_at_observed_rate": 34.52747774385692,
+        "wall_seconds": 34.20824458298739
+      },
+      "per_map_cell_counts": {
+        "G4": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE1": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 1,
+            "searches_with_shortcuts": 1,
+            "unique_shortcuts": 1
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE2": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 419,
+            "searches_with_shortcuts": 1,
+            "unique_shortcuts": 43
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE3": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE4": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 21,
+            "searches_with_shortcuts": 1,
+            "unique_shortcuts": 5
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE5": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE6": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE7": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE8": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE9": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "BE10": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA1": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA2": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA3": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA4": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA5": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 3,
+            "searches_with_shortcuts": 1,
+            "unique_shortcuts": 2
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA6": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 4,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA7": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA8": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 148,
+            "searches_with_shortcuts": 1,
+            "unique_shortcuts": 34
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA9": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 3,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        },
+        "PA10": {
+          "BE:S?m:(M+F)": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(F?S:M)+m": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          },
+          "PA:(S?M:m)+F": {
+            "searches": 5,
+            "solved": 5,
+            "shortcuts": 0,
+            "searches_with_shortcuts": 0,
+            "unique_shortcuts": 0
+          }
+        }
+      },
+      "g4_solve_gate": {
+        "BE:S?m:(M+F)": {
+          "fraction": 1.0,
+          "passed": true
+        },
+        "PA:(F?S:M)+m": {
+          "fraction": 1.0,
+          "passed": true
+        },
+        "PA:(S?M:m)+F": {
+          "fraction": 1.0,
+          "passed": true
+        }
+      },
+      "artifact_sha256": {
+        "config.json": "2f793ab612b83577fad6c866b3bae6fd039f49c19da1c5616e17fe36278b3558",
+        "validation.json": "8a47853f51ea64d511fd18a682041b48ad6cffff21ba9f238420b13c67b9fc3d",
+        "bank.json": "b2b856cb6d051e65599b22409cf49f654ba8d87539f073d2e9b7d061079aceb9",
+        "trajectories.json": "63bbe1de2ef52df8a8a84cdf096634bf9b3027bfca24055c3c02add776f2c9e2",
+        "training_gains.json": "7e7b092094674303c416bb7851297e9b4016520789d8c046fe64919dca25b0d0",
+        "search.jsonl": "46fe87e986c95fca4044480ef6c60db289fce4548380f34f627694c6b360d2e7",
+        "fresh_scores.json": "85b021e68463c6abd8aa26391ad38d773d43ff70699663891eee3f3c49ac0ca1",
+        "result.json": "869a04bb89fd4039d0f8dd024dcd9e3872fa2f4ec18cceb5133912a6a2b97a8b",
+        "summary.md": "1d47ed9e886fb5e25f11225b5a194216381df4aee554086ca7fc81168729b479",
+        "holdout_solves.png": "45d87bd7e4d0f397ed0bcc4515767a2d4fa4fff12aa4dea524282b77bac14c87",
+        "search_curves.png": "9a82044848ce88cb97710190092650f1fd654f55233baa370719b877ff696c4b"
+      }
+    }
+  }
+}

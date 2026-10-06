@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-06 (last completed run 2026-10-06-1723, commit `db96645`: crossed BE/PA token learning on the four-reducer bank, stage 1, training cells only; before it run 2026-10-06-1603, `92ba7c5`, the four-reducer FIRST bank feasibility study; before that run 2026-10-06-1425, `b397f72`, the saved-map shape-shift check, after runs 1400 and 1419 with the same design were blocked by a merge conflict; before it run 2026-10-06-0811, `0709104`, contextual moves versus continued token learning from the learned post-addition maps; before 0811 run 2026-10-06-0132, `02cf76f`, root 10's first decoder-learning study; run 2026-10-06-0001, `a65ded0`, and run 2026-10-05-2247, `0995d33`; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 were blocked before running). This covers the **map-bias line**, the current
+As of 2026-10-06 (last completed run 2026-10-06-2229, commit `33fcee2`: the frozen crossed BE/PA token maps scored on the three withheld cells, stage 2; before it run 2026-10-06-1723, `db96645`, crossed BE/PA token learning on the four-reducer bank, stage 1, training cells only; before that run 2026-10-06-1603, `92ba7c5`, the four-reducer FIRST bank feasibility study; before that run 2026-10-06-1425, `b397f72`, the saved-map shape-shift check, after runs 1400 and 1419 with the same design were blocked by a merge conflict; before it run 2026-10-06-0811, `0709104`, contextual moves versus continued token learning from the learned post-addition maps; before 0811 run 2026-10-06-0132, `02cf76f`, root 10's first decoder-learning study; run 2026-10-06-0001, `a65ded0`, and run 2026-10-05-2247, `0995d33`; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 were blocked before running). This covers the **map-bias line**, the current
 core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
 evolution finds and keeps ("arrival of the frequent")?* Until 2026-10-05 the line studied
 whether the chemistry can discover, preserve and reuse a **shared helper** (one functional part
@@ -19,8 +19,9 @@ increment, and their one off-family hint did not replicate (see "Decoder learnin
 post-addition", "Contextual moves on top of M" and "Saved-map shape shift"). The four-reducer
 bank meant to supply a second family fails the split rule for branch-else (see "Four-reducer
 bank"). On that bank, with a narrower split authorized by strategy, the token learner improves
-the four-reducer grammar G4 about 2.2× on both families' training cells, mostly generically; a
-family preference of about 1.1× is unresolved in-sample and the holdouts are not yet scored
+the four-reducer grammar G4 about 2.2× on both families' training cells and 2–3× on the three
+withheld cells; which family the maps were trained on made no detectable difference on the
+withheld cells (matched advantage 1.02× and 0.96×, a value above about 1.25× excluded, 1.1× not)
 (see "Crossed family learning").
 
 Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per experiment; reviews and report tables in [docs/map-bias/reviews/](../docs/map-bias/reviews/)) and
@@ -409,7 +410,7 @@ fairly sure of the search numbers; narrow in scope.
   and the allowance excluded stage C. Run 1723 then measured 9.5–13.7 min per trajectory, in line
   with 0132.
 
-## Crossed family learning (root 10, run 2026-10-06-1723)
+## Crossed family learning (root 10, runs 2026-10-06-1723 and 2026-10-06-2229)
 
 One run, commit `db96645`, complete data (20 trajectories, 216 420 searches, 4.28 h, no holdout
 searched). Same bank, D1331, `v2_rmin_first` and G4 as 1603. Narrower split authorized by
@@ -426,31 +427,52 @@ numbers; narrow in scope (ten screened training cells, one learner, starts at G4
   gain BE 2.18× [1.98, 2.40], PA 2.27× [1.95, 2.65]; 20/20 maps above 1. Same size as M over G on
   post-addition in 0132 (2.23×). Mostly speed: G4 already solves 480/500 at the cap.
 - **Most of that gain is generic on training cells.** BE-trained maps speed PA training cells
-  2.07× [1.94, 2.21]; PA-trained maps speed BE training cells 1.93× [1.61, 2.30]. No map hurt the
-  other family. Both families make the same big moves (INPUT up in 20/20 maps, IF_GT and
+  2.07× [1.94, 2.21]; PA-trained maps speed BE training cells 1.93× [1.61, 2.30]. All 20 maps had
+  positive estimated gains averaged over the other family's training cells; both arm-level
+  averages are resolved. Both families make the same big moves (INPUT up in 20/20 maps, IF_GT and
   REDUCE_ADD up, DUP and CHARS down); mean vectors differ by about half the within-family spread
   (permutation p 0.20).
-- **A family preference, if any, is small and unresolved even in-sample.** Matched over
-  mismatched: 1.13× [0.93, 1.37] on BE cells and 1.10× [0.93, 1.29] on PA cells. Neither excludes
-  1 or 1.25×. The matched arm is ahead on 8 of 10 cells (2 tied), and a post hoc within-map
-  interaction (sum of both contrasts) is 1.24× [1.09, 1.41]: suggestive of some family
-  information on the cells each map was trained on, nothing about withheld cells.
+- **In-sample, the family preference estimates are 1.13× and 1.10×, both unresolved.** Matched
+  over mismatched: 1.13× [0.93, 1.37] on BE cells and 1.10× [0.93, 1.29] on PA cells; neither
+  excludes 1 or 1.25×. Eight of ten cell point estimates favour matched training; the other two
+  are within 0.02 log2 of zero. A post hoc within-map interaction (sum of both contrasts) is
+  1.24× [1.09, 1.41]: suggestive of some family information on the cells each map was trained
+  on. It did not carry to the withheld cells (below).
 - **Learning is cheap enough on this bank:** 9.5–13.7 min per trajectory on 10 workers. The 24-
   search candidate score barely ranks parents (median Spearman 0.20 BE, 0.00 PA between successive
   rescorings), but the 120-search selection score predicts fresh gain (Spearman −0.45, −0.83).
 
+Stage 2, run 2026-10-06-2229 (commit `33fcee2`, complete, 35 min): the same 20 maps, frozen, and
+G4 on the three withheld cells, 400 shared fresh seeds each, no learning. Pre-registered
+readouts; reviewed analysis. Fairly sure of the numbers; three screened cells, only one of them BE.
+([analysis](runs/2026-10-06-2229/analysis.md))
+
+- **The token maps transfer to the withheld cells about 2–3×.** All six arm × cell gains over G4
+  are resolved: BE maps 2.01× [1.86, 2.18] on the BE cell and 2.59× [2.41, 2.77] on the PA
+  cells; PA maps 1.97× [1.63, 2.39] and 2.48× [2.07, 2.96]. Holdout gains match or exceed the
+  training gains, so no overfitting to the training cells shows on these holdouts.
+- **No matched-family advantage was detected on the withheld cells; one above about 1.25× is
+  excluded, one of 1.1× is not.** Matched over mismatched: 1.02× [0.84, 1.25] on BE, 0.96× [0.79,
+  1.15] on PA; pre-stated within-map interaction 0.98× [0.83, 1.15]. The BE upper bound (1.2485)
+  is at the margin: dropping any one of 14 maps lifts it to 1.25–1.30. Which cell is searched
+  moves the gain by about 50%; which family trained the map, by a few percent in the point
+  estimates (the intervals allow up to about 1.25×). This is a
+  bound, not equality; detecting a true 1.1× at 80% would need about 64–75 trajectories per family.
+- **Not separated:** whether the generic gain is a better prior for this reducer family or a
+  correction of G4's weak spots, and anything about learned context (token weights only).
+
 ## Open questions
 
 - [10-compositional-map-transfer](questions/10-compositional-map-transfer/question.md) (open,
-  root, budget 9, 7 used): can a decoder adapted across related tasks help fresh populations
+  root, budget 9, 8 used): can a decoder adapted across related tasks help fresh populations
   solve unseen operation combinations beyond a token-frequency bias? Two feasibility studies
   (one bank failed split/headroom, one failed the two-family requirement but kept a PA split),
   then two learning studies: learned token multipliers on G transfer about 2× to the withheld
   pair and to branch-else; contextual row moves on top add no resolved training gain (≤ 1.11×),
   holdout increment unresolved, and their off-family branch shift did not replicate (14). The
   four-reducer bank failed the symmetric split (15); on a narrower split, crossed token learning
-  improves both families about 2.2×, mostly generically (16, stage 1). Slot 8: the holdout
-  evaluation; slot 9 is left for strategy.
+  improves both families about 2.2× on training and 2–3× on the withheld cells, with no detected
+  family advantage there (16, closed). 8 of 9 slots used; slot 9 is for strategy.
   - [11-composition-bank](questions/10-compositional-map-transfer/11-composition-bank/question.md)
     (closed, run 2026-10-05-2247): this 3×3 bank has no eligible split at 524k (Sm-SEL 27/50
     under U), and all four splits fail the 4 096 headroom rule under the hand-set grammar G.
@@ -473,9 +495,10 @@ numbers; narrow in scope (ten screened training cells, one learner, starts at G4
     grammars show a crossed preference that context strengthens over the marginal controls
     (descriptive).
   - [16-crossed-family-adaptation](questions/10-compositional-map-transfer/16-crossed-family-adaptation/question.md)
-    (open, stage 1 run 2026-10-06-1723, row 4): BE- and PA-trained token maps both beat G4 about
-    2.2× on their training cells and about 2× on the other family's; matched over mismatched
-    in-sample 1.13× and 1.10×, unresolved. Next: the three holdouts.
+    (closed, runs 2026-10-06-1723 and 2026-10-06-2229, row 4 both): BE- and PA-trained token maps
+    beat G4 about 2.2× on training cells and 2–3× on the three withheld cells; matched over
+    mismatched on the withheld cells 1.02× (BE) and 0.96× (PA), bounded below about 1.25×, a
+    1.1× preference not excluded.
 - [01-map-bias](questions/01-map-bias/question.md) (open, root, budget spent): how does the map
   bias what evolution finds and keeps?
 - [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)

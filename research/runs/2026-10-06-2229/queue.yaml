@@ -1,0 +1,31 @@
+runs:
+  - id: 2026-10-06-2229-frozen-crossed-holdouts
+    cmd: >-
+      .venv/bin/python -m experiments.chem_tape.crossed_holdout_run
+      --bank experiments/chem_tape/data/four_reducer_1603_bank.json
+      --source experiments/chem_tape/data/crossed_1723
+      --workers 10 --deadline-seconds 6300
+    timeout_seconds: 7200
+    expect_outputs:
+      - config.json
+      - validation.json
+      - bank.json
+      - trajectories.json
+      - training_gains.json
+      - search.jsonl
+      - fresh_scores.json
+      - result.json
+      - summary.md
+      - holdout_solves.png
+      - search_curves.png
+    track: chem-tape
+    notes: >-
+      Proposal 2229 frozen stage 2: all ten BE and ten PA stage-1 maps plus
+      G4, three withheld cells only, 400 shared fresh seeds 2229000-2229399,
+      cap 524288. Exactly 25200 searches; no learning or training searches.
+      Frozen source SHA256s and every table hash verified before evaluation.
+      Deadline/incomplete rows are unresolved, with no subset inference.
+      G4 solve fraction must be at least 85 percent on each holdout.
+      Estimated queue wall 45 minutes (315-search full-cap probe projects
+      35 minutes; prior loaded timing projects 46-55). Internal deadline
+      105 minutes including a three-minute reporting reserve; timeout 120.
