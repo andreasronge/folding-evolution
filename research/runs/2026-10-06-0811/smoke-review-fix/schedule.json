@@ -1,0 +1,8 @@
+{
+  "generations": 1,
+  "sampling": true,
+  "off_family": true,
+  "pair_seconds": 0,
+  "projected_total_seconds": null,
+  "smoke_only": true
+}

@@ -5,18 +5,30 @@ budget: {experiments: 5, used: 0}
 ---
 # Can an adapted decoder help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 
-Current summary: **first learned-decoder transfer measured: retuning G's token weights helps
-the withheld compositions; a contextual learner did not move** (3 of 5 slots used).
+Current summary: **learned token weights on G transfer about 2× to the withheld compositions
+and to branch-else; allowing learned contextual moves added no resolved training gain on top (≤ 1.11×), and
+their holdout increment is unresolved** (4 of 5 slots used).
+Run 2026-10-06-0811 ([13](13-post-addition-map-learning/question.md), commit `0709104`, row 4):
+from the six saved M maps, 12 matched pairs × 35 generations compared R (token steps plus
+whole-row contextual residuals) with M+ (token steps only). R / M+ on fresh training 1.00×
+[0.90, 1.11] (a gain above 1.11× excluded); on the two holdouts 1.16× [0.91, 1.48] and 1.06×
+[0.83, 1.31], unresolved because the between-start spread is about twice the planned one.
+Continued token learning still helped (M+ / M 1.45× on training). Frozen M was as much faster
+than G on the two branch-else cells (2.23× [1.66, 3.06]) as on the PA holdouts (2.25×, 2.06×;
+lower bounds 1.81, 1.60), and unresolved on linear cells, so its change is not PA-specific
+among the IF_GT shapes scored. An unregistered six-map pattern, R faster than M+ on branch-else
+(1.33×) and slower on linear (0.65×), is the only hint of learned context tied to the training
+shape. Per-generation selection accepted every operator at the chance rate.
+
 Run 2026-10-06-0132 ([13](13-post-addition-map-learning/question.md), commit `02cf76f`): on the
 one-family post-addition split (six training, two withheld cells on D1331), 23 learned token
 multipliers on G's rows (M, 6 trajectories × 25 generations) sped fresh search 2.2× over frozen G
-on training and 2.0× / 1.7× on the two holdouts (95% lower bounds 1.47, 1.26; 6/6 trajectories);
-the learned change is mainly INPUT up and DUP down. The full contextual learner (C, 552 weights,
-three-coordinate mutations) showed no practical training gain (0.92× [0.78, 1.09]) and stayed at G
-plus noise, so whether learned *contextual* preferences transfer is still untested. A
-frequency-only learner (T) beat its context-free start 1.7–2.1× but stayed 1.8–2.4× slower than
-G. Family specificity and mechanism are unmeasured; the bank was screened, so this is fresh-seed
-transfer on a screened bank, not an untouched benchmark.
+on training and 2.0× / 1.7× on the two holdouts (95% lower bounds 1.47, 1.26; 6/6 trajectories).
+The full contextual learner (C, 552 weights, three-coordinate mutations) drifted modestly but
+showed no resolved training gain (0.92× [0.78, 1.09]). A frequency-only learner (T) beat its
+context-free start 1.7–2.1× but stayed 1.8–2.4× slower than G. Family specificity and mechanism
+are unmeasured; the bank was screened, so this is fresh-seed transfer on a screened bank, not an
+untouched benchmark.
 
 Earlier: two feasibility studies. Run 2026-10-05-2247 ([11](11-composition-bank/question.md)):
 the 3×3 reducer/combiner bank failed its split and headroom requirements (no eligible split at
@@ -52,14 +64,16 @@ fails on tractability at 524k and on the 4 096 headroom rule against G; run 2026
 [12-generic-grammar-headroom](12-generic-grammar-headroom/question.md) (closed: ten-token
 branch cells leave headroom above G, but no same-primitive family pair survives the alias
 screen; run 2026-10-06-0001).
-[13-post-addition-map-learning](13-post-addition-map-learning/question.md) (open, 1 of 2
-slots used: G-based token multipliers transfer 1.7–2.0× to the withheld pair; the contextual
-learner did not move under its mutation operator; run 2026-10-06-0132).
+[13-post-addition-map-learning](13-post-addition-map-learning/question.md) (closed, 2 of 2
+slots: G-based token multipliers transfer about 2× to the withheld pair and to branch-else;
+contextual row moves on top add no training gain, holdout increment unresolved; runs
+2026-10-06-0132 and 2026-10-06-0811).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
 [08-evolve-bias](../01-map-bias/08-evolve-bias/question.md),
 [09-generic-bias-speedup](../01-map-bias/09-generic-bias-speedup/question.md),
+[run 0811 decision](../../runs/2026-10-06-0811/decision.md),
 [digest](../../digest.md), [chem-tape findings](../../../docs/chem-tape/findings.md).
 
 Review after the feasibility experiment and after the four allocated experiments. A

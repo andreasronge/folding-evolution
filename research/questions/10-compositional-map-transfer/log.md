@@ -78,3 +78,27 @@ send the first adaptive result there. The root now has a positive held-out resul
 token-weight change on a supplied contextual template, but not for learned context; the next
 slot should go to whichever of (a) a contextual learner that can move, (b) a generic-vs-PA check
 of M's change, or (c) a supply/mutation split the strategist judges most decisive.
+
+## 2026-10-06: strategy 0811, contextual continuation (13, last slot)
+
+Strategy 0811 asked for 13's last slot to compare learning contextual changes on top of the
+saved M maps against continuing token-only learning for the same budget, plus a frozen-M
+off-family check. Proposal: R (row residuals) vs M+ (token steps), 12 matched pairs × 35
+generations ([proposal](../../runs/2026-10-06-0811/proposal.md)); critic approve_with_notes.
+
+## 2026-10-06: run 2026-10-06-0811, result (13)
+
+Result: outcome row 4, unresolved, on complete data (commit `0709104`, 12/12 pairs). R / M+:
+training 1.00× [0.90, 1.11]; holdouts 1.16× [0.91, 1.48] and 1.06× [0.83, 1.31]. M+ / M 1.45×
+on training. Frozen M / G: holdouts 2.25× [1.81, 2.81] and 2.06× [1.60, 2.63] on 200 new seeds;
+branch-else 2.23× [1.66, 3.06]; linear 1.08× [0.72, 1.57]. Unregistered: R / M+ 1.33× on
+branch-else, 0.65× on linear (six maps). Operators accepted at the chance rate. Details in
+[13's log](13-post-addition-map-learning/log.md).
+
+Decision: close 13 and return to strategy with root 10's last slot (4 of 5 used), because 13's
+question is answered for the learner that moved, the R / M+ holdout increment would need about
+20 independent starts to resolve at the observed spread, and strategy 0811 reserved the last
+slot's use (replication, second family or mechanism) for the strategist. The root's answer so
+far: a learned decoder change transfers about 2× to withheld compositions and to the related
+branch-else shape, but every resolved gain is token-weight retuning of a hand-supplied context;
+learned context beyond that is bounded below 1.11× on training and unresolved on the holdouts.

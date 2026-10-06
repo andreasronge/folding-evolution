@@ -1,0 +1,29 @@
+runs:
+  - id: 2026-10-06-0811-contextual-continuation
+    cmd: >-
+      env RAYON_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
+      .venv/bin/python -m experiments.chem_tape.contextual_learning_run
+      --workers 10 --deadline-seconds 27600
+    timeout_seconds: 28800
+    expect_outputs:
+      - config.json
+      - bank.json
+      - sources.json
+      - stage0.json
+      - result.json
+      - status.json
+      - summary.md
+    track: chem-tape
+    notes: >-
+      Six saved M starts, twelve matched M+/R pairs, 35 generations,
+      immediate PA tests and R residual ablation. Frozen G/M references and
+      eight non-PA cells, then learned off-family tests and bounded sampling.
+      Stage 0 saves actual residual-operator calibration as descriptive only
+      (reviewer-required amendment removes its unstable spread gate), and uses
+      training-only timings;
+      10 percent headroom once, seven-hour projection gate. Approved reductions
+      remove sampling, then learned off-family, then use 28 generations.
+      Harness mismatch stops interpretation and further stages.
+      Start-cluster/shared-seed bootstrap; partial pairs
+      cannot produce a complete-study outcome. Internal deadline 7h40m,
+      timeout 8h. Verification projected the uncut schedule at 6.32h.

@@ -1,0 +1,21 @@
+{
+  "state": "stopped",
+  "phase": "timing:training524",
+  "elapsed_seconds": 222.37480595795205,
+  "cumulative_inner_evaluations": 56491520,
+  "finished_map_ids": [],
+  "completed_pairs": [],
+  "schedule": {
+    "generations": 35,
+    "sampling": true,
+    "off_family": true,
+    "learning_seconds": 13529.762524210819,
+    "test_seconds": 2100.0,
+    "reference_seconds": 1935.0103060855733,
+    "off_family_seconds": 547.1999999999999,
+    "sampling_seconds": 2219.245199987199,
+    "pair_seconds": 1302.4802103509016,
+    "projected_total_seconds": 22766.441521061915
+  },
+  "stop_reason": "Calibration-only feasibility check; no reference tests or learning executed"
+}
