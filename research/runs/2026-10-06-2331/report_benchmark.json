@@ -1,0 +1,7 @@
+{
+  "synthetic_only": true,
+  "rows": 79200,
+  "bootstrap_replicates": 20000,
+  "report_plus_law_seconds": 1.2360692090005614,
+  "peak_rss_bytes": 362889216
+}

@@ -1,0 +1,36 @@
+runs:
+  - id: 2026-10-06-2331-initialization-ongoing-decoder
+    cmd: >-
+      OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 RAYON_NUM_THREADS=1
+      .venv/bin/python -m experiments.chem_tape.initialization_run
+      --source experiments/chem_tape/data/crossed_1723
+      --bank experiments/chem_tape/data/four_reducer_1603_bank.json
+      --workers 10 --deadline-seconds 16200
+    timeout_seconds: 18000
+    expect_outputs:
+      - config.json
+      - validation.json
+      - trajectories.json
+      - bank.json
+      - reproduction.jsonl
+      - search.jsonl
+      - result.json
+      - summary.md
+      - contrasts.png
+      - search_curves.png
+    track: chem-tape
+    notes: >-
+      Approved 2331 frozen 2x2: 20 maps, three reused 2229 cells, 400 fresh
+      shared seeds 2331000-2331399; 73200 main searches, 6000 MMr checks on
+      first 100 seeds, and 630 exact historical reproductions. GG shared
+      once per cell/seed. Full encoding/reproduction validation before main;
+      MMr/MM 99 percent interval must contain 1 before expansion past seed 100.
+      Original MM/GG alleles retained; conditional-uniform MG/GM/MMr inverse
+      encoding only at generation zero, RNG stream [seed,3]. Seed-major blocks
+      span every map/arm/cell before the next seed; partial last seed excluded.
+      Minimum 200 complete seeds for attribution, otherwise U. Shared seed
+      blocks and map-within-family crossed bootstrap preserve covariance;
+      equal cell and BE/PA family weighting. No learning, new cells or maps.
+      Expected 149 minutes, 222 with slack, from repeated 900-search probe;
+      4.5 hour internal deadline including 3-minute report reserve; 5 hour
+      timeout. All outputs under RUN_DIR; commands use this worktree as cwd.

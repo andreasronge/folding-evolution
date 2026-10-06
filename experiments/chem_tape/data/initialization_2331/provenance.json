@@ -1,0 +1,28 @@
+{
+  "source_path": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-06/2026-10-06-2229-frozen-crossed-holdouts",
+  "source_commit": "33fcee2291d6fb2d6d8dbae43e927a141273f161",
+  "source_search_sha256": "e51f551ffdf508c1fe289199f70d7becedb22b17d54ebbc76193171dba8b41c7",
+  "reference_uncompressed_sha256": "44bafebde6f4ae1da140711fab406ce3de6a98de246e277715c887747c08de24",
+  "fields": [
+    "arm",
+    "cell",
+    "seed",
+    "evaluations",
+    "solved",
+    "curve",
+    "table_hash"
+  ],
+  "seeds": [
+    2229002,
+    2229003,
+    2229004,
+    2229005,
+    2229006,
+    2229007,
+    2229008,
+    2229009,
+    2229010,
+    2229011
+  ],
+  "rows": 630
+}

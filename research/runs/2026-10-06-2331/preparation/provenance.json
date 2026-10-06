@@ -1,0 +1,46 @@
+{
+  "prepared_at_utc": "2026-10-06T21:59:56.501781+00:00",
+  "original_scratch_probe_available": false,
+  "repeat_command": "RUN_DIR=<fresh-directory> RAYON_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.initialization_run --probe --workers 10 --deadline-seconds 900",
+  "rows": 900,
+  "seeds": [
+    9000000,
+    9000001,
+    9000002,
+    9000003,
+    9000004,
+    9000005,
+    9000006,
+    9000007,
+    9000008,
+    9000009,
+    9000010,
+    9000011,
+    9000012,
+    9000013,
+    9000014,
+    9000015,
+    9000016,
+    9000017,
+    9000018,
+    9000019,
+    9000020,
+    9000021,
+    9000022,
+    9000023,
+    9000024
+  ],
+  "maps": [
+    "BE1",
+    "PA4",
+    "PA9"
+  ],
+  "raw_probe_sha256": "60857858314f7b0bb0ada6faae24e315c6fe7f94ba0206969437ed81f82dc91e",
+  "histogram_source": "uniform source alleles decoded into token tapes",
+  "historical_reference_commit": "33fcee2291d6fb2d6d8dbae43e927a141273f161",
+  "bookkeeping_corrections": [
+    "Probe config seeds field listed future main block; actual probe_seeds and raw records are 9000000-9000024. Fixed in final runner.",
+    "Probe cpu_search_seconds is the sum of per-search wall time; final runner names it sum_search_seconds."
+  ],
+  "overlap": "Historical 630-search validation overlapped early BE1 probe; included conservatively in projection."
+}

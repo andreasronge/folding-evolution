@@ -88,6 +88,31 @@ class Decoder:
     def hash(self):
         return hashlib.sha256(self.table.astype("<i8").tobytes()).hexdigest()
 
+    def encode(self, programs, rng):
+        """Draw independently and uniformly within each conditional allele interval."""
+        programs = np.asarray(programs)
+        if (
+            programs.ndim != 2
+            or programs.dtype.kind not in "iu"
+            or np.any(programs < 0)
+            or np.any(programs >= self.n_tokens)
+        ):
+            raise ValueError("invalid token tapes")
+        lower = np.concatenate(
+            (np.zeros((self.n_tokens + 1, 1), dtype=np.int64), self.table[:, :-1]),
+            axis=1,
+        )
+        alleles = np.empty(programs.shape, dtype=np.int32)
+        previous = np.full(len(programs), self.n_tokens)
+        for j in range(programs.shape[1]):
+            token = programs[:, j]
+            lo, hi = lower[previous, token], self.table[previous, token]
+            alleles[:, j] = rng.integers(lo, hi, dtype=np.int32)
+            if np.any(alleles[:, j] < lo) or np.any(alleles[:, j] >= hi):
+                raise AssertionError("inverse encoding escaped conditional interval")
+            previous = token
+        return alleles
+
 
 def outputs(programs, inputs, alphabet="v2_rmin"):
     return np.array(
@@ -108,6 +133,7 @@ def search(job):
     cell, arm, table, seed, cap, pop_size = job[:6]
     inputs = job[6] if len(job) >= 7 else INPUTS
     alphabet = job[7] if len(job) >= 8 else "v2_rmin"
+    initialization = job[8] if len(job) >= 9 else None
     start = time.monotonic()
     decoder = Decoder(table)
     # Independent streams prevent arm-dependent selection from changing the
@@ -122,6 +148,23 @@ def search(job):
     pop = initial_rng.integers(
         decoder.allele_range, size=(pop_size, 32), dtype=np.int32
     )
+    source = decoder
+    reencoded = False
+    if initialization is not None:
+        source = Decoder(initialization["source_table"])
+        if (source.allele_range, source.n_tokens) != (
+            decoder.allele_range, decoder.n_tokens
+        ):
+            raise ValueError("source and destination alphabets/ranges must agree")
+        reencoded = initialization["reencode"]
+        if not reencoded and source.hash() != decoder.hash():
+            raise ValueError("different source requires population-preserving reencoding")
+        if reencoded:
+            source_programs = source.decode(pop)
+            pop = decoder.encode(source_programs, np.random.default_rng([seed, 3]))
+            if not np.array_equal(decoder.decode(pop), source_programs):
+                raise AssertionError("generation-0 token tapes changed during encoding")
+    initial_tokens_hash = hashlib.sha256(decoder.decode(pop).tobytes()).hexdigest()
     shortcuts = 0
     unique_shortcuts = 0
     training_perfect_individuals = 0
@@ -212,4 +255,7 @@ def search(job):
         training_indices=indices.tolist(),
         curve=curve,
         table_hash=decoder.hash(),
+        initial_tokens_hash=initial_tokens_hash,
+        initial_source_hash=source.hash(),
+        initial_reencoded=reencoded,
     )

@@ -1,5 +1,5 @@
 ---
-estimated_minutes: 198
+estimated_minutes: 222
 ---
 
 # Pre-registration: decoder initialization × ongoing use
@@ -37,8 +37,10 @@ Probe arm means inform this prediction and are not untouched evidence.
 - Main count 73200 searches. Additional MMr self-reencoding check: all maps/cells
   on the first 100 main seeds (6000 searches). Historical reproduction: 21 tables
   × three cells × seeds 2229002–2229011 = 630 searches.
-- Ten workers with single-threaded scoring. Estimated queue 132 minutes, 198 with
-  1.5× slack; queue timeout 18000 s and internal deadline 16200 s including gates.
+- Ten workers with single-threaded scoring. Proposal estimate 132 minutes, 198 with
+  1.5× slack; post-smoke timing estimate 149 minutes, 222 with 1.5× slack (see
+  smoke.md and projection.json). Queue timeout 18000 s and internal deadline
+  16200 s including gates remain unchanged.
   Seed-major scheduling completes every arm/map/cell of a seed before starting
   the next seed. Analysis uses complete blocks, minimum 200 main seeds.
 
@@ -128,13 +130,17 @@ equal to historical diagonal spread. Report bootstrap configuration and n.
 
 ## Diagnostics to log (beyond fitness)
 
-Pending infrastructure extension, to be completed and checked before queueing:
-composition_search emits initial token SHA256 and initialization parameters;
-new run harness emits arm/map/family/cell/seed, evaluations, solved, curve, runtime
-and all source artifact hashes. New analysis groups the full arm×map×cell×seed
+Infrastructure extension completed and checked before queueing (see smoke.md):
+composition_search.search emits initial token SHA256 and initialization parameters;
+initialization_run writes search.jsonl with arm/map/family/cell/seed, evaluations,
+solved, curve, runtime; config.json contains all source artifact hashes.
+initialization_report.make_report groups the full arm×map×cell×seed
 grid, computes all contrasts and widths, per-cell/family summaries, solve fractions,
 shares, t sensitivity and outcome row, and plots contrast intervals and solve/cost
-diagnostics. All outputs under RUN_DIR. No requested measurement is a proxy.
+diagnostics in result.json, contrasts.png and search_curves.png. Metric definitions
+are the exact entries of initialization_report.METRIC_DEFINITIONS. All outputs
+under RUN_DIR. No requested scientific measurement is a proxy (the timing forecast
+uses MM runtime as an explicitly labelled MMr runtime proxy).
 Implementation/smoke evidence and gate decisions are saved in this task folder.
 
 ## Scope tag (required for any summary-level claim)
