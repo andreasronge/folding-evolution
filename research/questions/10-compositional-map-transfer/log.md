@@ -128,3 +128,15 @@ review, research/main the first-pass `fail` review). No code was written and no 
 Decision: keep 14 open and re-propose the same check as run 1419 with the critic's notes folded
 in, because nothing was learned, the design was approved, and the conflict is a one-file
 bookkeeping fix (keep main's second-pass review), not a design problem. Root 10 stays at 4 of 7.
+
+## 2026-10-06: run 2026-10-06-1419 (14), blocked again before running
+
+Same check as 1400 with that critic's notes applied; critic approve_with_notes, auto-approved.
+Result: none. The driver again stopped at prepare on the same add/add conflict
+(`research/runs/2026-10-06-0811/code_review.md`). The steward committed main's second-pass
+review onto research/main (`e37c4a7`, plumbing only, no working tree touched); main now merges
+into research/main cleanly (`git merge-tree`).
+
+Decision: re-propose 14's check as run 1425 with the 1419 critic's two interpretation notes
+applied, because the design has been approved twice, no belief changed, and the only blocker is
+gone. Root 10 stays at 4 of 7; the slot after 14 still goes to the four-reducer feasibility study.

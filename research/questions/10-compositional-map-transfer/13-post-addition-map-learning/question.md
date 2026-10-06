@@ -36,8 +36,8 @@ vs M+ (token steps only):
   not establish how well selection ranks individual steps. Slow cumulative improvement is a
   proposed explanation, not an isolated mechanism.
 - Off-family: frozen M / G 2.23× [1.66, 3.06] on the two branch-else cells, 1.08× [0.72, 1.57] on
-  the six linear cells (G near the floor). So M's change is not specific to post-addition among
-  the IF_GT shapes scored. Unregistered, six maps: R / M+ 1.33× [1.05, 1.66] on branch-else and
+  the six linear cells (G near the floor). So M's benefit is not confined to post-addition on
+  the tested cells; a PA preference remains unmeasured. Unregistered, six maps: R / M+ 1.33× [1.05, 1.66] on branch-else and
   0.65× [0.44, 0.88] on linear; R doubled PA solver supply over M+ in 5/6 starts without a
   resolved PA search gain.
 ([0132 analysis](../../../runs/2026-10-06-0132/analysis.md),

@@ -5,8 +5,10 @@ budget: {experiments: 1, used: 0}
 ---
 # Do the saved contextual maps shift speed toward branch tasks, and does that shift need their contextual residuals?
 
-Current summary: **open, no data yet.** Run 2026-10-06-1400 was approved but blocked before
-running (merge conflict, main into research/main); re-proposed unchanged in design as run 1419.
+Current summary: **open, no data yet.** Runs 2026-10-06-1400 and 2026-10-06-1419 were both
+approved by the critic and both blocked before running by the same one-file merge conflict
+(main into research/main). The steward resolved it on research/main in commit `e37c4a7`
+(kept main's second-pass 0811 code review); re-proposed with the same design as run 1425.
 Run 2026-10-06-0811 found, unregistered on the six "a"
 continuations (50 seeds per cell), R (token steps plus row residuals) faster than M+ (token
 steps only) on the two branch-else cells, 1.33× [1.05, 1.66] (5/6 starts; start 4 at 0.94), and
@@ -33,7 +35,9 @@ Related: [root 10](../question.md), [13](../13-post-addition-map-learning/questi
 [strategy 1400](../../../runs/2026-10-06-1400/strategy.md),
 [run 1400 proposal](../../../runs/2026-10-06-1400/proposal.md) and
 [critique](../../../runs/2026-10-06-1400/critique.md) (blocked),
-[run 1419 proposal](../../../runs/2026-10-06-1419/proposal.md),
+[run 1419 proposal](../../../runs/2026-10-06-1419/proposal.md) and
+[critique](../../../runs/2026-10-06-1419/critique.md) (blocked),
+[run 1425 proposal](../../../runs/2026-10-06-1425/proposal.md),
 [four-reducer plan](../../../plans/four-reducer-family-transfer.md).
 
 Reopen if parked: an independently trained second family is available (the four-reducer

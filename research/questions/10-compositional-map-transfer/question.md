@@ -26,7 +26,9 @@ operator; these counts do not establish how well selection ranks individual step
 Run 2026-10-06-1400 ([14](14-saved-map-shape-shift/question.md)): the pre-registered check of
 that pattern on the unscored "b" continuations, with residual ablation and a frequency-matched
 token-only control (R_fm), was approved by the critic but did not run: the driver stopped at
-prepare on a merge conflict (main into research/main). No data; re-proposed as run 1419.
+prepare on a merge conflict (main into research/main). Run 1419 re-proposed it, was approved
+and blocked the same way. The steward resolved the conflict on research/main (`e37c4a7`); no
+data, no slot used (still 4 of 7); re-proposed as run 1425.
 
 Run 2026-10-06-0132 ([13](13-post-addition-map-learning/question.md), commit `02cf76f`): on the
 one-family post-addition split (six training, two withheld cells on D1331), 23 learned token

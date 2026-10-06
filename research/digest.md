@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-06 (last completed run 2026-10-06-0811, commit `0709104`: contextual moves versus continued token learning from the learned post-addition maps; run 2026-10-06-1400, the saved-map shape-shift check, was approved but blocked before running; before 0811 run 2026-10-06-0132, `02cf76f`, root 10's first decoder-learning study; run 2026-10-06-0001, `a65ded0`, and run 2026-10-05-2247, `0995d33`; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 were blocked before running). This covers the **map-bias line**, the current
+As of 2026-10-06 (last completed run 2026-10-06-0811, commit `0709104`: contextual moves versus continued token learning from the learned post-addition maps; runs 2026-10-06-1400 and 2026-10-06-1419, the saved-map shape-shift check, were approved but blocked before running by a merge conflict, now resolved; before 0811 run 2026-10-06-0132, `02cf76f`, root 10's first decoder-learning study; run 2026-10-06-0001, `a65ded0`, and run 2026-10-05-2247, `0995d33`; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 were blocked before running). This covers the **map-bias line**, the current
 core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
 evolution finds and keeps ("arrival of the frequent")?* Until 2026-10-05 the line studied
 whether the chemistry can discover, preserve and reuse a **shared helper** (one functional part
@@ -325,8 +325,8 @@ one screened family, one outer loop and operator, starts at M.
   alone got 1.52× faster than M on linear. R doubled PA-training solver supply over M+ in 5 of
   6 starts and lowered linear supply in 5 of 6, without a resolved PA search gain. Post hoc, six
   maps, no attribution to residuals: a pattern to test, not a finding. A pre-registered check on
-  the unscored "b" continuations with a frequency-matched control was approved (run 1400) but
-  did not run (merge conflict before prepare); question
+  the unscored "b" continuations with a frequency-matched control was approved twice (runs 1400,
+  1419) but did not run (merge conflict before prepare, now resolved; re-proposed as 1425); question
   [14](questions/10-compositional-map-transfer/14-saved-map-shape-shift/question.md) is open.
 
 ## Open questions
@@ -354,7 +354,8 @@ one screened family, one outer loop and operator, starts at M.
   - [14-saved-map-shape-shift](questions/10-compositional-map-transfer/14-saved-map-shape-shift/question.md)
     (open, 1 slot, not yet run): does 0811's branch-versus-linear shift of R over M+ replicate on
     the unscored "b" continuations, and does it need R's residuals beyond its emitted token
-    frequencies? Run 1400 was approved but blocked by a merge conflict; re-proposed as 1419.
+    frequencies? Runs 1400 and 1419 were approved but blocked by a merge conflict (resolved in
+    `e37c4a7`); re-proposed as 1425.
 - [01-map-bias](questions/01-map-bias/question.md) (open, root, budget spent): how does the map
   bias what evolution finds and keeps?
 - [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)

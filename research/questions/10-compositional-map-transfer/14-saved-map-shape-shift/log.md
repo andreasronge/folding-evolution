@@ -15,3 +15,19 @@
   slot used. Decision: keep 14 open and re-propose the same design as run 1419 with the critic's
   notes applied, because nothing about the question or its feasibility changed and the blocker is
   a one-file merge fix.
+
+- 2026-10-06 (run 2026-10-06-1419, result): same design with the 1400 critic's notes applied;
+  critic approve_with_notes (asks for BE R/R_fm *95% lower bound* > 1 in the full-arm rule, and
+  D-a read as "residuals contribute beyond matched pooled emitted frequencies", not "the shift
+  needs residuals"). Auto-approved, then **blocked again before running** by the same add/add
+  conflict. No code, no data, no slot used. The steward then committed main's second-pass
+  review onto research/main (`e37c4a7`); `git merge-tree` now merges main into research/main
+  cleanly. Decision: keep 14 open and re-propose the same design as run 1425 with the 1419
+  notes applied, because the design was approved twice, nothing was learned, and the blocker
+  is now removed.
+
+- 2026-10-06 (correction, from the 1419 critique's digest check): the 1400 proposal entry above
+  says an "exact" G-based token-only match exists. Read instead: all twelve G-based token-only
+  controls match R's emitted token frequencies within the stated tolerance (TV < 1e-4 in the
+  probe; 0.000029–0.000070 after production `normalize()`); the emitted frequencies are
+  computed exactly, but the fitted distributions are not exactly equal.

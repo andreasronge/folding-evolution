@@ -135,3 +135,9 @@ No new experiment. Language corrections only; numbers unchanged.
   comparisons.
 
 Decision: none (no experiment); 13 stays closed because the corrections narrow wording, not results.
+
+- 2026-10-06 (correction, from the 1419 critique's digest check): the off-family line in
+  question.md said "M's change is not specific to post-addition among the IF_GT shapes scored".
+  Separate PA and branch-else estimates show transfer to branch-else, not the absence of a PA
+  preference. Now reads: "M's benefit is not confined to post-addition on the tested cells; a PA
+  preference remains unmeasured." No data changed.
