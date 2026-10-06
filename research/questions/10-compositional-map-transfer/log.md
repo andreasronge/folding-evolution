@@ -178,3 +178,26 @@ Root 10 now has 6 of 7 slots used. Its last slot (the matched/mismatched compari
 symmetric bank to run on. Only strategy can approve an asymmetric design, a new candidate, or a
 reallocation. Correction to the 1425 entry above (critique 1603 note 7): "reproduce it" should
 read "was not resolved from it" (R's advantage bounded to about 1.17× on BE, 1.12× on the shift).
+
+## 2026-10-06: runs 2026-10-06-1723 (16), crossed BE/PA token learning, stage 1 — ran; row 4
+
+Strategy 1723 raised root 10 to 9 slots, opened [16](16-crossed-family-adaptation/question.md)
+and authorized the narrower split (BE holds out `S?m:(M+F)`, PA holds out `(F?S:M)+m` and
+`(S?M:m)+F`). Slot 7: 10 independent G4-based token-multiplier trajectories per family, 0132's
+learner unchanged, fresh training scores on all ten training cells, no holdout searched (commit
+`db96645`, 4.28 h, complete). Own-family gain over G4: BE 2.18× [1.98, 2.40], PA 2.27× [1.95,
+2.65]. Off-family training cells 2.07× [1.94, 2.21] and 1.93× [1.61, 2.30]. Matched over
+mismatched in-sample: 1.13× [0.93, 1.37] (BE cells), 1.10× [0.93, 1.29] (PA cells), both X; post
+hoc within-map interaction 1.24× [1.09, 1.41]. Size rule: n = 10 per family suffices
+([analysis](../../runs/2026-10-06-1723/analysis.md)).
+
+Decision: continue with stage 2 in 16 (slot 8: holdout evaluation of the 20 frozen maps plus G4),
+because row 4 routes there, the size rule needs no more trajectories, and only the withheld cells
+can separate generic from family-dependent transfer. Slot 9 stays unspent for strategy after the
+crossed result. Corrections to the 1603 entry above (critique 1723 notes 5–7): "The PA grammar
+does not beat G4 on PA" should read "no PA improvement over G4 was resolved (0.87× [0.75, 1.04],
+admitting gains up to about 4%)"; "sits in context rather than marginals" should read "context
+strengthens the crossed preference relative to the tied-marginal controls; the marginal contrasts
+alone are unresolved"; and "so stage C could not have run in this queue" should read "the frozen
+2× allowance excluded stage C; actual learner runtime was not measured there" (run 1723 has now
+measured it: 10–14 min per trajectory).

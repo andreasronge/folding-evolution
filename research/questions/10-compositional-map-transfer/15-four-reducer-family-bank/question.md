@@ -20,13 +20,16 @@ What the run measured beyond the split (50 paired seeds per cell × arm, 13 cell
   are two hand-set priors, not learned maps. Matched over swapped grammar: BE 1.68× [1.39, 2.05],
   PA 1.32× [1.12, 1.57]. The paired context-over-marginal contrast is resolved in both
   families: 1.51× [1.09, 2.09] and 1.46× [1.16, 1.82]. The PA half is the BE grammar
-  slowing PA (0.66× [0.56, 0.77] of G4). The PA grammar does not help PA: 0.87× [0.75, 1.04] of
-  G4, unresolved, point estimate below G4 on 7 of 8 cells. Only the BE grammar beats G4 on its
-  own family: 1.36× [1.04, 1.75].
-- **Learner cost on this bank.** G4 takes about 1.9 s per full-cap search and 0.4–1.2 s per
-  65k-cap inner search. A 4-trajectory, 25-generation token-learner pilot projects to about 2.4 h,
-  or 4.7 h with the frozen 2× slower-candidate allowance. Stage C never ran: the split failed,
-  and the cost gate had already excluded it after block 1.
+  slowing PA (0.66× [0.56, 0.77] of G4). No PA improvement over G4 was resolved for the PA
+  grammar: 0.87× [0.75, 1.04], admitting gains up to about 4%; point estimate below G4 on 7 of 8
+  cells. Only the BE grammar had a resolved own-family gain: 1.36× [1.04, 1.75]. Context
+  strengthens the preference relative to the tied-marginal controls; the marginal contrasts
+  alone are unresolved (BE 1.11× [0.90, 1.36], PA 0.91× [0.76, 1.10]).
+- **Projected learner cost on this bank.** G4 takes about 1.9 s per full-cap search and 0.4–1.2 s
+  per 65k-cap inner search. Measured G4 costs implied a conservative pilot projection (about
+  2.4 h for 4 trajectories, 4.7 h with the frozen 2× allowance); the allowance excluded stage C.
+  Actual learned-trajectory runtime was not measured here. Stage C never ran: the split failed
+  as well. (Run 1723 later measured 10–14 min per trajectory on this bank.)
 
 Not concluded: anything about learned family specificity, decoder capacity for learning, or
 transfer. The asymmetric designs (BE as a training-only family; the single BE holdout) were not
@@ -43,8 +46,8 @@ Competing explanations / outcomes:
   approve an asymmetric design or a new candidate.
 
 After 1603: R holds and S does not. K was observed for these two hand-set priors in both
-families, with the contrast located in context rather than marginals. It is a positive witness
-only: it says nothing about whether a learner would find such a preference.
+families; context strengthens it relative to the tied-marginal controls, whose own contrasts
+are unresolved. It is a positive witness only: it says nothing about whether a learner would find such a preference.
 
 Related: [root 10](../question.md), [12](../12-generic-grammar-headroom/question.md) (the
 three-reducer screen and its frozen rules), [13](../13-post-addition-map-learning/question.md),
@@ -56,4 +59,5 @@ Related runs: [proposal 1603](../../../runs/2026-10-06-1603/proposal.md),
 
 Reopen if: strategy approves a changed split rule (e.g. BE training-only, or a one-cell BE
 holdout), shape or primitive for this candidate. The screen, calibration and cost numbers above
-are then reusable as-is.
+are then reusable as-is. (Strategy 1723 approved the one-cell BE holdout; that work runs in
+[16](../16-crossed-family-adaptation/question.md), not as a reopening of this feasibility study.)

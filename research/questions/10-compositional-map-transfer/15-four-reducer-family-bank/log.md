@@ -37,3 +37,10 @@
   symmetric matched/mismatched test. Nothing is concluded about learned specificity. The
   asymmetric options (BE as a training-only family; the single BE holdout `S?m:(M+F)`) change a
   frozen rule after seeing data, so they go to strategy, along with the measured learner cost.
+- 2026-10-06 (wording correction from critique 1723's digest check, notes 5–7; no new data).
+  In the 1603 entry above, "G4-PA does not beat G4 on PA" should read "no PA improvement over G4
+  was resolved (0.87× [0.75, 1.04], admitting gains up to about 4%)". The context attribution
+  should read "context strengthens the crossed preference relative to the tied-marginal
+  controls; the marginal contrasts alone are unresolved". The stage-C cost was a conservative
+  projection, not a measured runtime. question.md updated accordingly. The one-cell BE holdout
+  design runs in 16, not here; 15 stays closed.
