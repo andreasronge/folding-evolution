@@ -217,3 +217,24 @@ excluded on these three cells, a 1.1× one not), and a detection-sized rerun (ab
 trajectories per family, 14–30 h) would most likely only tighten a bound around 1. Root 10 has
 one slot left; whether it buys a mechanism arm (union-trained or scrambled-family maps),
 learned context, or a wrap-up is the strategist's call.
+
+## 2026-10-07: run 2026-10-06-2331 (17), starting programs × ongoing decoder on the frozen maps — ran; row 3
+
+Slot 9 (strategy 2331 raised the budget 9 → 10 and opened [17](17-decoder-initialization-variation/question.md)
+with two slots). The 20 frozen 1723 maps (M) and G4 (G) on the three 2229 cells, 400 fresh seeds,
+four arms (GG, MM, MG, GM) with generation-0 token tapes held identical between paired arms by
+conditional-uniform re-encoding (commit `8f42f38`, 3.0 h, complete, every validation check
+passed). Ongoing-decoder increment given M's start 1.39× [1.31, 1.47]; start increment given
+ongoing M 1.30× [1.24, 1.36]; diagonal 2.29× [2.05, 2.54]; interaction −0.34 log2 [−0.40,
+−0.29], negative in 20/20 maps. The larger component is the start on the BE cell and the ongoing
+decoder on both PA cells (descriptive, one BE cell)
+([analysis](../../runs/2026-10-06-2331/analysis.md)).
+
+Decision: spend slot 10 on 17's slot 2 (the same frozen 2×2 on the ten training cells, testing
+whether the start/ongoing balance tracks cell family), because the result is bounded (row 3) as
+the strategy required, and the new per-cell pattern can only be tested with more cells; after it,
+root 10's budget is spent and the program returns to strategy. Wording corrections to the 2229
+entry above (critique 2331 notes 7–8; no numbers change): "both bounded below 1.25×" and "a
+matched-family advantage above about 1.25× excluded" should read "95% upper bounds 1.2485× (BE,
+roughly 1.3× leave-one-map-out) and 1.15× (PA)"; these are upper confidence bounds on the
+advantage.

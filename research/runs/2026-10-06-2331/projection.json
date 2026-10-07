@@ -1,0 +1,13 @@
+{
+  "gg_mean_seconds": 2.4808752564793557,
+  "map_arm_mean_seconds": 0.9441942901805872,
+  "mm_law_proxy_seconds": 0.7795875870361407,
+  "search_seconds_parallel_wall_ratio": 9.59549140627349,
+  "projected_minutes_at_8_7_speedup": 149.07370229619966,
+  "projected_minutes_with_1_5_slack": 222.11055344429948,
+  "observed_probe_speedup_minutes": 135.4414932148307,
+  "validation_overlapped_probe": true,
+  "notes": "Early BE1 probe timing overlaps full historical reproduction and is conservatively included. MMr runtime proxied by MM. Actual full run completes seeds serially; straggler/barrier overhead covered by slack/deadline, not directly measured by this probe.",
+  "projected_worker_search_seconds": 76250.47259861621,
+  "note_on_timing": "Sum of per-search monotonic wall time, a worker-time throughput estimate; not process CPU measurements."
+}

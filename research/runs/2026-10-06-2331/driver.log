@@ -1,0 +1,20 @@
+2026-10-06 23:34:35 push of HEAD research/main research/2026-10-06-2229 failed; push by hand
+2026-10-06 23:34:35 cycle 2026-10-06-2229 done; brief: /Users/andreas/developer/folding-evolution/research/briefs/2026-10-06-2026-10-06-2229.md
+2026-10-06 23:34:35 strategist (codex/gpt-6-astra) → strategy [herdr]
+2026-10-06 23:38:20 phase → propose
+2026-10-06 23:38:20 steward (claude/claude-opus-5-5) → propose [herdr]
+2026-10-06 23:45:24 phase → accept
+2026-10-06 23:45:24 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-06 23:47:22 phase → awaiting_approval
+2026-10-06 23:47:22 proposal: Learned starting programs versus learned ongoing decoder — 2×2 on the frozen 1723 maps [questions/10-compositional-map-transfer/17-decoder-initialization-variation] — budget left: 2. Approve with `research.py approve`.
+2026-10-06 23:47:22 auto-approved (critic: approve_with_notes, revisions: 0)
+2026-10-06 23:47:22 phase → prepare
+2026-10-06 23:47:38 researcher (codex/gpt-6.1-sol) → prepare [herdr]
+2026-10-07 00:03:36 phase → review_code
+2026-10-07 00:03:36 reviewer (claude/claude-fable-5-1) → review_code [herdr]
+2026-10-07 00:09:04 phase → execute
+2026-10-07 00:09:04 running queue (1 entries)
+2026-10-07 03:09:08 phase → analyse
+2026-10-07 03:09:08 reviewer (claude/claude-fable-5-1) → analyse [herdr]
+2026-10-07 03:15:06 phase → decide
+2026-10-07 03:15:06 steward (claude/claude-opus-5-5) → decide [herdr]

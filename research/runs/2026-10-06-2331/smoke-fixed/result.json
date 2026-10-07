@@ -1,0 +1,3719 @@
+{
+  "complete_seeds": [
+    9000023,
+    9000024
+  ],
+  "n_seeds": 2,
+  "n_maps": 20,
+  "validation": {
+    "passed": false,
+    "source_hashes_verified": true,
+    "map_hashes_verified": true,
+    "bank_labels_verified": true,
+    "no_learning": true,
+    "source_training_rows": {
+      "passed": true,
+      "expected_rows": 10500,
+      "actual_rows": 10500,
+      "errors": [],
+      "missing_rows": [],
+      "extra_rows": []
+    },
+    "reproduction": {
+      "passed": true,
+      "rows": 63,
+      "expected": 63,
+      "errors": [],
+      "reference_sha256": "44bafebde6f4ae1da140711fab406ce3de6a98de246e277715c887747c08de24",
+      "fields": [
+        "arm",
+        "cell",
+        "curve",
+        "evaluations",
+        "seed",
+        "solved",
+        "table_hash"
+      ],
+      "seconds": 25.314338998985477
+    },
+    "encoding": {
+      "passed": true,
+      "round_trips": [
+        {
+          "source": "G4",
+          "destination": "BE1",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "BE1",
+          "destination": "G4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "G4",
+          "destination": "BE2",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "BE2",
+          "destination": "G4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "G4",
+          "destination": "BE3",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "BE3",
+          "destination": "G4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "G4",
+          "destination": "BE4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "BE4",
+          "destination": "G4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "G4",
+          "destination": "BE5",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "BE5",
+          "destination": "G4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "G4",
+          "destination": "BE6",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "BE6",
+          "destination": "G4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "G4",
+          "destination": "BE7",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "BE7",
+          "destination": "G4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "G4",
+          "destination": "BE8",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "BE8",
+          "destination": "G4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "G4",
+          "destination": "BE9",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "BE9",
+          "destination": "G4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "G4",
+          "destination": "BE10",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "BE10",
+          "destination": "G4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "G4",
+          "destination": "PA1",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "PA1",
+          "destination": "G4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "G4",
+          "destination": "PA2",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "PA2",
+          "destination": "G4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "G4",
+          "destination": "PA3",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "PA3",
+          "destination": "G4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "G4",
+          "destination": "PA4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "PA4",
+          "destination": "G4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "G4",
+          "destination": "PA5",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "PA5",
+          "destination": "G4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "G4",
+          "destination": "PA6",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "PA6",
+          "destination": "G4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "G4",
+          "destination": "PA7",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "PA7",
+          "destination": "G4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "G4",
+          "destination": "PA8",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "PA8",
+          "destination": "G4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "G4",
+          "destination": "PA9",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "PA9",
+          "destination": "G4",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "G4",
+          "destination": "PA10",
+          "tapes": 10000,
+          "passed": true
+        },
+        {
+          "source": "PA10",
+          "destination": "G4",
+          "tapes": 10000,
+          "passed": true
+        }
+      ],
+      "marginal_law": [
+        {
+          "table": "G4",
+          "alleles": 1000000,
+          "bins": 240,
+          "histogram": [
+            4227,
+            4253,
+            4161,
+            4175,
+            4027,
+            4095,
+            4217,
+            4151,
+            4026,
+            4145,
+            4189,
+            4052,
+            4215,
+            4140,
+            4130,
+            4124,
+            4123,
+            4173,
+            4186,
+            4112,
+            4193,
+            4188,
+            4250,
+            4216,
+            4109,
+            4207,
+            4173,
+            4202,
+            4063,
+            4126,
+            4201,
+            4265,
+            4164,
+            4160,
+            4267,
+            4147,
+            4121,
+            4176,
+            4208,
+            4132,
+            4107,
+            4146,
+            4154,
+            4206,
+            4113,
+            4111,
+            4195,
+            4151,
+            4155,
+            4146,
+            4096,
+            4112,
+            4232,
+            4068,
+            4218,
+            4137,
+            4215,
+            4086,
+            4148,
+            4261,
+            4325,
+            4134,
+            4114,
+            4136,
+            4204,
+            4117,
+            4209,
+            4098,
+            4166,
+            4213,
+            4177,
+            4114,
+            4235,
+            4170,
+            4112,
+            4153,
+            4175,
+            4163,
+            4145,
+            4171,
+            4177,
+            4175,
+            4138,
+            4164,
+            4310,
+            4109,
+            4140,
+            4104,
+            4114,
+            4216,
+            4051,
+            4116,
+            4177,
+            4107,
+            4092,
+            4227,
+            4076,
+            4105,
+            4139,
+            4196,
+            4206,
+            4121,
+            4096,
+            4273,
+            4232,
+            4113,
+            4128,
+            4023,
+            4225,
+            4203,
+            4176,
+            4215,
+            4236,
+            4292,
+            4141,
+            4165,
+            4179,
+            4223,
+            4042,
+            4120,
+            4200,
+            4198,
+            4147,
+            4222,
+            4127,
+            4206,
+            4323,
+            4210,
+            4186,
+            4205,
+            4054,
+            4253,
+            4185,
+            4189,
+            4059,
+            4167,
+            4237,
+            4188,
+            4202,
+            4160,
+            4195,
+            4160,
+            4079,
+            4225,
+            4065,
+            4061,
+            4131,
+            4147,
+            4187,
+            4092,
+            4104,
+            4147,
+            4202,
+            4188,
+            4251,
+            4147,
+            4173,
+            4231,
+            4298,
+            4201,
+            4169,
+            4218,
+            4177,
+            4165,
+            4150,
+            4184,
+            4187,
+            4010,
+            4097,
+            4145,
+            4146,
+            4092,
+            4317,
+            4260,
+            4158,
+            4131,
+            4167,
+            4180,
+            4138,
+            4308,
+            4075,
+            4138,
+            4279,
+            4204,
+            4092,
+            4237,
+            4130,
+            4175,
+            4202,
+            4151,
+            4211,
+            4151,
+            4150,
+            4154,
+            4079,
+            4203,
+            4043,
+            4184,
+            4138,
+            4136,
+            4167,
+            4096,
+            4163,
+            4222,
+            4219,
+            4280,
+            4147,
+            4144,
+            4086,
+            4107,
+            4279,
+            4254,
+            4136,
+            4254,
+            4090,
+            4306,
+            4160,
+            4188,
+            4161,
+            4136,
+            4128,
+            4094,
+            4149,
+            4302,
+            4191,
+            4205,
+            4177,
+            4174,
+            4131,
+            4322,
+            4173,
+            4219,
+            4232,
+            4180,
+            4175,
+            4085,
+            4183,
+            4178,
+            4100,
+            4255
+          ],
+          "chi_square": 217.92704,
+          "p": 0.8322279154862143,
+          "failure_threshold": 0.016666666666666666,
+          "passed": true
+        },
+        {
+          "table": "BE1",
+          "alleles": 1000000,
+          "bins": 240,
+          "histogram": [
+            4186,
+            4154,
+            4190,
+            4091,
+            4121,
+            4142,
+            4145,
+            4145,
+            4125,
+            4126,
+            4077,
+            4154,
+            4217,
+            4200,
+            4131,
+            4122,
+            4229,
+            4161,
+            4060,
+            4222,
+            4162,
+            4236,
+            4144,
+            4165,
+            4310,
+            4142,
+            4185,
+            4173,
+            4197,
+            4028,
+            4091,
+            4117,
+            4215,
+            4210,
+            4038,
+            4163,
+            4178,
+            4201,
+            4154,
+            4079,
+            4183,
+            4174,
+            4161,
+            4130,
+            4046,
+            4118,
+            4203,
+            4235,
+            4230,
+            4154,
+            4176,
+            4167,
+            4324,
+            4175,
+            4304,
+            4173,
+            4093,
+            4188,
+            4131,
+            4178,
+            4122,
+            4189,
+            4158,
+            4212,
+            4243,
+            4208,
+            4132,
+            4069,
+            4080,
+            4157,
+            4216,
+            4233,
+            4176,
+            4202,
+            4171,
+            4086,
+            4190,
+            4219,
+            4053,
+            4247,
+            4140,
+            4237,
+            4276,
+            4057,
+            4158,
+            4292,
+            4115,
+            4195,
+            4108,
+            4163,
+            4229,
+            4199,
+            4159,
+            4166,
+            4217,
+            4146,
+            4151,
+            4229,
+            4160,
+            4275,
+            4065,
+            4202,
+            4108,
+            4155,
+            4166,
+            4128,
+            4195,
+            4071,
+            4159,
+            4139,
+            4264,
+            4192,
+            4080,
+            4239,
+            4156,
+            4151,
+            4287,
+            4224,
+            4075,
+            4281,
+            4229,
+            4222,
+            4235,
+            4147,
+            4172,
+            4233,
+            4276,
+            4162,
+            4222,
+            4133,
+            4107,
+            4096,
+            4188,
+            4206,
+            4175,
+            4114,
+            4098,
+            4124,
+            4207,
+            4060,
+            4155,
+            4201,
+            4227,
+            4180,
+            4270,
+            4087,
+            4197,
+            4209,
+            4073,
+            4060,
+            4137,
+            4240,
+            4275,
+            4150,
+            4190,
+            4073,
+            3967,
+            4106,
+            4219,
+            4257,
+            4084,
+            4129,
+            4095,
+            4267,
+            4137,
+            4185,
+            4225,
+            4197,
+            4176,
+            4227,
+            4179,
+            4184,
+            4164,
+            4239,
+            4259,
+            4101,
+            4097,
+            4165,
+            4289,
+            4099,
+            4098,
+            4164,
+            4195,
+            4059,
+            4286,
+            4107,
+            4308,
+            4191,
+            4131,
+            4181,
+            4180,
+            4097,
+            4084,
+            4183,
+            4145,
+            4217,
+            4061,
+            4186,
+            4180,
+            4168,
+            4238,
+            4047,
+            4166,
+            4247,
+            4095,
+            4152,
+            4183,
+            4093,
+            4232,
+            4199,
+            4215,
+            4109,
+            4207,
+            4140,
+            4103,
+            4157,
+            4133,
+            4147,
+            4125,
+            4281,
+            4143,
+            4314,
+            4115,
+            4238,
+            4285,
+            4265,
+            4147,
+            4162,
+            4116,
+            4152,
+            4163,
+            4123,
+            4050,
+            4153,
+            4098,
+            4103,
+            4177,
+            4187,
+            4129,
+            4112
+          ],
+          "chi_square": 229.28575999999998,
+          "p": 0.6627143410452102,
+          "failure_threshold": 0.016666666666666666,
+          "passed": true
+        },
+        {
+          "table": "PA1",
+          "alleles": 1000000,
+          "bins": 240,
+          "histogram": [
+            4292,
+            4289,
+            4103,
+            4220,
+            4111,
+            4145,
+            4106,
+            4073,
+            4087,
+            4228,
+            4244,
+            4213,
+            4231,
+            4116,
+            4314,
+            4057,
+            4168,
+            4154,
+            4150,
+            4033,
+            4215,
+            4159,
+            4159,
+            4139,
+            4229,
+            4180,
+            4158,
+            4120,
+            4144,
+            4237,
+            4140,
+            4223,
+            4094,
+            4230,
+            4108,
+            4136,
+            4186,
+            4100,
+            4157,
+            4055,
+            4203,
+            4032,
+            4157,
+            4140,
+            4097,
+            4240,
+            4164,
+            4166,
+            4121,
+            4156,
+            4194,
+            4236,
+            4143,
+            4220,
+            4173,
+            4144,
+            4096,
+            4105,
+            4182,
+            4154,
+            4065,
+            4099,
+            4182,
+            4158,
+            4257,
+            4210,
+            4360,
+            4105,
+            4117,
+            4135,
+            4047,
+            4137,
+            4165,
+            4151,
+            4115,
+            4198,
+            4058,
+            4322,
+            4150,
+            4107,
+            4309,
+            4172,
+            4159,
+            4120,
+            4117,
+            4174,
+            4195,
+            4088,
+            4258,
+            4201,
+            4234,
+            4181,
+            4128,
+            4290,
+            4160,
+            4101,
+            4117,
+            4052,
+            4010,
+            4145,
+            4275,
+            4129,
+            4183,
+            4107,
+            4141,
+            4230,
+            4156,
+            4162,
+            4233,
+            4162,
+            4193,
+            4114,
+            4192,
+            4214,
+            4268,
+            4251,
+            4243,
+            4157,
+            4202,
+            4171,
+            4155,
+            4170,
+            4195,
+            4201,
+            4194,
+            4252,
+            4257,
+            4265,
+            4186,
+            4054,
+            4165,
+            4170,
+            4198,
+            4170,
+            4205,
+            4158,
+            4156,
+            4248,
+            4177,
+            4046,
+            4161,
+            4163,
+            4139,
+            4197,
+            4107,
+            4067,
+            4189,
+            4155,
+            4142,
+            4170,
+            4212,
+            4247,
+            4205,
+            4247,
+            4154,
+            4148,
+            4190,
+            4181,
+            4130,
+            4199,
+            4167,
+            4255,
+            4133,
+            4095,
+            4235,
+            4153,
+            4109,
+            4106,
+            4129,
+            4149,
+            4264,
+            4228,
+            4191,
+            4161,
+            4193,
+            4164,
+            4261,
+            4208,
+            4119,
+            4142,
+            4133,
+            4186,
+            4003,
+            4315,
+            4129,
+            4160,
+            4092,
+            4182,
+            4126,
+            4224,
+            4188,
+            4110,
+            4216,
+            4161,
+            4087,
+            4172,
+            4096,
+            4131,
+            4221,
+            4106,
+            4125,
+            4128,
+            4116,
+            4201,
+            4213,
+            4266,
+            4145,
+            4281,
+            4187,
+            4132,
+            4179,
+            4130,
+            4150,
+            4134,
+            4161,
+            4047,
+            4215,
+            4098,
+            4217,
+            4213,
+            4132,
+            4214,
+            4248,
+            4213,
+            4122,
+            4120,
+            4212,
+            4222,
+            4219,
+            4004,
+            4018,
+            4126,
+            4195,
+            4141,
+            4118,
+            4214,
+            4269,
+            4225,
+            4080,
+            4287
+          ],
+          "chi_square": 228.11167999999998,
+          "p": 0.6826687282191882,
+          "failure_threshold": 0.016666666666666666,
+          "passed": true
+        }
+      ],
+      "conditional_interval_bounds_checked": true,
+      "conditional_law": "Self-decoded tape probabilities times inverse interval probabilities cancel to the independent uniform allele prior."
+    },
+    "pairing_blocks": 2,
+    "search_law": {
+      "passed": false,
+      "deferred": true,
+      "reason": "Smoke has two excluded seeds; full 100-seed check remains queued"
+    },
+    "smoke_pairing_passed": true
+  },
+  "diagnostic_only": true,
+  "metric_definitions": {
+    "cost": "Evaluations to first full D1331 exact solve, or the cap if unsolved.",
+    "P1": "Mean paired log2(T_MG/T_MM), equal cells and equal BE/PA families.",
+    "P2": "Mean paired log2(T_GM/T_MM), equal cells and equal BE/PA families.",
+    "D": "Mean paired log2(T_GG/T_MM), equal cells and equal BE/PA families.",
+    "I_G": "Mean paired log2(T_GG/T_MG), equal cells and equal BE/PA families.",
+    "O_G": "Mean paired log2(T_GG/T_GM), equal cells and equal BE/PA families.",
+    "interaction": "P1 minus O_G in paired log2 cost units.",
+    "MMr/MM": "Mean paired log2(T_MMr/T_MM), equal cells and equal BE/PA families."
+  },
+  "bootstrap": {
+    "seed": 2331400,
+    "replicates": 1000,
+    "method": "Crossed map-within-family / shared whole-seed percentile intervals",
+    "weighting": "Equal cells, equal BE/PA families, equal maps within family"
+  },
+  "outcome": {
+    "row": "U",
+    "meaning": "Validation, coverage or diagonal reproduction failed; no mechanism attribution."
+  },
+  "contrasts": {
+    "P1": {
+      "log2_mean": 0.2099739751628374,
+      "ratio": 1.1566673185461704,
+      "confidence": 0.95,
+      "interval_log2": [
+        -6.237904883312746e-05,
+        0.43418431997399526
+      ],
+      "interval_ratio": [
+        0.9999567630729181,
+        1.3511466971867612
+      ],
+      "width_log2": 0.43424669902282836,
+      "label": "X",
+      "resolved_negative": false,
+      "map_spread_log2": 0.38037995954966375,
+      "t_sensitivity_log2": [
+        0.031950674180168476,
+        0.3879972761455063
+      ],
+      "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+    },
+    "P2": {
+      "log2_mean": 0.5445821220635196,
+      "ratio": 1.4585977988629477,
+      "confidence": 0.95,
+      "interval_log2": [
+        0.3310762552981718,
+        0.7872655241141417
+      ],
+      "interval_ratio": [
+        1.2579514605435482,
+        1.7258002887258377
+      ],
+      "width_log2": 0.45618926881596994,
+      "label": "P",
+      "resolved_negative": false,
+      "map_spread_log2": 0.3159987974380209,
+      "t_sensitivity_log2": [
+        0.3966901324511558,
+        0.6924741116758835
+      ],
+      "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+    },
+    "D": {
+      "log2_mean": 0.6350147951190837,
+      "ratio": 1.5529536757633118,
+      "confidence": 0.95,
+      "interval_log2": [
+        0.35981704117622937,
+        0.8669370657072056
+      ],
+      "interval_ratio": [
+        1.2832631471566618,
+        1.8237867707507112
+      ],
+      "width_log2": 0.5071200245309763,
+      "label": "P",
+      "resolved_negative": false,
+      "map_spread_log2": 0.2989046063274198,
+      "t_sensitivity_log2": [
+        0.06469771652429712,
+        1.2053318737138703
+      ],
+      "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+    },
+    "I_G": {
+      "log2_mean": 0.42504081995624626,
+      "ratio": 1.3426104903830416,
+      "confidence": 0.95,
+      "interval_log2": [
+        0.06000353020265978,
+        0.7267849169541545
+      ],
+      "interval_ratio": [
+        1.042468311705857,
+        1.654946887319973
+      ],
+      "width_log2": 0.6667813867514947,
+      "label": "P",
+      "resolved_negative": false,
+      "map_spread_log2": 0.47829027730472756,
+      "t_sensitivity_log2": [
+        -0.1714482882235781,
+        1.0215299281360706
+      ],
+      "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+    },
+    "O_G": {
+      "log2_mean": 0.09043267305556403,
+      "ratio": 1.0646894414443235,
+      "confidence": 0.95,
+      "interval_log2": [
+        -0.20860719185751478,
+        0.3801262202263789
+      ],
+      "interval_ratio": [
+        0.8653722767586255,
+        1.3014557137726563
+      ],
+      "width_log2": 0.5887334120838936,
+      "label": "X",
+      "resolved_negative": false,
+      "map_spread_log2": 0.2062044558886426,
+      "t_sensitivity_log2": [
+        -0.47082077033951764,
+        0.6516861164506457
+      ],
+      "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+    },
+    "interaction": {
+      "log2_mean": 0.11954130210727336,
+      "ratio": 1.0863893953687307,
+      "confidence": 0.95,
+      "interval_log2": [
+        -0.23781156012562088,
+        0.5527663183660073
+      ],
+      "interval_ratio": [
+        0.8480307242619177,
+        1.466895723365369
+      ],
+      "width_log2": 0.7905778784916282,
+      "label": "X",
+      "resolved_negative": false,
+      "map_spread_log2": 0.37562812854540784,
+      "t_sensitivity_log2": [
+        -0.4606287708306834,
+        0.6997113750452301
+      ],
+      "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+    }
+  },
+  "per_cell": {
+    "BE:S?m:(M+F)": {
+      "P1": {
+        "log2_mean": 0.13787717687109363,
+        "ratio": 1.1002849331649511,
+        "confidence": 0.95,
+        "interval_log2": [
+          -0.4021518779599017,
+          0.5943619565747744
+        ],
+        "interval_ratio": [
+          0.7567287285979301,
+          1.5098047146726699
+        ],
+        "width_log2": 0.9965138345346761,
+        "label": "X",
+        "resolved_negative": false,
+        "map_spread_log2": 0.7194637330917387,
+        "t_sensitivity_log2": [
+          -0.198842215112496,
+          0.47459656885468327
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "P2": {
+        "log2_mean": 0.5511072133267803,
+        "ratio": 1.4652097570647575,
+        "confidence": 0.95,
+        "interval_log2": [
+          0.16858487437799966,
+          0.9281352900620292
+        ],
+        "interval_ratio": [
+          1.1239554667530922,
+          1.902814982532447
+        ],
+        "width_log2": 0.7595504156840296,
+        "label": "P",
+        "resolved_negative": false,
+        "map_spread_log2": 0.7641137837077161,
+        "t_sensitivity_log2": [
+          0.1934909544075346,
+          0.9087234722460259
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "D": {
+        "log2_mean": 0.9911190950957455,
+        "ratio": 1.9877262675303207,
+        "confidence": 0.95,
+        "interval_log2": [
+          0.5979098359232267,
+          1.4138147068183946
+        ],
+        "interval_ratio": [
+          1.5135221994537313,
+          2.6644074238506263
+        ],
+        "width_log2": 0.8159048708951679,
+        "label": "P",
+        "resolved_negative": false,
+        "map_spread_log2": 0.6201450172672295,
+        "t_sensitivity_log2": [
+          0.6849623106538147,
+          1.2972758795376762
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "I_G": {
+        "log2_mean": 0.8532419182246519,
+        "ratio": 1.8065559271203135,
+        "confidence": 0.95,
+        "interval_log2": [
+          0.5167246886325348,
+          1.2165757991808914
+        ],
+        "interval_ratio": [
+          1.4307034709699775,
+          2.323944796708323
+        ],
+        "width_log2": 0.6998511105483566,
+        "label": "P",
+        "resolved_negative": false,
+        "map_spread_log2": 0.7082414723894233,
+        "t_sensitivity_log2": [
+          0.5077493883941473,
+          1.1987344480551565
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "O_G": {
+        "log2_mean": 0.4400118817689652,
+        "ratio": 1.3566155002354858,
+        "confidence": 0.95,
+        "interval_log2": [
+          0.16265231091933738,
+          0.8402116747163781
+        ],
+        "interval_ratio": [
+          1.1193430947886975,
+          1.7903128003830382
+        ],
+        "width_log2": 0.6775593637970407,
+        "label": "P",
+        "resolved_negative": false,
+        "map_spread_log2": 0.49185710117365333,
+        "t_sensitivity_log2": [
+          0.19004214342064796,
+          0.6899816201172825
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "interaction": {
+        "log2_mean": -0.30213470489787164,
+        "ratio": 0.8110514239104301,
+        "confidence": 0.95,
+        "interval_log2": [
+          -0.6530540035964093,
+          0.07391285346453273
+        ],
+        "interval_ratio": [
+          0.6359326984132975,
+          1.0525675720498149
+        ],
+        "width_log2": 0.726966857060942,
+        "label": "N",
+        "resolved_negative": false,
+        "map_spread_log2": 0.6593205319643776,
+        "t_sensitivity_log2": [
+          -0.6257254194141044,
+          0.021456009618361194
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      }
+    },
+    "PA:(F?S:M)+m": {
+      "P1": {
+        "log2_mean": 0.26433487283288404,
+        "ratio": 1.2010821857165566,
+        "confidence": 0.95,
+        "interval_log2": [
+          -0.2706831644441289,
+          0.6485818980768073
+        ],
+        "interval_ratio": [
+          0.8289269281865428,
+          1.567626534473743
+        ],
+        "width_log2": 0.9192650625209362,
+        "label": "X",
+        "resolved_negative": false,
+        "map_spread_log2": 0.772183598333601,
+        "t_sensitivity_log2": [
+          -0.0970581755884139,
+          0.625727921254182
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "P2": {
+        "log2_mean": 0.526783453481627,
+        "ratio": 1.4407134835183968,
+        "confidence": 0.95,
+        "interval_log2": [
+          0.23026131449028406,
+          0.8639692035364235
+        ],
+        "interval_ratio": [
+          1.173047403365353,
+          1.820038796321903
+        ],
+        "width_log2": 0.6337078890461394,
+        "label": "P",
+        "resolved_negative": false,
+        "map_spread_log2": 0.5456842455305602,
+        "t_sensitivity_log2": [
+          0.27139536521694024,
+          0.7821715417463138
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "D": {
+        "log2_mean": -0.022900700995441215,
+        "ratio": 0.9842517645949559,
+        "confidence": 0.95,
+        "interval_log2": [
+          -1.0614517175568057,
+          0.9524021711668701
+        ],
+        "interval_ratio": [
+          0.4791496707605061,
+          1.9350920176719204
+        ],
+        "width_log2": 2.0138538887236757,
+        "label": "X",
+        "resolved_negative": false,
+        "map_spread_log2": 0.5448951526181116,
+        "t_sensitivity_log2": [
+          -1.797443056727152,
+          1.7516416547362696
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "I_G": {
+        "log2_mean": -0.28723557382832526,
+        "ratio": 0.8194707875113132,
+        "confidence": 0.95,
+        "interval_log2": [
+          -1.1859842865468857,
+          0.5299591371400744
+        ],
+        "interval_ratio": [
+          0.4395245676152575,
+          1.443888298285593
+        ],
+        "width_log2": 1.71594342368696,
+        "label": "X",
+        "resolved_negative": false,
+        "map_spread_log2": 0.470527684013474,
+        "t_sensitivity_log2": [
+          -2.0571112989512144,
+          1.4826401512945637
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "O_G": {
+        "log2_mean": -0.5496841544770682,
+        "ratio": 0.6831696765905835,
+        "confidence": 0.95,
+        "interval_log2": [
+          -1.4997081689044078,
+          0.3911606788610734
+        ],
+        "interval_ratio": [
+          0.3536249152790975,
+          1.311448067429812
+        ],
+        "width_log2": 1.8908688477654811,
+        "label": "X",
+        "resolved_negative": false,
+        "map_spread_log2": 0.3824771880443565,
+        "t_sensitivity_log2": [
+          -2.314906158660869,
+          1.2155378497067328
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "interaction": {
+        "log2_mean": 0.8140190273099522,
+        "ratio": 1.7581023088007355,
+        "confidence": 0.95,
+        "interval_log2": [
+          -0.0753732358131877,
+          1.886826997587549
+        ],
+        "interval_ratio": [
+          0.9490965509314048,
+          3.6982096108630196
+        ],
+        "width_log2": 1.9622002334007367,
+        "label": "X",
+        "resolved_negative": false,
+        "map_spread_log2": 0.8263187561060779,
+        "t_sensitivity_log2": [
+          -0.9841815667269757,
+          2.6122196213468802
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      }
+    },
+    "PA:(S?M:m)+F": {
+      "P1": {
+        "log2_mean": 0.22770987578453453,
+        "ratio": 1.1709746759586492,
+        "confidence": 0.95,
+        "interval_log2": [
+          -0.15301784630589063,
+          0.5627166016232896
+        ],
+        "interval_ratio": [
+          0.8993671868019638,
+          1.4770478885432814
+        ],
+        "width_log2": 0.7157344479291803,
+        "label": "X",
+        "resolved_negative": false,
+        "map_spread_log2": 0.813773711327152,
+        "t_sensitivity_log2": [
+          -0.15314794468237755,
+          0.6085676962514466
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "P2": {
+        "log2_mean": 0.5558556993821514,
+        "ratio": 1.4700402933025944,
+        "confidence": 0.95,
+        "interval_log2": [
+          0.11141015933107304,
+          0.9582385481856592
+        ],
+        "interval_ratio": [
+          1.0802836416651858,
+          1.942936227091224
+        ],
+        "width_log2": 0.8468283888545862,
+        "label": "P",
+        "resolved_negative": false,
+        "map_spread_log2": 0.5702463685858921,
+        "t_sensitivity_log2": [
+          0.2889721836753104,
+          0.8227392150889924
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "D": {
+        "log2_mean": 0.9368259912569463,
+        "ratio": 1.9143120102692623,
+        "confidence": 0.95,
+        "interval_log2": [
+          0.5436877271408791,
+          1.4173727723426333
+        ],
+        "interval_ratio": [
+          1.4576938253050817,
+          2.6709866632599484
+        ],
+        "width_log2": 0.8736850452017542,
+        "label": "P",
+        "resolved_negative": false,
+        "map_spread_log2": 0.602036005724937,
+        "t_sensitivity_log2": [
+          0.6550644673941706,
+          1.218587515119722
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "I_G": {
+        "log2_mean": 0.7091161154724119,
+        "ratio": 1.6348022289227224,
+        "confidence": 0.95,
+        "interval_log2": [
+          0.26128449659369374,
+          1.242263291934178
+        ],
+        "interval_ratio": [
+          1.1985453487968327,
+          2.365693700341068
+        ],
+        "width_log2": 0.9809787953404843,
+        "label": "P",
+        "resolved_negative": false,
+        "map_spread_log2": 0.6831926555684332,
+        "t_sensitivity_log2": [
+          0.3893721103061031,
+          1.0288601206387207
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "O_G": {
+        "log2_mean": 0.380970291874795,
+        "ratio": 1.3022173738983485,
+        "confidence": 0.95,
+        "interval_log2": [
+          0.1641917046203805,
+          0.5944087084704541
+        ],
+        "interval_ratio": [
+          1.1205381008637165,
+          1.5098536421134912
+        ],
+        "width_log2": 0.43021700385007366,
+        "label": "P",
+        "resolved_negative": false,
+        "map_spread_log2": 0.3713050102586638,
+        "t_sensitivity_log2": [
+          0.20719419789784424,
+          0.5547463858517457
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "interaction": {
+        "log2_mean": -0.15326041609026048,
+        "ratio": 0.8992159830068863,
+        "confidence": 0.95,
+        "interval_log2": [
+          -0.5965032873339895,
+          0.23286883483205467
+        ],
+        "interval_ratio": [
+          0.6613549645745379,
+          1.175169480953611
+        ],
+        "width_log2": 0.8293721221660442,
+        "label": "N",
+        "resolved_negative": false,
+        "map_spread_log2": 0.8474225798444028,
+        "t_sensitivity_log2": [
+          -0.5498663917829756,
+          0.2433455596024547
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      }
+    }
+  },
+  "per_family": {
+    "BE": {
+      "P1": {
+        "log2_mean": 0.2502166319699437,
+        "ratio": 1.1893856971808754,
+        "confidence": 0.95,
+        "interval_log2": [
+          -0.0688254597738112,
+          0.5350627003701515
+        ],
+        "interval_ratio": [
+          0.9534138842922096,
+          1.4490051277966605
+        ],
+        "width_log2": 0.6038881601439626,
+        "label": "X",
+        "resolved_negative": false,
+        "map_spread_log2": 0.4199002113759626,
+        "t_sensitivity_log2": [
+          -0.05016188405639305,
+          0.5505951479962805
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "P2": {
+        "log2_mean": 0.5766722513752407,
+        "ratio": 1.491405173705919,
+        "confidence": 0.95,
+        "interval_log2": [
+          0.28420392657068233,
+          0.851347385121422
+        ],
+        "interval_ratio": [
+          1.2177381351566854,
+          1.8041851324313496
+        ],
+        "width_log2": 0.5671434585507398,
+        "label": "P",
+        "resolved_negative": false,
+        "map_spread_log2": 0.3657628848866477,
+        "t_sensitivity_log2": [
+          0.315021245723824,
+          0.8383232570266574
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "D": {
+        "log2_mean": 0.6484353671074962,
+        "ratio": 1.5674673226069435,
+        "confidence": 0.95,
+        "interval_log2": [
+          0.22868856286198594,
+          1.0275275321355497
+        ],
+        "interval_ratio": [
+          1.171769304451329,
+          2.0385276597182154
+        ],
+        "width_log2": 0.7988389692735638,
+        "label": "P",
+        "resolved_negative": false,
+        "map_spread_log2": 0.3383402453866034,
+        "t_sensitivity_log2": [
+          0.0037081222112705925,
+          1.2931626120037216
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "I_G": {
+        "log2_mean": 0.3982187351375524,
+        "ratio": 1.317879747774175,
+        "confidence": 0.95,
+        "interval_log2": [
+          -0.14450850800816195,
+          0.8534769456096811
+        ],
+        "interval_ratio": [
+          0.9046875306579968,
+          1.8068502545353164
+        ],
+        "width_log2": 0.9979854536178431,
+        "label": "X",
+        "resolved_negative": false,
+        "map_spread_log2": 0.5187923478868014,
+        "t_sensitivity_log2": [
+          -0.30521857977772876,
+          1.1016560500528336
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "O_G": {
+        "log2_mean": 0.0717631157322554,
+        "ratio": 1.0510003252248492,
+        "confidence": 0.95,
+        "interval_log2": [
+          -0.3146005937204546,
+          0.45467783020406616
+        ],
+        "interval_ratio": [
+          0.8040735655571343,
+          1.370476728159692
+        ],
+        "width_log2": 0.7692784239245207,
+        "label": "X",
+        "resolved_negative": false,
+        "map_spread_log2": 0.2741638566627553,
+        "t_sensitivity_log2": [
+          -0.5571707177925397,
+          0.7006969492570504
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "interaction": {
+        "log2_mean": 0.17845351623768832,
+        "ratio": 1.1316701514116283,
+        "confidence": 0.95,
+        "interval_log2": [
+          -0.22863057849631854,
+          0.6081771290306153
+        ],
+        "interval_ratio": [
+          0.8534446061253809,
+          1.5243319709774952
+        ],
+        "width_log2": 0.8368077075269338,
+        "label": "X",
+        "resolved_negative": false,
+        "map_spread_log2": 0.4264345683596852,
+        "t_sensitivity_log2": [
+          -0.4924786920255272,
+          0.8493857245009039
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      }
+    },
+    "PA": {
+      "P1": {
+        "log2_mean": 0.16973131835573108,
+        "ratio": 1.1248489778915935,
+        "confidence": 0.95,
+        "interval_log2": [
+          -0.10871602872911992,
+          0.5264117698085125
+        ],
+        "interval_ratio": [
+          0.927413074790216,
+          1.4403423581657018
+        ],
+        "width_log2": 0.6351277985376323,
+        "label": "X",
+        "resolved_negative": false,
+        "map_spread_log2": 0.3543153402068369,
+        "t_sensitivity_log2": [
+          -0.08373060715257524,
+          0.4231932438640374
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "P2": {
+        "log2_mean": 0.5124919927517986,
+        "ratio": 1.4265121084173913,
+        "confidence": 0.95,
+        "interval_log2": [
+          0.1688983556923023,
+          0.9690020769486082
+        ],
+        "interval_ratio": [
+          1.1241997160984942,
+          1.9574861188506827
+        ],
+        "width_log2": 0.8001037212563059,
+        "label": "P",
+        "resolved_negative": false,
+        "map_spread_log2": 0.273376346215848,
+        "t_sensitivity_log2": [
+          0.31693033555726435,
+          0.7080536499463328
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "D": {
+        "log2_mean": 0.6215942231306711,
+        "ratio": 1.5385744150990048,
+        "confidence": 0.95,
+        "interval_log2": [
+          0.3394137216499436,
+          0.9027295680169595
+        ],
+        "interval_ratio": [
+          1.2652423238691606,
+          1.8695999077100807
+        ],
+        "width_log2": 0.5633158463670158,
+        "label": "P",
+        "resolved_negative": false,
+        "map_spread_log2": 0.2715523236069328,
+        "t_sensitivity_log2": [
+          -0.006759549922130459,
+          1.2499479961834727
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "I_G": {
+        "log2_mean": 0.45186290477493996,
+        "ratio": 1.3678053190597146,
+        "confidence": 0.95,
+        "interval_log2": [
+          0.09570241108286488,
+          0.8131447594960202
+        ],
+        "interval_ratio": [
+          1.068585548215978,
+          1.7570372281088869
+        ],
+        "width_log2": 0.7174423484131552,
+        "label": "P",
+        "resolved_negative": false,
+        "map_spread_log2": 0.4606483608527475,
+        "t_sensitivity_log2": [
+          -0.23054565449230946,
+          1.1342714640421894
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "O_G": {
+        "log2_mean": 0.10910223037887264,
+        "ratio": 1.078556856279291,
+        "confidence": 0.95,
+        "interval_log2": [
+          -0.15552159857981393,
+          0.3690681269637691
+        ],
+        "interval_ratio": [
+          0.8978077166803036,
+          1.2915183369578798
+        ],
+        "width_log2": 0.5245897255435831,
+        "label": "X",
+        "resolved_negative": false,
+        "map_spread_log2": 0.1175782693563756,
+        "t_sensitivity_log2": [
+          -0.49436053734138835,
+          0.7125649980991337
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      },
+      "interaction": {
+        "log2_mean": 0.06062908797685843,
+        "ratio": 1.0429204277389665,
+        "confidence": 0.95,
+        "interval_log2": [
+          -0.34644876562150256,
+          0.5771702082959684
+        ],
+        "interval_ratio": [
+          0.7865177525944843,
+          1.4919200321396766
+        ],
+        "width_log2": 0.9236189739174709,
+        "label": "X",
+        "resolved_negative": false,
+        "map_spread_log2": 0.32910693615568287,
+        "t_sensitivity_log2": [
+          -0.5816477404031991,
+          0.7029059163569159
+        ],
+        "t_sensitivity_note": "Map-level t; additive shared GG variance where applicable; covariance approximation, not primary."
+      }
+    }
+  },
+  "per_map": {
+    "BE1": {
+      "family": "BE",
+      "contrasts": {
+        "P1": -0.12238190997797993,
+        "P2": 1.0948951978839587,
+        "D": 1.1270599674941026,
+        "I_G": 1.2494418774720826,
+        "O_G": 0.032164769610143765,
+        "interaction": -0.1545466795881237
+      },
+      "per_cell": {
+        "BE:S?m:(M+F)": {
+          "P1": -0.14475330859749214,
+          "P2": 1.4905704863743425,
+          "D": 1.8200520274568088,
+          "I_G": 1.964805336054301,
+          "O_G": 0.3294815410824663,
+          "interaction": -0.47423484967995844
+        },
+        "PA:(F?S:M)+m": {
+          "P1": -1.1111962106682238,
+          "P2": 0.44654239804174445,
+          "D": -0.242713413585121,
+          "I_G": 0.8684827970831028,
+          "O_G": -0.6892558116268654,
+          "interaction": -0.4219403990413584
+        },
+        "PA:(S?M:m)+F": {
+          "P1": 0.8888037893317762,
+          "P2": 1.3475727092357896,
+          "D": 1.80384128861062,
+          "I_G": 0.9150374992788439,
+          "O_G": 0.45626857937483045,
+          "interaction": 0.4325352099569457
+        }
+      }
+    },
+    "BE2": {
+      "family": "BE",
+      "contrasts": {
+        "P1": 0.29547329507939557,
+        "P2": 0.22290893763428787,
+        "D": 0.42031303282385907,
+        "I_G": 0.12483973774446347,
+        "O_G": 0.1974040951895712,
+        "interaction": 0.09806919988982443
+      },
+      "per_cell": {
+        "BE:S?m:(M+F)": {
+          "P1": -0.05426222838908412,
+          "P2": -0.5542622283890841,
+          "D": 0.6067018190545967,
+          "I_G": 0.6609640474436809,
+          "O_G": 1.1609640474436809,
+          "interaction": -1.215226275832765
+        },
+        "PA:(F?S:M)+m": {
+          "P1": 0.9150374992788439,
+          "P2": 1.011360038250042,
+          "D": 0.17232408569372293,
+          "I_G": -0.742713413585121,
+          "O_G": -0.8390359525563191,
+          "interaction": 1.754073451835163
+        },
+        "PA:(S?M:m)+F": {
+          "P1": 0.02564461434842702,
+          "P2": 0.21162900304190568,
+          "D": 0.48191319372325747,
+          "I_G": 0.45626857937483045,
+          "O_G": 0.2702841906813518,
+          "interaction": -0.24463957633292477
+        }
+      }
+    },
+    "BE3": {
+      "family": "BE",
+      "contrasts": {
+        "P1": -0.018908308779275906,
+        "P2": 0.13592923814376218,
+        "D": 0.16666666666666666,
+        "I_G": 0.1855749754459426,
+        "O_G": 0.03073742852290451,
+        "interaction": -0.049645737302180415
+      },
+      "per_cell": {
+        "BE:S?m:(M+F)": {
+          "P1": 0.31175787074527506,
+          "P2": 0.8390359525563191,
+          "D": 0.792481250360578,
+          "I_G": 0.480723379615303,
+          "O_G": -0.04655470219574109,
+          "interaction": 0.35831257294101615
+        },
+        "PA:(F?S:M)+m": {
+          "P1": -0.36848279708310283,
+          "P2": -0.43124823812503266,
+          "D": -0.29248125036057804,
+          "I_G": 0.0760015467225248,
+          "O_G": 0.13876698776445462,
+          "interaction": -0.5072497848475575
+        },
+        "PA:(S?M:m)+F": {
+          "P1": 0.0,
+          "P2": 0.0,
+          "D": 0.0,
+          "I_G": 0.0,
+          "O_G": 0.0,
+          "interaction": 0.0
+        }
+      }
+    },
+    "BE4": {
+      "family": "BE",
+      "contrasts": {
+        "P1": 0.3590919922664684,
+        "P2": 0.6651755368859886,
+        "D": 0.4293359536728477,
+        "I_G": 0.0702439614063793,
+        "O_G": -0.23583958321314094,
+        "interaction": 0.5949315754796094
+      },
+      "per_cell": {
+        "BE:S?m:(M+F)": {
+          "P1": 0.45626857937483045,
+          "P2": 0.7781966742621931,
+          "D": 0.9097138771790894,
+          "I_G": 0.4534452978042589,
+          "O_G": 0.13151720291689628,
+          "interaction": 0.32475137645793417
+        },
+        "PA:(F?S:M)+m": {
+          "P1": 1.1463204339595592,
+          "P2": 1.1463204339595592,
+          "D": 0.30728448140324005,
+          "I_G": -0.8390359525563191,
+          "O_G": -0.8390359525563191,
+          "interaction": 1.9853563865158783
+        },
+        "PA:(S?M:m)+F": {
+          "P1": -0.5253130365349845,
+          "P2": 0.07100950243621362,
+          "D": 0.07100950243621362,
+          "I_G": 0.5963225389711981,
+          "O_G": 0.0,
+          "interaction": -0.5253130365349845
+        }
+      }
+    },
+    "BE5": {
+      "family": "BE",
+      "contrasts": {
+        "P1": 0.17440085405763797,
+        "P2": 0.3859776332231757,
+        "D": 0.4612381957738352,
+        "I_G": 0.28683734171619724,
+        "O_G": 0.07526056255065947,
+        "interaction": 0.09914029150697848
+      },
+      "per_cell": {
+        "BE:S?m:(M+F)": {
+          "P1": -0.32603834828984635,
+          "P2": 0.6205040497518981,
+          "D": 0.7237294884856107,
+          "I_G": 1.049767836775457,
+          "O_G": 0.1032254387337126,
+          "interaction": -0.42926378702355894
+        },
+        "PA:(F?S:M)+m": {
+          "P1": 0.07484646637892478,
+          "P2": 0.7246266073083785,
+          "D": -0.11440934524794066,
+          "I_G": -0.18925581162686544,
+          "O_G": -0.8390359525563191,
+          "interaction": 0.9138824189352439
+        },
+        "PA:(S?M:m)+F": {
+          "P1": 0.7743944440838355,
+          "P2": -0.1871977573907495,
+          "D": 0.7743944440838355,
+          "I_G": 0.0,
+          "O_G": 0.961592201474585,
+          "interaction": -0.1871977573907495
+        }
+      }
+    },
+    "BE6": {
+      "family": "BE",
+      "contrasts": {
+        "P1": 0.1569079696074815,
+        "P2": 0.20683468325063267,
+        "D": 0.8142027587916916,
+        "I_G": 0.6572947891842101,
+        "O_G": 0.6073680755410589,
+        "interaction": -0.4504601059335774
+      },
+      "per_cell": {
+        "BE:S?m:(M+F)": {
+          "P1": -0.31074418837313456,
+          "P2": 0.18925581162686544,
+          "D": 0.29248125036057804,
+          "I_G": 0.6032254387337126,
+          "O_G": 0.1032254387337126,
+          "interaction": -0.41396962710684715
+        },
+        "PA:(F?S:M)+m": {
+          "P1": 0.5225439447642692,
+          "P2": 0.04976783677545704,
+          "D": 0.6723240856937229,
+          "I_G": 0.1497801409294537,
+          "O_G": 0.6225562489182659,
+          "interaction": -0.10001230415399665
+        },
+        "PA:(S?M:m)+F": {
+          "P1": 0.25892415243130973,
+          "P2": 0.3814804013495756,
+          "D": 1.4778029403207738,
+          "I_G": 1.218878787889464,
+          "O_G": 1.0963225389711981,
+          "interaction": -0.8373983865398884
+        }
+      }
+    },
+    "BE7": {
+      "family": "BE",
+      "contrasts": {
+        "P1": 1.074107326894028,
+        "P2": 0.45297612853641667,
+        "D": 0.8636015925883955,
+        "I_G": -0.21050573430563238,
+        "O_G": 0.410625464051979,
+        "interaction": 0.663481862842049
+      },
+      "per_cell": {
+        "BE:S?m:(M+F)": {
+          "P1": 1.3294815410824663,
+          "P2": 0.05919735040111451,
+          "D": 1.3294815410824663,
+          "I_G": 0.0,
+          "O_G": 1.2702841906813518,
+          "interaction": 0.05919735040111451
+        },
+        "PA:(F?S:M)+m": {
+          "P1": 0.5627654410419298,
+          "P2": 0.43124823812503266,
+          "D": -0.06875176187496734,
+          "I_G": -0.6315172029168972,
+          "O_G": -0.5,
+          "interaction": 1.0627654410419298
+        },
+        "PA:(S?M:m)+F": {
+          "P1": 1.3300749985576878,
+          "P2": 0.8684827970831028,
+          "D": 1.3300749985576878,
+          "I_G": 0.0,
+          "O_G": 0.461592201474585,
+          "interaction": 0.8684827970831028
+        }
+      }
+    },
+    "BE8": {
+      "family": "BE",
+      "contrasts": {
+        "P1": -0.19984522451697165,
+        "P2": 0.621131198357611,
+        "D": 0.3414525475055047,
+        "I_G": 0.5412977720224763,
+        "O_G": -0.2796786508521064,
+        "interaction": 0.07983342633513472
+      },
+      "per_cell": {
+        "BE:S?m:(M+F)": {
+          "P1": -0.5032131345797168,
+          "P2": 1.0931094043914813,
+          "D": 1.0465547021957402,
+          "I_G": 1.549767836775457,
+          "O_G": -0.04655470219574109,
+          "interaction": -0.45665843238397574
+        },
+        "PA:(F?S:M)+m": {
+          "P1": 0.2762705115143893,
+          "P2": 0.5465547021957411,
+          "D": -0.29248125036057804,
+          "I_G": -0.5687517618749673,
+          "O_G": -0.8390359525563191,
+          "interaction": 1.1153064640707084
+        },
+        "PA:(S?M:m)+F": {
+          "P1": -0.37259305048558744,
+          "P2": 0.2237294884856107,
+          "D": 0.2702841906813518,
+          "I_G": 0.6428772411669392,
+          "O_G": 0.04655470219574109,
+          "interaction": -0.41914775268132853
+        }
+      }
+    },
+    "BE9": {
+      "family": "BE",
+      "contrasts": {
+        "P1": -0.06978709101445003,
+        "P2": 1.1846260300593139,
+        "D": 1.1617087761009914,
+        "I_G": 1.2314958671154415,
+        "O_G": -0.022917253958322448,
+        "interaction": -0.04686983705612757
+      },
+      "per_cell": {
+        "BE:S?m:(M+F)": {
+          "P1": -1.5,
+          "P2": 1.1780719051126383,
+          "D": 1.1315172029168972,
+          "I_G": 2.631517202916897,
+          "O_G": -0.04655470219574109,
+          "interaction": -1.453445297804259
+        },
+        "PA:(F?S:M)+m": {
+          "P1": -0.11119621066822383,
+          "P2": 0.8260383482898463,
+          "D": 0.257286586414879,
+          "I_G": 0.36848279708310283,
+          "O_G": -0.5687517618749673,
+          "interaction": 0.4575555512067435
+        },
+        "PA:(S?M:m)+F": {
+          "P1": 1.4018349376248738,
+          "P2": 1.549767836775457,
+          "D": 2.096322538971198,
+          "I_G": 0.6944876013463244,
+          "O_G": 0.5465547021957411,
+          "interaction": 0.8552802354291327
+        }
+      }
+    },
+    "BE10": {
+      "family": "BE",
+      "contrasts": {
+        "P1": 0.8531074160831034,
+        "P2": 0.796267929777259,
+        "D": 0.6987741796570661,
+        "I_G": -0.15433323642603725,
+        "O_G": -0.09749375012019296,
+        "interaction": 0.9506011662032963
+      },
+      "per_cell": {
+        "BE:S?m:(M+F)": {
+          "P1": -0.11874965686332839,
+          "P2": 0.3038412886106201,
+          "D": 0.257286586414879,
+          "I_G": 0.3760362432782074,
+          "O_G": -0.04655470219574109,
+          "interaction": -0.0721949546675873
+        },
+        "PA:(F?S:M)+m": {
+          "P1": 1.0,
+          "P2": 0.8219280948873626,
+          "D": 0.16096404744368087,
+          "I_G": -0.8390359525563191,
+          "O_G": -0.6609640474436818,
+          "interaction": 1.6609640474436818
+        },
+        "PA:(S?M:m)+F": {
+          "P1": 1.6780719051126383,
+          "P2": 1.2630344058337943,
+          "D": 1.6780719051126383,
+          "I_G": 0.0,
+          "O_G": 0.4150374992788439,
+          "interaction": 1.2630344058337943
+        }
+      }
+    },
+    "PA1": {
+      "family": "PA",
+      "contrasts": {
+        "P1": 0.15007738774151433,
+        "P2": 0.7691183073525345,
+        "D": 1.0253338489075081,
+        "I_G": 0.8752564611659939,
+        "O_G": 0.25621554155497367,
+        "interaction": -0.10613815381345937
+      },
+      "per_cell": {
+        "BE:S?m:(M+F)": {
+          "P1": 1.742713413585121,
+          "P2": 1.535194663945699,
+          "D": 2.5,
+          "I_G": 0.757286586414879,
+          "O_G": 0.964805336054301,
+          "interaction": 0.77790807753082
+        },
+        "PA:(F?S:M)+m": {
+          "P1": -1.0,
+          "P2": -0.04655470219574109,
+          "D": -0.8390359525563191,
+          "I_G": 0.16096404744368087,
+          "O_G": -0.792481250360578,
+          "interaction": -0.20751874963942196
+        },
+        "PA:(S?M:m)+F": {
+          "P1": -0.29248125036057804,
+          "P2": 0.8187149603076458,
+          "D": 1.415037499278844,
+          "I_G": 1.707518749639422,
+          "O_G": 0.5963225389711981,
+          "interaction": -0.8888037893317762
+        }
+      }
+    },
+    "PA2": {
+      "family": "PA",
+      "contrasts": {
+        "P1": -0.31041607937501087,
+        "P2": 0.6022034601271118,
+        "D": 0.4690222424481109,
+        "I_G": 0.7794383218231218,
+        "O_G": -0.1331812176790009,
+        "interaction": -0.17723486169601
+      },
+      "per_cell": {
+        "BE:S?m:(M+F)": {
+          "P1": 0.24610267990065182,
+          "P2": 1.6750931774644382,
+          "D": 1.6995479777049107,
+          "I_G": 1.453445297804259,
+          "O_G": 0.02445480024047253,
+          "interaction": 0.2216478796601793
+        },
+        "PA:(F?S:M)+m": {
+          "P1": -0.3038412886106201,
+          "P2": -0.4150374992788439,
+          "D": -0.8390359525563191,
+          "I_G": -0.535194663945699,
+          "O_G": -0.4239984532774752,
+          "interaction": 0.12015716466685511
+        },
+        "PA:(S?M:m)+F": {
+          "P1": -0.8735096294150644,
+          "P2": 0.5465547021957411,
+          "D": 0.5465547021957411,
+          "I_G": 1.4200643316108055,
+          "O_G": 0.0,
+          "interaction": -0.8735096294150644
+        }
+      }
+    },
+    "PA3": {
+      "family": "PA",
+      "contrasts": {
+        "P1": 0.17168326781094684,
+        "P2": 0.8686560694251927,
+        "D": 0.9407014088743921,
+        "I_G": 0.7690181410634453,
+        "O_G": 0.07204533944919957,
+        "interaction": 0.09963792836174731
+      },
+      "per_cell": {
+        "BE:S?m:(M+F)": {
+          "P1": 0.26894712353218875,
+          "P2": 0.5053236220997546,
+          "D": 1.415037499278844,
+          "I_G": 1.1460903757466552,
+          "O_G": 0.9097138771790894,
+          "interaction": -0.6407667536469006
+        },
+        "PA:(F?S:M)+m": {
+          "P1": -0.3502198590705463,
+          "P2": 0.5043220472046253,
+          "D": -0.18925581162686544,
+          "I_G": 0.16096404744368087,
+          "O_G": -0.6935778588314907,
+          "interaction": 0.3433579997609444
+        },
+        "PA:(S?M:m)+F": {
+          "P1": 0.5963225389711981,
+          "P2": 1.5963225389711981,
+          "D": 1.5963225389711981,
+          "I_G": 1.0,
+          "O_G": 0.0,
+          "interaction": 0.5963225389711981
+        }
+      }
+    },
+    "PA4": {
+      "family": "PA",
+      "contrasts": {
+        "P1": 0.2495832765784695,
+        "P2": 0.19759260885934626,
+        "D": 0.349493621647848,
+        "I_G": 0.0999103450693785,
+        "O_G": 0.15190101278850174,
+        "interaction": 0.09768226378996778
+      },
+      "per_cell": {
+        "BE:S?m:(M+F)": {
+          "P1": 0.9562685793748305,
+          "P2": 0.7265527700561822,
+          "D": 1.1799980678604411,
+          "I_G": 0.2237294884856107,
+          "O_G": 0.4534452978042589,
+          "interaction": 0.5028232815705715
+        },
+        "PA:(F?S:M)+m": {
+          "P1": 0.0,
+          "P2": -0.07100950243621362,
+          "D": -0.8390359525563191,
+          "I_G": -0.8390359525563191,
+          "O_G": -0.7680264501201055,
+          "interaction": 0.7680264501201055
+        },
+        "PA:(S?M:m)+F": {
+          "P1": -0.20751874963942196,
+          "P2": -0.06276544104192983,
+          "D": 0.707518749639422,
+          "I_G": 0.9150374992788439,
+          "O_G": 0.7702841906813518,
+          "interaction": -0.9778029403207738
+        }
+      }
+    },
+    "PA5": {
+      "family": "PA",
+      "contrasts": {
+        "P1": 0.2709811954331386,
+        "P2": 0.14777642115400952,
+        "D": 0.3692275257404134,
+        "I_G": 0.09824633030727475,
+        "O_G": 0.2214511045864039,
+        "interaction": 0.04953009084673474
+      },
+      "per_cell": {
+        "BE:S?m:(M+F)": {
+          "P1": -0.6984164519506262,
+          "P2": -1.1032254387337126,
+          "D": 0.09632253897119814,
+          "I_G": 0.7947389909218243,
+          "O_G": 1.1995479777049107,
+          "interaction": -1.897964429655537
+        },
+        "PA:(F?S:M)+m": {
+          "P1": 1.207518749639422,
+          "P2": 1.242713413585121,
+          "D": 0.707518749639422,
+          "I_G": -0.5,
+          "O_G": -0.535194663945699,
+          "interaction": 1.742713413585121
+        },
+        "PA:(S?M:m)+F": {
+          "P1": 0.3038412886106201,
+          "P2": 0.3038412886106201,
+          "D": 0.3038412886106201,
+          "I_G": 0.0,
+          "O_G": 0.0,
+          "interaction": 0.3038412886106201
+        }
+      }
+    },
+    "PA6": {
+      "family": "PA",
+      "contrasts": {
+        "P1": 0.5881371578047476,
+        "P2": 0.600167752060903,
+        "D": 0.5938397770277328,
+        "I_G": 0.005702619222985206,
+        "O_G": -0.006327975033170091,
+        "interaction": 0.5944651328379177
+      },
+      "per_cell": {
+        "BE:S?m:(M+F)": {
+          "P1": -0.17807190511263737,
+          "P2": 0.11119621066822383,
+          "D": 0.16096404744368087,
+          "I_G": 0.33903595255631824,
+          "O_G": 0.04976783677545704,
+          "interaction": -0.22783974188809442
+        },
+        "PA:(F?S:M)+m": {
+          "P1": 1.69796433816557,
+          "P2": 1.1057520525968556,
+          "D": 1.0370002907218883,
+          "I_G": -0.6609640474436818,
+          "O_G": -0.06875176187496734,
+          "interaction": 1.7667161000405374
+        },
+        "PA:(S?M:m)+F": {
+          "P1": 0.24451904036131022,
+          "P2": 0.5835549929176294,
+          "D": 0.5835549929176294,
+          "I_G": 0.33903595255631913,
+          "O_G": 0.0,
+          "interaction": 0.24451904036131022
+        }
+      }
+    },
+    "PA7": {
+      "family": "PA",
+      "contrasts": {
+        "P1": -0.45649099304907426,
+        "P2": 0.8150078541953676,
+        "D": 0.9033059446302776,
+        "I_G": 1.3597969376793517,
+        "O_G": 0.08829809043490991,
+        "interaction": -0.5447890834839841
+      },
+      "per_cell": {
+        "BE:S?m:(M+F)": {
+          "P1": -0.1812850396923542,
+          "P2": 1.4884581934434795,
+          "D": 1.464805336054301,
+          "I_G": 1.6460903757466552,
+          "O_G": -0.02365285738917855,
+          "interaction": -0.15763218230317566
+        },
+        "PA:(F?S:M)+m": {
+          "P1": 0.6042933109057094,
+          "P2": 0.8340091202243576,
+          "D": 0.4150374992788439,
+          "I_G": -0.18925581162686544,
+          "O_G": -0.41897162094551366,
+          "interaction": 1.023264931851223
+        },
+        "PA:(S?M:m)+F": {
+          "P1": -1.792481250360578,
+          "P2": 0.12255624891826589,
+          "D": 0.8300749985576878,
+          "I_G": 2.622556248918266,
+          "O_G": 0.707518749639422,
+          "interaction": -2.5
+        }
+      }
+    },
+    "PA8": {
+      "family": "PA",
+      "contrasts": {
+        "P1": 0.639845868563491,
+        "P2": 0.5581273799766133,
+        "D": 0.7845363751286925,
+        "I_G": 0.1446905065652014,
+        "O_G": 0.22640899515207913,
+        "interaction": 0.41343687341141183
+      },
+      "per_cell": {
+        "BE:S?m:(M+F)": {
+          "P1": 0.3362126709857476,
+          "P2": 0.6892558116268654,
+          "D": 1.292481250360578,
+          "I_G": 0.9562685793748305,
+          "O_G": 0.6032254387337126,
+          "interaction": -0.267012767747965
+        },
+        "PA:(F?S:M)+m": {
+          "P1": 0.9372345589580702,
+          "P2": 1.207518749639422,
+          "D": 0.36848279708310283,
+          "I_G": -0.5687517618749673,
+          "O_G": -0.8390359525563191,
+          "interaction": 1.7762705115143893
+        },
+        "PA:(S?M:m)+F": {
+          "P1": 0.6460903757466552,
+          "P2": -0.22239242133644765,
+          "D": 0.6926450779423963,
+          "I_G": 0.04655470219574109,
+          "O_G": 0.9150374992788439,
+          "interaction": -0.26894712353218875
+        }
+      }
+    },
+    "PA9": {
+      "family": "PA",
+      "contrasts": {
+        "P1": 0.412115139873797,
+        "P2": 0.4119368379408689,
+        "D": 0.5,
+        "I_G": 0.087884860126203,
+        "O_G": 0.08806316205913116,
+        "interaction": 0.3240519778146658
+      },
+      "per_cell": {
+        "BE:S?m:(M+F)": {
+          "P1": 0.47554519975952747,
+          "P2": -0.6032254387337126,
+          "D": 0.5,
+          "I_G": 0.02445480024047253,
+          "O_G": 1.1032254387337126,
+          "interaction": -0.6276802389741851
+        },
+        "PA:(F?S:M)+m": {
+          "P1": 0.35712275883306166,
+          "P2": 0.8390359525563191,
+          "D": 0.0,
+          "I_G": -0.35712275883306166,
+          "O_G": -0.8390359525563191,
+          "interaction": 1.1961587113893808
+        },
+        "PA:(S?M:m)+F": {
+          "P1": 0.40367746102880186,
+          "P2": 1.0,
+          "D": 1.0,
+          "I_G": 0.5963225389711981,
+          "O_G": 0.0,
+          "interaction": 0.40367746102880186
+        }
+      }
+    },
+    "PA10": {
+      "family": "PA",
+      "contrasts": {
+        "P1": -0.018203037824709,
+        "P2": 0.15433323642603722,
+        "D": 0.2804814869017355,
+        "I_G": 0.2986845247264446,
+        "O_G": 0.12614825047569828,
+        "interaction": -0.1443512883004073
+      },
+      "per_cell": {
+        "BE:S?m:(M+F)": {
+          "P1": 0.6497801409294537,
+          "P2": 0.0,
+          "D": 0.6032254387337126,
+          "I_G": -0.04655470219574109,
+          "O_G": 0.6032254387337126,
+          "interaction": 0.04655470219574109
+        },
+        "PA:(F?S:M)+m": {
+          "P1": -0.7702841906813518,
+          "P2": -0.23821902197149392,
+          "D": -0.8390359525563191,
+          "I_G": -0.06875176187496734,
+          "O_G": -0.6008169305848252,
+          "interaction": -0.16946726009652657
+        },
+        "PA:(S?M:m)+F": {
+          "P1": 0.06589493627777099,
+          "P2": 0.7012187312496057,
+          "D": 1.077254974527813,
+          "I_G": 1.011360038250042,
+          "O_G": 0.3760362432782074,
+          "interaction": -0.3101413070004364
+        }
+      }
+    }
+  },
+  "descriptive_shares": {
+    "I_G/D": 0.6693400267572329,
+    "O_G/D": 0.14241034027971788
+  },
+  "solve_fractions": {
+    "G4": {
+      "GG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        }
+      }
+    },
+    "BE1": {
+      "MM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      },
+      "MG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      },
+      "GM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      }
+    },
+    "BE2": {
+      "MM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      },
+      "MG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      },
+      "GM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      }
+    },
+    "BE3": {
+      "MM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        }
+      },
+      "MG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      },
+      "GM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        }
+      }
+    },
+    "BE4": {
+      "MM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      },
+      "MG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      },
+      "GM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        }
+      }
+    },
+    "BE5": {
+      "MM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      },
+      "MG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        }
+      },
+      "GM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      }
+    },
+    "BE6": {
+      "MM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      },
+      "MG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      },
+      "GM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      }
+    },
+    "BE7": {
+      "MM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      },
+      "MG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        }
+      },
+      "GM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      }
+    },
+    "BE8": {
+      "MM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      },
+      "MG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      },
+      "GM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      }
+    },
+    "BE9": {
+      "MM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      },
+      "MG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      },
+      "GM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      }
+    },
+    "BE10": {
+      "MM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      },
+      "MG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        }
+      },
+      "GM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      }
+    },
+    "PA1": {
+      "MM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      },
+      "MG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      },
+      "GM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      }
+    },
+    "PA2": {
+      "MM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      },
+      "MG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      },
+      "GM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        }
+      }
+    },
+    "PA3": {
+      "MM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      },
+      "MG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      },
+      "GM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        }
+      }
+    },
+    "PA4": {
+      "MM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      },
+      "MG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      },
+      "GM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      }
+    },
+    "PA5": {
+      "MM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      },
+      "MG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        }
+      },
+      "GM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        }
+      }
+    },
+    "PA6": {
+      "MM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      },
+      "MG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      },
+      "GM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        }
+      }
+    },
+    "PA7": {
+      "MM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      },
+      "MG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      },
+      "GM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      }
+    },
+    "PA8": {
+      "MM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      },
+      "MG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      },
+      "GM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      }
+    },
+    "PA9": {
+      "MM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      },
+      "MG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      },
+      "GM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        }
+      }
+    },
+    "PA10": {
+      "MM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      },
+      "MG": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 0,
+          "fraction": 0.0
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 2,
+          "fraction": 1.0
+        }
+      },
+      "GM": {
+        "BE:S?m:(M+F)": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(F?S:M)+m": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        },
+        "PA:(S?M:m)+F": {
+          "n": 2,
+          "solved": 1,
+          "fraction": 0.5
+        }
+      }
+    }
+  },
+  "gates": {
+    "gg_solve": false,
+    "diagonal": true,
+    "minimum_seeds": false
+  },
+  "stop_reason": null,
+  "runtime": {
+    "wall_seconds": 16.071065541997086,
+    "rows": 486,
+    "included_rows": 486,
+    "excluded_partial_rows": 0,
+    "sum_search_seconds": 115.96702296024887
+  },
+  "probe": null
+}

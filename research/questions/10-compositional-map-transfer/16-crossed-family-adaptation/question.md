@@ -8,8 +8,8 @@ budget: {experiments: 3, used: 0}
 Current summary: **closed after stage 2 (run 2026-10-06-2229, commit `33fcee2`, row 4). On
 the three withheld cells, both families' token maps beat G4 about 2–3× (all six arm × cell
 gains resolved), and no matched-family advantage was detected: matched over mismatched 1.02×
-[0.84, 1.25] on the BE holdout and 0.96× [0.79, 1.15] on the two PA holdouts. A matched
-advantage above about 1.25× is excluded in both directions; one of 1.1× is not.** Fairly sure
+[0.84, 1.25] on the BE holdout and 0.96× [0.79, 1.15] on the two PA holdouts. The 95% upper
+bounds on the matched advantage are 1.2485× (BE) and 1.15× (PA); one of 1.1× is not excluded.** Fairly sure
 of the numbers; narrow in scope (three screened cells, one of them BE; one learner; G4's
 hand-supplied context; 10 independent trajectories per family).
 
@@ -17,10 +17,11 @@ Stage 2 (2229): 20 frozen stage-1 maps plus G4, 400 shared fresh seeds per holdo
 trajectory as the unit. Gains over G4 on the holdouts: BE maps 2.01× [1.86, 2.18] (BE cell),
 2.59× [2.41, 2.77] (PA cells); PA maps 1.97× [1.63, 2.39] (BE cell), 2.48× [2.07, 2.96] (PA
 cells). Pre-stated within-map interaction 0.98× [0.83, 1.15]. The BE bound sits at the margin
-(upper 1.2485): dropping any one of 14 maps lifts it to 1.25–1.30, so "bounded below 1.25×" on
-BE is fragile; the reading (generic transfer, preference unresolved below about 1.3×) is not.
-Holdout gains match or exceed the training gains, so these maps did not overfit their training
-cells in any way these holdouts can detect. Cell identity moves the gain by about 50%; the
+(upper 1.2485): dropping any one of 14 maps lifts it to 1.25–1.30, so the BE upper bound of
+1.2485× is fragile; the reading (generic transfer, preference unresolved below about 1.3×) is not.
+Holdout gains remain substantial: BE's point gain is slightly lower than on training (2.18× →
+2.01×; ratio 1.08× [0.96, 1.22], descriptive) and PA's higher (2.27× → 2.48×); these
+cross-block comparisons do not establish equality or absence of overfitting. Cell identity moves the gain by about 50%; the
 training family by a few percent in the point estimates (intervals allow up to about 1.25×).
 
 Stage 1 (1723, commit `db96645`, row 4): 10 independent trajectories per family. Own-family
@@ -49,7 +50,7 @@ Competing explanations, after stage 2:
 - B: Token learning is generic here. Fits: every arm improves every holdout 2–3×, and which
   family trained the map shifts the point estimates by a few percent. This is a bound, not equality.
 - C: A crossed preference only through damage to the other family. Does not apply: no
-  preference appeared, and both mismatched arms improve G4 on the other family's holdouts
+  preference was resolved, and both mismatched arms improve G4 on the other family's holdouts
   (1.97×, 2.59×, both resolved).
 - D: The learner fails on one training set. Out since stage 1.
 

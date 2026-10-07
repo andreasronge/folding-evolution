@@ -1,0 +1,113 @@
+{
+  "encoding_round_trips": 400000,
+  "encoding_pairs": 40,
+  "encoding_passed": true,
+  "law_p_values": {
+    "G4": 0.8322279154862143,
+    "BE1": 0.6627143410452102,
+    "PA1": 0.6826687282191882
+  },
+  "chi_failure_threshold": 0.016666666666666666,
+  "historical_reproduction_rows": 630,
+  "historical_reproduction_passed": true,
+  "historical_reproduction_mismatches": 0,
+  "smoke_rows": 486,
+  "smoke_complete_seeds": 2,
+  "smoke_pairing_passed": true,
+  "full_probe_rows": 900,
+  "probe_solve_counts_by_map_arm": {
+    "BE1": {
+      "GG": {
+        "n": 75,
+        "solved": 70,
+        "mean_seconds": 3.3007173439472295
+      },
+      "MM": {
+        "n": 75,
+        "solved": 75,
+        "mean_seconds": 0.4524660588777624
+      },
+      "MG": {
+        "n": 75,
+        "solved": 74,
+        "mean_seconds": 1.0209339383104816
+      },
+      "GM": {
+        "n": 75,
+        "solved": 75,
+        "mean_seconds": 0.6260854328152102
+      }
+    },
+    "PA4": {
+      "GG": {
+        "n": 75,
+        "solved": 70,
+        "mean_seconds": 2.0849601594397487
+      },
+      "MM": {
+        "n": 75,
+        "solved": 75,
+        "mean_seconds": 0.3348289282798457
+      },
+      "MG": {
+        "n": 75,
+        "solved": 73,
+        "mean_seconds": 1.2511189638924165
+      },
+      "GM": {
+        "n": 75,
+        "solved": 75,
+        "mean_seconds": 0.5347659555240534
+      }
+    },
+    "PA9": {
+      "GG": {
+        "n": 75,
+        "solved": 70,
+        "mean_seconds": 2.056948266051089
+      },
+      "MM": {
+        "n": 75,
+        "solved": 73,
+        "mean_seconds": 1.551467773950814
+      },
+      "MG": {
+        "n": 75,
+        "solved": 73,
+        "mean_seconds": 1.4346029738794701
+      },
+      "GM": {
+        "n": 75,
+        "solved": 73,
+        "mean_seconds": 1.29147858609523
+      }
+    }
+  },
+  "probe_GG_counts_by_cell": {
+    "BE:S?m:(M+F)": 23,
+    "PA:(F?S:M)+m": 23,
+    "PA:(S?M:m)+F": 24
+  },
+  "probe_wall_seconds": 124.59268920798786,
+  "smoke_modes_only": true,
+  "main_searches_executed": 0,
+  "search_law_full_check": "Deferred to first 100 main seeds in queue; failure prevents seed 101.",
+  "projection": {
+    "gg_mean_seconds": 2.4808752564793557,
+    "map_arm_mean_seconds": 0.9441942901805872,
+    "mm_law_proxy_seconds": 0.7795875870361407,
+    "search_seconds_parallel_wall_ratio": 9.59549140627349,
+    "projected_minutes_at_8_7_speedup": 149.07370229619966,
+    "projected_minutes_with_1_5_slack": 222.11055344429948,
+    "observed_probe_speedup_minutes": 135.4414932148307,
+    "validation_overlapped_probe": true,
+    "notes": "Early BE1 probe timing overlaps full historical reproduction and is conservatively included. MMr runtime proxied by MM. Actual full run completes seeds serially; straggler/barrier overhead covered by slack/deadline, not directly measured by this probe.",
+    "projected_worker_search_seconds": 76250.47259861621,
+    "note_on_timing": "Sum of per-search monotonic wall time, a worker-time throughput estimate; not process CPU measurements."
+  },
+  "targeted_tests_passed": 55,
+  "intervention_tests": 17,
+  "ruff_passed": true,
+  "queue_format_valid": true,
+  "queue_timeout_sum_seconds": 18000
+}

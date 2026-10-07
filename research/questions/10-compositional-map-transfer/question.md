@@ -1,7 +1,7 @@
 ---
 status: open
 tags: [map-bias, evolve-the-bias, task-family, compositional-transfer, decoder, fresh-start]
-budget: {experiments: 9, used: 0}
+budget: {experiments: 10, used: 0}
 ---
 # Can an adapted decoder help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 
@@ -12,12 +12,24 @@ branch shapes did not replicate in a second set of learning runs from the same s
 four-reducer bank, with a narrower split (one BE, two PA holdouts), the same token learner
 improves G4 about 2–3× on both families' withheld cells, and which family it was trained on
 made no detectable difference there: matched over mismatched 1.02× [0.84, 1.25] (BE) and 0.96×
-[0.79, 1.15] (PA). A family advantage above about 1.25× is excluded on these three cells; one of
-1.1× is not** (8 of 9 slots used; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9).
+[0.79, 1.15] (PA). The 95% upper bounds are 1.2485× on BE (roughly 1.3× in leave-one-map-out
+checks) and 1.15× on PA; a 1.1× family preference is not excluded. On those three cells the
+frozen maps' gain comes from both their starting programs and their use during search, which
+overlap heavily: each conditional increment is about 1.3–1.4×, against a 2.29× diagonal**
+(9 of 10 slots used; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
+2331 to 10).
+Run 2026-10-06-2331 ([17](17-decoder-initialization-variation/question.md), commit `8f42f38`,
+row 3): the 20 frozen 1723 maps (M) and G4 (G) crossed as starting-program source × search
+decoder, with generation-0 token tapes held identical by re-encoding; 400 fresh seeds, three
+2229 cells. Ongoing-decoder increment given M's start 1.39× [1.31, 1.47]; start increment given
+ongoing M 1.30× [1.24, 1.36]; diagonal 2.29× [2.05, 2.54]; interaction −0.34 log2 [−0.40,
+−0.29] (sub-additive in 20/20 maps). Start-heavy on the BE cell (ongoing increment 1.11× [1.04,
+1.19]), ongoing-heavy on the PA cells; one BE cell, descriptive.
 Run 2026-10-06-2229 ([16](16-crossed-family-adaptation/question.md), commit `33fcee2`, row 4):
 the 20 frozen stage-1 maps and G4 on the three holdouts, 400 shared fresh seeds each. Gains over
 G4 resolved in all six arm × cell estimates (1.97×–2.93×, lowest lower bound 1.63×); holdout
-gains match or exceed the training gains. Pre-stated within-map interaction 0.98× [0.83, 1.15].
+gains remain substantial (BE's point gain slightly lower than on training, PA's higher; these
+cross-block comparisons do not establish equality or absence of overfitting). Pre-stated within-map interaction 0.98× [0.83, 1.15].
 The BE bound holds by 0.0015 and is not robust to dropping single maps (upper bound then
 1.25–1.30).
 Run 2026-10-06-1723 (16, stage 1, commit `db96645`, row 4):
@@ -125,7 +137,11 @@ conservative learner-pilot projection excluded stage C, whose runtime was not me
 slots, runs 2026-10-06-1723 and 2026-10-06-2229: crossed BE/PA token-multiplier learning on the
 1603 bank with one BE and two PA holdouts; both families learn about 2.2× on training, mostly
 generically; on the holdouts every arm beats G4 2–3× and the matched-family advantage is 1.02×
-(BE) and 0.96× (PA), bounded below about 1.25×, a 1.1× preference not excluded).
+(BE) and 0.96× (PA), 95% upper bounds 1.2485× and 1.15×, a 1.1× preference not excluded).
+[17-decoder-initialization-variation](17-decoder-initialization-variation/question.md)
+(open, 1 of 2 slots, run 2026-10-06-2331, row 3: both the learned starting programs and the
+learned decoder during search help, 1.30× and 1.39× given the other, strongly sub-additive;
+slot 2 proposed in run 2026-10-07-0315 on the ten training cells).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
