@@ -1,0 +1,157 @@
+{
+  "smoke_only": true,
+  "output_directory": "/Users/andreas/developer/folding-evolution-research/2026-10-07-1924/experiments/output/2026-10-07/2026-10-07-1924-smoke-final",
+  "wall_seconds": 85.59925741702318,
+  "stages": {
+    "A": true,
+    "B": true,
+    "C": true,
+    "D_collection": true,
+    "D_training": true,
+    "D_holdout": true
+  },
+  "validation": {
+    "passed": true,
+    "bank_sha256": "b2b856cb6d051e65599b22409cf49f654ba8d87539f073d2e9b7d061079aceb9",
+    "g4_hash": "8a7b3091f411e659f553981b8680dc5db4bd5f3f34b6eca9c8ab3ee3e728dc10",
+    "parent_table_checks": 32,
+    "table_checks": 44,
+    "solver_verifications": 197,
+    "old_solver_verifications": 7408,
+    "pairing_checks": 32,
+    "replay": {
+      "rows": 40,
+      "passed": true,
+      "errors": []
+    },
+    "sources_passed": true
+  },
+  "solve_rates": {
+    "collection_C": {
+      "C": {
+        "solved": 80,
+        "attempted": 80
+      }
+    },
+    "collection_G4": {
+      "G4": {
+        "solved": 78,
+        "attempted": 80
+      }
+    },
+    "training": {
+      "C": {
+        "solved": 20,
+        "attempted": 20
+      },
+      "C2": {
+        "solved": 20,
+        "attempted": 20
+      },
+      "Cprime": {
+        "solved": 20,
+        "attempted": 20
+      }
+    },
+    "holdout": {
+      "C": {
+        "solved": 12,
+        "attempted": 12
+      },
+      "C2": {
+        "solved": 11,
+        "attempted": 12
+      },
+      "Cprime": {
+        "solved": 12,
+        "attempted": 12
+      }
+    }
+  },
+  "timing": {
+    "old_solver_validation": {
+      "wall_seconds": 1.419962833984755
+    },
+    "replay": {
+      "wall_seconds": 16.556225459091365,
+      "worker_seconds": 60.05649466475006,
+      "rows": 40,
+      "expected_rows": 40,
+      "complete": true
+    },
+    "A:BE1": {
+      "wall_seconds": 7.321156874997541,
+      "worker_seconds": 16.596374291111715,
+      "rows": 32,
+      "expected_rows": 32,
+      "complete": true
+    },
+    "A:PA1": {
+      "wall_seconds": 1.1858971250476316,
+      "worker_seconds": 8.66357638349291,
+      "rows": 48,
+      "expected_rows": 48,
+      "complete": true
+    },
+    "B": {
+      "wall_seconds": 1.65164499997627,
+      "worker_seconds": 8.659878664067946,
+      "rows": 40,
+      "expected_rows": 40,
+      "complete": true
+    },
+    "C": {
+      "wall_seconds": 15.940365583985113,
+      "worker_seconds": 32.07950583426282,
+      "rows": 24,
+      "expected_rows": 24,
+      "complete": true
+    },
+    "D_collection:BE1": {
+      "wall_seconds": 7.410819874959998,
+      "worker_seconds": 19.653995957807638,
+      "rows": 32,
+      "expected_rows": 32,
+      "complete": true
+    },
+    "D_collection:PA1": {
+      "wall_seconds": 31.81073991698213,
+      "worker_seconds": 77.45292853738647,
+      "rows": 48,
+      "expected_rows": 48,
+      "complete": true
+    },
+    "D_training": {
+      "wall_seconds": 0.48986204201355577,
+      "worker_seconds": 2.91136037313845,
+      "rows": 20,
+      "expected_rows": 20,
+      "complete": true
+    },
+    "D_holdout": {
+      "wall_seconds": 0.7949989999178797,
+      "worker_seconds": 2.4581390421371907,
+      "rows": 12,
+      "expected_rows": 12,
+      "complete": true
+    }
+  },
+  "scientific_comparison_claim": false,
+  "tests": {
+    "command": ".venv/bin/python -m pytest -q tests/test_solver_feedback.py tests/test_solver_corpus.py",
+    "passed": 12
+  },
+  "lint": "ruff check passed",
+  "queue_schema": "scripts.queue_lib.load_queue passed; timeout sum 6660 seconds",
+  "source_hashes": {
+    "experiments/chem_tape/solver_feedback_run.py": "89f314e5fcc3cb25b555e929666ebf4f20d767c11fb49e52494c16e9f2b655fa",
+    "experiments/chem_tape/solver_feedback_report.py": "f77f8cb2d6feb2e56270aee2f366c3ab034c9d13c01a9f9c2c3c505bfcd7caa1",
+    "tests/test_solver_feedback.py": "298b286853e941209ba53318ccf94d055ced1979c1a3e89b422c31fe51593124"
+  },
+  "output_hashes": {
+    "result.json": "363d16990ea15f8bab800d077389316e621cda80c7ade516ba0e5c2963341093",
+    "validation.json": "5c71b7397c6386e79307e54db37fd829fe12b32626e6fb15e27b65b5109dde17",
+    "search.jsonl": "fd4af579e9fcc924f73900d3da4cb8ef4c2817e954ce080ed0ee1c0de69adc0b",
+    "timing.json": "df0426a789019419fb17d7b875bb4fd45c260649939d74b3e4b26974d4ad6406"
+  }
+}

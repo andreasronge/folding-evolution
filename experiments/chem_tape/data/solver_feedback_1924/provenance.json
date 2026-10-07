@@ -1,0 +1,22 @@
+{
+  "source_path": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-07/2026-10-07-1707-solver-corpus-context",
+  "source_commit": "627336d6f571731d7d5cc30bcf6c28fa7bfbebb5",
+  "source_hashes": {
+    "corpora.json": "90b20c6f8bb60bd082141b358453cca85583ce92228fc4e88f432647dcf0747c",
+    "search.jsonl": "98475848d168834195343a84991745b6624d3bf8a8a4cad53bced7753cdc7223",
+    "config.json": "9fd82efea1f588b50a4d513242aee4a73b891e17da056459c4fe02e022dc14fb"
+  },
+  "artifact_hashes": {
+    "parents.json": "569ba6186284ba2dca27fc4f49012c25193b8b54e623d19d24f3cd733537c702",
+    "replay.json": "2e4fbe50540afba33cbaad2040689d8e3925c74eb86b000da2dbabadf8433a05",
+    "solvers.json": "d7e7fc0bfef478d849d95f0efcdb2202cbea1aaf41e50ab1260f289f9d0fb122"
+  },
+  "parent_count": 32,
+  "solver_count": 7408,
+  "replay_count": 40,
+  "historical_C_worker_seconds": {
+    "training": 0.7770059328842536,
+    "holdout": 0.7655208094640784
+  },
+  "G4_collection_worker_seconds": 2.08
+}

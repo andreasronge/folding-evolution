@@ -1,0 +1,26 @@
+runs:
+  - id: 2026-10-07-1924-solver-feedback
+    cmd: >-
+      .venv/bin/python -m experiments.chem_tape.solver_feedback_run
+      --workers 10 --deadline-seconds 6000
+    timeout_seconds: 6660
+    expect_outputs:
+      - config.json
+      - validation.json
+      - corpora.json
+      - search.jsonl
+      - timing.json
+      - stages.json
+      - admission.json
+      - result.json
+      - report.md
+      - diagnostics.png
+    track: chem-tape
+    notes: >-
+      One frozen-rule C-derived refit across all 32 saved 1707 parents; paired
+      training then three-cell holdout evaluation. Full/half/none G4 source
+      control admitted only by historical worker costs and observed throughput.
+      Fixed complete admitted rosters required for inferential control contrasts.
+      Work ends within 100 minutes or at 22:05 Stockholm, whichever is earlier,
+      reserving 20 minutes before the owner's 22:25 deadline for review/analysis.
+      All outputs use RUN_DIR. Scientific search cap retained at 524288.
