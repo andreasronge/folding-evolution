@@ -30,3 +30,12 @@
   remaining unknowns (a second step, which part of the procedure — yield, diversity or what C
   finds — carries the gain, mechanism) are different experiments that need a new allocation;
   root 10 has used 14 of 14 slots.
+
+- 2026-10-07 (2129, wording correction from the 2129 critique's digest check): in the 1924 entry
+  above, read "C' matches C on both" as "C' has similar mean entropy and mutual information to C
+  (3.905 against 3.907 bits; 0.409 against 0.407; no equivalence test)", and "showed no gain on its
+  own (0.98×, descriptive)" as "no gain was resolved (0.98× [0.84, 1.13], descriptive)". The
+  speed gain is attributed to the collection procedure; whether it is contextual is question
+  [22](../22-feedback-context-increment/question.md). No reopen: 22 is the allocation for the T2
+  comparison named in this question's reopen condition.
+  Decision: keep 21 closed because its answered scope is unchanged; only the wording was too strong.

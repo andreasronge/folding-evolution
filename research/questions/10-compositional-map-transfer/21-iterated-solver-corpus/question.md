@@ -10,9 +10,9 @@ One feedback refit helped further and the gain transferred. Each of the 32 saved
 collected exact training solvers under itself; refitting them with the unchanged 1707 rule gave C2.
 On fresh training seeds C2 beat its parent 1.404× [1.347, 1.464] (32/32 lineages; BE 1.56×, PA
 1.27×) and beat a one-shot refit to a fresh G4 corpus (C') 1.408× [1.342, 1.478]. On the three
-withheld cells C2/C was 1.289× [1.204, 1.381] (28/32) and C2/C' 1.330× [1.263, 1.401] (31/32). The
-fresh one-shot refit replicated its parent within the interval: C'/C 0.997× [0.940, 1.058]
-(training), 0.969× [0.908, 1.035] (withheld); differences of about 6–9% are not excluded. So the
+withheld cells C2/C was 1.289× [1.204, 1.381] (28/32) and C2/C' 1.330× [1.263, 1.401] (31/32). C'/C,
+the fresh one-shot refit against its parent, was unresolved: 0.997× [0.940, 1.058] (training),
+0.969× [0.908, 1.035] (withheld); differences of about 6–9% are not excluded. So the
 increment comes from collecting under C rather than G4, as a procedure: that bundles higher
 yield (99.3% against 96.1%), slightly more distinct tapes, and whatever differs in which tapes C
 finds; the design does not separate them. C2 is sharper than C in every lineage (body-row entropy
@@ -35,8 +35,10 @@ Competing explanations:
 - D: Any C2 gain over C is resampling luck, or a difference between the old fit and a fresh one,
   not the change of source. C' differs from C as much as C2 does.
 
-After run 1924: A is supported at this scope, with "solvers found under C" read as the whole
-collection procedure (yield, diversity and content not separated). B is rejected for this step:
+After run 1924: A's speed claim is supported at this scope, with "solvers found under C" read
+as the whole collection procedure (yield, diversity and content not separated); that they carry
+"more useful assembly information" is not identified as the cause, because no token-only refit
+T2 was scored (now question [22](../22-feedback-context-increment/question.md)). B is rejected for this step:
 C2/C 1.40×, lower bound 1.35. C is not supported for one step: sharpening is present, but the
 withheld cells gain 1.29×; whether it compounds over further steps is untested. D is rejected:
 C'/C 0.997× [0.940, 1.058] while C2/C' is 1.41×.

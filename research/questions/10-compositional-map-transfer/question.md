@@ -1,7 +1,7 @@
 ---
 status: open
 tags: [map-bias, evolve-the-bias, task-family, compositional-transfer, decoder, fresh-start]
-budget: {experiments: 14, used: 0}
+budget: {experiments: 15, used: 0}
 ---
 # Can an adapted decoder help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 
@@ -32,14 +32,17 @@ with no resolved family advantage. One feedback step then helped further: refitt
 found under it (C2) beat its parent 1.40× [1.35, 1.46] on training and 1.29× [1.20, 1.38] on the
 withheld cells, and beat a fresh one-shot G4 refit by similar margins, while that fresh refit was
 not resolved from the parent (C'/C 0.997× [0.940, 1.058]). So useful, transferable assembly
-information beyond token frequency exists in this system's own solvers, and one round of fitting
-to solvers found under the fitted decoder adds more; the selection-based learners tried so far
-did not reach it**
-(14 of 14 slots used; strategy 1924 raised the budget from 13 to 14; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
+information beyond token frequency exists in this system's own solvers; one round of fitting to
+solvers found under the fitted decoder adds further search speed, but whether it increases the
+advantage over a token-only fit is untested (22, first attempt stopped at preparation on the
+deadline). The selection-based learners tried so far did not reach it**
+(14 of 15 slots used; strategy 2129 raised the budget from 14 to 15, for 22; strategy 1924 raised the budget from 13 to 14; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
 2331 to 10, strategy 0803 to 12, strategy 1137 to 13; sub-questions [18](18-compact-context-learning/question.md)
 and [19](19-selection-calibrated-continuation/question.md) closed;
 [20](20-solver-corpus-context/question.md) closed after run 1707,
-[21](21-iterated-solver-corpus/question.md) after run 1924).
+[21](21-iterated-solver-corpus/question.md) after run 1924;
+[22](22-feedback-context-increment/question.md) open, run 2129 stopped at preparation,
+re-proposed as run 2156).
 Run 2026-10-07-1924 ([21](21-iterated-solver-corpus/question.md), commit `5565d54`, row 1): each
 of the 32 saved 1707 tables C collected 48 searches per own training cell under itself (7 623/7 680
 solved) and was refitted with the frozen 1707 rule (C2); a fresh G4 corpus gave the one-shot
