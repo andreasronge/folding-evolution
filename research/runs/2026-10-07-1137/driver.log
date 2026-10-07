@@ -1,0 +1,20 @@
+2026-10-07 11:40:41 push of HEAD research/main research/2026-10-07-0821 failed; push by hand
+2026-10-07 11:40:41 cycle 2026-10-07-0821 done; brief: /Users/andreas/developer/folding-evolution/research/briefs/2026-10-07-2026-10-07-0821.md
+2026-10-07 11:40:41 strategist (codex/gpt-6-astra) → strategy [herdr]
+2026-10-07 11:44:36 phase → propose
+2026-10-07 11:44:36 steward (claude/claude-opus-5-5) → propose [herdr]
+2026-10-07 11:55:00 phase → accept
+2026-10-07 11:55:00 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-07 11:57:14 phase → awaiting_approval
+2026-10-07 11:57:14 proposal: Token continuation at 96 searches per candidate from the saved maps, then context at the same loop if it learns [questions/10-compositional-map-transfer/19-selection-calibrated-continuation] — budget left: 2. Approve with `research.py approve`.
+2026-10-07 11:57:14 auto-approved (critic: approve_with_notes, revisions: 0)
+2026-10-07 11:57:14 phase → prepare
+2026-10-07 11:57:30 researcher (codex/gpt-6.1-sol) → prepare [herdr]
+2026-10-07 12:16:11 phase → review_code
+2026-10-07 12:16:11 reviewer (claude/claude-fable-5-1) → review_code [herdr]
+2026-10-07 12:22:50 phase → execute
+2026-10-07 12:22:50 running queue (1 entries)
+2026-10-07 17:00:28 phase → analyse
+2026-10-07 17:00:28 reviewer (claude/claude-fable-5-1) → analyse [herdr]
+2026-10-07 17:07:02 phase → decide
+2026-10-07 17:07:02 steward (claude/claude-opus-5-5) → decide [herdr]

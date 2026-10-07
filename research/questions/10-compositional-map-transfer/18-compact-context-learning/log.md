@@ -44,3 +44,19 @@
   can first be shown to learn from these saved maps (T/S resolved > 1), which needs a different
   loop (more searches per child or a much longer continuation, ~5–6 h). That is a choice between
   this and other uses of root 10's last slot, so it goes to the strategist.
+
+- 2026-10-07 (1137): reopen condition met by run 2026-10-07-1137 (question
+  [19](../19-selection-calibrated-continuation/question.md), commit `86ef669`, row 6): at 96
+  searches per candidate token continuation from the same 16 saved maps learned (T/S 1.143×
+  [1.089, 1.200] on 0821's fresh block; 1.122× [1.031, 1.222] on a new block), and the C arm at
+  the same loop gave C/T 0.967× [0.871, 1.073]; C/C0 1.037× [0.972, 1.107]; C0/T 0.932× [0.860,
+  1.010] (C made half as many token proposals). ([analysis](../../../runs/2026-10-07-1137/analysis.md))
+  Wording correction (critique 1137, notes 6–9) to the 0821 entry above: the selected quarter's
+  difference from its parent was unresolved (−0.017 [−0.085, +0.041]), not "parent level"; the
+  loop showed no *resolved* net movement; final residuals had small absolute cosine with the
+  hand-set BE − PA direction (≤ 0.105), not "unrelated". question.md now uses this wording.
+  Decision: close 18 at its tested scope (1 of 2 slots used), because its pre-registered test
+  has now run in a loop with a confirmed token control: rank-one context under equal search
+  funding adds no resolved increment and a gain above about 1.07× is excluded for these starts
+  and this loop. Context learned jointly from G4, or added without displacing token steps, is a
+  different design and is left to the strategist.
