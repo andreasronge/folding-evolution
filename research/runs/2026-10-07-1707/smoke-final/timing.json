@@ -1,0 +1,51 @@
+{
+  "replay": {
+    "wall_seconds": 1.0647686250158586,
+    "worker_seconds": 0.7284982899436727,
+    "rows": 2,
+    "expected_rows": 2,
+    "complete": true
+  },
+  "collection:BE1": {
+    "wall_seconds": 20.447692167013884,
+    "worker_seconds": 130.90087987523293,
+    "rows": 32,
+    "expected_rows": 32,
+    "complete": true
+  },
+  "collection:BE2": {
+    "wall_seconds": 21.84702866699081,
+    "worker_seconds": 142.94814333011163,
+    "rows": 32,
+    "expected_rows": 32,
+    "complete": true
+  },
+  "collection:PA1": {
+    "wall_seconds": 19.51167674997123,
+    "worker_seconds": 95.76255783502711,
+    "rows": 48,
+    "expected_rows": 48,
+    "complete": true
+  },
+  "collection:PA2": {
+    "wall_seconds": 10.951640542014502,
+    "worker_seconds": 54.88642970827641,
+    "rows": 48,
+    "expected_rows": 48,
+    "complete": true
+  },
+  "training": {
+    "wall_seconds": 27.826064209046308,
+    "worker_seconds": 194.31946575082839,
+    "rows": 240,
+    "expected_rows": 240,
+    "complete": true
+  },
+  "holdout": {
+    "wall_seconds": 17.436052832985297,
+    "worker_seconds": 77.96796645596623,
+    "rows": 78,
+    "expected_rows": 78,
+    "complete": true
+  }
+}

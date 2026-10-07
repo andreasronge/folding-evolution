@@ -12,7 +12,7 @@ saved 1723 maps demonstrably learned (96 searches per candidate, 9 600 searches 
 context steps under equal search funding gave no resolved increment: C/T 0.967× [0.871, 1.073],
 so a mean gain above about 1.07× is excluded for this representation, these starts and this
 loop; a small gain or loss is not.** C gave up half its token steps to context steps, and its
-token part fell behind T's (C0/T 0.932× [0.860, 1.010], unresolved, not pre-stated), so A
+token component was slower in the point estimate (C0/T 0.932× [0.860, 1.010], unresolved, not pre-stated), so A
 below is not shown, and B (steps too small to select) and C (gains small or cancelled by the
 token learning given up) are not separated. Context learned jointly from G4
 (D) and context added on top of a full token budget remain untested.
@@ -61,7 +61,7 @@ quarter was not shown to beat its parent, and later steps were not calibrated; C
 Status after 1137: E no longer limits the test: a loop at 96 searches per candidate does make
 token progress (T/S resolved > 1 on two seed blocks), so C/T is informative there (0821's
 24-search loop was not re-tested; T96/T24 1.114× [0.987, 1.257] is unresolved); A not shown (C/T upper 1.073); B and C not separated (observed survival into the
-parent set: context steps 0.22–0.23, token steps 0.23–0.25; C's token part behind T, C0/T 0.932× [0.860, 1.010], unresolved);
+parent set: context steps 0.22–0.23, token steps 0.23–0.25; C's token component slower in the point estimate, C0/T 0.932× [0.860, 1.010], unresolved);
 D untested.
 
 Scope: the ten 1723 training cells (4 BE, 6 PA) of the frozen 1603 bank, D1331,

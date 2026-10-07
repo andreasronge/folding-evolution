@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "bank_sha256": "b2b856cb6d051e65599b22409cf49f654ba8d87539f073d2e9b7d061079aceb9",
+  "g4_hash": "8a7b3091f411e659f553981b8680dc5db4bd5f3f34b6eca9c8ab3ee3e728dc10",
+  "replay_sha256": "eb569085b6400afa95edfbd53d8e1a269e32f3d9cc489b7b2ab5516b572f9eeb",
+  "solver_verifications": 151,
+  "table_checks": 12,
+  "pairing_checks": 80,
+  "replay": {
+    "passed": true,
+    "rows": 2,
+    "errors": [],
+    "excluded_fields": [
+      "budget_seconds",
+      "decode_seconds",
+      "family",
+      "map",
+      "phase",
+      "seconds"
+    ]
+  }
+}

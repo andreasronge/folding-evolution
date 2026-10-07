@@ -24,10 +24,24 @@ resolve learning (0821); in a loop with 4× more search evidence per candidate, 
 continuation did learn (T/S 1.14× [1.09, 1.20] and 1.12× [1.03, 1.22] on two fresh seed blocks)
 and context under equal search funding still added no resolved increment (C/T 0.967× [0.871,
 1.073]; a mean gain above about 1.07× excluded for this loop and these starts, a small gain or
-loss not). Context learned jointly from G4, or added without displacing token steps, is untested**
-(12 of 13 slots used; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
+loss not). Context learned jointly from G4, or added without displacing token steps, is untested.
+A different signal did work: a previous-token table fitted directly to exact G4 solver tapes
+(external fitting, not selection) beat a token-only fit to the same tapes 1.37× [1.29, 1.45] on
+training cells and 1.29× [1.21, 1.38] on the three withheld cells, over 32 independent corpora,
+with no resolved family advantage. So useful, transferable assembly information beyond token frequency
+exists in this system's own solvers; the selection-based learners tried so far did not reach it**
+(13 of 13 slots used; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
 2331 to 10, strategy 0803 to 12, strategy 1137 to 13; sub-questions [18](18-compact-context-learning/question.md)
-and [19](19-selection-calibrated-continuation/question.md) now closed).
+and [19](19-selection-calibrated-continuation/question.md) closed;
+[20](20-solver-corpus-context/question.md) closed after run 1707).
+Run 2026-10-07-1707 ([20](20-solver-corpus-context/question.md), commit `627336d`, row 1): 16
+corpora per family, each from 48 G4 collection searches per own training cell (7 408/7 680
+solved), fitted to T (24 token multipliers on G4, maximum likelihood), C (transition counts
+shrunk toward G4, α 50) and K (G4 × multipliers matched to C's pooled emitted marginal); 32 fresh
+seeds per cell and arm; 35 240 searches, 81 min, all validation passed. Training: C/T 1.365×
+[1.288, 1.446], C/K 1.654× [1.568, 1.744], K/T 0.825× [0.776, 0.878]; T/G4 2.42×, C/G4 3.31×
+(unpaired); T versus the 1723 maps unresolved. Holdouts: C/T 1.293× [1.213, 1.378], C/G4 2.75×;
+matched over mismatched C 1.02× [0.91, 1.15] (BE), 0.75× [0.63, 0.89] and 0.99× [0.89, 1.10] (PA).
 Run 2026-10-07-1137 ([19](19-selection-calibrated-continuation/question.md), commit `86ef669`,
 row 6): the same 16 saved 1723 starts, 2 + 6 loop at 96 searches per candidate, 12 generations,
 9 600 searches per trajectory; 335 700 searches, 4.63 h, all validation passed (0821's S rows
@@ -147,6 +161,16 @@ Competing explanations:
 - E: The proposed tasks or adaptation loop are not tractable at the measured budget.
   This is a feasibility result about this design, not a negative answer to A.
 
+Where they stand after run 1707: A's first half (held-out gain beyond a fitted independent-token
+map) is supported for an externally fitted previous-token table, not yet for any adapted-by-
+selection decoder; its second half (advantage tied to the training family) is not supported:
+no resolved matched-family gain on any withheld cell, one PA cell resolved the other way, and
+the token maps' family contrast is bounded (16). B holds for every selection-based learner tried
+(token gain about 2×, context adding nothing resolved) but not for the fitted table, which beats
+both a token-only fit and the hand-set grammar G4. C is not supported (withheld gains 2–3× for
+token maps, plus 1.29× for C). D is not supported at this budget. E applied to two banks and
+was resolved by the four-reducer bank.
+
 Sub-questions: [11-composition-bank](11-composition-bank/question.md) (closed: this bank
 fails on tractability at 524k and on the 4 096 headroom rule against G; run 2026-10-05-2247),
 [12-generic-grammar-headroom](12-generic-grammar-headroom/question.md) (closed: ten-token
@@ -186,6 +210,10 @@ non-displacing context untested).
 1 of 2 slots, run 2026-10-07-1137 row 6: 96 searches per candidate make token continuation from
 the saved maps learn, T/S 1.143× [1.089, 1.200] and 1.122× [1.031, 1.222] on two fresh blocks;
 cause not isolated from the changed depth and total effort).
+[20-solver-corpus-context](20-solver-corpus-context/question.md) (closed, 1 of 1 slot, run
+2026-10-07-1707 row 1: a previous-token table fitted to exact solver tapes beats a token-only fit
+to the same tapes 1.37× on training and 1.29× on the withheld cells, 32 corpora, no
+resolved family advantage; external fitting, not evolutionary discovery).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
@@ -197,6 +225,7 @@ Related: [core question](../../../README.md#core-question),
 [run 0315 decision](../../runs/2026-10-07-0315/decision.md),
 [run 0821 decision](../../runs/2026-10-07-0821/decision.md),
 [run 1137 decision](../../runs/2026-10-07-1137/decision.md),
+[run 1707 decision](../../runs/2026-10-07-1707/decision.md),
 [digest](../../digest.md), [chem-tape findings](../../../docs/chem-tape/findings.md).
 
 Review after the feasibility experiment and after the four allocated experiments. A

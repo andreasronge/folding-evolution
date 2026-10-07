@@ -1,0 +1,81 @@
+{
+  "task": "2026-10-07-1707",
+  "git_commit": "a7915658dd774c9ee4ca44066d8e4cab924e54a7",
+  "smoke_only": true,
+  "probe_only": false,
+  "arguments": {
+    "workers": 10,
+    "deadline_seconds": 900,
+    "smoke": true,
+    "probe": false
+  },
+  "training": {
+    "BE": [
+      "BE:F?S:(M+m)",
+      "BE:F?m:(S+M)",
+      "BE:S?F:(M+m)",
+      "BE:S?M:(m+F)"
+    ],
+    "PA": [
+      "PA:(F?S:m)+M",
+      "PA:(F?m:M)+S",
+      "PA:(F?m:S)+M",
+      "PA:(S?M:F)+m",
+      "PA:(S?m:F)+M",
+      "PA:(S?m:M)+F"
+    ]
+  },
+  "holdouts": {
+    "BE": [
+      "BE:S?m:(M+F)"
+    ],
+    "PA": [
+      "PA:(F?S:M)+m",
+      "PA:(S?M:m)+F"
+    ]
+  },
+  "bank_sha256": "b2b856cb6d051e65599b22409cf49f654ba8d87539f073d2e9b7d061079aceb9",
+  "g4_hash": "8a7b3091f411e659f553981b8680dc5db4bd5f3f34b6eca9c8ab3ee3e728dc10",
+  "replay_sha256": "eb569085b6400afa95edfbd53d8e1a269e32f3d9cc489b7b2ab5516b572f9eeb",
+  "seed_base": 2126100717,
+  "reference_source_commit": "db96645f54b72e890f55d9236dbeec85c41df256",
+  "reference_source_hashes": {
+    "config.json": "f345d3e277569cd3e380b98dbd1cfd362b9796bd3e850f1cc135209f258156b5",
+    "trajectories.json": "94138e35c6aa36b583704a69e83cab8437f11a5c55f7e3c1696fe03fc5a481b3",
+    "fresh_scores.json": "bbca73201e88acb5620d171841dfe779a735f0408d4d7663bdb102e972e1aa96"
+  },
+  "seed_rule": "base+phase*1000000+family_index*100000+corpus_index*2000+cell_index*200+seed_index",
+  "phases": {
+    "collection": 0,
+    "training": 1,
+    "holdout": 2,
+    "G4_training": 3,
+    "M_training": 4,
+    "G4_holdout": 5
+  },
+  "n_corpora_per_family": 2,
+  "collect_n": 8,
+  "fresh_n": 2,
+  "g4_training_n": 2,
+  "M_training_n": 1,
+  "g4_holdout_n": 2,
+  "cap": 524288,
+  "population": 256,
+  "length": 32,
+  "training_cases": 64,
+  "domain": "D1331",
+  "alphabet": "v2_rmin_first",
+  "allele_range": 24000,
+  "minimum_count": 250,
+  "alpha": 50,
+  "cell_transition_weight": 1600,
+  "token_multiplier_bound": 16,
+  "K_steps": 400,
+  "K_step": 0.7,
+  "K_tolerance": 0.001,
+  "collection_yield_floor": 4,
+  "maximum_K_failures_per_family": 4,
+  "workers": 10,
+  "unsolved_primary": "2*cap",
+  "unsolved_sensitivity": "1*cap"
+}

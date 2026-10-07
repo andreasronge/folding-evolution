@@ -1,0 +1,26 @@
+runs:
+  - id: 2026-10-07-1707-solver-corpus-context
+    cmd: .venv/bin/python -m experiments.chem_tape.solver_corpus_run --workers 10 --deadline-seconds 7920
+    timeout_seconds: 8100
+    track: chem-tape
+    expect_outputs:
+      - config.json
+      - reference_maps.json
+      - search.jsonl
+      - corpora.json
+      - validation.json
+      - timing.json
+      - admission.json
+      - result.json
+      - report.md
+      - diagnostics.png
+      - diversity.png
+    notes: >-
+      Approved 16 independent corpora per family, 48 G4 searches per own training cell,
+      fixed T/C(alpha=50)/K fits, 32 evaluation seeds per cell and corpus, exact full cap
+      524288 and P=256. Stage 1 has 17920 searches including G4 and frozen M references;
+      stage 2 has 9600 if all K fits validate and is admitted only when remaining time
+      exceeds 1.5 times its measured-throughput projection. Collection has 7680 searches.
+      Invalid K fits exclude only K comparisons; more than four failures per family,
+      any cell below 24/48, required validation failure or incomplete stage 1 stops
+      research inference. All artifacts are written under RUN_DIR. No smoke/probe flags.

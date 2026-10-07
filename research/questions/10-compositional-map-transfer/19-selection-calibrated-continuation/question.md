@@ -16,7 +16,7 @@ the ½ token/context mixing rule. Not shown: why this loop climbed and 0821's di
 per candidate, generations and total searches all changed together); whether learning had
 plateaued (T/T_mid 1.058× [0.990, 1.130], in-loop curve still falling); whether context helps
 when added on top of a full token budget (C made half as many token proposals, and its token
-part fell behind T: C0/T 0.932× [0.860, 1.010], unresolved); per-start or per-family token gains
+component was slower in the point estimate: C0/T 0.932× [0.860, 1.010], unresolved); per-start or per-family token gains
 (F1/F2 per-start correlation 0.15).
 
 Measured before the first run (steward probe on 0821's raw rows): per-search variance of a
@@ -31,7 +31,7 @@ Competing explanations:
   improving steps. A more reliable score climbs.
 - B: The saved maps sit near a plateau for this token operator (σ 0.5 on three coordinates);
   better scoring finds parent-level steps, not better ones. Consistent with BE's tight start
-  spread and 0821's selected mutants only reaching parent level.
+  spread and 0821's selected mutants not being resolved from their parents (−0.017 [−0.085, +0.041] log2).
 - C: Progress needs depth more than per-step reliability; a 4× more reliable but shorter loop
   trades one limit for another.
 - D (inherited from 18, conditional on A): in a loop that climbs, compact rank-one context does

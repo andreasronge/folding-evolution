@@ -1,0 +1,20 @@
+2026-10-07 17:11:14 push of HEAD research/main research/2026-10-07-1137 failed; push by hand
+2026-10-07 17:11:14 cycle 2026-10-07-1137 done; brief: /Users/andreas/developer/folding-evolution/research/briefs/2026-10-07-2026-10-07-1137.md
+2026-10-07 17:11:14 strategist (codex/gpt-6-astra) → strategy [herdr]
+2026-10-07 17:17:34 phase → propose
+2026-10-07 17:17:34 steward (claude/claude-opus-5-5) → propose [herdr]
+2026-10-07 17:26:56 phase → accept
+2026-10-07 17:26:56 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-07 17:29:15 phase → awaiting_approval
+2026-10-07 17:29:15 proposal: Decoder context fitted to training-solver corpora versus a token-only fit, with an emitted-marginal control and holdout transfer [questions/10-compositional-map-transfer/20-solver-corpus-context] — budget left: 1. Approve with `research.py approve`.
+2026-10-07 17:29:15 auto-approved (critic: approve_with_notes, revisions: 0)
+2026-10-07 17:29:15 phase → prepare
+2026-10-07 17:29:31 researcher (codex/gpt-6.1-sol) → prepare [herdr]
+2026-10-07 17:48:32 phase → review_code
+2026-10-07 17:48:32 reviewer (claude/claude-fable-5-1) → review_code [herdr]
+2026-10-07 17:58:45 phase → execute
+2026-10-07 17:58:45 running queue (1 entries)
+2026-10-07 19:19:23 phase → analyse
+2026-10-07 19:19:23 reviewer (claude/claude-fable-5-1) → analyse [herdr]
+2026-10-07 19:24:40 phase → decide
+2026-10-07 19:24:40 steward (claude/claude-opus-5-5) → decide [herdr]
