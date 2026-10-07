@@ -1,0 +1,31 @@
+runs:
+  - id: 2026-10-07-2156-context-increment
+    cmd: >-
+      PYTHONUNBUFFERED=1 RAYON_NUM_THREADS=1 .venv/bin/python -m
+      experiments.chem_tape.context_increment_run --workers 10 --deadline-seconds 4500
+    timeout_seconds: 4500
+    track: chem-tape
+    expect_outputs:
+      - config.json
+      - tables.json
+      - replay.jsonl
+      - reused_context.jsonl_metadata.json
+      - search.jsonl
+      - validation.json
+      - stages.json
+      - admission.json
+      - timing.json
+      - primary/result.json
+      - primary/report.md
+      - primary/diagnostics.png
+      - result.json
+      - report.md
+      - diagnostics.png
+    notes: >-
+      All 32 saved lineages and 32 matched phase-11/12 seeds. Validate 128
+      tables and 16,384 saved C rows; replay 64 rows exactly. Primary is
+      5,120 searches per token arm, retaining 160 T2 timing rows once.
+      Save complete primary artifacts before the timing-only holdout gate.
+      Whole holdout is 3,072 searches per token arm or skipped. Budget
+      includes queue startup, validation and replay; reserve 300 seconds
+      for reporting. No absolute cutoff or primary timing admission gate.

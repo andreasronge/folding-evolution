@@ -1,0 +1,159 @@
+{
+  "smoke": {
+    "output_path": "/Users/andreas/developer/folding-evolution-research/2026-10-07-2156/experiments/output/2156-smoke",
+    "outcome": {
+      "row": 0,
+      "meaning": "validation failure or incomplete stage; no comparison claim"
+    },
+    "wall_seconds": 34.82008958305232,
+    "stop_reason": null,
+    "validation": {
+      "passed": true,
+      "table_checks": 128,
+      "saved_roster_checks": 16384,
+      "pairing_checks": 24,
+      "solver_verifications": 0,
+      "replay": {
+        "rows": 4,
+        "passed": true,
+        "errors": []
+      }
+    },
+    "stages": {
+      "replay": true,
+      "timing": true,
+      "training": true,
+      "holdout": true
+    },
+    "timings": {
+      "replay": {
+        "wall_seconds": 3.746543083107099,
+        "worker_seconds": 3.5295551670715213,
+        "rows": 4,
+        "expected_rows": 4,
+        "complete": true
+      },
+      "timing": {
+        "wall_seconds": 0.6459035839652643,
+        "worker_seconds": 2.36405399790965,
+        "rows": 10,
+        "expected_rows": 10,
+        "complete": true
+      },
+      "training": {
+        "wall_seconds": 11.121047917054966,
+        "worker_seconds": 21.708962664823048,
+        "rows": 30,
+        "expected_rows": 30,
+        "complete": true
+      },
+      "holdout": {
+        "wall_seconds": 17.936626874958165,
+        "worker_seconds": 29.36182229302358,
+        "rows": 24,
+        "expected_rows": 24,
+        "complete": true
+      }
+    },
+    "admission": {
+      "training": {
+        "admitted": true,
+        "rule": "unconditional after validation and replay"
+      },
+      "holdout": {
+        "admitted": true,
+        "projected_seconds": 7.236483281515919,
+        "remaining_seconds": 283.1270733749261,
+        "elapsed_since_queue_start_seconds": 16.872927083051763,
+        "reporting_reserve_seconds": 300,
+        "queue_timeout_seconds": 600,
+        "effective_workers": 2.0458159159273746,
+        "primary_timing": {
+          "worker_seconds": 24.073016662732698,
+          "wall_seconds": 11.76695150102023,
+          "rows": 40
+        },
+        "primary_mean_worker_seconds": {
+          "T1": 0.8467597020440735,
+          "BE": 0.5372424686065642,
+          "PA": 0.2366569060832262
+        },
+        "holdout_training_inflation": 1,
+        "projected_worker_seconds": 14.804512672667622,
+        "multiplier": 1.25,
+        "rule": "timing only; full roster or none"
+      }
+    },
+    "solved": 63,
+    "searches": 64
+  },
+  "preflight": {
+    "output_path": "/Users/andreas/developer/folding-evolution-research/2026-10-07-2156/experiments/output/2156-preflight",
+    "outcome": {
+      "row": 0,
+      "meaning": "validation failure or incomplete stage; no comparison claim"
+    },
+    "wall_seconds": 24.498384208069183,
+    "stop_reason": null,
+    "validation": {
+      "passed": false,
+      "table_checks": 128,
+      "saved_roster_checks": 16384,
+      "pairing_checks": 32,
+      "solver_verifications": 0,
+      "replay": {
+        "rows": 64,
+        "passed": true,
+        "errors": []
+      }
+    },
+    "stages": {
+      "replay": true,
+      "timing": true,
+      "training": false,
+      "holdout": false
+    },
+    "timings": {
+      "replay": {
+        "wall_seconds": 5.718603707966395,
+        "worker_seconds": 29.34440008283127,
+        "rows": 64,
+        "expected_rows": 64,
+        "complete": true
+      },
+      "timing": {
+        "wall_seconds": 17.59230883291457,
+        "worker_seconds": 75.94787124660797,
+        "rows": 160,
+        "expected_rows": 160,
+        "complete": true
+      }
+    },
+    "admission": {
+      "training": {
+        "admitted": true,
+        "rule": "unconditional after validation and replay"
+      }
+    },
+    "solved": 160,
+    "searches": 160,
+    "feasibility_projection": {
+      "timing_block_effective_workers": 4.317106524671297,
+      "T2_mean_worker_seconds": {
+        "BE": 0.6713006314730592,
+        "PA": 0.3435899045034603
+      },
+      "remaining_primary_minutes_at_small_block_throughput": 29.685870867063045,
+      "training_plus_holdout_minutes_at_small_block_throughput": 47.21663948317252,
+      "interpretation": "QA projection only, not a primary admission gate or a runtime bound. T2 holdout difficulty is unmeasured. Full queue holdout admission uses observed full primary costs and throughput."
+    }
+  },
+  "checks": {
+    "targeted_pytest": "18 passed in 30.50s",
+    "ruff": "passed",
+    "queue": "one entry, prefix 2026-10-07-2156-, 4500 seconds; outputs under RUN_DIR",
+    "imported_from": "ec742da9538bcff092b5dfd9e4456ea7b3846321",
+    "engine_unchanged": true,
+    "full_scientific_run_executed": false
+  }
+}
