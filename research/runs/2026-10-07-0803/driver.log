@@ -1,0 +1,9 @@
+2026-10-07 08:06:19 push of HEAD research/main research/2026-10-07-0315 failed; push by hand
+2026-10-07 08:06:19 cycle 2026-10-07-0315 done; brief: /Users/andreas/developer/folding-evolution/research/briefs/2026-10-07-2026-10-07-0315.md
+2026-10-07 08:06:19 strategist (codex/gpt-6-astra) → strategy [herdr]
+2026-10-07 08:10:24 phase → propose
+2026-10-07 08:10:24 steward (claude/claude-opus-5-5) → propose [herdr]
+2026-10-07 08:19:16 phase → accept
+2026-10-07 08:19:16 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-07 08:21:50 phase → awaiting_approval
+2026-10-07 08:21:50 proposal: Rank-one context steps — measured selection signal, then paired context-vs-token continuation from saved token maps [questions/10-compositional-map-transfer/18-compact-context-learning] — budget left: 2. Approve with `research.py approve`.

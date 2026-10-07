@@ -1,0 +1,45 @@
+{
+  "state": "complete",
+  "pairs": [
+    "BE1",
+    "PA1"
+  ],
+  "elapsed_seconds": 33.76210379198892,
+  "pair_seconds": [
+    5.847772250010166,
+    5.903810416988563
+  ],
+  "slow_a": 0.1642509098341628,
+  "slow_b": 0.13113463767846562,
+  "costs": {
+    "calibration": {
+      "searches": 1344,
+      "solves": 412,
+      "evaluations": 4884736,
+      "worker_seconds": 173.71931968716672
+    },
+    "learn": {
+      "searches": 768,
+      "solves": 309,
+      "evaluations": 2700288,
+      "worker_seconds": 97.5817964495509
+    },
+    "selection": {
+      "searches": 96,
+      "solves": 41,
+      "evaluations": 319488,
+      "worker_seconds": 11.444101751898415
+    },
+    "fresh": {
+      "searches": 100,
+      "solves": 65,
+      "evaluations": 548096,
+      "worker_seconds": 18.796656042686664
+    }
+  },
+  "outcome": {
+    "row": "U",
+    "meaning": "Invalid/incomplete data, smoke/probe, or fewer than six complete pairs per family.",
+    "next": "strategy"
+  }
+}

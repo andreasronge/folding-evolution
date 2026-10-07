@@ -58,7 +58,8 @@ all 80 000 MG/GM rows. Row-U gates cleared (GG 91–100% per cell; D lower bound
   0.41] on PA, so both components are resolved positive within each family.
 - Robust: winsorising at 65 536 or dropping capped triplets changes no label (C −0.43, −0.48);
   leave-one-cell-out C −0.38 to −0.50, all upper bounds below −0.14; all 20/20 maps have lower S
-  on BE cells than on PA cells. S is set by the cell family, not the map family (descriptive).
+  on BE cells than on PA cells. S differed more between cell families than between map families (descriptive;
+  amended 2026-10-07 by critique 0803: map-family equivalence is not established).
 - Confound (post hoc, descriptive): across the ten cells S correlates with MM median cost
   (r 0.77) and GG cap rate (r −0.77); the two PA cells with S > 0.3 are the two hardest PA cells.
   At matched MM difficulty BE cells still sit at −0.21 to −0.39 and PA cells at +0.04 to +0.16.

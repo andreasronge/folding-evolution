@@ -1,0 +1,71 @@
+{
+  "searches": 144,
+  "wall_seconds": 18.653123959025834,
+  "rates": {
+    "65536": {
+      "context:BE": {
+        "n": 24,
+        "solves": 22,
+        "solve_fraction": 0.9166666666666666,
+        "seconds_per_search": 0.38657214928874356,
+        "reserve_seconds_per_search": 0.8019684561602397
+      },
+      "token:BE": {
+        "n": 24,
+        "solves": 21,
+        "solve_fraction": 0.875,
+        "seconds_per_search": 0.45622354328467435,
+        "reserve_seconds_per_search": 0.9464646931889524
+      },
+      "context:PA": {
+        "n": 24,
+        "solves": 23,
+        "solve_fraction": 0.9583333333333334,
+        "seconds_per_search": 0.5719958837144077,
+        "reserve_seconds_per_search": 1.1866417605004969
+      },
+      "token:PA": {
+        "n": 24,
+        "solves": 22,
+        "solve_fraction": 0.9166666666666666,
+        "seconds_per_search": 0.6903704479627777,
+        "reserve_seconds_per_search": 1.4322173062649126
+      }
+    },
+    "524288": {
+      "context:BE": {
+        "n": 12,
+        "solves": 12,
+        "solve_fraction": 1.0,
+        "seconds_per_search": 0.2262423645928114,
+        "reserve_seconds_per_search": 0.46935414303480016
+      },
+      "token:BE": {
+        "n": 12,
+        "solves": 12,
+        "solve_fraction": 1.0,
+        "seconds_per_search": 0.7184024409216363,
+        "reserve_seconds_per_search": 1.4903714546112772
+      },
+      "context:PA": {
+        "n": 12,
+        "solves": 12,
+        "solve_fraction": 1.0,
+        "seconds_per_search": 0.18846983675515125,
+        "reserve_seconds_per_search": 0.390992636933098
+      },
+      "token:PA": {
+        "n": 12,
+        "solves": 11,
+        "solve_fraction": 0.9166666666666666,
+        "seconds_per_search": 1.774712545084185,
+        "reserve_seconds_per_search": 3.68175380075374
+      }
+    }
+  },
+  "estimated_stage_a_seconds": 4399.771564845812,
+  "estimated_16_pair_seconds": 19490.216142518726,
+  "estimated_12_pair_seconds": 14617.662106889045,
+  "namespace_offset": 20000000,
+  "fixed_probe_never_selects_full_run_parameters": true
+}

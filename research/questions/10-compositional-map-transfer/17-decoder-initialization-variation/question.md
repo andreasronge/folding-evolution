@@ -5,8 +5,8 @@ budget: {experiments: 2, used: 0}
 ---
 # Does the learned token map help search through its starting programs, through the variation it produces during search, or both?
 
-Current summary: **closed (2 of 2 slots). On all 13 cells tested, both parts of the learned map
-help, each by about 1.3× given the other, and they overlap heavily; on the ten training cells the
+Current summary: **closed (2 of 2 slots). Across the three withheld cells and, separately, across
+the ten training cells, both pooled conditional increments are positive, about 1.3× each, and they overlap heavily; on the ten training cells the
 balance between them differs by cell family.** Run 2026-10-06-2331 (commit `8f42f38`, row 3,
 three withheld 2229 cells, 400 seeds): with identical generation-0 token tapes, searching under M
 instead of G saves 1.39× [1.31, 1.47] (P1); with the search decoder held at M, starting from M's
@@ -48,8 +48,9 @@ Competing explanations (status after both slots):
 Slot plan (strategy 2331), done: slot 1 = the three 2229 cells (row 3); slot 2 = the ten training
 cells (row 1). Neither slot isolates mutation from crossover, matches solver frequencies, or bears
 on learned context or on whether the maps are family-specific. On training cells each map is
-in-sample for its own family's cells; S was set by the cell family, not the map family
-(descriptive).
+in-sample for its own family's cells; S differed more between cell families than between map
+families (descriptive; map-family equivalence and the cause of the cell-group difference are not
+established).
 
 Related: [parent](../question.md), [plan](../../../plans/decoder-initialization-variation.md),
 [strategy 2331](../../../runs/2026-10-06-2331/strategy.md),

@@ -1,0 +1,138 @@
+=== 1. search.jsonl completeness
+rows per phase: {'calibration': 29184, 'learn': 122880, 'selection': 6400, 'fresh': 16500} total 174964 duplicate keys: 0
+caps per phase: {('calibration', 65536): 29184, ('learn', 65536): 122880, ('selection', 65536): 6400, ('fresh', 524288): 16500}
+trajectories: 32 with wrong budgets: []
+pairs with T/C seed-cell mismatch in learning: 0
+fresh rows 16500 cal rows 29184
+
+=== 2. fresh scoring recompute
+expected fresh keys 16500 observed 16500 missing 0 extra 0
+fresh table hashes match fresh_maps.json: True
+identical fresh maps: []
+
+contrast | ratio [95%] | log2 mean ± half | BE ratio [CI] | PA ratio [CI] | pooled sd | sign + / n | Wilcoxon p
+C/T   | 0.955 [0.833, 1.095] | -0.067 ± 0.197 | 1.052 [0.839, 1.320] | 0.866 [0.710, 1.058] | sd 0.384 | 7/16 | 0.464
+T/S   | 1.026 [0.904, 1.165] | +0.038 ± 0.182 | 1.010 [0.856, 1.191] | 1.043 [0.833, 1.307] | sd 0.330 | 7/16 | 0.860
+C/S   | 0.980 [0.900, 1.067] | -0.029 ± 0.123 | 1.062 [0.944, 1.195] | 0.904 [0.781, 1.046] | sd 0.252 | 6/16 | 0.562
+C/C0  | 0.961 [0.903, 1.022] | -0.058 ± 0.089 | 1.011 [0.902, 1.134] | 0.913 [0.848, 0.982] | sd 0.178 | 6/16 | 0.211
+C0/T  | 0.994 [0.878, 1.125] | -0.009 ± 0.179 | 1.040 [0.851, 1.273] | 0.949 [0.788, 1.143] | sd 0.330 | 6/16 | 0.860
+
+per-pair log2 contrasts:
+pair      C/T      T/S      C/S     C/C0     C0/T
+BE1    +0.264   -0.192   +0.072   +0.059   +0.205
+PA1    -0.133   -0.102   -0.235   -0.072   -0.061
+BE2    -0.201   +0.124   -0.077   -0.056   -0.146
+PA2    -0.854   +0.716   -0.138   -0.292   -0.563
+BE3    +0.710   -0.234   +0.476   +0.188   +0.522
+PA3    +0.335   -0.576   -0.241   -0.154   +0.489
+BE4    +0.316   -0.005   +0.311   +0.325   -0.009
+PA4    +0.002   +0.082   +0.084   +0.056   -0.054
+BE5    -0.460   +0.404   -0.056   +0.127   -0.587
+PA5    -0.392   +0.162   -0.230   +0.031   -0.422
+BE6    +0.052   -0.076   -0.024   -0.246   +0.298
+PA6    -0.059   +0.406   +0.347   -0.188   +0.129
+BE7    +0.255   -0.334   -0.079   -0.042   +0.297
+PA7    -0.298   -0.182   -0.480   -0.250   -0.048
+BE8    -0.347   +0.424   +0.077   -0.225   -0.122
+PA8    -0.257   -0.015   -0.272   -0.185   -0.072
+
+per-cell mean log2 contrast (over 8 pairs of family), C/T and T/S, C/S:
+BE:F?S:(M+m)     C/T -0.065 (sd 0.477)  T/S +0.118  C/S +0.054  C/C0 -0.209
+BE:F?m:(S+M)     C/T +0.144 (sd 0.551)  T/S -0.080  C/S +0.064  C/C0 +0.028
+BE:S?F:(M+m)     C/T +0.450 (sd 0.705)  T/S -0.156  C/S +0.294  C/C0 +0.316
+BE:S?M:(m+F)     C/T -0.236 (sd 0.624)  T/S +0.174  C/S -0.062  C/C0 -0.070
+PA:(F?S:m)+M     C/T -0.257 (sd 0.493)  T/S +0.012  C/S -0.246  C/C0 -0.140
+PA:(F?m:M)+S     C/T -0.280 (sd 0.169)  T/S +0.091  C/S -0.189  C/C0 -0.024
+PA:(F?m:S)+M     C/T -0.100 (sd 0.295)  T/S +0.011  C/S -0.089  C/C0 -0.091
+PA:(S?M:F)+m     C/T -0.249 (sd 0.479)  T/S -0.004  C/S -0.254  C/C0 -0.236
+PA:(S?m:F)+M     C/T -0.239 (sd 0.447)  T/S +0.178  C/S -0.061  C/C0 -0.229
+PA:(S?m:M)+F     C/T -0.117 (sd 0.526)  T/S +0.081  C/S -0.035  C/C0 -0.072
+
+absolute fresh mean log2 cost per map (own cells) and solve fraction; G4 anchor by family
+G4: {'BE': '13.864 (solve 0.955)', 'PA': '14.112 (solve 0.983)'}
+BE1   S 12.609(0.975) T 12.800(0.975) C 12.537(0.965) C0 12.595(0.965)  S/G4 2.39x
+PA1   S 12.457(1.000) T 12.559(1.000) C 12.692(0.997) C0 12.620(1.000)  S/G4 3.15x
+BE2   S 12.363(0.980) T 12.238(0.965) C 12.440(0.985) C0 12.384(0.945)  S/G4 2.83x
+PA2   S 13.131(1.000) T 12.415(0.993) C 13.269(1.000) C0 12.977(1.000)  S/G4 1.97x
+BE3   S 12.637(0.975) T 12.871(0.975) C 12.161(0.990) C0 12.349(0.985)  S/G4 2.34x
+PA3   S 12.419(1.000) T 12.995(1.000) C 12.660(0.997) C0 12.505(0.997)  S/G4 3.23x
+BE4   S 12.764(0.980) T 12.769(0.960) C 12.453(0.970) C0 12.778(0.960)  S/G4 2.14x
+PA4   S 12.700(1.000) T 12.618(1.000) C 12.616(1.000) C0 12.672(0.997)  S/G4 2.66x
+BE5   S 12.640(0.965) T 12.236(0.990) C 12.696(0.980) C0 12.824(0.980)  S/G4 2.34x
+PA5   S 12.863(1.000) T 12.701(1.000) C 13.093(0.997) C0 13.124(0.997)  S/G4 2.38x
+BE6   S 12.697(0.970) T 12.773(0.955) C 12.721(0.965) C0 12.475(0.985)  S/G4 2.25x
+PA6   S 12.979(1.000) T 12.573(1.000) C 12.632(1.000) C0 12.445(1.000)  S/G4 2.19x
+BE7   S 12.538(0.960) T 12.872(0.980) C 12.617(0.980) C0 12.575(0.975)  S/G4 2.51x
+PA7   S 12.567(0.997) T 12.749(1.000) C 13.047(0.990) C0 12.797(0.993)  S/G4 2.92x
+BE8   S 12.697(0.965) T 12.273(0.990) C 12.620(0.995) C0 12.395(0.985)  S/G4 2.25x
+PA8   S 12.454(1.000) T 12.469(1.000) C 12.726(1.000) C0 12.541(1.000)  S/G4 3.16x
+  BE S: mean log2 12.618, vs G4 2.37x, solve 0.9712
+  BE T: mean log2 12.604, vs G4 2.40x, solve 0.9738
+  BE C: mean log2 12.531, vs G4 2.52x, solve 0.9788
+  BE C0: mean log2 12.547, vs G4 2.49x, solve 0.9725
+  PA S: mean log2 12.696, vs G4 2.67x, solve 0.9996
+  PA T: mean log2 12.635, vs G4 2.78x, solve 0.9992
+  PA C: mean log2 12.842, vs G4 2.41x, solve 0.9975
+  PA C0: mean log2 12.710, vs G4 2.64x, solve 0.9979
+fresh unsolved total: 194 / 16500
+fresh unsolved by map type: {'G4': 14, 'S': 47, 'T': 44, 'C': 40, 'C0': 49}
+
+=== 3. in-loop final-selection comparison (shared seeds, 65k cap; 2 parents x 100 per arm)
+in-loop selected-parent C/T (paired seeds, selection-biased): ratio 0.920 [0.815, 1.039]; per pair: {'BE1': np.float64(0.103), 'PA1': np.float64(0.121), 'BE2': np.float64(-0.218), 'PA2': np.float64(-0.629), 'BE3': np.float64(0.334), 'PA3': np.float64(0.369), 'BE4': np.float64(-0.018), 'PA4': np.float64(-0.117), 'BE5': np.float64(-0.77), 'PA5': np.float64(-0.448), 'BE6': np.float64(-0.019), 'PA6': np.float64(0.051), 'BE7': np.float64(0.089), 'PA7': np.float64(-0.247), 'BE8': np.float64(-0.162), 'PA8': np.float64(-0.362)}
+  T: in-loop selected score vs fresh cost: spearman 0.803; mean in-loop 12.531 vs fresh 12.619 (in-loop optimistic by +0.089 log2)
+  C: in-loop selected score vs fresh cost: spearman 0.626; mean in-loop 12.651 vs fresh 12.686 (in-loop optimistic by +0.035 log2)
+
+=== 4. in-loop learning curves (parents' mean score per generation; includes rescoring)
+generation records: 640 (expect 16*2*20 = 640 )
+BE T parents-mean by gen: 12.58 12.54 12.65 12.51 12.64 12.78 12.81 12.68 12.70 12.82 12.61 12.56 12.50 12.55 12.57 12.56 12.51 12.60 12.59 12.68
+BE C parents-mean by gen: 12.58 12.63 12.51 12.51 12.56 12.50 12.49 12.60 12.61 12.60 12.75 12.49 12.69 12.66 12.70 12.64 12.44 12.48 12.65 12.58
+PA T parents-mean by gen: 12.85 12.63 12.70 12.59 12.60 12.63 12.68 12.74 12.51 12.70 12.73 12.58 12.66 12.67 12.50 12.74 12.66 12.71 12.69 12.54
+PA C parents-mean by gen: 12.85 12.84 12.93 12.82 12.75 12.75 12.72 12.80 12.81 12.99 12.76 12.93 13.04 12.88 12.84 12.78 12.90 12.82 12.87 12.87
+generations where a child beat both parents (in-loop, noisy): {'T': '229/320', 'C': '230/320'}
+gen0 T==C parent scores for all pairs: True
+proposed/survived by arm,operator: {'C:a': '111/414 = 0.268', 'C:b': '133/552 = 0.241', 'C:token': '210/954 = 0.220', 'T:token': '447/1920 = 0.233'}
+
+=== 5. final map diagnostics (C arm)
+BE1   C: residual_rms 0.267 resid_table_l1 1.1003 total_l1 7.566 clips 0 | T total_l1 9.180 | C vec b-norm 1.307
+PA1   C: residual_rms 0.291 resid_table_l1 2.6098 total_l1 5.426 clips 0 | T total_l1 5.151 | C vec b-norm 1.427
+BE2   C: residual_rms 0.418 resid_table_l1 4.6512 total_l1 7.592 clips 1 | T total_l1 7.389 | C vec b-norm 2.051
+PA2   C: residual_rms 0.323 resid_table_l1 2.3974 total_l1 8.845 clips 0 | T total_l1 8.964 | C vec b-norm 1.580
+BE3   C: residual_rms 0.338 resid_table_l1 1.8618 total_l1 6.314 clips 1 | T total_l1 4.806 | C vec b-norm 1.672
+PA3   C: residual_rms 0.288 resid_table_l1 1.4370 total_l1 6.672 clips 0 | T total_l1 9.771 | C vec b-norm 1.410
+BE4   C: residual_rms 0.284 resid_table_l1 2.9350 total_l1 5.255 clips 0 | T total_l1 6.312 | C vec b-norm 1.392
+PA4   C: residual_rms 0.267 resid_table_l1 3.0824 total_l1 6.287 clips 0 | T total_l1 5.568 | C vec b-norm 1.309
+BE5   C: residual_rms 0.255 resid_table_l1 3.6129 total_l1 6.295 clips 0 | T total_l1 5.345 | C vec b-norm 1.247
+PA5   C: residual_rms 0.322 resid_table_l1 3.2043 total_l1 7.660 clips 0 | T total_l1 5.960 | C vec b-norm 1.577
+BE6   C: residual_rms 0.375 resid_table_l1 3.6847 total_l1 5.448 clips 0 | T total_l1 10.944 | C vec b-norm 1.836
+PA6   C: residual_rms 0.131 resid_table_l1 1.7689 total_l1 6.377 clips 0 | T total_l1 7.631 | C vec b-norm 0.643
+BE7   C: residual_rms 0.420 resid_table_l1 7.5363 total_l1 10.198 clips 0 | T total_l1 4.697 | C vec b-norm 2.059
+PA7   C: residual_rms 0.415 resid_table_l1 2.7567 total_l1 7.594 clips 1 | T total_l1 8.203 | C vec b-norm 2.127
+BE8   C: residual_rms 0.427 resid_table_l1 7.7157 total_l1 8.909 clips 1 | T total_l1 6.243 | C vec b-norm 2.093
+PA8   C: residual_rms 0.312 resid_table_l1 1.8987 total_l1 5.400 clips 1 | T total_l1 5.230 | C vec b-norm 1.532
+mean |post-clipping column means| across C finals: 0.00019327728751041527
+
+=== 6. calibration recompute
+units: 12 ['BE9:context:0', 'BE9:context:1', 'BE9:token:2', 'BE10:context:0', 'BE10:context:1', 'BE10:token:2', 'PA9:context:0', 'PA9:context:1', 'PA9:token:2', 'PA10:context:0', 'PA10:context:1', 'PA10:token:2']
+mutants per unit: [24]
+calibration rows per mutant/parent-block: counts of counts: Counter({96: 288, 384: 4})
+context: cov 0.0473 mu 0.0591 v 2.652 gamma {24: np.float64(0.0023658777343490843), 48: np.float64(0.0019169651827075944)}
+   within-unit-centred corr(ΔA, ΔB) = 0.500, n mutants 192; sd ΔA 0.291; expected noise sd of a 48-search block mean = 0.235
+   true-effect variance share of observed Δ variance: 0.56
+   mutants with mean(ΔA,ΔB) < 0: 94/192; < -0.1: 61; quantiles of mean Δ: [-0.256 -0.141  0.027  0.207  0.418]
+   bootstrap: fraction of replicates choosing n=48: 0.172
+token: cov 0.0281 mu 0.0275 v 2.627 gamma {24: np.float64(0.0018478811202794463), 48: np.float64(0.0014327302309080601)}
+   within-unit-centred corr(ΔA, ΔB) = 0.333, n mutants 96; sd ΔA 0.303; expected noise sd of a 48-search block mean = 0.234
+   true-effect variance share of observed Δ variance: 0.31
+   mutants with mean(ΔA,ΔB) < 0: 47/96; < -0.1: 32; quantiles of mean Δ: [-0.248 -0.163  0.002  0.171  0.298]
+context: selected-quarter (by ΔA, 48) mean ΔB = -0.0171; selected-minus-all = -0.1155; per unit: [-0.081  0.093  0.115 -0.073  0.038  0.115 -0.301 -0.044]
+token: selected-quarter (by ΔA, 48) mean ΔB = -0.0063; selected-minus-all = -0.0961; per unit: [ 0.09   0.024  0.085 -0.224]
+
+=== 7. timing/solve by phase
+calibration: searches 29184, solves 27348 (0.937), s/search 0.554
+learn: searches 122880, solves 116968 (0.952), s/search 0.471
+selection: searches 6400, solves 6125 (0.957), s/search 0.450
+fresh: searches 16500, solves 16306 (0.988), s/search 0.867
+pair wall seconds: mean 402.9204472031779 max 454.9246751249884 sum 6446.727155250846
+learn T: solve fraction 0.9508 of 61440; s/search 0.464
+learn C: solve fraction 0.9530 of 61440; s/search 0.478
+saved plot

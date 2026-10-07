@@ -258,3 +258,26 @@ advantage tied to the training family?) has a generic-transfer answer (about 2�
 resolved family advantage on the withheld cells, and a mechanism answer (both channels,
 overlapping, task-dependent balance); learned context gave no resolved gain. Whether to close,
 park or fund more is the strategist's call.
+
+- 2026-10-07 (0803): strategy 0803 raised the budget 10 → 12 and asked whether selection can
+  learn compact context beyond token tuning. Opened [18](18-compact-context-learning/question.md)
+  (2 slots). Decision: propose run 0803, a calibration gate on rank-one context steps followed by
+  16 paired context-versus-token continuations from saved 1723 maps, because the plan asks for
+  training feasibility before any transfer test, and pairing within saved token-tuned starts
+  measures "beyond token tuning" more cheaply than learning from G4 again.
+
+- 2026-10-07 (0821): critic sent 0803 back (`revise`): a variance-only gate could stop useful
+  learning and misdiagnose a selection-signal limit. Decision: propose run 0821, the same paired
+  continuation with stage A kept as calibration and effort choice only (no stop), because the
+  C-versus-T contrast is the direct test and low step variance does not bound selected gains.
+
+- 2026-10-07 (0821): slot 11 of 12. Run 2026-10-07-0821 ([18](18-compact-context-learning/question.md),
+  commit `f61aec4`, complete, 2.64 h, all validation passed, no holdout touched): 16 paired
+  continuations (8 BE, 8 PA) from saved 1723 maps on the ten training cells, token-only T versus
+  token-or-rank-one-context C, 4 040 searches per arm. C/T 0.955× [0.833, 1.095]; T/S 1.03×
+  [0.90, 1.16]; C/S 0.98× [0.90, 1.07]; in-loop slopes flat in both arms. Row 3
+  ([analysis](../../runs/2026-10-07-0821/analysis.md)).
+  Decision: park 18 and return root 10 to strategy with one slot left, because the pre-registered
+  row 3 says the null does not tell ineffective context from a loop with no resolved progress for
+  either operator; making the token arm learn first needs a different, ~5–6 h loop, and whether
+  that beats the other uses of the last slot (or closing the root) is the strategist's call.
