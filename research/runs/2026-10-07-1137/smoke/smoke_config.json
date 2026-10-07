@@ -1,0 +1,90 @@
+{
+  "task": "2026-10-07-1137",
+  "arguments": {
+    "workers": 10,
+    "deadline_seconds": 900.0,
+    "smoke": true,
+    "probe": false
+  },
+  "smoke_only": true,
+  "probe_only": false,
+  "git_commit": "b46cc984a80ed902ab302b972f96d42295f7fc5b",
+  "bank_sha256": "b2b856cb6d051e65599b22409cf49f654ba8d87539f073d2e9b7d061079aceb9",
+  "source_hashes": {
+    "config.json": "f345d3e277569cd3e380b98dbd1cfd362b9796bd3e850f1cc135209f258156b5",
+    "trajectories.json": "94138e35c6aa36b583704a69e83cab8437f11a5c55f7e3c1696fe03fc5a481b3"
+  },
+  "g4_hash": "8a7b3091f411e659f553981b8680dc5db4bd5f3f34b6eca9c8ab3ee3e728dc10",
+  "training": {
+    "BE": [
+      "BE:F?S:(M+m)",
+      "BE:F?m:(S+M)",
+      "BE:S?F:(M+m)",
+      "BE:S?M:(m+F)"
+    ],
+    "PA": [
+      "PA:(F?S:m)+M",
+      "PA:(F?m:M)+S",
+      "PA:(F?m:S)+M",
+      "PA:(S?M:F)+m",
+      "PA:(S?m:F)+M",
+      "PA:(S?m:M)+F"
+    ]
+  },
+  "seeds": {
+    "learning": 1861000000,
+    "selection": 1862000000,
+    "fresh": 1824000000,
+    "f2": 1863000000,
+    "mutation": 1864000000,
+    "direction": 1865000000,
+    "calibration": 1866000000
+  },
+  "seed_offset": 10000000,
+  "learning_seed_rule": "base+start_index*10000+generation*100+j",
+  "selection_seed_rule": "base+start_index*1000+j",
+  "fresh_seeds": [
+    1834000000,
+    1834000001
+  ],
+  "population": 256,
+  "length": 32,
+  "allele_range": 24000,
+  "training_cases": 64,
+  "crossover": 0.7,
+  "mutation": 0.03,
+  "alphabet": "v2_rmin_first",
+  "domain": "D1331",
+  "outer_mu": 2,
+  "outer_lambda": 6,
+  "inner_cap": 4096,
+  "fresh_cap": 8192,
+  "final_searches_per_parent": 12,
+  "objective": "mean log2 evaluations; unsolved=2*cap at every stage",
+  "calibration_stops_learning": null,
+  "selection_uses_training_only": true,
+  "representation": "m[24], centred unit-RMS a[25], centred b[24]; a*b clipped at +/-ln16",
+  "roster": [
+    "BE1",
+    "PA1"
+  ],
+  "reference_sha256": "2c8411952488c35c6b82f633896cabfab58e216c8157287f34cb8c63edf0557f",
+  "historical_source_sha256": {
+    "config.json": "f5793be5da57e0b8ff296b5fbdafa4242723f4fd84cfcf25ac0c94767870db9f",
+    "fresh_scores.json": "d2b413f56770e80c1b71374124c95d7f5708730463035b67b5f1eddb9d874a14",
+    "trajectories.json": "4be246bf9bfeff596fa63ba58972312eb335aadeabcad95c6537aa4bb46d6b17"
+  },
+  "scoring_effort": 12,
+  "generations": 6,
+  "searches_per_trajectory": 600,
+  "midpoint_generation": 3,
+  "f2_seeds": [
+    1873000000,
+    1873000001
+  ],
+  "internal_deadline_seconds": 900.0,
+  "timezone": "Europe/Stockholm",
+  "gate_ratio": 1.1,
+  "no_calibration": true,
+  "selected_change_scope": "actual child/source-parent pairs both retained; no additional searches"
+}

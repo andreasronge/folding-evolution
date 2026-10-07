@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "expected_rows": 10,
+  "observed_rows": 10,
+  "mismatches": [],
+  "fields": [
+    "cap",
+    "cell",
+    "curve",
+    "evaluations",
+    "generations",
+    "initial_reencoded",
+    "initial_source_hash",
+    "initial_tokens_hash",
+    "pop_size",
+    "seed",
+    "shortcuts",
+    "solved",
+    "table_hash",
+    "training_indices",
+    "training_perfect_individuals",
+    "unique_shortcuts"
+  ],
+  "timing_excluded": true,
+  "wall_seconds": 0.8983439169824123
+}

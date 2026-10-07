@@ -1,7 +1,7 @@
 ---
 status: open
 tags: [map-bias, evolve-the-bias, task-family, compositional-transfer, decoder, fresh-start]
-budget: {experiments: 12, used: 0}
+budget: {experiments: 13, used: 0}
 ---
 # Can an adapted decoder help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 
@@ -18,19 +18,31 @@ frozen maps' gain comes from both their starting programs and their use during s
 overlap heavily: each conditional increment is about 1.3–1.4×, against a 2.29× diagonal; on the
 ten training cells the same holds (1.28×, 1.33×), and the start weighs relatively more on BE
 cells than on PA cells (C −0.45 log2 [−0.68, −0.22]; family not separated from shape or
-difficulty). A third contextual procedure, rank-one context steps added to token continuation
-from the saved maps, gave no resolved training increment (C/T 0.955× [0.833, 1.095]), but token
-continuation alone did not resolve learning in that loop either (T/S 1.03× [0.90, 1.16]), so it
-does not separate ineffective context from a loop that did not resolve progress** (11 of 12 slots used;
-strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy 2331 to 10, strategy
-0803 to 12 for sub-question [18](18-compact-context-learning/question.md), now parked).
+difficulty). A third contextual procedure, rank-one context steps mixed into token
+continuation from the saved maps, was first run in a loop where token continuation did not
+resolve learning (0821); in a loop with 4× more search evidence per candidate, token-only
+continuation did learn (T/S 1.14× [1.09, 1.20] and 1.12× [1.03, 1.22] on two fresh seed blocks)
+and context under equal search funding still added no resolved increment (C/T 0.967× [0.871,
+1.073]; a mean gain above about 1.07× excluded for this loop and these starts, a small gain or
+loss not). Context learned jointly from G4, or added without displacing token steps, is untested**
+(12 of 13 slots used; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
+2331 to 10, strategy 0803 to 12, strategy 1137 to 13; sub-questions [18](18-compact-context-learning/question.md)
+and [19](19-selection-calibrated-continuation/question.md) now closed).
+Run 2026-10-07-1137 ([19](19-selection-calibrated-continuation/question.md), commit `86ef669`,
+row 6): the same 16 saved 1723 starts, 2 + 6 loop at 96 searches per candidate, 12 generations,
+9 600 searches per trajectory; 335 700 searches, 4.63 h, all validation passed (0821's S rows
+reproduced bit-identically), no holdout touched. T/S 1.143× [1.089, 1.200] on 0821's fresh seeds
+(16/16 starts), 1.122× [1.031, 1.222] on new seeds; C/T 0.967× [0.871, 1.073]; C/S 1.084× [0.993,
+1.184]; C0/T 0.932× [0.860, 1.010] (C made half as many token proposals as T). Per-start gains
+are not measurable at 50 seeds (F1/F2 correlation 0.15); only pooled means are informative.
 Run 2026-10-07-0821 ([18](18-compact-context-learning/question.md), commit `f61aec4`, row 3):
 16 pairs (8 BE, 8 PA) from saved 1723 maps on the ten training cells, token-only (T) versus
 token-or-rank-one-context (C) continuation, 4 040 searches per arm, 2 + 6 loop at 24 searches
 per child; 174 964 searches, 2.64 h, all validation passed, no holdout touched. C/T 0.955×
 [0.833, 1.095] (pair sd 0.38 log2); T/S 1.03× [0.90, 1.16]; C/S 0.98× [0.90, 1.07]; flat in-loop
 slopes in both arms. Stage A: single context steps have repeatable effects (σ²_T 0.047 [0.027,
-0.065]) but the best quarter of 24 mutants is only at parent level on new seeds.
+0.065]); the best quarter of 24 mutants beat the average mutant on new seeds, but their
+difference from the parent was unresolved (−0.017 [−0.085, +0.041] log2).
 Run 2026-10-07-0315 ([17](17-decoder-initialization-variation/question.md), commit `5dae3a6`,
 row 1): the same frozen 2×2 on the ten training cells (4 BE, 6 PA), 200 fresh seeds, 122 000
 searches, 4.3 h, all validation passed. Ongoing-decoder increment given M's start 1.28× [1.22,
@@ -165,11 +177,15 @@ starting programs and the learned decoder during search help, about 1.3× given 
 withheld and the training cells, strongly sub-additive; on the training cells the start weighs
 relatively more on BE than on PA cells, C −0.45 log2 [−0.68, −0.22], not separated from shape or
 difficulty).
-[18-compact-context-learning](18-compact-context-learning/question.md) (parked, 1 of 2 slots,
-run 2026-10-07-0821 row 3: rank-one context steps added to token continuation from saved maps,
-C/T 0.955× [0.833, 1.095]; the token-only arm did not resolve learning either, T/S 1.03× [0.90,
-1.16], so the null cannot tell ineffective context from a loop with no resolved progress; reopen
-once a loop is shown to make token continuation learn).
+[18-compact-context-learning](18-compact-context-learning/question.md) (closed at tested
+scope, 1 of 2 slots, runs 2026-10-07-0821 row 3 and, via 19, 2026-10-07-1137 row 6: rank-one
+context steps mixed into token continuation from saved maps add no resolved training increment
+in a loop where token continuation learns, C/T 0.967× [0.871, 1.073]; joint learning from G4 and
+non-displacing context untested).
+[19-selection-calibrated-continuation](19-selection-calibrated-continuation/question.md) (closed,
+1 of 2 slots, run 2026-10-07-1137 row 6: 96 searches per candidate make token continuation from
+the saved maps learn, T/S 1.143× [1.089, 1.200] and 1.122× [1.031, 1.222] on two fresh blocks;
+cause not isolated from the changed depth and total effort).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
@@ -180,6 +196,7 @@ Related: [core question](../../../README.md#core-question),
 [run 1723 decision](../../runs/2026-10-06-1723/decision.md),
 [run 0315 decision](../../runs/2026-10-07-0315/decision.md),
 [run 0821 decision](../../runs/2026-10-07-0821/decision.md),
+[run 1137 decision](../../runs/2026-10-07-1137/decision.md),
 [digest](../../digest.md), [chem-tape findings](../../../docs/chem-tape/findings.md).
 
 Review after the feasibility experiment and after the four allocated experiments. A

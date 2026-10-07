@@ -281,3 +281,21 @@ park or fund more is the strategist's call.
   row 3 says the null does not tell ineffective context from a loop with no resolved progress for
   either operator; making the token arm learn first needs a different, ~5–6 h loop, and whether
   that beats the other uses of the last slot (or closing the root) is the strategist's call.
+
+- 2026-10-07 (1137): strategy 1137 raised the budget 12 → 13 and directed one bounded attempt to
+  make token continuation from the saved maps learn before another context comparison. Opened
+  [19-selection-calibrated-continuation](19-selection-calibrated-continuation/question.md)
+  (2 slots); 18 stays parked until 19 meets its reopen condition. Proposal: run 2026-10-07-1137.
+
+- 2026-10-07 (1137): slot 12 of 13. Run 2026-10-07-1137 ([19](19-selection-calibrated-continuation/question.md),
+  commit `86ef669`, complete, 4.63 h, all validation passed, no holdout touched): from the 16
+  saved 1723 maps, token-only continuation at 96 searches per candidate (9 600 searches per
+  trajectory) learned: T/S 1.143× [1.089, 1.200] on 0821's fresh seeds, 1.122× [1.031, 1.222] on
+  new seeds. In the same loop, mixing in rank-one context steps gave C/T 0.967× [0.871, 1.073].
+  Row 6 ([analysis](../../runs/2026-10-07-1137/analysis.md)).
+  Decision: close 19 and close 18 at its tested scope, and return root 10 to the strategist with
+  one slot left, because the pre-registered context test has now run with a working token
+  control and excludes a mean gain above about 1.07×; the remaining context designs (joint
+  learning from G4; context that does not displace token steps) are different experiments that
+  would need about 4–6 h of queue against about 5 h left before the 22:25 deadline, so whether
+  to spend the last slot or close the root is a program-level call.

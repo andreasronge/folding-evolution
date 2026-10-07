@@ -1,0 +1,46 @@
+{
+  "state": "complete",
+  "pairs": [
+    "BE1",
+    "PA1"
+  ],
+  "elapsed_seconds": 37.88158870796906,
+  "pair_seconds": [],
+  "slow_a": 0.0,
+  "slow_b": 0.14745464781260428,
+  "costs": {
+    "learn": {
+      "searches": 2304,
+      "solves": 918,
+      "evaluations": 7934464,
+      "worker_seconds": 293.6467546877102
+    },
+    "selection": {
+      "searches": 96,
+      "solves": 35,
+      "evaluations": 341760,
+      "worker_seconds": 12.032123332028277
+    },
+    "F1": {
+      "searches": 60,
+      "solves": 45,
+      "evaluations": 287232,
+      "worker_seconds": 10.457329078868497
+    },
+    "F2": {
+      "searches": 100,
+      "solves": 60,
+      "evaluations": 535296,
+      "worker_seconds": 19.149067375750747
+    }
+  },
+  "outcome": {
+    "row": "U",
+    "meaning": "Infrastructure failure or fewer than six complete T starts per family.",
+    "next": "strategy"
+  },
+  "context_starts": [
+    "BE1",
+    "PA1"
+  ]
+}
