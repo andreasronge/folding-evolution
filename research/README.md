@@ -6,7 +6,9 @@ Agents: read this first, then your role file in `roles/`.
 ## Layout
 
 - `digest.md` — what we currently believe and why. Start here; every claim
-  links to its evidence.
+  links to its evidence. Current beliefs only, one short section per root,
+  under about 3000 words: history and superseded numbers live in the
+  questions' `log.md`.
 - `questions/NN-slug/` — one folder per research question; sub-questions are
   sub-folders. Each has `question.md` (frontmatter `status`, `tags`,
   `budget`; summary, competing explanations, `Related:` links, `Reopen if:`)
