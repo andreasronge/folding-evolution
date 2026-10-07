@@ -15,9 +15,19 @@ made no detectable difference there: matched over mismatched 1.02× [0.84, 1.25]
 [0.79, 1.15] (PA). The 95% upper bounds are 1.2485× on BE (roughly 1.3× in leave-one-map-out
 checks) and 1.15× on PA; a 1.1× family preference is not excluded. On those three cells the
 frozen maps' gain comes from both their starting programs and their use during search, which
-overlap heavily: each conditional increment is about 1.3–1.4×, against a 2.29× diagonal**
-(9 of 10 slots used; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
-2331 to 10).
+overlap heavily: each conditional increment is about 1.3–1.4×, against a 2.29× diagonal; on the
+ten training cells the same holds (1.28×, 1.33×), and the start weighs relatively more on BE
+cells than on PA cells (C −0.45 log2 [−0.68, −0.22]; family not separated from shape or
+difficulty)** (10 of 10 slots used, budget spent; strategy 1400 raised the budget from 5 to 7,
+strategy 1723 to 9, strategy 2331 to 10).
+Run 2026-10-07-0315 ([17](17-decoder-initialization-variation/question.md), commit `5dae3a6`,
+row 1): the same frozen 2×2 on the ten training cells (4 BE, 6 PA), 200 fresh seeds, 122 000
+searches, 4.3 h, all validation passed. Ongoing-decoder increment given M's start 1.28× [1.22,
+1.34]; start increment given ongoing M 1.33× [1.26, 1.40]; diagonal 2.44× [2.23, 2.66];
+interaction −0.52 log2 [−0.62, −0.42]. S = log2(MG/GM) negative on all four BE cells (each
+resolved), −0.05 to +0.54 on the PA cells (none resolved negative); C = −0.45 [−0.68, −0.22]
+(Welch over cells), 20/20 maps agree in direction. S tracks MM difficulty across cells (r 0.77,
+post hoc), so family, shape and difficulty tail are not separated on these screened cells.
 Run 2026-10-06-2331 ([17](17-decoder-initialization-variation/question.md), commit `8f42f38`,
 row 3): the 20 frozen 1723 maps (M) and G4 (G) crossed as starting-program source × search
 decoder, with generation-0 token tapes held identical by re-encoding; 400 fresh seeds, three
@@ -139,9 +149,11 @@ slots, runs 2026-10-06-1723 and 2026-10-06-2229: crossed BE/PA token-multiplier 
 generically; on the holdouts every arm beats G4 2–3× and the matched-family advantage is 1.02×
 (BE) and 0.96× (PA), 95% upper bounds 1.2485× and 1.15×, a 1.1× preference not excluded).
 [17-decoder-initialization-variation](17-decoder-initialization-variation/question.md)
-(open, 1 of 2 slots, run 2026-10-06-2331, row 3: both the learned starting programs and the
-learned decoder during search help, 1.30× and 1.39× given the other, strongly sub-additive;
-slot 2 proposed in run 2026-10-07-0315 on the ten training cells).
+(closed, 2 of 2 slots, runs 2026-10-06-2331 row 3 and 2026-10-07-0315 row 1: both the learned
+starting programs and the learned decoder during search help, about 1.3× given the other on the
+withheld and the training cells, strongly sub-additive; on the training cells the start weighs
+relatively more on BE than on PA cells, C −0.45 log2 [−0.68, −0.22], not separated from shape or
+difficulty).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
@@ -150,6 +162,7 @@ Related: [core question](../../../README.md#core-question),
 [run 0811 decision](../../runs/2026-10-06-0811/decision.md),
 [run 1603 decision](../../runs/2026-10-06-1603/decision.md),
 [run 1723 decision](../../runs/2026-10-06-1723/decision.md),
+[run 0315 decision](../../runs/2026-10-07-0315/decision.md),
 [digest](../../digest.md), [chem-tape findings](../../../docs/chem-tape/findings.md).
 
 Review after the feasibility experiment and after the four allocated experiments. A

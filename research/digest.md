@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-07 (last completed run 2026-10-06-2331, commit `8f42f38`: the frozen maps' starting programs crossed with the decoder used during search, on the three withheld cells; before it run 2026-10-06-2229, commit `33fcee2`: the frozen crossed BE/PA token maps scored on the three withheld cells, stage 2; before that run 2026-10-06-1723, `db96645`, crossed BE/PA token learning on the four-reducer bank, stage 1, training cells only; before that run 2026-10-06-1603, `92ba7c5`, the four-reducer FIRST bank feasibility study; before that run 2026-10-06-1425, `b397f72`, the saved-map shape-shift check, after runs 1400 and 1419 with the same design were blocked by a merge conflict; before it run 2026-10-06-0811, `0709104`, contextual moves versus continued token learning from the learned post-addition maps; before 0811 run 2026-10-06-0132, `02cf76f`, root 10's first decoder-learning study; run 2026-10-06-0001, `a65ded0`, and run 2026-10-05-2247, `0995d33`; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 were blocked before running). This covers the **map-bias line**, the current
+As of 2026-10-07 (last completed run 2026-10-07-0315, commit `5dae3a6`: the same starting-program × search-decoder crossing on the ten training cells; before it run 2026-10-06-2331, commit `8f42f38`: the frozen maps' starting programs crossed with the decoder used during search, on the three withheld cells; before that run 2026-10-06-2229, commit `33fcee2`: the frozen crossed BE/PA token maps scored on the three withheld cells, stage 2; before that run 2026-10-06-1723, `db96645`, crossed BE/PA token learning on the four-reducer bank, stage 1, training cells only; before that run 2026-10-06-1603, `92ba7c5`, the four-reducer FIRST bank feasibility study; before that run 2026-10-06-1425, `b397f72`, the saved-map shape-shift check, after runs 1400 and 1419 with the same design were blocked by a merge conflict; before it run 2026-10-06-0811, `0709104`, contextual moves versus continued token learning from the learned post-addition maps; before 0811 run 2026-10-06-0132, `02cf76f`, root 10's first decoder-learning study; run 2026-10-06-0001, `a65ded0`, and run 2026-10-05-2247, `0995d33`; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 were blocked before running). This covers the **map-bias line**, the current
 core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
 evolution finds and keeps ("arrival of the frequent")?* Until 2026-10-05 the line studied
 whether the chemistry can discover, preserve and reuse a **shared helper** (one functional part
@@ -23,9 +23,11 @@ the four-reducer grammar G4 about 2.2× on both families' training cells and 2�
 withheld cells; which family the maps were trained on made no detectable difference on the
 withheld cells (matched over mismatched 1.02× and 0.96×; 95% upper bounds 1.2485× on BE, rising to
 about 1.3× in leave-one-map-out checks, and 1.15× on PA; a 1.1× preference is not excluded)
-(see "Crossed family learning"). On those three cells, the maps' gain comes both from the
-programs the search starts with and from using the map during search, and the two overlap
-heavily (see "Starting programs versus ongoing decoder").
+(see "Crossed family learning"). On those three cells and on the ten training cells, the maps' gain
+comes both from the programs the search starts with and from using the map during search, each
+about 1.3× given the other, and the two gains are strongly sub-additive; on the training cells
+the start weighs relatively more on branch-else cells than on plus-arg cells (see "Starting
+programs versus ongoing decoder"). Root 10's ten slots are spent.
 
 Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per experiment; reviews and report tables in [docs/map-bias/reviews/](../docs/map-bias/reviews/)) and
 [findings](../docs/map-bias/findings.md) (items 1–17; the owner-promoted, reviewed claims).
@@ -466,7 +468,7 @@ readouts; reviewed analysis. Fairly sure of the numbers; three screened cells, o
 - **Not separated:** whether the generic gain is a better prior for this reducer family or a
   correction of G4's weak spots, and anything about learned context (token weights only).
 
-## Starting programs versus ongoing decoder (root 10, run 2026-10-06-2331)
+## Starting programs versus ongoing decoder (root 10, runs 2026-10-06-2331 and 2026-10-07-0315)
 
 One run, commit `8f42f38`, complete data (79 200 searches, 3.0 h). The 20 frozen 1723 maps (M)
 and G4 (G) on the three 2229 cells (BE `S?m:(M+F)`, PA `(F?S:M)+m`, PA `(S?M:m)+F`), 400 fresh
@@ -487,36 +489,57 @@ this population/operator/budget regime).
   from M's programs rather than G's: 1.30× [1.24, 1.36]. Both lower bounds clear the 1.19×
   margin; both survive dropping capped searches or winsorising at 65 536 (P1 moves ≤ 0.07 log2).
   The full diagonal is 2.29× [2.05, 2.54], reproducing 2229.
-- **The two overlap: the combination is strongly sub-additive.** Starting from G, either
-  component alone gives 1.65× (start) or 1.76× (ongoing), 60–68% of the diagonal in log units;
-  the interaction is −0.34 log2 [−0.40, −0.29] and negative in 20/20 maps. Part of what the
-  learned start supplies is what the learned decoder supplies during search. This is a measured
-  overlap, not a mechanism; a shared pool of useful partial programs is one reading.
-- **The balance may depend on the task (one BE cell; descriptive).** On the BE cell the start
-  carries more (ongoing increment 1.11× [1.04, 1.19], start increment 1.34×); on both PA cells
-  the ongoing decoder does (1.46× and 1.65× versus 1.22× and 1.35×). Both map families show the
-  same pooled pattern (P1 1.41× / 1.37×, P2 1.33× / 1.27×).
-- **The start effect is not about seeded solvers.** 12 of 79 200 searches solved at generation 0;
-  searches take 20–40 generations. Effects are distribution shifts (MG slower than MM in 57% of
-  pairs, faster in 39%).
-- **Not separated:** mutation versus crossover versus inherited latent alleles within "ongoing";
-  supply of useful programs versus neighbourhood structure; anything about learned context or
-  family specificity of the maps.
+- **The two gains are sub-additive.** Starting from G, either component alone gives 1.65×
+  (start) or 1.76× (ongoing), 60–68% of the diagonal in log units; the interaction is −0.34 log2
+  [−0.40, −0.29] and negative in 20/20 maps. This is sub-additivity on capped log cost,
+  consistent with — but not establishing — a shared supply of useful partial programs.
+- **Direct solver seeding is unlikely to explain the start gain.** 12 of 79 200 searches solved
+  at generation 0; searches take 20–40 generations. Effects are distribution shifts (MG slower
+  than MM in 57% of pairs, faster in 39%). Which properties of the starting population carry the
+  gain is unresolved.
+
+Second run, 2026-10-07-0315 (commit `5dae3a6`, complete, 122 000 searches, 4.3 h): the same
+design on the ten 1723 training cells (4 BE, 6 PA), 200 fresh seeds; all validation passed,
+including 786 bit-identical historical rows. Pre-registered rows (row 1); reviewed analysis.
+These are the cells the maps were trained and selected on, so this is a screened, in-sample
+bank, not a holdout. ([analysis](runs/2026-10-07-0315/analysis.md))
+
+- **Both components replicate on the training cells.** Ongoing decoder given M's start 1.28×
+  [1.22, 1.34]; start given ongoing M 1.33× [1.26, 1.40]; diagonal 2.44× [2.23, 2.66];
+  interaction −0.52 log2 [−0.62, −0.42], again sub-additive. No label changes under either cap
+  sensitivity.
+- **On the training cells, the start weighs relatively more on BE cells than on PA cells.** The
+  balance S = log2(T_MG/T_GM) (positive: losing the ongoing decoder costs more than losing the
+  start) is −0.21 to −0.39 on all four BE cells, each resolved below 0, and −0.05 to +0.54 on the
+  six PA cells (three resolved above 0, none below). BE minus PA: −0.45 log2, Welch 95% [−0.68,
+  −0.22] over cells; leave-one-cell-out −0.38 to −0.50; 20/20 maps lower on BE cells; S set by
+  the cell family, not the map family (descriptive). The difference is relative: both components
+  are resolved positive within each family (P1 on BE about 1.15× [1.08, 1.23]; on PA 1.42×
+  [1.34, 1.51]). 2331's withheld BE cell (S −0.27) fits the BE range (different seeds; descriptive).
+- **"Family" is not separated from shape or difficulty.** Across the ten cells S correlates with
+  MM median cost (r 0.77, post hoc); the two PA cells with the largest S are the two hardest PA
+  cells. At matched difficulty the families still separate, but four and six cells from one
+  screened bank cannot tell family, branch-else versus plus-arg shape and difficulty tail apart,
+  and say nothing about a fresh cell.
+- **Not separated (both runs):** mutation versus crossover versus inherited latent alleles within
+  "ongoing"; supply of useful programs versus neighbourhood structure; why the balance differs
+  between the cell groups; anything about learned context or family specificity of the maps.
 
 ## Open questions
 
 - [10-compositional-map-transfer](questions/10-compositional-map-transfer/question.md) (open,
-  root, budget 10, 9 used): can a decoder adapted across related tasks help fresh populations
+  root, budget 10, 10 used — spent): can a decoder adapted across related tasks help fresh populations
   solve unseen operation combinations beyond a token-frequency bias? Two feasibility studies
   (one bank failed split/headroom, one failed the two-family requirement but kept a PA split),
   then two learning studies: learned token multipliers on G transfer about 2× to the withheld
   pair and to branch-else; contextual row moves on top add no resolved training gain (≤ 1.11×),
   holdout increment unresolved, and their off-family branch shift did not replicate (14). The
   four-reducer bank failed the symmetric split (15); on a narrower split, crossed token learning
-  improves both families about 2.2× on training and 2–3× on the withheld cells, with no detected
-  family advantage there (16, closed). The frozen maps' gain on the withheld cells comes from
-  both starting programs and ongoing decoder use, which overlap (17, open). 9 of 10 slots used;
-  slot 10 is proposed for 17's second stage.
+  improves both families about 2.2× on training and 2–3× on the withheld cells, with no resolved
+  family advantage there (95% upper bounds 1.25× BE, 1.15× PA; 16, closed). The frozen maps' gain comes from both starting
+  programs and ongoing decoder use, about 1.3× each given the other and sub-additive, on the
+  withheld and the training cells; the balance differs between BE and PA training cells (17,
+  closed). All 10 slots used; next is a strategy review.
   - [11-composition-bank](questions/10-compositional-map-transfer/11-composition-bank/question.md)
     (closed, run 2026-10-05-2247): this 3×3 bank has no eligible split at 524k (Sm-SEL 27/50
     under U), and all four splits fail the 4 096 headroom rule under the hand-set grammar G.
@@ -545,11 +568,12 @@ this population/operator/budget regime).
     1.3× leave-one-map-out) and 1.15×, a
     1.1× preference not excluded.
   - [17-decoder-initialization-variation](questions/10-compositional-map-transfer/17-decoder-initialization-variation/question.md)
-    (open, 1 of 2 slots, run 2026-10-06-2331, row 3): with starting tapes held identical, the
-    learned decoder during search adds 1.39× [1.31, 1.47]; with the search decoder held at M,
-    learned starting programs add 1.30× [1.24, 1.36]; sub-additive (interaction −0.34 log2
-    [−0.40, −0.29]); start-heavy on the one BE cell, ongoing-heavy on the two PA cells. Slot 2
-    (proposed): the ten training cells.
+    (closed, 2 of 2 slots, runs 2026-10-06-2331 row 3 and 2026-10-07-0315 row 1): with starting
+    tapes held identical, the learned decoder during search adds 1.39× [1.31, 1.47] (withheld
+    cells) and 1.28× [1.22, 1.34] (training cells); with the search decoder held at M, learned
+    starting programs add 1.30× [1.24, 1.36] and 1.33× [1.26, 1.40]; sub-additive in both. On
+    the training cells the start weighs relatively more on BE than PA cells (−0.45 log2 [−0.68,
+    −0.22]); not separated from shape or difficulty.
 - [01-map-bias](questions/01-map-bias/question.md) (open, root, budget spent): how does the map
   bias what evolution finds and keeps?
 - [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)

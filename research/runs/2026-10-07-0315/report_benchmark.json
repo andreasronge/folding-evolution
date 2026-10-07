@@ -1,0 +1,12 @@
+{
+  "synthetic_only": true,
+  "rows": 122000,
+  "seeds": 200,
+  "bootstrap_replicates": 20000,
+  "curve_points_per_row": 64,
+  "analysis_seconds": 14.42724474996794,
+  "total_report_seconds": 19.13245829200605,
+  "reporting_reserve_seconds": 360,
+  "within_reserve": true,
+  "note": "Duplicated excluded smoke rows and worst-case-length curves; no scientific results or claims generated."
+}

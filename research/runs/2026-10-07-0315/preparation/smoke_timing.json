@@ -1,0 +1,261 @@
+{
+  "rows": 1220,
+  "seeds": 2,
+  "wall_seconds": 27.12820929096779,
+  "sum_search_seconds": 267.30457572470186,
+  "effective_workers": 9.853380768987936,
+  "projected_200_seed_seconds": 2712.820929096779,
+  "projected_120_seed_seconds": 1627.6925574580673,
+  "groups": {
+    "GG": {
+      "BE:F?S:(M+m)": {
+        "n": 2,
+        "seconds": 0.34684087394271046,
+        "at_cap": 0,
+        "unsolved": 0
+      },
+      "BE:F?m:(S+M)": {
+        "n": 2,
+        "seconds": 0.6053185000200756,
+        "at_cap": 2,
+        "unsolved": 2
+      },
+      "BE:S?F:(M+m)": {
+        "n": 2,
+        "seconds": 0.45632208400638774,
+        "at_cap": 1,
+        "unsolved": 1
+      },
+      "BE:S?M:(m+F)": {
+        "n": 2,
+        "seconds": 0.5475528319366276,
+        "at_cap": 2,
+        "unsolved": 2
+      },
+      "PA:(F?S:m)+M": {
+        "n": 2,
+        "seconds": 0.5635987090063281,
+        "at_cap": 2,
+        "unsolved": 2
+      },
+      "PA:(F?m:M)+S": {
+        "n": 2,
+        "seconds": 0.4189450830454007,
+        "at_cap": 2,
+        "unsolved": 1
+      },
+      "PA:(F?m:S)+M": {
+        "n": 2,
+        "seconds": 0.446980124048423,
+        "at_cap": 2,
+        "unsolved": 2
+      },
+      "PA:(S?M:F)+m": {
+        "n": 2,
+        "seconds": 0.36170441599097103,
+        "at_cap": 1,
+        "unsolved": 1
+      },
+      "PA:(S?m:F)+M": {
+        "n": 2,
+        "seconds": 0.3807908759918064,
+        "at_cap": 1,
+        "unsolved": 1
+      },
+      "PA:(S?m:M)+F": {
+        "n": 2,
+        "seconds": 0.26810816704528406,
+        "at_cap": 0,
+        "unsolved": 0
+      }
+    },
+    "MM": {
+      "BE:F?S:(M+m)": {
+        "n": 40,
+        "seconds": 8.431971833051648,
+        "at_cap": 17,
+        "unsolved": 16
+      },
+      "BE:F?m:(S+M)": {
+        "n": 40,
+        "seconds": 8.08754741505254,
+        "at_cap": 9,
+        "unsolved": 9
+      },
+      "BE:S?F:(M+m)": {
+        "n": 40,
+        "seconds": 8.637524667021353,
+        "at_cap": 12,
+        "unsolved": 12
+      },
+      "BE:S?M:(m+F)": {
+        "n": 40,
+        "seconds": 9.10724149789894,
+        "at_cap": 17,
+        "unsolved": 16
+      },
+      "PA:(F?S:m)+M": {
+        "n": 40,
+        "seconds": 9.540994960116223,
+        "at_cap": 19,
+        "unsolved": 17
+      },
+      "PA:(F?m:M)+S": {
+        "n": 40,
+        "seconds": 8.336385541537311,
+        "at_cap": 15,
+        "unsolved": 12
+      },
+      "PA:(F?m:S)+M": {
+        "n": 40,
+        "seconds": 8.746901999867987,
+        "at_cap": 16,
+        "unsolved": 16
+      },
+      "PA:(S?M:F)+m": {
+        "n": 40,
+        "seconds": 9.298437917954288,
+        "at_cap": 22,
+        "unsolved": 22
+      },
+      "PA:(S?m:F)+M": {
+        "n": 40,
+        "seconds": 8.912337873131037,
+        "at_cap": 24,
+        "unsolved": 23
+      },
+      "PA:(S?m:M)+F": {
+        "n": 40,
+        "seconds": 7.003826330066659,
+        "at_cap": 11,
+        "unsolved": 10
+      }
+    },
+    "MG": {
+      "BE:F?S:(M+m)": {
+        "n": 40,
+        "seconds": 8.745223708916456,
+        "at_cap": 19,
+        "unsolved": 19
+      },
+      "BE:F?m:(S+M)": {
+        "n": 40,
+        "seconds": 8.193643539852928,
+        "at_cap": 16,
+        "unsolved": 14
+      },
+      "BE:S?F:(M+m)": {
+        "n": 40,
+        "seconds": 7.9706428740755655,
+        "at_cap": 16,
+        "unsolved": 14
+      },
+      "BE:S?M:(m+F)": {
+        "n": 40,
+        "seconds": 8.700892708089668,
+        "at_cap": 18,
+        "unsolved": 18
+      },
+      "PA:(F?S:m)+M": {
+        "n": 40,
+        "seconds": 9.26723928906722,
+        "at_cap": 25,
+        "unsolved": 24
+      },
+      "PA:(F?m:M)+S": {
+        "n": 40,
+        "seconds": 7.706280493643135,
+        "at_cap": 18,
+        "unsolved": 18
+      },
+      "PA:(F?m:S)+M": {
+        "n": 40,
+        "seconds": 8.504769796156324,
+        "at_cap": 25,
+        "unsolved": 25
+      },
+      "PA:(S?M:F)+m": {
+        "n": 40,
+        "seconds": 9.144507127988618,
+        "at_cap": 25,
+        "unsolved": 25
+      },
+      "PA:(S?m:F)+M": {
+        "n": 40,
+        "seconds": 8.93557074596174,
+        "at_cap": 25,
+        "unsolved": 25
+      },
+      "PA:(S?m:M)+F": {
+        "n": 40,
+        "seconds": 7.2073360361973755,
+        "at_cap": 10,
+        "unsolved": 10
+      }
+    },
+    "GM": {
+      "BE:F?S:(M+m)": {
+        "n": 40,
+        "seconds": 10.941731081111357,
+        "at_cap": 29,
+        "unsolved": 28
+      },
+      "BE:F?m:(S+M)": {
+        "n": 40,
+        "seconds": 9.672590170113835,
+        "at_cap": 22,
+        "unsolved": 21
+      },
+      "BE:S?F:(M+m)": {
+        "n": 40,
+        "seconds": 8.812739373766817,
+        "at_cap": 16,
+        "unsolved": 16
+      },
+      "BE:S?M:(m+F)": {
+        "n": 40,
+        "seconds": 9.186343787121587,
+        "at_cap": 21,
+        "unsolved": 21
+      },
+      "PA:(F?S:m)+M": {
+        "n": 40,
+        "seconds": 10.387236959999427,
+        "at_cap": 26,
+        "unsolved": 24
+      },
+      "PA:(F?m:M)+S": {
+        "n": 40,
+        "seconds": 9.00551829393953,
+        "at_cap": 22,
+        "unsolved": 22
+      },
+      "PA:(F?m:S)+M": {
+        "n": 40,
+        "seconds": 9.25119424983859,
+        "at_cap": 18,
+        "unsolved": 18
+      },
+      "PA:(S?M:F)+m": {
+        "n": 40,
+        "seconds": 8.99220229499042,
+        "at_cap": 18,
+        "unsolved": 17
+      },
+      "PA:(S?m:F)+M": {
+        "n": 40,
+        "seconds": 8.95005962101277,
+        "at_cap": 20,
+        "unsolved": 20
+      },
+      "PA:(S?m:M)+F": {
+        "n": 40,
+        "seconds": 7.229521872126497,
+        "at_cap": 7,
+        "unsolved": 7
+      }
+    }
+  },
+  "cap": 8192,
+  "note": "Observed complete blocks, no cell/map selection; short diagnostic projection has small-n uncertainty."
+}

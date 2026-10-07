@@ -1,0 +1,277 @@
+{
+  "passed": true,
+  "source_hashes_verified": true,
+  "map_hashes_verified": true,
+  "bank_labels_verified": true,
+  "no_learning": true,
+  "source_training_rows": {
+    "passed": true,
+    "expected_rows": 10500,
+    "actual_rows": 10500,
+    "errors": [],
+    "missing_rows": [],
+    "extra_rows": []
+  },
+  "reproduction": {
+    "passed": true,
+    "rows": 786,
+    "expected": 786,
+    "errors": [],
+    "seconds": 820.9010512276436,
+    "wall_seconds": 89.5365976250032,
+    "reference_2331_sha256": "930a8c4ad1f803d20eb9753bb1ff71fc67cdf981b7c6e9ef6390f96edfad8b8c",
+    "roster_1723": 420,
+    "roster_2331": 366,
+    "smoke_reduced_roster": false
+  },
+  "encoding": {
+    "passed": true,
+    "round_trips": [
+      {
+        "source": "G4",
+        "destination": "BE1",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "BE1",
+        "destination": "G4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "G4",
+        "destination": "BE2",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "BE2",
+        "destination": "G4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "G4",
+        "destination": "BE3",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "BE3",
+        "destination": "G4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "G4",
+        "destination": "BE4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "BE4",
+        "destination": "G4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "G4",
+        "destination": "BE5",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "BE5",
+        "destination": "G4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "G4",
+        "destination": "BE6",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "BE6",
+        "destination": "G4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "G4",
+        "destination": "BE7",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "BE7",
+        "destination": "G4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "G4",
+        "destination": "BE8",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "BE8",
+        "destination": "G4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "G4",
+        "destination": "BE9",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "BE9",
+        "destination": "G4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "G4",
+        "destination": "BE10",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "BE10",
+        "destination": "G4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "G4",
+        "destination": "PA1",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "PA1",
+        "destination": "G4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "G4",
+        "destination": "PA2",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "PA2",
+        "destination": "G4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "G4",
+        "destination": "PA3",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "PA3",
+        "destination": "G4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "G4",
+        "destination": "PA4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "PA4",
+        "destination": "G4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "G4",
+        "destination": "PA5",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "PA5",
+        "destination": "G4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "G4",
+        "destination": "PA6",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "PA6",
+        "destination": "G4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "G4",
+        "destination": "PA7",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "PA7",
+        "destination": "G4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "G4",
+        "destination": "PA8",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "PA8",
+        "destination": "G4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "G4",
+        "destination": "PA9",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "PA9",
+        "destination": "G4",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "G4",
+        "destination": "PA10",
+        "tapes": 10000,
+        "passed": true
+      },
+      {
+        "source": "PA10",
+        "destination": "G4",
+        "tapes": 10000,
+        "passed": true
+      }
+    ],
+    "marginal_law": [],
+    "conditional_interval_bounds_checked": true,
+    "conditional_law": "Self-decoded tape probabilities times inverse interval probabilities cancel to the independent uniform allele prior."
+  },
+  "pairing_blocks": 2,
+  "search_law_omitted": "MMr omitted as approved; previous non-rejection is not equivalence."
+}
