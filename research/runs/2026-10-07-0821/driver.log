@@ -1,0 +1,17 @@
+2026-10-07 08:21:50 proposal sent back to the steward (The critic recommends `revise`; see critique.md beside the proposal.)
+2026-10-07 08:21:50 steward (claude/claude-opus-5-5) → propose [herdr]
+2026-10-07 08:25:46 phase → accept
+2026-10-07 08:25:46 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-07 08:27:54 phase → awaiting_approval
+2026-10-07 08:27:54 proposal: Rank-one context steps — calibrate selection signal and scoring effort, then 16 paired context-vs-token continuations from saved token maps (no stopping gate) [questions/10-compositional-map-transfer/18-compact-context-learning] — budget left: 2. Approve with `research.py approve`.
+2026-10-07 08:27:54 auto-approved (critic: approve_with_notes, revisions: 1)
+2026-10-07 08:27:54 phase → prepare
+2026-10-07 08:28:10 researcher (codex/gpt-6.1-sol) → prepare [herdr]
+2026-10-07 08:46:21 phase → review_code
+2026-10-07 08:46:21 reviewer (claude/claude-fable-5-1) → review_code [herdr]
+2026-10-07 08:52:04 phase → execute
+2026-10-07 08:52:04 running queue (1 entries)
+2026-10-07 11:30:44 phase → analyse
+2026-10-07 11:30:44 reviewer (claude/claude-fable-5-1) → analyse [herdr]
+2026-10-07 11:37:08 phase → decide
+2026-10-07 11:37:08 steward (claude/claude-opus-5-5) → decide [herdr]

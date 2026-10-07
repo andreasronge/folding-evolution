@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-07 (last completed run 2026-10-07-0315, commit `5dae3a6`: the same starting-program × search-decoder crossing on the ten training cells; before it run 2026-10-06-2331, commit `8f42f38`: the frozen maps' starting programs crossed with the decoder used during search, on the three withheld cells; before that run 2026-10-06-2229, commit `33fcee2`: the frozen crossed BE/PA token maps scored on the three withheld cells, stage 2; before that run 2026-10-06-1723, `db96645`, crossed BE/PA token learning on the four-reducer bank, stage 1, training cells only; before that run 2026-10-06-1603, `92ba7c5`, the four-reducer FIRST bank feasibility study; before that run 2026-10-06-1425, `b397f72`, the saved-map shape-shift check, after runs 1400 and 1419 with the same design were blocked by a merge conflict; before it run 2026-10-06-0811, `0709104`, contextual moves versus continued token learning from the learned post-addition maps; before 0811 run 2026-10-06-0132, `02cf76f`, root 10's first decoder-learning study; run 2026-10-06-0001, `a65ded0`, and run 2026-10-05-2247, `0995d33`; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 were blocked before running). This covers the **map-bias line**, the current
+As of 2026-10-07 (last completed run 2026-10-07-0821, commit `f61aec4`: rank-one context steps versus token-only continuation from the saved token maps, training cells only; before it run 2026-10-07-0315, commit `5dae3a6`: the same starting-program × search-decoder crossing on the ten training cells; before that run 2026-10-06-2331, commit `8f42f38`: the frozen maps' starting programs crossed with the decoder used during search, on the three withheld cells; before that run 2026-10-06-2229, commit `33fcee2`: the frozen crossed BE/PA token maps scored on the three withheld cells, stage 2; before that run 2026-10-06-1723, `db96645`, crossed BE/PA token learning on the four-reducer bank, stage 1, training cells only; before that run 2026-10-06-1603, `92ba7c5`, the four-reducer FIRST bank feasibility study; before that run 2026-10-06-1425, `b397f72`, the saved-map shape-shift check, after runs 1400 and 1419 with the same design were blocked by a merge conflict; before it run 2026-10-06-0811, `0709104`, contextual moves versus continued token learning from the learned post-addition maps; before 0811 run 2026-10-06-0132, `02cf76f`, root 10's first decoder-learning study; run 2026-10-06-0001, `a65ded0`, and run 2026-10-05-2247, `0995d33`; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 were blocked before running). This covers the **map-bias line**, the current
 core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
 evolution finds and keeps ("arrival of the frequent")?* Until 2026-10-05 the line studied
 whether the chemistry can discover, preserve and reuse a **shared helper** (one functional part
@@ -27,7 +27,10 @@ about 1.3× in leave-one-map-out checks, and 1.15× on PA; a 1.1× preference is
 comes both from the programs the search starts with and from using the map during search, each
 about 1.3× given the other, and the two gains are strongly sub-additive; on the training cells
 the start weighs relatively more on branch-else cells than on plus-arg cells (see "Starting
-programs versus ongoing decoder"). Root 10's ten slots are spent.
+programs versus ongoing decoder"). A third contextual procedure (rank-one context steps added
+to token continuation from the saved maps) gave no resolved training increment, but in that
+loop token continuation alone did not resolve learning either, so context was not given a
+fair test (see "Compact context continuation"). Root 10 has used 11 of its 12 slots.
 
 Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per experiment; reviews and report tables in [docs/map-bias/reviews/](../docs/map-bias/reviews/)) and
 [findings](../docs/map-bias/findings.md) (items 1–17; the owner-promoted, reviewed claims).
@@ -512,8 +515,9 @@ bank, not a holdout. ([analysis](runs/2026-10-07-0315/analysis.md))
   balance S = log2(T_MG/T_GM) (positive: losing the ongoing decoder costs more than losing the
   start) is −0.21 to −0.39 on all four BE cells, each resolved below 0, and −0.05 to +0.54 on the
   six PA cells (three resolved above 0, none below). BE minus PA: −0.45 log2, Welch 95% [−0.68,
-  −0.22] over cells; leave-one-cell-out −0.38 to −0.50; 20/20 maps lower on BE cells; S set by
-  the cell family, not the map family (descriptive). The difference is relative: both components
+  −0.22] over cells; leave-one-cell-out −0.38 to −0.50; 20/20 maps lower on BE cells; S differed
+  more between cell families than between map families (descriptive; map-family equivalence and
+  the cause of the cell-group difference are not established). The difference is relative: both components
   are resolved positive within each family (P1 on BE about 1.15× [1.08, 1.23]; on PA 1.42×
   [1.34, 1.51]). 2331's withheld BE cell (S −0.27) fits the BE range (different seeds; descriptive).
 - **"Family" is not separated from shape or difficulty.** Across the ten cells S correlates with
@@ -525,10 +529,50 @@ bank, not a holdout. ([analysis](runs/2026-10-07-0315/analysis.md))
   "ongoing"; supply of useful programs versus neighbourhood structure; why the balance differs
   between the cell groups; anything about learned context or family specificity of the maps.
 
+## Compact context continuation (root 10, run 2026-10-07-0821)
+
+One run, commit `f61aec4`, complete data (174 964 searches, 2.64 h, all validation passed, no
+holdout touched). Ten 1723 training cells (4 BE, 6 PA), G4, D1331. From 16 saved 1723 token maps
+(8 BE, 8 PA), two equally funded continuations each, sharing inner seeds: T (token steps only)
+and C (each step a token step or, with probability ½, a step on a centred rank-one log-weight
+residual over G4's previous-token × next-token table). 2 parents + 6 children per generation,
+24 searches per child at the 65k cap, 20 generations, 4 040 searches per arm. Final maps scored
+on 50 shared fresh seeds per own-family cell at the 524k cap; family-balanced paired t interval
+over 16 starts. A calibration stage first scored single steps from the same kind of start on
+two independent seed blocks. Pre-registered rows (row 3); reviewed analysis. Fairly sure of
+the numbers; narrow in scope (one loop and budget, token-tuned starts, training cells only).
+([18](questions/10-compositional-map-transfer/18-compact-context-learning/question.md),
+[analysis](runs/2026-10-07-0821/analysis.md))
+
+- **Adding rank-one context steps gave no resolved training increment over token-only
+  continuation at this budget.** C/T 0.955× [0.833, 1.095]; a gain above about 1.10× is
+  excluded for this procedure and budget. BE 1.05× [0.84, 1.32], PA 0.87× [0.71, 1.06]
+  (descriptive). Pair sd 0.38 log2, above the planned 0.29.
+- **Token continuation alone did not resolve learning in this loop either, so the null does not
+  test context fairly.** T/S 1.03× [0.90, 1.16], C/S 0.98× [0.90, 1.07]; in-loop parent scores
+  flat in both arms (slopes −0.003 and +0.003 log2 per generation, intervals spanning 0) while
+  parents were replaced 1.4 times per generation. T/S's upper bound still admits about 5 × 10⁻⁵
+  log2 per search, the rate 0811's longer token continuation achieved on another bank (0.54 log2
+  over 13 440 searches), so "too shallow" is not excluded.
+- **Single context steps have repeatable effects, but selected ones only reach parent level.**
+  True step-effect variance from two independent seed blocks: context 0.047 [0.027, 0.065],
+  token 0.028 [0.005, 0.051] log2². The best quarter of 24 mutants (by 48 searches) beat the
+  average mutant on new seeds by 0.12 log2 [0.06, 0.18] but not its parent (−0.017 [−0.085,
+  +0.041]); the average step was harmful (+0.06 context, +0.03 token). Per-child score noise
+  (0.33 log2 at 24 searches) exceeds the spread of true step effects (sd 0.17–0.22); that this
+  is why neither arm climbed is the reviewer's interpretation, not a measured contrast. Only
+  initial steps from a zero residual were calibrated.
+- **Descriptive only:** in PA, removing the learned residual made C faster (C/C0 0.91× [0.85,
+  0.98], 7/8 pairs; pooled 0.96× [0.90, 1.02]; removal also shifts emitted token frequencies).
+  Learned residuals were unrelated to the hand-set BE − PA direction (|cos| ≤ 0.105). Context
+  and token children survived into the parent set at the same rate (0.22–0.27).
+- **Not separated:** ineffective context versus a loop too noisy or too short to climb; anything
+  about transfer, family specificity, or context learned jointly with tokens from G4.
+
 ## Open questions
 
 - [10-compositional-map-transfer](questions/10-compositional-map-transfer/question.md) (open,
-  root, budget 10, 10 used — spent): can a decoder adapted across related tasks help fresh populations
+  root, budget 12, 11 used): can a decoder adapted across related tasks help fresh populations
   solve unseen operation combinations beyond a token-frequency bias? Two feasibility studies
   (one bank failed split/headroom, one failed the two-family requirement but kept a PA split),
   then two learning studies: learned token multipliers on G transfer about 2× to the withheld
@@ -539,7 +583,9 @@ bank, not a holdout. ([analysis](runs/2026-10-07-0315/analysis.md))
   family advantage there (95% upper bounds 1.25× BE, 1.15× PA; 16, closed). The frozen maps' gain comes from both starting
   programs and ongoing decoder use, about 1.3× each given the other and sub-additive, on the
   withheld and the training cells; the balance differs between BE and PA training cells (17,
-  closed). All 10 slots used; next is a strategy review.
+  closed). Rank-one context steps on top of token continuation: no resolved training increment,
+  in a loop where token continuation did not resolve learning either (18, parked). 11 of 12
+  slots used (strategy 0803 raised 10 → 12); next is a strategy review.
   - [11-composition-bank](questions/10-compositional-map-transfer/11-composition-bank/question.md)
     (closed, run 2026-10-05-2247): this 3×3 bank has no eligible split at 524k (Sm-SEL 27/50
     under U), and all four splits fail the 4 096 headroom rule under the hand-set grammar G.
@@ -574,6 +620,11 @@ bank, not a holdout. ([analysis](runs/2026-10-07-0315/analysis.md))
     starting programs add 1.30× [1.24, 1.36] and 1.33× [1.26, 1.40]; sub-additive in both. On
     the training cells the start weighs relatively more on BE than PA cells (−0.45 log2 [−0.68,
     −0.22]); not separated from shape or difficulty.
+  - [18-compact-context-learning](questions/10-compositional-map-transfer/18-compact-context-learning/question.md)
+    (parked, 1 of 2 slots, run 2026-10-07-0821 row 3): rank-one context steps added to token
+    continuation from saved maps, C/T 0.955× [0.833, 1.095]; token-only continuation did not
+    resolve learning either (T/S 1.03× [0.90, 1.16]). Reopen once a loop is shown to make token
+    continuation from these maps learn, or a lower-noise score appears.
 - [01-map-bias](questions/01-map-bias/question.md) (open, root, budget spent): how does the map
   bias what evolution finds and keeps?
 - [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)
