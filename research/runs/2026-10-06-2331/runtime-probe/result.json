@@ -1,0 +1,127 @@
+{
+  "complete_seeds": [],
+  "n_seeds": 0,
+  "n_maps": 20,
+  "validation": {
+    "passed": false,
+    "source_hashes_verified": true,
+    "map_hashes_verified": true,
+    "bank_labels_verified": true,
+    "no_learning": true,
+    "source_training_rows": {
+      "passed": true,
+      "expected_rows": 10500,
+      "actual_rows": 10500,
+      "errors": [],
+      "missing_rows": [],
+      "extra_rows": []
+    },
+    "reproduction": null,
+    "encoding": null,
+    "pairing_blocks": 0,
+    "search_law": null
+  },
+  "diagnostic_only": true,
+  "metric_definitions": {
+    "cost": "Evaluations to first full D1331 exact solve, or the cap if unsolved.",
+    "P1": "Mean paired log2(T_MG/T_MM), equal cells and equal BE/PA families.",
+    "P2": "Mean paired log2(T_GM/T_MM), equal cells and equal BE/PA families.",
+    "D": "Mean paired log2(T_GG/T_MM), equal cells and equal BE/PA families.",
+    "I_G": "Mean paired log2(T_GG/T_MG), equal cells and equal BE/PA families.",
+    "O_G": "Mean paired log2(T_GG/T_GM), equal cells and equal BE/PA families.",
+    "interaction": "P1 minus O_G in paired log2 cost units.",
+    "MMr/MM": "Mean paired log2(T_MMr/T_MM), equal cells and equal BE/PA families."
+  },
+  "bootstrap": {
+    "seed": 2331400,
+    "replicates": 1000,
+    "method": "Crossed map-within-family / shared whole-seed percentile intervals",
+    "weighting": "Equal cells, equal BE/PA families, equal maps within family"
+  },
+  "outcome": {
+    "row": "U",
+    "meaning": "Validation, coverage or diagonal reproduction failed; no mechanism attribution."
+  },
+  "stop_reason": null,
+  "runtime": {
+    "wall_seconds": 125.24544024997158,
+    "rows": 0,
+    "included_rows": 0,
+    "excluded_partial_rows": 0,
+    "sum_search_seconds": 0
+  },
+  "probe": {
+    "complete": true,
+    "rows": 900,
+    "wall_seconds": 124.59268920798786,
+    "cpu_search_seconds": 1195.5280785797513,
+    "groups": {
+      "BE1": {
+        "GG": {
+          "n": 75,
+          "solved": 70,
+          "mean_seconds": 3.3007173439472295
+        },
+        "MM": {
+          "n": 75,
+          "solved": 75,
+          "mean_seconds": 0.4524660588777624
+        },
+        "MG": {
+          "n": 75,
+          "solved": 74,
+          "mean_seconds": 1.0209339383104816
+        },
+        "GM": {
+          "n": 75,
+          "solved": 75,
+          "mean_seconds": 0.6260854328152102
+        }
+      },
+      "PA4": {
+        "GG": {
+          "n": 75,
+          "solved": 70,
+          "mean_seconds": 2.0849601594397487
+        },
+        "MM": {
+          "n": 75,
+          "solved": 75,
+          "mean_seconds": 0.3348289282798457
+        },
+        "MG": {
+          "n": 75,
+          "solved": 73,
+          "mean_seconds": 1.2511189638924165
+        },
+        "GM": {
+          "n": 75,
+          "solved": 75,
+          "mean_seconds": 0.5347659555240534
+        }
+      },
+      "PA9": {
+        "GG": {
+          "n": 75,
+          "solved": 70,
+          "mean_seconds": 2.056948266051089
+        },
+        "MM": {
+          "n": 75,
+          "solved": 73,
+          "mean_seconds": 1.551467773950814
+        },
+        "MG": {
+          "n": 75,
+          "solved": 73,
+          "mean_seconds": 1.4346029738794701
+        },
+        "GM": {
+          "n": 75,
+          "solved": 73,
+          "mean_seconds": 1.29147858609523
+        }
+      }
+    }
+  }
+}

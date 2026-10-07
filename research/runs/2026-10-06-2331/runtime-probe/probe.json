@@ -1,0 +1,74 @@
+{
+  "complete": true,
+  "rows": 900,
+  "wall_seconds": 124.59268920798786,
+  "cpu_search_seconds": 1195.5280785797513,
+  "groups": {
+    "BE1": {
+      "GG": {
+        "n": 75,
+        "solved": 70,
+        "mean_seconds": 3.3007173439472295
+      },
+      "MM": {
+        "n": 75,
+        "solved": 75,
+        "mean_seconds": 0.4524660588777624
+      },
+      "MG": {
+        "n": 75,
+        "solved": 74,
+        "mean_seconds": 1.0209339383104816
+      },
+      "GM": {
+        "n": 75,
+        "solved": 75,
+        "mean_seconds": 0.6260854328152102
+      }
+    },
+    "PA4": {
+      "GG": {
+        "n": 75,
+        "solved": 70,
+        "mean_seconds": 2.0849601594397487
+      },
+      "MM": {
+        "n": 75,
+        "solved": 75,
+        "mean_seconds": 0.3348289282798457
+      },
+      "MG": {
+        "n": 75,
+        "solved": 73,
+        "mean_seconds": 1.2511189638924165
+      },
+      "GM": {
+        "n": 75,
+        "solved": 75,
+        "mean_seconds": 0.5347659555240534
+      }
+    },
+    "PA9": {
+      "GG": {
+        "n": 75,
+        "solved": 70,
+        "mean_seconds": 2.056948266051089
+      },
+      "MM": {
+        "n": 75,
+        "solved": 73,
+        "mean_seconds": 1.551467773950814
+      },
+      "MG": {
+        "n": 75,
+        "solved": 73,
+        "mean_seconds": 1.4346029738794701
+      },
+      "GM": {
+        "n": 75,
+        "solved": 73,
+        "mean_seconds": 1.29147858609523
+      }
+    }
+  }
+}

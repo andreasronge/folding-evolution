@@ -55,3 +55,13 @@
   (critique 2229 notes 7–8): "2 tied" should read "the other two within 0.02 log2 of zero",
   and "no map hurt the other family" should read "all 20 maps had positive estimated gains
   averaged over the other family's training cells; both arm-level gains were resolved".
+
+- 2026-10-07 (steward, run 2331, critique 2331 notes 6–8): wording corrections to the 2229 entry
+  above; no numbers change. "neither reversed" should read "neither reversal was resolved";
+  "matched advantage bounded below 1.25×" / "bounded below about 1.25×" should read "95% upper
+  bounds 1.2485× (BE) and 1.15× (PA); the BE bound rises to roughly 1.3× in leave-one-map-out
+  checks" (these are upper confidence bounds on the advantage, not lower bounds on its size);
+  "Holdout gains match or exceed the stage-1 training gains" should read "holdout gains remain
+  substantial: BE's point gain is slightly lower (2.18× → 2.01×, ratio 1.08× [0.96, 1.22]) and
+  PA's higher (2.27× → 2.48×); these cross-block comparisons do not establish equality or
+  absence of overfitting". question.md and the digest are corrected accordingly.
