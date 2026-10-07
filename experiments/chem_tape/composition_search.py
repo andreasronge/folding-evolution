@@ -129,7 +129,7 @@ def outputs(programs, inputs, alphabet="v2_rmin"):
     ).reshape(len(programs), len(inputs))
 
 
-def search(job):
+def search(job, *, return_solver=False):
     cell, arm, table, seed, cap, pop_size = job[:6]
     inputs = job[6] if len(job) >= 7 else INPUTS
     alphabet = job[7] if len(job) >= 8 else "v2_rmin"
@@ -173,6 +173,7 @@ def search(job):
     curve = []
     budget_times = {}
     solved_at = None
+    solver = None
     evaluations = 0
     budgets = (4096, 32768, 65536, 131072, 262144, 524288)
     for generation in range(cap // pop_size):
@@ -199,6 +200,8 @@ def search(job):
                 shortcuts += 1
             if checked[key]:
                 solved_at = evaluations
+                if return_solver:
+                    solver = programs[i].tolist()
                 break
         elapsed = time.monotonic() - start
         for b in budgets:
@@ -237,7 +240,7 @@ def search(job):
     for b in budgets:
         if solved_at is not None and solved_at <= b:
             budget_times[str(b)] = elapsed
-    return dict(
+    result = dict(
         cell=cell["id"],
         arm=arm,
         seed=seed,
@@ -259,3 +262,6 @@ def search(job):
         initial_source_hash=source.hash(),
         initial_reencoded=reencoded,
     )
+    if return_solver:
+        result["solver"] = solver
+    return result

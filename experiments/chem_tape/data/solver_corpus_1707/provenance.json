@@ -1,0 +1,45 @@
+{
+  "source_path": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-07/2026-10-07-0315-training-bank-initialization/search.jsonl",
+  "source_sha256": "35663d93a068a039992385379087fd986d6fa1c7d354aba43f189c20921582ab",
+  "source_commit": "5dae3a63b59f71df612c7fa9424a946722a5e895",
+  "replay_sha256": "eb569085b6400afa95edfbd53d8e1a269e32f3d9cc489b7b2ab5516b572f9eeb",
+  "rows": 40,
+  "cells": [
+    "BE:F?S:(M+m)",
+    "PA:(F?S:m)+M"
+  ],
+  "seeds": [
+    3150000,
+    3150001,
+    3150002,
+    3150003,
+    3150004,
+    3150005,
+    3150006,
+    3150007,
+    3150008,
+    3150009,
+    3150010,
+    3150011,
+    3150012,
+    3150013,
+    3150014,
+    3150015,
+    3150016,
+    3150017,
+    3150018,
+    3150019
+  ],
+  "holdout_source_path": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-07/2026-10-06-2331-initialization-ongoing-decoder/search.jsonl",
+  "holdout_source_sha256": "c7fa5342d61f2591a6ed5dac5148ccd80037446fd40069415e45c55e96cd950a",
+  "holdout_G4_mean_seconds": {
+    "PA:(F?S:M)+m": 2.4825136997950903,
+    "PA:(S?M:m)+F": 1.1284124414107646,
+    "BE:S?m:(M+F)": 1.875650023007911
+  },
+  "holdout_G4_n": {
+    "PA:(F?S:M)+m": 400,
+    "PA:(S?M:m)+F": 400,
+    "BE:S?m:(M+F)": 400
+  }
+}

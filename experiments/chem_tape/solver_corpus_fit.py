@@ -1,0 +1,119 @@
+"""Frozen 1707 full-tape estimators; no evaluation observations enter fitting."""
+
+import numpy as np
+from scipy.optimize import minimize
+
+from experiments.chem_tape.composition_search import Decoder
+from experiments.chem_tape.four_reducer_maps import R, tables
+from experiments.chem_tape.map_learning import normalize
+
+
+def validate_table(table):
+    d = Decoder(table)
+    if (
+        d.table.shape != (25, 24)
+        or d.allele_range != R
+        or np.min(np.diff(d.table, prepend=0, axis=1)) < 250
+    ):
+        raise ValueError("required decoder shape/range/support validation failed")
+    return d.hash()
+
+
+def transition_counts(rows, cells):
+    per = {c: np.zeros((25, 24)) for c in cells}
+    yields = dict.fromkeys(cells, 0)
+    for r in rows:
+        if r["cell"] not in per:
+            raise ValueError("non-training corpus tape")
+        tape = r["solver"]
+        if (tape is not None) != r["solved"]:
+            raise ValueError("solver tape/solve mismatch")
+        if tape is None:
+            continue
+        if len(tape) != 32 or any(type(t) is not int or not 0 <= t < 24 for t in tape):
+            raise ValueError("invalid solver tape")
+        yields[r["cell"]] += 1
+        previous = 24
+        for token in tape:
+            per[r["cell"]][previous, token] += 1
+            previous = token
+    if any(n == 0 for n in yields.values()):
+        raise ValueError("empty corpus cell")
+    n = sum(counts / counts.sum() * 1600 for counts in per.values())
+    return n, yields
+
+
+def emitted(table):
+    p = np.diff(table, prepend=0, axis=1) / R
+    position = p[24].copy()
+    total = position.copy()
+    for _ in range(31):
+        position = position @ p[:24]
+        total += position
+    return total / 32
+
+
+def fit(n):
+    g = np.diff(tables()["G4"], prepend=0, axis=1) / R
+
+    def objective(lw):
+        q = g * np.exp(lw)
+        q /= q.sum(1, keepdims=True)
+        ll = (n * np.log(q)).sum()
+        grad = n.sum(0) - (n.sum(1, keepdims=True) * q).sum(0)
+        return -ll, -grad
+
+    res = minimize(
+        objective,
+        np.zeros(24),
+        jac=True,
+        method="L-BFGS-B",
+        bounds=[(-np.log(16), np.log(16))] * 24,
+    )
+    if not res.success or not np.all(np.isfinite(res.x)):
+        raise ValueError(f"T optimizer failed: {res.message}")
+    T = normalize(g * np.exp(res.x)[None, :], R)
+    C = normalize((n + 50 * g) / (n.sum(1, keepdims=True) + 50), R)
+    target = emitted(C)
+    lw = np.zeros(24)
+    for _ in range(400):
+        tab = normalize(g * np.exp(lw)[None, :], R)
+        lw += 0.7 * (np.log(target) - np.log(emitted(tab)))
+    K = normalize(g * np.exp(lw)[None, :], R)
+    error = float(np.max(np.abs(emitted(K) - target)))
+    fitted = dict(T=T, C=C, K=K)
+    hashes = {a: validate_table(t) for a, t in fitted.items()}
+    diagnostics = dict(
+        T_success=bool(res.success),
+        T_message=str(res.message),
+        T_iterations=int(res.nit),
+        T_loss=float(res.fun),
+        T_multipliers=np.exp(res.x).tolist(),
+        K_log_multipliers=lw.tolist(),
+        K_steps=400,
+        K_step=0.7,
+        K_max_error=error,
+        K_valid=error <= 0.001,
+        hashes=hashes,
+        C_emitted=target.tolist(),
+        K_emitted=emitted(K).tolist(),
+    )
+    return fitted, diagnostics
+
+
+BASE = 2026100717
+
+
+def seed_for(phase, family, corpus, cell, index, base=BASE):
+    return (
+        base
+        + phase * 1000000
+        + (family == "PA") * 100000
+        + corpus * 2000
+        + cell * 200
+        + index
+    )
+
+
+def admit_holdouts(remaining, projected):
+    return bool(remaining > 1.5 * projected)
