@@ -149,6 +149,9 @@ def make_report(
     validation,
     diagnostic=False,
     replicates=BOOTSTRAP_REPLICATES,
+    cell_weights=None,
+    minimum_seeds=200,
+    gg_minimum=0.85,
 ):
     main = [r for r in rows if r["seed"] in seeds and r["arm"] != "MMr"]
     report = dict(
@@ -187,8 +190,14 @@ def make_report(
             for k, v in cs.items()
         }
 
-    average = {k: v.mean(axis=1) for k, v in contrasts.items()}
-    report["contrasts"] = summaries(average, weights, logs["GG"][0].mean(axis=0))
+    cw = (
+        np.full(len(cells), 1 / len(cells))
+        if cell_weights is None
+        else np.asarray(cell_weights)
+    )
+    average = {k: np.einsum("mcs,c->ms", v, cw) for k, v in contrasts.items()}
+    gg_average = np.einsum("cs,c->s", logs["GG"][0], cw)
+    report["contrasts"] = summaries(average, weights, gg_average)
     report["per_cell"] = {
         cid: summaries(
             {k: v[:, j, :] for k, v in contrasts.items()}, weights, logs["GG"][0, j]
@@ -199,7 +208,7 @@ def make_report(
         family: summaries(
             {k: v[start : start + 10] for k, v in average.items()},
             resampling(len(seeds), 10, replicates),
-            logs["GG"][0].mean(axis=0),
+            gg_average,
         )
         for family, start in (("BE", 0), ("PA", 10))
     }
@@ -241,11 +250,12 @@ def make_report(
         for tid in ("G4", *maps)
     }
     gg_gate = all(
-        v["fraction"] >= 0.85 for v in report["solve_fractions"]["G4"]["GG"].values()
+        v["fraction"] >= gg_minimum
+        for v in report["solve_fractions"]["G4"]["GG"].values()
     )
     d_gate = bool(report["contrasts"]["D"]["interval_log2"][0] > np.log2(1.25))
     report["gates"] = dict(
-        gg_solve=gg_gate, diagonal=d_gate, minimum_seeds=len(seeds) >= 200
+        gg_solve=gg_gate, diagonal=d_gate, minimum_seeds=len(seeds) >= minimum_seeds
     )
     report["outcome"] = classify(
         report["contrasts"],
@@ -253,7 +263,7 @@ def make_report(
         and not diagnostic
         and gg_gate
         and d_gate
-        and len(seeds) >= 200,
+        and len(seeds) >= minimum_seeds,
     )
     return report
 
@@ -264,7 +274,7 @@ def save_report(out, report, rows, cells):
         "",
         f"Outcome {report['outcome']['row']}: {report['outcome']['meaning']}",
         f"Complete shared seeds: {report['n_seeds']}; maps: {report['n_maps']}.",
-        "Scope: 20 frozen maps, three reused screened cells, G4 context, D1331, approved operators/budget.",
+        f"Scope: 20 frozen maps, {len(cells)} reused screened cells, G4 context, D1331, approved operators/budget.",
         "Ongoing use bundles inherited alleles, mutation, crossover and continued program supply.",
         "",
     ]
@@ -300,7 +310,7 @@ def save_report(out, report, rows, cells):
     fig.tight_layout()
     fig.savefig(out / "contrasts.png", dpi=150)
     plt.close(fig)
-    fig, axes = plt.subplots(3, len(cells), figsize=(15, 10), squeeze=False)
+    fig, axes = plt.subplots(3, len(cells), figsize=(5 * len(cells), 10), squeeze=False)
     for j, cid in enumerate(cells):
         for arm in ("GG", "MM", "MG", "GM"):
             rs = [r for r in rows if r["cell"] == cid and r["arm"] == arm]

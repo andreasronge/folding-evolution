@@ -1,0 +1,38 @@
+{
+  "diagnostic_only": true,
+  "smoke_seeds": [
+    3150900,
+    3150901
+  ],
+  "probe_seeds": [
+    3150900,
+    3150901
+  ],
+  "excluded_from_inference": true,
+  "raw_files": {
+    "smoke_search.jsonl.gz": {
+      "uncompressed_sha256": "706c42460e17c2bbc65e992657548682709be8c22439316ec29cc5562ed09696",
+      "rows": 1220
+    },
+    "smoke_reproduction.jsonl.gz": {
+      "uncompressed_sha256": "8c5aabf40ddf1383641f9d15716e55f303d65fb03614464289ee4e1a09f971fa",
+      "rows": 393
+    },
+    "probe_search.jsonl.gz": {
+      "uncompressed_sha256": "edfb535163125e15bc418dd77314442f5fc446f8fa482da4d1d21e561dc767e0",
+      "rows": 1220
+    },
+    "probe_reproduction.jsonl.gz": {
+      "uncompressed_sha256": "4a4e2a5750d11b3c6200d270ae6d50f1a0e92a49ca4832f5e7a15e05cacf8d47",
+      "rows": 786
+    }
+  },
+  "final_code_sha256": {
+    "experiments/chem_tape/composition_search.py": "f741aec08cf099506ede249e38235cf726166a79fb6be696d8fba471feec7a19",
+    "experiments/chem_tape/initialization_run.py": "ce68e2dcc26fb39e426615fe7385fbb12c1115fc9445910f03c209270882249c",
+    "experiments/chem_tape/initialization_report.py": "840484ed3c5a1ab53b7f5e525b9588bbdf7108cc8b71ad34a41e7a2078520a5e",
+    "experiments/chem_tape/initialization_bank_run.py": "9956aa86c8a23f1faa8ae488c5044544e32dadb7a32f38a5f77d9c6951c08f35",
+    "experiments/chem_tape/initialization_bank_report.py": "2e8dadbbb386369011da0b567b69a1737f27baf6bb3660b0e28638df05d1d43a"
+  },
+  "note": "Raw searches executed during implementation; final reporting refreshed after matching the original four-arm cap sensitivity and adding the descriptive 13-cell view. Full queued run records final HEAD."
+}

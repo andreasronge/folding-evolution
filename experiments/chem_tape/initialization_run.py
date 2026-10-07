@@ -79,7 +79,7 @@ def encoding_checks(maps, count=10000, law_count=1000000):
                 dict(source=src, destination=dst, tapes=count, passed=passed)
             )
     laws = []
-    for tid in ("G4", "BE1", "PA1"):
+    for tid in (("G4", "BE1", "PA1") if law_count else ()):
         d = decoders[tid]
         n_tapes = (law_count + 31) // 32
         tapes = d.decode(rng.integers(24000, size=(n_tapes, 32), dtype=np.int32))

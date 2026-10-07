@@ -1,0 +1,45 @@
+runs:
+  - id: 2026-10-07-0315-training-bank-initialization
+    cmd: >-
+      OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 RAYON_NUM_THREADS=1
+      .venv/bin/python -m experiments.chem_tape.initialization_bank_run
+      --source experiments/chem_tape/data/crossed_1723
+      --bank experiments/chem_tape/data/four_reducer_1603_bank.json
+      --workers 10 --deadline-seconds 25200
+    timeout_seconds: 27000
+    expect_outputs:
+      - config.json
+      - validation.json
+      - trajectories.json
+      - bank.json
+      - reproduction.jsonl
+      - search.jsonl
+      - timing.json
+      - result.json
+      - summary.md
+      - contrasts.png
+      - search_curves.png
+      - family_balance.png
+    track: chem-tape
+    notes: >-
+      Approved 0315 four-arm factorial on ten screened 1723 training cells,
+      all twenty frozen maps, shared GG per cell/seed, fresh seeds
+      3150000-3150199 (122000 searches). No learning or MMr. Forty exact
+      G-to-M/M-to-G round trips of 10000 tapes, then 420 historical 1723
+      and 366 historical 2331 substantive-row reproductions; any failure
+      stops before the grid. MG/MM and GM/GG full-token generation-zero
+      hashes checked on every complete block. Dispatch two consecutive seed
+      blocks; retain only checked complete seed prefix at deadline. Minimum
+      120 seeds, GG solves at least 75 percent on every cell, diagonal gain
+      lower bound above log2(1.25), otherwise U. Equal cell-family weights
+      and equal cells within family; equal map-family/map weights. Pooled
+      crossed map/whole-seed bootstrap (20000 replicates); family balance C
+      uses Welch interval over four BE versus six PA cells, precedence
+      B/E/R/X, with both family means reported. Winsorized and uncapped
+      four-arm-triplet sensitivities, map-family by cell-family split, cap
+      counts and descriptive 13-cell view retained. First complete blocks
+      log mixed-arm costs/caps without selection. Probe projected 255 minutes
+      including measured validation/reporting, based on two excluded seeds;
+      conservative plan remains 400 minutes. Seven-hour internal deadline
+      includes six-minute report reserve; 7.5-hour queue timeout. Commands
+      use this worktree as cwd; every output is written under RUN_DIR.
