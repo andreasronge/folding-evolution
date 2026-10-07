@@ -1,7 +1,7 @@
 ---
 status: open
 tags: [map-bias, evolve-the-bias, task-family, compositional-transfer, decoder, fresh-start]
-budget: {experiments: 13, used: 0}
+budget: {experiments: 14, used: 0}
 ---
 # Can an adapted decoder help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 
@@ -28,12 +28,26 @@ loss not). Context learned jointly from G4, or added without displacing token st
 A different signal did work: a previous-token table fitted directly to exact G4 solver tapes
 (external fitting, not selection) beat a token-only fit to the same tapes 1.37× [1.29, 1.45] on
 training cells and 1.29× [1.21, 1.38] on the three withheld cells, over 32 independent corpora,
-with no resolved family advantage. So useful, transferable assembly information beyond token frequency
-exists in this system's own solvers; the selection-based learners tried so far did not reach it**
-(13 of 13 slots used; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
+with no resolved family advantage. One feedback step then helped further: refitting each table to exact solvers
+found under it (C2) beat its parent 1.40× [1.35, 1.46] on training and 1.29× [1.20, 1.38] on the
+withheld cells, and beat a fresh one-shot G4 refit by similar margins, while that fresh refit was
+not resolved from the parent (C'/C 0.997× [0.940, 1.058]). So useful, transferable assembly
+information beyond token frequency exists in this system's own solvers, and one round of fitting
+to solvers found under the fitted decoder adds more; the selection-based learners tried so far
+did not reach it**
+(14 of 14 slots used; strategy 1924 raised the budget from 13 to 14; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
 2331 to 10, strategy 0803 to 12, strategy 1137 to 13; sub-questions [18](18-compact-context-learning/question.md)
 and [19](19-selection-calibrated-continuation/question.md) closed;
-[20](20-solver-corpus-context/question.md) closed after run 1707).
+[20](20-solver-corpus-context/question.md) closed after run 1707,
+[21](21-iterated-solver-corpus/question.md) after run 1924).
+Run 2026-10-07-1924 ([21](21-iterated-solver-corpus/question.md), commit `5565d54`, row 1): each
+of the 32 saved 1707 tables C collected 48 searches per own training cell under itself (7 623/7 680
+solved) and was refitted with the frozen 1707 rule (C2); a fresh G4 corpus gave the one-shot
+control C' (7 378/7 680); 32 shared fresh seeds per cell and arm; 39 976 searches, 73 min, all
+validation passed. Training: C2/C 1.404× [1.347, 1.464] (32/32 lineages), C2/C' 1.408× [1.342,
+1.478], C'/C 0.997× [0.940, 1.058]. Holdouts: C2/C 1.289× [1.204, 1.381], C2/C' 1.330× [1.263,
+1.401], C'/C 0.969× [0.908, 1.035]. C2's rows are sharper than C's in every lineage. Yield,
+tape diversity and tape content of the C-collected corpora are not separated.
 Run 2026-10-07-1707 ([20](20-solver-corpus-context/question.md), commit `627336d`, row 1): 16
 corpora per family, each from 48 G4 collection searches per own training cell (7 408/7 680
 solved), fitted to T (24 token multipliers on G4, maximum likelihood), C (transition counts
@@ -161,14 +175,17 @@ Competing explanations:
 - E: The proposed tasks or adaptation loop are not tractable at the measured budget.
   This is a feasibility result about this design, not a negative answer to A.
 
-Where they stand after run 1707: A's first half (held-out gain beyond a fitted independent-token
+Where they stand after runs 1707 and 1924: A's first half (held-out gain beyond a fitted independent-token
 map) is supported for an externally fitted previous-token table, not yet for any adapted-by-
 selection decoder; its second half (advantage tied to the training family) is not supported:
-no resolved matched-family gain on any withheld cell, one PA cell resolved the other way, and
-the token maps' family contrast is bounded (16). B holds for every selection-based learner tried
-(token gain about 2×, context adding nothing resolved) but not for the fitted table, which beats
-both a token-only fit and the hand-set grammar G4. C is not supported (withheld gains 2–3× for
-token maps, plus 1.29× for C). D is not supported at this budget. E applied to two banks and
+no matched-family gain was resolved on the three withheld cells, one PA cell resolved the other way, and
+the token maps' family contrast is bounded (16). B remains compatible with every selection-based
+learner tried (token gain about 2×, no contextual increment resolved). For the fitted tables, the
+tested token-only fit and G4 do not reproduce C's gain, and C2 adds a further 1.29× on the withheld
+cells; a broader generic or task-agnostic assembly explanation has not been tested and remains
+possible. C is not supported (withheld gains 2–3× for
+token maps, plus 1.29× for C and a further 1.29× for C2; the extent of overfitting was not
+isolated). D is not supported at this budget. E applied to two banks and
 was resolved by the four-reducer bank.
 
 Sub-questions: [11-composition-bank](11-composition-bank/question.md) (closed: this bank
@@ -214,6 +231,11 @@ cause not isolated from the changed depth and total effort).
 2026-10-07-1707 row 1: a previous-token table fitted to exact solver tapes beats a token-only fit
 to the same tapes 1.37× on training and 1.29× on the withheld cells, 32 corpora, no
 resolved family advantage; external fitting, not evolutionary discovery).
+[21-iterated-solver-corpus](21-iterated-solver-corpus/question.md) (closed, 1 of 1 slot, run
+2026-10-07-1924 row 1: refitting each C to exact solvers found under it gives C2/C 1.40× [1.35,
+1.46] on training and 1.29× [1.20, 1.38] on the withheld cells, and C2/C' 1.41× and 1.33× against
+a fresh one-shot G4 refit; attributable to the collection procedure, whose yield, diversity and
+content are not separated; one step only).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
@@ -226,6 +248,7 @@ Related: [core question](../../../README.md#core-question),
 [run 0821 decision](../../runs/2026-10-07-0821/decision.md),
 [run 1137 decision](../../runs/2026-10-07-1137/decision.md),
 [run 1707 decision](../../runs/2026-10-07-1707/decision.md),
+[run 1924 decision](../../runs/2026-10-07-1924/decision.md),
 [digest](../../digest.md), [chem-tape findings](../../../docs/chem-tape/findings.md).
 
 Review after the feasibility experiment and after the four allocated experiments. A

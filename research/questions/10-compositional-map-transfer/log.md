@@ -308,3 +308,25 @@ park or fund more is the strategist's call.
   the three holdouts), because a steward probe showed corpora cost about a minute per family and
   the token fit alone already beats G4 about 2.5–3×, so the C-versus-T contrast can be sized to
   ±8% within about 1.3 h of queue.
+
+- 2026-10-07 (1924): strategy 1924 raised the budget 13 → 14 for one feedback step. Opened
+  [21-iterated-solver-corpus](21-iterated-solver-corpus/question.md) (1 slot); 20 stays closed.
+  Decision: propose run 2026-10-07-1924. Each of the 32 saved 1707 tables C collects new training
+  solvers and is refitted with the same frozen rule (C2). C2 is compared with C and with a one-shot
+  refit to a fresh G4 corpus (C'), on training and then withheld cells. A steward probe found
+  near-full yield under C, about 140 worker-s per lineage, and C2 ahead of C in 4/4 lineages. The
+  comparison fits in about 75–85 min of queue.
+
+- 2026-10-07 (1924): slot 14 of 14. Run 2026-10-07-1924 ([21](21-iterated-solver-corpus/question.md),
+  commit `5565d54`, complete, 73 min, all validation passed): refitting each of the 32 saved 1707
+  tables C to exact training solvers found under it (C2) gave C2/C 1.404× [1.347, 1.464] on
+  training (32/32 lineages) and 1.289× [1.204, 1.381] on the withheld cells; against a fresh
+  one-shot G4 refit C', C2/C' 1.408× and 1.330× (lower bounds 1.34, 1.26); C'/C 0.997× [0.940,
+  1.058] and 0.969× [0.908, 1.035]. Row 1 with transfer on both holdout contrasts
+  ([analysis](../../runs/2026-10-07-1924/analysis.md)). Applied critic 1924's digest-check fixes to
+  this file and to 20 (unresolved T versus 1723 maps, overfitting not isolated, B not established
+  for the selection learners nor excluded in its generic form).
+  Decision: close 21 and return root 10 to the strategist (`next: strategy`), because the
+  pre-stated rule is met with margin, root 10 has used 14 of 14 slots, and the open follow-ups
+  (a second step, a token-only T2 refit from the same corpora to locate the increment, active-token
+  fitting, a broader holdout bank) each need a new allocation.

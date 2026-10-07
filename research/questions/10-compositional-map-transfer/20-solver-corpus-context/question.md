@@ -12,8 +12,9 @@ speeds fresh search beyond a token-only maximum-likelihood fit T to the same tap
 corpora) and 1.293× [1.213, 1.378] on the three withheld cells (30/32). A token-only table K
 matched to C's pooled emitted frequencies does not reproduce the gain (C/K 1.65×), but K is itself
 slower than T (0.83×), so C/T is the better size of the contextual increment. Both fits beat G4
-(T 2.4×, C 3.3× on training; unpaired) and T is level with the saved 1723 search-selected maps
-(unresolved). No resolved family-specific advantage: matched over mismatched C is 1.02× [0.91, 1.15] on the one
+(T 2.4×, C 3.3× on training; unpaired); T was not resolved from the saved 1723 search-selected
+maps, and those intervals allow appreciable differences (BE 0.95× [0.81, 1.11], PA 1.02× [0.81,
+1.28]). No family-specific advantage was resolved; C's gains extend to both families, but the carrying structure and modest family preferences remain unresolved: matched over mismatched C is 1.02× [0.91, 1.15] on the one
 BE holdout and 0.75× / 0.99× on the PA holdouts (the first favours the BE-fitted tables). This is
 external fitting, not evolutionary discovery; which structure carries the gain (specific bigrams,
 executed versus inert tokens, position) and the α dependence are not mapped.**
@@ -40,8 +41,9 @@ Competing explanations:
 
 After run 1707: A is supported at this scope (C beats T and K on training and holdout cells,
 replicated over 32 corpora). B is rejected for pooled emitted frequencies (C/K 1.65×), not for
-position-specific or in-population frequencies. C is not supported here: the fit beat T rather
-than overfitting, though inert material in the tapes was not separated. D is not supported:
+position-specific or in-population frequencies. C is not supported here: C outperformed T on fresh
+training searches and the three holdouts; the extent of overfitting (including inert material in
+the tapes) was not isolated. D is not supported:
 C/T 1.29× [1.21, 1.38] on the withheld cells.
 
 Scope: the frozen 1603 four-reducer bank, the 1723 split (BE trains on 4 cells, PA on 6; three
@@ -49,7 +51,7 @@ holdouts never used in collection or fitting), D1331, `v2_rmin_first`, G4, P 256
 the 0315/2229 search regime. Holdouts are a reused screened bank, not an untouched benchmark;
 one BE holdout is one task.
 
-Related: [root 10](../question.md), [concept plan](../../../plans/solver-corpus-context.md),
+Related: [root 10](../question.md), [21 iterated solver corpus](../21-iterated-solver-corpus/question.md), [concept plan](../../../plans/solver-corpus-context.md),
 [strategy 1707](../../../runs/2026-10-07-1707/strategy.md),
 [18 compact context](../18-compact-context-learning/question.md),
 [19 selection-calibrated continuation](../19-selection-calibrated-continuation/question.md),
