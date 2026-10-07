@@ -238,3 +238,23 @@ entry above (critique 2331 notes 7–8; no numbers change): "both bounded below 
 matched-family advantage above about 1.25× excluded" should read "95% upper bounds 1.2485× (BE,
 roughly 1.3× leave-one-map-out) and 1.15× (PA)"; these are upper confidence bounds on the
 advantage.
+
+## 2026-10-07: run 2026-10-07-0315 (17), starting programs × ongoing decoder on the ten training cells — ran; row 1
+
+Slot 10 of 10. The same frozen 2×2 as 2331 (20 frozen 1723 maps, G4; arms GG, MM, MG, GM with
+generation-0 tapes held identical by re-encoding) on the 4 BE and 6 PA training cells, 200 fresh
+seeds, 122 000 searches (commit `5dae3a6`, 4.27 h, complete, every validation check passed).
+Ongoing-decoder increment given M's start 1.28× [1.22, 1.34]; start increment given ongoing M
+1.33× [1.26, 1.40]; diagonal 2.44× [2.23, 2.66]; interaction −0.52 log2 [−0.62, −0.42].
+Family balance C = mean S(BE) − mean S(PA) = −0.45 log2, Welch 95% [−0.68, −0.22]: the start
+weighs relatively more on BE cells, the ongoing decoder on PA cells; both components resolved
+positive within each family. S correlates with MM difficulty across cells (r 0.77, post hoc)
+([analysis](../../runs/2026-10-07-0315/analysis.md)).
+
+Decision: close 17 (answered at this design's resolution; see its log) and return the program to
+strategy, because root 10's ten slots are spent. Root 10 stays open for the strategist: its
+primary question (A versus B: does an adapted decoder help beyond a token-frequency bias, with an
+advantage tied to the training family?) has a generic-transfer answer (about 2–3×) with no
+resolved family advantage on the withheld cells, and a mechanism answer (both channels,
+overlapping, task-dependent balance); learned context gave no resolved gain. Whether to close,
+park or fund more is the strategist's call.
