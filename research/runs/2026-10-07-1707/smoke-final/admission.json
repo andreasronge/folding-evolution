@@ -1,0 +1,19 @@
+{
+  "projected_seconds": 13.244895841174232,
+  "remaining_seconds": 677.230567999999,
+  "difficulty_factor": 1.3035988480997618,
+  "effective_workers": 6.983361509230427,
+  "training_costs": {
+    "T": 0.9828284614268341,
+    "C": 0.3487789125269046,
+    "K": 1.1486678312779985,
+    "G4": 1.9043540145910811
+  },
+  "historical_holdout_G4_seconds": {
+    "PA:(F?S:M)+m": 2.4825136997950903,
+    "PA:(S?M:m)+F": 1.1284124414107646,
+    "BE:S?m:(M+F)": 1.875650023007911
+  },
+  "admitted": true,
+  "multiplier": 1.5
+}

@@ -1,0 +1,75 @@
+{
+  "task": "2026-10-07-1707",
+  "git_commit": "a7915658dd774c9ee4ca44066d8e4cab924e54a7",
+  "smoke_only": false,
+  "probe_only": true,
+  "arguments": {
+    "workers": 10,
+    "deadline_seconds": 900,
+    "smoke": false,
+    "probe": true
+  },
+  "training": {
+    "BE": [
+      "BE:F?S:(M+m)",
+      "BE:F?m:(S+M)",
+      "BE:S?F:(M+m)",
+      "BE:S?M:(m+F)"
+    ],
+    "PA": [
+      "PA:(F?S:m)+M",
+      "PA:(F?m:M)+S",
+      "PA:(F?m:S)+M",
+      "PA:(S?M:F)+m",
+      "PA:(S?m:F)+M",
+      "PA:(S?m:M)+F"
+    ]
+  },
+  "holdouts": {
+    "BE": [
+      "BE:S?m:(M+F)"
+    ],
+    "PA": [
+      "PA:(F?S:M)+m",
+      "PA:(S?M:m)+F"
+    ]
+  },
+  "bank_sha256": "b2b856cb6d051e65599b22409cf49f654ba8d87539f073d2e9b7d061079aceb9",
+  "g4_hash": "8a7b3091f411e659f553981b8680dc5db4bd5f3f34b6eca9c8ab3ee3e728dc10",
+  "replay_sha256": "eb569085b6400afa95edfbd53d8e1a269e32f3d9cc489b7b2ab5516b572f9eeb",
+  "seed_base": 2226100717,
+  "seed_rule": "base+phase*1000000+family_index*100000+corpus_index*1000+cell_index*100+seed_index",
+  "phases": {
+    "collection": 0,
+    "training": 1,
+    "holdout": 2,
+    "G4_training": 3,
+    "M_training": 4,
+    "G4_holdout": 5
+  },
+  "n_corpora_per_family": 1,
+  "collect_n": 48,
+  "fresh_n": 2,
+  "g4_training_n": 2,
+  "M_training_n": 1,
+  "g4_holdout_n": 128,
+  "cap": 524288,
+  "population": 256,
+  "length": 32,
+  "training_cases": 64,
+  "domain": "D1331",
+  "alphabet": "v2_rmin_first",
+  "allele_range": 24000,
+  "minimum_count": 250,
+  "alpha": 50,
+  "cell_transition_weight": 1600,
+  "token_multiplier_bound": 16,
+  "K_steps": 400,
+  "K_step": 0.7,
+  "K_tolerance": 0.001,
+  "collection_yield_floor": 24,
+  "maximum_K_failures_per_family": 4,
+  "workers": 10,
+  "unsolved_primary": "2*cap",
+  "unsolved_sensitivity": "1*cap"
+}

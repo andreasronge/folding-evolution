@@ -1,0 +1,30 @@
+{
+  "replay": {
+    "wall_seconds": 17.11040225002216,
+    "worker_seconds": 60.632979499932844,
+    "rows": 40,
+    "expected_rows": 40,
+    "complete": true
+  },
+  "collection:BE1": {
+    "wall_seconds": 67.5227315420052,
+    "worker_seconds": 574.0263585770736,
+    "rows": 192,
+    "expected_rows": 192,
+    "complete": true
+  },
+  "collection:PA1": {
+    "wall_seconds": 57.12050837499555,
+    "worker_seconds": 465.3879226212739,
+    "rows": 288,
+    "expected_rows": 288,
+    "complete": true
+  },
+  "training": {
+    "wall_seconds": 24.439046834013425,
+    "worker_seconds": 145.7251407529111,
+    "rows": 180,
+    "expected_rows": 180,
+    "complete": true
+  }
+}

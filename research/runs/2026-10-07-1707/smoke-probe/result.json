@@ -1,0 +1,729 @@
+{
+  "config": {
+    "task": "2026-10-07-1707",
+    "git_commit": "a7915658dd774c9ee4ca44066d8e4cab924e54a7",
+    "smoke_only": false,
+    "probe_only": true,
+    "arguments": {
+      "workers": 10,
+      "deadline_seconds": 900,
+      "smoke": false,
+      "probe": true
+    },
+    "training": {
+      "BE": [
+        "BE:F?S:(M+m)",
+        "BE:F?m:(S+M)",
+        "BE:S?F:(M+m)",
+        "BE:S?M:(m+F)"
+      ],
+      "PA": [
+        "PA:(F?S:m)+M",
+        "PA:(F?m:M)+S",
+        "PA:(F?m:S)+M",
+        "PA:(S?M:F)+m",
+        "PA:(S?m:F)+M",
+        "PA:(S?m:M)+F"
+      ]
+    },
+    "holdouts": {
+      "BE": [
+        "BE:S?m:(M+F)"
+      ],
+      "PA": [
+        "PA:(F?S:M)+m",
+        "PA:(S?M:m)+F"
+      ]
+    },
+    "bank_sha256": "b2b856cb6d051e65599b22409cf49f654ba8d87539f073d2e9b7d061079aceb9",
+    "g4_hash": "8a7b3091f411e659f553981b8680dc5db4bd5f3f34b6eca9c8ab3ee3e728dc10",
+    "replay_sha256": "eb569085b6400afa95edfbd53d8e1a269e32f3d9cc489b7b2ab5516b572f9eeb",
+    "seed_base": 2226100717,
+    "seed_rule": "base+phase*1000000+family_index*100000+corpus_index*1000+cell_index*100+seed_index",
+    "phases": {
+      "collection": 0,
+      "training": 1,
+      "holdout": 2,
+      "G4_training": 3,
+      "M_training": 4,
+      "G4_holdout": 5
+    },
+    "n_corpora_per_family": 1,
+    "collect_n": 48,
+    "fresh_n": 2,
+    "g4_training_n": 2,
+    "M_training_n": 1,
+    "g4_holdout_n": 128,
+    "cap": 524288,
+    "population": 256,
+    "length": 32,
+    "training_cases": 64,
+    "domain": "D1331",
+    "alphabet": "v2_rmin_first",
+    "allele_range": 24000,
+    "minimum_count": 250,
+    "alpha": 50,
+    "cell_transition_weight": 1600,
+    "token_multiplier_bound": 16,
+    "K_steps": 400,
+    "K_step": 0.7,
+    "K_tolerance": 0.001,
+    "collection_yield_floor": 24,
+    "maximum_K_failures_per_family": 4,
+    "workers": 10,
+    "unsolved_primary": "2*cap",
+    "unsolved_sensitivity": "1*cap"
+  },
+  "validation": {
+    "passed": true,
+    "bank_sha256": "b2b856cb6d051e65599b22409cf49f654ba8d87539f073d2e9b7d061079aceb9",
+    "g4_hash": "8a7b3091f411e659f553981b8680dc5db4bd5f3f34b6eca9c8ab3ee3e728dc10",
+    "replay_sha256": "eb569085b6400afa95edfbd53d8e1a269e32f3d9cc489b7b2ab5516b572f9eeb",
+    "solver_verifications": 495,
+    "table_checks": 6,
+    "pairing_checks": 40,
+    "replay": {
+      "passed": true,
+      "rows": 40,
+      "errors": [],
+      "excluded_fields": [
+        "budget_seconds",
+        "decode_seconds",
+        "family",
+        "map",
+        "phase",
+        "seconds"
+      ]
+    }
+  },
+  "stop_reason": null,
+  "stage1_complete": true,
+  "stage2_complete": false,
+  "scope": "External full-tape fitting, not evolutionary discovery; K matches uniform-latent position-pooled frequencies.",
+  "K_exclusions": {
+    "BE": [],
+    "PA": []
+  },
+  "outcome": {
+    "row": 0,
+    "meaning": "infeasible or incomplete stage 1; no comparison claim"
+  },
+  "sensitivities": {
+    "unsolved_2x_cap": {
+      "C_T": {
+        "pooled": {
+          "delta_log2": -0.10603953361629818,
+          "speed_ratio": 1.0762696169813135,
+          "interval_95": null,
+          "se_log2": null,
+          "df": null
+        },
+        "families": {
+          "BE": {
+            "delta_log2": -0.055911044234617346,
+            "speed_ratio": 1.039515337267722,
+            "interval_95": null,
+            "se_log2": null,
+            "df": null,
+            "n": 1,
+            "sd_log2": null,
+            "contrasts_log2": [
+              -0.055911044234617346
+            ]
+          },
+          "PA": {
+            "delta_log2": -0.15616802299797902,
+            "speed_ratio": 1.1143234225689684,
+            "interval_95": null,
+            "se_log2": null,
+            "df": null,
+            "n": 1,
+            "sd_log2": null,
+            "contrasts_log2": [
+              -0.15616802299797902
+            ]
+          }
+        },
+        "equal_family_weight": true
+      },
+      "K_valid_C_T": {
+        "pooled": {
+          "delta_log2": -0.10603953361629818,
+          "speed_ratio": 1.0762696169813135,
+          "interval_95": null,
+          "se_log2": null,
+          "df": null
+        },
+        "families": {
+          "BE": {
+            "delta_log2": -0.055911044234617346,
+            "speed_ratio": 1.039515337267722,
+            "interval_95": null,
+            "se_log2": null,
+            "df": null,
+            "n": 1,
+            "sd_log2": null,
+            "contrasts_log2": [
+              -0.055911044234617346
+            ]
+          },
+          "PA": {
+            "delta_log2": -0.15616802299797902,
+            "speed_ratio": 1.1143234225689684,
+            "interval_95": null,
+            "se_log2": null,
+            "df": null,
+            "n": 1,
+            "sd_log2": null,
+            "contrasts_log2": [
+              -0.15616802299797902
+            ]
+          }
+        },
+        "equal_family_weight": true
+      },
+      "C_K": {
+        "pooled": {
+          "delta_log2": -0.3067742155454633,
+          "speed_ratio": 1.23693888030522,
+          "interval_95": null,
+          "se_log2": null,
+          "df": null
+        },
+        "families": {
+          "BE": {
+            "delta_log2": -0.01578823873470192,
+            "speed_ratio": 1.011003673097697,
+            "interval_95": null,
+            "se_log2": null,
+            "df": null,
+            "n": 1,
+            "sd_log2": null,
+            "contrasts_log2": [
+              -0.01578823873470192
+            ]
+          },
+          "PA": {
+            "delta_log2": -0.5977601923562247,
+            "speed_ratio": 1.5133652174801544,
+            "interval_95": null,
+            "se_log2": null,
+            "df": null,
+            "n": 1,
+            "sd_log2": null,
+            "contrasts_log2": [
+              -0.5977601923562247
+            ]
+          }
+        },
+        "equal_family_weight": true
+      },
+      "reference": {
+        "T/G4": {
+          "pooled": {
+            "delta_log2": -1.2885601138958984,
+            "speed_ratio": 2.442841253285034,
+            "interval_95": null,
+            "se_log2": null,
+            "df": null
+          },
+          "families": {
+            "BE": {
+              "delta_log2": -1.5709015622392943,
+              "speed_ratio": 2.9709031241708215,
+              "interval_95": null,
+              "se_log2": null,
+              "df": null
+            },
+            "PA": {
+              "delta_log2": -1.0062186655525025,
+              "speed_ratio": 2.0086395076974166,
+              "interval_95": null,
+              "se_log2": null,
+              "df": null
+            }
+          }
+        },
+        "C/G4": {
+          "pooled": {
+            "delta_log2": -1.3945996475121971,
+            "speed_ratio": 2.6291558200192364,
+            "interval_95": null,
+            "se_log2": null,
+            "df": null
+          },
+          "families": {
+            "BE": {
+              "delta_log2": -1.6268126064739121,
+              "speed_ratio": 3.088299363112161,
+              "interval_95": null,
+              "se_log2": null,
+              "df": null
+            },
+            "PA": {
+              "delta_log2": -1.162386688550482,
+              "speed_ratio": 2.238274050924634,
+              "interval_95": null,
+              "se_log2": null,
+              "df": null
+            }
+          }
+        }
+      },
+      "amortization": {
+        "BE1": {
+          "T": {
+            "mean_capped_evaluations_saved": 18656.0,
+            "mean_seconds_saved": 0.6575483491105842,
+            "break_even_searches_evaluations": 760,
+            "break_even_searches_seconds": 874,
+            "collection_evaluations": 14168064,
+            "collection_plus_all_fitting_seconds": 574.1740784520516,
+            "note": "None means no finite break-even at this cap; all fitting charged conservatively"
+          },
+          "C": {
+            "mean_capped_evaluations_saved": 19232.0,
+            "mean_seconds_saved": 0.6698543126112781,
+            "break_even_searches_evaluations": 737,
+            "break_even_searches_seconds": 858,
+            "collection_evaluations": 14168064,
+            "collection_plus_all_fitting_seconds": 574.1740784520516,
+            "note": "None means no finite break-even at this cap; all fitting charged conservatively"
+          }
+        },
+        "PA1": {
+          "T": {
+            "mean_capped_evaluations_saved": 9301.333333333332,
+            "mean_seconds_saved": 0.30149994442278205,
+            "break_even_searches_evaluations": 1349,
+            "break_even_searches_seconds": 1545,
+            "collection_evaluations": 12539648,
+            "collection_plus_all_fitting_seconds": 465.55257032922236,
+            "note": "None means no finite break-even at this cap; all fitting charged conservatively"
+          },
+          "C": {
+            "mean_capped_evaluations_saved": 8767.999999999998,
+            "mean_seconds_saved": 0.2152322847638667,
+            "break_even_searches_evaluations": 1431,
+            "break_even_searches_seconds": 2164,
+            "collection_evaluations": 12539648,
+            "collection_plus_all_fitting_seconds": 465.55257032922236,
+            "note": "None means no finite break-even at this cap; all fitting charged conservatively"
+          }
+        }
+      },
+      "corpus_scores": {
+        "BE1": {
+          "T": {
+            "BE:F?S:(M+m)": 12.281121212110536,
+            "BE:F?m:(S+M)": 12.972721918188956,
+            "BE:S?F:(M+m)": 10.69615871138938,
+            "BE:S?M:(m+F)": 11.564641508472484
+          },
+          "C": {
+            "BE:F?S:(M+m)": 12.846743478749662,
+            "BE:F?m:(S+M)": 11.713132377351048,
+            "BE:S?F:(M+m)": 11.85367956604044,
+            "BE:S?M:(m+F)": 10.877443751081735
+          },
+          "K": {
+            "BE:F?S:(M+m)": 12.2378667154832,
+            "BE:F?m:(S+M)": 12.16096404744368,
+            "BE:S?F:(M+m)": 11.821928094887362,
+            "BE:S?M:(m+F)": 11.133393270347451
+          }
+        },
+        "PA1": {
+          "T": {
+            "PA:(F?S:m)+M": 12.965368668781444,
+            "PA:(F?m:M)+S": 13.273447229943818,
+            "PA:(F?m:S)+M": 11.453445297804258,
+            "PA:(S?M:F)+m": 14.465461048562634,
+            "PA:(S?m:F)+M": 13.050331169502599,
+            "PA:(S?m:M)+F": 12.475642357483485
+          },
+          "C": {
+            "PA:(F?S:m)+M": 12.775373392691622,
+            "PA:(F?m:M)+S": 12.04373142062517,
+            "PA:(F?m:S)+M": 12.667695177346962,
+            "PA:(S?M:F)+m": 12.579935668389194,
+            "PA:(S?m:F)+M": 14.93402542687258,
+            "PA:(S?m:M)+F": 11.745926548164837
+          },
+          "K": {
+            "PA:(F?S:m)+M": 16.564641508472484,
+            "PA:(F?m:M)+S": 12.784927804165473,
+            "PA:(F?m:S)+M": 12.807354922057604,
+            "PA:(S?M:F)+m": 13.16096404744368,
+            "PA:(S?m:F)+M": 13.293888758164105,
+            "PA:(S?m:M)+F": 11.721471747924365
+          }
+        }
+      },
+      "T_M": {
+        "BE": {
+          "delta_log2": -1.0502185103802546,
+          "speed_ratio": 2.0708434735814474,
+          "interval_95": null,
+          "se_log2": null,
+          "df": null
+        },
+        "PA": {
+          "delta_log2": 0.14797835076988797,
+          "speed_ratio": 0.90251427058275,
+          "interval_95": null,
+          "se_log2": null,
+          "df": null
+        }
+      },
+      "sizing": {
+        "n_per_family_for_half_width_log2_1_10": null,
+        "n_per_family_approx_80percent_detect_observed_effect": null,
+        "note": "Normal approximation based on observed spreads; fresh independent corpora, not additional seeds alone."
+      }
+    },
+    "unsolved_1x_cap": {
+      "C_T": {
+        "pooled": {
+          "delta_log2": -0.10603953361629818,
+          "speed_ratio": 1.0762696169813135,
+          "interval_95": null,
+          "se_log2": null,
+          "df": null
+        },
+        "families": {
+          "BE": {
+            "delta_log2": -0.055911044234617346,
+            "speed_ratio": 1.039515337267722,
+            "interval_95": null,
+            "se_log2": null,
+            "df": null,
+            "n": 1,
+            "sd_log2": null,
+            "contrasts_log2": [
+              -0.055911044234617346
+            ]
+          },
+          "PA": {
+            "delta_log2": -0.15616802299797902,
+            "speed_ratio": 1.1143234225689684,
+            "interval_95": null,
+            "se_log2": null,
+            "df": null,
+            "n": 1,
+            "sd_log2": null,
+            "contrasts_log2": [
+              -0.15616802299797902
+            ]
+          }
+        },
+        "equal_family_weight": true
+      },
+      "K_valid_C_T": {
+        "pooled": {
+          "delta_log2": -0.10603953361629818,
+          "speed_ratio": 1.0762696169813135,
+          "interval_95": null,
+          "se_log2": null,
+          "df": null
+        },
+        "families": {
+          "BE": {
+            "delta_log2": -0.055911044234617346,
+            "speed_ratio": 1.039515337267722,
+            "interval_95": null,
+            "se_log2": null,
+            "df": null,
+            "n": 1,
+            "sd_log2": null,
+            "contrasts_log2": [
+              -0.055911044234617346
+            ]
+          },
+          "PA": {
+            "delta_log2": -0.15616802299797902,
+            "speed_ratio": 1.1143234225689684,
+            "interval_95": null,
+            "se_log2": null,
+            "df": null,
+            "n": 1,
+            "sd_log2": null,
+            "contrasts_log2": [
+              -0.15616802299797902
+            ]
+          }
+        },
+        "equal_family_weight": true
+      },
+      "C_K": {
+        "pooled": {
+          "delta_log2": -0.2651075488787966,
+          "speed_ratio": 1.201725631471298,
+          "interval_95": null,
+          "se_log2": null,
+          "df": null
+        },
+        "families": {
+          "BE": {
+            "delta_log2": -0.01578823873470192,
+            "speed_ratio": 1.011003673097697,
+            "interval_95": null,
+            "se_log2": null,
+            "df": null,
+            "n": 1,
+            "sd_log2": null,
+            "contrasts_log2": [
+              -0.01578823873470192
+            ]
+          },
+          "PA": {
+            "delta_log2": -0.5144268590228913,
+            "speed_ratio": 1.4284265544854622,
+            "interval_95": null,
+            "se_log2": null,
+            "df": null,
+            "n": 1,
+            "sd_log2": null,
+            "contrasts_log2": [
+              -0.5144268590228913
+            ]
+          }
+        },
+        "equal_family_weight": true
+      },
+      "reference": {
+        "T/G4": {
+          "pooled": {
+            "delta_log2": -1.2885601138958984,
+            "speed_ratio": 2.442841253285034,
+            "interval_95": null,
+            "se_log2": null,
+            "df": null
+          },
+          "families": {
+            "BE": {
+              "delta_log2": -1.5709015622392943,
+              "speed_ratio": 2.9709031241708215,
+              "interval_95": null,
+              "se_log2": null,
+              "df": null
+            },
+            "PA": {
+              "delta_log2": -1.0062186655525025,
+              "speed_ratio": 2.0086395076974166,
+              "interval_95": null,
+              "se_log2": null,
+              "df": null
+            }
+          }
+        },
+        "C/G4": {
+          "pooled": {
+            "delta_log2": -1.3945996475121971,
+            "speed_ratio": 2.6291558200192364,
+            "interval_95": null,
+            "se_log2": null,
+            "df": null
+          },
+          "families": {
+            "BE": {
+              "delta_log2": -1.6268126064739121,
+              "speed_ratio": 3.088299363112161,
+              "interval_95": null,
+              "se_log2": null,
+              "df": null
+            },
+            "PA": {
+              "delta_log2": -1.162386688550482,
+              "speed_ratio": 2.238274050924634,
+              "interval_95": null,
+              "se_log2": null,
+              "df": null
+            }
+          }
+        }
+      },
+      "amortization": {
+        "BE1": {
+          "T": {
+            "mean_capped_evaluations_saved": 18656.0,
+            "mean_seconds_saved": 0.6575483491105842,
+            "break_even_searches_evaluations": 760,
+            "break_even_searches_seconds": 874,
+            "collection_evaluations": 14168064,
+            "collection_plus_all_fitting_seconds": 574.1740784520516,
+            "note": "None means no finite break-even at this cap; all fitting charged conservatively"
+          },
+          "C": {
+            "mean_capped_evaluations_saved": 19232.0,
+            "mean_seconds_saved": 0.6698543126112781,
+            "break_even_searches_evaluations": 737,
+            "break_even_searches_seconds": 858,
+            "collection_evaluations": 14168064,
+            "collection_plus_all_fitting_seconds": 574.1740784520516,
+            "note": "None means no finite break-even at this cap; all fitting charged conservatively"
+          }
+        },
+        "PA1": {
+          "T": {
+            "mean_capped_evaluations_saved": 9301.333333333332,
+            "mean_seconds_saved": 0.30149994442278205,
+            "break_even_searches_evaluations": 1349,
+            "break_even_searches_seconds": 1545,
+            "collection_evaluations": 12539648,
+            "collection_plus_all_fitting_seconds": 465.55257032922236,
+            "note": "None means no finite break-even at this cap; all fitting charged conservatively"
+          },
+          "C": {
+            "mean_capped_evaluations_saved": 8767.999999999998,
+            "mean_seconds_saved": 0.2152322847638667,
+            "break_even_searches_evaluations": 1431,
+            "break_even_searches_seconds": 2164,
+            "collection_evaluations": 12539648,
+            "collection_plus_all_fitting_seconds": 465.55257032922236,
+            "note": "None means no finite break-even at this cap; all fitting charged conservatively"
+          }
+        }
+      },
+      "corpus_scores": {
+        "BE1": {
+          "T": {
+            "BE:F?S:(M+m)": 12.281121212110536,
+            "BE:F?m:(S+M)": 12.972721918188956,
+            "BE:S?F:(M+m)": 10.69615871138938,
+            "BE:S?M:(m+F)": 11.564641508472484
+          },
+          "C": {
+            "BE:F?S:(M+m)": 12.846743478749662,
+            "BE:F?m:(S+M)": 11.713132377351048,
+            "BE:S?F:(M+m)": 11.85367956604044,
+            "BE:S?M:(m+F)": 10.877443751081735
+          },
+          "K": {
+            "BE:F?S:(M+m)": 12.2378667154832,
+            "BE:F?m:(S+M)": 12.16096404744368,
+            "BE:S?F:(M+m)": 11.821928094887362,
+            "BE:S?M:(m+F)": 11.133393270347451
+          }
+        },
+        "PA1": {
+          "T": {
+            "PA:(F?S:m)+M": 12.965368668781444,
+            "PA:(F?m:M)+S": 13.273447229943818,
+            "PA:(F?m:S)+M": 11.453445297804258,
+            "PA:(S?M:F)+m": 14.465461048562634,
+            "PA:(S?m:F)+M": 13.050331169502599,
+            "PA:(S?m:M)+F": 12.475642357483485
+          },
+          "C": {
+            "PA:(F?S:m)+M": 12.775373392691622,
+            "PA:(F?m:M)+S": 12.04373142062517,
+            "PA:(F?m:S)+M": 12.667695177346962,
+            "PA:(S?M:F)+m": 12.579935668389194,
+            "PA:(S?m:F)+M": 14.93402542687258,
+            "PA:(S?m:M)+F": 11.745926548164837
+          },
+          "K": {
+            "PA:(F?S:m)+M": 16.064641508472484,
+            "PA:(F?m:M)+S": 12.784927804165473,
+            "PA:(F?m:S)+M": 12.807354922057604,
+            "PA:(S?M:F)+m": 13.16096404744368,
+            "PA:(S?m:F)+M": 13.293888758164105,
+            "PA:(S?m:M)+F": 11.721471747924365
+          }
+        }
+      },
+      "T_M": {
+        "BE": {
+          "delta_log2": -1.000218510380254,
+          "speed_ratio": 2.000302942649238,
+          "interval_95": null,
+          "se_log2": null,
+          "df": null
+        },
+        "PA": {
+          "delta_log2": 0.14797835076988797,
+          "speed_ratio": 0.90251427058275,
+          "interval_95": null,
+          "se_log2": null,
+          "df": null
+        }
+      }
+    }
+  },
+  "search_summary": {
+    "collection": {
+      "G4": {
+        "n": 480,
+        "solved": 456,
+        "actual_evaluations": 26707712,
+        "seconds": 1039.2331045707106
+      }
+    },
+    "training": {
+      "C": {
+        "n": 20,
+        "solved": 20,
+        "actual_evaluations": 179456,
+        "seconds": 6.664592916960828
+      },
+      "G4": {
+        "n": 20,
+        "solved": 20,
+        "actual_evaluations": 438528,
+        "seconds": 14.606214835017454
+      },
+      "K": {
+        "n": 20,
+        "solved": 19,
+        "actual_evaluations": 686592,
+        "seconds": 24.323701001005247
+      },
+      "M": {
+        "n": 100,
+        "solved": 98,
+        "actual_evaluations": 2524416,
+        "seconds": 94.40280329086818
+      },
+      "T": {
+        "n": 20,
+        "solved": 20,
+        "actual_evaluations": 177664,
+        "seconds": 5.727828709059395
+      }
+    },
+    "holdout": {}
+  },
+  "timings": {
+    "replay": {
+      "wall_seconds": 17.11040225002216,
+      "worker_seconds": 60.632979499932844,
+      "rows": 40,
+      "expected_rows": 40,
+      "complete": true
+    },
+    "collection:BE1": {
+      "wall_seconds": 67.5227315420052,
+      "worker_seconds": 574.0263585770736,
+      "rows": 192,
+      "expected_rows": 192,
+      "complete": true
+    },
+    "collection:PA1": {
+      "wall_seconds": 57.12050837499555,
+      "worker_seconds": 465.3879226212739,
+      "rows": 288,
+      "expected_rows": 288,
+      "complete": true
+    },
+    "training": {
+      "wall_seconds": 24.439046834013425,
+      "worker_seconds": 145.7251407529111,
+      "rows": 180,
+      "expected_rows": 180,
+      "complete": true
+    }
+  },
+  "admission": null,
+  "wall_seconds": 168.52963433397235
+}

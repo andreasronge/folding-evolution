@@ -1,0 +1,44 @@
+{
+  "replay": {
+    "wall_seconds": 1.0648472080356441,
+    "worker_seconds": 0.763109918043483,
+    "rows": 2,
+    "expected_rows": 2,
+    "complete": true
+  },
+  "collection:BE1": {
+    "wall_seconds": 21.359134415979497,
+    "worker_seconds": 136.10203783673933,
+    "rows": 32,
+    "expected_rows": 32,
+    "complete": true
+  },
+  "collection:BE2": {
+    "wall_seconds": 21.92447370797163,
+    "worker_seconds": 143.02778504090384,
+    "rows": 32,
+    "expected_rows": 32,
+    "complete": true
+  },
+  "collection:PA1": {
+    "wall_seconds": 19.352752792008687,
+    "worker_seconds": 95.93942650110694,
+    "rows": 48,
+    "expected_rows": 48,
+    "complete": true
+  },
+  "collection:PA2": {
+    "wall_seconds": 11.112387041037437,
+    "worker_seconds": 54.61645883740857,
+    "rows": 48,
+    "expected_rows": 48,
+    "complete": true
+  },
+  "training": {
+    "wall_seconds": 27.932515916007105,
+    "worker_seconds": 194.18401866953354,
+    "rows": 240,
+    "expected_rows": 240,
+    "complete": true
+  }
+}

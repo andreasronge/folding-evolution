@@ -299,3 +299,12 @@ park or fund more is the strategist's call.
   learning from G4; context that does not displace token steps) are different experiments that
   would need about 4–6 h of queue against about 5 h left before the 22:25 deadline, so whether
   to spend the last slot or close the root is a program-level call.
+
+- 2026-10-07 (1707): strategy 1707 gave root 10's thirteenth slot to fitting decoder context
+  directly from training-solver corpora (external fitting, not map evolution; no budget raised).
+  Opened [20-solver-corpus-context](20-solver-corpus-context/question.md) (1 slot). Decision:
+  propose run 2026-10-07-1707 (16 independent G4 solver corpora per family; contextual fit versus
+  token-only fit and an emitted-marginal control on fresh training seeds, then all frozen fits on
+  the three holdouts), because a steward probe showed corpora cost about a minute per family and
+  the token fit alone already beats G4 about 2.5–3×, so the C-versus-T contrast can be sized to
+  ±8% within about 1.3 h of queue.
