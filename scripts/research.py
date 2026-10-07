@@ -496,8 +496,8 @@ PROMPTS = {
     ),
     "strategy": (
         "Review the whole research program. Read the core question in {repo}/README.md, "
-        "{research}/digest.md, the question tree, the latest decisions and the recent briefs in "
-        "{research}/briefs. Write {task_dir}/strategy.md: what the program has learned so far · "
+        "{research}/digest.md, the question tree, the plans and owner notes in {research}/plans, "
+        "the latest decisions and the recent briefs in {research}/briefs. Write {task_dir}/strategy.md: what the program has learned so far · "
         "which root questions matter most for the core question now, and why · what the steward "
         "should work on next (a question and why, not a full design) · what to stop. {run_note} "
         "{roots_note} Start strategy.md with frontmatter `next: proposal`, or `next: stop` (the run "
