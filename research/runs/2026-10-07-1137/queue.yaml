@@ -1,0 +1,40 @@
+runs:
+  - id: 2026-10-07-1137-selection-calibrated-continuation
+    cmd: >-
+      .venv/bin/python -m experiments.chem_tape.continuation96_run
+      --workers 10 --deadline-seconds 19800
+    timeout_seconds: 20700
+    track: chem-tape
+    expect_outputs:
+      - config.json
+      - validation.json
+      - training_cells.json
+      - starts.json
+      - trajectories.json
+      - midpoints.json
+      - generations.jsonl
+      - selected_changes.jsonl
+      - admission.json
+      - baseline_validation.json
+      - gate.json
+      - f1_maps.json
+      - f1_scores.json
+      - f2_maps.json
+      - f2_scores.json
+      - search.jsonl
+      - report.json
+      - report.md
+      - learning.png
+      - status.json
+    notes: >-
+      Approved 1137 procedure: all BE1-8/PA1-8 token continuations, twelve
+      generations at 96 searches per candidate, plus 192 searches per final
+      parent; 9600 searches per trajectory. F1 scores S/T_mid/T and requires
+      exact historical S scientific fields; context stage iff T/S point >=1.10.
+      C shares T search blocks and is admitted in alternating order using
+      measured T timing and reserved independent F2 scoring, including S/T
+      confirmation even when no C fits. Internal deadline min(start+5.5h,
+      22:00 Europe/Stockholm). F2 confirms the same learned maps; matched
+      context comparisons need at least six starts per family. Independent
+      selected-change diagnostics use only actual child/source-parent pairs
+      both surviving; no added search budget. All outputs under RUN_DIR.

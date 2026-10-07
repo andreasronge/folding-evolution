@@ -1,0 +1,57 @@
+{
+  "task": "2026-10-07-1137",
+  "learning": {
+    "searches": 3072,
+    "solves": 2950,
+    "solve_fraction": 0.9602864583333334,
+    "evaluations": 31168000,
+    "mean_worker_seconds": 0.3919254284329554
+  },
+  "fresh": {
+    "searches": 300,
+    "solves": 299,
+    "solve_fraction": 0.9966666666666667,
+    "evaluations": 3148288,
+    "mean_worker_seconds": 0.4112691566794335
+  },
+  "learning_by_family_arm": {
+    "BE:T": {
+      "searches": 768,
+      "solves": 723,
+      "solve_fraction": 0.94140625,
+      "evaluations": 7982336,
+      "mean_worker_seconds": 0.411527320415568
+    },
+    "BE:C": {
+      "searches": 768,
+      "solves": 719,
+      "solve_fraction": 0.9361979166666666,
+      "evaluations": 8212224,
+      "mean_worker_seconds": 0.43800750546976513
+    },
+    "PA:T": {
+      "searches": 768,
+      "solves": 760,
+      "solve_fraction": 0.9895833333333334,
+      "evaluations": 6910208,
+      "mean_worker_seconds": 0.3335089356662593
+    },
+    "PA:C": {
+      "searches": 768,
+      "solves": 748,
+      "solve_fraction": 0.9739583333333334,
+      "evaluations": 8063232,
+      "mean_worker_seconds": 0.3846579521802293
+    }
+  },
+  "cap_batch_wall_seconds": {
+    "65536": 121.4850927919615,
+    "524288": 20.767230040975846
+  },
+  "projected_stage1_seconds": 6904.943841237109,
+  "projected_full_seconds": 14121.396133088856,
+  "projected_minimum_context_seconds": 12464.384272916164,
+  "namespace_offset": 20000000,
+  "fixed_probe_never_selects_full_run_parameters": true,
+  "projection_scope": "one full unselected candidate generation at BE1/PA1; learned-map runtime may differ"
+}
