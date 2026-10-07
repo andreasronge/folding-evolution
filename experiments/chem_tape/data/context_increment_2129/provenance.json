@@ -1,0 +1,246 @@
+{
+  "sources": {
+    "1707": [
+      "2026-10-07-1707-solver-corpus-context",
+      {
+        "config.json": "9fd82efea1f588b50a4d513242aee4a73b891e17da056459c4fe02e022dc14fb",
+        "corpora.json": "90b20c6f8bb60bd082141b358453cca85583ce92228fc4e88f432647dcf0747c",
+        "search.jsonl": "98475848d168834195343a84991745b6624d3bf8a8a4cad53bced7753cdc7223"
+      }
+    ],
+    "1924": [
+      "2026-10-07-1924-solver-feedback",
+      {
+        "config.json": "72c9d04a5af19e58932823e5dedaed70b9a25ae9ce34e2bbfbf3e951701aa9c3",
+        "corpora.json": "49e54c74d95a924dd93c8e234f469b46f765fd487ea0e335d26d266d8fcefc43",
+        "search.jsonl": "d57267f8caf3c2b56cc3b19512a8615c68d05525a01e9714b059f7eac2d30824"
+      }
+    ]
+  },
+  "source_configs": {
+    "1707": {
+      "task": "2026-10-07-1707",
+      "git_commit": "627336d6f571731d7d5cc30bcf6c28fa7bfbebb5",
+      "smoke_only": false,
+      "probe_only": false,
+      "arguments": {
+        "workers": 10,
+        "deadline_seconds": 7920,
+        "smoke": false,
+        "probe": false
+      },
+      "training": {
+        "BE": [
+          "BE:F?S:(M+m)",
+          "BE:F?m:(S+M)",
+          "BE:S?F:(M+m)",
+          "BE:S?M:(m+F)"
+        ],
+        "PA": [
+          "PA:(F?S:m)+M",
+          "PA:(F?m:M)+S",
+          "PA:(F?m:S)+M",
+          "PA:(S?M:F)+m",
+          "PA:(S?m:F)+M",
+          "PA:(S?m:M)+F"
+        ]
+      },
+      "holdouts": {
+        "BE": [
+          "BE:S?m:(M+F)"
+        ],
+        "PA": [
+          "PA:(F?S:M)+m",
+          "PA:(S?M:m)+F"
+        ]
+      },
+      "bank_sha256": "b2b856cb6d051e65599b22409cf49f654ba8d87539f073d2e9b7d061079aceb9",
+      "g4_hash": "8a7b3091f411e659f553981b8680dc5db4bd5f3f34b6eca9c8ab3ee3e728dc10",
+      "replay_sha256": "eb569085b6400afa95edfbd53d8e1a269e32f3d9cc489b7b2ab5516b572f9eeb",
+      "seed_base": 2026100717,
+      "reference_source_commit": "db96645f54b72e890f55d9236dbeec85c41df256",
+      "reference_source_hashes": {
+        "config.json": "f345d3e277569cd3e380b98dbd1cfd362b9796bd3e850f1cc135209f258156b5",
+        "trajectories.json": "94138e35c6aa36b583704a69e83cab8437f11a5c55f7e3c1696fe03fc5a481b3",
+        "fresh_scores.json": "bbca73201e88acb5620d171841dfe779a735f0408d4d7663bdb102e972e1aa96"
+      },
+      "seed_rule": "base+phase*1000000+family_index*100000+corpus_index*2000+cell_index*200+seed_index",
+      "phases": {
+        "collection": 0,
+        "training": 1,
+        "holdout": 2,
+        "G4_training": 3,
+        "M_training": 4,
+        "G4_holdout": 5
+      },
+      "n_corpora_per_family": 16,
+      "collect_n": 48,
+      "fresh_n": 32,
+      "g4_training_n": 96,
+      "M_training_n": 16,
+      "g4_holdout_n": 128,
+      "cap": 524288,
+      "population": 256,
+      "length": 32,
+      "training_cases": 64,
+      "domain": "D1331",
+      "alphabet": "v2_rmin_first",
+      "allele_range": 24000,
+      "minimum_count": 250,
+      "alpha": 50,
+      "cell_transition_weight": 1600,
+      "token_multiplier_bound": 16,
+      "K_steps": 400,
+      "K_step": 0.7,
+      "K_tolerance": 0.001,
+      "collection_yield_floor": 24,
+      "maximum_K_failures_per_family": 4,
+      "workers": 10,
+      "unsolved_primary": "2*cap",
+      "unsolved_sensitivity": "1*cap"
+    },
+    "1924": {
+      "task": "2026-10-07-1924",
+      "arguments": {
+        "workers": 10,
+        "deadline_seconds": 6000,
+        "work_cutoff": "2026-10-07T20:05:00+00:00",
+        "smoke": false
+      },
+      "smoke_only": false,
+      "git_commit": "5565d54ff76b178fe283982fc59d93640ad8f171",
+      "submitted_at": "2026-10-07T18:10:53.879733+00:00",
+      "owner_work_cutoff": "2026-10-07T20:05:00+00:00",
+      "available_work_seconds": 6000.0,
+      "owner_analysis_reserve_seconds": 1200,
+      "bank_sha256": "b2b856cb6d051e65599b22409cf49f654ba8d87539f073d2e9b7d061079aceb9",
+      "g4_hash": "8a7b3091f411e659f553981b8680dc5db4bd5f3f34b6eca9c8ab3ee3e728dc10",
+      "parent_provenance_sha256": "e7f9d6494643172ec4615628c1a940997d325531da724d9c908a4ab1694ab113",
+      "parent_source": {
+        "source_path": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-07/2026-10-07-1707-solver-corpus-context",
+        "source_commit": "627336d6f571731d7d5cc30bcf6c28fa7bfbebb5",
+        "source_hashes": {
+          "corpora.json": "90b20c6f8bb60bd082141b358453cca85583ce92228fc4e88f432647dcf0747c",
+          "search.jsonl": "98475848d168834195343a84991745b6624d3bf8a8a4cad53bced7753cdc7223",
+          "config.json": "9fd82efea1f588b50a4d513242aee4a73b891e17da056459c4fe02e022dc14fb"
+        },
+        "artifact_hashes": {
+          "parents.json": "569ba6186284ba2dca27fc4f49012c25193b8b54e623d19d24f3cd733537c702",
+          "replay.json": "2e4fbe50540afba33cbaad2040689d8e3925c74eb86b000da2dbabadf8433a05",
+          "solvers.json": "d7e7fc0bfef478d849d95f0efcdb2202cbea1aaf41e50ab1260f289f9d0fb122"
+        },
+        "parent_count": 32,
+        "solver_count": 7408,
+        "replay_count": 40,
+        "historical_C_worker_seconds": {
+          "training": 0.7770059328842536,
+          "holdout": 0.7655208094640784
+        },
+        "G4_collection_worker_seconds": 2.08
+      },
+      "training": {
+        "BE": [
+          "BE:F?S:(M+m)",
+          "BE:F?m:(S+M)",
+          "BE:S?F:(M+m)",
+          "BE:S?M:(m+F)"
+        ],
+        "PA": [
+          "PA:(F?S:m)+M",
+          "PA:(F?m:M)+S",
+          "PA:(F?m:S)+M",
+          "PA:(S?M:F)+m",
+          "PA:(S?m:F)+M",
+          "PA:(S?m:M)+F"
+        ]
+      },
+      "holdouts": {
+        "BE": [
+          "BE:S?m:(M+F)"
+        ],
+        "PA": [
+          "PA:(F?S:M)+m",
+          "PA:(S?M:m)+F"
+        ]
+      },
+      "roster": [
+        "BE1",
+        "BE2",
+        "BE3",
+        "BE4",
+        "BE5",
+        "BE6",
+        "BE7",
+        "BE8",
+        "BE9",
+        "BE10",
+        "BE11",
+        "BE12",
+        "BE13",
+        "BE14",
+        "BE15",
+        "BE16",
+        "PA1",
+        "PA2",
+        "PA3",
+        "PA4",
+        "PA5",
+        "PA6",
+        "PA7",
+        "PA8",
+        "PA9",
+        "PA10",
+        "PA11",
+        "PA12",
+        "PA13",
+        "PA14",
+        "PA15",
+        "PA16"
+      ],
+      "seed_base": 2026100717,
+      "phases": {
+        "C_collection": 10,
+        "training": 11,
+        "holdout": 12,
+        "G4_collection": 13
+      },
+      "seed_rule": "seed_for(phase, family, lineage_index, cell_index, seed_index, base)",
+      "n_corpora_per_family": 16,
+      "collect_n": 48,
+      "fresh_n": 32,
+      "collection_yield_floor": 24,
+      "cap": 524288,
+      "population": 256,
+      "length": 32,
+      "training_cases": 64,
+      "domain": "D1331",
+      "alphabet": "v2_rmin_first",
+      "allele_range": 24000,
+      "minimum_count": 250,
+      "alpha": 50,
+      "cell_transition_weight": 1600,
+      "token_multiplier_bound": 16,
+      "K_steps": 400,
+      "K_step": 0.7,
+      "K_tolerance": 0.001,
+      "unsolved_primary": "2*cap",
+      "workers": 10,
+      "source_scope": "decoder procedure, including yield and tape diversity",
+      "expected_parent_solve_counts": {
+        "training": [
+          5077,
+          5120
+        ],
+        "holdout": [
+          3034,
+          3072
+        ]
+      }
+    }
+  },
+  "context_row_count": 16384,
+  "artifact_hashes": {
+    "tables.json": "26302935cc746c039fecd898beb911fc628b9a43d3aa08489f72e8ee47703130",
+    "context_rows.jsonl.gz": "b524207ecb5ef02226f655e3b382b9620351e27900afcf3492767b5757576617"
+  }
+}
