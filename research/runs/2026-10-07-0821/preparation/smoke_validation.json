@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "pinned_hashes": true,
+  "reconstructed_maps": 20,
+  "search_payload_fields": [
+    "id",
+    "labels"
+  ],
+  "no_historical_scores_loaded": true,
+  "training_only": true
+}

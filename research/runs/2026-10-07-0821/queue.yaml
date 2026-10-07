@@ -1,0 +1,30 @@
+runs:
+  - id: 2026-10-07-0821-rank-one-continuation
+    cmd: >-
+      .venv/bin/python -m experiments.chem_tape.rank_one_run
+      --workers 10 --deadline-seconds 13680
+    timeout_seconds: 14400
+    track: chem-tape
+    expect_outputs:
+      - config.json
+      - validation.json
+      - training_cells.json
+      - starts.json
+      - calibration_units.json
+      - calibration.json
+      - trajectories.json
+      - generations.jsonl
+      - admission.json
+      - fresh_maps.json
+      - fresh_scores.json
+      - search.jsonl
+      - report.json
+      - report.md
+      - learning.png
+      - status.json
+    notes: >-
+      Approved 0821 training-only rank-one context versus token continuation.
+      Stage A chooses n=24/48 and always proceeds to Stage B. Admit up to 16
+      alternating BE/PA pairs using measured timing and reserve fresh scores
+      for the prospective pair and G4. Exactly 4040 searches per full trajectory.
+      Fewer than six complete pairs per family is outcome U. No holdout search.

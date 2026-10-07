@@ -1,0 +1,75 @@
+{
+  "searches": 576,
+  "wall_seconds": 45.013017958030105,
+  "cap_batch_wall_seconds": {
+    "65536": 21.607376291009132,
+    "524288": 23.405641667020973
+  },
+  "rates": {
+    "65536": {
+      "context:BE": {
+        "n": 96,
+        "solves": 91,
+        "solve_fraction": 0.9479166666666666,
+        "seconds_per_search": 0.4282814309929866,
+        "reserve_seconds_per_search": 0.43128828089662874
+      },
+      "token:BE": {
+        "n": 96,
+        "solves": 84,
+        "solve_fraction": 0.875,
+        "seconds_per_search": 0.5723667313262316,
+        "reserve_seconds_per_search": 0.576385165763013
+      },
+      "context:PA": {
+        "n": 96,
+        "solves": 90,
+        "solve_fraction": 0.9375,
+        "seconds_per_search": 0.5391153571927134,
+        "reserve_seconds_per_search": 0.5429003425843716
+      },
+      "token:PA": {
+        "n": 96,
+        "solves": 89,
+        "solve_fraction": 0.9270833333333334,
+        "seconds_per_search": 0.5835591428422049,
+        "reserve_seconds_per_search": 0.5876561562204321
+      }
+    },
+    "524288": {
+      "context:BE": {
+        "n": 48,
+        "solves": 48,
+        "solve_fraction": 1.0,
+        "seconds_per_search": 0.7724539495781452,
+        "reserve_seconds_per_search": 1.1484084501552076
+      },
+      "token:BE": {
+        "n": 48,
+        "solves": 48,
+        "solve_fraction": 1.0,
+        "seconds_per_search": 0.40157629523552413,
+        "reserve_seconds_per_search": 0.5970240829014543
+      },
+      "context:PA": {
+        "n": 48,
+        "solves": 48,
+        "solve_fraction": 1.0,
+        "seconds_per_search": 0.8595809409816866,
+        "reserve_seconds_per_search": 1.277940279488297
+      },
+      "token:PA": {
+        "n": 48,
+        "solves": 46,
+        "solve_fraction": 0.9583333333333334,
+        "seconds_per_search": 1.082257440979447,
+        "reserve_seconds_per_search": 1.6089937673862753
+      }
+    }
+  },
+  "estimated_stage_a_seconds": 1805.2797119091674,
+  "estimated_16_pair_seconds": 7997.07240801868,
+  "estimated_12_pair_seconds": 5997.804306014011,
+  "namespace_offset": 20000000,
+  "fixed_probe_never_selects_full_run_parameters": true
+}

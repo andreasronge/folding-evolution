@@ -1,0 +1,71 @@
+{
+  "task": "2026-10-07-0821",
+  "arguments": {
+    "workers": 10,
+    "deadline_seconds": 900.0,
+    "smoke": true,
+    "probe": false
+  },
+  "smoke_only": true,
+  "probe_only": false,
+  "git_commit": "5312e965b0b83dad9b98a2af84248ce3b57a6334",
+  "bank_sha256": "b2b856cb6d051e65599b22409cf49f654ba8d87539f073d2e9b7d061079aceb9",
+  "source_hashes": {
+    "config.json": "f345d3e277569cd3e380b98dbd1cfd362b9796bd3e850f1cc135209f258156b5",
+    "trajectories.json": "94138e35c6aa36b583704a69e83cab8437f11a5c55f7e3c1696fe03fc5a481b3"
+  },
+  "g4_hash": "8a7b3091f411e659f553981b8680dc5db4bd5f3f34b6eca9c8ab3ee3e728dc10",
+  "training": {
+    "BE": [
+      "BE:F?S:(M+m)",
+      "BE:F?m:(S+M)",
+      "BE:S?F:(M+m)",
+      "BE:S?M:(m+F)"
+    ],
+    "PA": [
+      "PA:(F?S:m)+M",
+      "PA:(F?m:M)+S",
+      "PA:(F?m:S)+M",
+      "PA:(S?M:F)+m",
+      "PA:(S?m:F)+M",
+      "PA:(S?m:M)+F"
+    ]
+  },
+  "seeds": {
+    "calibration": 1821000000,
+    "learning": 1822000000,
+    "selection": 1823000000,
+    "fresh": 1824000000,
+    "mutation": 1825000000,
+    "direction": 1826000000,
+    "bootstrap": 1827000000
+  },
+  "seed_offset": 10000000,
+  "calibration_seed_rule": "base+start_index*100000+candidate_index*1000+block*500+j",
+  "learning_seed_rule": "base+pair_index*10000+generation*100+j",
+  "selection_seed_rule": "base+pair_index*1000+j",
+  "fresh_seeds": [
+    1834000000,
+    1834000001
+  ],
+  "population": 256,
+  "length": 32,
+  "allele_range": 24000,
+  "training_cases": 64,
+  "crossover": 0.7,
+  "mutation": 0.03,
+  "alphabet": "v2_rmin_first",
+  "domain": "D1331",
+  "outer_mu": 2,
+  "outer_lambda": 6,
+  "inner_cap": 4096,
+  "fresh_cap": 8192,
+  "final_searches_per_parent": 12,
+  "objective": "mean log2 evaluations; unsolved=2*cap at every stage",
+  "calibration_stops_learning": false,
+  "selection_uses_training_only": true,
+  "representation": "m[24], centred unit-RMS a[25], centred b[24]; a*b clipped at +/-ln16",
+  "scoring_effort": 12,
+  "generations": 2,
+  "searches_per_trajectory": 216
+}

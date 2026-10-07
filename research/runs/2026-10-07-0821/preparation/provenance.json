@@ -1,0 +1,22 @@
+{
+  "code_state": "Uncommitted validation state based on 5312e96; full queue records its actual HEAD.",
+  "code_sha256": {
+    "experiments/chem_tape/rank_one_run.py": "88f47c733007d8547a87f50710b67cca1de30fcf8cfa7dd249dda7549f0ee5bf",
+    "experiments/chem_tape/rank_one_report.py": "b766c09bb7cb84857fae62ae7e82316c1245d75cad06fc10d14f2191afc9b5ea",
+    "experiments/chem_tape/rank_one_learning.py": "80ba7414bae422eff8165aac048e1b5692355e08251903916f449309f7979ea6",
+    "tests/test_rank_one_learning.py": "beaa88b76cfba9afb96ffb67d60a371ea79e60a7411452154dca7aba2f806911",
+    "experiments/chem_tape/composition_search.py": "f741aec08cf099506ede249e38235cf726166a79fb6be696d8fba471feec7a19",
+    "experiments/chem_tape/map_learning.py": "930ac384f99ca3b8903f0f12b3e37720c070f42dd291a5a8725526b89c682e0a"
+  },
+  "artifacts_sha256": {
+    "probe.json": "d81cbac80fb9a7ab00e53ea188220a905fb57191b9013f3abec098266c6b1ef9",
+    "probe_initial.json": "cb40b774a17e227c6e2ef471aa99ef60e7acde53b9fd0e31e5064effc9321c30",
+    "probe_search.jsonl.gz": "bd5acd1735c137c7b44e847d3695bf1821e1c1f160ac8e4cefa1d6906ce49bd2",
+    "smoke_config.json": "e064d1e5aa5ab37d7b797433d9ddc948f937ebaed90431639f81f3b3fc718214",
+    "smoke_learning.png": "5f4a35fda57c6b0c09446909b7cb02558561b819aa74098da58ff407e7281b3a",
+    "smoke_report.json": "84cf042debd92124d3ff1e2463848eb6a5785fef9838a102fb9f81a18c8d54a3",
+    "smoke_search.jsonl.gz": "5d07f62fa40e0b271d28a9cc46451f9adbeb1af43741d2ef4cea1bb33c18ad2e",
+    "smoke_status.json": "8a670793e27e91c096bd7c53bd8078b9bd350f520baf7bd4f6b4599331f1c914",
+    "smoke_validation.json": "39e3f892d49d24b4ae7c63cc0913e5f2a3d9760bc86ef313d6414e3d2e11e7be"
+  }
+}
