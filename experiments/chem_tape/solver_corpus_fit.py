@@ -117,3 +117,45 @@ def seed_for(phase, family, corpus, cell, index, base=BASE):
 
 def admit_holdouts(remaining, projected):
     return bool(remaining > 1.5 * projected)
+
+
+def partial_transition_counts(rows, cells, kind):
+    """Explicit non-solver interface: equal source weights, then 1,600 per cell."""
+    if kind not in ("S", "P"):
+        raise ValueError("invalid partial archive kind")
+    per = {c: [] for c in cells}
+    seen = set()
+    for source in rows:
+        cid = source["cell"]
+        if cid not in per:
+            raise ValueError("non-training partial tape")
+        key = (cid, source["seed"])
+        if key in seen:
+            raise ValueError("duplicate source attempt")
+        seen.add(key)
+        count = np.zeros((25, 24))
+        for row in source["archive"]:
+            if row["kind"] != kind:
+                continue
+            tape = row["tape"]
+            if (
+                row["exact"] is not False
+                or row["cell"] != cid
+                or row["source_seed"] != source["seed"]
+                or (source["solved"] and row["evaluations"] >= source["evaluations"])
+            ):
+                raise ValueError("invalid pre-solution archive provenance")
+            if len(tape) != 32 or any(
+                type(t) is not int or not 0 <= t < 24 for t in tape
+            ):
+                raise ValueError("invalid partial tape")
+            previous = 24
+            for token in tape:
+                count[previous, token] += 1
+                previous = token
+        if count.sum():
+            per[cid].append(count / count.sum())
+    if any(not sources for sources in per.values()):
+        raise ValueError("empty partial corpus cell")
+    counts = sum(np.mean(sources, axis=0) * 1600 for sources in per.values())
+    return counts, {cid: len(sources) for cid, sources in per.items()}

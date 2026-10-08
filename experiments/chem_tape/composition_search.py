@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 import hashlib
 import time
 
@@ -129,7 +130,7 @@ def outputs(programs, inputs, alphabet="v2_rmin"):
     ).reshape(len(programs), len(inputs))
 
 
-def search(job, *, return_solver=False):
+def search(job, *, return_solver=False, collector=None):
     cell, arm, table, seed, cap, pop_size = job[:6]
     inputs = job[6] if len(job) >= 7 else INPUTS
     alphabet = job[7] if len(job) >= 8 else "v2_rmin"
@@ -213,17 +214,29 @@ def search(job, *, return_solver=False):
             )
         if solved_at is not None:
             break
-        if evaluations == cap:
+        if evaluations == cap and collector is None:
             break
         _, inverse = np.unique(correct, axis=0, return_inverse=True)
         groups = [np.flatnonzero(inverse == i) for i in range(inverse.max() + 1)]
         group_cases = np.array([correct[g[0]] for g in groups])
         n = pop_size - 2
+        # Terminal instrumentation must not advance the search selection stream.
+        parent_rng = selection
+        if evaluations == cap:
+            parent_rng = FastRandom(0)
+            parent_rng.setstate(selection.getstate())
+            parent_rng.np.bit_generator.state = copy.deepcopy(
+                selection.np.bit_generator.state
+            )
         # Both parent choices are consumed each generation, regardless of
         # whether the independently drawn crossover mask uses parent two.
         parents = np.array(
-            [_lexicase_select(groups, group_cases, selection) for _ in range(2 * n)]
+            [_lexicase_select(groups, group_cases, parent_rng) for _ in range(2 * n)]
         ).reshape(2, n)
+        if collector is not None:
+            collector(generation + 1, programs, correct, parents, evaluations == cap)
+        if evaluations == cap:
+            break
         crossing = variation.random(n) < 0.7
         points = variation.integers(1, 32, size=n)
         mask = variation.random((n, 32)) < 0.03
