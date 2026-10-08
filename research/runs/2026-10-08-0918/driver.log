@@ -1,0 +1,15 @@
+2026-10-08 09:22:08 cycle 2026-10-08-0843 done; brief: /Users/andreas/developer/folding-evolution/research/briefs/2026-10-08-2026-10-08-0843.md
+2026-10-08 09:22:08 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-08 09:24:21 phase → awaiting_approval
+2026-10-08 09:24:21 proposal: Inherited token frequencies at equal exposure — approved 0843 design, contrast seeds only (slot 1, re-admitted) [questions/23-heritable-variation-bias] — budget left: 2. Approve with `research.py approve`.
+2026-10-08 09:24:21 auto-approved (critic: approve_with_notes, revisions: 0)
+2026-10-08 09:24:21 phase → prepare
+2026-10-08 09:24:38 researcher (codex/gpt-6.1-sol) → prepare [herdr]
+2026-10-08 09:31:34 phase → review_code
+2026-10-08 09:31:34 reviewer (claude/claude-fable-5-1) → review_code [herdr]
+2026-10-08 09:39:30 phase → execute
+2026-10-08 09:39:30 running queue (4 entries)
+2026-10-08 10:41:53 phase → analyse
+2026-10-08 10:41:53 reviewer (claude/claude-fable-5-1) → analyse [herdr]
+2026-10-08 10:46:14 phase → decide
+2026-10-08 10:46:14 steward (claude/claude-opus-5-5) → decide [herdr]

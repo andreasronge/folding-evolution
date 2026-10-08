@@ -1,0 +1,46 @@
+runs:
+  - id: 2026-10-08-0918-acquisition
+    cmd: >-
+      .venv/bin/python -m experiments.chem_tape.inherited_bias
+      --mode acquire --workers 10 --reference-seeds 16 --out "$RUN_DIR"
+    timeout_seconds: 5824
+    expect_outputs: [manifest.json, validation.json, ACQUISITIONS_COMPLETE]
+    track: chem-tape
+    notes: "80 fixed-duration acquisitions; master 202610080843; 20 paired replicates per family/arm; timing vectors excluded."
+
+  - id: 2026-10-08-0918-sum-scoring
+    cmd: >-
+      test -f "$RUN_DIR/../2026-10-08-0918-acquisition/ACQUISITIONS_COMPLETE" &&
+      .venv/bin/python -m experiments.chem_tape.inherited_bias
+      --mode score --family sum --workers 10 --reference-seeds 16
+      --acquisitions "$RUN_DIR/../2026-10-08-0918-acquisition" --out "$RUN_DIR"
+    timeout_seconds: 1317
+    expect_outputs: [manifest.json, SCORING_COMPLETE]
+    track: chem-tape
+    notes: "1280 learned + 96 reference searches; sum thresholds 1/5; shared indices 0-15; cap 262144."
+
+  - id: 2026-10-08-0918-max-scoring
+    cmd: >-
+      test -f "$RUN_DIR/../2026-10-08-0918-acquisition/ACQUISITIONS_COMPLETE" &&
+      .venv/bin/python -m experiments.chem_tape.inherited_bias
+      --mode score --family max --workers 10 --reference-seeds 16
+      --acquisitions "$RUN_DIR/../2026-10-08-0918-acquisition" --out "$RUN_DIR"
+    timeout_seconds: 3162
+    expect_outputs: [manifest.json, SCORING_COMPLETE]
+    track: chem-tape
+    notes: "1280 learned + 96 reference searches; max thresholds 1/5; shared indices 0-15; cap 262144."
+
+  - id: 2026-10-08-0918-analysis
+    cmd: >-
+      test -f "$RUN_DIR/../2026-10-08-0918-acquisition/ACQUISITIONS_COMPLETE" &&
+      test -f "$RUN_DIR/../2026-10-08-0918-sum-scoring/SCORING_COMPLETE" &&
+      test -f "$RUN_DIR/../2026-10-08-0918-max-scoring/SCORING_COMPLETE" &&
+      .venv/bin/python -m experiments.chem_tape.inherited_bias
+      --mode analyze --workers 10 --reference-seeds 16
+      --acquisitions "$RUN_DIR/../2026-10-08-0918-acquisition"
+      --sum-scores "$RUN_DIR/../2026-10-08-0918-sum-scoring"
+      --max-scores "$RUN_DIR/../2026-10-08-0918-max-scoring" --out "$RUN_DIR"
+    timeout_seconds: 300
+    expect_outputs: [manifest.json, result.json, report.md, trajectories.png, search_trajectories.png, COMPLETE]
+    track: chem-tape
+    notes: "Exact 80-acquisition/2752-search roster; 10000 crossed draws; per-family uniform/inherited verdicts; acquired precedence; immediate strategy review."

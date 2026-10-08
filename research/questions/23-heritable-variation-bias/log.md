@@ -113,3 +113,75 @@ used the extra seeds), because that changes no comparison or decision rule, pric
 10 600 s against the 10 800 s ceiling, and the strategist reviews immediately after the result
 anyway; a second strategist pass for a 68 s overrun would add an agent cycle without a decision
 to make ([decision 0843](../../runs/2026-10-08-0843/decision.md)).
+
+## 2026-10-08 — run 2026-10-08-0918: equal-exposure acquisition ran; one acquisition cut by a hidden per-job deadline, no frozen scoring
+
+**Experiment.** [Proposal](../../runs/2026-10-08-0918/proposal.md) (the approved 0843 design,
+reference seeds cut to the 16 shared contrast seeds), [critique](../../runs/2026-10-08-0918/critique.md)
+(approve_with_notes), [plan](../../runs/2026-10-08-0918/plan.md),
+[preparation](../../runs/2026-10-08-0918/preparation.md) (exact timeout sum 10 603 s, 197 s under
+the ceiling; 127 tests), [code review](../../runs/2026-10-08-0918/code_review.md) (pass),
+[execution](../../runs/2026-10-08-0918/execution.md), [analysis](../../runs/2026-10-08-0918/analysis.md).
+Code `511711c` (merges `c01f16d`). Queue: acquisition (80 runs) → sum scoring → max scoring → analysis.
+
+**Result: no primary measurement.** The acquisition stage ran all 80 acquisitions in 3 742 s
+(timeout 5 824 s). 79 completed. Max / inherited / replicate 14 was cut at episode 31 of 48 by a
+1 200 s per-job default deadline in `acquire()` (`job.get("seconds", 1200)`, error
+"acquisition timing deadline; not censoring"; 1 035 s of it in the exact verifier). Neither the
+proposal ("acquisition is never cut") nor the plan listed this deadline. The code review named
+it as a minor note and judged it unlikely to bind. The completeness check then refused the
+roster, as the plan required, and the three later entries failed their marker gate in 0.01 s.
+Zero frozen searches ran, so R_u, L and S do not exist. `score()` has the same kind of hidden
+default (600 s per search).
+
+**Runtime observations.** At 10 workers, per-run times were 1.3–1.9× the single 0843 timing
+runs: means 295 / 331 s (sum inherited / broken) and 609 / 560 s (max), max-cell maxima 1 065
+and 1 081 s among complete runs. Reproduction took ≈ 205 s per run in every cell, against
+126–139 s at 4 workers (contention, plus un-pinned Rayon threads). Max runs spend ≈ 60% of their
+time in the verifier. The stage timeout would have held (summed worker time 36 501 s ≈ 3 650 s on
+10 workers). The max-scoring timeout (3 162 s) was priced on old-law vectors and is now
+likely too short: these vectors solve during acquisition, so their frozen searches will call
+the verifier.
+
+**Acquisition observations (descriptive, not evidence for any explanation; 20 runs per cell,
+19 for max inherited).**
+
+| Cell | Solves / 48, mean (sd) | Paired inherited − broken, 95% bootstrap |
+|---|---|---|
+| sum inherited / broken | 30.6 (11.0) / 31.1 (10.1) | −0.6 [−7.5, +6.0], 20 pairs |
+| max inherited / broken | 22.8 (8.3) / 18.9 (8.5) | +4.1 [−1.3, +9.5], 19 pairs |
+
+- Within-acquisition solving shows no resolved arm difference in either family; between-run SD
+  (≈ 10 of 48) is large. This is search under a changing distribution on the acquisition's own
+  populations, not the frozen fresh-start measure.
+- Solve rate fell over the 48 episodes in all four cells (sum 0.79–0.81 → 0.55–0.60 per
+  12-episode block; max 0.47–0.59 → 0.35–0.39).
+- Both arms moved equally far from uniform: L1 distance of the population-mean distribution
+  rose from ≈ 0.12 after episode 1 to ≈ 0.9 by episode 30 and plateaued (final 0.90–0.93; max
+  possible ≈ 1.9). The broken arm has no linkage, so this movement is what the σ = 0.03
+  walk over 6 144 generations (≈ 2.3 log units) produces without any lineage selection. The 2243
+  entry above already flagged this drift scale. Whether the drift explains the falling
+  solve rate is not separable from episode order here.
+- Post hoc, weak: mean pairwise correlation of final vectors across replicates 0.09 (both
+  inherited cells) vs 0.05 / 0.02 (broken); replicate-mean inherited vectors of the two
+  families correlate 0.73 across tokens, broken 0.09. At most a small shared component riding
+  on large neutral drift; says nothing about usefulness.
+
+**Reading.** Nothing about A–E is decided. The observations make two things more likely in a
+completed run: frozen vectors that are mostly drift, so R_u near or below 1 in both arms (a
+Bounded verdict for this σ and schedule), and linkage hard to identify. That is a prediction
+to test, not a result.
+
+**Process lesson.** A default deadline written for stage-0 timing reached the main stage, and a
+review note judged it "unlikely to bind" from a margin over one 4-worker run. Plans should list every
+per-job time limit. A limit in a main stage should equal the stage timeout or be absent, because
+the stage timeout already bounds cost and a per-job cut turns a slow run into missing data.
+
+Decision: keep 23 open, and return to the strategist (`next: strategy`), because this is the
+third build/cost stop on this design and the question's allocation sends any further stop to
+strategy. The run counts as one of the two allocated experiments (it executed), leaving one.
+I recommend a recovery run rather than a redesign: 79 of 80 acquisitions are valid and
+reproducible under fixed seeds. Remove the per-job deadlines, pin Rayon threads, reprice max
+scoring from the verifier costs seen here, and split the queue if needed. That yields the primary
+contrast for about 1.5–2 h of queue. Reasons and price are in
+[decision 0918](../../runs/2026-10-08-0918/decision.md).

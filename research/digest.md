@@ -1,7 +1,7 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-08, after run 2026-10-08-0843 (root 23, stopped again at its cost gate, no result). Latest
-result: run 2026-10-07-2156, commit `36c665d`. Core question since the 2026-09-25 reframe: *how
+As of 2026-10-08, after run 2026-10-08-0918 (root 23: acquisition ran, scoring blocked by a build
+defect, no primary result). Latest result: run 2026-10-07-2156, commit `36c665d`. Core question since the 2026-09-25 reframe: *how
 does the genotype→program map bias what evolution finds and keeps ("arrival of the frequent"),
 and can that bias be adapted to a task family?* Run-by-run history, superseded numbers and the
 former long-form sections are in the questions' `log.md` files.
@@ -190,16 +190,17 @@ demonstrated a contextual search advantage over their token controls. Learned to
 Not shown: that evolution reaches fitted context; what structure carries it; transfer to a fresh
 bank.
 
-## 23 Heritable variation bias (root open, budget 2, 0 used)
+## 23 Heritable variation bias (root open, budget 2, 1 used)
 
 [23](questions/23-heritable-variation-bias/question.md): can a token-frequency vector inherited
 with each program learn a useful bias through program selection alone, and help fresh populations
-once frozen? **No belief yet; no substantive run has executed.** Two designs were built and
-validated and both stopped at their pre-run cost gates: 2243 (early-stopped episodes, an
-over-strict worst-search gate) and 0843 (equal 128-generation episodes, commit `c01f16d`), whose
-timeout sum missed a 3 h admission ceiling by 68 s (mean-based queue estimate ≈ 83 min). Timing
-and stage-0 runs (one acquisition per family × arm) are logged as observations, not evidence.
-([log](questions/23-heritable-variation-bias/log.md), [decision](runs/2026-10-08-0843/decision.md))
+once frozen? **No belief yet; the primary frozen-scoring comparison has never run.** Two designs
+stopped at pre-run cost gates (2243, 0843). Run 0918 (equal 128-generation episodes, commit
+`511711c`) completed 79 of 80 acquisitions. One max acquisition was cut by an unplanned 1 200 s
+per-job deadline, so the completeness check blocked all scoring. Its acquisition-phase
+observations (no resolved inherited − broken difference in within-acquisition solves; both arms
+drift equally far from uniform) are logged, not beliefs.
+([log](questions/23-heritable-variation-bias/log.md), [decision](runs/2026-10-08-0918/decision.md))
 
 ## Older context
 
