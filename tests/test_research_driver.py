@@ -110,6 +110,7 @@ class FakeLauncher:
         self.strategy_next = "stop"
         self.infeasible = False
         self.on_queue = None  # called when the queue "runs"
+        self.plan_minutes = None  # plan.md's estimated_minutes
 
     def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
         d = self.driver
@@ -125,7 +126,9 @@ class FakeLauncher:
                 f.write("print('hi')\n")
             subprocess.run(["git", "add", "-A"], cwd=cwd, check=True)
             subprocess.run(["git", "commit", "-qm", "exp"], cwd=cwd, check=True)
-            write(td / "plan.md", "If A then X.\n")
+            est = (f"---\nestimated_minutes: {self.plan_minutes}\n---\n"
+                   if self.plan_minutes else "")
+            write(td / "plan.md", est + "If A then X.\n")
             write(td / "queue.yaml", f"runs:\n  - id: {d.state['task']}-a\n    cmd: echo hi\n")
         elif phase == "critique":
             if self.fail_critique:
@@ -680,3 +683,91 @@ def test_ledger_replaces_a_retried_row(repo):
     d.ledger(["t1", "n", "approve", "pass", "1", "yes", "A", "second"])
     text = (d.research / "briefs" / "r-ledger.md").read_text()
     assert text.count("| t1 |") == 1 and "second" in text
+
+
+def git_t(*args, cwd):
+    subprocess.run(["git", *args], cwd=cwd, check=True, capture_output=True)
+
+
+def test_note_conflicts_on_the_code_branch_resolve_to_main(repo, tmp_path):
+    # A code branch carried a first-pass review; main holds the second pass.
+    git_t("branch", "research/main", cwd=repo)
+    side = tmp_path / "side"
+    git_t("worktree", "add", str(side), "research/main", cwd=repo)
+    write(side / "research/notes/code_review.md", "verdict: fail\n")
+    git_t("add", "-A", cwd=side)
+    git_t("commit", "-qm", "first pass", cwd=side)
+    git_t("worktree", "remove", str(side), cwd=repo)
+    write(repo / "research/notes/code_review.md", "verdict: pass\n")
+    git_t("add", "research/notes/code_review.md", cwd=repo)
+    git_t("commit", "-qm", "second pass", cwd=repo)
+    fake = FakeLauncher()
+    d = make_driver(repo, fake)
+    d.run(now_mode=True)
+    first = d.state["task"]
+    d.approve(None)
+    d.run(now_mode=True)
+    assert "queue" in fake.calls
+    kept = research.git("show", f"research/{first}:research/notes/code_review.md", cwd=repo)
+    assert kept == "verdict: pass"
+
+
+def test_code_conflicts_still_block(repo, tmp_path):
+    git_t("branch", "research/main", cwd=repo)
+    side = tmp_path / "side"
+    git_t("worktree", "add", str(side), "research/main", cwd=repo)
+    write(side / "src.py", "a = 1\n")
+    git_t("add", "-A", cwd=side)
+    git_t("commit", "-qm", "code", cwd=side)
+    git_t("worktree", "remove", str(side), cwd=repo)
+    write(repo / "src.py", "a = 2\n")
+    git_t("add", "src.py", cwd=repo)
+    git_t("commit", "-qm", "owner code", cwd=repo)
+    fake = FakeLauncher()
+    d = make_driver(repo, fake)
+    d.run(now_mode=True)
+    d.approve(None)
+    d.run(now_mode=True)
+    assert "queue" not in fake.calls
+    logs = "".join(f.read_text() for f in (d.research / "runs").glob("*/driver.log"))
+    assert "conflicts; resolve by hand" in logs
+
+
+def test_push_merges_what_the_owner_pushed_meanwhile(repo, tmp_path):
+    remote = tmp_path / "remote.git"
+    git_t("init", "-q", "--bare", str(remote), cwd=tmp_path)
+    git_t("remote", "add", "origin", str(remote), cwd=repo)
+    git_t("push", "-q", "origin", "main", cwd=repo)
+    other = tmp_path / "laptop"
+    git_t("clone", "-q", str(remote), str(other), cwd=tmp_path)
+    write(other / "owner.md", "note\n")
+    git_t("add", "-A", cwd=other)
+    git_t("-c", "user.name=o", "-c", "user.email=o@o", "commit", "-qm", "owner", cwd=other)
+    git_t("push", "-q", "origin", "main", cwd=other)
+    fake = FakeLauncher()
+    d = make_driver(repo, fake, commit_research=True, push=True)
+    d.run(now_mode=True)
+    d.approve(None)
+    d.run(now_mode=True)
+    remote_main = research.git("rev-parse", "main", cwd=remote)
+    assert remote_main == research.git("rev-parse", "HEAD", cwd=repo)
+    assert (repo / "owner.md").exists()
+
+
+def test_auto_queue_that_would_overrun_the_deadline_waits(repo):
+    fake = FakeLauncher()
+    fake.plan_minutes = 600
+    d = auto_driver(repo, fake, strategy_every=9)
+    assert d.run_auto(hours=2) == 0
+    assert "queue" not in fake.calls and fake.calls[-1] == "summary"
+    info = json.loads(d.run_path.read_text())
+    assert "the next run starts it" in info["reason"] and not info["executed"]
+    assert d.state["phase"] == "execute"
+
+
+def test_long_digest_asks_the_steward_to_condense(repo):
+    d = make_driver(repo, FakeLauncher(), digest_max_words=5)
+    write(d.research / "digest.md", "one two three\n")
+    assert d.digest_note() == ""
+    write(d.research / "digest.md", "one two three four five six\n")
+    assert "6 words, over its 5-word limit" in d.digest_note()

@@ -58,3 +58,7 @@ strategy_every = 4       # strategist reviews the program every N cycles
 max_new_roots = 2        # new root questions per autonomous run
 auto_retry_minutes = 10  # wait before retrying a failed agent
 auto_max_retries = 3     # consecutive failures in one phase end the run
+deadline_grace_minutes = 30  # a queue may start if its plan's estimate ends this soon after the deadline
+
+# The steward is asked to condense research/digest.md when it grows past this.
+digest_max_words = 3000

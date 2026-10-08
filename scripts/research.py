@@ -444,7 +444,8 @@ PROMPTS = {
         "approval.md (owner notes), critique.md (second opinion on the proposal; address its points "
         "or say in plan.md why not), code_review.md (review to address) and driver_feedback.md "
         "(failed checks to fix) in the task folder. The current directory is your git worktree on "
-        "branch {branch}. 1) Before running anything, write {task_dir}/plan.md, starting with "
+        "branch {branch}; the task folder is in the main checkout, so write task files there and "
+        "commit no research/ files on {branch}. 1) Before running anything, write {task_dir}/plan.md, starting with "
         "frontmatter `estimated_minutes:` (expected queue wall-clock): conditions, seeds, "
         "measurements, and what each outcome would mean for the competing explanations. "
         "2) Implement and smoke-test at small scale. If you find the approved design cannot work "
@@ -666,6 +667,10 @@ class Driver:
         if (self.task_dir() / "strategy.md").exists():
             strategy = (f"First read {self.task_dir() / 'strategy.md'}, the strategist's direction "
                         "for the program; follow it or say in the proposal why not. ")
+        if self.auto and self.deadline:
+            hours = (self.deadline - self.now()).total_seconds() / 3600
+            strategy += (f"This autonomous run has about {max(hours, 0):.1f} h left; size the "
+                         "experiment so its preparation and queue finish within it. ")
         self.call_agent("steward", "propose", self.repo, feedback=feedback, strategy=strategy)
         self.expect("proposal.md")  # missing → retry the steward, not the acceptance
         self.set_phase(ACCEPT)
@@ -746,7 +751,7 @@ class Driver:
         self.save()
         # Pick up the owner's latest work on the base branch.
         if not git_ok("merge-base", "--is-ancestor", base, "HEAD", cwd=wt):
-            if not git_ok("merge", "--no-edit", base, cwd=wt):
+            if not git_ok("merge", "--no-edit", base, cwd=wt) and not self.resolve_notes(wt):
                 git_ok("merge", "--abort", cwd=wt)
                 self.block(f"merging {base} into {rb} conflicts; resolve by hand")
                 raise _Blocked()
@@ -755,6 +760,24 @@ class Driver:
         self.run_setup(wt, "setup")
         self.state["worktree_ready"] = True
         self.save()
+
+    def resolve_notes(self, wt: Path) -> bool:
+        """Finish a conflicted merge of the base branch whose conflicts are all
+        under research/: the notes on the base branch are the record (code
+        branches only carry copies, e.g. a first-pass code_review.md)."""
+        paths = git("diff", "--name-only", "--diff-filter=U", cwd=wt).splitlines()
+        if not paths or not all(p.startswith("research/") for p in paths):
+            return False
+        for p in paths:
+            if git_ok("checkout", "--theirs", "--", p, cwd=wt):
+                git_ok("add", "--", p, cwd=wt)
+            else:  # deleted on the base branch
+                git_ok("rm", "-q", "--", p, cwd=wt)
+        if not git_ok("commit", "--no-edit", cwd=wt):
+            return False
+        self.log(f"merge conflicts in research/ notes resolved to {self.cfg['base_branch']}'s "
+                 f"version: {', '.join(paths)}")
+        return True
 
     def run_setup(self, wt: Path, label: str) -> None:
         env = {k: str(self.repo / v) for k, v in self.cfg.get("setup_env", {}).items()}
@@ -845,6 +868,8 @@ class Driver:
             self.state["queue_seconds"] = used
             self.save()
         if not (td / "execution.md").exists():  # a new campaign, not a resumed one
+            if self.auto:
+                self.admit_queue()
             left = remaining_budget(self.research, self.node_path())
             if left is not None and left <= 0:
                 self.block(f"no experiment budget left at {self.state['node']} or an ancestor "
@@ -902,6 +927,30 @@ class Driver:
         git("branch", "-f", self.cfg["research_branch"], self.state["commit"], cwd=self.repo)
         self.set_phase("analyse")
 
+    def digest_note(self) -> str:
+        cap = int(self.cfg.get("digest_max_words", 3000))
+        digest = self.research / "digest.md"
+        words = len(digest.read_text().split()) if digest.exists() else 0
+        if words <= cap:
+            return ""
+        return (f" The digest is {words} words, over its {cap}-word limit: rewrite it as current "
+                "beliefs (one short section per root, newest evidence folded in), and move history "
+                "and superseded numbers to the questions' log.md files, linked from the digest.")
+
+    def admit_queue(self) -> None:
+        """End the run, leaving the cycle at execute for the next run, rather than
+        start a queue whose plan expects it to finish well after the deadline."""
+        if not self.deadline:
+            return
+        try:
+            est = float(read_frontmatter(self.task_dir() / "plan.md")[0].get("estimated_minutes"))
+        except (TypeError, ValueError, OSError):
+            return
+        left = (self.deadline - self.now()).total_seconds() / 60
+        if est > left + float(self.cfg.get("deadline_grace_minutes", 30)):
+            raise RunComplete(f"the next queue needs about {est:.0f} min and the run has "
+                              f"{max(left, 0):.0f} min left; the next run starts it")
+
     def phase_analyse(self) -> None:
         self.call_agent("reviewer", "analyse", self.worktree())
         self.expect("analysis.md")
@@ -922,7 +971,7 @@ class Driver:
         next_step = (NEXT_STRATEGY if strategy_due else
                      NEXT_PROPOSAL_AUTO if self.auto else NEXT_PROPOSAL).format(next_dir=next_dir)
         self.call_agent("steward", "decide", cwd, node=self.state["node"], next_step=next_step,
-                        brief=str(brief), blocked=blocked)
+                        brief=str(brief), blocked=blocked + self.digest_note())
         self.expect("decision.md")
         if not brief.exists():
             raise Stop(f"steward did not write the brief {brief}")
@@ -1070,8 +1119,18 @@ class Driver:
         if self.cfg.get("push"):
             refs = ["HEAD", self.cfg["research_branch"]] + ([code_branch] if code_branch else [])
             refs = [r for r in refs if git_ok("rev-parse", "--verify", r, cwd=self.repo)]
-            if not git_ok("push", "origin", *refs, cwd=self.repo):
-                self.log(f"push of {' '.join(refs)} failed; push by hand")
+            if git_ok("push", "origin", *refs, cwd=self.repo):
+                return
+            # Usually the owner pushed to the base branch meanwhile: merge it and retry.
+            base = self.cfg["base_branch"]
+            if (git_ok("fetch", "origin", base, cwd=self.repo)
+                    and git_ok("merge", "--no-edit", f"origin/{base}", cwd=self.repo)):
+                if git_ok("push", "origin", *refs, cwd=self.repo):
+                    self.log(f"merged origin/{base} (pushed by the owner meanwhile) and pushed")
+                    return
+            else:
+                git_ok("merge", "--abort", cwd=self.repo)
+            self.log(f"push of {' '.join(refs)} failed; push by hand")
 
     # -- control --------------------------------------------------------
     def advance(self) -> None:
