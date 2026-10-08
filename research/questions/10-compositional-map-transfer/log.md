@@ -330,3 +330,136 @@ park or fund more is the strategist's call.
   pre-stated rule is met with margin, root 10 has used 14 of 14 slots, and the open follow-ups
   (a second step, a token-only T2 refit from the same corpora to locate the increment, active-token
   fitting, a broader holdout bank) each need a new allocation.
+
+## 2026-10-08 — digest condensing (run 2026-10-07-2243): former digest text moved here
+
+The digest was rewritten as current beliefs only (word limit). This is the digest's run-by-run preamble and the root-10 open-question lines, moved verbatim as it stood before the rewrite; no belief changed. Relative links below are relative to `research/`, not to this folder.
+
+As of 2026-10-08 (run 2026-10-07-2243 opened root 23 and stopped at its cost gate with no result; before it run 2026-10-07-2156, commit `36c665d`: token-only fits T1 and T2 scored on the exact seeds of the saved C1 and C2, completing the four-arm feedback crossing on training and withheld cells; its first attempt, run 2026-10-07-2129, stopped at preparation on the autonomous deadline with no result; before it run 2026-10-07-1924, commit `5565d54`: one feedback refit of the solver-corpus tables from solvers found under them, against the parent and a fresh one-shot refit, training and withheld cells; before it run 2026-10-07-1707, commit `627336d`: previous-token and token-only tables fitted directly to exact G4 solver tapes, training and withheld cells; before it run 2026-10-07-1137, commit `86ef669`: the same token-only versus rank-one-context continuation from the saved token maps, at 96 searches per candidate, training cells only; before it run 2026-10-07-0821, commit `f61aec4`: the same comparison at 24 searches per child; before that run 2026-10-07-0315, commit `5dae3a6`: the same starting-program × search-decoder crossing on the ten training cells; before that run 2026-10-06-2331, commit `8f42f38`: the frozen maps' starting programs crossed with the decoder used during search, on the three withheld cells; before that run 2026-10-06-2229, commit `33fcee2`: the frozen crossed BE/PA token maps scored on the three withheld cells, stage 2; before that run 2026-10-06-1723, `db96645`, crossed BE/PA token learning on the four-reducer bank, stage 1, training cells only; before that run 2026-10-06-1603, `92ba7c5`, the four-reducer FIRST bank feasibility study; before that run 2026-10-06-1425, `b397f72`, the saved-map shape-shift check, after runs 1400 and 1419 with the same design were blocked by a merge conflict; before it run 2026-10-06-0811, `0709104`, contextual moves versus continued token learning from the learned post-addition maps; before 0811 run 2026-10-06-0132, `02cf76f`, root 10's first decoder-learning study; run 2026-10-06-0001, `a65ded0`, and run 2026-10-05-2247, `0995d33`; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 were blocked before running). This covers the **map-bias line**, the current
+core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
+evolution finds and keeps ("arrival of the frequent")?* Until 2026-10-05 the line studied
+whether the chemistry can discover, preserve and reuse a **shared helper** (one functional part
+read by several outputs); that line has stopped. The README's part 2, fitting the map's bias
+to a task family ([08](questions/01-map-bias/08-evolve-bias/question.md),
+[09](questions/01-map-bias/09-generic-bias-speedup/question.md)), gave a bounded answer and is
+parked too; root 01's budget is spent (last slot: run 1957, stopped at its pilot). The strategist
+opened root [10-compositional-map-transfer](questions/10-compositional-map-transfer/question.md)
+to test part 2 on held-out operation combinations with an adaptable decoder. The first bank
+failed its split/headroom requirements; the second failed the two-family requirement but kept a
+usable one-family post-addition split (see "Composition bank" and "Assembly-family screen"
+below). On that split, learned token multipliers on the hand-set grammar G transferred to the
+two withheld compositions (about 2×) and to the related branch-else cells; allowing learned
+contextual moves on top gave no resolved training gain (≤ 1.11×) and an unresolved holdout
+increment, and their one off-family hint did not replicate (see "Decoder learning on
+post-addition", "Contextual moves on top of M" and "Saved-map shape shift"). The four-reducer
+bank meant to supply a second family fails the split rule for branch-else (see "Four-reducer
+bank"). On that bank, with a narrower split authorized by strategy, the token learner improves
+the four-reducer grammar G4 about 2.2× on both families' training cells and 2–3× on the three
+withheld cells; which family the maps were trained on made no detectable difference on the
+withheld cells (matched over mismatched 1.02× and 0.96×; 95% upper bounds 1.2485× on BE, rising to
+about 1.3× in leave-one-map-out checks, and 1.15× on PA; a 1.1× preference is not excluded)
+(see "Crossed family learning"). On those three cells and on the ten training cells, the maps' gain
+comes both from the programs the search starts with and from using the map during search, each
+about 1.3× given the other, and the two gains are strongly sub-additive; on the training cells
+the start weighs relatively more on branch-else cells than on plus-arg cells (see "Starting
+programs versus ongoing decoder"). A third contextual procedure (rank-one context steps mixed
+into token continuation from the saved maps) first ran in a loop where token continuation did
+not resolve learning (0821). With 4× more search evidence per candidate, token-only continuation
+did learn (about 1.12–1.14× on two fresh seed blocks), and in that loop context under equal
+search funding added no resolved increment (C/T 0.967× [0.871, 1.073]) (see "Compact context
+continuation" and "Selection-calibrated continuation"). A different signal did work: a
+previous-token table fitted directly to the token tapes of exact G4 solvers beat a token-only
+fit to the same tapes about 1.37× on training cells and 1.29× on the withheld cells, over 32
+independent corpora, with no resolved family advantage (see "Solver-corpus context fit"). One
+feedback step added further search speed: refitting each table to exact solvers found under it
+beat its parent about 1.40× on training and 1.29× on the withheld cells, while a fresh one-shot
+refit was not resolved from the parent (see "Solver-corpus feedback refit"). On the training
+cells that step also raised the fitted context's advantage over a token-only fit to the same
+corpora, by about 1.17× and mostly on BE, while the token-only fit itself improved about 1.20×;
+on the withheld cells that interaction is unresolved (see "Feedback context increment"). Root 10
+has used all 15 of its slots.
+
+## Open questions
+
+- [10-compositional-map-transfer](questions/10-compositional-map-transfer/question.md) (open,
+  root, budget 15, 15 used): can a decoder adapted across related tasks help fresh populations
+  solve unseen operation combinations beyond a token-frequency bias? Two feasibility studies
+  (one bank failed split/headroom, one failed the two-family requirement but kept a PA split),
+  then two learning studies: learned token multipliers on G transfer about 2× to the withheld
+  pair and to branch-else; contextual row moves on top add no resolved training gain (≤ 1.11×),
+  holdout increment unresolved, and their off-family branch shift did not replicate (14). The
+  four-reducer bank failed the symmetric split (15); on a narrower split, crossed token learning
+  improves both families about 2.2× on training and 2–3× on the withheld cells, with no resolved
+  family advantage there (95% upper bounds 1.25× BE, 1.15× PA; 16, closed). The frozen maps' gain comes from both starting
+  programs and ongoing decoder use, about 1.3× each given the other and sub-additive, on the
+  withheld and the training cells; the balance differs between BE and PA training cells (17,
+  closed). Rank-one context steps mixed into token continuation: no resolved training increment,
+  first in a loop where token continuation did not resolve learning (18), then in one where it
+  did, C/T 0.967× [0.871, 1.073] (19; 18 and 19 closed). A previous-token table fitted to exact
+  solver tapes beat a token-only fit to the same tapes 1.37× on training and 1.29× on the
+  withheld cells, no resolved family advantage (20, closed). Refitting those tables to solvers
+  found under them gave a further 1.40× on training and 1.29× on the withheld cells, attributable
+  to the collection procedure (21, closed). On training cells that feedback step raised C's
+  advantage over a token-only fit, I 1.17× [1.09, 1.25], mostly in BE, while the token-only fit
+  also improved 1.20×; on the withheld cells I is unresolved, 1.09× [0.98, 1.20] (22, closed).
+  15 of 15 slots used.
+  - [11-composition-bank](questions/10-compositional-map-transfer/11-composition-bank/question.md)
+    (closed, run 2026-10-05-2247): this 3×3 bank has no eligible split at 524k (Sm-SEL 27/50
+    under U), and all four splits fail the 4 096 headroom rule under the hand-set grammar G.
+  - [12-generic-grammar-headroom](questions/10-compositional-map-transfer/12-generic-grammar-headroom/question.md)
+    (closed, run 2026-10-06-0001): ten-token branch cells leave 2–10× headroom above G, but none
+    of six same-primitive assembly shapes yields an eligible two-family pair (alias identities).
+  - [13-post-addition-map-learning](questions/10-compositional-map-transfer/13-post-addition-map-learning/question.md)
+    (closed, runs 2026-10-06-0132 and 2026-10-06-0811): G-based token multipliers transfer to the
+    withheld PA pair (2.25×, 2.06× on 200 seeds); the 552-weight learner showed no resolved
+    training gain (0.92× [0.78, 1.09]); row residuals on top of M vs continued token steps:
+    training 1.00× [0.90, 1.11], holdouts 1.16× and 1.06×, unresolved.
+  - [14-saved-map-shape-shift](questions/10-compositional-map-transfer/14-saved-map-shape-shift/question.md)
+    (closed, run 2026-10-06-1425, row 3): 0811's branch-versus-linear shift of R over M+ did not
+    replicate on the "b" continuations (shift 0.73× [0.57, 0.94], opposite sign); the "a" maps
+    keep it on fresh seeds, so it is run-specific; on "b" a frequency-matched token-only map
+    was not resolved from R (shift 1.02× [0.92, 1.12]).
+  - [15-four-reducer-family-bank](questions/10-compositional-map-transfer/15-four-reducer-family-bank/question.md)
+    (closed, run 2026-10-06-1603, row 1): with FIRST added, branch-else has no role-covered
+    holdout pair on three domains; PA splits; G4 has headroom on all 13 cells; hand-set family
+    grammars show a crossed preference that context strengthens over the marginal controls
+    (descriptive).
+  - [16-crossed-family-adaptation](questions/10-compositional-map-transfer/16-crossed-family-adaptation/question.md)
+    (closed, runs 2026-10-06-1723 and 2026-10-06-2229, row 4 both): BE- and PA-trained token maps
+    beat G4 about 2.2× on training cells and 2–3× on the three withheld cells; matched over
+    mismatched on the withheld cells 1.02× (BE) and 0.96× (PA), 95% upper bounds 1.2485× (about
+    1.3× leave-one-map-out) and 1.15×, a
+    1.1× preference not excluded.
+  - [17-decoder-initialization-variation](questions/10-compositional-map-transfer/17-decoder-initialization-variation/question.md)
+    (closed, 2 of 2 slots, runs 2026-10-06-2331 row 3 and 2026-10-07-0315 row 1): with starting
+    tapes held identical, the learned decoder during search adds 1.39× [1.31, 1.47] (withheld
+    cells) and 1.28× [1.22, 1.34] (training cells); with the search decoder held at M, learned
+    starting programs add 1.30× [1.24, 1.36] and 1.33× [1.26, 1.40]; sub-additive in both. On
+    the training cells the start weighs relatively more on BE than PA cells (−0.45 log2 [−0.68,
+    −0.22]); not separated from shape or difficulty.
+  - [18-compact-context-learning](questions/10-compositional-map-transfer/18-compact-context-learning/question.md)
+    (closed at tested scope, 1 of 2 slots, run 2026-10-07-0821 row 3, then via 19): rank-one
+    context steps mixed into token continuation from the saved maps add no resolved training
+    increment; in the loop where token continuation learned, C/T 0.967× [0.871, 1.073]. Context
+    learned jointly from G4, or added without displacing token steps, untested.
+  - [19-selection-calibrated-continuation](questions/10-compositional-map-transfer/19-selection-calibrated-continuation/question.md)
+    (closed, 1 of 2 slots, run 2026-10-07-1137 row 6): at 96 searches per candidate token
+    continuation from the saved maps learned, T/S 1.143× [1.089, 1.200] and 1.122× [1.031, 1.222]
+    on two fresh blocks; the cause is not isolated from the changed depth and total effort.
+  - [20-solver-corpus-context](questions/10-compositional-map-transfer/20-solver-corpus-context/question.md)
+    (closed, 1 of 1 slot, run 2026-10-07-1707 row 1): over 32 independent solver corpora, the
+    fitted previous-token table beats the token-only fit C/T 1.365× [1.288, 1.446] (training) and
+    1.293× [1.213, 1.378] (withheld); no matched-family advantage was resolved on the three
+    withheld cells, and one PA cell favoured the mismatched fit; external fitting, not
+    evolutionary discovery.
+  - [21-iterated-solver-corpus](questions/10-compositional-map-transfer/21-iterated-solver-corpus/question.md)
+    (closed, 1 of 1 slot, run 2026-10-07-1924 row 1): refitting each C to exact solvers found
+    under it (C2) gives C2/C 1.404× [1.347, 1.464] (training) and 1.289× [1.204, 1.381] (withheld);
+    a fresh one-shot G4 refit C' is not resolved from C (0.997× [0.940, 1.058]) and C2/C' is
+    1.41× / 1.33×. One step, external fitting; yield, diversity and tape content not separated.
+  - [22-feedback-context-increment](questions/10-compositional-map-transfer/22-feedback-context-increment/question.md)
+    (closed, 1 of 1 slot, run 2026-10-07-2156, training row 1, holdout row 4; first attempt 2129
+    stopped at preparation): I = (C2/T2)/(C1/T1) 1.169× [1.093, 1.250] on training (BE 1.34×
+    [1.19, 1.50], PA 1.02× [0.95, 1.09]); T2/T1 1.20×; withheld I 1.087× [0.984, 1.200],
+    unresolved. Reopen on a funded seed or lineage extension (price both).
+

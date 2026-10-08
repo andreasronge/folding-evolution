@@ -41,8 +41,10 @@ Related: [20](../20-solver-corpus-context/question.md), [21](../21-iterated-solv
 [run 2156 analysis](../../../runs/2026-10-07-2156/analysis.md),
 [run 2156 decision](../../../runs/2026-10-07-2156/decision.md).
 
-Reopen if: a replication with new lineages (fresh C1/C2/T1/T2 corpora; about 46 balanced
+Reopen if: a seed extension on these lineages or a replication with new lineages (fresh C1/C2/T1/T2 corpora; about 46 balanced
 lineages put the holdout lower bound above 1 at the observed 1.09×, roughly twice that for good
 power) is funded, or a mechanism study (start row, active tokens, BE versus PA) needs the
-interaction on withheld cells. More seeds on these 32 lineages would not settle the holdout:
-there between-lineage variance exceeds seed noise.
+interaction on withheld cells. Both lineage and scoring-seed uncertainty matter (between-lineage
+variance about 1.6× seed noise); a plug-in projection does not exclude resolution by more seeds
+on these 32 lineages ([critique 2243](../../../runs/2026-10-07-2243/critique.md), note 6), so
+price seed and lineage extensions before choosing.

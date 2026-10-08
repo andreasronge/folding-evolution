@@ -1,0 +1,49 @@
+{
+  "targets": {
+    "sum1": {
+      "positives": 9995,
+      "training_positives": 32,
+      "exact_solver": true
+    },
+    "sum5": {
+      "positives": 9874,
+      "training_positives": 32,
+      "exact_solver": true
+    },
+    "max1": {
+      "positives": 9984,
+      "training_positives": 32,
+      "exact_solver": true
+    },
+    "max5": {
+      "positives": 8704,
+      "training_positives": 32,
+      "exact_solver": true
+    }
+  },
+  "sigma_zero_legacy_replay_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ],
+  "support_floor": 0.004545454545454546,
+  "distinct_row_bookkeeping": true,
+  "theta_does_not_reinterpret": true
+}

@@ -44,3 +44,50 @@
   controls; the marginal contrasts alone are unresolved". The stage-C cost was a conservative
   projection, not a measured runtime. question.md updated accordingly. The one-cell BE holdout
   design runs in 16, not here; 15 stays closed.
+
+## 2026-10-08 — digest condensing (run 2026-10-07-2243): former digest text moved here
+
+The digest was rewritten as current beliefs only (word limit). This is section "Four-reducer bank", moved verbatim as it stood before the rewrite; no belief changed. Relative links below are relative to `research/`, not to this folder.
+
+## Four-reducer bank (root 10, run 2026-10-06-1603)
+
+One run, commit `92ba7c5`, complete data (validation, three exhaustive screens, 5 200 searches,
+43.7 min). FIRST (first list element) added to SUM/MAX/MIN as a 24-token alphabet. Cells:
+branch-else (BE) `A?B:(C+D)` and post-addition (PA) `(A?B:C)+D`, with A–D a permutation of
+S, M, m, F. Ten tokens each, with identical token counts. 0001's ≤ 9-token, 80% alias screen and
+role-covered split rule. Search on the 13 retained D1331 cells, 8 arms × 50 paired seeds, with
+G4 (G extended to four reducers before the data). Reviewed analysis. Sure of the screen (exact);
+fairly sure of the search numbers; narrow in scope.
+([15](questions/10-compositional-map-transfer/15-four-reducer-family-bank/question.md),
+[run analysis](runs/2026-10-06-1603/analysis.md))
+
+- **This bank cannot carry the symmetric two-family test: branch-else has no role-covered
+  holdout pair.** 13 of 36 cells survive on D1331 (BE 5, PA 8; D625 4 + 6, D2401 5 + 8). Every
+  M- or m-conditioned cell is a near-alias, because M > 0 and m > 0 are nearly constant on these
+  domains. In BE's `then` role, S, F and M each occur once, so no BE pair is covered on any of the
+  three domains. One BE cell, `S?m:(M+F)`, could be held out alone. PA splits (2 holdouts, 6
+  training). Scope: this shape pair, these domains and the frozen rules. The asymmetric designs
+  were not tested.
+- **G4 is tractable and leaves room above the 4 096 line on all 13 cells.** G4 solves 45–50/50,
+  KM medians 8.7k–28.7k. G4 / U is 10.3× [7.9, 13.5] (BE) and 8.1× [6.8, 9.6] (PA). G4 / G4-marg
+  is 4.4× [3.4, 5.6] and 3.3× [2.7, 4.0]: the contextual grammar beats its own marginals on a
+  third bank.
+- **Two hand-set family grammars carried a crossed family preference; context strengthens it
+  over the tied-marginal controls.**
+  Matched over swapped: BE 1.68× [1.39, 2.05], PA 1.32× [1.12, 1.57]; per-cell point estimates
+  are above 1 on 13 of 13 cells. Their tied marginals give no resolved contrast (BE 1.11× [0.90,
+  1.36]; PA 0.91× [0.76, 1.10]). The directly paired context-over-marginal contrast is resolved
+  in both families (1.51× [1.09, 2.09], 1.46× [1.16, 1.82]); that is an increment beyond the
+  marginal controls, not a zero marginal preference. This is asymmetric against G4: the BE
+  grammar beats G4 on BE (1.36× [1.04, 1.75]) and slows PA (0.66× [0.56, 0.77]). For the PA
+  grammar no PA improvement over G4 was resolved (0.87× [0.75, 1.04], admitting gains up to about
+  4%). So the PA half is mainly "the BE grammar hurts PA", with no resolved "the PA grammar
+  helps PA", as with 0001's hand-set PA grammar against G. This
+  witnesses what a fixed previous-token decoder can express. It says nothing about what a
+  learner would find.
+- **Search costs on this bank; learner runtime was projected, not measured, in 1603.** G4 takes
+  about 1.9 s per full-cap search and 0.4–1.2 s per 65k-cap inner search. Those costs implied a
+  conservative pilot projection (2.4 h for 4 trajectories, 4.7 h with the frozen 2× allowance),
+  and the allowance excluded stage C. Run 1723 then measured 9.5–13.7 min per trajectory, in line
+  with 0132.
+

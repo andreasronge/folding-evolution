@@ -65,3 +65,61 @@
   substantial: BE's point gain is slightly lower (2.18× → 2.01×, ratio 1.08× [0.96, 1.22]) and
   PA's higher (2.27× → 2.48×); these cross-block comparisons do not establish equality or
   absence of overfitting". question.md and the digest are corrected accordingly.
+
+## 2026-10-08 — digest condensing (run 2026-10-07-2243): former digest text moved here
+
+The digest was rewritten as current beliefs only (word limit). This is section "Crossed family learning", moved verbatim as it stood before the rewrite; no belief changed. Relative links below are relative to `research/`, not to this folder.
+
+## Crossed family learning (root 10, runs 2026-10-06-1723 and 2026-10-06-2229)
+
+One run, commit `db96645`, complete data (20 trajectories, 216 420 searches, 4.28 h, no holdout
+searched). Same bank, D1331, `v2_rmin_first` and G4 as 1603. Narrower split authorized by
+strategy 1723 after the bank data were seen: BE trains on 4 cells (holds out `S?m:(M+F)`), PA on
+6 (holds out `(F?S:M)+m`, `(S?M:m)+F`). 0132's token learner (24 multipliers on G4's rows, 25
+generations) run independently 10 times per family from G4. Final maps scored on all ten training
+cells, 50 shared fresh seeds, 524k cap; paired capped-time ratios over G4; trajectory as the unit,
+95% t (Welch between families). Pre-registered readouts; reviewed analysis. Fairly sure of the
+numbers; narrow in scope (ten screened training cells, one learner, starts at G4).
+([16](questions/10-compositional-map-transfer/16-crossed-family-adaptation/question.md),
+[run analysis](runs/2026-10-06-1723/analysis.md))
+
+- **Token learning improves G4 about 2.2× on both families' training sets.** Own-family fresh
+  gain BE 2.18× [1.98, 2.40], PA 2.27× [1.95, 2.65]; 20/20 maps above 1. Same size as M over G on
+  post-addition in 0132 (2.23×). Mostly speed: G4 already solves 480/500 at the cap.
+- **Most of that gain is generic on training cells.** BE-trained maps speed PA training cells
+  2.07× [1.94, 2.21]; PA-trained maps speed BE training cells 1.93× [1.61, 2.30]. All 20 maps had
+  positive estimated gains averaged over the other family's training cells; both arm-level
+  averages are resolved. Both families make the same big moves (INPUT up in 20/20 maps, IF_GT and
+  REDUCE_ADD up, DUP and CHARS down); mean vectors differ by about half the within-family spread
+  (permutation p 0.20).
+- **In-sample, the family preference estimates are 1.13× and 1.10×, both unresolved.** Matched
+  over mismatched: 1.13× [0.93, 1.37] on BE cells and 1.10× [0.93, 1.29] on PA cells; neither
+  excludes 1 or 1.25×. Eight of ten cell point estimates favour matched training; the other two
+  are within 0.02 log2 of zero. A post hoc within-map interaction (sum of both contrasts) is
+  1.24× [1.09, 1.41]: suggestive of some family information on the cells each map was trained
+  on. On the withheld cells the interaction was unresolved, 0.98× [0.83, 1.15]; transfer of a
+  modest family preference remains possible (below).
+- **Learning is cheap enough on this bank:** 9.5–13.7 min per trajectory on 10 workers. The 24-
+  search candidate score barely ranks parents (median Spearman 0.20 BE, 0.00 PA between successive
+  rescorings), but the 120-search selection score predicts fresh gain (Spearman −0.45, −0.83).
+
+Stage 2, run 2026-10-06-2229 (commit `33fcee2`, complete, 35 min): the same 20 maps, frozen, and
+G4 on the three withheld cells, 400 shared fresh seeds each, no learning. Pre-registered
+readouts; reviewed analysis. Fairly sure of the numbers; three screened cells, only one of them BE.
+([analysis](runs/2026-10-06-2229/analysis.md))
+
+- **The token maps transfer to the withheld cells about 2–3×.** All six arm × cell gains over G4
+  are resolved: BE maps 2.01× [1.86, 2.18] on the BE cell and 2.59× [2.41, 2.77] on the PA
+  cells; PA maps 1.97× [1.63, 2.39] and 2.48× [2.07, 2.96]. Holdout gains remain substantial:
+  BE's point gain is slightly lower than on training (2.18× → 2.01×) and PA's higher (2.27× →
+  2.48×); these cross-block comparisons do not establish equality or absence of overfitting.
+- **No matched-family advantage was resolved on the withheld cells; 95% upper bounds 1.2485×
+  (BE) and 1.15× (PA), a 1.1× one not excluded.** Matched over mismatched: 1.02× [0.84, 1.25] on BE, 0.96× [0.79,
+  1.15] on PA; pre-stated within-map interaction 0.98× [0.83, 1.15]. The BE upper bound (1.2485)
+  is at the margin: dropping any one of 14 maps lifts it to 1.25–1.30. Which cell is searched
+  moves the gain by about 50%; which family trained the map, by a few percent in the point
+  estimates (the intervals allow up to about 1.25×). This is a
+  bound, not equality; detecting a true 1.1× at 80% would need about 64–75 trajectories per family.
+- **Not separated:** whether the generic gain is a better prior for this reducer family or a
+  correction of G4's weak spots, and anything about learned context (token weights only).
+
