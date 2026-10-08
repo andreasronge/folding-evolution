@@ -296,6 +296,19 @@ def _rand_op(rng: random.Random, n_ops: int, op_p) -> int:
 def _draw_ops(gen: np.random.Generator, n_ops: int, size, op_p) -> np.ndarray:
     if op_p is None:
         return gen.integers(0, n_ops, size)
+    op_p = np.asarray(op_p)
+    if op_p.ndim == 2:
+        if len(size) != 2 or op_p.shape != (size[0], n_ops):
+            raise ValueError("per-row probabilities must match (population, n_ops)")
+        if (not np.isfinite(op_p).all() or (op_p < 0).any()
+                or not np.allclose(op_p.sum(axis=1), 1)):
+            raise ValueError("invalid per-row probabilities")
+        # Exact legacy RNG replay for identical rows, including uniform rows.
+        if np.array_equal(op_p, np.broadcast_to(op_p[0], op_p.shape)):
+            return gen.choice(n_ops, size=size, p=op_p[0])
+        cdf = np.cumsum(op_p, axis=1)
+        cdf[:, -1] = 1.0
+        return (gen.random(size)[:, :, None] >= cdf[:, None, :]).sum(axis=2)
     return gen.choice(n_ops, size=size, p=op_p)
 
 

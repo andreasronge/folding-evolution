@@ -1,0 +1,261 @@
+"""Mechanism, episode ordering, exact endpoint, and crossed uncertainty checks."""
+import time
+
+import numpy as np
+import pytest
+
+from experiments.chem_tape import inherited_bias as ib
+from folding_evolution.chem_tape import tagged
+from folding_evolution.chem_tape.evolve import _reproduce_one_island, make_rng
+
+
+def test_validation_replays_twenty_legacy_searches():
+    audit = ib.validate()
+    assert len(audit["sigma_zero_legacy_replay_seeds"]) == 20
+    assert set(audit["targets"]) == set(ib.TARGETS)
+
+
+def test_per_row_draws_and_legacy_rng_state():
+    p = np.eye(22)[[1, 5, 8, 18]]
+    assert np.array_equal(tagged._draw_ops(np.random.default_rng(5), 22, (4, 100), p),
+                          np.array([[op] * 100 for op in (1, 5, 8, 18)]))
+    rng = np.random.default_rng(7)
+    q = rng.dirichlet(np.ones(22), size=4)
+    draws = tagged._draw_ops(rng, 22, (4, 40000), q)
+    for i in range(4):
+        assert np.max(np.abs(np.bincount(draws[i], minlength=22) / 40000 - q[i])) < 0.007
+    a, b = np.random.default_rng(6), np.random.default_rng(6)
+    single = np.ones(22) / 22
+    assert np.array_equal(tagged._draw_ops(a, 22, (4, 100), single),
+                          tagged._draw_ops(b, 22, (4, 100), np.tile(single, (4, 1))))
+    assert a.bit_generator.state == b.bit_generator.state
+    with pytest.raises(ValueError):
+        tagged._draw_ops(a, 22, (4, 100), np.ones((4, 22)))
+    with pytest.raises(ValueError):
+        tagged._draw_ops(a, 22, (4, 100), np.ones((3, 22)) / 22)
+
+
+def test_support_bounds_elites_and_recipient_not_mate():
+    cfg = ib.eb.config("sum1", "uniform", 55, 16, 32, [1 / 22] * 22, master=ib.MASTER)
+    rng = make_rng(cfg)
+    pop = ib.eb.build_initial_population(cfg, rng, 16)
+    cases = np.random.default_rng(3).integers(0, 2, (16, 64)).astype(bool)
+    theta = np.arange(16)[:, None] * np.linspace(0, 0.1, 22)[None, :]
+    m = ib.Modifier(16, np.random.default_rng(8), sigma=0, theta=theta)
+    lineage = []
+    _reproduce_one_island(pop, cases.mean(axis=1), cfg, rng,
+                          cases=cases, lineage=lineage, modifier=m)
+    assert np.array_equal(m.theta, theta[np.array(lineage)[:, 0]])
+    assert (np.array(lineage)[:2, 2] == 0).all()
+    assert m.depth[:2].tolist() == [0, 0] and (m.depth[2:] == 1).all()
+    counts = np.bincount(np.array(lineage)[:, 0], minlength=16)
+    assert np.allclose(m.last_covariance,
+                       ((theta - theta.mean(0)) * (counts - counts.mean())[:, None]).mean(0))
+    m = ib.Modifier(4, np.random.default_rng(8), sigma=100, theta=np.full((4, 22), 2.9))
+    m(np.array([3, 2, 1, 0]), 2)
+    assert (m.theta[:2] == 2.9).all() and (np.abs(m.theta[2:]) <= 3).all()
+    p = ib.probabilities(m.theta)
+    assert np.all(p >= 0.1 / 22) and np.allclose(p.sum(1), 1)
+
+
+@pytest.mark.parametrize("target", ib.TARGETS)
+def test_exact_target_and_position_cost(target):
+    pop = [np.zeros(128, dtype=np.uint8), ib.planted(target), ib.planted(target),
+           np.zeros(128, dtype=np.uint8)]
+    job = ib.frozen_job(target, "test", [1 / 22] * 22, 55)
+    job.update(pop=4, cap=8, deadline=time.monotonic() + 30)
+    row = ib.eb.run_one(job, initial=pop)
+    assert row["event"] and row["time"] == 2 and row["first_gen"] == 0
+    assert row["processed_candidates"] == 4
+
+
+@pytest.mark.parametrize("arm", ib.ARMS)
+@pytest.mark.parametrize("hit", [0, 1, 3, None])
+def test_fixed_episode_first_hit_verifier_and_counts(monkeypatch, arm, hit):
+    calls = []
+    def exact(pop, cases, target, cache):
+        gen = len(calls)
+        calls.append(gen)
+        return (1 if gen == hit else None), 1, 0
+    monkeypatch.setattr(ib.eb, "first_exact", exact)
+    row = ib.acquire(dict(family="sum", arm=arm, replicate=1, phase="test",
+                          pop=4, episodes=1, generations=3))
+    assert row["complete"] and row["generations"] == 3
+    assert row["censuses"] == 4 and row["evaluations"] == 16
+    ep = row["episodes"][0]
+    assert ep["shuffles"] == (4 if arm == "broken" else 0)
+    assert ep["solved"] == (hit is not None)
+    assert len(calls) == (hit + 1 if hit is not None else 4)
+    assert ep["verifications"] == len(calls)
+    if hit is not None:
+        assert ep["first_gen"] == hit and ep["position"] == 1
+        assert ep["evaluations_to_exact"] == hit * 4 + 2
+    assert len(row["price"]) == 3 and len(row["trajectories"]) == 1
+    assert np.allclose(row["probs"], ib.probabilities(np.array(row["theta"])).mean(0))
+
+
+def test_broken_permutation_after_evaluation_before_elite_selection(monkeypatch):
+    initial = np.arange(4)[:, None] * np.arange(22)[None, :] / 100
+    recipient = np.array([3, 2, 1, 0])
+    stages = []
+    def reset(m, rng):
+        m.theta = initial.copy()
+        return [np.zeros(128, dtype=np.uint8)] * 4
+    def predict(pop, inputs):
+        stages.append("evaluate")
+        return np.zeros((4, len(inputs)), dtype=int)
+    def shuffle(m):
+        stages.append("shuffle")
+        m.theta = m.theta[::-1].copy()
+        m.depth = m.depth[::-1].copy()
+    def reproduce(pop, fits, cfg, rng, cases, modifier):
+        stages.append("select")
+        assert np.array_equal(modifier.theta, initial[::-1])
+        modifier.sigma = 0
+        modifier(recipient, 2)
+        return pop
+    monkeypatch.setattr(ib, "reset_population", reset)
+    monkeypatch.setattr(ib.eb, "predictions", predict)
+    monkeypatch.setattr(ib.Modifier, "shuffle", shuffle)
+    monkeypatch.setattr(ib, "_reproduce_one_island", reproduce)
+    row = ib.acquire(dict(family="sum", arm="broken", replicate=0, phase="test",
+                          pop=4, episodes=1, generations=1))
+    assert stages == ["evaluate", "shuffle", "select", "evaluate", "shuffle"]
+    assert row["episodes"][0]["shuffles"] == 2
+    # Final shuffle is included, but final extraction does not mutate/reset.
+    assert np.array_equal(row["theta"], initial[::-1][recipient][::-1])
+
+
+def test_crossed_bootstrap_shared_seed_and_paired_runs():
+    common = np.arange(20)[:, None, None] / 4
+    learned = np.broadcast_to(common, (20, 2, 16)).copy()
+    learned[:, :, :8] += np.log(4)
+    tensors = dict(family="sum", inherited=learned, broken=learned + np.log(2),
+                   uniform=learned[:1] + np.log(2), hand=learned[:1], fit=learned[:1])
+    out = ib.crossed_effects(tensors, draws=1000)
+    linkage = out["broken_over_inherited"]
+    assert linkage["ratio"] == pytest.approx(2)
+    assert linkage["lower"] == pytest.approx(2) and linkage["upper"] == pytest.approx(2)
+    # A distinct target-specific reference interaction creates seed uncertainty.
+    constant = np.zeros((20, 2, 16))
+    reference = np.zeros((1, 2, 16))
+    reference[:, :, :8] = np.log(4)
+    out = ib.crossed_effects(dict(family="sum", inherited=constant, broken=constant,
+                                uniform=reference, hand=reference, fit=reference), draws=1000)
+    assert out["uniform_over_inherited"]["upper"] > out["uniform_over_inherited"]["lower"]
+    assert out["uniform_over_inherited"] == out["fit_over_inherited"]
+    sc = out["inherited_over_scaffold"]
+    assert sc["lower"] == pytest.approx(1 / out["uniform_over_inherited"]["upper"])
+
+
+def timing_rows():
+    return [dict(task=t, arm=a, seconds=1, complete=True) for t in ib.TARGETS for a in ib.ARMS + ib.REFERENCES]
+
+
+def test_cost_gate_uses_weighted_means_and_fixed_roster():
+    acq = [dict(family=f, arm=a, seconds=10, complete=True) for f in ib.FAMILIES for a in ib.ARMS]
+    searches = timing_rows()
+    out = ib.projection(acq, searches)
+    assert out["feasible"] and out["acquisition_seconds"] == 89
+    assert out["scoring_seconds"]["sum"] == pytest.approx(166.4 + .9)
+    expensive = [dict(r, seconds=1000) for r in searches]
+    assert not ib.projection(acq, expensive)["feasible"]
+    reduced = ib.projection(acq, expensive, reference_seeds=32)
+    assert reduced["total_seconds"] < ib.projection(acq, expensive)["total_seconds"]
+    acq[0]["complete"] = False
+    assert not ib.projection(acq, searches)["feasible"]
+
+
+def synthetic_acquisitions():
+    rows = []
+    for f in ib.FAMILIES:
+        for a in ib.ARMS:
+            for i in range(ib.ACQUISITIONS):
+                episodes = [dict(target=f + ("1" if e % 2 == 0 else "5"),
+                    generations=128, censuses=129, evaluations=129 * ib.POP,
+                    shuffles=129 if a == "broken" else 0) for e in range(48)]
+                rows.append(dict(family=f, arm=a, replicate=i, phase="main", master=ib.MASTER,
+                    complete=True, seconds=10, verifier_seconds=1, depth=[20], generations=6144,
+                    censuses=6192, evaluations=6192 * ib.POP, solves=48, episodes=episodes,
+                    trajectories=[{}] * 48, price=[{}] * 6144, theta=np.zeros((1,22)).tolist(),
+                    probs=ib.probabilities(np.zeros(22)).tolist()))
+    return rows
+
+
+def test_full_roster_and_pipeline_wiring(tmp_path):
+    acquisitions = synthetic_acquisitions()
+    ib.check_acquisitions(acquisitions)
+    jobs = [j for f in ib.FAMILIES for j in ib.scoring_jobs(tmp_path, acquisitions, f)]
+    assert len(acquisitions) == 80 and len(jobs) == 3328
+    assert len({(j["task"], j["arm"], j["replicate"]) for j in jobs}) == 3328
+    assert len({j["seed"] for j in jobs}) == 64
+    for target in ib.TARGETS:
+        assert sum(j["task"] == target for j in jobs) == 832
+    assert all(str(tmp_path) in j["out"] for j in jobs)
+    assert ib.manifest()["frozen_search_count"] == 3328
+    acquisitions[0]["generations"] = 0
+    with pytest.raises(RuntimeError, match="schedule"):
+        ib.check_acquisitions(acquisitions)
+
+
+def test_full_roster_cost_and_separate_family_analysis(tmp_path, monkeypatch):
+    acquisitions = synthetic_acquisitions()
+    jobs = [j for f in ib.FAMILIES for j in ib.scoring_jobs(tmp_path, acquisitions, f)]
+    searches = []
+    for j in jobs:
+        # Sum acquires 2x, max is bounded. Broken looks advantageous in both;
+        # it cannot serve as the primary reference or flip the max verdict.
+        cost = (100 if j["task"].startswith("sum") else 400) if j["arm"].startswith("inherited/") else 200
+        if j["arm"].startswith("broken/"):
+            cost = 800
+        searches.append(dict(j, complete=True, time=cost, event=True, seconds=cost / 100))
+    monkeypatch.setattr(ib, "plot", lambda *a: None)
+    result = ib.analyze(tmp_path, acquisitions, searches, draws=50)
+    assert result["families"]["sum"]["primary"]["ratio"] == pytest.approx(2)
+    assert result["families"]["sum"]["verdict"] == "acquired"
+    assert result["families"]["max"]["primary"]["ratio"] == pytest.approx(.5)
+    assert result["families"]["max"]["verdict"] == "bounded"
+    assert result["families"]["max"]["effects"]["inherited_over_scaffold"]["ratio"] == pytest.approx(2)
+    assert "pooled" not in result and len(result["run_scores"]) == 80
+    assert result["families"]["sum"]["break_even"]["uniform"]["searches_by_seconds"] == pytest.approx(10)
+    assert (tmp_path / "result.json").exists() and (tmp_path / "COMPLETE").exists()
+    searches[0]["complete"] = False
+    with pytest.raises(RuntimeError, match="infrastructure"):
+        ib.analyze(tmp_path, acquisitions, searches, draws=50)
+    searches[0]["complete"] = True
+    with pytest.raises(RuntimeError, match="roster"):
+        ib.analyze(tmp_path, acquisitions, searches + searches[:1], draws=50)
+
+
+def test_classification_boundaries():
+    assert ib.classify(dict(ratio=1.5, lower=1.01, upper=2)) == "acquired"
+    assert ib.classify(dict(ratio=1.4, lower=1.1, upper=1.49)) == "bounded"
+    assert ib.classify(dict(ratio=1.5, lower=1, upper=2)) == "unresolved"
+    assert ib.classify(dict(ratio=1, lower=.7, upper=1.5)) == "unresolved"
+
+
+def test_staged_manifest_guard_and_saved_acquisitions(tmp_path, monkeypatch):
+    import json
+    import sys
+    source = tmp_path / "acq"
+    target = tmp_path / "sum"
+    rows = synthetic_acquisitions()
+    def fake_parallel(function, jobs, workers):
+        assert function is ib.acquire and len(jobs) == 80
+        for j in jobs:
+            row = next(r for r in rows if (r["family"], r["arm"], r["replicate"]) ==
+                       (j["family"], j["arm"], j["replicate"]))
+            ib.eb.write_json(j["out"], row)
+        return rows
+    monkeypatch.setattr(ib, "parallel", fake_parallel)
+    monkeypatch.setattr(ib, "validate", lambda: {})
+    monkeypatch.setattr(sys, "argv", ["inherited_bias", "--mode", "acquire", "--out", str(source)])
+    assert ib.main() == 0 and (source / "ACQUISITIONS_COMPLETE").exists()
+    assert len(ib.load_acquisitions(source)) == 80
+    manifest = json.loads((source / "manifest.json").read_text())
+    manifest["master"] -= 1
+    ib.eb.write_json(source / "manifest.json", manifest)
+    monkeypatch.setattr(sys, "argv", ["inherited_bias", "--mode", "score", "--family", "sum",
+                                    "--acquisitions", str(source), "--out", str(target)])
+    with pytest.raises(RuntimeError, match="manifest"):
+        ib.main()

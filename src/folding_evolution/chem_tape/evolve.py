@@ -549,6 +549,7 @@ def _reproduce_one_island(
     cases: np.ndarray | None = None,
     lineage: list | None = None,
     eligible: np.ndarray | None = None,
+    modifier=None,
 ) -> list[np.ndarray]:
     """Produce the next generation's population for one island (or the whole
     panmictic pool). `topk_override` flows through to `mutate()` for §10.
@@ -561,6 +562,12 @@ def _reproduce_one_island(
     2 = clone; parent_2 = -1 unless crossover with a population mate.
     Self-crossover records the same index twice; a fresh random mate is -1.
     Recording parent rows uses no RNG.
+
+    `modifier`, optional for fast TAG without duplication, is called with all
+    recipient indices in child order and the elite count, after crossover and
+    before mutation. It returns per-nonelite op probabilities. It must use its
+    own RNG. This lets an experiment inherit variation parameters while keeping
+    the existing selection and crossover law.
 
     `eligible`, when supplied, excludes individuals from both parent roles and
     elitism. All-true masks preserve the ordinary RNG path exactly; an empty
@@ -577,8 +584,12 @@ def _reproduce_one_island(
             raise ValueError("no eligible individuals")
         if eligible.all():
             eligible = None
+    if modifier is not None and not (
+        _np_rng(rng) is not None and cfg.arm == "TAG" and cfg.run_duplication_rate == 0
+    ):
+        raise ValueError("modifier requires fast TAG reproduction without duplication")
     if _np_rng(rng) is not None:
-        return _reproduce_batched(population, fitnesses, cfg, rng, topk_override, cases, lineage, eligible)
+        return _reproduce_batched(population, fitnesses, cfg, rng, topk_override, cases, lineage, eligible, modifier)
     order = np.argsort(-fitnesses)
     if eligible is not None:
         order = order[eligible[order]]
@@ -722,6 +733,7 @@ def _reproduce_batched(
     cases: np.ndarray | None,
     lineage: list | None,
     eligible: np.ndarray | None = None,
+    modifier=None,
 ) -> list[np.ndarray]:
     """_reproduce_one_island for cfg.fast_rng: the same operators, with
     crossover coins, lexicase selections and tagged mutation drawn for the
@@ -774,8 +786,12 @@ def _reproduce_batched(
     if cfg.arm == "TAG" and cfg.run_duplication_rate == 0:
         from . import tagged
         n_ops = tagged.n_ops_for(cfg.alphabet)
+        op_p = cfg.op_probs(n_ops)
+        if modifier is not None:
+            recipients = np.array([*order[:len(new_pop)], *(i for i, _, _ in pairs)], dtype=int)
+            op_p = modifier(recipients, len(new_pop))
         mutated = list(tagged.mutate_batch(np.stack(children), cfg.mutation_rate, gen,
-                                           n_ops, cfg.op_probs(n_ops)))
+                                           n_ops, op_p))
     else:
         mutated = [mutate(c, cfg, rng, topk_override=topk_override) for c in children]
     if lineage is not None:

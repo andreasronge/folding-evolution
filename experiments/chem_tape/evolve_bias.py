@@ -104,6 +104,8 @@ def training_indices(task, seed, master=None):
 
 def make_task(task, seed, master=None):
     idx = training_indices(task, seed, master)
+    family = "sum" if task.startswith("sum") else "max"
+    threshold = int(task[len(family):])
     # All slots inert, threshold 0: literal constants must be encoded in tapes.
     return Task(
         task,
@@ -111,7 +113,7 @@ def make_task(task, seed, master=None):
         DOMAIN[idx].tolist(),
         labels(task, DOMAIN[idx]),
         TaskAlphabet(),
-        lambda x: int((sum(x) if task.startswith("sum") else max(x)) > 2),
+        lambda x: int((sum(x) if family == "sum" else max(x)) > threshold),
     )
 
 
@@ -155,8 +157,9 @@ def first_exact(population, cases, task, cache, saved=None, gen=None):
     A cache hit is the same exhaustive verification, not a sampled proxy.
     """
     full_y = labels(task, DOMAIN)
+    family = "sum" if task.startswith("sum") else "max"
     other_y = (
-        labels("max2" if task == "sum2" else "sum2", DOMAIN)
+        labels(("max" if family == "sum" else "sum") + task[len(family):], DOMAIN)
         if saved is not None and len(saved) < 20
         else None
     )
@@ -208,6 +211,9 @@ def run_one(job, initial=None):
         shortcut_candidates=0,
         history=[],
         processed_candidates=0,
+        evaluation_seconds=0.0,
+        verifier_seconds=0.0,
+        reproduction_seconds=0.0,
     )
     row["training_sha256"] = hashlib.sha256(
         np.asarray(t.inputs, dtype="<i8").tobytes()
@@ -230,13 +236,17 @@ def run_one(job, initial=None):
         for gen in range(cfg.generations + 1):
             if time.monotonic() >= job["deadline"]:
                 raise Deadline("deadline during run; infrastructure missingness")
+            stamp = time.monotonic()
             pred = predictions(population, t.inputs)
+            row["evaluation_seconds"] += time.monotonic() - stamp
             row["processed_candidates"] += pop
             cases = pred == t.labels[None, :]
             fits = cases.mean(axis=1)
+            stamp = time.monotonic()
             pos, checked, shortcuts = first_exact(
                 population, cases, task, cache, saved, gen
             )
+            row["verifier_seconds"] += time.monotonic() - stamp
             if saved is not None:
                 best = float(fits.max())
                 row["training_history"].append(dict(gen=gen, best=best))
@@ -272,9 +282,11 @@ def run_one(job, initial=None):
                 )
                 break
             if gen < cfg.generations:
+                stamp = time.monotonic()
                 population = _reproduce_one_island(
                     population, fits, cfg, rng, cases=cases
                 )
+                row["reproduction_seconds"] += time.monotonic() - stamp
         row.update(complete=True, time=row["time"] if row["event"] else cap)
     except Deadline as exc:
         row["error"] = str(exc)
