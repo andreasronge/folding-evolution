@@ -157,11 +157,12 @@ def test_cost_gate_uses_weighted_means_and_fixed_roster():
     searches = timing_rows()
     out = ib.projection(acq, searches)
     assert out["feasible"] and out["acquisition_seconds"] == 89
-    assert out["scoring_seconds"]["sum"] == pytest.approx(166.4 + .9)
+    assert out["scoring_seconds"]["sum"] == pytest.approx(137.6 + .9)
     expensive = [dict(r, seconds=1000) for r in searches]
     assert not ib.projection(acq, expensive)["feasible"]
-    reduced = ib.projection(acq, expensive, reference_seeds=32)
+    reduced = ib.projection(acq, expensive, include_fit=False)
     assert reduced["total_seconds"] < ib.projection(acq, expensive)["total_seconds"]
+    assert reduced["reference_arms"] == ("uniform", "hand")
     acq[0]["complete"] = False
     assert not ib.projection(acq, searches)["feasible"]
 
@@ -177,30 +178,36 @@ def synthetic_acquisitions():
                 rows.append(dict(family=f, arm=a, replicate=i, phase="main", master=ib.MASTER,
                     complete=True, seconds=10, verifier_seconds=1, depth=[20], generations=6144,
                     censuses=6192, evaluations=6192 * ib.POP, solves=48, episodes=episodes,
-                    trajectories=[{}] * 48, price=[{}] * 6144, theta=np.zeros((1,22)).tolist(),
+                    trajectories=[dict(mean_p=[1 / 22] * 22)] * 48,
+                    price=[{}] * 6144, theta=np.zeros((1,22)).tolist(),
                     probs=ib.probabilities(np.zeros(22)).tolist()))
     return rows
 
 
-def test_full_roster_and_pipeline_wiring(tmp_path):
+@pytest.mark.parametrize("include_fit,total", [(True, 2752), (False, 2688)])
+def test_full_roster_and_pipeline_wiring(tmp_path, include_fit, total):
     acquisitions = synthetic_acquisitions()
     ib.check_acquisitions(acquisitions)
-    jobs = [j for f in ib.FAMILIES for j in ib.scoring_jobs(tmp_path, acquisitions, f)]
-    assert len(acquisitions) == 80 and len(jobs) == 3328
-    assert len({(j["task"], j["arm"], j["replicate"]) for j in jobs}) == 3328
-    assert len({j["seed"] for j in jobs}) == 64
+    jobs = [j for f in ib.FAMILIES for j in ib.scoring_jobs(tmp_path, acquisitions, f, include_fit=include_fit)]
+    assert len(acquisitions) == 80 and len(jobs) == total
+    assert len({(j["task"], j["arm"], j["replicate"]) for j in jobs}) == total
+    assert len({j["seed"] for j in jobs}) == 16
     for target in ib.TARGETS:
-        assert sum(j["task"] == target for j in jobs) == 832
+        assert sum(j["task"] == target for j in jobs) == total // 4
     assert all(str(tmp_path) in j["out"] for j in jobs)
-    assert ib.manifest()["frozen_search_count"] == 3328
+    manifest = ib.manifest(include_fit=include_fit)
+    assert manifest["frozen_search_count"] == total
+    assert manifest["reference_scoring_indices"] == list(range(16))
+    assert ("fit" in manifest["reference_arms"]) == include_fit
     acquisitions[0]["generations"] = 0
     with pytest.raises(RuntimeError, match="schedule"):
         ib.check_acquisitions(acquisitions)
 
 
-def test_full_roster_cost_and_separate_family_analysis(tmp_path, monkeypatch):
+@pytest.mark.parametrize("include_fit", [True, False])
+def test_full_roster_cost_and_separate_family_analysis(tmp_path, monkeypatch, include_fit):
     acquisitions = synthetic_acquisitions()
-    jobs = [j for f in ib.FAMILIES for j in ib.scoring_jobs(tmp_path, acquisitions, f)]
+    jobs = [j for f in ib.FAMILIES for j in ib.scoring_jobs(tmp_path, acquisitions, f, include_fit=include_fit)]
     searches = []
     for j in jobs:
         # Sum acquires 2x, max is bounded. Broken looks advantageous in both;
@@ -210,25 +217,30 @@ def test_full_roster_cost_and_separate_family_analysis(tmp_path, monkeypatch):
             cost = 800
         searches.append(dict(j, complete=True, time=cost, event=True, seconds=cost / 100))
     monkeypatch.setattr(ib, "plot", lambda *a: None)
-    result = ib.analyze(tmp_path, acquisitions, searches, draws=50)
+    result = ib.analyze(tmp_path, acquisitions, searches, draws=50, include_fit=include_fit)
     assert result["families"]["sum"]["primary"]["ratio"] == pytest.approx(2)
     assert result["families"]["sum"]["verdict"] == "acquired"
     assert result["families"]["max"]["primary"]["ratio"] == pytest.approx(.5)
     assert result["families"]["max"]["verdict"] == "bounded"
     assert result["families"]["max"]["effects"]["inherited_over_scaffold"]["ratio"] == pytest.approx(2)
     assert "pooled" not in result and len(result["run_scores"]) == 80
+    assert result["reference_extras"] == "none"
+    assert ("fit_over_inherited" in result["families"]["sum"]["effects"]) == include_fit
     assert result["families"]["sum"]["break_even"]["uniform"]["searches_by_seconds"] == pytest.approx(10)
     assert (tmp_path / "result.json").exists() and (tmp_path / "COMPLETE").exists()
     searches[0]["complete"] = False
     with pytest.raises(RuntimeError, match="infrastructure"):
-        ib.analyze(tmp_path, acquisitions, searches, draws=50)
+        ib.analyze(tmp_path, acquisitions, searches, draws=50, include_fit=include_fit)
     searches[0]["complete"] = True
     with pytest.raises(RuntimeError, match="roster"):
-        ib.analyze(tmp_path, acquisitions, searches + searches[:1], draws=50)
+        ib.analyze(tmp_path, acquisitions, searches + searches[:1], draws=50, include_fit=include_fit)
+    with pytest.raises(RuntimeError, match="roster"):
+        ib.analyze(tmp_path, acquisitions, searches[1:], draws=50, include_fit=include_fit)
 
 
 def test_classification_boundaries():
     assert ib.classify(dict(ratio=1.5, lower=1.01, upper=2)) == "acquired"
+    assert ib.classify(dict(ratio=1.5, lower=1.01, upper=1.49)) == "acquired"
     assert ib.classify(dict(ratio=1.4, lower=1.1, upper=1.49)) == "bounded"
     assert ib.classify(dict(ratio=1.5, lower=1, upper=2)) == "unresolved"
     assert ib.classify(dict(ratio=1, lower=.7, upper=1.5)) == "unresolved"
@@ -259,3 +271,60 @@ def test_staged_manifest_guard_and_saved_acquisitions(tmp_path, monkeypatch):
                                     "--acquisitions", str(source), "--out", str(target)])
     with pytest.raises(RuntimeError, match="manifest"):
         ib.main()
+
+
+def test_fit_omission_preserves_shared_bootstrap_draws():
+    rng = np.random.default_rng(51)
+    tensors = dict(family="sum", inherited=rng.normal(size=(20, 2, 16)),
+                   broken=rng.normal(size=(20, 2, 16)))
+    tensors.update({arm: rng.normal(size=(1, 2, 16)) for arm in ib.REFERENCES})
+    full = ib.crossed_effects(dict(tensors), draws=100)
+    reduced = ib.crossed_effects({k: v for k, v in tensors.items() if k != "fit"}, draws=100)
+    assert reduced == {k: v for k, v in full.items() if k != "fit_over_inherited"}
+
+
+@pytest.mark.parametrize("include_fit", [True, False])
+def test_staged_cli_synthetic_score_analysis_and_plots(tmp_path, monkeypatch, include_fit):
+    """Exercise both approved rosters without inspecting new frozen performance."""
+    import json
+    import sys
+    acquisitions = synthetic_acquisitions()
+    roots = {name: tmp_path / name for name in ("acq", "sum", "max", "analysis")}
+    flags = [] if include_fit else ["--omit-fit"]
+
+    def fake_parallel(function, jobs, workers):
+        rows = []
+        for job in jobs:
+            if function is ib.acquire:
+                row = next(r for r in acquisitions if (r["family"], r["arm"], r["replicate"]) ==
+                           (job["family"], job["arm"], job["replicate"]))
+            else:
+                assert function is ib.score
+                row = dict(job, complete=True, time=ib.CAP, event=False, seconds=1,
+                           history=[dict(gen=0, best=.5, distinct=32)])
+            ib.eb.write_json(job["out"], row)
+            rows.append(row)
+        return rows
+
+    monkeypatch.setattr(ib, "parallel", fake_parallel)
+    monkeypatch.setattr(ib, "validate", lambda: {})
+    def run(mode, root, extra=(), roster_flags=None):
+        monkeypatch.setattr(sys, "argv", ["inherited_bias", "--mode", mode, "--out", str(root),
+                                        *(flags if roster_flags is None else roster_flags), *extra])
+        return ib.main()
+
+    assert run("acquire", roots["acq"]) == 0
+    # Every stage must use the same reference arms, even acquisition.
+    with pytest.raises(RuntimeError, match="manifest"):
+        run("score", tmp_path / "mismatch", ["--family", "sum", "--acquisitions", str(roots["acq"])],
+            roster_flags=["--omit-fit"] if include_fit else [])
+    for family in ib.FAMILIES:
+        assert run("score", roots[family], ["--family", family, "--acquisitions", str(roots["acq"])]) == 0
+        assert (roots[family] / "SCORING_COMPLETE").exists()
+    assert run("analyze", roots["analysis"], ["--acquisitions", str(roots["acq"]),
+               "--sum-scores", str(roots["sum"]), "--max-scores", str(roots["max"])]) == 0
+    result = json.loads((roots["analysis"] / "result.json").read_text())
+    assert all(r["linkage_unidentified_by_both_censored"] for r in result["families"].values())
+    assert all(r["verdict"] == "bounded" for r in result["families"].values())
+    for name in ("trajectories.png", "search_trajectories.png", "report.md", "COMPLETE"):
+        assert (roots["analysis"] / name).stat().st_size > 0

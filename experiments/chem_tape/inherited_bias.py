@@ -1,4 +1,4 @@
-"""Fixed inherited-token acquisition study, approved run 2026-10-08-0843.
+"""Fixed inherited-token acquisition study, approved run 2026-10-08-0918.
 
 All outputs belong to RUN_DIR. Preparation timing is a cost gate only. No calibration,
 checkpoint selection, threshold-2 exposure, or outcomes change the fixed roster.
@@ -34,6 +34,10 @@ QUEUE_SECONDS = 10800
 ACQUISITIONS = 20
 SHARED_SEEDS = 16
 REFERENCES = ("uniform", "hand", "fit")
+
+
+def reference_arms(include_fit=True):
+    return REFERENCES if include_fit else REFERENCES[:2]
 
 
 def seed(name):
@@ -199,7 +203,8 @@ def acquisition_jobs(out, phase, n=ACQUISITIONS, **options):
             for i in range(n) for f in FAMILIES for a in ARMS]
 
 
-def projection(acquisitions, searches, workers=WORKERS, reference_seeds=64):
+def projection(acquisitions, searches, workers=WORKERS, reference_seeds=SHARED_SEEDS,
+               include_fit=True):
     """Roster-weighted means, final-worker overhead, then 2x + 15 min.
 
     Old frozen timings price only their own vector kind; no new frozen
@@ -212,7 +217,7 @@ def projection(acquisitions, searches, workers=WORKERS, reference_seeds=64):
     for family in FAMILIES:
         work, means = 0.0, []
         for threshold in ("1", "5"):
-            for arm in ARMS + REFERENCES:
+            for arm in ARMS + reference_arms(include_fit):
                 rs = [r for r in searches if r["task"] == family + threshold and
                       r["arm"] in (arm, "timing_" + arm)]
                 if not rs:
@@ -230,6 +235,7 @@ def projection(acquisitions, searches, workers=WORKERS, reference_seeds=64):
                 expected_minutes=(acquisition + sum(scoring.values())) / 60,
                 timeout_seconds=timeouts, total_seconds=total,
                 reference_seeds=reference_seeds, workers=workers,
+                reference_arms=reference_arms(include_fit),
                 feasible=all(r["complete"] for r in acquisitions + searches) and total <= QUEUE_SECONDS,
                 policy="roster-weighted cell means + 0.9 slowest-cell final-worker allowance; 2x + 900 seconds")
 
@@ -306,21 +312,22 @@ def stage_zero(out, workers=WORKERS):
     return acquisitions
 
 
-def manifest(reference_seeds=64):
+def manifest(reference_seeds=SHARED_SEEDS, include_fit=True):
     spec = json.loads(eb.SPEC_PATH.read_text())
     return dict(master=MASTER, families=FAMILIES, arms=ARMS, targets=TARGETS,
                 pop=POP, tape_length=64, episodes=EPISODES, generations=GENERATIONS,
                 sigma=0.03, theta_bounds=[-3, 3], floor=0.1 / 22,
                 selection="lexicase", elites=2, crossover="v2", crossover_rate=0.7,
                 crossover_mate="selected", mutation_rate=0.015,
-                acquisition_replicates=list(range(ACQUISITIONS)), shared_scoring_indices=list(range(16)),
+                acquisition_replicates=list(range(ACQUISITIONS)), shared_scoring_indices=list(range(SHARED_SEEDS)),
                 reference_scoring_indices=list(range(reference_seeds)), cap=CAP,
+                reference_arms=list(reference_arms(include_fit)),
                 reference_spec_sha256=hashlib.sha256(eb.SPEC_PATH.read_bytes()).hexdigest(),
                 references=spec, rng="SHA256 named SeedSequence, separate program/modifier",
                 ordering="reset/evaluate/exact check/one broken permutation/continue through final census/select recipient/inherit/mutate",
                 extraction="final population mean probabilities, no subsequent reset",
                 lineage_depth="nonelite recipient-copy generations with modifier mutation; elites retain depth",
-                frozen_search_count=ACQUISITIONS * 4 * 2 * SHARED_SEEDS + 4 * 3 * reference_seeds,
+                frozen_search_count=ACQUISITIONS * 4 * 2 * SHARED_SEEDS + 4 * len(reference_arms(include_fit)) * reference_seeds,
                 queue_timeout_seconds=QUEUE_SECONDS)
 
 
@@ -338,8 +345,9 @@ def crossed_effects(tensors, draws=10000):
     contrasts = dict(uniform_over_inherited=("uniform", "inherited"),
                      broken_over_inherited=("broken", "inherited"),
                      broken_over_uniform=("broken", "uniform"),
-                     inherited_over_scaffold=("inherited", "hand"),
-                     fit_over_inherited=("fit", "inherited"))
+                     inherited_over_scaffold=("inherited", "hand"))
+    if "fit" in tensors:
+        contrasts["fit_over_inherited"] = ("fit", "inherited")
     rng = np.random.default_rng(seed("bootstrap/" + tensors.pop("family")))
     samples = {name: np.empty(draws) for name in contrasts}
     n = tensors["inherited"].shape[0]
@@ -383,7 +391,7 @@ def check_acquisitions(rows):
             raise RuntimeError("wrong final extraction")
 
 
-def scoring_jobs(out, acquisitions, family, reference_seeds=64):
+def scoring_jobs(out, acquisitions, family, reference_seeds=SHARED_SEEDS, include_fit=True):
     jobs = []
     for r in acquisitions:
         if r["family"] != family:
@@ -393,7 +401,7 @@ def scoring_jobs(out, acquisitions, family, reference_seeds=64):
                 jobs.append(frozen_job(family + threshold, f"{r['arm']}/{r['replicate']}", r["probs"], index))
     spec = json.loads(eb.SPEC_PATH.read_text())
     for threshold in ("1", "5"):
-        for name in REFERENCES:
+        for name in reference_arms(include_fit):
             key = "hand_" + family if name == "hand" else family if name == "fit" else name
             for index in range(reference_seeds):
                 jobs.append(frozen_job(family + threshold, name, spec["vectors"][key], index))
@@ -402,12 +410,14 @@ def scoring_jobs(out, acquisitions, family, reference_seeds=64):
     return jobs
 
 
-def analyze(out, acquisitions, searches, reference_seeds=64, draws=10000):
+def analyze(out, acquisitions, searches, reference_seeds=SHARED_SEEDS, draws=10000,
+            include_fit=True):
     check_acquisitions(acquisitions)
     if not all(r["complete"] for r in searches):
         raise RuntimeError("infrastructure missingness cannot be counted as censoring")
     cells = {(r["task"], r["arm"], r["replicate"]): r for r in searches}
-    expected_jobs = [j for f in FAMILIES for j in scoring_jobs(out, acquisitions, f, reference_seeds)]
+    references = reference_arms(include_fit)
+    expected_jobs = [j for f in FAMILIES for j in scoring_jobs(out, acquisitions, f, reference_seeds, include_fit)]
     expected = {(j["task"], j["arm"], j["replicate"]) for j in expected_jobs}
     if len(cells) != len(searches) or set(cells) != expected:
         raise RuntimeError("frozen roster missing or duplicate")
@@ -420,7 +430,7 @@ def analyze(out, acquisitions, searches, reference_seeds=64, draws=10000):
     summaries = {}
     for target in TARGETS:
         summaries[target] = {}
-        for arm in ARMS + REFERENCES:
+        for arm in ARMS + references:
             rs = [r for r in searches if r["task"] == target and
                   (r["arm"].startswith(arm + "/") if arm in ARMS else r["arm"] == arm)]
             summaries[target][arm] = dict(n=len(rs), solves=sum(r["event"] for r in rs),
@@ -430,7 +440,7 @@ def analyze(out, acquisitions, searches, reference_seeds=64, draws=10000):
     families, run_scores = {}, []
     for f in FAMILIES:
         tensors = {}
-        for arm in ARMS + REFERENCES:
+        for arm in ARMS + references:
             names = [f"{arm}/{i}" for i in range(ACQUISITIONS)] if arm in ARMS else [arm]
             tensors[arm] = np.array([[[np.log(cells[(f + t, name, s)]["time"])
                                       for s in range(SHARED_SEEDS)] for t in ("1", "5")] for name in names])
@@ -449,8 +459,8 @@ def analyze(out, acquisitions, searches, reference_seeds=64, draws=10000):
                     solves=sum(cells[(f + t, f"{arm}/{i}", s)]["event"] for t in ("1", "5") for s in range(SHARED_SEEDS))))
         acq = float(np.mean([r["seconds"] for r in acquisitions if r["family"] == f and r["arm"] == "inherited"]))
         break_even = {}
-        # Compare matched 16-seed blocks for savings; extras are descriptive only.
-        for ref in REFERENCES:
+        # Compare the matched shared-seed blocks for savings.
+        for ref in references:
             savings = {}
             for metric in ("seconds", "time"):
                 learned_mean = np.mean([cells[(f + t, f"inherited/{i}", s)][metric]
@@ -472,12 +482,13 @@ def analyze(out, acquisitions, searches, reference_seeds=64, draws=10000):
     result = dict(endpoint="geometric evaluation cost, censored at cap; equal target weights",
         primary="uniform/inherited, per family only", families=families, solves=summaries,
         bootstrap=dict(draws=draws, method="crossed percentile, paired acquisitions and shared target seed indices across every vector/contrast"),
-        reference_extras="descriptive only", run_scores=run_scores,
+        reference_arms=references, reference_extras="none" if reference_seeds == SHARED_SEEDS else "descriptive only",
+        run_scores=run_scores,
         exposure=[{k: r[k] for k in ("family", "arm", "replicate", "generations", "censuses", "evaluations", "solves", "seconds", "verifier_seconds")}
                   | dict(depth_mean=float(np.mean(r["depth"])), depth_max=max(r["depth"])) for r in acquisitions],
         scope="fixed-duration discovery plus maintenance; development bank training targets; equal schedule does not equalize lineage depth or selection intensity")
     eb.write_json(out / "result.json", result)
-    plot(out, acquisitions, searches)
+    plot(out, acquisitions, searches, references)
     lines = []
     for f, r in families.items():
         c = r["primary"]
@@ -488,7 +499,7 @@ def analyze(out, acquisitions, searches, reference_seeds=64, draws=10000):
     return result
 
 
-def plot(out, rows, searches=()):
+def plot(out, rows, searches=(), references=REFERENCES):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -513,7 +524,7 @@ def plot(out, rows, searches=()):
     if searches:
         fig, axes = plt.subplots(2, 4, figsize=(15, 7))
         for ti, target in enumerate(TARGETS):
-            for arm in ("inherited/0", "broken/0", "uniform", "hand", "fit"):
+            for arm in ("inherited/0", "broken/0") + tuple(references):
                 row = next(r for r in searches if r["task"] == target and r["arm"] == arm and r["replicate"] == 0)
                 history = row["history"]
                 axes[0, ti].plot([h["gen"] for h in history], [h["best"] for h in history], label=arm)
@@ -531,9 +542,9 @@ def price_artifacts(out, timing, frozen_timings, workers=WORKERS):
     acquisitions = records["acquisition"]
     searches = [json.loads(p.read_text()) for p in sorted(frozen_timings.rglob("*.json"))]
     full = projection(acquisitions, searches, workers)
-    reduced = projection(acquisitions, searches, workers, reference_seeds=32)
-    chosen = full if full["feasible"] else reduced
-    summary = dict(full=full, reduced=reduced, chosen=chosen,
+    without_fit = projection(acquisitions, searches, workers, include_fit=False)
+    chosen = full if full["feasible"] else without_fit
+    summary = dict(full=full, without_fit=without_fit, chosen=chosen,
         timing_wall_seconds=records["wall_seconds"],
         timing_workers=min(workers, 4),
         timing_utilization=records["worker_seconds"] / (4 * records["wall_seconds"]),
@@ -562,7 +573,9 @@ def main():
     ap.add_argument("--acquisitions", type=Path)
     ap.add_argument("--sum-scores", type=Path)
     ap.add_argument("--max-scores", type=Path)
-    ap.add_argument("--reference-seeds", type=int, choices=(32, 64), default=64)
+    ap.add_argument("--reference-seeds", type=int, choices=(SHARED_SEEDS,), default=SHARED_SEEDS)
+    ap.add_argument("--omit-fit", action="store_true",
+                    help="approved cost fallback only; must match across all stages")
     args = ap.parse_args()
     if not args.out or args.workers <= 0:
         ap.error("set RUN_DIR or --out and positive workers")
@@ -576,7 +589,7 @@ def main():
         ap.error("--timing and --frozen-timings required")
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
-    design = manifest(args.reference_seeds)
+    design = manifest(args.reference_seeds, include_fit=not args.omit_fit)
     design.update(mode=args.mode, workers=args.workers,
         git_commit=subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
         git_dirty=bool(subprocess.check_output(["git", "status", "--porcelain"], text=True).strip()))
@@ -588,7 +601,9 @@ def main():
         if root:
             source = root / "manifest.json"
             prior = json.loads(source.read_text())
-            if any(prior[k] != design[k] for k in ("master", "source_sha256", "reference_scoring_indices", "reference_spec_sha256")):
+            if any(prior[k] != design[k] for k in (
+                    "master", "source_sha256", "reference_scoring_indices", "reference_arms",
+                    "reference_spec_sha256", "frozen_search_count")):
                 raise RuntimeError("input manifest differs from frozen design")
             design[name] = dict(directory=str(root.resolve()), manifest_sha256=hashlib.sha256(source.read_bytes()).hexdigest())
     eb.write_json(out / "manifest.json", design)
@@ -614,7 +629,7 @@ def main():
         (out / "ACQUISITIONS_COMPLETE").write_text("ok\n")
     elif args.mode == "score":
         rows = load_acquisitions(args.acquisitions)
-        jobs = scoring_jobs(out, rows, args.family, args.reference_seeds)
+        jobs = scoring_jobs(out, rows, args.family, args.reference_seeds, include_fit=not args.omit_fit)
         searches = parallel(score, jobs, args.workers)
         if not all(r["complete"] for r in searches):
             raise RuntimeError("infrastructure missingness, scoring stage incomplete")
@@ -623,7 +638,7 @@ def main():
         rows = load_acquisitions(args.acquisitions)
         searches = [json.loads(p.read_text()) for root in (args.sum_scores, args.max_scores)
                     for p in sorted((root / "searches").rglob("*.json"))]
-        analyze(out, rows, searches, args.reference_seeds)
+        analyze(out, rows, searches, args.reference_seeds, include_fit=not args.omit_fit)
     return 0
 
 
