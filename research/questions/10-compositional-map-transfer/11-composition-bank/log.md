@@ -101,3 +101,44 @@ raising the search cap alone does not remedy this. The run did not show that no 
 could improve on G on this bank. The same qualifier applies to
 [run 2247's decision](../../../runs/2026-10-05-2247/decision.md). question.md and the digest
 now use this wording.
+
+## 2026-10-08 — digest condensing (run 2026-10-07-2243): former digest text moved here
+
+The digest was rewritten as current beliefs only (word limit). This is section "Composition bank", moved verbatim as it stood before the rewrite; no belief changed. Relative links below are relative to `research/`, not to this folder.
+
+## Composition bank (root 10, run 2026-10-05-2247)
+
+One run, 50 paired seeds per cell × arm (150 where topped up), cap 524 288 evaluations, stack
+tape `v2_rmin`, length-4 lists in {-2..2}, P 256, lexicase on 64 cases with an exact check on
+all 625 inputs. Reviewed analysis; fairly sure of the numbers, narrow in scope (one bank, one
+harness, one hand-set grammar). ([11](questions/10-compositional-map-transfer/11-composition-bank/question.md),
+[run analysis](runs/2026-10-05-2247/analysis.md))
+
+- **The 3×3 reducer/combiner bank has no usable split at 524k.** Exhaustive screening to depth
+  6 kept 8 of 9 cells (SM-SEL is an exact alias). Uniform search solved 7 of the 8 in ≥ 35/50
+  runs; Sm-SEL reached 27/50 (95% 39–68%), still rising at the cap. That leaves 0 of 6
+  transversals eligible. Whether a 2–4× larger cap fixes this is untested (a reviewer probe
+  on other seeds: 36/50 at 2M).
+- **All four structural splits fail the 4 096-evaluation headroom rule under a hand-set
+  previous-token grammar; raising the search cap alone does not remedy this.** G
+  (INPUT → reducer; int → INPUT/ADD/DUP/IF_GT; ≥ 0.25× uniform mass everywhere) solved every
+  cell in every seed: median 768–1 024 evaluations on ADD, 1 792–2 304 on DADD, 3 584–4 096
+  on SEL (the SEL intervals span 4 096). Every split holds out an ADD and a DADD cell, so every
+  split has two holdouts under the 4 096 line. Whether another decoder could improve on G here
+  was not tested. G's rows are this bank's syntax (67–100% of
+  each cell's canonical bigrams occur in other cells), so whether G is a fair "generic"
+  control here or an oracle is a design question, now
+  [12](questions/10-compositional-map-transfer/12-generic-grammar-headroom/question.md).
+- **Context in the decoder speeds search beyond its token frequencies, on this bank.** Median
+  evaluations to solve, paired bootstrap 95%: G vs G-marg (same token marginals, no context)
+  2.6–4.5× faster on the six ADD/DADD cells, 9.9× (4.7–28) and 19.5× (4.6–36) on the two SEL
+  cells; all eight intervals exclude 1. Not a mechanism: G also emits more exact solvers
+  (10–47× G-marg's sampling rate) and changes 1.65 tokens per allele mutation against 0.95.
+- **A fixed token bias gives about 2–3.5×, and supply again overstates speed.** F/U 1.9–3.5×
+  on the seven resolved cells (interval lower ends 1.45–2.26); G/U 8.6–13× on ADD/DADD and 31× (18–44)
+  on Mm-SEL. Exact-solver sampling rates rose 11–82× (F) and 120–1 650× (G) over U, so search
+  gained roughly a tenth of the supply gain or less — the same direction as root 01's
+  pass-through below 1, on a different alphabet and task family.
+- **64 training cases do not pin these targets down:** training-perfect but inexact programs
+  appeared in 43 of 2 400 runs (all caught by the 625-input check).
+

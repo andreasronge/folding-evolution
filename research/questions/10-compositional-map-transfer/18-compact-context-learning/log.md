@@ -60,3 +60,51 @@
   funding adds no resolved increment and a gain above about 1.07× is excluded for these starts
   and this loop. Context learned jointly from G4, or added without displacing token steps, is a
   different design and is left to the strategist.
+
+## 2026-10-08 — digest condensing (run 2026-10-07-2243): former digest text moved here
+
+The digest was rewritten as current beliefs only (word limit). This is section "Compact context continuation", moved verbatim as it stood before the rewrite; no belief changed. Relative links below are relative to `research/`, not to this folder.
+
+## Compact context continuation (root 10, run 2026-10-07-0821)
+
+One run, commit `f61aec4`, complete data (174 964 searches, 2.64 h, all validation passed, no
+holdout touched). Ten 1723 training cells (4 BE, 6 PA), G4, D1331. From 16 saved 1723 token maps
+(8 BE, 8 PA), two equally funded continuations each, sharing inner seeds: T (token steps only)
+and C (each step a token step or, with probability ½, a step on a centred rank-one log-weight
+residual over G4's previous-token × next-token table). 2 parents + 6 children per generation,
+24 searches per child at the 65k cap, 20 generations, 4 040 searches per arm. Final maps scored
+on 50 shared fresh seeds per own-family cell at the 524k cap; family-balanced paired t interval
+over 16 starts. A calibration stage first scored single steps from the same kind of start on
+two independent seed blocks. Pre-registered rows (row 3); reviewed analysis. Fairly sure of
+the numbers; narrow in scope (one loop and budget, token-tuned starts, training cells only).
+([18](questions/10-compositional-map-transfer/18-compact-context-learning/question.md),
+[analysis](runs/2026-10-07-0821/analysis.md))
+
+- **Adding rank-one context steps gave no resolved training increment over token-only
+  continuation at this budget.** C/T 0.955× [0.833, 1.095]; a gain above about 1.10× is
+  excluded for this procedure and budget. BE 1.05× [0.84, 1.32], PA 0.87× [0.71, 1.06]
+  (descriptive). Pair sd 0.38 log2, above the planned 0.29.
+- **Token continuation alone did not resolve learning in this loop either, so the null does not
+  test context fairly.** T/S 1.03× [0.90, 1.16], C/S 0.98× [0.90, 1.07]; in-loop parent scores
+  flat in both arms (slopes −0.003 and +0.003 log2 per generation, intervals spanning 0) while
+  parents were replaced 1.4 times per generation. T/S's upper bound still admits about 5 × 10⁻⁵
+  log2 per search, the rate 0811's longer token continuation achieved on another bank (0.54 log2
+  over 13 440 searches), so "too shallow" is not excluded.
+- **Single context steps have repeatable effects; selected ones beat the average mutant, but
+  their difference from the parent was unresolved.**
+  True step-effect variance from two independent seed blocks: context 0.047 [0.027, 0.065],
+  token 0.028 [0.005, 0.051] log2². The best quarter of 24 mutants (by 48 searches) beat the
+  average mutant on new seeds by 0.12 log2 [0.06, 0.18]; their difference from the parent
+  was unresolved (−0.017 [−0.085, +0.041]); the average step was harmful (+0.06 context, +0.03 token). Per-child score noise
+  (0.33 log2 at 24 searches) exceeds the spread of true step effects (sd 0.17–0.22); that this
+  is why neither arm climbed is the reviewer's interpretation, not a measured contrast. Only
+  initial steps from a zero residual were calibrated.
+- **Descriptive only:** in PA, removing the learned residual made C faster (C/C0 0.91× [0.85,
+  0.98], 7/8 pairs; pooled 0.96× [0.90, 1.02]; removal also shifts emitted token frequencies).
+  Final residuals had small absolute cosine alignment with the hand-set BE − PA direction
+  (≤ 0.105). Observed survival proportions into the parent set ranged from 0.22 to 0.27 across
+  operators (token 210/954, b 133/552, a 111/414); these do not measure ranking quality.
+- **Not separated:** ineffective context versus a loop too noisy or too short to climb; anything
+  about transfer, family specificity, or context learned jointly with tokens from G4. Run 1137
+  (next section) supplies a loop that climbs.
+

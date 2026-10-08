@@ -39,3 +39,50 @@
   [22](../22-feedback-context-increment/question.md). No reopen: 22 is the allocation for the T2
   comparison named in this question's reopen condition.
   Decision: keep 21 closed because its answered scope is unchanged; only the wording was too strong.
+
+## 2026-10-08 — digest condensing (run 2026-10-07-2243): former digest text moved here
+
+The digest was rewritten as current beliefs only (word limit). This is section "Solver-corpus feedback refit", moved verbatim as it stood before the rewrite; no belief changed. Relative links below are relative to `research/`, not to this folder.
+
+## Solver-corpus feedback refit (root 10, run 2026-10-07-1924)
+
+One run, commit `5565d54`, complete data (39 976 searches, 73 min; 1707 replay bit-identical; all
+32 parent hashes, 224 fitted tables and 22 448 solver re-verifications passed; every stage at
+full size). Same bank, split, D1331, G4, P 256 and 524k cap as 1707. Each of the 32 saved 1707
+tables C collected 48 searches per own training cell under itself (7 623/7 680 solved, worst
+cell 44/48) and was refitted with the unchanged 1707 rule (fit to the new tapes only, shrunk
+toward G4 at α 50): **C2**. A fresh G4 corpus per lineage, matched in attempts (7 378/7 680), gave
+the one-shot control **C'**. All three scored on 32 shared fresh seeds per cell, then on the three
+withheld cells. Per-lineage contrasts, families weighted equally, t intervals. Pre-registered
+rows (row 1); reviewed analysis. Fairly sure of the numbers; narrow in scope (one step, one rule,
+one bank and split, external fitting).
+([21](questions/10-compositional-map-transfer/21-iterated-solver-corpus/question.md),
+[analysis](runs/2026-10-07-1924/analysis.md))
+
+- **One feedback refit speeds fresh training search beyond its parent.** C2/C 1.404× [1.347,
+  1.464]; BE 1.56× [1.46, 1.66], PA 1.27× [1.20, 1.34]; C2 faster in 32/32 lineages (1.09–1.84×).
+  The median-per-cell and solved-only variants give 1.33× and 1.37×. Per paired seed C2 wins about
+  58%; the whole cost distribution shifts (median 4 352 → 3 328 evaluations), most in the upper
+  tail (unsolved 39 → 14 of 5 120).
+- **The increment transfers to the withheld cells.** C2/C 1.289× [1.204, 1.381], 28/32 lineages.
+  These three cells were never used in collection or fitting, but they have been inspected in
+  several runs and only one is BE.
+- **Collecting under C beats a fresh G4-collected refit at matched attempts.** Against the fresh one-shot
+  refit, C2/C' is 1.408× [1.342, 1.478] (training) and 1.330× [1.263, 1.401] (withheld); C'/C is
+  0.997× [0.940, 1.058] and 0.969× [0.908, 1.035], not resolved from 1 (differences up to about
+  6% and 9% not excluded). "Collecting under C" is a procedure: it gave higher yield (99.3%
+  against 96.1%), slightly more distinct tapes and possibly different kinds of tapes; these are
+  not separated.
+- **The refit sharpens the decoder without (yet) hurting transfer.** Body-row entropy 3.91 → 3.80
+  bits and previous-token mutual information 0.41 → 0.48 bits, in every lineage; C' has similar
+  mean entropy and mutual information to C (3.905 against 3.907 bits; 0.409 against 0.407; no
+  equivalence test). Sharpening accompanied the gain; it is not shown to cause it.
+  Collection under C costs 0.63 worker-s per search against 2.17 under G4; C2's evaluation saving
+  pays back the second round in a median of about 350 training searches (descriptive).
+- **Not shown:** whether a second step keeps helping or the sharpening compounds into harm; why
+  C2 is faster (no start-row ablation, no active-token analysis; the token-only refit T2 was run
+  later, see the next section); how
+  often C2 re-emits its own corpus tapes; a C2-over-G4 number (not run; multiplying ratios
+  assumes independence); family specificity. On one PA training cell, `(S?M:F)+m`, no gain was
+  resolved (0.98× [0.84, 1.13], descriptive among 13 cells; a gain or a loss is not excluded).
+

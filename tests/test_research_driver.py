@@ -110,6 +110,9 @@ class FakeLauncher:
         self.strategy_next = "stop"
         self.infeasible = False
         self.on_queue = None  # called when the queue "runs"
+        self.plan_minutes = None  # plan.md's estimated_minutes
+        self.allocate_next = "strategy"
+        self.proposal_front = ""  # extra proposal frontmatter, e.g. "kind: probe\n"
 
     def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
         d = self.driver
@@ -117,7 +120,8 @@ class FakeLauncher:
         phase = label.rsplit("-", 1)[0]
         self.calls.append(phase)
         if phase == "propose":
-            write(td / "proposal.md", "---\nnode: questions/01-root\ntitle: First\n---\nWhy.\n")
+            write(td / "proposal.md", "---\nnode: questions/01-root\ntitle: First\n"
+                  f"{self.proposal_front}---\nWhy.\n")
         elif phase == "prepare" and self.infeasible:
             write(td / "infeasible.md", "0 hits in 1M tapes.\n")
         elif phase == "prepare":
@@ -125,13 +129,19 @@ class FakeLauncher:
                 f.write("print('hi')\n")
             subprocess.run(["git", "add", "-A"], cwd=cwd, check=True)
             subprocess.run(["git", "commit", "-qm", "exp"], cwd=cwd, check=True)
-            write(td / "plan.md", "If A then X.\n")
+            est = (f"---\nestimated_minutes: {self.plan_minutes}\n---\n"
+                   if self.plan_minutes else "")
+            write(td / "plan.md", est + "If A then X.\n")
             write(td / "queue.yaml", f"runs:\n  - id: {d.state['task']}-a\n    cmd: echo hi\n")
         elif phase == "critique":
             if self.fail_critique:
                 return 1 if self.fail_critique == "exit" else 0
             rec = self.critiques.pop(0) if len(self.critiques) > 1 else self.critiques[0]
             write(td / "critique.md", f"---\nrecommend: {rec}\n---\nFine.\n")
+        elif phase == "allocate":
+            write(td / "allocation.md", f"---\nnext: {self.allocate_next}\n---\nWhy.\n")
+        elif phase == "condense":
+            write(d.research / "digest.md", "Short.\n")
         elif phase == "strategy":
             write(td / "strategy.md", f"---\nnext: {self.strategy_next}\n---\nGo on.\n")
         elif phase == "summary":
@@ -551,11 +561,30 @@ def test_auto_strategist_may_raise_a_root_budget(repo):
     fake.strategy_next = "proposal"
     fake.on_queue = lambda: None
     d.run_auto(hours=48)
-    # Budget used up → the next proposal goes to the strategist, who grants more.
+    # Budget used up → a short allocation, which sends it on to a full review that grants more.
     i = fake.calls.index("strategy")
-    assert fake.calls[i - 1] == "decide" and fake.calls[i + 1:i + 4] == ["propose", "critique",
-                                                                         "prepare"]
-    assert (d.research / "runs").glob("*/steward_proposal.md")
+    assert fake.calls[i - 2:i] == ["decide", "allocate"]
+    assert fake.calls[i + 1:i + 4] == ["propose", "critique", "prepare"]
+    assert list((d.research / "runs").glob("*/steward_proposal.md"))
+
+
+def test_auto_allocation_grants_a_block_without_a_full_review(repo):
+    class Allocator(FakeLauncher):
+        def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
+            if label.startswith("allocate"):
+                assert "normally 9" in argv[1]
+                question(self.driver.research / "questions" / "01-root", experiments=5)
+            return super().run(label, argv, cwd, log_dir, timeout_s, env, kill_grace)
+
+    fake = Allocator(review_verdicts=("pass", "pass"))
+    d = auto_driver(repo, fake, strategy_every=9, auto_max_experiments=2)
+    question(d.research / "questions" / "01-root", experiments=1)
+    fake.allocate_next = "proposal"
+    d.run_auto(hours=48)
+    i = fake.calls.index("allocate")
+    assert fake.calls[i + 1:i + 3] == ["critique", "prepare"] and "strategy" not in fake.calls
+    ledger = next((d.research / "briefs").glob("*-ledger.md")).read_text()
+    assert "allocation: granted" in ledger
 
 
 def test_auto_run_ends_after_its_experiment_limit(repo):
@@ -680,3 +709,143 @@ def test_ledger_replaces_a_retried_row(repo):
     d.ledger(["t1", "n", "approve", "pass", "1", "yes", "A", "second"])
     text = (d.research / "briefs" / "r-ledger.md").read_text()
     assert text.count("| t1 |") == 1 and "second" in text
+
+
+def git_t(*args, cwd):
+    subprocess.run(["git", *args], cwd=cwd, check=True, capture_output=True)
+
+
+def test_note_conflicts_on_the_code_branch_resolve_to_main(repo, tmp_path):
+    # A code branch carried a first-pass review; main holds the second pass.
+    git_t("branch", "research/main", cwd=repo)
+    side = tmp_path / "side"
+    git_t("worktree", "add", str(side), "research/main", cwd=repo)
+    write(side / "research/notes/code_review.md", "verdict: fail\n")
+    git_t("add", "-A", cwd=side)
+    git_t("commit", "-qm", "first pass", cwd=side)
+    git_t("worktree", "remove", str(side), cwd=repo)
+    write(repo / "research/notes/code_review.md", "verdict: pass\n")
+    git_t("add", "research/notes/code_review.md", cwd=repo)
+    git_t("commit", "-qm", "second pass", cwd=repo)
+    fake = FakeLauncher()
+    d = make_driver(repo, fake)
+    d.run(now_mode=True)
+    first = d.state["task"]
+    d.approve(None)
+    d.run(now_mode=True)
+    assert "queue" in fake.calls
+    kept = research.git("show", f"research/{first}:research/notes/code_review.md", cwd=repo)
+    assert kept == "verdict: pass"
+
+
+def test_code_conflicts_still_block(repo, tmp_path):
+    git_t("branch", "research/main", cwd=repo)
+    side = tmp_path / "side"
+    git_t("worktree", "add", str(side), "research/main", cwd=repo)
+    write(side / "src.py", "a = 1\n")
+    git_t("add", "-A", cwd=side)
+    git_t("commit", "-qm", "code", cwd=side)
+    git_t("worktree", "remove", str(side), cwd=repo)
+    write(repo / "src.py", "a = 2\n")
+    git_t("add", "src.py", cwd=repo)
+    git_t("commit", "-qm", "owner code", cwd=repo)
+    fake = FakeLauncher()
+    d = make_driver(repo, fake)
+    d.run(now_mode=True)
+    d.approve(None)
+    d.run(now_mode=True)
+    assert "queue" not in fake.calls
+    logs = "".join(f.read_text() for f in (d.research / "runs").glob("*/driver.log"))
+    assert "conflicts; resolve by hand" in logs
+
+
+def test_push_merges_what_the_owner_pushed_meanwhile(repo, tmp_path):
+    remote = tmp_path / "remote.git"
+    git_t("init", "-q", "--bare", str(remote), cwd=tmp_path)
+    git_t("remote", "add", "origin", str(remote), cwd=repo)
+    git_t("push", "-q", "origin", "main", cwd=repo)
+    other = tmp_path / "laptop"
+    git_t("clone", "-q", str(remote), str(other), cwd=tmp_path)
+    write(other / "owner.md", "note\n")
+    git_t("add", "-A", cwd=other)
+    git_t("-c", "user.name=o", "-c", "user.email=o@o", "commit", "-qm", "owner", cwd=other)
+    git_t("push", "-q", "origin", "main", cwd=other)
+    fake = FakeLauncher()
+    d = make_driver(repo, fake, commit_research=True, push=True)
+    d.run(now_mode=True)
+    d.approve(None)
+    d.run(now_mode=True)
+    remote_main = research.git("rev-parse", "main", cwd=remote)
+    assert remote_main == research.git("rev-parse", "HEAD", cwd=repo)
+    assert (repo / "owner.md").exists()
+
+
+def test_auto_queue_that_would_overrun_the_deadline_waits(repo):
+    fake = FakeLauncher()
+    fake.plan_minutes = 600
+    d = auto_driver(repo, fake, strategy_every=9)
+    assert d.run_auto(hours=2) == 0
+    assert "queue" not in fake.calls and fake.calls[-1] == "summary"
+    info = json.loads(d.run_path.read_text())
+    assert "the next run starts it" in info["reason"] and not info["executed"]
+    assert d.state["phase"] == "execute"
+
+
+def test_long_digest_is_condensed_after_decide(repo):
+    fake = FakeLauncher()
+    d = auto_driver(repo, fake, strategy_every=9, auto_max_experiments=1, digest_max_words=5)
+    write(d.research / "digest.md", "one two three four five six\n")
+    d.run_auto(hours=48)
+    assert fake.calls[fake.calls.index("decide") + 1] == "condense"
+    assert (d.research / "digest.md").read_text() == "Short.\n"
+
+
+def test_probe_allowance_and_queue_cap(repo):
+    fake = FakeLauncher()
+    fake.proposal_front = "kind: probe\n"
+    d = auto_driver(repo, fake, strategy_every=9)
+    d.run_info = {"executed": ["a"], "probes": ["a"]}
+    assert not d.probe_allowed()
+    d.run_info = {"executed": ["a", "b", "c", "d", "e"], "probes": ["a"]}
+    assert d.probe_allowed()  # one more after four full experiments
+    d.run_info = {"executed": ["a", "b", "c"], "probes": ["a"]}
+    assert not d.probe_allowed()
+
+
+def test_probe_queue_over_its_cap_goes_back(repo):
+    fake = FakeLauncher()
+    fake.proposal_front = "kind: probe\n"
+    d = auto_driver(repo, fake, strategy_every=9, auto_max_experiments=1,
+                    probe_max_queue_minutes=30)
+    d.run_auto(hours=48)  # the fake queue entry has the default 4 h timeout
+    feedback = list((d.research / "runs").glob("*/driver_feedback.md"))
+    assert feedback and "probe cap" in feedback[0].read_text()
+    assert "queue" not in fake.calls[:fake.calls.index("decide")]
+
+
+def test_task_bank_exposure_is_told_to_proposer_and_critic(repo):
+    fake = FakeLauncher()
+    d = make_driver(repo, fake)
+    write(d.research / "runs" / "t1" / "proposal.md", "---\nnode: questions/01-root\nbank: b1\n---\n")
+    write(d.research / "runs" / "t1" / "execution.md", "# Execution\n")
+    write(d.research / "runs" / "t2" / "proposal.md", "---\nnode: questions/01-root\nbank: b1\n---\n")
+    assert d.bank_exposure() == {"b1": 1}
+    d.run(now_mode=True)
+    assert "b1 (1)" in d.bank_note()
+
+
+def test_digest_check_covers_every_update_since_the_last_check(repo):
+    prompts = []
+
+    class Recorder(FakeLauncher):
+        def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
+            prompts.append((label, argv[1]))
+            return super().run(label, argv, cwd, log_dir, timeout_s, env, kill_grace)
+
+    fake = Recorder(review_verdicts=("pass", "pass"))
+    d = auto_driver(repo, fake, strategy_every=9, auto_max_experiments=2, commit_research=True)
+    d.run_auto(hours=48)
+    crits = [p for label, p in prompts if label.startswith("critique")]
+    assert "Digest check" not in crits[0] and "git log -p -1 " in crits[1]
+    summary = next(p for label, p in prompts if label.startswith("summary"))
+    assert "## Claim check" in summary and "..HEAD -- research/digest.md" in summary

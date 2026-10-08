@@ -1,0 +1,10 @@
+{
+  "acquisition_seconds": 3645.045941672288,
+  "scoring_seconds": 28881.036200241884,
+  "stage0_seconds": 1321.9101565435994,
+  "overhead_seconds": 300,
+  "total_seconds": 34147.99229845777,
+  "queue_timeout_seconds": 12600,
+  "feasible": false,
+  "policy": "2x slower-family acquisition, 2x target-max scoring, rounded batches; cost only"
+}

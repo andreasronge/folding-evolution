@@ -1,0 +1,4 @@
+{"family": "sum", "arm": "broken", "replicate": 0, "complete": true, "solves": 25, "seconds": 174.64772775000893}
+{"family": "sum", "arm": "inherited", "replicate": 0, "complete": true, "solves": 35, "seconds": 181.37860024999827}
+{"family": "max", "arm": "inherited", "replicate": 0, "complete": true, "solves": 26, "seconds": 396.466297457926}
+{"family": "max", "arm": "broken", "replicate": 0, "complete": true, "solves": 19, "seconds": 433.38431479095016}
