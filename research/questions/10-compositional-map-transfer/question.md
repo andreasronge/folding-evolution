@@ -33,16 +33,26 @@ found under it (C2) beat its parent 1.40× [1.35, 1.46] on training and 1.29× [
 withheld cells, and beat a fresh one-shot G4 refit by similar margins, while that fresh refit was
 not resolved from the parent (C'/C 0.997× [0.940, 1.058]). So useful, transferable assembly
 information beyond token frequency exists in this system's own solvers; one round of fitting to
-solvers found under the fitted decoder adds further search speed, but whether it increases the
-advantage over a token-only fit is untested (22, first attempt stopped at preparation on the
-deadline). The selection-based learners tried so far did not reach it**
-(14 of 15 slots used; strategy 2129 raised the budget from 14 to 15, for 22; strategy 1924 raised the budget from 13 to 14; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
+solvers found under the fitted decoder adds further search speed. On the training cells that
+step also raised the fitted context's advantage over a token-only fit to the same corpora
+(I 1.17× [1.09, 1.25], mostly BE; the token-only fit improved 1.20× too); on the withheld cells
+that interaction is unresolved (1.09× [0.98, 1.20]) (22). The selection-based learners tried so
+far did not reach it**
+(15 of 15 slots used; strategy 2129 raised the budget from 14 to 15, for 22; strategy 1924 raised the budget from 13 to 14; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
 2331 to 10, strategy 0803 to 12, strategy 1137 to 13; sub-questions [18](18-compact-context-learning/question.md)
 and [19](19-selection-calibrated-continuation/question.md) closed;
 [20](20-solver-corpus-context/question.md) closed after run 1707,
 [21](21-iterated-solver-corpus/question.md) after run 1924;
-[22](22-feedback-context-increment/question.md) open, run 2129 stopped at preparation,
-re-proposed as run 2156).
+[22](22-feedback-context-increment/question.md) closed after run 2156; its first attempt,
+run 2129, stopped at preparation).
+Run 2026-10-07-2156 ([22](22-feedback-context-increment/question.md), commit `36c665d`,
+training row 1, holdout row 4): token-only fits T1 (to 1707 corpora) and T2 (to 1924 feedback
+corpora) scored on the exact 1924 seeds of C1 and C2; 32 lineages, 5 120 training and 3 072
+holdout searches per arm, 26 min, all validation and 64/64 replays passed. Training: interaction
+I = (C2/T2)/(C1/T1) 1.169× [1.093, 1.250] (BE 1.34× [1.19, 1.50], PA 1.02× [0.95, 1.09]); T2/T1
+1.201× [1.150, 1.255]; C2/T2 1.580×; C1/T1 on these seeds 1.352× (1707: 1.365×); median-over-seeds
+variant 1.09× [1.008, 1.18]. Holdouts: I 1.087× [0.984, 1.200]; T2/T1 1.186× [1.107, 1.271];
+C2/T2 1.365× [1.287, 1.447].
 Run 2026-10-07-1924 ([21](21-iterated-solver-corpus/question.md), commit `5565d54`, row 1): each
 of the 32 saved 1707 tables C collected 48 searches per own training cell under itself (7 623/7 680
 solved) and was refitted with the frozen 1707 rule (C2); a fresh G4 corpus gave the one-shot
@@ -178,14 +188,15 @@ Competing explanations:
 - E: The proposed tasks or adaptation loop are not tractable at the measured budget.
   This is a feasibility result about this design, not a negative answer to A.
 
-Where they stand after runs 1707 and 1924: A's first half (held-out gain beyond a fitted independent-token
+Where they stand after runs 1707, 1924 and 2156: A's first half (held-out gain beyond a fitted independent-token
 map) is supported for an externally fitted previous-token table, not yet for any adapted-by-
 selection decoder; its second half (advantage tied to the training family) is not supported:
 no matched-family gain was resolved on the three withheld cells, one PA cell resolved the other way, and
 the token maps' family contrast is bounded (16). B remains compatible with every selection-based
 learner tried (token gain about 2×, no contextual increment resolved). For the fitted tables, the
-tested token-only fit and G4 do not reproduce C's gain, and C2 adds a further 1.29× on the withheld
-cells; a broader generic or task-agnostic assembly explanation has not been tested and remains
+tested token-only fit and G4 do not reproduce C's gain, C2 adds a further 1.29× on the withheld
+cells, and on training cells a token-only refit to the feedback corpus recovers only part of
+C2's increment (I 1.17×, BE-carried; withheld cells unresolved); a broader generic or task-agnostic assembly explanation has not been tested and remains
 possible. C is not supported (withheld gains 2–3× for
 token maps, plus 1.29× for C and a further 1.29× for C2; the extent of overfitting was not
 isolated). D is not supported at this budget. E applied to two banks and
@@ -239,6 +250,10 @@ resolved family advantage; external fitting, not evolutionary discovery).
 1.46] on training and 1.29× [1.20, 1.38] on the withheld cells, and C2/C' 1.41× and 1.33× against
 a fresh one-shot G4 refit; attributable to the collection procedure, whose yield, diversity and
 content are not separated; one step only).
+[22-feedback-context-increment](22-feedback-context-increment/question.md) (closed, 1 of 1
+slot, run 2026-10-07-2156: on training cells feedback raised the fitted context's advantage over
+the token-only fit, I 1.17× [1.09, 1.25], carried by BE (PA 1.02× [0.95, 1.09]); the token-only
+fit also improved 1.20×; on the withheld cells I 1.09× [0.98, 1.20], unresolved).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
@@ -252,6 +267,7 @@ Related: [core question](../../../README.md#core-question),
 [run 1137 decision](../../runs/2026-10-07-1137/decision.md),
 [run 1707 decision](../../runs/2026-10-07-1707/decision.md),
 [run 1924 decision](../../runs/2026-10-07-1924/decision.md),
+[run 2156 decision](../../runs/2026-10-07-2156/decision.md),
 [digest](../../digest.md), [chem-tape findings](../../../docs/chem-tape/findings.md).
 
 Review after the feasibility experiment and after the four allocated experiments. A

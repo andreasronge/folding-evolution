@@ -1,0 +1,100 @@
+{
+  "projection": {
+    "acquisition_seconds": 3645.045941672288,
+    "scoring_seconds": 24813.284622743027,
+    "stage0_seconds": 1321.9101565435994,
+    "overhead_seconds": 300,
+    "total_seconds": 30080.240720958915,
+    "queue_timeout_seconds": 12600,
+    "feasible": false,
+    "policy": "2x slower-family acquisition, 2x target-max scoring, rounded batches; cost only"
+  },
+  "acquisition": [
+    {
+      "family": "sum",
+      "arm": "inherited",
+      "complete": true,
+      "seconds": 69.03469124995172,
+      "solves": 47,
+      "generations": 1679,
+      "evaluations": 1768448,
+      "verifier_seconds": 22.01357097516302,
+      "evaluation_seconds": 4.320281454711221,
+      "reproduction_seconds": 38.486553634982556,
+      "depth_mean": 1637.958984375,
+      "depth_max": 1638
+    },
+    {
+      "family": "sum",
+      "arm": "broken",
+      "complete": true,
+      "seconds": 217.06463141704444,
+      "solves": 17,
+      "generations": 5053,
+      "evaluations": 5223424,
+      "verifier_seconds": 90.77126692398451,
+      "evaluation_seconds": 12.021187060861848,
+      "reproduction_seconds": 109.81196565553546,
+      "depth_mean": 5041.6533203125,
+      "depth_max": 5042
+    },
+    {
+      "family": "max",
+      "arm": "broken",
+      "complete": true,
+      "seconds": 229.29420854197815,
+      "solves": 6,
+      "generations": 5793,
+      "evaluations": 5981184,
+      "verifier_seconds": 78.127181446529,
+      "evaluation_seconds": 13.761961356271058,
+      "reproduction_seconds": 132.89169690478593,
+      "depth_mean": 5780.0,
+      "depth_max": 5781
+    },
+    {
+      "family": "max",
+      "arm": "inherited",
+      "complete": true,
+      "seconds": 238.56611129199155,
+      "solves": 7,
+      "generations": 5624,
+      "evaluations": 5808128,
+      "verifier_seconds": 87.8271329139825,
+      "evaluation_seconds": 12.747296426910907,
+      "reproduction_seconds": 133.71029695787,
+      "depth_mean": 4680.5712890625,
+      "depth_max": 4686
+    }
+  ],
+  "frozen": {
+    "sum1": {
+      "n": 20,
+      "solves": 20,
+      "incomplete": 0,
+      "max_seconds": 12.892913250019774,
+      "verifier_seconds": 18.303001391584985
+    },
+    "sum5": {
+      "n": 20,
+      "solves": 19,
+      "incomplete": 0,
+      "max_seconds": 8.657000249950215,
+      "verifier_seconds": 0.7368781717959791
+    },
+    "max1": {
+      "n": 20,
+      "solves": 11,
+      "incomplete": 0,
+      "max_seconds": 170.63480470795184,
+      "verifier_seconds": 224.13019598531537
+    },
+    "max5": {
+      "n": 20,
+      "solves": 9,
+      "incomplete": 0,
+      "max_seconds": 11.202860667021014,
+      "verifier_seconds": 0.5241230338579044
+    }
+  }
+}

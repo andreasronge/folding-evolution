@@ -64,3 +64,42 @@
   persists on fresh seeds but does not generalize to the "b" continuations, so in this sample it
   depends on the learning run; selection as an isolated cause is not shown. The 1425 entries
   above stay as written; read them with this and the previous correction.
+
+## 2026-10-08 — digest condensing (run 2026-10-07-2243): former digest text moved here
+
+The digest was rewritten as current beliefs only (word limit). This is section "Saved-map shape shift", moved verbatim as it stood before the rewrite; no belief changed. Relative links below are relative to `research/`, not to this folder.
+
+## Saved-map shape shift (root 10, run 2026-10-06-1425)
+
+One run, commit `b397f72`, complete data (55 frozen maps × 8 off-family cells × 200 fresh
+seeds = 88 000 searches, 48 min; gate passed, G within 0.05 log2 of 0811). Maps: G, M1–M6, and
+for each of the 12 0811 pairs M+, R, R_abl (residuals zeroed) and R_fm (G's context rows with
+token multipliers fitted so its pooled uniform-allele emitted token frequencies match R's; TV
+≤ 7e-5). Cells: the two branch-else (BE) and six linear (LIN) cells of 0811. Pre-registered;
+primary layer the six "b" continuations, which share their M starts with the "a" maps, so this
+is a conditional replication over learning runs, not over starts. 95% t intervals over six
+start clusters; > 1 means the first map is faster. Reviewed analysis; fairly sure of the
+numbers, narrow in scope.
+([14](questions/10-compositional-map-transfer/14-saved-map-shape-shift/question.md),
+[run analysis](runs/2026-10-06-1425/analysis.md))
+
+- **The branch-over-linear shift of R over M+ did not replicate; on the "b" maps it reversed.**
+  "b" R / M+: BE 0.94× [0.77, 1.16], LIN 1.29× [0.88, 1.91], shift (BE ÷ LIN) 0.73× [0.57,
+  0.94], below 1 in 6/6 starts. Outcome row 3: any BE gain on these maps is bounded below
+  1.17×. The reversal was not pre-stated; read it as run-to-run variation, not a lead.
+- **The "a" pattern is real for those six maps, so the shift is a property of individual
+  learning runs.** Re-scored on the fresh seeds, "a" R / M+ gives shift 1.86× [1.41, 2.44]
+  (0811: 2.03×). Two sets of runs of the same learner from the same starts disagree in sign;
+  both were selected on post-addition cells only, so off-family linear speed is unconstrained
+  and wanders by about 0.5 log2 within a family.
+- **On the unselected "b" maps, a token-only map matched to R's pooled emitted token
+  frequencies on G's context was not resolved from R; R's advantage is bounded to about 17% on
+  BE and 12% on the shift.** R / R_fm: BE 1.04× [0.91, 1.17], LIN 1.02× [0.97, 1.06], shift 1.02× [0.92, 1.12]; R_fm / M+
+  shows the same reversed shift as R / M+ (0.72× [0.54, 0.95]). The pooled a/b residual effect
+  (shift 1.23× [1.11, 1.36]) comes from the selected "a" maps; its point estimates combine a
+  linear slow-down (0.94× [0.87, 1.03]) and a BE gain (1.16× [0.97, 1.39]), neither resolved alone. This bounds, not excludes, a residual
+  contribution, and matches only pooled frequencies, not positional or in-population ones.
+- **Continued post-addition learning carried over to branch-else for both learners.** Against
+  their M start on BE: M+ 1.40× ("a") and 1.42× ("b"), R 1.74× and 1.34×; lower bounds
+  1.05–1.10. Branch-else is a related shape, not a separately trained family.
+

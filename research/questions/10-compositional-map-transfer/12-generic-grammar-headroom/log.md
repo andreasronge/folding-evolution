@@ -63,3 +63,37 @@ is narrower: pair failure persists on the three tested domains and for alias cut
 retained rosters change with the domain and a pair appears at 0.90 on D1331. Likewise "not
 supported at length 10" for the generic-grammar explanation tested only the frozen G. question.md
 now says both at that scope. No result changed.
+
+## 2026-10-08 — digest condensing (run 2026-10-07-2243): former digest text moved here
+
+The digest was rewritten as current beliefs only (word limit). This is section "Assembly-family screen", moved verbatim as it stood before the rewrite; no belief changed. Relative links below are relative to `research/`, not to this folder.
+
+## Assembly-family screen (root 10, run 2026-10-06-0001)
+
+One run, commit `a65ded0`, complete data. Same tape, harness, cap and frozen U/F/G/G-marg tables
+as 2247; ten-token canonicals; exhaustive ≤ 9-token alias screen (typed-stack dedup) on three
+domains (625, 1 331, 2 401 inputs); search on the 16 cells retained on D1331, 50 paired seeds per
+cell × arm. Reviewed analysis; fairly sure of the numbers, narrow in scope.
+([12](questions/10-compositional-map-transfer/12-generic-grammar-headroom/question.md),
+[run analysis](runs/2026-10-06-0001/analysis.md))
+
+- **None of the six screened same-primitive shapes gives two families with enough distinct
+  cells.** Of 162 canonicals over {S, M, m} (gate `(A+B)>0 ? C : D`, branch-then, branch-else,
+  post-addition `(S>0 ? X : Y) + Z`, two linear DUP placements), 11/16/16 survive on the three
+  domains: gate and branch-then 0, branch-else ≤ 2, post-addition 4–8, linear 3 + 3 by
+  construction. 0 of 45 shape-pair × domain rows meet the frozen ≥ 4-cell rule; unchanged for
+  any alias cutoff in 0.70–0.85. Mechanism from the witnesses: ADD distributes out of an IF_GT
+  branch via CONST_0, DUP reuses the condition, and S-sign correlation and constant substitution
+  give near-aliases. Scope: these six shapes and rules only; other tokens, longer canonicals or
+  a fourth reducer were not screened, and the run does not show an alphabet change is required.
+- **Ten-token branch cells leave room above the frozen G.** G medians 8 192–41 728 on the ten
+  post-addition/branch-else cells (2–10× the 4 096 line; ≥ 42/50 solves); linear cells 2 304–5 120
+  (3 below the line). F and G-marg medians above the line on all 16. So G's sub-4 096 speed on
+  2247's 5–7-token cells does not extend to these ten-token branch cells. Uniform search is uneven: 13/16
+  cells ≥ 35/50, BE:S?M:(S+m) 8/50 (F 22/50, G 42/50).
+- **G's advantages replicate on a second bank.** Paired capped-time ratios: G/U 8.4–11.3×
+  (16/16 intervals exclude 1), G/G-marg 1.5–6.0× (15/16), F/U 1.0–3.6× (4 intervals include 1).
+  Capped-time ratios, not KM medians, so not directly comparable with 2247's figures. G samples
+  13–180 exact solvers per 10⁸ genotypes; U none on any cell (≤ 3×10⁻⁸ each), so supply ratios
+  are lower bounds and the supply-versus-speed pass-through is not estimable here.
+

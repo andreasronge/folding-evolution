@@ -81,3 +81,66 @@ to strategy. Wording corrections to the 2331 entry and summary (critique 0315 no
 numbers change): "the start effect is about useful partial programs, not seeded solvers" should
 read "generation-0 solves were rare (12/79 200), so direct solver seeding is unlikely to explain
 the gain; which properties of the starting population carry it is unresolved".
+
+## 2026-10-08 — digest condensing (run 2026-10-07-2243): former digest text moved here
+
+The digest was rewritten as current beliefs only (word limit). This is section "Starting programs versus ongoing decoder", moved verbatim as it stood before the rewrite; no belief changed. Relative links below are relative to `research/`, not to this folder.
+
+## Starting programs versus ongoing decoder (root 10, runs 2026-10-06-2331 and 2026-10-07-0315)
+
+One run, commit `8f42f38`, complete data (79 200 searches, 3.0 h). The 20 frozen 1723 maps (M)
+and G4 (G) on the three 2229 cells (BE `S?m:(M+F)`, PA `(F?S:M)+m`, PA `(S?M:m)+F`), 400 fresh
+shared seeds, no learning. Four arms cross the source of the generation-0 programs with the
+decoder used during search: GG, MM, MG (MM's exact starting tapes, searched under G) and GM
+(GG's exact tapes, searched under M). The tapes are carried across by drawing new alleles
+uniformly inside each token's interval in the destination table (conditional-uniform
+re-encoding); round trips, a marginal law check, 630 bit-identical historical rows and an M→M
+re-encoding control (1.02×, 99% [0.95, 1.09], not an equivalence test) all passed. Paired log2
+cost ratios, crossed map/seed bootstrap; pre-registered rows; reviewed analysis. Fairly sure of
+the pooled numbers; narrow in scope (three reused screened cells, G4's hand-supplied context,
+this population/operator/budget regime).
+([17](questions/10-compositional-map-transfer/17-decoder-initialization-variation/question.md),
+[analysis](runs/2026-10-06-2331/analysis.md))
+
+- **Both components help, each by about 1.3–1.4× given the other.** Same starting tapes,
+  searched under M rather than G: 1.39× [1.31, 1.47] faster. Same search decoder M, starting
+  from M's programs rather than G's: 1.30× [1.24, 1.36]. Both lower bounds clear the 1.19×
+  margin; both survive dropping capped searches or winsorising at 65 536 (P1 moves ≤ 0.07 log2).
+  The full diagonal is 2.29× [2.05, 2.54], reproducing 2229.
+- **The two gains are sub-additive.** Starting from G, either component alone gives 1.65×
+  (start) or 1.76× (ongoing), 60–68% of the diagonal in log units; the interaction is −0.34 log2
+  [−0.40, −0.29] and negative in 20/20 maps. This is sub-additivity on capped log cost,
+  consistent with — but not establishing — a shared supply of useful partial programs.
+- **Direct solver seeding is unlikely to explain the start gain.** 12 of 79 200 searches solved
+  at generation 0; searches take 20–40 generations. Effects are distribution shifts (MG slower
+  than MM in 57% of pairs, faster in 39%). Which properties of the starting population carry the
+  gain is unresolved.
+
+Second run, 2026-10-07-0315 (commit `5dae3a6`, complete, 122 000 searches, 4.3 h): the same
+design on the ten 1723 training cells (4 BE, 6 PA), 200 fresh seeds; all validation passed,
+including 786 bit-identical historical rows. Pre-registered rows (row 1); reviewed analysis.
+These are the cells the maps were trained and selected on, so this is a screened, in-sample
+bank, not a holdout. ([analysis](runs/2026-10-07-0315/analysis.md))
+
+- **Both components replicate on the training cells.** Ongoing decoder given M's start 1.28×
+  [1.22, 1.34]; start given ongoing M 1.33× [1.26, 1.40]; diagonal 2.44× [2.23, 2.66];
+  interaction −0.52 log2 [−0.62, −0.42], again sub-additive. No label changes under either cap
+  sensitivity.
+- **On the training cells, the start weighs relatively more on BE cells than on PA cells.** The
+  balance S = log2(T_MG/T_GM) (positive: losing the ongoing decoder costs more than losing the
+  start) is −0.21 to −0.39 on all four BE cells, each resolved below 0, and −0.05 to +0.54 on the
+  six PA cells (three resolved above 0, none below). BE minus PA: −0.45 log2, Welch 95% [−0.68,
+  −0.22] over cells; leave-one-cell-out −0.38 to −0.50; 20/20 maps lower on BE cells; S differed
+  more between cell families than between map families (descriptive; map-family equivalence and
+  the cause of the cell-group difference are not established). The difference is relative: both components
+  are resolved positive within each family (P1 on BE about 1.15× [1.08, 1.23]; on PA 1.42×
+  [1.34, 1.51]). 2331's withheld BE cell (S −0.27) fits the BE range (different seeds; descriptive).
+- **"Family" is not separated from shape or difficulty.** Across the ten cells S correlates with
+  MM median cost (r 0.77, post hoc); the two PA cells with the largest S are the two hardest PA
+  cells. At matched difficulty the families still separate, but four and six cells from one
+  screened bank cannot tell family, branch-else versus plus-arg shape and difficulty tail apart,
+  and say nothing about a fresh cell.
+- **Not separated (both runs):** mutation versus crossover versus inherited latent alleles within
+  "ongoing"; supply of useful programs versus neighbourhood structure; why the balance differs
+  between the cell groups; anything about learned context or family specificity of the maps.
+
