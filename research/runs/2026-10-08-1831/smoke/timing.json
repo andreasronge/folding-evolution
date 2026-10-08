@@ -1,0 +1,32 @@
+{
+  "collection:BE1": {
+    "wall_seconds": 4.604913457995281,
+    "worker_seconds": 31.258630829979666,
+    "serialization_seconds": 0.0029375848826020956,
+    "rows": 16,
+    "expected_rows": 16,
+    "complete": true
+  },
+  "collection:PA1": {
+    "wall_seconds": 4.245939666987397,
+    "worker_seconds": 34.00281374913175,
+    "serialization_seconds": 0.003153376397676766,
+    "rows": 16,
+    "expected_rows": 16,
+    "complete": true
+  },
+  "training:BE1+PA1": {
+    "wall_seconds": 123.6456922920188,
+    "worker_seconds": 1102.4883714591851,
+    "serialization_seconds": 0.014964002533815801,
+    "rows": 80,
+    "expected_rows": 80,
+    "complete": true
+  },
+  "reporting": {
+    "wall_seconds": 1.5918055409565568
+  },
+  "total": {
+    "wall_seconds": 136.14114795904607
+  }
+}

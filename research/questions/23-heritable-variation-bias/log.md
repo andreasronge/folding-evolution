@@ -272,3 +272,16 @@ worse. Read it as "no useful gain established (useful = the registered 1.5× thr
 "Max5 is tied (1.00)" means the observed capped geometric costs were nearly equal (148,914 vs
 148,634, uniform solving 8/16); equality is not established. Linkage on sum (B/I 1.00 [0.69,
 1.41]) is unresolved, not absent. question.md and the digest now use this wording.
+
+## 2026-10-08 — digest condensing (run 2026-10-08-1831): wording moved here
+
+The digest was compressed under its word limit; no belief changed. These root-23 passages were
+cut or shortened there and are kept here verbatim. Relative links are relative to `research/`.
+
+- "(σ = 0.03 per component, 48 episodes × 128 generations)"; "The hand scaffold is 11.9× [7.0,
+  20.4] and 5.75× [3.66, 8.95] cheaper than the inherited vectors. Fairly sure for this procedure;
+  it bounds this σ, schedule and inheritance rule, not self-adaptation, and says nothing about
+  transfer."
+- "Broken ÷ inherited 1.58× [1.04, 2.36] on max (broken itself 2.17× costlier than uniform)";
+  "Whether the vectors' movement is mostly drift was not isolated (no mutation-only control). Post
+  hoc observations are in the [log](questions/23-heritable-variation-bias/log.md)."

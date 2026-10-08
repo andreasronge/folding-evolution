@@ -224,3 +224,20 @@ B), **duplicated** (everything recomputed).
   Reopen on a no-lift speed-up in another family, a heritable-bias design that needs the
   answer, or an owner-funded rerun of the veto at n ≈ 1600.
 
+
+## 2026-10-08 — digest condensing (run 2026-10-08-1831): wording moved here
+
+The digest was compressed under its word limit; no belief changed. These root-01 passages were
+cut or shortened there and are kept here verbatim. Relative links are relative to `research/`.
+
+- Run 1558 (08): "the post-hoc product model that explained it **failed out of sample**
+  (hand-set vector 5.45× / 11.07×, predicted 17× / 22×). Fairly sure of the numbers, narrow in
+  meaning."
+- Run 1705 (08): "matched beats the other family's fit only 1.66× / 1.80× (not resolved against a
+  2× bar, 100 pairs). … Median speed, one evolution setup."
+- Run 1814 (09): "on sum>2 both parts beat uniform and neither is resolved against the full
+  vector. … Initialization and mutation are coupled, so no mechanism is named; sum>2 open."
+- Run 1957 (09): "Its share of the rest-of-vector gain is unknown (R's gain 1.30, 0.71–2.32)."
+- Shared helpers header: "hand-built shared, partly shared and duplicated forms".
+- Status line: "Status: 03, 05, 06 closed; 02, 04, 07, 08, 09 parked with reopen conditions in
+  their question files." (now in the root-01 intro of the digest)

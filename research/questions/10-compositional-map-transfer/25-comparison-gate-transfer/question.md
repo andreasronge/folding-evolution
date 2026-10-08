@@ -15,7 +15,7 @@ Run 1246 ([24](../24-comparison-gate-bank/question.md)) fitted C (previous-token
 4 + 4 training cells; on those cells C/T was 3.11× [2.78, 3.48]. All 32 tables, the 8 holdout
 ids (4 BE, 4 PA, one per repeated reducer, chosen performance-blind), the 4 352-search roster,
 seeds and endpoint were frozen in run 1246's `freeze.json` before any holdout search. No
-holdout has been searched. This is the tree's first transfer test with several protected
+holdout had been searched when the roster was frozen. This is the tree's first transfer test with several protected
 compositions per family; root 10's earlier holdout evidence rests on one BE and two PA cells.
 
 Competing explanations:

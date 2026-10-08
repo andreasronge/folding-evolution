@@ -44,8 +44,12 @@ frozen tables kept most of that advantage on the eight protected holdouts of tha
 bank, 2.60× [2.31, 2.92] (25), and on a fresh bank of a new shape, then-addition `A>B ? C+D : E`
 (16 semantically selected cells on two gates), 2.12× [1.86, 2.41], a resolved shrinkage from
 training of 0.68× [0.57, 0.81] (26). What carries the gain (emitted frequencies versus order,
-K unscored there) and why it shrinks are not identified**
-(17 of 20 slots used; allocation 1534 raised the budget from 16 to 20 for a four-slot block, first
+K unscored there) and why it shrinks are not identified. Exact solvers are not the only usable
+data: a context fit to tapes from G4 searches that had not yet solved beat a token fit to the same
+tapes 1.28× [1.12, 1.45] and G4 1.62× [1.37, 1.90] on the training cells, mostly by solving within
+the cap more often, with no resolved parent-selection enrichment; the exact-solver fit stays far
+faster (0.27× [0.24, 0.30]) at about 7.9× more source evaluations (27)**
+(18 of 20 slots used; strategy 1831 assigned slot 18 to [27](27-partial-program-context/question.md); allocation 1534 raised the budget from 16 to 20 for a four-slot block, first
 slot run 1548; strategy 1246 raised the budget from 15 to 16, for 24; strategy 2129 raised the budget from 14 to 15, for 22; strategy 1924 raised the budget from 13 to 14; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
 2331 to 10, strategy 0803 to 12, strategy 1137 to 13; sub-questions [18](18-compact-context-learning/question.md)
 and [19](19-selection-calibrated-continuation/question.md) closed;
@@ -53,12 +57,20 @@ and [19](19-selection-calibrated-continuation/question.md) closed;
 [21](21-iterated-solver-corpus/question.md) after run 1924;
 [22](22-feedback-context-increment/question.md) closed after run 2156; its first attempt,
 run 2129, stopped at preparation).
+Run 2026-10-08-1831 ([27](27-partial-program-context/question.md), commit `998a9fe`): 16
+partial corpora (8 BE, 8 PA), 32 G4 sources per own training cell stopped at first solve or 65 536
+evals, 8 parent (S) + 8 uniform (P) tapes per unsolved checkpoint (64/128/256 generations), 89 536
+tapes all verified non-exact; five arms (C_S, T_S, C_P, 1246's C_exact, G4) × 16 paired seeds × 4
+cells; 5 120 searches, 120 min, complete. C_S/T_S 1.28× [1.12, 1.45] (1 × cap 1.22×, both-solved
+1.05× [0.88, 1.24]; BE 1.42×, PA 1.15× [0.96, 1.38]); C_S/G4 1.62× [1.37, 1.90]; T_S/G4 1.27×;
+C_S/C_P 1.04× [0.92, 1.16]; C_S/C_exact 0.27× [0.24, 0.30]. Solves C_exact 90%, C_S 73%, C_P 73%,
+T_S 66%, G4 61%.
 Run 2026-10-08-1548 ([26](26-then-addition-fresh-bank/question.md), commit `45b2bdb`, rows F
 and D): the 32 frozen 1246 tables, no refit, on (F) the fresh then-addition bank (16 cells × 8
 paired seeds per corpus, 4 352 searches, 70 min) and (D) 1246's unchanged holdout roster (4 352
 searches, 52 min); complete, no errors. F: C/T 2.12× [1.86, 2.41], 1 × cap 1.96×, both-solved
 1.74×; 16/16 corpora, 14/16 cells resolved; solves C 86.5%, T 75.5%, G4 63.3%; shrinkage from
-training 0.68× [0.57, 0.81]; BE-fitted over PA-fitted 1.38× [1.13, 1.68]. D: C/T 2.60× [2.31,
+training 0.68× [0.57, 0.81]; (C/T)_BE over (C/T)_PA 1.38× [1.13, 1.68]. D: C/T 2.60× [2.31,
 2.92], 8/8 holdouts resolved; own-family holdout/training 0.88× [0.72, 1.07]; matched over
 mismatched 1.10× [0.89, 1.35].
 Run 2026-10-07-2156 ([22](22-feedback-context-increment/question.md), commit `36c665d`,
@@ -217,7 +229,10 @@ C2's increment (I 1.17×, BE-carried; withheld cells unresolved); a broader gene
 possible. C is not supported (withheld gains 2–3× for
 token maps, plus 1.29× for C and a further 1.29× for C2; the extent of overfitting was not
 isolated; cross-shape shrinkage of C/T from training is resolved, 0.68×, but 2.1× remains). D is not supported at this budget. E applied to two banks and
-was resolved by the four-reducer bank.
+was resolved by the four-reducer bank. Run 1831 (27) bears on how A's fitted decoder could be
+acquired rather than on transfer: a C-over-T advantage (1.28×, training cells) is already
+available from searches that have not yet solved, at about 1/8 of the exact corpora's source
+evaluations, though it is much weaker than the exact-solver fit.
 
 Sub-questions: [11-composition-bank](11-composition-bank/question.md) (closed: this bank
 fails on tractability at 524k and on the 4 096 headroom rule against G; run 2026-10-05-2247),
@@ -281,6 +296,10 @@ comparison-gate-v1; family matching 1.10× [0.89, 1.35], unresolved).
 [26-then-addition-fresh-bank](26-then-addition-fresh-bank/question.md) (closed, 1 of 1 slot, run
 2026-10-08-1548 row F: on the fresh then-addition bank C/T 2.12× [1.86, 2.41], 16 corpora,
 shrinkage from training 0.68× [0.57, 0.81]; one selected bank, two gates, K unscored).
+[27-partial-program-context](27-partial-program-context/question.md) (closed, 1 of 1 slot, run
+2026-10-08-1831: context fitted to tapes from not-yet-solved G4 searches beats a token fit to the
+same tapes 1.28× [1.12, 1.45] and G4 1.62× [1.37, 1.90] on the training cells; mostly a
+within-cap reliability gain, BE-carried; no resolved parent enrichment; exact-solver C 3.7× faster).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
@@ -297,6 +316,7 @@ Related: [core question](../../../README.md#core-question),
 [run 2156 decision](../../runs/2026-10-07-2156/decision.md),
 [run 1246 decision](../../runs/2026-10-08-1246/decision.md),
 [run 1548 decision](../../runs/2026-10-08-1548/decision.md),
+[run 1831 decision](../../runs/2026-10-08-1831/decision.md),
 [digest](../../digest.md), [chem-tape findings](../../../docs/chem-tape/findings.md).
 
 Review after the feasibility experiment and after the four allocated experiments. A

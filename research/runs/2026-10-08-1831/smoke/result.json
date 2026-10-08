@@ -1,0 +1,1142 @@
+{
+  "scope": "training reuse, development bank, fitting procedure; no isolated order or transfer",
+  "method_hash": "c24257db19447d2fe4a029e185dcdd8c5d1dc5d9c17f5956433bcb739b819239",
+  "analysed_corpora": [
+    "BE1",
+    "PA1"
+  ],
+  "completed_pairs": 1,
+  "efficacy_eligible": false,
+  "stop_kind": null,
+  "stop_reason": null,
+  "outcome": {
+    "label": "smoke",
+    "meaning": "execution/throughput only; no efficacy inference"
+  },
+  "total_searches": 112,
+  "observed_counts": {
+    "collection:G4": 32,
+    "training:C_P": 16,
+    "training:C_S": 16,
+    "training:C_exact": 16,
+    "training:G4": 16,
+    "training:T_S": 16
+  },
+  "unanalysed_trailing_corpora": [],
+  "sensitivities": {
+    "unsolved_2x_cap": {
+      "C_S/T_S": {
+        "n": 2,
+        "contrasts_log": [
+          0.22500204350222464,
+          -0.6588416945291973
+        ],
+        "speed_ratio": 0.8049945067390633,
+        "interval_95": [
+          0.002932002710159233,
+          221.01485569393466
+        ],
+        "sd_log": 0.6249719006712849,
+        "half_width_log": 5.615149745106599,
+        "df": 1,
+        "corpus_scores_log": {
+          "BE1": 0.22500204350222464,
+          "PA1": -0.6588416945291973
+        },
+        "paired_searches": {
+          "BE1": 8,
+          "PA1": 8
+        },
+        "families": {
+          "BE": {
+            "n": 1,
+            "contrasts_log": [
+              0.22500204350222464
+            ],
+            "speed_ratio": 1.2523252753187357,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 1,
+            "contrasts_log": [
+              -0.6588416945291973
+            ],
+            "speed_ratio": 0.5174503530763106,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        },
+        "conditional_on_both_solved": false,
+        "note": "equal cells and paired seeds within each independent corpus"
+      },
+      "C_S/G4": {
+        "n": 2,
+        "contrasts_log": [
+          0.33553842018519964,
+          -0.23840329804557103
+        ],
+        "speed_ratio": 1.0497662927583447,
+        "interval_95": [
+          0.027385463702635626,
+          40.24066495195185
+        ],
+        "sd_log": 0.40583808096683666,
+        "half_width_log": 3.6463104892360296,
+        "df": 1,
+        "corpus_scores_log": {
+          "BE1": 0.33553842018519964,
+          "PA1": -0.23840329804557103
+        },
+        "paired_searches": {
+          "BE1": 8,
+          "PA1": 8
+        },
+        "families": {
+          "BE": {
+            "n": 1,
+            "contrasts_log": [
+              0.33553842018519964
+            ],
+            "speed_ratio": 1.3986932672088177,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 1,
+            "contrasts_log": [
+              -0.23840329804557103
+            ],
+            "speed_ratio": 0.7878848745806355,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        },
+        "conditional_on_both_solved": false,
+        "note": "equal cells and paired seeds within each independent corpus"
+      },
+      "C_S/C_P": {
+        "n": 2,
+        "contrasts_log": [
+          -0.30147605213493045,
+          -0.34375619224483445
+        ],
+        "speed_ratio": 0.7242518252157191,
+        "interval_95": [
+          0.5536479960081234,
+          0.9474263613528984
+        ],
+        "sd_log": 0.029896573781230455,
+        "half_width_log": 0.2686100582552959,
+        "df": 1,
+        "corpus_scores_log": {
+          "BE1": -0.30147605213493045,
+          "PA1": -0.34375619224483445
+        },
+        "paired_searches": {
+          "BE1": 8,
+          "PA1": 8
+        },
+        "families": {
+          "BE": {
+            "n": 1,
+            "contrasts_log": [
+              -0.30147605213493045
+            ],
+            "speed_ratio": 0.739725540989969,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 1,
+            "contrasts_log": [
+              -0.34375619224483445
+            ],
+            "speed_ratio": 0.709101791491898,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        },
+        "conditional_on_both_solved": false,
+        "note": "equal cells and paired seeds within each independent corpus"
+      },
+      "C_S/C_exact": {
+        "n": 2,
+        "contrasts_log": [
+          0.06265899604650116,
+          -2.0368036859413317
+        ],
+        "speed_ratio": 0.37266613337649684,
+        "interval_95": [
+          6.006979056600783e-07,
+          231197.8211630022
+        ],
+        "sd_log": 1.4845442992816926,
+        "half_width_log": 13.338101336647911,
+        "df": 1,
+        "corpus_scores_log": {
+          "BE1": 0.06265899604650116,
+          "PA1": -2.0368036859413317
+        },
+        "paired_searches": {
+          "BE1": 8,
+          "PA1": 8
+        },
+        "families": {
+          "BE": {
+            "n": 1,
+            "contrasts_log": [
+              0.06265899604650116
+            ],
+            "speed_ratio": 1.064663722784136,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 1,
+            "contrasts_log": [
+              -2.0368036859413317
+            ],
+            "speed_ratio": 0.13044498839747481,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        },
+        "conditional_on_both_solved": false,
+        "note": "equal cells and paired seeds within each independent corpus"
+      },
+      "T_S/G4": {
+        "n": 2,
+        "contrasts_log": [
+          0.110536376682975,
+          0.42043839648362624
+        ],
+        "speed_ratio": 1.3040664053855755,
+        "interval_95": [
+          0.18207221784076758,
+          9.34019044653214
+        ],
+        "sd_log": 0.2191338197044482,
+        "half_width_log": 1.968839255870569,
+        "df": 1,
+        "corpus_scores_log": {
+          "BE1": 0.110536376682975,
+          "PA1": 0.42043839648362624
+        },
+        "paired_searches": {
+          "BE1": 8,
+          "PA1": 8
+        },
+        "families": {
+          "BE": {
+            "n": 1,
+            "contrasts_log": [
+              0.110536376682975
+            ],
+            "speed_ratio": 1.1168769765928657,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 1,
+            "contrasts_log": [
+              0.42043839648362624
+            ],
+            "speed_ratio": 1.5226289244882256,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        },
+        "conditional_on_both_solved": false,
+        "note": "equal cells and paired seeds within each independent corpus"
+      }
+    },
+    "unsolved_1x_cap": {
+      "C_S/T_S": {
+        "n": 2,
+        "contrasts_log": [
+          0.13835864593223146,
+          -0.5721982969592041
+        ],
+        "speed_ratio": 0.8049945067390633,
+        "interval_95": [
+          0.008816231022018858,
+          73.50262876070546
+        ],
+        "sd_log": 0.5024396327377164,
+        "half_width_log": 4.514240996544484,
+        "df": 1,
+        "corpus_scores_log": {
+          "BE1": 0.13835864593223146,
+          "PA1": -0.5721982969592041
+        },
+        "paired_searches": {
+          "BE1": 8,
+          "PA1": 8
+        },
+        "families": {
+          "BE": {
+            "n": 1,
+            "contrasts_log": [
+              0.13835864593223146
+            ],
+            "speed_ratio": 1.1483873408746836,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 1,
+            "contrasts_log": [
+              -0.5721982969592041
+            ],
+            "speed_ratio": 0.5642836113000845,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        },
+        "conditional_on_both_solved": false,
+        "note": "equal cells and paired seeds within each independent corpus"
+      },
+      "C_S/G4": {
+        "n": 2,
+        "contrasts_log": [
+          0.1622516250452133,
+          -0.15175990047557786
+        ],
+        "speed_ratio": 1.00525964591217,
+        "interval_95": [
+          0.1367362345588423,
+          7.39048401442259
+        ],
+        "sd_log": 0.22203967906648406,
+        "half_width_log": 1.9949473663928585,
+        "df": 1,
+        "corpus_scores_log": {
+          "BE1": 0.1622516250452133,
+          "PA1": -0.15175990047557786
+        },
+        "paired_searches": {
+          "BE1": 8,
+          "PA1": 8
+        },
+        "families": {
+          "BE": {
+            "n": 1,
+            "contrasts_log": [
+              0.1622516250452133
+            ],
+            "speed_ratio": 1.1761561544354007,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 1,
+            "contrasts_log": [
+              -0.15175990047557786
+            ],
+            "speed_ratio": 0.8591945481801797,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        },
+        "conditional_on_both_solved": false,
+        "note": "equal cells and paired seeds within each independent corpus"
+      },
+      "C_S/C_P": {
+        "n": 2,
+        "contrasts_log": [
+          -0.30147605213493045,
+          -0.1704693971048481
+        ],
+        "speed_ratio": 0.7898022157946682,
+        "interval_95": [
+          0.34360194957314594,
+          1.8154365563091075
+        ],
+        "sd_log": 0.09263569415233797,
+        "half_width_log": 0.8322986903068184,
+        "df": 1,
+        "corpus_scores_log": {
+          "BE1": -0.30147605213493045,
+          "PA1": -0.1704693971048481
+        },
+        "paired_searches": {
+          "BE1": 8,
+          "PA1": 8
+        },
+        "families": {
+          "BE": {
+            "n": 1,
+            "contrasts_log": [
+              -0.30147605213493045
+            ],
+            "speed_ratio": 0.739725540989969,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 1,
+            "contrasts_log": [
+              -0.1704693971048481
+            ],
+            "speed_ratio": 0.8432688957033412,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        },
+        "conditional_on_both_solved": false,
+        "note": "equal cells and paired seeds within each independent corpus"
+      },
+      "C_S/C_exact": {
+        "n": 2,
+        "contrasts_log": [
+          -0.11062779909348519,
+          -1.690230095661359
+        ],
+        "speed_ratio": 0.4063953001495321,
+        "interval_95": [
+          1.7809045807147228e-05,
+          9273.77815589347
+        ],
+        "sd_log": 1.1169474954809875,
+        "half_width_log": 10.03537509096157,
+        "df": 1,
+        "corpus_scores_log": {
+          "BE1": -0.11062779909348519,
+          "PA1": -1.690230095661359
+        },
+        "paired_searches": {
+          "BE1": 8,
+          "PA1": 8
+        },
+        "families": {
+          "BE": {
+            "n": 1,
+            "contrasts_log": [
+              -0.11062779909348519
+            ],
+            "speed_ratio": 0.8952719079398544,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 1,
+            "contrasts_log": [
+              -1.690230095661359
+            ],
+            "speed_ratio": 0.18447707173530992,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        },
+        "conditional_on_both_solved": false,
+        "note": "equal cells and paired seeds within each independent corpus"
+      },
+      "T_S/G4": {
+        "n": 2,
+        "contrasts_log": [
+          0.023892979112981827,
+          0.42043839648362624
+        ],
+        "speed_ratio": 1.2487782680460233,
+        "interval_95": [
+          0.10054720680103811,
+          15.509602030316419
+        ],
+        "sd_log": 0.28039995367123244,
+        "half_width_log": 2.519293630151626,
+        "df": 1,
+        "corpus_scores_log": {
+          "BE1": 0.023892979112981827,
+          "PA1": 0.42043839648362624
+        },
+        "paired_searches": {
+          "BE1": 8,
+          "PA1": 8
+        },
+        "families": {
+          "BE": {
+            "n": 1,
+            "contrasts_log": [
+              0.023892979112981827
+            ],
+            "speed_ratio": 1.024180703297867,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 1,
+            "contrasts_log": [
+              0.42043839648362624
+            ],
+            "speed_ratio": 1.5226289244882256,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        },
+        "conditional_on_both_solved": false,
+        "note": "equal cells and paired seeds within each independent corpus"
+      }
+    },
+    "both_solved": {
+      "C_S/T_S": {
+        "n": 2,
+        "contrasts_log": [
+          0.6141035967481452,
+          -0.27707701555182673
+        ],
+        "speed_ratio": 1.1835439567474615,
+        "interval_95": [
+          0.00411445717288688,
+          340.4522732145954
+        ],
+        "sd_log": 0.6301598542192897,
+        "half_width_log": 5.661761658396483,
+        "df": 1,
+        "corpus_scores_log": {
+          "BE1": 0.6141035967481452,
+          "PA1": -0.27707701555182673
+        },
+        "paired_searches": {
+          "BE1": 4,
+          "PA1": 2
+        },
+        "families": {
+          "BE": {
+            "n": 1,
+            "contrasts_log": [
+              0.6141035967481452
+            ],
+            "speed_ratio": 1.8479993042810812,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 1,
+            "contrasts_log": [
+              -0.27707701555182673
+            ],
+            "speed_ratio": 0.7579961173732014,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        },
+        "conditional_on_both_solved": true,
+        "note": "both-solved sensitivity conditions on success and may omit cells/corpora"
+      },
+      "C_S/G4": {
+        "n": 2,
+        "contrasts_log": [
+          0.2218202695516919,
+          0.13884357678906234
+        ],
+        "speed_ratio": 1.1976148132624145,
+        "interval_95": [
+          0.7069272626114549,
+          2.0288950742219223
+        ],
+        "sd_log": 0.058673382132888086,
+        "half_width_log": 0.527159423286318,
+        "df": 1,
+        "corpus_scores_log": {
+          "BE1": 0.2218202695516919,
+          "PA1": 0.13884357678906234
+        },
+        "paired_searches": {
+          "BE1": 4,
+          "PA1": 3
+        },
+        "families": {
+          "BE": {
+            "n": 1,
+            "contrasts_log": [
+              0.2218202695516919
+            ],
+            "speed_ratio": 1.248346991735909,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 1,
+            "contrasts_log": [
+              0.13884357678906234
+            ],
+            "speed_ratio": 1.148944364379895,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        },
+        "conditional_on_both_solved": true,
+        "note": "both-solved sensitivity conditions on success and may omit cells/corpora"
+      },
+      "C_S/C_P": {
+        "n": 2,
+        "contrasts_log": [
+          0.6414863019816895,
+          -0.325534434643588
+        ],
+        "speed_ratio": 1.1711380093735912,
+        "interval_95": [
+          0.0025146898624223996,
+          545.4208320060236
+        ],
+        "sd_log": 0.6837869204157442,
+        "half_width_log": 6.143581731843621,
+        "df": 1,
+        "corpus_scores_log": {
+          "BE1": 0.6414863019816895,
+          "PA1": -0.325534434643588
+        },
+        "paired_searches": {
+          "BE1": 4,
+          "PA1": 3
+        },
+        "families": {
+          "BE": {
+            "n": 1,
+            "contrasts_log": [
+              0.6414863019816895
+            ],
+            "speed_ratio": 1.8993017183841638,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 1,
+            "contrasts_log": [
+              -0.325534434643588
+            ],
+            "speed_ratio": 0.7221413131592382,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        },
+        "conditional_on_both_solved": true,
+        "note": "both-solved sensitivity conditions on success and may omit cells/corpora"
+      },
+      "C_S/C_exact": {
+        "n": 2,
+        "contrasts_log": [
+          -2.2093046465448936,
+          -0.4677635534932089
+        ],
+        "speed_ratio": 0.26222978961363186,
+        "interval_95": [
+          4.107389282301127e-06,
+          16741.647269012905
+        ],
+        "sd_log": 1.2314555166118784,
+        "half_width_log": 11.064188842388084,
+        "df": 1,
+        "corpus_scores_log": {
+          "BE1": -2.2093046465448936,
+          "PA1": -0.4677635534932089
+        },
+        "paired_searches": {
+          "BE1": 2,
+          "PA1": 4
+        },
+        "families": {
+          "BE": {
+            "n": 1,
+            "contrasts_log": [
+              -2.2093046465448936
+            ],
+            "speed_ratio": 0.10977695576766515,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 1,
+            "contrasts_log": [
+              -0.4677635534932089
+            ],
+            "speed_ratio": 0.6264016166229326,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        },
+        "conditional_on_both_solved": true,
+        "note": "both-solved sensitivity conditions on success and may omit cells/corpora"
+      },
+      "T_S/G4": {
+        "n": 2,
+        "contrasts_log": [
+          -0.16540014494291277,
+          0.8710053765110312
+        ],
+        "speed_ratio": 1.4230502280568738,
+        "interval_95": [
+          0.001966327367025977,
+          1029.8752819758556
+        ],
+        "sd_log": 0.7328493722792635,
+        "half_width_log": 6.584390372647852,
+        "df": 1,
+        "corpus_scores_log": {
+          "BE1": -0.16540014494291277,
+          "PA1": 0.8710053765110312
+        },
+        "paired_searches": {
+          "BE1": 3,
+          "PA1": 3
+        },
+        "families": {
+          "BE": {
+            "n": 1,
+            "contrasts_log": [
+              -0.16540014494291277
+            ],
+            "speed_ratio": 0.847554491581708,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 1,
+            "contrasts_log": [
+              0.8710053765110312
+            ],
+            "speed_ratio": 2.389311804357885,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        },
+        "conditional_on_both_solved": true,
+        "note": "both-solved sensitivity conditions on success and may omit cells/corpora"
+      }
+    }
+  },
+  "solves": {
+    "C_S": {
+      "n": 16,
+      "solved": 10,
+      "solve_rate": 0.625,
+      "geometric_cost": 323936.217654293,
+      "actual_evaluations": 5336064,
+      "worker_seconds": 271.00180495809764
+    },
+    "T_S": {
+      "n": 16,
+      "solved": 10,
+      "solve_rate": 0.625,
+      "geometric_cost": 260766.87574553554,
+      "actual_evaluations": 4590848,
+      "worker_seconds": 221.6578762541758
+    },
+    "C_P": {
+      "n": 16,
+      "solved": 12,
+      "solve_rate": 0.75,
+      "geometric_cost": 234611.396889598,
+      "actual_evaluations": 4478976,
+      "worker_seconds": 215.88885737513192
+    },
+    "C_exact": {
+      "n": 16,
+      "solved": 12,
+      "solve_rate": 0.75,
+      "geometric_cost": 120720.0576938326,
+      "actual_evaluations": 3349504,
+      "worker_seconds": 171.32380945584737
+    },
+    "G4": {
+      "n": 16,
+      "solved": 9,
+      "solve_rate": 0.5625,
+      "geometric_cost": 340057.32229710696,
+      "actual_evaluations": 5253632,
+      "worker_seconds": 222.61602341593243
+    }
+  },
+  "per_family": {
+    "BE": {
+      "C_S": {
+        "n": 8,
+        "solved": 6,
+        "solve_rate": 0.75,
+        "geometric_cost": 258350.35477318807,
+        "actual_evaluations": 2551040,
+        "worker_seconds": 133.87704783305526
+      },
+      "T_S": {
+        "n": 8,
+        "solved": 5,
+        "solve_rate": 0.625,
+        "geometric_cost": 323538.67917002557,
+        "actual_evaluations": 2482944,
+        "worker_seconds": 119.51598050107714
+      },
+      "C_P": {
+        "n": 8,
+        "solved": 6,
+        "solve_rate": 0.75,
+        "geometric_cost": 191108.35594954665,
+        "actual_evaluations": 2061568,
+        "worker_seconds": 105.43691420892719
+      },
+      "C_exact": {
+        "n": 8,
+        "solved": 4,
+        "solve_rate": 0.5,
+        "geometric_cost": 275056.25049542467,
+        "actual_evaluations": 2701312,
+        "worker_seconds": 144.15785724890884
+      },
+      "G4": {
+        "n": 8,
+        "solved": 4,
+        "solve_rate": 0.5,
+        "geometric_cost": 361352.9018022671,
+        "actual_evaluations": 2646528,
+        "worker_seconds": 116.99465254100505
+      }
+    },
+    "PA": {
+      "C_S": {
+        "n": 8,
+        "solved": 4,
+        "solve_rate": 0.5,
+        "geometric_cost": 406171.97216661123,
+        "actual_evaluations": 2785024,
+        "worker_seconds": 137.12475712504238
+      },
+      "T_S": {
+        "n": 8,
+        "solved": 5,
+        "solve_rate": 0.625,
+        "geometric_cost": 210173.83040731435,
+        "actual_evaluations": 2107904,
+        "worker_seconds": 102.14189575309865
+      },
+      "C_P": {
+        "n": 8,
+        "solved": 6,
+        "solve_rate": 0.75,
+        "geometric_cost": 288017.27311714145,
+        "actual_evaluations": 2417408,
+        "worker_seconds": 110.45194316620473
+      },
+      "C_exact": {
+        "n": 8,
+        "solved": 8,
+        "solve_rate": 1.0,
+        "geometric_cost": 52983.098196652994,
+        "actual_evaluations": 648192,
+        "worker_seconds": 27.165952206938528
+      },
+      "G4": {
+        "n": 8,
+        "solved": 5,
+        "solve_rate": 0.625,
+        "geometric_cost": 320016.7533486601,
+        "actual_evaluations": 2607104,
+        "worker_seconds": 105.62137087492738
+      }
+    }
+  },
+  "almost_all_primary_capped": false,
+  "cap_caution": "near-universal caps make penalized equality uninformative about relative search behaviour",
+  "corpus_diagnostics": {
+    "BE1": {
+      "S": {
+        "BE:F>S?F:M+m": {
+          "attempts": 4,
+          "contributing_sources": 3,
+          "effective_sources": 3,
+          "archive_rows": 72,
+          "distinct_tapes": 67,
+          "duplicate_rate": 0.06944444444444442,
+          "later_solved_share": 0.0,
+          "training_perfect_share": 0.0,
+          "mean_d1331_accuracy": 0.7010601886634945
+        },
+        "BE:F>m?S:F+M": {
+          "attempts": 4,
+          "contributing_sources": 4,
+          "effective_sources": 4,
+          "archive_rows": 80,
+          "distinct_tapes": 77,
+          "duplicate_rate": 0.03749999999999998,
+          "later_solved_share": 0.1,
+          "training_perfect_share": 0.0,
+          "mean_d1331_accuracy": 0.6734691960931631
+        },
+        "BE:S>F?M:F+m": {
+          "attempts": 4,
+          "contributing_sources": 4,
+          "effective_sources": 4,
+          "archive_rows": 88,
+          "distinct_tapes": 86,
+          "duplicate_rate": 0.022727272727272707,
+          "later_solved_share": 0.18181818181818182,
+          "training_perfect_share": 0.0,
+          "mean_d1331_accuracy": 0.6675005122600915
+        },
+        "BE:S>F?m:M+S": {
+          "attempts": 4,
+          "contributing_sources": 4,
+          "effective_sources": 4,
+          "archive_rows": 96,
+          "distinct_tapes": 90,
+          "duplicate_rate": 0.0625,
+          "later_solved_share": 0.0,
+          "training_perfect_share": 0.0,
+          "mean_d1331_accuracy": 0.626620022539444
+        }
+      },
+      "P": {
+        "BE:F>S?F:M+m": {
+          "attempts": 4,
+          "contributing_sources": 3,
+          "effective_sources": 3,
+          "archive_rows": 72,
+          "distinct_tapes": 72,
+          "duplicate_rate": 0.0,
+          "later_solved_share": 0.0,
+          "training_perfect_share": 0.0,
+          "mean_d1331_accuracy": 0.5036000500876534
+        },
+        "BE:F>m?S:F+M": {
+          "attempts": 4,
+          "contributing_sources": 4,
+          "effective_sources": 4,
+          "archive_rows": 80,
+          "distinct_tapes": 79,
+          "duplicate_rate": 0.012499999999999956,
+          "later_solved_share": 0.1,
+          "training_perfect_share": 0.0,
+          "mean_d1331_accuracy": 0.48267280240420735
+        },
+        "BE:S>F?M:F+m": {
+          "attempts": 4,
+          "contributing_sources": 4,
+          "effective_sources": 4,
+          "archive_rows": 88,
+          "distinct_tapes": 87,
+          "duplicate_rate": 0.011363636363636354,
+          "later_solved_share": 0.18181818181818182,
+          "training_perfect_share": 0.0,
+          "mean_d1331_accuracy": 0.49200874257222876
+        },
+        "BE:S>F?m:M+S": {
+          "attempts": 4,
+          "contributing_sources": 4,
+          "effective_sources": 4,
+          "archive_rows": 96,
+          "distinct_tapes": 96,
+          "duplicate_rate": 0.0,
+          "later_solved_share": 0.0,
+          "training_perfect_share": 0.0,
+          "mean_d1331_accuracy": 0.40781523916854495
+        }
+      }
+    },
+    "PA1": {
+      "S": {
+        "PA:(F>S?F:m)+M": {
+          "attempts": 4,
+          "contributing_sources": 4,
+          "effective_sources": 4,
+          "archive_rows": 96,
+          "distinct_tapes": 92,
+          "duplicate_rate": 0.04166666666666663,
+          "later_solved_share": 0.0,
+          "training_perfect_share": 0.0,
+          "mean_d1331_accuracy": 0.7363432882544453
+        },
+        "PA:(F>S?m:M)+F": {
+          "attempts": 4,
+          "contributing_sources": 4,
+          "effective_sources": 4,
+          "archive_rows": 88,
+          "distinct_tapes": 86,
+          "duplicate_rate": 0.022727272727272707,
+          "later_solved_share": 0.18181818181818182,
+          "training_perfect_share": 0.0,
+          "mean_d1331_accuracy": 0.6292005327504951
+        },
+        "PA:(M>F?m:S)+S": {
+          "attempts": 4,
+          "contributing_sources": 4,
+          "effective_sources": 4,
+          "archive_rows": 96,
+          "distinct_tapes": 90,
+          "duplicate_rate": 0.0625,
+          "later_solved_share": 0.0,
+          "training_perfect_share": 0.0,
+          "mean_d1331_accuracy": 0.6268391560230403
+        },
+        "PA:(S>F?M:m)+m": {
+          "attempts": 4,
+          "contributing_sources": 4,
+          "effective_sources": 4,
+          "archive_rows": 88,
+          "distinct_tapes": 85,
+          "duplicate_rate": 0.03409090909090906,
+          "later_solved_share": 0.18181818181818182,
+          "training_perfect_share": 0.0,
+          "mean_d1331_accuracy": 0.5968086196298067
+        }
+      },
+      "P": {
+        "PA:(F>S?F:m)+M": {
+          "attempts": 4,
+          "contributing_sources": 4,
+          "effective_sources": 4,
+          "archive_rows": 96,
+          "distinct_tapes": 96,
+          "duplicate_rate": 0.0,
+          "later_solved_share": 0.0,
+          "training_perfect_share": 0.0,
+          "mean_d1331_accuracy": 0.6083849862258953
+        },
+        "PA:(F>S?m:M)+F": {
+          "attempts": 4,
+          "contributing_sources": 4,
+          "effective_sources": 4,
+          "archive_rows": 88,
+          "distinct_tapes": 87,
+          "duplicate_rate": 0.011363636363636354,
+          "later_solved_share": 0.18181818181818182,
+          "training_perfect_share": 0.0,
+          "mean_d1331_accuracy": 0.4555358240557339
+        },
+        "PA:(M>F?m:S)+S": {
+          "attempts": 4,
+          "contributing_sources": 4,
+          "effective_sources": 4,
+          "archive_rows": 96,
+          "distinct_tapes": 96,
+          "duplicate_rate": 0.0,
+          "later_solved_share": 0.0,
+          "training_perfect_share": 0.0,
+          "mean_d1331_accuracy": 0.46638648885549716
+        },
+        "PA:(S>F?M:m)+m": {
+          "attempts": 4,
+          "contributing_sources": 4,
+          "effective_sources": 4,
+          "archive_rows": 88,
+          "distinct_tapes": 86,
+          "duplicate_rate": 0.022727272727272707,
+          "later_solved_share": 0.18181818181818182,
+          "training_perfect_share": 0.0,
+          "mean_d1331_accuracy": 0.4164503790724678
+        }
+      }
+    }
+  },
+  "throughput": {
+    "collection:G4": {
+      "n": 32,
+      "solved": 5,
+      "mean_worker_seconds": 2.0394201430972316,
+      "unsolved_mean_worker_seconds": 2.1914895693340375
+    },
+    "training:C_S": {
+      "n": 16,
+      "solved": 10,
+      "mean_worker_seconds": 16.937612809881102,
+      "unsolved_mean_worker_seconds": 26.92938202084042
+    },
+    "training:T_S": {
+      "n": 16,
+      "solved": 10,
+      "mean_worker_seconds": 13.853617265885987,
+      "unsolved_mean_worker_seconds": 26.075904639204964
+    },
+    "training:C_P": {
+      "n": 16,
+      "solved": 12,
+      "mean_worker_seconds": 13.493053585945745,
+      "unsolved_mean_worker_seconds": 25.769008916511666
+    },
+    "training:C_exact": {
+      "n": 16,
+      "solved": 12,
+      "mean_worker_seconds": 10.70773809099046,
+      "unsolved_mean_worker_seconds": 28.906189572735457
+    },
+    "training:G4": {
+      "n": 16,
+      "solved": 9,
+      "mean_worker_seconds": 13.913501463495777,
+      "unsolved_mean_worker_seconds": 22.773090434260666
+    }
+  },
+  "projection": {
+    "full_collection_seconds": 566.4545999988914,
+    "full_scoring_seconds": 7913.324306689203,
+    "full_fit_seconds": 5.173143663443625,
+    "reporting_and_startup_reserve_seconds": 120,
+    "full_total_seconds": 8604.952050351538,
+    "full_total_minutes": 143.41586750585896,
+    "all_partial_capped_total_minutes": 209.43153574370237,
+    "exceeds_210_minute_gate": false,
+    "extra_independent_corpus_seconds": 530.3095031469711,
+    "effective_workers": {
+      "collection": 7.3734637393205125,
+      "training": 8.916512585455836
+    },
+    "archive_verification_included": true,
+    "serialization_included": true,
+    "note": "small-smoke mean projection; capped scenario is sensitivity, not a measured efficacy result"
+  },
+  "sizing": {
+    "total_corpora_for_halfwidth_log_1_20": 48,
+    "extra_balanced_corpora": 46,
+    "extra_queue_minutes": 406.5706190793445,
+    "observed_effect_targets": {
+      "C_S/T_S": {
+        "exclude_no_gain": {
+          "total_corpora": 36,
+          "extra_balanced_corpora": 34,
+          "extra_queue_minutes": 300.5087184499503
+        },
+        "exclude_worthwhile_margin": {
+          "total_corpora": 12,
+          "extra_balanced_corpora": 10,
+          "extra_queue_minutes": 88.38491719116185
+        }
+      },
+      "C_S/G4": {
+        "exclude_no_gain": {
+          "total_corpora": 272,
+          "extra_balanced_corpora": 270,
+          "extra_queue_minutes": 2386.39276416137
+        }
+      }
+    },
+    "note": "conditional on observed SD; new independent corpora, not additional scoring seeds"
+  }
+}

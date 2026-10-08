@@ -1,0 +1,105 @@
+{
+  "task": "2026-10-08-1831",
+  "arguments": {
+    "workers": 10,
+    "deadline_seconds": 900,
+    "smoke": true
+  },
+  "smoke_only": true,
+  "git_commit": "0a8ade76fdb632017eaf7ee0625864107fdd65d0",
+  "method": {
+    "bank_sha256": "df3476d0823cff5eaed57fccf19f01e6a2699442be3139b5f05cb56e5f7aa15d",
+    "split_hash": "b0cc4ae02bba8323416c34d525bf42c9aadd9b02c28de976b0a7d4d0c27b4dd8",
+    "inputs_hash": "04f205f26ccfb0a9a87e2f986265d5a5a95fa7097c87ed38c35416e83f2b8f67",
+    "code_hashes": {
+      "partial_program_run.py": "5be73d50a03a427a34084d242068698e90dd7845f95539b5bf280581d8d8d636",
+      "partial_program_collect.py": "759d89c4dde7faa2a4ef90a15bf3bae25924431cffd43e1066cb42bfcec5b535",
+      "partial_program_report.py": "feacbfc9b7755244a0d194c17e7cc66b2bd4fa9e3432f0f183208b8b2faabb94",
+      "composition_search.py": "3c472141a0db4e450361eb1bf80651ad3b28e2822cf52848a292df779bff6b04",
+      "solver_corpus_fit.py": "792708b138a2ce5a3bced50bbb22c3d89ff43ab4f578055e146ba99ba9f3f1ff",
+      "comparison_gate_bank.py": "f0715724dbef12e61b995922eaffb5379c99cde0301fd202e8cde138756384fe",
+      "composition_run.py": "e7ef63e8ee879a4ceaa73525c37664188db34fc673bbde7458ca3fa57f392544",
+      "four_reducer_maps.py": "4aa8d42651fa1ea5172e6fcf882a2015e2350022158b1be60ff2f892806f7455",
+      "map_learning.py": "930ac384f99ca3b8903f0f12b3e37720c070f42dd291a5a8725526b89c682e0a",
+      "then_addition_run.py": "d0c99f6a5edddaae57a3fb14ccd8068c57a8bb6b7763c626ec6e010c5de1e0a1",
+      "assembly_bank.py": "ceb0e2cb81f08beaf3507ea66bdf3030588d84c945771da873508251ef4c27d8",
+      "four_reducer_bank.py": "3eb825896a2ae14c9eafae5518586c53b9b869f78103489cc87d5dd691cfe0dc",
+      "_folding_rust._folding_rust": "2c853fa09e6b8fef3f1781b0f329222b383b71eb0f4391dcb81716fb1dd82f5f",
+      "folding_evolution.chem_tape.evolve": "86df8478595eba73a130140e6de87fb0672b55826e136c775f59dbaf0e609840",
+      "folding_evolution.chem_tape.executor": "7b193e76c1f669c064ab3e041f18d35a24703e32de8dc7ce152ca543b8e77c63",
+      "folding_evolution.chem_tape.alphabet": "d33501479cacdd4ac51acfcc91f22e6a0e863b4e1809e4ddd528076f46cc1ccd"
+    },
+    "g4_hash": "8a7b3091f411e659f553981b8680dc5db4bd5f3f34b6eca9c8ab3ee3e728dc10",
+    "exact_source": {
+      "commit": "5dd86bd2926522958b4ae5a8b013abe124d26cd0",
+      "sha256": {
+        "config.json": "c8c9ee2d5bff13a5ec3809c40d09a1440f761ef525a1dea4d487e318d8b9bb82",
+        "corpora.json": "96458a79535337f8a6549b378a3eaa8cb65e86e7e8e02df51a1b735675ae633e",
+        "freeze.json": "5c0924f7e3ce4ed273251a39bbe91c590e849375dbbe66abd22e0edf0e89715d",
+        "schedule.json": "2e28da3bf43e883fc5ed26b85e83e55f2eb1cb5623cf27a4fb4a60c29a8ca47d",
+        "search.jsonl": "95a1bf0782cf8e5e2f1f754ced4f82a831c4acb2b5aea5077da20fc415294995"
+      },
+      "source": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-08/2026-10-08-1246-comparison-gate-training"
+    },
+    "alphabet": "v2_rmin_first",
+    "cap": 524288,
+    "collection_cap": 65536,
+    "population": 256,
+    "tape_length": 32,
+    "training_cases": 64,
+    "crossover": 0.7,
+    "mutation": 0.03,
+    "elite": 2,
+    "checkpoints": [
+      64,
+      128,
+      256
+    ],
+    "samples_per_checkpoint_kind": 8,
+    "replacement": true,
+    "terminal_parents": "508 lexicase slots from copied selection state, same evaluated population",
+    "archive_seed_rule": "default_rng([source_seed,1831])",
+    "weighting": "equal archive rows within source; equal contributing sources within cell; cell total1600",
+    "alpha": 50,
+    "minimum_count": 250,
+    "allele_range": 24000,
+    "T_multiplier_bounds": [
+      0.0625,
+      16
+    ],
+    "arms": [
+      "C_S",
+      "T_S",
+      "C_P",
+      "C_exact",
+      "G4"
+    ],
+    "K_scored": false,
+    "source_empty_cell": "error; no replacement",
+    "endpoint": "exp(mean_corpus(mean_cell_seed(log(cost_T_S)-log(cost_C_S))))",
+    "interval": "95% t across independent corpora, equal BE/PA weight",
+    "unsolved_primary": "2*cap",
+    "worthwhile_margin": 1.2,
+    "decision_precedence": [
+      "UB_C/T<1.20: bounded gain",
+      "LB_C/T>1 and LB_C/G4>1: useful",
+      "LB_C/T>1: relative advantage, absolute usefulness unresolved",
+      "otherwise unresolved"
+    ],
+    "prefix": "fixed BE_i/PA_i blocks; >=6 complete pairs; errors ineligible",
+    "scope": "training reuse, development bank, fitting procedure; no isolated order or transfer"
+  },
+  "method_hash": "c24257db19447d2fe4a029e185dcdd8c5d1dc5d9c17f5956433bcb739b819239",
+  "seed_base": 202710081831,
+  "seed_rule": "base+phase*1000000+(family==PA)*100000+corpus*2000+cell*200+index",
+  "nc": 1,
+  "collect_n": 4,
+  "fresh_n": 2,
+  "workers": 10,
+  "pair_order": [
+    [
+      "BE1",
+      "PA1"
+    ]
+  ]
+}

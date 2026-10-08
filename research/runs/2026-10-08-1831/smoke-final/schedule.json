@@ -1,0 +1,898 @@
+[
+  {
+    "phase": "collection",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>S?F:M+m",
+    "arm": "G4",
+    "seed": 202710081831
+  },
+  {
+    "phase": "collection",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>S?F:M+m",
+    "arm": "G4",
+    "seed": 202710081832
+  },
+  {
+    "phase": "collection",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>S?F:M+m",
+    "arm": "G4",
+    "seed": 202710081833
+  },
+  {
+    "phase": "collection",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>S?F:M+m",
+    "arm": "G4",
+    "seed": 202710081834
+  },
+  {
+    "phase": "collection",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>m?S:F+M",
+    "arm": "G4",
+    "seed": 202710082031
+  },
+  {
+    "phase": "collection",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>m?S:F+M",
+    "arm": "G4",
+    "seed": 202710082032
+  },
+  {
+    "phase": "collection",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>m?S:F+M",
+    "arm": "G4",
+    "seed": 202710082033
+  },
+  {
+    "phase": "collection",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>m?S:F+M",
+    "arm": "G4",
+    "seed": 202710082034
+  },
+  {
+    "phase": "collection",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?M:F+m",
+    "arm": "G4",
+    "seed": 202710082231
+  },
+  {
+    "phase": "collection",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?M:F+m",
+    "arm": "G4",
+    "seed": 202710082232
+  },
+  {
+    "phase": "collection",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?M:F+m",
+    "arm": "G4",
+    "seed": 202710082233
+  },
+  {
+    "phase": "collection",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?M:F+m",
+    "arm": "G4",
+    "seed": 202710082234
+  },
+  {
+    "phase": "collection",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?m:M+S",
+    "arm": "G4",
+    "seed": 202710082431
+  },
+  {
+    "phase": "collection",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?m:M+S",
+    "arm": "G4",
+    "seed": 202710082432
+  },
+  {
+    "phase": "collection",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?m:M+S",
+    "arm": "G4",
+    "seed": 202710082433
+  },
+  {
+    "phase": "collection",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?m:M+S",
+    "arm": "G4",
+    "seed": 202710082434
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>S?F:M+m",
+    "arm": "C_S",
+    "seed": 202711081831
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>S?F:M+m",
+    "arm": "T_S",
+    "seed": 202711081831
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>S?F:M+m",
+    "arm": "C_P",
+    "seed": 202711081831
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>S?F:M+m",
+    "arm": "C_exact",
+    "seed": 202711081831
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>S?F:M+m",
+    "arm": "G4",
+    "seed": 202711081831
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>S?F:M+m",
+    "arm": "C_S",
+    "seed": 202711081832
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>S?F:M+m",
+    "arm": "T_S",
+    "seed": 202711081832
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>S?F:M+m",
+    "arm": "C_P",
+    "seed": 202711081832
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>S?F:M+m",
+    "arm": "C_exact",
+    "seed": 202711081832
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>S?F:M+m",
+    "arm": "G4",
+    "seed": 202711081832
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>m?S:F+M",
+    "arm": "C_S",
+    "seed": 202711082031
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>m?S:F+M",
+    "arm": "T_S",
+    "seed": 202711082031
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>m?S:F+M",
+    "arm": "C_P",
+    "seed": 202711082031
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>m?S:F+M",
+    "arm": "C_exact",
+    "seed": 202711082031
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>m?S:F+M",
+    "arm": "G4",
+    "seed": 202711082031
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>m?S:F+M",
+    "arm": "C_S",
+    "seed": 202711082032
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>m?S:F+M",
+    "arm": "T_S",
+    "seed": 202711082032
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>m?S:F+M",
+    "arm": "C_P",
+    "seed": 202711082032
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>m?S:F+M",
+    "arm": "C_exact",
+    "seed": 202711082032
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:F>m?S:F+M",
+    "arm": "G4",
+    "seed": 202711082032
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?M:F+m",
+    "arm": "C_S",
+    "seed": 202711082231
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?M:F+m",
+    "arm": "T_S",
+    "seed": 202711082231
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?M:F+m",
+    "arm": "C_P",
+    "seed": 202711082231
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?M:F+m",
+    "arm": "C_exact",
+    "seed": 202711082231
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?M:F+m",
+    "arm": "G4",
+    "seed": 202711082231
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?M:F+m",
+    "arm": "C_S",
+    "seed": 202711082232
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?M:F+m",
+    "arm": "T_S",
+    "seed": 202711082232
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?M:F+m",
+    "arm": "C_P",
+    "seed": 202711082232
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?M:F+m",
+    "arm": "C_exact",
+    "seed": 202711082232
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?M:F+m",
+    "arm": "G4",
+    "seed": 202711082232
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?m:M+S",
+    "arm": "C_S",
+    "seed": 202711082431
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?m:M+S",
+    "arm": "T_S",
+    "seed": 202711082431
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?m:M+S",
+    "arm": "C_P",
+    "seed": 202711082431
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?m:M+S",
+    "arm": "C_exact",
+    "seed": 202711082431
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?m:M+S",
+    "arm": "G4",
+    "seed": 202711082431
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?m:M+S",
+    "arm": "C_S",
+    "seed": 202711082432
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?m:M+S",
+    "arm": "T_S",
+    "seed": 202711082432
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?m:M+S",
+    "arm": "C_P",
+    "seed": 202711082432
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?m:M+S",
+    "arm": "C_exact",
+    "seed": 202711082432
+  },
+  {
+    "phase": "training",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "BE:S>F?m:M+S",
+    "arm": "G4",
+    "seed": 202711082432
+  },
+  {
+    "phase": "collection",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?F:m)+M",
+    "arm": "G4",
+    "seed": 202710181831
+  },
+  {
+    "phase": "collection",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?F:m)+M",
+    "arm": "G4",
+    "seed": 202710181832
+  },
+  {
+    "phase": "collection",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?F:m)+M",
+    "arm": "G4",
+    "seed": 202710181833
+  },
+  {
+    "phase": "collection",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?F:m)+M",
+    "arm": "G4",
+    "seed": 202710181834
+  },
+  {
+    "phase": "collection",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?m:M)+F",
+    "arm": "G4",
+    "seed": 202710182031
+  },
+  {
+    "phase": "collection",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?m:M)+F",
+    "arm": "G4",
+    "seed": 202710182032
+  },
+  {
+    "phase": "collection",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?m:M)+F",
+    "arm": "G4",
+    "seed": 202710182033
+  },
+  {
+    "phase": "collection",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?m:M)+F",
+    "arm": "G4",
+    "seed": 202710182034
+  },
+  {
+    "phase": "collection",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(M>F?m:S)+S",
+    "arm": "G4",
+    "seed": 202710182231
+  },
+  {
+    "phase": "collection",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(M>F?m:S)+S",
+    "arm": "G4",
+    "seed": 202710182232
+  },
+  {
+    "phase": "collection",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(M>F?m:S)+S",
+    "arm": "G4",
+    "seed": 202710182233
+  },
+  {
+    "phase": "collection",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(M>F?m:S)+S",
+    "arm": "G4",
+    "seed": 202710182234
+  },
+  {
+    "phase": "collection",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(S>F?M:m)+m",
+    "arm": "G4",
+    "seed": 202710182431
+  },
+  {
+    "phase": "collection",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(S>F?M:m)+m",
+    "arm": "G4",
+    "seed": 202710182432
+  },
+  {
+    "phase": "collection",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(S>F?M:m)+m",
+    "arm": "G4",
+    "seed": 202710182433
+  },
+  {
+    "phase": "collection",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(S>F?M:m)+m",
+    "arm": "G4",
+    "seed": 202710182434
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?F:m)+M",
+    "arm": "C_S",
+    "seed": 202711181831
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?F:m)+M",
+    "arm": "T_S",
+    "seed": 202711181831
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?F:m)+M",
+    "arm": "C_P",
+    "seed": 202711181831
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?F:m)+M",
+    "arm": "C_exact",
+    "seed": 202711181831
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?F:m)+M",
+    "arm": "G4",
+    "seed": 202711181831
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?F:m)+M",
+    "arm": "C_S",
+    "seed": 202711181832
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?F:m)+M",
+    "arm": "T_S",
+    "seed": 202711181832
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?F:m)+M",
+    "arm": "C_P",
+    "seed": 202711181832
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?F:m)+M",
+    "arm": "C_exact",
+    "seed": 202711181832
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?F:m)+M",
+    "arm": "G4",
+    "seed": 202711181832
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?m:M)+F",
+    "arm": "C_S",
+    "seed": 202711182031
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?m:M)+F",
+    "arm": "T_S",
+    "seed": 202711182031
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?m:M)+F",
+    "arm": "C_P",
+    "seed": 202711182031
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?m:M)+F",
+    "arm": "C_exact",
+    "seed": 202711182031
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?m:M)+F",
+    "arm": "G4",
+    "seed": 202711182031
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?m:M)+F",
+    "arm": "C_S",
+    "seed": 202711182032
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?m:M)+F",
+    "arm": "T_S",
+    "seed": 202711182032
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?m:M)+F",
+    "arm": "C_P",
+    "seed": 202711182032
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?m:M)+F",
+    "arm": "C_exact",
+    "seed": 202711182032
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(F>S?m:M)+F",
+    "arm": "G4",
+    "seed": 202711182032
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(M>F?m:S)+S",
+    "arm": "C_S",
+    "seed": 202711182231
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(M>F?m:S)+S",
+    "arm": "T_S",
+    "seed": 202711182231
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(M>F?m:S)+S",
+    "arm": "C_P",
+    "seed": 202711182231
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(M>F?m:S)+S",
+    "arm": "C_exact",
+    "seed": 202711182231
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(M>F?m:S)+S",
+    "arm": "G4",
+    "seed": 202711182231
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(M>F?m:S)+S",
+    "arm": "C_S",
+    "seed": 202711182232
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(M>F?m:S)+S",
+    "arm": "T_S",
+    "seed": 202711182232
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(M>F?m:S)+S",
+    "arm": "C_P",
+    "seed": 202711182232
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(M>F?m:S)+S",
+    "arm": "C_exact",
+    "seed": 202711182232
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(M>F?m:S)+S",
+    "arm": "G4",
+    "seed": 202711182232
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(S>F?M:m)+m",
+    "arm": "C_S",
+    "seed": 202711182431
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(S>F?M:m)+m",
+    "arm": "T_S",
+    "seed": 202711182431
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(S>F?M:m)+m",
+    "arm": "C_P",
+    "seed": 202711182431
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(S>F?M:m)+m",
+    "arm": "C_exact",
+    "seed": 202711182431
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(S>F?M:m)+m",
+    "arm": "G4",
+    "seed": 202711182431
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(S>F?M:m)+m",
+    "arm": "C_S",
+    "seed": 202711182432
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(S>F?M:m)+m",
+    "arm": "T_S",
+    "seed": 202711182432
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(S>F?M:m)+m",
+    "arm": "C_P",
+    "seed": 202711182432
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(S>F?M:m)+m",
+    "arm": "C_exact",
+    "seed": 202711182432
+  },
+  {
+    "phase": "training",
+    "family": "PA",
+    "corpus": "PA1",
+    "cell": "PA:(S>F?M:m)+m",
+    "arm": "G4",
+    "seed": 202711182432
+  }
+]

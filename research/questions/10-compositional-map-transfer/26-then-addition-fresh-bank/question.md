@@ -10,8 +10,9 @@ selected then-addition bank (16 cells, gates F>m and M>F only), the 32 frozen co
 tables gave C/T 2.12× [1.86, 2.41] over 16 corpora (16/16 corpora, 14/16 cells individually
 resolved; 1.96× with unsolved at 1 × cap, 1.74× on pairs both arms solved). That is a resolved
 shrinkage from the same corpora's own-family training gain, 0.68× [0.57, 0.81]; on v1's
-within-shape holdouts (development bank, row D) C/T was 2.60× [2.31, 2.92]. BE-fitted tables
-transferred better than PA-fitted ones, 1.38× [1.13, 1.68] (secondary).** Both fits beat G4
+within-shape holdouts (development bank, row D) C/T was 2.60× [2.31, 2.92]. The C-over-T
+advantage was larger for BE-fitted corpora than for PA-fitted ones, by 1.38× [1.13, 1.68]
+(a ratio of C/T ratios, not a direct C_BE-versus-C_PA speed comparison; secondary).** Both fits beat G4
 descriptively (C 3.9×, T 1.8×, unpaired). The bank, opened to answer critique 1534's blocking
 note, has the same 13-token inventory as v1 (five INPUTs, five reducers, GT, ADD, IF_GT): 240
 programs, 86 distinct non-constant behaviours, 37 survive v1's ≤9-token alias screen, 16 agree
