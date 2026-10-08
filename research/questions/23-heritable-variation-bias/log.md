@@ -261,3 +261,14 @@ procedure would not change a decision; a redesign (lower σ, different exposure 
 rule) has no measured selectable signal to justify a slot ahead of root 10's reserve plan. The
 decision goes to the strategist (`next: strategy`), as the strategy and plan require for every
 outcome ([decision 1046](../../runs/2026-10-08-1046/decision.md)).
+
+## 2026-10-08 — wording correction (steward, run 1246 digest check)
+
+Correction to the 1046 entry above, from the [1246 critique's digest check](../../runs/2026-10-08-1246/critique.md)
+(notes 7–9); the numbers are unchanged. "Inherited vectors no better than uniform" (heading and
+decision) is stronger than the evidence: on max U/I 0.73 [0.50, 1.06] excludes the registered
+1.5× gain and any gain above 1.06×, but permits a small benefit; on sum inherited is resolved
+worse. Read it as "no useful gain established (useful = the registered 1.5× threshold)".
+"Max5 is tied (1.00)" means the observed capped geometric costs were nearly equal (148,914 vs
+148,634, uniform solving 8/16); equality is not established. Linkage on sum (B/I 1.00 [0.69,
+1.41]) is unresolved, not absent. question.md and the digest now use this wording.

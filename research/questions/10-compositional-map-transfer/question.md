@@ -1,7 +1,7 @@
 ---
 status: open
 tags: [map-bias, evolve-the-bias, task-family, compositional-transfer, decoder, fresh-start]
-budget: {experiments: 15, used: 0}
+budget: {experiments: 16, used: 0}
 ---
 # Can an adapted decoder help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 
@@ -37,8 +37,11 @@ solvers found under the fitted decoder adds further search speed. On the trainin
 step also raised the fitted context's advantage over a token-only fit to the same corpora
 (I 1.17× [1.09, 1.25], mostly BE; the token-only fit improved 1.20× too); on the withheld cells
 that interaction is unresolved (1.09× [0.98, 1.20]) (22). The selection-based learners tried so
-far did not reach it**
-(15 of 15 slots used; strategy 2129 raised the budget from 14 to 15, for 22; strategy 1924 raised the budget from 13 to 14; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
+far did not reach it. On a new comparison-gated bank (13-token compositions, 4 training and 4
+protected holdouts per family), the same one-shot fit replicated on training cells with a larger
+effect: C/T 3.11× [2.78, 3.48] over 16 fresh corpora, 16/16 corpora favouring C (24); its
+eight frozen holdouts are unsearched (25)**
+(16 of 16 slots used; strategy 1246 raised the budget from 15 to 16, for 24; strategy 2129 raised the budget from 14 to 15, for 22; strategy 1924 raised the budget from 13 to 14; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
 2331 to 10, strategy 0803 to 12, strategy 1137 to 13; sub-questions [18](18-compact-context-learning/question.md)
 and [19](19-selection-calibrated-continuation/question.md) closed;
 [20](20-solver-corpus-context/question.md) closed after run 1707,
@@ -254,6 +257,12 @@ content are not separated; one step only).
 slot, run 2026-10-07-2156: on training cells feedback raised the fitted context's advantage over
 the token-only fit, I 1.17× [1.09, 1.25], carried by BE (PA 1.02× [0.95, 1.09]); the token-only
 fit also improved 1.20×; on the withheld cells I 1.09× [0.98, 1.20], unresolved).
+[24-comparison-gate-bank](24-comparison-gate-bank/question.md) (closed, 1 of 1 slot, run
+2026-10-08-1246: comparison-gated BE/PA bank, 37/56 behaviours retained, frozen 4 + 4 split per
+family; on the training cells C/T 3.11× [2.78, 3.48], 16 corpora, collection yield 58.9%; both
+fits beat G4 descriptively, C 5.8×, T 1.9×; training cells only, emitted frequencies uncontrolled).
+[25-comparison-gate-transfer](25-comparison-gate-transfer/question.md) (open, 1 slot, unfunded at
+root level: the frozen 1246 tables on the eight protected holdouts).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
@@ -268,6 +277,7 @@ Related: [core question](../../../README.md#core-question),
 [run 1707 decision](../../runs/2026-10-07-1707/decision.md),
 [run 1924 decision](../../runs/2026-10-07-1924/decision.md),
 [run 2156 decision](../../runs/2026-10-07-2156/decision.md),
+[run 1246 decision](../../runs/2026-10-08-1246/decision.md),
 [digest](../../digest.md), [chem-tape findings](../../../docs/chem-tape/findings.md).
 
 Review after the feasibility experiment and after the four allocated experiments. A

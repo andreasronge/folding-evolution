@@ -12,8 +12,9 @@ and scored on 16 fresh seeds per training target. Uniform ÷ inherited cost: sum
 [0.21, 0.53] (inherited resolved worse than uniform), max 0.73 [0.50, 1.06] (a gain above
 1.06× excluded). Bounded in both families. The hand scaffold is 11.9× [7.0, 20.4] (sum) and
 5.75× [3.66, 8.95] (max) cheaper than inherited. Persistent ancestry beat shuffled ancestry on
-max (broken ÷ inherited 1.58 [1.04, 2.36]) but not on sum (1.00 [0.69, 1.41]); where it
-mattered it made vectors less costly, not better than uniform. Scope: one modifier law,
+max (broken ÷ inherited 1.58 [1.04, 2.36], resolved); on sum the linkage effect is
+unresolved (1.00 [0.69, 1.41], appreciable effects either way not excluded). On max it made
+vectors less costly than shuffled ancestry without establishing a gain over uniform. Scope: one modifier law,
 σ = 0.03, this exposure schedule, development bank `tag-threshold-v1`, training targets only,
 fixed token meanings. It bounds this procedure, not self-adaptation. Post hoc (log only):
 final vectors concentrate on run-specific tokens; acquisition and frozen solves correlate
@@ -72,7 +73,7 @@ stopped on a build defect, so it went to strategy with a recommended recovery ru
 completed it (2 of 2 used) and the question was parked; see the explanations' status below.
 
 Status of the explanations after 1046 (this procedure only): A not supported (Acquired
-excluded in both families); C not supported (no gain over uniform); B fits sum, while on max
+excluded in both families); C not supported (no gain over uniform established; above 1.06× excluded on max); B fits sum, while on max
 linkage had a resolved but not useful effect; D not separable (resident benefit not
 measured); E open as a redesign hypothesis, unmeasured.
 

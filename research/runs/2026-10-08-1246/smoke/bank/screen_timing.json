@@ -1,0 +1,79 @@
+{
+  "canonical_seconds": 2.2835925420513377,
+  "counts": [
+    {
+      "depth": 1,
+      "states": 8,
+      "output_only": false,
+      "distinct_outputs": 4,
+      "seconds": 0.03152066608890891,
+      "peak_rss_mb": 178.65625
+    },
+    {
+      "depth": 2,
+      "states": 59,
+      "output_only": false,
+      "distinct_outputs": 9,
+      "seconds": 0.03214395802933723,
+      "peak_rss_mb": 178.65625
+    },
+    {
+      "depth": 3,
+      "states": 460,
+      "output_only": false,
+      "distinct_outputs": 18,
+      "seconds": 0.03341950010508299,
+      "peak_rss_mb": 178.65625
+    },
+    {
+      "depth": 4,
+      "states": 3615,
+      "output_only": false,
+      "distinct_outputs": 64,
+      "seconds": 0.04088254109956324,
+      "peak_rss_mb": 178.71875
+    },
+    {
+      "depth": 5,
+      "states": 28580,
+      "output_only": false,
+      "distinct_outputs": 183,
+      "seconds": 0.07711879105772823,
+      "peak_rss_mb": 185.921875
+    },
+    {
+      "depth": 6,
+      "states": 226078,
+      "output_only": false,
+      "distinct_outputs": 570,
+      "seconds": 0.31041533302050084,
+      "peak_rss_mb": 248.125
+    },
+    {
+      "depth": 7,
+      "states": 1789727,
+      "output_only": false,
+      "distinct_outputs": 1930,
+      "seconds": 2.222117083030753,
+      "peak_rss_mb": 786.25
+    },
+    {
+      "depth": 8,
+      "states": 14172986,
+      "output_only": false,
+      "distinct_outputs": 6836,
+      "seconds": 18.321329375030473,
+      "peak_rss_mb": 5021.421875
+    },
+    {
+      "depth": 9,
+      "states": null,
+      "output_only": true,
+      "distinct_outputs": 20752,
+      "seconds": 108.9599195830524,
+      "peak_rss_mb": 5173.0625
+    }
+  ],
+  "screen_seconds": 108.97880591603462,
+  "total_seconds": 111.50322512502316
+}

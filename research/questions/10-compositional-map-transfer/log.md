@@ -463,3 +463,22 @@ has used all 15 of its slots.
     [1.19, 1.50], PA 1.02× [0.95, 1.09]); T2/T1 1.20×; withheld I 1.087× [0.984, 1.200],
     unresolved. Reopen on a funded seed or lineage extension (price both).
 
+
+## 2026-10-08: run 2026-10-08-1246 (24), comparison-gate bank and training-cell C/T — ran; recommend stage 2
+
+Strategy 1246 raised the budget 15 → 16 for one first stage of the
+[comparison-gated transfer plan](../../plans/comparison-gated-transfer.md) and opened
+[24-comparison-gate-bank](24-comparison-gate-bank/question.md) (1 slot). Slot 16 of 16. Commit
+`5dd86bd`, 5 376 searches, 119 min, complete, all validation passed, 0 holdout searches. The bank
+(BE `A>B ? C : D+E`, PA `(A>B ? C : D)+E`, 13 tokens) keeps 37 BE / 56 PA behaviours after the
+exact ≤ 9-token screen; a frozen performance-blind split gives 4 training + 4 holdouts per family.
+On the training cells, over 16 independent G4 solver corpora, C/T 3.11× [2.78, 3.48] (BE 2.86×,
+PA 3.37×; 1 × cap 2.82×), 16/16 corpora and 64/64 corpus × cells; collection yield 58.9%; C/G4
+5.8×, T/G4 1.9× (descriptive). Expected 1.2–1.4×. Training-cell result only; C versus the
+restricted token fit ([analysis](../../runs/2026-10-08-1246/analysis.md)).
+
+Decision: close 24 and open [25-comparison-gate-transfer](25-comparison-gate-transfer/question.md)
+with the frozen stage-2 proposal (run 1534), because the pre-stated rule routes to stage 2 with a
+wide margin and this is the first bank whose holdouts can test transfer across several new
+compositions per family; root 10 has 16 of 16 used, so the proposal goes to the strategist for
+allocation, as strategy 1246 required a review before transfer is funded.

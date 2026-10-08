@@ -1,0 +1,10 @@
+{
+  "method_hash": "abd2ba102ed93be4712196901c9a0a092f26b667576c8735b71c424170d5213a",
+  "bank_sha256": "df3476d0823cff5eaed57fccf19f01e6a2699442be3139b5f05cb56e5f7aa15d",
+  "split_hash": "b0cc4ae02bba8323416c34d525bf42c9aadd9b02c28de976b0a7d4d0c27b4dd8",
+  "schedule_hash": "7e0e283c59b3b1d14e575ffa02e6d678ad39d135012db900209bacb29682f281",
+  "stage2_searches_executed": 0,
+  "fitted_table_hashes": {},
+  "complete": false,
+  "smoke_only": true
+}

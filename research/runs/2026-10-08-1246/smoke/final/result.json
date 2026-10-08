@@ -1,0 +1,835 @@
+{
+  "scope": "training C versus restricted token-likelihood fit; no transfer or isolated token-order inference",
+  "smoke_only": true,
+  "completed_pairs": 1,
+  "analysed_corpora": [
+    "BE1",
+    "PA1"
+  ],
+  "stage1_complete": true,
+  "efficacy_eligible": false,
+  "stop_kind": null,
+  "stop_reason": null,
+  "unanalysed_trailing_corpora": [],
+  "unanalysed_trailing_search_summary": {},
+  "total_searches": 112,
+  "observed_counts": {
+    "training:G4": 16,
+    "collection:G4": 64,
+    "training:C": 16,
+    "training:T": 16
+  },
+  "holdout_searches": 0,
+  "collection_yield_pooled": 0.703125,
+  "collection_per_family": {
+    "BE": {
+      "n": 32,
+      "solved": 20,
+      "solve_rate": 0.625,
+      "geometric_cost": 285317.7918273924,
+      "actual_evaluations": 9404928,
+      "worker_seconds": 432.6533163790591
+    },
+    "PA": {
+      "n": 32,
+      "solved": 25,
+      "solve_rate": 0.78125,
+      "geometric_cost": 189923.96775219004,
+      "actual_evaluations": 8178944,
+      "worker_seconds": 373.2537208739668
+    }
+  },
+  "distinct_tapes": {
+    "BE1": {
+      "BE:F>S?F:M+m": {
+        "attempts": 8,
+        "solved": 3,
+        "distinct_tapes": 3
+      },
+      "BE:F>m?S:F+M": {
+        "attempts": 8,
+        "solved": 4,
+        "distinct_tapes": 4
+      },
+      "BE:S>F?M:F+m": {
+        "attempts": 8,
+        "solved": 6,
+        "distinct_tapes": 6
+      },
+      "BE:S>F?m:M+S": {
+        "attempts": 8,
+        "solved": 7,
+        "distinct_tapes": 7
+      }
+    },
+    "PA1": {
+      "PA:(F>S?F:m)+M": {
+        "attempts": 8,
+        "solved": 6,
+        "distinct_tapes": 6
+      },
+      "PA:(F>S?m:M)+F": {
+        "attempts": 8,
+        "solved": 6,
+        "distinct_tapes": 6
+      },
+      "PA:(M>F?m:S)+S": {
+        "attempts": 8,
+        "solved": 7,
+        "distinct_tapes": 7
+      },
+      "PA:(S>F?M:m)+m": {
+        "attempts": 8,
+        "solved": 6,
+        "distinct_tapes": 6
+      }
+    }
+  },
+  "sensitivities": {
+    "unsolved_2x_cap": {
+      "C_T": {
+        "n": 2,
+        "contrasts_log": [
+          1.4001707934433438,
+          0.8427343470689501
+        ],
+        "speed_ratio": 3.0693093542746843,
+        "interval_95": [
+          0.08892177420493108,
+          105.94322927618406
+        ],
+        "sd_log": 0.39416709131186506,
+        "half_width_log": 3.541450807519356,
+        "df": 1,
+        "families": {
+          "BE": {
+            "n": 1,
+            "contrasts_log": [
+              1.4001707934433438
+            ],
+            "speed_ratio": 4.0558926275597305,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 1,
+            "contrasts_log": [
+              0.8427343470689501
+            ],
+            "speed_ratio": 2.322709395269696,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        },
+        "equal_family_weight": true,
+        "corpus_scores_log": {
+          "BE1": 1.4001707934433438,
+          "PA1": 0.8427343470689501
+        }
+      },
+      "per_cell": {
+        "BE:F>S?F:M+m": {
+          "C": {
+            "n": 2,
+            "solved": 2,
+            "solve_rate": 1.0,
+            "geometric_cost": 48236.81316173364,
+            "actual_evaluations": 109824,
+            "worker_seconds": 4.551588375936262
+          },
+          "T": {
+            "n": 2,
+            "solved": 0,
+            "solve_rate": 0.0,
+            "geometric_cost": 1048576.0,
+            "actual_evaluations": 1048576,
+            "worker_seconds": 50.09514712600503
+          },
+          "G4": {
+            "n": 2,
+            "solved": 1,
+            "solve_rate": 0.5,
+            "geometric_cost": 475418.3988362248,
+            "actual_evaluations": 739840,
+            "worker_seconds": 35.0304759159917
+          }
+        },
+        "BE:F>m?S:F+M": {
+          "C": {
+            "n": 2,
+            "solved": 1,
+            "solve_rate": 0.5,
+            "geometric_cost": 112323.04497297069,
+            "actual_evaluations": 536320,
+            "worker_seconds": 23.0947894169949
+          },
+          "T": {
+            "n": 2,
+            "solved": 1,
+            "solve_rate": 0.5,
+            "geometric_cost": 165470.2889101241,
+            "actual_evaluations": 550400,
+            "worker_seconds": 26.24804933310952
+          },
+          "G4": {
+            "n": 2,
+            "solved": 0,
+            "solve_rate": 0.0,
+            "geometric_cost": 1048576.0,
+            "actual_evaluations": 1048576,
+            "worker_seconds": 49.99121950007975
+          }
+        },
+        "BE:S>F?M:F+m": {
+          "C": {
+            "n": 2,
+            "solved": 1,
+            "solve_rate": 0.5,
+            "geometric_cost": 117005.16337324602,
+            "actual_evaluations": 537344,
+            "worker_seconds": 24.53409745800309
+          },
+          "T": {
+            "n": 2,
+            "solved": 1,
+            "solve_rate": 0.5,
+            "geometric_cost": 145624.1773332986,
+            "actual_evaluations": 544512,
+            "worker_seconds": 23.47565787495114
+          },
+          "G4": {
+            "n": 2,
+            "solved": 0,
+            "solve_rate": 0.0,
+            "geometric_cost": 1048576.0,
+            "actual_evaluations": 1048576,
+            "worker_seconds": 53.010555166052654
+          }
+        },
+        "BE:S>F?m:M+S": {
+          "C": {
+            "n": 2,
+            "solved": 2,
+            "solve_rate": 1.0,
+            "geometric_cost": 14105.57676949086,
+            "actual_evaluations": 32000,
+            "worker_seconds": 1.0420417510904372
+          },
+          "T": {
+            "n": 2,
+            "solved": 2,
+            "solve_rate": 1.0,
+            "geometric_cost": 95771.3757654134,
+            "actual_evaluations": 193792,
+            "worker_seconds": 8.648335458012298
+          },
+          "G4": {
+            "n": 2,
+            "solved": 1,
+            "solve_rate": 0.5,
+            "geometric_cost": 153695.5436178941,
+            "actual_evaluations": 546816,
+            "worker_seconds": 21.28641795704607
+          }
+        },
+        "PA:(F>S?F:m)+M": {
+          "C": {
+            "n": 2,
+            "solved": 2,
+            "solve_rate": 1.0,
+            "geometric_cost": 77993.91976301753,
+            "actual_evaluations": 470272,
+            "worker_seconds": 25.973040833021514
+          },
+          "T": {
+            "n": 2,
+            "solved": 0,
+            "solve_rate": 0.0,
+            "geometric_cost": 1048576.0,
+            "actual_evaluations": 1048576,
+            "worker_seconds": 76.25164991687052
+          },
+          "G4": {
+            "n": 2,
+            "solved": 0,
+            "solve_rate": 0.0,
+            "geometric_cost": 1048576.0,
+            "actual_evaluations": 1048576,
+            "worker_seconds": 44.328896249993704
+          }
+        },
+        "PA:(F>S?m:M)+F": {
+          "C": {
+            "n": 2,
+            "solved": 2,
+            "solve_rate": 1.0,
+            "geometric_cost": 151858.71665465893,
+            "actual_evaluations": 404736,
+            "worker_seconds": 17.324722666991875
+          },
+          "T": {
+            "n": 2,
+            "solved": 1,
+            "solve_rate": 0.5,
+            "geometric_cost": 465432.50100524805,
+            "actual_evaluations": 730880,
+            "worker_seconds": 34.33820854185615
+          },
+          "G4": {
+            "n": 2,
+            "solved": 1,
+            "solve_rate": 0.5,
+            "geometric_cost": 594131.8242949111,
+            "actual_evaluations": 860928,
+            "worker_seconds": 33.044449584092945
+          }
+        },
+        "PA:(M>F?m:S)+S": {
+          "C": {
+            "n": 2,
+            "solved": 2,
+            "solve_rate": 1.0,
+            "geometric_cost": 191333.24227640123,
+            "actual_evaluations": 422656,
+            "worker_seconds": 18.07273695699405
+          },
+          "T": {
+            "n": 2,
+            "solved": 2,
+            "solve_rate": 1.0,
+            "geometric_cost": 59818.6058012054,
+            "actual_evaluations": 282112,
+            "worker_seconds": 11.106203584000468
+          },
+          "G4": {
+            "n": 2,
+            "solved": 1,
+            "solve_rate": 0.5,
+            "geometric_cost": 285194.5707197105,
+            "actual_evaluations": 601856,
+            "worker_seconds": 22.953059083083645
+          }
+        },
+        "PA:(S>F?M:m)+m": {
+          "C": {
+            "n": 2,
+            "solved": 2,
+            "solve_rate": 1.0,
+            "geometric_cost": 28440.205906427618,
+            "actual_evaluations": 57088,
+            "worker_seconds": 2.2241969590540975
+          },
+          "T": {
+            "n": 2,
+            "solved": 2,
+            "solve_rate": 1.0,
+            "geometric_cost": 64255.49003781695,
+            "actual_evaluations": 139008,
+            "worker_seconds": 6.0648056250065565
+          },
+          "G4": {
+            "n": 2,
+            "solved": 2,
+            "solve_rate": 1.0,
+            "geometric_cost": 152384.9542179281,
+            "actual_evaluations": 428032,
+            "worker_seconds": 15.137117000995204
+          }
+        }
+      },
+      "per_family": {
+        "BE": {
+          "C": {
+            "n": 8,
+            "solved": 6,
+            "solve_rate": 0.75,
+            "geometric_cost": 54684.0709455802,
+            "actual_evaluations": 1215488,
+            "worker_seconds": 53.22251700202469
+          },
+          "T": {
+            "n": 8,
+            "solved": 4,
+            "solve_rate": 0.5,
+            "geometric_cost": 221792.72019313203,
+            "actual_evaluations": 2337280,
+            "worker_seconds": 108.46718979207799
+          },
+          "G4": {
+            "n": 8,
+            "solved": 2,
+            "solve_rate": 0.25,
+            "geometric_cost": 532395.3721895705,
+            "actual_evaluations": 3383808,
+            "worker_seconds": 159.31866853917018
+          },
+          "C/G4": 9.735840126449125,
+          "T/G4": 2.4004186058314843
+        },
+        "PA": {
+          "C": {
+            "n": 8,
+            "solved": 8,
+            "solve_rate": 1.0,
+            "geometric_cost": 89599.56681993924,
+            "actual_evaluations": 1354752,
+            "worker_seconds": 63.594697416061535
+          },
+          "T": {
+            "n": 8,
+            "solved": 5,
+            "solve_rate": 0.625,
+            "geometric_cost": 208113.75566476773,
+            "actual_evaluations": 2200576,
+            "worker_seconds": 127.76086766773369
+          },
+          "G4": {
+            "n": 8,
+            "solved": 4,
+            "solve_rate": 0.5,
+            "geometric_cost": 405640.69473932014,
+            "actual_evaluations": 2939392,
+            "worker_seconds": 115.4635219181655
+          },
+          "C/G4": 4.5272617841390055,
+          "T/G4": 1.9491296644164708
+        }
+      },
+      "descriptive_reference": {
+        "C/G4": 6.639028313010887,
+        "T/G4": 2.1630365488459447
+      },
+      "amortization": {
+        "BE1": {
+          "C": {
+            "mean_capped_evaluations_saved_per_search": 533184.0,
+            "break_even_searches_evaluations": 18,
+            "break_even_searches_worker_seconds": 33
+          },
+          "T": {
+            "mean_capped_evaluations_saved_per_search": 261888.0,
+            "break_even_searches_evaluations": 36,
+            "break_even_searches_worker_seconds": 69
+          }
+        },
+        "PA1": {
+          "C": {
+            "mean_capped_evaluations_saved_per_search": 460224.0,
+            "break_even_searches_evaluations": 18,
+            "break_even_searches_worker_seconds": 58
+          },
+          "T": {
+            "mean_capped_evaluations_saved_per_search": 157888.0,
+            "break_even_searches_evaluations": 52,
+            "break_even_searches_worker_seconds": null
+          }
+        }
+      },
+      "reference_uncertainty": "descriptive point ratios only; G4 seeds independent, shared baseline not replicated per corpus"
+    },
+    "unsolved_1x_cap": {
+      "C_T": {
+        "n": 2,
+        "contrasts_log": [
+          1.2268839983033575,
+          0.5828041543589706
+        ],
+        "speed_ratio": 2.471546520410394,
+        "interval_95": [
+          0.04129304870250574,
+          147.9314895483135
+        ],
+        "sd_log": 0.45543322527864927,
+        "half_width_log": 4.0919051818004135,
+        "df": 1,
+        "families": {
+          "BE": {
+            "n": 1,
+            "contrasts_log": [
+              1.2268839983033575
+            ],
+            "speed_ratio": 3.410585571168946,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 1,
+            "contrasts_log": [
+              0.5828041543589706
+            ],
+            "speed_ratio": 1.7910537868308287,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        },
+        "equal_family_weight": true,
+        "corpus_scores_log": {
+          "BE1": 1.2268839983033575,
+          "PA1": 0.5828041543589706
+        }
+      },
+      "per_cell": {
+        "BE:F>S?F:M+m": {
+          "C": {
+            "n": 2,
+            "solved": 2,
+            "solve_rate": 1.0,
+            "geometric_cost": 48236.81316173364,
+            "actual_evaluations": 109824,
+            "worker_seconds": 4.551588375936262
+          },
+          "T": {
+            "n": 2,
+            "solved": 0,
+            "solve_rate": 0.0,
+            "geometric_cost": 524287.99999999994,
+            "actual_evaluations": 1048576,
+            "worker_seconds": 50.09514712600503
+          },
+          "G4": {
+            "n": 2,
+            "solved": 1,
+            "solve_rate": 0.5,
+            "geometric_cost": 336171.5737179455,
+            "actual_evaluations": 739840,
+            "worker_seconds": 35.0304759159917
+          }
+        },
+        "BE:F>m?S:F+M": {
+          "C": {
+            "n": 2,
+            "solved": 1,
+            "solve_rate": 0.5,
+            "geometric_cost": 79424.38678390905,
+            "actual_evaluations": 536320,
+            "worker_seconds": 23.0947894169949
+          },
+          "T": {
+            "n": 2,
+            "solved": 1,
+            "solve_rate": 0.5,
+            "geometric_cost": 117005.16337324602,
+            "actual_evaluations": 550400,
+            "worker_seconds": 26.24804933310952
+          },
+          "G4": {
+            "n": 2,
+            "solved": 0,
+            "solve_rate": 0.0,
+            "geometric_cost": 524287.99999999994,
+            "actual_evaluations": 1048576,
+            "worker_seconds": 49.99121950007975
+          }
+        },
+        "BE:S>F?M:F+m": {
+          "C": {
+            "n": 2,
+            "solved": 1,
+            "solve_rate": 0.5,
+            "geometric_cost": 82735.14445506218,
+            "actual_evaluations": 537344,
+            "worker_seconds": 24.53409745800309
+          },
+          "T": {
+            "n": 2,
+            "solved": 1,
+            "solve_rate": 0.5,
+            "geometric_cost": 102971.84329708766,
+            "actual_evaluations": 544512,
+            "worker_seconds": 23.47565787495114
+          },
+          "G4": {
+            "n": 2,
+            "solved": 0,
+            "solve_rate": 0.0,
+            "geometric_cost": 524287.99999999994,
+            "actual_evaluations": 1048576,
+            "worker_seconds": 53.010555166052654
+          }
+        },
+        "BE:S>F?m:M+S": {
+          "C": {
+            "n": 2,
+            "solved": 2,
+            "solve_rate": 1.0,
+            "geometric_cost": 14105.57676949086,
+            "actual_evaluations": 32000,
+            "worker_seconds": 1.0420417510904372
+          },
+          "T": {
+            "n": 2,
+            "solved": 2,
+            "solve_rate": 1.0,
+            "geometric_cost": 95771.3757654134,
+            "actual_evaluations": 193792,
+            "worker_seconds": 8.648335458012298
+          },
+          "G4": {
+            "n": 2,
+            "solved": 1,
+            "solve_rate": 0.5,
+            "geometric_cost": 108679.1611303658,
+            "actual_evaluations": 546816,
+            "worker_seconds": 21.28641795704607
+          }
+        },
+        "PA:(F>S?F:m)+M": {
+          "C": {
+            "n": 2,
+            "solved": 2,
+            "solve_rate": 1.0,
+            "geometric_cost": 77993.91976301753,
+            "actual_evaluations": 470272,
+            "worker_seconds": 25.973040833021514
+          },
+          "T": {
+            "n": 2,
+            "solved": 0,
+            "solve_rate": 0.0,
+            "geometric_cost": 524287.99999999994,
+            "actual_evaluations": 1048576,
+            "worker_seconds": 76.25164991687052
+          },
+          "G4": {
+            "n": 2,
+            "solved": 0,
+            "solve_rate": 0.0,
+            "geometric_cost": 524287.99999999994,
+            "actual_evaluations": 1048576,
+            "worker_seconds": 44.328896249993704
+          }
+        },
+        "PA:(F>S?m:M)+F": {
+          "C": {
+            "n": 2,
+            "solved": 2,
+            "solve_rate": 1.0,
+            "geometric_cost": 151858.71665465893,
+            "actual_evaluations": 404736,
+            "worker_seconds": 17.324722666991875
+          },
+          "T": {
+            "n": 2,
+            "solved": 1,
+            "solve_rate": 0.5,
+            "geometric_cost": 329110.4776454252,
+            "actual_evaluations": 730880,
+            "worker_seconds": 34.33820854185615
+          },
+          "G4": {
+            "n": 2,
+            "solved": 1,
+            "solve_rate": 0.5,
+            "geometric_cost": 420114.64187766635,
+            "actual_evaluations": 860928,
+            "worker_seconds": 33.044449584092945
+          }
+        },
+        "PA:(M>F?m:S)+S": {
+          "C": {
+            "n": 2,
+            "solved": 2,
+            "solve_rate": 1.0,
+            "geometric_cost": 191333.24227640123,
+            "actual_evaluations": 422656,
+            "worker_seconds": 18.07273695699405
+          },
+          "T": {
+            "n": 2,
+            "solved": 2,
+            "solve_rate": 1.0,
+            "geometric_cost": 59818.6058012054,
+            "actual_evaluations": 282112,
+            "worker_seconds": 11.106203584000468
+          },
+          "G4": {
+            "n": 2,
+            "solved": 1,
+            "solve_rate": 0.5,
+            "geometric_cost": 201663.0149134935,
+            "actual_evaluations": 601856,
+            "worker_seconds": 22.953059083083645
+          }
+        },
+        "PA:(S>F?M:m)+m": {
+          "C": {
+            "n": 2,
+            "solved": 2,
+            "solve_rate": 1.0,
+            "geometric_cost": 28440.205906427618,
+            "actual_evaluations": 57088,
+            "worker_seconds": 2.2241969590540975
+          },
+          "T": {
+            "n": 2,
+            "solved": 2,
+            "solve_rate": 1.0,
+            "geometric_cost": 64255.49003781695,
+            "actual_evaluations": 139008,
+            "worker_seconds": 6.0648056250065565
+          },
+          "G4": {
+            "n": 2,
+            "solved": 2,
+            "solve_rate": 1.0,
+            "geometric_cost": 152384.9542179281,
+            "actual_evaluations": 428032,
+            "worker_seconds": 15.137117000995204
+          }
+        }
+      },
+      "per_family": {
+        "BE": {
+          "C": {
+            "n": 8,
+            "solved": 6,
+            "solve_rate": 0.75,
+            "geometric_cost": 45983.63922961817,
+            "actual_evaluations": 1215488,
+            "worker_seconds": 53.22251700202469
+          },
+          "T": {
+            "n": 8,
+            "solved": 4,
+            "solve_rate": 0.5,
+            "geometric_cost": 156831.1364663743,
+            "actual_evaluations": 2337280,
+            "worker_seconds": 108.46718979207799
+          },
+          "G4": {
+            "n": 8,
+            "solved": 2,
+            "solve_rate": 0.25,
+            "geometric_cost": 316564.1823011796,
+            "actual_evaluations": 3383808,
+            "worker_seconds": 159.31866853917018
+          },
+          "C/G4": 6.884278573960277,
+          "T/G4": 2.0185034007520133
+        },
+        "PA": {
+          "C": {
+            "n": 8,
+            "solved": 8,
+            "solve_rate": 1.0,
+            "geometric_cost": 89599.56681993924,
+            "actual_evaluations": 1354752,
+            "worker_seconds": 63.594697416061535
+          },
+          "T": {
+            "n": 8,
+            "solved": 5,
+            "solve_rate": 0.625,
+            "geometric_cost": 160477.64345125415,
+            "actual_evaluations": 2200576,
+            "worker_seconds": 127.76086766773369
+          },
+          "G4": {
+            "n": 8,
+            "solved": 4,
+            "solve_rate": 0.5,
+            "geometric_cost": 286831.28597539634,
+            "actual_evaluations": 2939392,
+            "worker_seconds": 115.4635219181655
+          },
+          "C/G4": 3.201257507771407,
+          "T/G4": 1.7873597830000707
+        }
+      },
+      "descriptive_reference": {
+        "C/G4": 4.694501940619491,
+        "T/G4": 1.899418805938549
+      },
+      "amortization": {
+        "BE1": {
+          "C": {
+            "mean_capped_evaluations_saved_per_search": 271040.0,
+            "break_even_searches_evaluations": 35,
+            "break_even_searches_worker_seconds": 33
+          },
+          "T": {
+            "mean_capped_evaluations_saved_per_search": 130816.0,
+            "break_even_searches_evaluations": 72,
+            "break_even_searches_worker_seconds": 69
+          }
+        },
+        "PA1": {
+          "C": {
+            "mean_capped_evaluations_saved_per_search": 198080.0,
+            "break_even_searches_evaluations": 42,
+            "break_even_searches_worker_seconds": 58
+          },
+          "T": {
+            "mean_capped_evaluations_saved_per_search": 92352.0,
+            "break_even_searches_evaluations": 89,
+            "break_even_searches_worker_seconds": null
+          }
+        }
+      },
+      "reference_uncertainty": "descriptive point ratios only; G4 seeds independent, shared baseline not replicated per corpus"
+    }
+  },
+  "method_hash": "abd2ba102ed93be4712196901c9a0a092f26b667576c8735b71c424170d5213a",
+  "outcome": {
+    "label": "smoke",
+    "meaning": "development-only execution/throughput check; no efficacy inference"
+  },
+  "useful_adaptation_caution": false,
+  "sizing": {
+    "total_corpora_for_half_width_log_1_10": 70,
+    "extra_balanced_corpora": 68,
+    "total_corpora_for_approx_80percent_detect_observed_effect": 4,
+    "note": "same observed spread, approximate fixed-design planning only; fresh corpora, not more score seeds"
+  },
+  "throughput": {
+    "collection:G4": {
+      "n": 64,
+      "solved": 45,
+      "solve_rate": 0.703125,
+      "geometric_cost": 232784.63672276927,
+      "actual_evaluations": 17583872,
+      "worker_seconds": 805.9070372530259
+    },
+    "training:C": {
+      "n": 16,
+      "solved": 14,
+      "solve_rate": 0.875,
+      "geometric_cost": 69997.63616490782,
+      "actual_evaluations": 2570240,
+      "worker_seconds": 116.81721441808622
+    },
+    "training:T": {
+      "n": 16,
+      "solved": 9,
+      "solve_rate": 0.5625,
+      "geometric_cost": 214844.3994580677,
+      "actual_evaluations": 4537856,
+      "worker_seconds": 236.22805745981168
+    },
+    "training:G4": {
+      "n": 16,
+      "solved": 6,
+      "solve_rate": 0.375,
+      "geometric_cost": 464716.28834265866,
+      "actual_evaluations": 6323200,
+      "worker_seconds": 274.7821904573357
+    }
+  },
+  "projection": {
+    "full_collection_seconds": 4969.081788003445,
+    "full_CT_training_seconds": 3330.67054399848,
+    "full_G4_training_seconds": 439.6515047317371,
+    "full_fitting_seconds": 2.5112679917365313,
+    "effective_scoring_workers": 6.783888439791534,
+    "effective_collection_workers": 7.784846263053384,
+    "stage2_seconds_same_difficulty": 7309.4229493567655,
+    "stage2_caveat": "no holdouts timed; extrapolation from training, allow harder protected targets",
+    "extra_corpus_seconds": 518.8914749996038,
+    "full_stage1_seconds": 8741.915104725398,
+    "precision_topup_seconds": 35284.62029997306
+  }
+}

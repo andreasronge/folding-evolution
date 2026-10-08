@@ -1,0 +1,362 @@
+{
+  "scope": "training C versus restricted token-likelihood fit; no transfer or isolated token-order inference",
+  "smoke_only": true,
+  "completed_pairs": 0,
+  "analysed_corpora": [],
+  "stage1_complete": false,
+  "efficacy_eligible": false,
+  "stop_kind": "timeout",
+  "stop_reason": "G4_training incomplete at internal deadline",
+  "unanalysed_trailing_corpora": [],
+  "unanalysed_trailing_search_summary": {},
+  "total_searches": 0,
+  "observed_counts": {},
+  "holdout_searches": 0,
+  "collection_yield_pooled": 0.0,
+  "collection_per_family": {
+    "BE": {
+      "n": 0
+    },
+    "PA": {
+      "n": 0
+    }
+  },
+  "distinct_tapes": {},
+  "sensitivities": {
+    "unsolved_2x_cap": {
+      "C_T": {
+        "n": 0,
+        "contrasts_log": [],
+        "speed_ratio": null,
+        "interval_95": null,
+        "sd_log": null,
+        "half_width_log": null,
+        "families": {
+          "BE": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        },
+        "equal_family_weight": true,
+        "corpus_scores_log": {}
+      },
+      "per_cell": {
+        "BE:F>S?F:M+m": {
+          "C": {
+            "n": 0
+          },
+          "T": {
+            "n": 0
+          },
+          "G4": {
+            "n": 0
+          }
+        },
+        "BE:F>m?S:F+M": {
+          "C": {
+            "n": 0
+          },
+          "T": {
+            "n": 0
+          },
+          "G4": {
+            "n": 0
+          }
+        },
+        "BE:S>F?M:F+m": {
+          "C": {
+            "n": 0
+          },
+          "T": {
+            "n": 0
+          },
+          "G4": {
+            "n": 0
+          }
+        },
+        "BE:S>F?m:M+S": {
+          "C": {
+            "n": 0
+          },
+          "T": {
+            "n": 0
+          },
+          "G4": {
+            "n": 0
+          }
+        },
+        "PA:(F>S?F:m)+M": {
+          "C": {
+            "n": 0
+          },
+          "T": {
+            "n": 0
+          },
+          "G4": {
+            "n": 0
+          }
+        },
+        "PA:(F>S?m:M)+F": {
+          "C": {
+            "n": 0
+          },
+          "T": {
+            "n": 0
+          },
+          "G4": {
+            "n": 0
+          }
+        },
+        "PA:(M>F?m:S)+S": {
+          "C": {
+            "n": 0
+          },
+          "T": {
+            "n": 0
+          },
+          "G4": {
+            "n": 0
+          }
+        },
+        "PA:(S>F?M:m)+m": {
+          "C": {
+            "n": 0
+          },
+          "T": {
+            "n": 0
+          },
+          "G4": {
+            "n": 0
+          }
+        }
+      },
+      "per_family": {
+        "BE": {
+          "C": {
+            "n": 0
+          },
+          "T": {
+            "n": 0
+          },
+          "G4": {
+            "n": 0
+          },
+          "C/G4": null,
+          "T/G4": null
+        },
+        "PA": {
+          "C": {
+            "n": 0
+          },
+          "T": {
+            "n": 0
+          },
+          "G4": {
+            "n": 0
+          },
+          "C/G4": null,
+          "T/G4": null
+        }
+      },
+      "descriptive_reference": {
+        "C/G4": null,
+        "T/G4": null
+      },
+      "amortization": {},
+      "reference_uncertainty": "descriptive point ratios only; G4 seeds independent, shared baseline not replicated per corpus"
+    },
+    "unsolved_1x_cap": {
+      "C_T": {
+        "n": 0,
+        "contrasts_log": [],
+        "speed_ratio": null,
+        "interval_95": null,
+        "sd_log": null,
+        "half_width_log": null,
+        "families": {
+          "BE": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        },
+        "equal_family_weight": true,
+        "corpus_scores_log": {}
+      },
+      "per_cell": {
+        "BE:F>S?F:M+m": {
+          "C": {
+            "n": 0
+          },
+          "T": {
+            "n": 0
+          },
+          "G4": {
+            "n": 0
+          }
+        },
+        "BE:F>m?S:F+M": {
+          "C": {
+            "n": 0
+          },
+          "T": {
+            "n": 0
+          },
+          "G4": {
+            "n": 0
+          }
+        },
+        "BE:S>F?M:F+m": {
+          "C": {
+            "n": 0
+          },
+          "T": {
+            "n": 0
+          },
+          "G4": {
+            "n": 0
+          }
+        },
+        "BE:S>F?m:M+S": {
+          "C": {
+            "n": 0
+          },
+          "T": {
+            "n": 0
+          },
+          "G4": {
+            "n": 0
+          }
+        },
+        "PA:(F>S?F:m)+M": {
+          "C": {
+            "n": 0
+          },
+          "T": {
+            "n": 0
+          },
+          "G4": {
+            "n": 0
+          }
+        },
+        "PA:(F>S?m:M)+F": {
+          "C": {
+            "n": 0
+          },
+          "T": {
+            "n": 0
+          },
+          "G4": {
+            "n": 0
+          }
+        },
+        "PA:(M>F?m:S)+S": {
+          "C": {
+            "n": 0
+          },
+          "T": {
+            "n": 0
+          },
+          "G4": {
+            "n": 0
+          }
+        },
+        "PA:(S>F?M:m)+m": {
+          "C": {
+            "n": 0
+          },
+          "T": {
+            "n": 0
+          },
+          "G4": {
+            "n": 0
+          }
+        }
+      },
+      "per_family": {
+        "BE": {
+          "C": {
+            "n": 0
+          },
+          "T": {
+            "n": 0
+          },
+          "G4": {
+            "n": 0
+          },
+          "C/G4": null,
+          "T/G4": null
+        },
+        "PA": {
+          "C": {
+            "n": 0
+          },
+          "T": {
+            "n": 0
+          },
+          "G4": {
+            "n": 0
+          },
+          "C/G4": null,
+          "T/G4": null
+        }
+      },
+      "descriptive_reference": {
+        "C/G4": null,
+        "T/G4": null
+      },
+      "amortization": {},
+      "reference_uncertainty": "descriptive point ratios only; G4 seeds independent, shared baseline not replicated per corpus"
+    }
+  },
+  "method_hash": "abd2ba102ed93be4712196901c9a0a092f26b667576c8735b71c424170d5213a",
+  "outcome": {
+    "label": "smoke",
+    "meaning": "development-only execution/throughput check; no efficacy inference"
+  },
+  "useful_adaptation_caution": false,
+  "sizing": {
+    "total_corpora_for_half_width_log_1_10": null,
+    "extra_balanced_corpora": null,
+    "total_corpora_for_approx_80percent_detect_observed_effect": null,
+    "note": "same observed spread, approximate fixed-design planning only; fresh corpora, not more score seeds"
+  },
+  "throughput": {
+    "collection:G4": {
+      "n": 0
+    },
+    "training:C": {
+      "n": 0
+    },
+    "training:T": {
+      "n": 0
+    },
+    "training:G4": {
+      "n": 0
+    }
+  },
+  "projection": {}
+}
