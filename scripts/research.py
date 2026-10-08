@@ -419,25 +419,32 @@ COMMON = (
 
 PROMPTS = {
     "propose": (
-        "Choose the next experiment. Read {research}/digest.md and explore {research}/questions "
-        "(statuses, budgets, logs, parked questions' reopen conditions). {strategy}{feedback}"
-        "You may create a new question folder if the right question does not exist yet. "
-        "Write {task_dir}/proposal.md in the proposal format from the README, including its "
-        "feasibility numbers. Do not write experiment code; short read-only probes with existing "
-        "code (≤ 10 min) are fine."
+        "Choose the next experiment. Read {research}/digest.md (current beliefs), then the root "
+        "question you work in and the folders it links; open other logs only for a named "
+        "uncertainty. {strategy}{feedback}{banks}"
+        "You may create a new sub-question folder if the right question does not exist yet. "
+        "Write {task_dir}/proposal.md in the proposal format from the README (at most 800 words), "
+        "with its feasibility numbers and the closest known technique; when the mechanism is new "
+        "to this tree, search the literature first and cite only papers you found, with links. "
+        "Do not write experiment code; short read-only probes with existing code (≤ 10 min) are "
+        "fine."
     ),
     "critique": (
         "Give a second opinion on the steward's proposal {task_dir}/proposal.md before it is "
         "approved. Read it, then {research}/digest.md and the questions it touches. {previous}"
-        "Write {task_dir}/critique.md: first, is it feasible (are the expected hit rates, solve "
-        "counts and runtime stated and plausible)? Is this the experiment that best separates the "
-        "competing explanations, or is a cheaper or more decisive one available? Which outcome "
-        "would leave us no wiser? Is the size right? Mention a parked question only if its reopen "
-        "condition is newly met. Number your points and mark each `blocking` or `note`. Start the "
-        "file with frontmatter `recommend:` `approve`, `approve_with_notes` (notes the researcher "
-        "must address in plan.md), `revise` (only for a blocking point: the experiment as proposed "
-        "would give a wrong or uninterpretable answer, or a clearly cheaper or more decisive design "
-        "exists) or `reject`, then one sentence why. {audit}Do not edit any other file."
+        "{banks}Write {task_dir}/critique.md: is it feasible (hit rates, solve counts and runtime "
+        "stated and plausible)? Is it worth running: would it change a belief that matters for the "
+        "core question, more than the best alternative use of the run? Is the closest known "
+        "technique named right, and what does this add beyond it (name prior work it missed if you "
+        "know it)? Is a cheaper or more decisive design available? Which outcome would leave us no "
+        "wiser? A `kind: probe` proposal is descriptive: judge only its cost and correctness. "
+        "Mention a parked question only if its reopen condition is newly met. Number your points "
+        "and mark each `blocking` or `note`. Start the file with frontmatter `recommend:` "
+        "`approve`, `approve_with_notes` (notes the researcher must address in plan.md), `revise` "
+        "(a blocking point: the experiment would give a wrong or uninterpretable answer, a clearly "
+        "cheaper or more decisive design exists, or its value is low next to an alternative you "
+        "name) or `reject` (no identifiable contribution to the core question), then one sentence "
+        "why. {audit}Do not edit any other file."
     ),
     "prepare": (
         "Implement the approved proposal {task_dir}/proposal.md. Also read, if present, "
@@ -464,9 +471,9 @@ PROMPTS = {
         "timeouts). If {task_dir}/critique.md exists, check that its points are addressed or that "
         "plan.md says why not; an unanswered substantive point is a blocking issue. Gates, power "
         "checks and stop rules that decide whether the main stage runs are part of the review: "
-        "check that each is stable (e.g. recompute it on a resampled pilot) and that its size grid "
-        "reaches what the queue time allows; an unstable or arbitrarily truncated gate is a "
-        "blocking issue. Write "
+        "check them for unjustified assumptions and the risk of stopping for the wrong reason "
+        "(resample a pilot only when that could change whether the main stage runs); such a risk "
+        "is a blocking issue. Write "
         "{task_dir}/code_review.md starting with frontmatter `verdict: pass` or `verdict: fail`, "
         "then numbered blocking issues and brief minor notes."
     ),
@@ -477,7 +484,7 @@ PROMPTS = {
         "numbers with denominators, plots if they help (save them in the task folder), and what "
         "the data does and does not show. Then read plan.md and append '## Against the predictions'. "
         "Finally put frontmatter `outcome:` at the top of analysis.md: the plan's outcome label the "
-        "data matches, or `unresolved` or `pilot_only`."
+        "data matches, or `unresolved`, `pilot_only`, or `observations` for a probe."
     ),
     "decide": (
         "This experiment cycle is over.{blocked} Read the task folder (proposal, critique, plan, "
@@ -486,7 +493,9 @@ PROMPTS = {
         "update question.md (status, summary, Related, Reopen if), and update {research}/digest.md "
         "if beliefs changed. For each changed belief give the observed contrast, its uncertainty "
         "and the tested scope; an unresolved or finite-sample result is not equality or absence, "
-        "and a heading must not claim more than the text below it. Fix any problems listed under "
+        "and a heading must not claim more than the text below it. A probe's results are "
+        "observations: log them, but keep them out of the digest's beliefs until a later "
+        "experiment confirms them. Fix any problems listed under "
         "'## Digest check' in critique.md. Re-check "
         "parked questions whose reopen condition may now be met. 2) Write {task_dir}/decision.md: "
         "continue, park, close or new question, and why. If this step was interrupted before, "
@@ -499,12 +508,17 @@ PROMPTS = {
         "Review the whole research program. Read the core question in {repo}/README.md, "
         "{research}/digest.md, the question tree, the plans and owner notes in {research}/plans, "
         "the latest decisions and the recent briefs in {research}/briefs. Write {task_dir}/strategy.md: what the program has learned so far · "
-        "which root questions matter most for the core question now, and why · what the steward "
-        "should work on next (a question and why, not a full design) · what to stop. {run_note} "
+        "which root questions matter most for the core question now, and why · the current line "
+        "against at least one mechanistically different candidate (from owner notes, the "
+        "literature, or results nobody has explained; search the literature for it and cite only "
+        "papers you found, with links) · what the steward should work on next (a question and "
+        "why, not a full design) · what to stop. For every owner note (`owner-*.md`) that is new "
+        "or changed since an earlier strategy.md answered it, say pursued, deferred or declined, "
+        "why, and when to reconsider. {run_note} "
         "{roots_note} Start strategy.md with frontmatter `next: proposal`, or `next: stop` (the run "
-        "then ends and waits for the owner). Stop only after comparing at least two candidate "
-        "directions in strategy.md and saying why none deserves even a feasibility probe; a "
-        "direction that lacks a plan is a reason to write one in {research}/plans/, not to stop."
+        "then ends and waits for the owner). Stop when no candidate justifies its full cost in the "
+        "time left; feasibility alone does not justify running. A promising direction that lacks a "
+        "plan is a reason to write one in {research}/plans/, not to stop."
     ),
     "summary": (
         "The autonomous run that started at {started} has ended: {reason}. Write {summary} for the "
@@ -513,7 +527,23 @@ PROMPTS = {
         "folders since then) · how the question "
         "tree and digest changed (`git log -p --since=\"{started}\" -- research/` helps) · what you "
         "would do next · where the agents were least sure · what the owner should check first, "
-        "including decisions you disagree with. Under two pages. Edit no other file."
+        "including decisions you disagree with. Under two pages. {audit}Edit no other file."
+    ),
+    "allocate": (
+        "The steward's next proposal {proposal} is for a question with no experiment budget left "
+        "(there or at an ancestor). Read it, the latest strategy.md in {research}/runs and the "
+        "question's log. Either grant its root a block of experiments that lasts through the next "
+        "strategy review (normally {block}, fewer if time is short; raise only the `experiments` "
+        "field of the root's budget), or send it to a full strategy review. Write "
+        "{task_dir}/allocation.md starting with frontmatter `next: proposal` (you granted) or "
+        "`next: strategy`, then at most 150 words: why, and the block's exit condition. {run_note}"
+    ),
+    "condense": (
+        "{research}/digest.md is {words} words, over its {cap}-word limit. Rewrite it as current "
+        "beliefs: one short section per root question, each claim with its contrast, uncertainty, "
+        "scope and a link to its evidence. Move history and superseded numbers into the questions' "
+        "log.md files (append; do not rewrite logs). Compress; do not change what is believed. "
+        "Edit no other file."
     ),
 }
 
@@ -526,11 +556,15 @@ NEXT_STRATEGY = ("Write no next proposal: the strategist reviews the whole progr
                  "next one.")
 PREVIOUS = ("This revises the proposal in {prev}: if it is the same experiment, first check that "
             "the points in {prev}/critique.md are fixed, then look for new defects. ")
-AUDIT = ("Also check the previous cycle's belief updates (`git log -1 -p -- research/digest.md "
-         "research/questions`) against its analysis.md in {research}/runs/{after}: list any "
-         "statement that claims more than the evidence (a finite sample read as absence, an "
-         "unresolved result read as equality, a heading stronger than its text) under "
-         "'## Digest check' in critique.md. These do not affect your recommendation. ")
+AUDIT = ("Also check the belief updates since the last check (`git log -p {range} -- "
+         "research/digest.md research/questions`) against the analysis.md files they rest on "
+         "(latest: {research}/runs/{after}): list any statement that claims more than the evidence "
+         "(a finite sample read as absence, an unresolved result read as equality, a widened "
+         "scope, a heading stronger than its text) under '## Digest check' in critique.md, "
+         "briefly. These do not affect your recommendation. ")
+FINAL_AUDIT = ("Then add '## Claim check': belief updates since the last check (`git log -p "
+               "{range} -- research/digest.md research/questions`) that claim more than their "
+               "analysis.md shows. ")
 
 
 # --------------------------------------------------------------------------
@@ -619,10 +653,11 @@ class Driver:
     def call_agent(self, role: str, phase: str, cwd: Path, **fmt: str) -> None:
         """Launch the role's agent for `phase`; raise Stop if past the deadline,
         over the call cap, or the agent did not finish cleanly."""
-        if phase not in ("analyse", "decide", "summary"):  # a finished queue is still analysed
+        if phase not in ("analyse", "decide", "condense", "summary"):  # finish a finished queue
             self.check_deadline()
         calls = self.state.get("agent_calls", 0)
-        if calls >= self.cfg.get("max_agent_calls", 8) and phase not in ("decide", "summary"):
+        if calls >= self.cfg.get("max_agent_calls", 8) and phase not in ("decide", "condense",
+                                                                           "summary"):
             if phase in ("propose", "critique", "strategy") or "node" not in self.state:
                 raise Stop(f"agent call cap ({calls}) reached while proposing; "
                            "`research.py propose` starts over")
@@ -639,7 +674,10 @@ class Driver:
         timeout = float(meta.get("timeout_min", 60)) * 60
         label = f"{phase}-{self.state['agent_calls']}"
         self.log(f"{role} ({meta['agent']}/{meta['model']}) → {phase} [{self.launcher.name}]")
+        t0 = time.monotonic()
         code = self.launch(label, argv, cwd, timeout)
+        self.state["agent_seconds"] = self.state.get("agent_seconds", 0) + time.monotonic() - t0
+        self.save()
         if code != 0:
             raise AgentFailed(f"{role} agent for {phase} "
                               f"{'timed out' if code is None else f'exited {code}'}"
@@ -671,7 +709,8 @@ class Driver:
             hours = (self.deadline - self.now()).total_seconds() / 3600
             strategy += (f"This autonomous run has about {max(hours, 0):.1f} h left; size the "
                          "experiment so its preparation and queue finish within it. ")
-        self.call_agent("steward", "propose", self.repo, feedback=feedback, strategy=strategy)
+        self.call_agent("steward", "propose", self.repo, feedback=feedback, strategy=strategy,
+                        banks=self.bank_note())
         self.expect("proposal.md")  # missing → retry the steward, not the acceptance
         self.set_phase(ACCEPT)
         self.accept_proposal()
@@ -700,16 +739,58 @@ class Driver:
         if not (self.research / "roles" / "critic.md").exists():
             return
         prev, after = self.state.get("previous"), self.state.get("after")
+        head = git("rev-parse", "HEAD", cwd=self.repo)
         try:
             self.call_agent("critic", "critique", self.repo,
                             previous=PREVIOUS.format(prev=prev) if prev else "",
-                            audit=AUDIT.format(research=self.research, after=after) if after else "")
+                            banks=self.bank_note(),
+                            audit=AUDIT.format(research=self.research, after=after,
+                                               range=self.audit_range()) if after else "")
             self.expect("critique.md")
             self.state["critique_done"] = True
+            if after:
+                self.state["audited"] = head
             self.save()
         except Stop as e:
             crit.unlink(missing_ok=True)  # never trust a verdict from a failed run
             self.log(f"no critique: {e}")
+
+    def is_probe(self, proposal: Path | None = None) -> bool:
+        proposal = proposal or self.task_dir() / "proposal.md"
+        return proposal.exists() and str(
+            read_frontmatter(proposal)[0].get("kind", "")).strip().lower() == "probe"
+
+    def probe_allowed(self) -> bool:
+        """One probe per run, plus one per four full experiments it has run."""
+        probes = self.run_info.get("probes", [])
+        full = len(self.run_info.get("executed", [])) - len(probes)
+        return len(probes) < 1 + full // 4
+
+    def audit_range(self) -> str:
+        """Commits whose belief updates no critic has checked yet."""
+        since = self.state.get("audited")
+        if since and git_ok("merge-base", "--is-ancestor", since, "HEAD", cwd=self.repo):
+            return f"{since}..HEAD"
+        return "-1"
+
+    def bank_exposure(self) -> dict[str, int]:
+        """Executed experiments per task bank (proposal frontmatter `bank:`)."""
+        out: dict[str, int] = {}
+        for ex in (self.research / "runs").glob("*/execution.md"):
+            prop = ex.parent / "proposal.md"
+            bank = (str(read_frontmatter(prop)[0].get("bank", "")).strip()
+                    if prop.exists() else "")
+            if bank and bank.lower() != "none":
+                out[bank] = out.get(bank, 0) + 1
+        return out
+
+    def bank_note(self) -> str:
+        used = self.bank_exposure()
+        if not used:
+            return ""
+        return ("Task banks already used by experiments: " + ", ".join(
+            f"{b} ({n})" for b, n in sorted(used.items())) + ". These are development banks: a "
+            "transfer claim needs a fresh bank, frozen with the method before it is scored. ")
 
     def phase_prepare(self) -> None:
         if not self.state.get("worktree_ready"):
@@ -806,6 +887,11 @@ class Driver:
                     problems.append("every queue entry needs a positive `timeout_seconds`")
                 cap = float(self.cfg.get("max_queue_hours", 8))
                 total = sum(e.timeout_seconds for e in entries) / 3600
+                probe_cap = float(self.cfg.get("probe_max_queue_minutes", 60))
+                if self.is_probe() and total * 60 > probe_cap:
+                    problems.append(
+                        f"this is a probe: queue entry timeouts sum to {total * 60:.0f} min, over "
+                        f"the {probe_cap:g} min probe cap; trim it or ask for a full experiment")
                 if total > cap:
                     problems.append(
                         f"queue entry timeouts sum to {total:.1f} h, over the {cap:g} h cap on "
@@ -927,16 +1013,6 @@ class Driver:
         git("branch", "-f", self.cfg["research_branch"], self.state["commit"], cwd=self.repo)
         self.set_phase("analyse")
 
-    def digest_note(self) -> str:
-        cap = int(self.cfg.get("digest_max_words", 3000))
-        digest = self.research / "digest.md"
-        words = len(digest.read_text().split()) if digest.exists() else 0
-        if words <= cap:
-            return ""
-        return (f" The digest is {words} words, over its {cap}-word limit: rewrite it as current "
-                "beliefs (one short section per root, newest evidence folded in), and move history "
-                "and superseded numbers to the questions' log.md files, linked from the digest.")
-
     def admit_queue(self) -> None:
         """End the run, leaving the cycle at execute for the next run, rather than
         start a queue whose plan expects it to finish well after the deadline."""
@@ -971,16 +1047,19 @@ class Driver:
         next_step = (NEXT_STRATEGY if strategy_due else
                      NEXT_PROPOSAL_AUTO if self.auto else NEXT_PROPOSAL).format(next_dir=next_dir)
         self.call_agent("steward", "decide", cwd, node=self.state["node"], next_step=next_step,
-                        brief=str(brief), blocked=blocked + self.digest_note())
+                        brief=str(brief), blocked=blocked)
         self.expect("decision.md")
         if not brief.exists():
             raise Stop(f"steward did not write the brief {brief}")
+        self.condense_digest(cwd)
         proposal = next_dir / "proposal.md"
-        to_strategy = False
+        to_strategy = to_allocate = False
         if self.auto:
             wants = str(read_frontmatter(self.task_dir() / "decision.md")[0].get("next", ""))
             to_strategy = (strategy_due or wants.strip().lower() == "strategy"
-                           or self.changes_root(proposal) or self.over_budget(proposal))
+                           or self.changes_root(proposal))
+            # A proposal that only lacks budget gets a short allocation decision.
+            to_allocate = not to_strategy and self.over_budget(proposal)
             if not to_strategy and not proposal.exists():
                 raise AgentFailed("steward wrote neither a next proposal nor `next: strategy`")
             if to_strategy and proposal.exists():  # the strategist sees it as a suggestion
@@ -993,14 +1072,63 @@ class Driver:
         # cleaning up, so a crash here never loses the finished cycle.
         cleanup = {"task": self.state["task"], "worktree": self.state.get("worktree"),
                    "brief": str(brief)}
-        self.state = {"phase": "strategy" if to_strategy else ACCEPT, "task": nxt,
-                      "cleanup": cleanup, "after": cleanup["task"]}
+        nxt_phase = "strategy" if to_strategy else "allocate" if to_allocate else ACCEPT
+        audited = self.state.get("audited")
+        self.state = {"phase": nxt_phase, "task": nxt, "cleanup": cleanup,
+                      "after": cleanup["task"]}
+        if audited:
+            self.state["audited"] = audited
         self.save()
         self.run_cleanup(cleanup)
         if self.auto and len(self.run_info.get("executed", [])) >= self.max_experiments():
             raise RunComplete(f"the run used all {self.max_experiments()} of its experiments")
-        if not to_strategy:
+        if nxt_phase == ACCEPT:
             self.accept_proposal()
+
+    def condense_digest(self, cwd: Path) -> None:
+        """The digest is loaded by every agent: keep it to current beliefs."""
+        cap = int(self.cfg.get("digest_max_words", 3000))
+        digest = self.research / "digest.md"
+        words = len(digest.read_text().split()) if digest.exists() else 0
+        if words <= cap:
+            return
+        self.call_agent("steward", "condense", cwd, words=str(words), cap=str(cap))
+        after = len(digest.read_text().split())
+        self.log(f"digest condensed: {words} → {after} words"
+                 + (f" (still over {cap})" if after > cap else ""))
+
+    def phase_allocate(self) -> None:
+        proposal = self.expect("proposal.md")
+        self.check_roots()
+        self.call_agent("strategist", "allocate", self.repo, proposal=str(proposal),
+                        block=str(self.cfg.get("strategy_every", 4)), run_note=self.run_note())
+        meta, _ = read_frontmatter(self.expect("allocation.md"))
+        nxt = str(meta.get("next", "")).strip().lower()
+        if self.auto:
+            self.run_info["root_budgets"] = self.root_budgets()  # the strategist may raise them
+            self.save_run()
+        self.check_roots()
+        granted = nxt == "proposal" and not self.over_budget(proposal)
+        if self.auto:
+            self.ledger([f"{self.state['task']} (allocation)", "", "", "", "", "", "",
+                         f"allocation: {'granted' if granted else 'to strategy'}", ""])
+        if not granted:
+            proposal.rename(self.task_dir() / "steward_proposal.md")
+            self.set_phase("strategy")
+            return
+        self.set_phase(ACCEPT)
+        self.accept_proposal()
+
+    def run_note(self) -> str:
+        if not self.auto:
+            return ""
+        used, cap = len(self.run_info.get("executed", [])), self.max_experiments()
+        hours = (self.deadline - self.now()).total_seconds() / 3600 if self.deadline else 0
+        return (f"This autonomous run has used {used} of its {cap} experiments and has about "
+                f"{max(hours, 0):.0f} h left. Question budgets are allocations: you may raise "
+                "`experiments` in a root question's budget (only that frontmatter field) by a "
+                "block that lasts through the next strategy review, naming its exit condition "
+                "and expected total time; `research.py status` shows what is left.")
 
     def phase_strategy(self) -> None:
         left = self.cfg.get("max_new_roots", 2) - len(self.new_roots())
@@ -1013,15 +1141,7 @@ class Driver:
         if rejected := self.state.get("rejected"):
             roots_note += (f" The last proposal, {rejected}, was set aside; read the rejected.md "
                            "and critique.md beside it.")
-        run_note = ""
-        if self.auto:
-            used, cap = len(self.run_info.get("executed", [])), self.max_experiments()
-            hours = (self.deadline - self.now()).total_seconds() / 3600 if self.deadline else 0
-            run_note = (f"This autonomous run has used {used} of its {cap} experiments and has "
-                        f"about {max(hours, 0):.0f} h left. Question budgets are allocations: you "
-                        "may raise `experiments` in a root question's budget (only that "
-                        "frontmatter field) in steps of 1–4, naming in strategy.md what each step "
-                        "should settle; `research.py status` shows what is left.")
+        run_note = self.run_note()
         self.check_roots()  # raises made before strategy (e.g. in decide) are not the strategist's
         self.call_agent("strategist", "strategy", self.repo, roots_note=roots_note,
                         run_note=run_note)
@@ -1033,7 +1153,7 @@ class Driver:
             self.save_run()
         self.check_roots()
         if self.auto:
-            self.ledger([f"{self.state['task']} (strategy)", "", "", "", "", "",
+            self.ledger([f"{self.state['task']} (strategy)", "", "", "", "", "", "",
                          f"strategy: next {nxt or '?'}", ""])
         if nxt == "stop":
             raise OwnerNeeded(f"the strategist recommends stopping; see {self.task_dir()}/strategy.md")
@@ -1076,6 +1196,8 @@ class Driver:
         if len(executed) >= self.max_experiments():
             raise RunComplete(f"the run used all {len(executed)} of its experiments")
         executed.append(self.state["task"])
+        if self.is_probe():
+            self.run_info.setdefault("probes", []).append(self.state["task"])
         self.save_run()
 
     def new_roots(self) -> set[str]:
@@ -1137,7 +1259,7 @@ class Driver:
         """Run phases until the loop needs the owner, a deadline, or a fix."""
         self.reconcile()
         handlers = {"propose": self.phase_propose, ACCEPT: self.accept_proposal,
-                    "strategy": self.phase_strategy,
+                    "strategy": self.phase_strategy, "allocate": self.phase_allocate,
                     "prepare": self.phase_prepare,
                     "review_code": self.phase_review_code, "execute": self.phase_execute,
                     "analyse": self.phase_analyse, "decide": self.phase_decide}
@@ -1225,6 +1347,10 @@ class Driver:
             self.set_aside(f"No experiment budget left at {self.state['node']} or an ancestor.",
                            rec, to_strategy=True)
             return
+        if rec in ("approve", "approve_with_notes") and self.is_probe() and not self.probe_allowed():
+            self.set_aside("The run has used its probe allowance (one, plus one per four full "
+                           "experiments); propose a full experiment.", rec, to_strategy=False)
+            return
         if rec in ("approve", "approve_with_notes"):
             if len(self.run_info.get("executed", [])) >= self.max_experiments():
                 raise RunComplete(f"the run used all {self.max_experiments()} of its experiments")
@@ -1246,22 +1372,21 @@ class Driver:
     def set_aside(self, why: str, rec: str, to_strategy: bool) -> None:
         td, rounds = self.task_dir(), self.state.get("rounds", 0)
         atomic_write(td / "rejected.md", why + "\n")
-        self.ledger([td.name, self.state.get("node", ""), rec, "", "", "",
+        self.ledger([td.name, self.state.get("node", ""), rec, "", "",
+                     f"{self.state.get('agent_seconds', 0) / 60:.0f}", "",
                      "to strategy" if to_strategy else "sent back", why])
-        after = self.state.get("after")  # keep the digest check for the next critique
+        keep = {k: self.state[k] for k in ("after", "audited") if k in self.state}
         self.state = {"phase": "strategy" if to_strategy else "propose",
                       "task": self.new_task_id(), "rejected": str(td / "proposal.md"),
-                      "previous": str(td), "rounds": rounds + 1}
-        if after:
-            self.state["after"] = after
+                      "previous": str(td), "rounds": rounds + 1, **keep}
         self.task_dir().mkdir(parents=True, exist_ok=True)
         self.save()
         self.log(f"proposal {'sent to the strategist' if to_strategy else 'sent back to the steward'}"
                  f" ({why})")
 
     # -- the run ledger: one row per cycle, for the owner's review ---------
-    LEDGER_HEAD = ("| task | node | critic | code review | queue min (est) | charged | outcome | "
-                   "decision |\n|---|---|---|---|---|---|---|---|\n")
+    LEDGER_HEAD = ("| task | node | critic | code review | queue min (est) | agent min | charged | "
+                   "outcome | decision |\n|---|---|---|---|---|---|---|---|---|\n")
 
     def ledger(self, cells: list[str]) -> None:
         if not self.auto or not self.run_info.get("id"):
@@ -1295,8 +1420,13 @@ class Driver:
         review = front("code_review.md", "verdict")
         if self.state.get("repairs"):
             review += f" after {self.state['repairs']} repair(s)"
-        self.ledger([td.name, self.state.get("node", ""), front("critique.md", "recommend"),
-                     review, queue_min,
+        node = self.state.get("node", "")
+        if bank := front("proposal.md", "bank"):
+            node += f" (bank: {bank})"
+        if self.is_probe():
+            node += " (probe)"
+        self.ledger([td.name, node, front("critique.md", "recommend"),
+                     review, queue_min, f"{self.state.get('agent_seconds', 0) / 60:.0f}",
                      "yes" if td.name in self.run_info.get("executed", []) else "no",
                      outcome, decision[:160]])
 
@@ -1371,6 +1501,7 @@ class Driver:
             self.task_dir().mkdir(parents=True, exist_ok=True)
             try:
                 self.call_agent("strategist", "summary", self.repo, started=info["started"],
+                                audit=FINAL_AUDIT.format(range=self.audit_range()),
                                 reason=reason, summary=str(summary),
                                 ledger=str(summary.with_name(f"{info['id']}-ledger.md")))
             except Exception as e:  # noqa: BLE001 - fall back to a plain summary

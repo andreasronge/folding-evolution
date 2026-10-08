@@ -12,7 +12,8 @@ cmd = ["claude", "-p", "{prompt}", "--model", "{model}", "--effort", "{effort}",
 [codex]
 cmd = ["codex", "exec", "{prompt}", "-m", "{model}",
        "-c", "model_reasoning_effort=\"{effort}\"",
-       "--dangerously-bypass-approvals-and-sandbox", "--add-dir", "{research_dir}"]
+       "--dangerously-bypass-approvals-and-sandbox", "--enable", "web_search_cached",
+       "--add-dir", "{research_dir}"]
 
 [gemini]
 cmd = ["gemini", "-p", "{prompt}", "-m", "{model}", "--yolo"]
