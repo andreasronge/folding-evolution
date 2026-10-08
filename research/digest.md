@@ -1,7 +1,8 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-08, after run 2026-10-08-1046 (root 23: frozen scoring completed, Bounded in both
-families; root 23 parked). Latest result: run 2026-10-08-1046, commit `a804f4f`. Core question since the 2026-09-25 reframe: *how
+As of 2026-10-08, after run 2026-10-08-1246 (root 10: comparison-gate bank frozen; corpus context
+beat token fitting 3.1× on its training cells; holdouts unsearched). Latest result: run
+2026-10-08-1246, commit `5dd86bd`. Core question since the 2026-09-25 reframe: *how
 does the genotype→program map bias what evolution finds and keeps ("arrival of the frequent"),
 and can that bias be adapted to a task family?* Run-by-run history, superseded numbers and the
 former long-form sections are in the questions' `log.md` files.
@@ -83,17 +84,18 @@ for these layouts at L 64; nothing beyond them.
 
 Status: 03, 05, 06 closed; 02, 04, 07, 08, 09 parked with reopen conditions in their question files.
 
-## 10 Compositional map transfer (root open, 15 of 15 used)
+## 10 Compositional map transfer (root open, 16 of 16 used)
 
 [10](questions/10-compositional-map-transfer/question.md): can a decoder adapted across related
 tasks help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 Stack tape `v2_rmin(_first)`, length-4 lists, P 256, lexicase on 64 cases with an exact check over
 the domain (D1331 from 0001 on), 524k cap. G / G4 are hand-set previous-token grammars; U uniform;
-"-marg" the same token marginals without context. All sub-questions 11–22 closed. Every bank is
-screened and inspected, so all transfer claims are development-bank claims.
+"-marg" the same token marginals without context. Sub-questions 11–24 closed; 25 open. Every bank
+used for a transfer claim so far was screened and inspected, so those are development-bank claims;
+the comparison-gate holdouts (25) are the first protected ones.
 
 **Banks.**
-- **No bank yet supports a symmetric two-family test.** The 3×3 reducer/combiner bank has no
+- **The sign-gated banks could not support a symmetric two-family test.** The 3×3 reducer/combiner bank has no
   eligible split at 524k and every split fails the 4 096-evaluation headroom rule under G
   ([11](questions/10-compositional-map-transfer/11-composition-bank/question.md)); none of six
   same-primitive assembly shapes gives two families with enough distinct cells, 0/45 rows, from
@@ -102,6 +104,12 @@ screened and inspected, so all transfer claims are development-bank claims.
   post-addition (PA) splits ([15](questions/10-compositional-map-transfer/15-four-reducer-family-bank/question.md)).
   Scope: these shapes, domains and frozen rules. Root 10 therefore ran a one-family PA split (G) and
   then a narrower BE/PA split on the four-reducer bank (BE holds out 1 cell, PA 2; G4).
+- **A comparison-gated bank does give a protected multi-holdout split.** Replacing the sign gate
+  with a reducer comparison (BE `A>B ? C : D+E`, PA `(A>B ? C : D)+E`, 13 tokens) keeps 37 BE and 56
+  PA behaviours after the exact ≤ 9-token screen (not a 13-token minimality certificate); a frozen,
+  performance-blind split gives 4 training and 4 untouched holdouts per family with matched token
+  totals. G4 solves 68% of training-cell searches at 524k (hardest cell 47%), so there is headroom.
+  ([24](questions/10-compositional-map-transfer/24-comparison-gate-bank/question.md), [run 1246](runs/2026-10-08-1246/analysis.md))
 - **Ten-token branch cells leave room above the hand-set grammars** (G medians 2–10× above 4 096; G4
   medians 8.7k–28.7k on all 13 retained cells). (12, 15)
 
@@ -183,12 +191,21 @@ screened and inspected, so all transfer claims are development-bank claims.
   1.200]: neither equality nor absence; about 46 new lineages would resolve it at the observed effect.
   Same seeds as 1924, not an independent replication.
   ([22](questions/10-compositional-map-transfer/22-feedback-context-increment/question.md))
+- **The one-shot context advantage replicates on the comparison-gate bank's training cells, larger.**
+  Same frozen fitting rule, 16 new independent G4 corpora (yield 58.9%): C/T 3.11× [2.78, 3.48]
+  (BE 2.86× [2.56, 3.20], PA 3.37× [2.74, 4.16]; 2.82× with unsolved at 1 × cap), 16/16 corpora and
+  64/64 corpus × cells; a broad shift, not only fewer capped T runs (median T/C 2.21× where both
+  solved). Both fits beat G4 descriptively (C 5.8×, T 1.9×), so T is not a damaged control. Each
+  cell was its fit's own source, so this is not transfer; emitted frequencies are not controlled
+  (K unscored). Why it exceeds the old bank's 1.37× (longer programs, harder base task, weaker T)
+  is not identified.
+  ([24](questions/10-compositional-map-transfer/24-comparison-gate-bank/question.md), [run 1246](runs/2026-10-08-1246/analysis.md))
 
 **Overall.** Useful, transferable assembly information beyond token frequency exists in this
 system's own solvers and can be fitted externally; the selection-based procedures tried have not
 demonstrated a contextual search advantage over their token controls. Learned token biases transfer about 2× but show no resolved family specificity.
-Not shown: that evolution reaches fitted context; what structure carries it; transfer to a fresh
-bank.
+Not shown: that evolution reaches fitted context; what structure carries it; transfer to protected
+new compositions (the comparison-gate holdouts, frozen and unsearched, are 25's test).
 
 ## 23 Heritable variation bias (root parked, budget 2, 2 used)
 
@@ -196,8 +213,8 @@ bank.
 with each program learn a useful bias through program selection alone, and help fresh populations
 once frozen? TAG threshold tasks (sum/max > 1, 5), development bank `tag-threshold-v1`.
 
-- **Under the one procedure tested, inherited frequencies did not give fresh populations a
-  useful bias on their training targets.** Pre-registered, 20 acquisitions per family × arm
+- **Under the one procedure tested, inherited frequencies gave fresh populations no useful
+  bias (the registered 1.5× gain over uniform) on their training targets.** Pre-registered, 20 acquisitions per family × arm
   (σ = 0.03 per component, 48 episodes × 128 generations), each frozen vector scored on 16
   shared seeds per target. Uniform ÷ inherited cost: sum 0.33× [0.21, 0.53] (inherited resolved
   worse than uniform), max 0.73× [0.50, 1.06] (a gain above 1.06× excluded, a loss up to about 2×
@@ -205,7 +222,8 @@ once frozen? TAG threshold tasks (sum/max > 1, 5), development bank `tag-thresho
   vectors. Fairly sure for this procedure; it bounds this σ, schedule and inheritance rule, not
   self-adaptation, and says nothing about transfer.
   ([run 1046](runs/2026-10-08-1046/analysis.md))
-- **Persistent ancestry made the max vectors less costly than shuffled ancestry, not useful.**
+- **Persistent ancestry made the max vectors less costly than shuffled ancestry; no gain over
+  uniform was established.**
   Broken ÷ inherited 1.58× [1.04, 2.36] on max (broken itself 2.17× costlier than uniform);
   unresolved on sum, 1.00× [0.69, 1.41]. Whether the vectors' movement is mostly drift was not
   isolated (no mutation-only control). Post hoc observations are in the

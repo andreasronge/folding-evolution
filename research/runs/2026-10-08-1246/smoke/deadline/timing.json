@@ -1,0 +1,15 @@
+{
+  "G4_training": {
+    "wall_seconds": 0.9764571669511497,
+    "worker_seconds": 0,
+    "rows": 0,
+    "expected_rows": 16,
+    "complete": false
+  },
+  "reporting": {
+    "wall_seconds": 0.3012175830081105
+  },
+  "total": {
+    "wall_seconds": 1.452242458006367
+  }
+}

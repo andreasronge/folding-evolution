@@ -1,0 +1,26 @@
+runs:
+  - id: 2026-10-08-1246-comparison-gate-training
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-08-1246 &&
+      exec .venv/bin/python -m experiments.chem_tape.comparison_gate_run
+      --workers 10 --deadline-seconds 10680
+    timeout_seconds: 10800
+    track: chem-tape
+    notes: >-
+      Approved stage 1 only: 3072 G4 collection, 2048 paired C/T training,
+      256 descriptive G4 training searches. Frozen comparison-gate-v1 bank.
+      Fixed BE/PA corpus-pair prefix; no holdout searches. Internal work cutoff
+      10560 s, reporting reserve 120 s, outer timeout 10800 s.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - schedule.json
+      - corpora.json
+      - freeze.json
+      - progress.json
+      - validation.json
+      - timing.json
+      - search.jsonl
+      - result.json
+      - report.md
+      - diagnostics.png

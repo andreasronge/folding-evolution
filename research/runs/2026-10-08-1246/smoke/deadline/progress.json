@@ -1,0 +1,6 @@
+{
+  "completed_pairs": 0,
+  "g4_complete": false,
+  "stop_kind": "timeout",
+  "stop_reason": "G4_training incomplete at internal deadline"
+}

@@ -1,0 +1,116 @@
+{
+  "task": "2026-10-08-1246",
+  "arguments": {
+    "workers": 10,
+    "deadline_seconds": 1800,
+    "smoke": true
+  },
+  "smoke_only": true,
+  "git_commit": "891ae912c0631b5f4094de0ac851169a882d8306",
+  "method": {
+    "bank_sha256": "df3476d0823cff5eaed57fccf19f01e6a2699442be3139b5f05cb56e5f7aa15d",
+    "split_hash": "b0cc4ae02bba8323416c34d525bf42c9aadd9b02c28de976b0a7d4d0c27b4dd8",
+    "inputs_hash": "04f205f26ccfb0a9a87e2f986265d5a5a95fa7097c87ed38c35416e83f2b8f67",
+    "code_hashes": {
+      "comparison_gate_bank.py": "8c20e52acb64ed798aea6e74bc5ce5ae1a5ee09d1e4a7f54e929febf37b5664a",
+      "comparison_gate_run.py": "e157bfcaec60111adba05531d5793687cc38d041259d1e844f1b35f4a4e50e43",
+      "comparison_gate_report.py": "5ea5e59927234453a02ae214c21403db60cdb9decadf8edf8276c77a7b7f9930",
+      "solver_corpus_fit.py": "3417323c732c5f0347bdba32d3f89db117a0d36cbc03cd661377b2f718307a81",
+      "composition_search.py": "eef3122121720cb0fa5da66cc004331ba4f7e86934d4dc5b50ca4f2df0b0bd07",
+      "four_reducer_maps.py": "4aa8d42651fa1ea5172e6fcf882a2015e2350022158b1be60ff2f892806f7455",
+      "map_learning.py": "930ac384f99ca3b8903f0f12b3e37720c070f42dd291a5a8725526b89c682e0a",
+      "rust_extension": "33ce621bb5edddb066bdc92544da89366c0356fc7c258f9f9241b6ca237f26a6"
+    },
+    "g4_hash": "8a7b3091f411e659f553981b8680dc5db4bd5f3f34b6eca9c8ab3ee3e728dc10",
+    "cap": 524288,
+    "population": 256,
+    "tape_length": 32,
+    "training_cases": 64,
+    "alphabet": "v2_rmin_first",
+    "crossover": 0.7,
+    "mutation": 0.03,
+    "elite": 2,
+    "initialization": "fresh random allele population",
+    "alpha": 50,
+    "cell_transition_weight": 1600,
+    "T_multipliers": 24,
+    "multiplier_bounds": [
+      0.0625,
+      16
+    ],
+    "minimum_count": 250,
+    "allele_range": 24000,
+    "K_steps": 400,
+    "K_step": 0.7,
+    "K_tolerance": 0.001,
+    "K_scored": false,
+    "cell_yield_floor": 1,
+    "continuation_pooled_yield_floor": 0.4,
+    "endpoint": "exp(mean_corpus(mean_cell_seed(log(cost_T)-log(cost_C))))",
+    "interval": "two-sided 95% t across independent corpus contrasts; equal family weights",
+    "unsolved_primary": "2*cap",
+    "unsolved_sensitivity": "1*cap",
+    "decision_precedence": [
+      "LB>1 and pooled_yield>=0.4: recommend stage 2",
+      "LB>1 and pooled_yield<0.4: acquisition obstacle, strategy",
+      "UB<1.10: gain bounded below 10%, no stage 2 for C/T",
+      "otherwise: unresolved, price additional corpora"
+    ],
+    "scope": "C versus restricted T fitting procedure; changed emitted frequencies not controlled",
+    "timeout_prefix": "BE1/PA1 through BE8/PA8; >=6 complete initial pairs; no error fallback",
+    "stage2": {
+      "corpora_per_family": 8,
+      "holdouts": {
+        "BE": [
+          "BE:S>F?M:S+m",
+          "BE:S>F?M:M+m",
+          "BE:S>F?m:M+m",
+          "BE:F>m?F:M+S"
+        ],
+        "PA": [
+          "PA:(S>F?M:S)+m",
+          "PA:(M>F?M:S)+m",
+          "PA:(F>S?M:m)+m",
+          "PA:(M>F?F:S)+m"
+        ]
+      },
+      "seeds_per_cell_table": 16,
+      "G4_seeds_per_holdout": 32,
+      "searches": 4352,
+      "K_scored": false,
+      "endpoint": "same corpus statistic over all eight holdouts",
+      "interval": "95% t across 16 corpus contrasts",
+      "unsolved_primary": "2*cap",
+      "sensitivity": "1*cap and per-training-family",
+      "allocation": "not authorised in this stage"
+    }
+  },
+  "method_hash": "9ed2ae50f97f529ce6901d1a9a59e648a1cf8908b0e9d0cd22b8d483497bf534",
+  "training": {
+    "BE": [
+      "BE:F>S?F:M+m",
+      "BE:F>m?S:F+M",
+      "BE:S>F?M:F+m",
+      "BE:S>F?m:M+S"
+    ],
+    "PA": [
+      "PA:(F>S?F:m)+M",
+      "PA:(F>S?m:M)+F",
+      "PA:(M>F?m:S)+S",
+      "PA:(S>F?M:m)+m"
+    ]
+  },
+  "seed_base": 202710081246,
+  "seed_rule": "base+phase*1000000+(family==PA)*100000+corpus_index*2000+cell_index*200+seed_index",
+  "nc": 1,
+  "collect_n": 8,
+  "fresh_n": 2,
+  "g4_n": 2,
+  "workers": 10,
+  "pair_order": [
+    [
+      "BE1",
+      "PA1"
+    ]
+  ]
+}

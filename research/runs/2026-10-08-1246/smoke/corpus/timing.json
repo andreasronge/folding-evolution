@@ -1,0 +1,36 @@
+{
+  "G4_training": {
+    "wall_seconds": 35.20426425000187,
+    "worker_seconds": 277.5782801230671,
+    "rows": 16,
+    "expected_rows": 16,
+    "complete": true
+  },
+  "collection:BE1": {
+    "wall_seconds": 53.99325325002428,
+    "worker_seconds": 426.1513285016408,
+    "rows": 32,
+    "expected_rows": 32,
+    "complete": true
+  },
+  "collection:PA1": {
+    "wall_seconds": 47.755214374978095,
+    "worker_seconds": 365.6885679566767,
+    "rows": 32,
+    "expected_rows": 32,
+    "complete": true
+  },
+  "training:BE1+PA1": {
+    "wall_seconds": 51.50881487492006,
+    "worker_seconds": 345.36175729171373,
+    "rows": 32,
+    "expected_rows": 32,
+    "complete": true
+  },
+  "reporting": {
+    "wall_seconds": 1.4817449999973178
+  },
+  "total": {
+    "wall_seconds": 190.4157164579956
+  }
+}

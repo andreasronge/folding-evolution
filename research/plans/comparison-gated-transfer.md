@@ -1,9 +1,10 @@
 # Transfer on compositions with reducer-to-reducer conditions
 
-Reserve concept plan for [root 10](../questions/10-compositional-map-transfer/question.md),
-written by [strategy 1046](../runs/2026-10-08-1046/strategy.md). No experiment is allocated
-yet. The steward should price it at the next review, after root 23's recovery. This is a
-direction and implementation plan, not an experiment registration.
+Concept plan for [root 10](../questions/10-compositional-map-transfer/question.md),
+written by [strategy 1046](../runs/2026-10-08-1046/strategy.md). After root 23's bounded
+result, [strategy 1246](../runs/2026-10-08-1246/strategy.md) funds **one first-stage
+experiment**, followed by strategy review. Transfer remains conditional and unallocated.
+This is a direction and implementation plan, not an experiment registration.
 
 **Question.** Does solver-corpus context retain a useful advantage over token fitting on
 new operation combinations, with several withheld behaviours in each of two task families?
@@ -88,3 +89,22 @@ require a credible price for the complete answer within the remaining autonomous
 including the 120-minute prepare limit per build. Review after feasibility before allocating
 transfer. Failure of this candidate does not show that transferable assembly bias is absent;
 it supplies a specific obstacle for the next cost/value decision.
+
+**Current allocation (1246).** Root 10 rises from 15 to 16 experiments, one new slot through
+the next review. Expect 4–6 hours total for this stage, including preparation, review,
+semantic screening, development searches, reporting and contingency; at most three hours
+of queue timeouts, or 60 minutes if proposed as a probe. Preserve the 120-minute prepare
+limit. Return to strategy after this stage or an earlier build/cost obstacle. The complete
+question still has a provisional 12–18-hour price, including this stage; it must be repriced
+from the new bank before transfer is allocated.
+
+The deliverable is either a semantically eligible, frozen split with measured training/
+development collection and scoring rates and a decision-sized continuation price, or the
+specific reason that this candidate cannot deliver that answer at the allocated cost.
+Where affordable, development-only C/T comparisons can inform that price and scientific
+value. A tiny unresolved pilot is not evidence that useful context is absent. Do not spend
+this slot on a full baseline sweep without pricing the fitted-map comparison it enables.
+Use existing bounded alias witnesses; do not expand into exhaustive 12-token enumeration.
+Save the exact D1331 input manifest (length-three lists), bank rules, split and method hashes.
+No performance search, including G4 timing, runs on protected holdouts in this stage.
+If a bank is admitted, freeze the full transfer procedure before scoring those targets.

@@ -1,0 +1,3 @@
+{"stage": "fit", "corpus": "BE1", "yields": {"BE:F>S?F:M+m": 3, "BE:F>m?S:F+M": 4, "BE:S>F?M:F+m": 6, "BE:S>F?m:M+S": 7}, "distinct_tapes": {"BE:F>S?F:M+m": 3, "BE:F>m?S:F+M": 4, "BE:S>F?M:F+m": 6, "BE:S>F?m:M+S": 7}, "elapsed": 89.50753508298658}
+{"stage": "fit", "corpus": "PA1", "yields": {"PA:(F>S?F:m)+M": 6, "PA:(F>S?m:M)+F": 6, "PA:(M>F?m:S)+S": 7, "PA:(S>F?M:m)+m": 6}, "distinct_tapes": {"PA:(F>S?F:m)+M": 6, "PA:(F>S?m:M)+F": 6, "PA:(M>F?m:S)+S": 7, "PA:(S>F?M:m)+m": 6}, "elapsed": 137.41511366690975}
+{"stage": "pair_complete", "pair": ["BE1", "PA1"], "elapsed": 188.926438333001}
