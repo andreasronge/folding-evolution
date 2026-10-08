@@ -1,0 +1,31 @@
+runs:
+  - id: 2026-10-08-1831-partial-program-context
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-08-1831 &&
+      exec .venv/bin/python -m experiments.chem_tape.partial_program_run
+      --workers 10 --deadline-seconds 14220
+    timeout_seconds: 14400
+    track: chem-tape
+    notes: >-
+      Approved training-cell acquisition mechanism test: 2048 bounded G4 sources,
+      5120 fresh searches paired across C_S/T_S/C_P/C_exact/G4, 16 independent
+      corpora. Evaluated-population checkpoints 64/128/256, eight samples per
+      kind, exact-solve generations excluded. Fixed BE_i/PA_i collect-fit-score
+      blocks; only complete balanced prefix (at least six pairs) inferential.
+      Empty cells and execution errors fail, never resample. Independent smoke
+      seeds excluded. Measured projection about 144 minutes; four-hour outer
+      timeout, 14100-second work cutoff, 120-second internal reporting reserve
+      and 180-second outer reserve. No holdout scoring, transfer or K scoring.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - schedule.json
+      - corpora.json
+      - freeze.json
+      - progress.json
+      - validation.json
+      - timing.json
+      - search.jsonl
+      - result.json
+      - report.md
+      - diagnostics.png

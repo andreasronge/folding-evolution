@@ -482,3 +482,59 @@ with the frozen stage-2 proposal (run 1534), because the pre-stated rule routes 
 wide margin and this is the first bank whose holdouts can test transfer across several new
 compositions per family; root 10 has 16 of 16 used, so the proposal goes to the strategist for
 allocation, as strategy 1246 required a review before transfer is funded.
+
+
+## 2026-10-08: runs 2026-10-08-1548 (25/26) and 2026-10-08-1831 (27) — ran
+
+Run 1548 (slot 17, commit `45b2bdb`) is logged in [26](26-then-addition-fresh-bank/log.md):
+frozen 1246 tables, C/T 2.12× [1.86, 2.41] on the fresh then-addition bank, 2.60× [2.31, 2.92]
+on comparison-gate-v1's protected holdouts. Correction (critique 1831 note 6): the secondary
+1.38× [1.13, 1.68] there is (C/T)_BE / (C/T)_PA, not BE-fitted over PA-fitted C.
+
+Run 1831 (slot 18, commit `998a9fe`, [analysis](../../runs/2026-10-08-1831/analysis.md)),
+details in [27](27-partial-program-context/log.md): fits to tapes from G4 searches stopped
+before any exact solve, on the comparison-gate training cells. C_S/T_S 1.28× [1.12, 1.45],
+C_S/G4 1.62× [1.37, 1.90], C_S/C_P 1.04× [0.92, 1.16], C_S/C_exact 0.27× [0.24, 0.30];
+both-solved C_S/T_S 1.05× [0.88, 1.24]; BE 1.42×, PA 1.15× [0.96, 1.38].
+
+Decision: close 27 and return to strategy, because strategy 1831 allocated only this first stage
+and asked for a review after it; the result routes to "useful", which by the plan makes the
+bounded feedback stage (8–12 h, not yet allocated) the candidate the strategist must weigh against
+the deferred alternatives. 18 of 20 slots used. ([decision](../../runs/2026-10-08-1831/decision.md))
+
+## 2026-10-08 — digest condensing (run 2026-10-08-1831): history and detail moved here
+
+The digest was compressed under its word limit; no belief changed. These root-10 passages were
+cut or shortened there and are kept here verbatim. Relative links are relative to `research/`.
+
+- Former preamble: "As of 2026-10-08, after run 2026-10-08-1831 (root 10: a context fit to tapes
+  from searches that had not yet solved beat a token fit to the same tapes 1.28× on training cells,
+  far below the exact-solver fit)."
+- Bank scope: "Every bank before then-addition-v1 was screened and inspected, so their transfer
+  claims (including comparison-gate-v1's protected holdouts, 25) are development-bank claims".
+- 24: "keeps 37 BE and 56 PA behaviours … a frozen, performance-blind split gives 4 training and 4
+  holdouts per family (unsearched until 1548)"; "Both fits beat G4 descriptively (C 5.8×, T 1.9×)."
+- 13 (token learning on G): "2.25× [1.81, 2.81] and 2.06× [1.60, 2.63] on the two withheld cells
+  (200 seeds), 2.23× [1.66, 3.06] on branch-else …; about a quarter of the training log-gain is
+  lost on holdouts (descriptive)."
+- 16 (token learning on G4): "2.18× / 2.27× on own-family training cells, about 2.0× on the BE
+  withheld cell and 2.5–2.6× on the two PA withheld cells"; "the BE bound rises to about 1.3×
+  leave-one-map-out".
+- 14: "Their off-family branch-over-linear shift did not replicate across learning runs (1.86× on
+  "a", 0.73× on "b")."
+- 18/19 (superseded loop): "in a loop where token continuation learned (96 searches per candidate;
+  T/S 1.14× [1.09, 1.20] and 1.12× [1.03, 1.22] on two fresh blocks) … The earlier 24-search loop
+  (C/T 0.955×) did not resolve token learning, so it was not a fair test."
+- 20: "Matching C's pooled emitted frequencies does not reproduce it (C/K 1.65×), though that
+  control is itself slower than T. … one PA cell favoured the mismatched fit, 0.75× [0.63, 0.89]".
+- 21: "a fresh one-shot G4 refit C' is not resolved from C"; "(row entropy 3.91 → 3.80 bits, order
+  information 0.41 → 0.48); not shown causal. Whether a second step helps or harms is untested."
+- 22: "(BE 1.34× [1.19, 1.50], PA 1.02× [0.95, 1.09] …); the token-only fit also gained (T2/T1
+  1.20× training, 1.19× withheld) … about 46 new lineages would resolve it at the observed effect."
+- 25/26: "Same fitting rule"; "(C 87%, T 76%, G4 63% solved)"; "all cells on two tie-heavy gates
+  (F>m, M>F)"; "external fitting"; "why the gain shrinks (branch placement, gates, near-alias
+  density) is not identified."
+- 27: "each from 32 G4 searches per cell stopped at first solve or 65k evaluations, 8 parent tapes
+  per checkpoint (generations 64/128/256). C_S/T_S 1.28× [1.12, 1.45] (13/16 corpora; 1 × cap
+  1.22×; …) … C_S/G4 1.62× [1.37, 1.90] (16/16); T_S/G4 1.27×. … used about 7.9× more source
+  evaluations per cell."

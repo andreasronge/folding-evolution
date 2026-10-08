@@ -1,0 +1,21 @@
+{
+  "method_hash": "c24257db19447d2fe4a029e185dcdd8c5d1dc5d9c17f5956433bcb739b819239",
+  "bank_sha256": "df3476d0823cff5eaed57fccf19f01e6a2699442be3139b5f05cb56e5f7aa15d",
+  "schedule_hash": "7d84215b9110906b7afdf7c6e20f393f98e1a681e8f0fab29e2e05e93fc18813",
+  "fitted_table_hashes": {
+    "BE1": {
+      "C_S": "c0d6b033fabd459ab4194b6c1b4eb534c776f7486ea5e04117d65a4c43ccec2b",
+      "T_S": "9fd7137014c7eda8b36c73eb2fd6460c72f9985ef7048d931fe32d0659d950fc",
+      "C_P": "8cd864454518d8a3464dd3dba5bb6c9e82c3a0d5a05c2f9e41889b9c17f159b4",
+      "C_exact": "2a9fc619a7a50692d5bbc3cbcba75a3ea4fa33c4d42f0f283fed5b5a53fdee3b"
+    },
+    "PA1": {
+      "C_S": "8b67d7b20af86005c02ab133f22b6c0232b34dd1f27480b3d8ab46f1b250c23f",
+      "T_S": "68e260322534e202fd36a21c683736e8f3bd20af3df6210a3bc66d394b49fe2d",
+      "C_P": "57470572aba48df8e06c1b5ada2f89d15971469df7c097d33767f1c216d9fe72",
+      "C_exact": "9622e61c1e34979ca1f8e40e68846981bfe54892f6ffa37e52726f3f9fc57aad"
+    }
+  },
+  "smoke_only": true,
+  "complete": false
+}
