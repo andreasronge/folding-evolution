@@ -1,7 +1,7 @@
 ---
 status: open
 tags: [map-bias, evolve-the-bias, task-family, compositional-transfer, decoder, fresh-start]
-budget: {experiments: 16, used: 0}
+budget: {experiments: 20, used: 0}
 ---
 # Can an adapted decoder help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 
@@ -39,15 +39,28 @@ step also raised the fitted context's advantage over a token-only fit to the sam
 that interaction is unresolved (1.09× [0.98, 1.20]) (22). The selection-based learners tried so
 far did not reach it. On a new comparison-gated bank (13-token compositions, 4 training and 4
 protected holdouts per family), the same one-shot fit replicated on training cells with a larger
-effect: C/T 3.11× [2.78, 3.48] over 16 fresh corpora, 16/16 corpora favouring C (24); its
-eight frozen holdouts are unsearched (25)**
-(16 of 16 slots used; strategy 1246 raised the budget from 15 to 16, for 24; strategy 2129 raised the budget from 14 to 15, for 22; strategy 1924 raised the budget from 13 to 14; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
+effect: C/T 3.11× [2.78, 3.48] over 16 fresh corpora, 16/16 corpora favouring C (24). The same
+frozen tables kept most of that advantage on the eight protected holdouts of that (development)
+bank, 2.60× [2.31, 2.92] (25), and on a fresh bank of a new shape, then-addition `A>B ? C+D : E`
+(16 semantically selected cells on two gates), 2.12× [1.86, 2.41], a resolved shrinkage from
+training of 0.68× [0.57, 0.81] (26). What carries the gain (emitted frequencies versus order,
+K unscored there) and why it shrinks are not identified**
+(17 of 20 slots used; allocation 1534 raised the budget from 16 to 20 for a four-slot block, first
+slot run 1548; strategy 1246 raised the budget from 15 to 16, for 24; strategy 2129 raised the budget from 14 to 15, for 22; strategy 1924 raised the budget from 13 to 14; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
 2331 to 10, strategy 0803 to 12, strategy 1137 to 13; sub-questions [18](18-compact-context-learning/question.md)
 and [19](19-selection-calibrated-continuation/question.md) closed;
 [20](20-solver-corpus-context/question.md) closed after run 1707,
 [21](21-iterated-solver-corpus/question.md) after run 1924;
 [22](22-feedback-context-increment/question.md) closed after run 2156; its first attempt,
 run 2129, stopped at preparation).
+Run 2026-10-08-1548 ([26](26-then-addition-fresh-bank/question.md), commit `45b2bdb`, rows F
+and D): the 32 frozen 1246 tables, no refit, on (F) the fresh then-addition bank (16 cells × 8
+paired seeds per corpus, 4 352 searches, 70 min) and (D) 1246's unchanged holdout roster (4 352
+searches, 52 min); complete, no errors. F: C/T 2.12× [1.86, 2.41], 1 × cap 1.96×, both-solved
+1.74×; 16/16 corpora, 14/16 cells resolved; solves C 86.5%, T 75.5%, G4 63.3%; shrinkage from
+training 0.68× [0.57, 0.81]; BE-fitted over PA-fitted 1.38× [1.13, 1.68]. D: C/T 2.60× [2.31,
+2.92], 8/8 holdouts resolved; own-family holdout/training 0.88× [0.72, 1.07]; matched over
+mismatched 1.10× [0.89, 1.35].
 Run 2026-10-07-2156 ([22](22-feedback-context-increment/question.md), commit `36c665d`,
 training row 1, holdout row 4): token-only fits T1 (to 1707 corpora) and T2 (to 1924 feedback
 corpora) scored on the exact 1924 seeds of C1 and C2; 32 lineages, 5 120 training and 3 072
@@ -191,18 +204,19 @@ Competing explanations:
 - E: The proposed tasks or adaptation loop are not tractable at the measured budget.
   This is a feasibility result about this design, not a negative answer to A.
 
-Where they stand after runs 1707, 1924 and 2156: A's first half (held-out gain beyond a fitted independent-token
-map) is supported for an externally fitted previous-token table, not yet for any adapted-by-
-selection decoder; its second half (advantage tied to the training family) is not supported:
+Where they stand after runs 1707, 1924, 2156 and 1548: A's first half (held-out gain beyond a fitted independent-token
+map) is supported for an externally fitted previous-token table, now also on a fresh bank of a new
+shape (2.12×, 26), not yet for any adapted-by-selection decoder; its second half (advantage tied to the training family) is not supported:
 no matched-family gain was resolved on the three withheld cells, one PA cell resolved the other way, and
-the token maps' family contrast is bounded (16). B remains compatible with every selection-based
+the token maps' family contrast is bounded (16); on the comparison-gate holdouts family matching
+is 1.10× [0.89, 1.35], unresolved (25). B remains compatible with every selection-based
 learner tried (token gain about 2×, no contextual increment resolved). For the fitted tables, the
 tested token-only fit and G4 do not reproduce C's gain, C2 adds a further 1.29× on the withheld
 cells, and on training cells a token-only refit to the feedback corpus recovers only part of
 C2's increment (I 1.17×, BE-carried; withheld cells unresolved); a broader generic or task-agnostic assembly explanation has not been tested and remains
 possible. C is not supported (withheld gains 2–3× for
 token maps, plus 1.29× for C and a further 1.29× for C2; the extent of overfitting was not
-isolated). D is not supported at this budget. E applied to two banks and
+isolated; cross-shape shrinkage of C/T from training is resolved, 0.68×, but 2.1× remains). D is not supported at this budget. E applied to two banks and
 was resolved by the four-reducer bank.
 
 Sub-questions: [11-composition-bank](11-composition-bank/question.md) (closed: this bank
@@ -261,8 +275,12 @@ fit also improved 1.20×; on the withheld cells I 1.09× [0.98, 1.20], unresolve
 2026-10-08-1246: comparison-gated BE/PA bank, 37/56 behaviours retained, frozen 4 + 4 split per
 family; on the training cells C/T 3.11× [2.78, 3.48], 16 corpora, collection yield 58.9%; both
 fits beat G4 descriptively, C 5.8×, T 1.9×; training cells only, emitted frequencies uncontrolled).
-[25-comparison-gate-transfer](25-comparison-gate-transfer/question.md) (open, 1 slot, unfunded at
-root level: the frozen 1246 tables on the eight protected holdouts).
+[25-comparison-gate-transfer](25-comparison-gate-transfer/question.md) (closed, answered by run
+2026-10-08-1548 row D: C/T 2.60× [2.31, 2.92] on the eight protected holdouts of development bank
+comparison-gate-v1; family matching 1.10× [0.89, 1.35], unresolved).
+[26-then-addition-fresh-bank](26-then-addition-fresh-bank/question.md) (closed, 1 of 1 slot, run
+2026-10-08-1548 row F: on the fresh then-addition bank C/T 2.12× [1.86, 2.41], 16 corpora,
+shrinkage from training 0.68× [0.57, 0.81]; one selected bank, two gates, K unscored).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
@@ -278,6 +296,7 @@ Related: [core question](../../../README.md#core-question),
 [run 1924 decision](../../runs/2026-10-07-1924/decision.md),
 [run 2156 decision](../../runs/2026-10-07-2156/decision.md),
 [run 1246 decision](../../runs/2026-10-08-1246/decision.md),
+[run 1548 decision](../../runs/2026-10-08-1548/decision.md),
 [digest](../../digest.md), [chem-tape findings](../../../docs/chem-tape/findings.md).
 
 Review after the feasibility experiment and after the four allocated experiments. A

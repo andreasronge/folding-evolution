@@ -1,8 +1,8 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-08, after run 2026-10-08-1246 (root 10: comparison-gate bank frozen; corpus context
-beat token fitting 3.1× on its training cells; holdouts unsearched). Latest result: run
-2026-10-08-1246, commit `5dd86bd`. Core question since the 2026-09-25 reframe: *how
+As of 2026-10-08, after run 2026-10-08-1548 (root 10: the frozen corpus-context fits kept a 2.1×
+advantage over token fitting on a fresh bank of a new shape, 2.6× on the comparison-gate holdouts).
+Latest result: run 2026-10-08-1548, commit `45b2bdb`. Core question since the 2026-09-25 reframe: *how
 does the genotype→program map bias what evolution finds and keeps ("arrival of the frequent"),
 and can that bias be adapted to a task family?* Run-by-run history, superseded numbers and the
 former long-form sections are in the questions' `log.md` files.
@@ -84,15 +84,16 @@ for these layouts at L 64; nothing beyond them.
 
 Status: 03, 05, 06 closed; 02, 04, 07, 08, 09 parked with reopen conditions in their question files.
 
-## 10 Compositional map transfer (root open, 16 of 16 used)
+## 10 Compositional map transfer (root open, 17 of 20 used)
 
 [10](questions/10-compositional-map-transfer/question.md): can a decoder adapted across related
 tasks help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 Stack tape `v2_rmin(_first)`, length-4 lists, P 256, lexicase on 64 cases with an exact check over
 the domain (D1331 from 0001 on), 524k cap. G / G4 are hand-set previous-token grammars; U uniform;
-"-marg" the same token marginals without context. Sub-questions 11–24 closed; 25 open. Every bank
-used for a transfer claim so far was screened and inspected, so those are development-bank claims;
-the comparison-gate holdouts (25) are the first protected ones.
+"-marg" the same token marginals without context. Sub-questions 11–26 closed. Every bank before
+then-addition-v1 was screened and inspected, so their transfer claims (including comparison-gate-v1's
+protected holdouts, 25) are development-bank claims; then-addition-v1 (26) is the first fresh bank,
+frozen with the method before scoring.
 
 **Banks.**
 - **The sign-gated banks could not support a symmetric two-family test.** The 3×3 reducer/combiner bank has no
@@ -107,8 +108,8 @@ the comparison-gate holdouts (25) are the first protected ones.
 - **A comparison-gated bank does give a protected multi-holdout split.** Replacing the sign gate
   with a reducer comparison (BE `A>B ? C : D+E`, PA `(A>B ? C : D)+E`, 13 tokens) keeps 37 BE and 56
   PA behaviours after the exact ≤ 9-token screen (not a 13-token minimality certificate); a frozen,
-  performance-blind split gives 4 training and 4 untouched holdouts per family with matched token
-  totals. G4 solves 68% of training-cell searches at 524k (hardest cell 47%), so there is headroom.
+  performance-blind split gives 4 training and 4 holdouts per family (unsearched until 1548) with
+  matched token totals. G4 solves 68% of training-cell searches at 524k (hardest cell 47%), so there is headroom.
   ([24](questions/10-compositional-map-transfer/24-comparison-gate-bank/question.md), [run 1246](runs/2026-10-08-1246/analysis.md))
 - **Ten-token branch cells leave room above the hand-set grammars** (G medians 2–10× above 4 096; G4
   medians 8.7k–28.7k on all 13 retained cells). (12, 15)
@@ -192,20 +193,32 @@ the comparison-gate holdouts (25) are the first protected ones.
   Same seeds as 1924, not an independent replication.
   ([22](questions/10-compositional-map-transfer/22-feedback-context-increment/question.md))
 - **The one-shot context advantage replicates on the comparison-gate bank's training cells, larger.**
-  Same frozen fitting rule, 16 new independent G4 corpora (yield 58.9%): C/T 3.11× [2.78, 3.48]
-  (BE 2.86× [2.56, 3.20], PA 3.37× [2.74, 4.16]; 2.82× with unsolved at 1 × cap), 16/16 corpora and
-  64/64 corpus × cells; a broad shift, not only fewer capped T runs (median T/C 2.21× where both
-  solved). Both fits beat G4 descriptively (C 5.8×, T 1.9×), so T is not a damaged control. Each
-  cell was its fit's own source, so this is not transfer; emitted frequencies are not controlled
-  (K unscored). Why it exceeds the old bank's 1.37× (longer programs, harder base task, weaker T)
-  is not identified.
+  Same fitting rule, 16 new G4 corpora (yield 58.9%): C/T 3.11× [2.78, 3.48] (BE 2.86×, PA 3.37×;
+  2.82× at 1 × cap), 16/16 corpora; a broad shift, not only fewer capped T runs. Both fits beat G4
+  descriptively (C 5.8×, T 1.9×). Why it exceeds the old bank's 1.37× is not identified.
   ([24](questions/10-compositional-map-transfer/24-comparison-gate-bank/question.md), [run 1246](runs/2026-10-08-1246/analysis.md))
+- **Those frozen tables keep most of the advantage on protected holdouts and on one fresh bank of a
+  new shape, shrunk from training.** No refit. On comparison-gate-v1's eight protected holdouts
+  (development bank): C/T 2.60× [2.31, 2.92], 8/8 holdouts resolved. On fresh `then-addition-v1`
+  (`A>B ? C+D : E`, same 13 tokens, 16 cells chosen by a semantic screen alone and pinned before
+  any search): 2.12× [1.86, 2.41], 16/16 corpora, 14/16 cells resolved; 1.96× at 1 × cap and 1.74×
+  on pairs both arms solved (C 87%, T 76%, G4 63% solved). Shrinkage from training is resolved
+  across shape, 0.68× [0.57, 0.81], unresolved within shape, 0.88× [0.72, 1.07]. Family matching on
+  the holdouts 1.10× [0.89, 1.35], unresolved; on the fresh bank BE-fitted tables transfer better,
+  1.38× [1.13, 1.68] (secondary). Scope: one fresh bank, designed after v1 was seen, all cells on
+  two tie-heavy gates (F>m, M>F); the interval conditions on these 16 cells; external fitting;
+  K unscored, so C's emitted frequencies are not separated from order on this bank; why the gain
+  shrinks (branch placement, gates, near-alias density) is not identified.
+  ([25](questions/10-compositional-map-transfer/25-comparison-gate-transfer/question.md),
+  [26](questions/10-compositional-map-transfer/26-then-addition-fresh-bank/question.md), [run 1548](runs/2026-10-08-1548/analysis.md))
 
-**Overall.** Useful, transferable assembly information beyond token frequency exists in this
-system's own solvers and can be fitted externally; the selection-based procedures tried have not
-demonstrated a contextual search advantage over their token controls. Learned token biases transfer about 2× but show no resolved family specificity.
-Not shown: that evolution reaches fitted context; what structure carries it; transfer to protected
-new compositions (the comparison-gate holdouts, frozen and unsearched, are 25's test).
+**Overall.** Useful assembly information beyond a token-only fit exists in this system's own
+solvers and can be fitted externally; it transfers to withheld compositions and, on one fresh bank
+of a new shape, at about 2× (shrunk by a third from training). The selection-based procedures tried
+have not demonstrated a contextual search advantage over their token controls. Learned token biases
+transfer about 2× but show no resolved family specificity. Not shown: that evolution reaches fitted
+context; what structure carries it (order versus emitted frequency is separated only on the old
+bank, 20); transfer beyond this one fresh shape.
 
 ## 23 Heritable variation bias (root parked, budget 2, 2 used)
 

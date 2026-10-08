@@ -1,0 +1,22 @@
+{
+  "G4": {
+    "wall_seconds": 53.2442865408957,
+    "worker_seconds": 252.09157249808777,
+    "rows": 16,
+    "expected_rows": 16,
+    "complete": true
+  },
+  "BE1+PA1": {
+    "wall_seconds": 31.909173125051893,
+    "worker_seconds": 194.490907710162,
+    "rows": 32,
+    "expected_rows": 32,
+    "complete": true
+  },
+  "reporting": {
+    "wall_seconds": 1.4942085419315845
+  },
+  "total": {
+    "wall_seconds": 87.27147054194938
+  }
+}

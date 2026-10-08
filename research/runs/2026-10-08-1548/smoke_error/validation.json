@@ -1,0 +1,16 @@
+{
+  "passed": false,
+  "solver_verifications": 0,
+  "pairing_checks": 0,
+  "source_tables_checked": 48,
+  "source_sha256": {
+    "config.json": "c8c9ee2d5bff13a5ec3809c40d09a1440f761ef525a1dea4d487e318d8b9bb82",
+    "corpora.json": "96458a79535337f8a6549b378a3eaa8cb65e86e7e8e02df51a1b735675ae633e",
+    "freeze.json": "5c0924f7e3ce4ed273251a39bbe91c590e849375dbbe66abd22e0edf0e89715d",
+    "schedule.json": "2e28da3bf43e883fc5ed26b85e83e55f2eb1cb5623cf27a4fb4a60c29a8ca47d",
+    "search.jsonl": "95a1bf0782cf8e5e2f1f754ced4f82a831c4acb2b5aea5077da20fc415294995"
+  },
+  "target_searches": 0,
+  "training_only_smoke": true,
+  "completed_pairs": 0
+}

@@ -1,0 +1,9 @@
+D1331 {'depth': 1, 'states': 8, 'output_only': False, 'distinct_outputs': 4, 'seconds': 0.01321762497536838, 'peak_rss_mb': 128.46875}
+D1331 {'depth': 2, 'states': 59, 'output_only': False, 'distinct_outputs': 9, 'seconds': 0.013571291929110885, 'peak_rss_mb': 128.46875}
+D1331 {'depth': 3, 'states': 460, 'output_only': False, 'distinct_outputs': 18, 'seconds': 0.014395999955013394, 'peak_rss_mb': 128.6875}
+D1331 {'depth': 4, 'states': 3615, 'output_only': False, 'distinct_outputs': 64, 'seconds': 0.01946270896587521, 'peak_rss_mb': 130.171875}
+D1331 {'depth': 5, 'states': 28580, 'output_only': False, 'distinct_outputs': 183, 'seconds': 0.049396959017030895, 'peak_rss_mb': 140.34375}
+D1331 {'depth': 6, 'states': 226078, 'output_only': False, 'distinct_outputs': 570, 'seconds': 0.2669559170026332, 'peak_rss_mb': 208.171875}
+D1331 {'depth': 7, 'states': 1789727, 'output_only': False, 'distinct_outputs': 1930, 'seconds': 2.037416916922666, 'peak_rss_mb': 746.28125}
+D1331 {'depth': 8, 'states': 14172986, 'output_only': False, 'distinct_outputs': 6836, 'seconds': 17.68642441695556, 'peak_rss_mb': 4981.4375}
+D1331 {'depth': 9, 'states': None, 'output_only': True, 'distinct_outputs': 20752, 'seconds': 107.16962025000248, 'peak_rss_mb': 5226.890625}
