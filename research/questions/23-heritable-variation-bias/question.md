@@ -5,13 +5,18 @@ budget: {experiments: 2, used: 0}
 ---
 # Can inherited token-generation frequencies learn a useful bias through program selection and transfer it to fresh populations?
 
-Current summary: Untested. Two designs were built and validated and both stopped at their
-pre-run cost gates. Run 2026-10-07-2243 (early-stopped episodes) used an over-strict
-worst-search gate; its stage 0 showed that early stopping gives the less successful arm about
-3× more generations. Run 2026-10-08-0843 (equal 128-generation episodes, uniform as primary
-reference, code `c01f16d`) missed a 3 h timeout ceiling by 68 s because max acquisitions cost
-400–430 s, mostly exact verification; expected queue ≈ 83 min. Timing runs (n = 1 per cell,
-observations only) solved 35/25 (sum inherited/broken) and 26/19 (max) of 48 episodes.
+Current summary: Untested; no primary measurement yet. Three runs of the same mechanism:
+run 2026-10-07-2243 (early-stopped episodes) stopped at an over-strict worst-search cost gate;
+in its single sum timing pair the less successful broken arm received about 3× as many
+generations under early stopping (5 053 vs 1 679; max 5 793 vs 5 624). Run 2026-10-08-0843
+(equal 128-generation episodes, uniform as primary reference, code `c01f16d`) missed a 3 h
+timeout ceiling by 68 s. Run 2026-10-08-0918 (same design, 16 reference seeds, code `511711c`)
+executed: 79 of 80 acquisitions completed, but one max acquisition was cut by a hidden 1 200 s
+per-job deadline. The completeness check correctly blocked scoring, so no frozen search ran.
+Acquisition observations only (not evidence): no resolved inherited − broken difference in
+within-acquisition solves (sum −0.6 [−7.5, +6.0], max +4.1 [−1.3, +9.5] of 48). Both arms drifted
+equally far from uniform (L1 ≈ 0.9), as the σ = 0.03 walk alone would produce. Solve rate fell over
+the 48 episodes in every cell.
 Background: root 01 established that externally fitted frequencies speed TAG
 threshold search and that a hand-set INPUT/GT/aggregator scaffold performs comparably;
 root 10 established outer-selected token transfer and useful externally fitted context.
@@ -40,6 +45,8 @@ Related: [concept plan](../../plans/heritable-variation-bias.md),
 [equal-exposure addendum](../../plans/heritable-bias-equal-exposure.md),
 [run 0843 stop](../../runs/2026-10-08-0843/infeasible.md) and
 [decision](../../runs/2026-10-08-0843/decision.md),
+[run 0918 analysis](../../runs/2026-10-08-0918/analysis.md) and
+[decision](../../runs/2026-10-08-0918/decision.md),
 [owner note](../../plans/owner-heritable-map.md),
 [01 map bias](../01-map-bias/question.md),
 [08 fitted frequency transfer](../01-map-bias/08-evolve-bias/question.md),
@@ -51,7 +58,8 @@ about 6 h of agent work/contingency. Return earlier after a feasibility-only res
 build/cost failure. The steward sets the actual experiment design and sizes.
 After the 68 s overrun in 0843 the steward re-proposed directly instead of returning to
 strategy (reasons in [decision 0843](../../runs/2026-10-08-0843/decision.md)); any further
-cost or build stop on this design goes to the strategist.
+cost or build stop on this design goes to the strategist. Run 0918 executed (it counts as 1 of 2) and
+stopped on a build defect, so it went to strategy with a recommended recovery run.
 
 Reopen if parked or closed: a changed inheritance/exposure rule has evidence of selectable
 benefit that the tested procedure lacked; a new bank makes a learned frequency bias useful
