@@ -1,7 +1,7 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-08, after run 2026-10-08-0918 (root 23: acquisition ran, scoring blocked by a build
-defect, no primary result). Latest result: run 2026-10-07-2156, commit `36c665d`. Core question since the 2026-09-25 reframe: *how
+As of 2026-10-08, after run 2026-10-08-1046 (root 23: frozen scoring completed, Bounded in both
+families; root 23 parked). Latest result: run 2026-10-08-1046, commit `a804f4f`. Core question since the 2026-09-25 reframe: *how
 does the genotype→program map bias what evolution finds and keeps ("arrival of the frequent"),
 and can that bias be adapted to a task family?* Run-by-run history, superseded numbers and the
 former long-form sections are in the questions' `log.md` files.
@@ -190,17 +190,26 @@ demonstrated a contextual search advantage over their token controls. Learned to
 Not shown: that evolution reaches fitted context; what structure carries it; transfer to a fresh
 bank.
 
-## 23 Heritable variation bias (root open, budget 2, 1 used)
+## 23 Heritable variation bias (root parked, budget 2, 2 used)
 
 [23](questions/23-heritable-variation-bias/question.md): can a token-frequency vector inherited
 with each program learn a useful bias through program selection alone, and help fresh populations
-once frozen? **No belief yet; the primary frozen-scoring comparison has never run.** Two designs
-stopped at pre-run cost gates (2243, 0843). Run 0918 (equal 128-generation episodes, commit
-`511711c`) completed 79 of 80 acquisitions. One max acquisition was cut by an unplanned 1 200 s
-per-job deadline, so the completeness check blocked all scoring. Its acquisition-phase
-observations (no resolved inherited − broken difference in within-acquisition solves; both arms
-drift equally far from uniform) are logged, not beliefs.
-([log](questions/23-heritable-variation-bias/log.md), [decision](runs/2026-10-08-0918/decision.md))
+once frozen? TAG threshold tasks (sum/max > 1, 5), development bank `tag-threshold-v1`.
+
+- **Under the one procedure tested, inherited frequencies did not give fresh populations a
+  useful bias on their training targets.** Pre-registered, 20 acquisitions per family × arm
+  (σ = 0.03 per component, 48 episodes × 128 generations), each frozen vector scored on 16
+  shared seeds per target. Uniform ÷ inherited cost: sum 0.33× [0.21, 0.53] (inherited resolved
+  worse than uniform), max 0.73× [0.50, 1.06] (a gain above 1.06× excluded, a loss up to about 2×
+  not). The hand scaffold is 11.9× [7.0, 20.4] and 5.75× [3.66, 8.95] cheaper than the inherited
+  vectors. Fairly sure for this procedure; it bounds this σ, schedule and inheritance rule, not
+  self-adaptation, and says nothing about transfer.
+  ([run 1046](runs/2026-10-08-1046/analysis.md))
+- **Persistent ancestry made the max vectors less costly than shuffled ancestry, not useful.**
+  Broken ÷ inherited 1.58× [1.04, 2.36] on max (broken itself 2.17× costlier than uniform);
+  unresolved on sum, 1.00× [0.69, 1.41]. Whether the vectors' movement is mostly drift was not
+  isolated (no mutation-only control). Post hoc observations are in the
+  [log](questions/23-heritable-variation-bias/log.md).
 
 ## Older context
 
