@@ -111,6 +111,8 @@ class FakeLauncher:
         self.infeasible = False
         self.on_queue = None  # called when the queue "runs"
         self.plan_minutes = None  # plan.md's estimated_minutes
+        self.allocate_next = "strategy"
+        self.proposal_front = ""  # extra proposal frontmatter, e.g. "kind: probe\n"
 
     def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
         d = self.driver
@@ -118,7 +120,8 @@ class FakeLauncher:
         phase = label.rsplit("-", 1)[0]
         self.calls.append(phase)
         if phase == "propose":
-            write(td / "proposal.md", "---\nnode: questions/01-root\ntitle: First\n---\nWhy.\n")
+            write(td / "proposal.md", "---\nnode: questions/01-root\ntitle: First\n"
+                  f"{self.proposal_front}---\nWhy.\n")
         elif phase == "prepare" and self.infeasible:
             write(td / "infeasible.md", "0 hits in 1M tapes.\n")
         elif phase == "prepare":
@@ -135,6 +138,10 @@ class FakeLauncher:
                 return 1 if self.fail_critique == "exit" else 0
             rec = self.critiques.pop(0) if len(self.critiques) > 1 else self.critiques[0]
             write(td / "critique.md", f"---\nrecommend: {rec}\n---\nFine.\n")
+        elif phase == "allocate":
+            write(td / "allocation.md", f"---\nnext: {self.allocate_next}\n---\nWhy.\n")
+        elif phase == "condense":
+            write(d.research / "digest.md", "Short.\n")
         elif phase == "strategy":
             write(td / "strategy.md", f"---\nnext: {self.strategy_next}\n---\nGo on.\n")
         elif phase == "summary":
@@ -554,11 +561,30 @@ def test_auto_strategist_may_raise_a_root_budget(repo):
     fake.strategy_next = "proposal"
     fake.on_queue = lambda: None
     d.run_auto(hours=48)
-    # Budget used up → the next proposal goes to the strategist, who grants more.
+    # Budget used up → a short allocation, which sends it on to a full review that grants more.
     i = fake.calls.index("strategy")
-    assert fake.calls[i - 1] == "decide" and fake.calls[i + 1:i + 4] == ["propose", "critique",
-                                                                         "prepare"]
-    assert (d.research / "runs").glob("*/steward_proposal.md")
+    assert fake.calls[i - 2:i] == ["decide", "allocate"]
+    assert fake.calls[i + 1:i + 4] == ["propose", "critique", "prepare"]
+    assert list((d.research / "runs").glob("*/steward_proposal.md"))
+
+
+def test_auto_allocation_grants_a_block_without_a_full_review(repo):
+    class Allocator(FakeLauncher):
+        def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
+            if label.startswith("allocate"):
+                assert "normally 9" in argv[1]
+                question(self.driver.research / "questions" / "01-root", experiments=5)
+            return super().run(label, argv, cwd, log_dir, timeout_s, env, kill_grace)
+
+    fake = Allocator(review_verdicts=("pass", "pass"))
+    d = auto_driver(repo, fake, strategy_every=9, auto_max_experiments=2)
+    question(d.research / "questions" / "01-root", experiments=1)
+    fake.allocate_next = "proposal"
+    d.run_auto(hours=48)
+    i = fake.calls.index("allocate")
+    assert fake.calls[i + 1:i + 3] == ["critique", "prepare"] and "strategy" not in fake.calls
+    ledger = next((d.research / "briefs").glob("*-ledger.md")).read_text()
+    assert "allocation: granted" in ledger
 
 
 def test_auto_run_ends_after_its_experiment_limit(repo):
@@ -765,9 +791,61 @@ def test_auto_queue_that_would_overrun_the_deadline_waits(repo):
     assert d.state["phase"] == "execute"
 
 
-def test_long_digest_asks_the_steward_to_condense(repo):
-    d = make_driver(repo, FakeLauncher(), digest_max_words=5)
-    write(d.research / "digest.md", "one two three\n")
-    assert d.digest_note() == ""
+def test_long_digest_is_condensed_after_decide(repo):
+    fake = FakeLauncher()
+    d = auto_driver(repo, fake, strategy_every=9, auto_max_experiments=1, digest_max_words=5)
     write(d.research / "digest.md", "one two three four five six\n")
-    assert "6 words, over its 5-word limit" in d.digest_note()
+    d.run_auto(hours=48)
+    assert fake.calls[fake.calls.index("decide") + 1] == "condense"
+    assert (d.research / "digest.md").read_text() == "Short.\n"
+
+
+def test_probe_allowance_and_queue_cap(repo):
+    fake = FakeLauncher()
+    fake.proposal_front = "kind: probe\n"
+    d = auto_driver(repo, fake, strategy_every=9)
+    d.run_info = {"executed": ["a"], "probes": ["a"]}
+    assert not d.probe_allowed()
+    d.run_info = {"executed": ["a", "b", "c", "d", "e"], "probes": ["a"]}
+    assert d.probe_allowed()  # one more after four full experiments
+    d.run_info = {"executed": ["a", "b", "c"], "probes": ["a"]}
+    assert not d.probe_allowed()
+
+
+def test_probe_queue_over_its_cap_goes_back(repo):
+    fake = FakeLauncher()
+    fake.proposal_front = "kind: probe\n"
+    d = auto_driver(repo, fake, strategy_every=9, auto_max_experiments=1,
+                    probe_max_queue_minutes=30)
+    d.run_auto(hours=48)  # the fake queue entry has the default 4 h timeout
+    feedback = list((d.research / "runs").glob("*/driver_feedback.md"))
+    assert feedback and "probe cap" in feedback[0].read_text()
+    assert "queue" not in fake.calls[:fake.calls.index("decide")]
+
+
+def test_task_bank_exposure_is_told_to_proposer_and_critic(repo):
+    fake = FakeLauncher()
+    d = make_driver(repo, fake)
+    write(d.research / "runs" / "t1" / "proposal.md", "---\nnode: questions/01-root\nbank: b1\n---\n")
+    write(d.research / "runs" / "t1" / "execution.md", "# Execution\n")
+    write(d.research / "runs" / "t2" / "proposal.md", "---\nnode: questions/01-root\nbank: b1\n---\n")
+    assert d.bank_exposure() == {"b1": 1}
+    d.run(now_mode=True)
+    assert "b1 (1)" in d.bank_note()
+
+
+def test_digest_check_covers_every_update_since_the_last_check(repo):
+    prompts = []
+
+    class Recorder(FakeLauncher):
+        def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
+            prompts.append((label, argv[1]))
+            return super().run(label, argv, cwd, log_dir, timeout_s, env, kill_grace)
+
+    fake = Recorder(review_verdicts=("pass", "pass"))
+    d = auto_driver(repo, fake, strategy_every=9, auto_max_experiments=2, commit_research=True)
+    d.run_auto(hours=48)
+    crits = [p for label, p in prompts if label.startswith("critique")]
+    assert "Digest check" not in crits[0] and "git log -p -1 " in crits[1]
+    summary = next(p for label, p in prompts if label.startswith("summary"))
+    assert "## Claim check" in summary and "..HEAD -- research/digest.md" in summary

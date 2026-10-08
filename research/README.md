@@ -61,18 +61,34 @@ more. Close a question when it is answered.
 ---
 node: questions/01-map-bias/04-random-start-discovery   # relative to research/
 title: Short name of the experiment
+bank: four-reducer-v1   # the task set the decision rests on, or `none`
+kind: probe             # only for a probe (see Probes); omit otherwise
 ---
-Why this now · what would be run (arms, seeds, rough runtime) · feasibility
-(measured hit or solve rates and runtime the design depends on, or a stage 0
-probe that measures them) · what each outcome would mean, as outcome rules
-that do not overlap, with an `unresolved` row · alternatives considered.
+Question and mechanism · closest known technique (name it; say whether the
+map adapts by external fitting, outer-loop selection or per-individual
+inheritance) and what this adds beyond it · arms, experimental unit, seeds ·
+feasibility (measured rates and runtime the design depends on, or a stage 0
+probe) · full cost (agent and queue time) · the primary comparison and its
+decision rule · what you expect and what would surprise you · next action.
 ```
+
+At most 800 words; link harness details instead of repeating them. Only the
+primary comparison needs a formal decision rule. A replication, mechanism or
+boundary test is worth running even when the technique is known; say which.
+
+## Prior work
+
+Name the closest known technique (GP, EDA, grammar-guided GP, EvoDevo,
+evolvability, biology). Search the literature when a mechanism is new to this
+tree, and cite only papers you actually found, with links. Ideas from biology
+are welcome as hypotheses, never as evidence.
 
 Every proposal is approved by the owner before it runs, or in autonomous
 mode (`research.py run --auto`) by the critic: `approve` and
 `approve_with_notes` run it; `revise` or `reject` sends it back to the
-steward (with critique.md). After two revisions the strategist redesigns or
-redirects instead; five turned-down proposals in a row need the owner. If the
+steward (with critique.md). The critic judges value as well as validity: a
+valid experiment that changes little may be sent back. After two revisions
+the strategist redesigns or redirects instead; five turned-down proposals in a row need the owner. If the
 researcher finds an approved design infeasible, it writes `infeasible.md` and
 the steward re-plans.
 
@@ -88,22 +104,39 @@ is not equality.
 
 ## Experiment size
 
-Size an experiment by what the question needs, up to 8 h of queue time when
-that is justified. Each cycle costs about an hour of agent work, so prefer one
-well-sized experiment over several tiny ones: a queue under 30 min usually
-should have done more, or had a later stage gated in code. The driver refuses queues whose entry
+Choose the cheapest experiment that could change the decision, counting agent
+time (about an hour per cycle) as well as queue time. Do not enlarge a queue
+just to fill the time available. The driver refuses queues whose entry
 `timeout_seconds` sum to more than `max_queue_hours`, because nothing may run
 longer than that without an agent reviewing the results. Split longer studies
 into stages, each analysed and decided before the next.
+
+## Probes
+
+A probe (`kind: probe`) is a cheap, open look at something unexplained: at
+most 60 min of queue timeouts, fixed seeds, descriptive output, no outcome
+table. Its results are observations: they go in the question's `log.md`, may
+motivate a proposal, and enter the digest as beliefs only after a later
+experiment confirms them. An autonomous run allows one probe plus one per four
+full experiments; it is an allowance, not a quota.
+
+## Task banks
+
+Name the task set an experiment rests on in `bank:`. A bank that earlier
+decisions were based on is a development bank: fine for mechanism studies,
+but a transfer claim needs a fresh bank, frozen together with the method
+before it is scored. More seeds or one extra task do not make a bank fresh.
 
 ## Autonomous mode
 
 The strategist (`roles/strategist.md`) reviews the whole program every few
 cycles, when a proposal moves to another root question, and when the steward
 ends `decide` with `next: strategy` in decision.md's frontmatter instead of a
-proposal, when the next proposal has no budget left, and after two critic
-revisions. It writes `runs/<task>/strategy.md`, which the next proposal reads,
-may raise root budgets, write plans in `plans/`, and open up to two new root
+proposal, and after two critic revisions. When the next proposal only lacks
+budget, the strategist makes a short allocation decision instead
+(`allocation.md`: grant a block of experiments, or ask for a full review). It writes `runs/<task>/strategy.md`, which the next proposal reads, answers
+each new or changed owner note (pursued, deferred or declined), may raise root
+budgets, write plans in `plans/`, and open up to two new root
 questions per autonomous run. Only the strategist opens root questions
 (top-level folders); the steward adds sub-questions. A run ends after
 `auto_max_experiments` experiments, at its deadline (a finished queue is

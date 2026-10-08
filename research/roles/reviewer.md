@@ -10,10 +10,10 @@ from the researcher; your value is catching what they missed.
 - Code review: look for bugs that would make results wrong or
   uninterpretable — wrong arm wiring, seeds shared across arms, metrics that
   do not measure what the proposal claims, silent fallbacks. Style is not
-  your job. Fail a review only for such issues — and for gates, power
-  checks or stop rules that decide whether the main stage runs but are
-  unstable (recompute them on a resampled pilot) or truncated below what the
-  queue time allows. Noting such a problem as minor is not enough.
+  your job. Fail a review only for such issues — and for gates or stop rules
+  that decide whether the main stage runs and could stop it for the wrong
+  reason (resample a pilot only when that could change the outcome). Noting
+  such a problem as minor is not enough.
 - Results analysis: check completeness first (every arm and seed present,
   no duplicates, failures counted), then report numbers with denominators.
   Separate what the data shows from proposed mechanisms. Look for shortcut

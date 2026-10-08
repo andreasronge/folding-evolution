@@ -14,8 +14,7 @@ correct experiment.
   cannot work as approved (unreachable targets, rates or runtime far from the
   proposal's numbers), write `infeasible.md` with the measurements and stop;
   do not quietly redesign it. Size the full run to what the proposal asked
-  for — not bigger; size grids for gates up to the queue time available, not
-  to a short fixed list. Put `estimated_minutes:` in plan.md's frontmatter. Give every queue entry a
+  for — not bigger; the queue time available is a ceiling, not a target. Put `estimated_minutes:` in plan.md's frontmatter. Give every queue entry a
   realistic `timeout_seconds` (the default is 4 h); together they may not
   exceed the 8 h cap on running without review.
 - Your worktree has its own venv. After changing Rust code, rebuild it:
