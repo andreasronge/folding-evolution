@@ -328,3 +328,114 @@ def test_staged_cli_synthetic_score_analysis_and_plots(tmp_path, monkeypatch, in
     assert all(r["verdict"] == "bounded" for r in result["families"].values())
     for name in ("trajectories.png", "search_trajectories.png", "report.md", "COMPLETE"):
         assert (roots["analysis"] / name).stat().st_size > 0
+
+
+def test_job_deadlines_are_explicit_only(monkeypatch):
+    seen = []
+    monkeypatch.setattr(ib.eb, "run_one", lambda job: seen.append(job) or job)
+    ib.score(ib.frozen_job("sum1", "uniform", [1 / 22] * 22, 0))
+    assert seen[-1]["deadline"] == float("inf")
+    ib.score(dict(task="sum1", deadline=123))
+    assert seen[-1]["deadline"] == 123
+    ib.score(dict(task="sum1", seconds=10))
+    assert time.monotonic() < seen[-1]["deadline"] <= time.monotonic() + 10
+    row = ib.acquire(dict(family="sum", arm="inherited", replicate=0, phase="test",
+                          pop=4, episodes=1, generations=1, deadline=0))
+    assert not row["complete"] and "not censoring" in row["error"]
+
+
+def test_recovery_timing_roster_and_weighted_tail_price(tmp_path):
+    from experiments.chem_tape import inherited_bias_recovery as rec
+    jobs = rec.timing_jobs(tmp_path, synthetic_acquisitions())
+    assert len(jobs) == 92
+    assert {j["replicate"] for j in jobs} == {2000, 2001, 2002}
+    assert len({(j["task"], j["arm"], j["replicate"]) for j in jobs}) == 92
+    rows = [dict(j, seconds=10 if j["arm"].startswith("inherited/") else 20,
+                 verifier_seconds=0, complete=True) for j in jobs]
+    rows[0].update(seconds=110, verifier_seconds=100)
+    p = rec.scoring_price(rows, 10)
+    # 320 searches/cell, with the tail retained in its cell mean.
+    assert p["sum"]["worker_seconds"] == (20 + 10 + 20 + 20) * 320 + 6 * 20 * 16
+    assert p["sum"]["expected_seconds"] == p["sum"]["worker_seconds"] / 10 + .9 * 110
+    assert p["sum"]["verifier_tail_count"] == 1
+    assert p["sum"]["observed_tail_rate"] == 1 / 46
+    assert p["sum"]["projected_verifier_tail_worker_seconds"] == 3200
+    with pytest.raises(RuntimeError, match="roster"):
+        rec.scoring_price(rows[:-1], 10)
+
+
+@pytest.mark.parametrize("mismatch,over_budget", [(False, False), (True, False), (True, True)])
+def test_selective_recovery_and_full_replay_fallback(tmp_path, monkeypatch, mismatch, over_budget):
+    import copy
+    import json
+    from experiments.chem_tape import inherited_bias_recovery as rec
+    source, out = tmp_path / "source", tmp_path / "out"
+    source.mkdir()
+    out.mkdir()
+    # An old success sentinel must not survive a failed recovery.
+    (out / "ACQUISITIONS_COMPLETE").write_text("stale")
+    (source / "manifest.json").write_text('{}')
+    originals = synthetic_acquisitions()
+    complete = {rec.key(r): copy.deepcopy(r) for r in originals}
+    paths = {}
+    for row in originals:
+        if rec.key(row) == rec.CUT:
+            row.update(complete=False, trajectories=row["trajectories"][:30],
+                       episodes=row["episodes"][:31])
+        f, a, i = rec.key(row)
+        p = source / "acquisition" / "main" / f / a / f"{i}.json"
+        ib.eb.write_json(p, row)
+        paths[rec.key(row)] = p
+    monkeypatch.setattr(rec, "source_rows", lambda root: (originals, paths))
+    monkeypatch.setattr(ib, "validate", lambda: {})
+    calls = []
+    def fake_parallel(function, jobs, workers):
+        calls.append((len(jobs), workers))
+        assert all(j["phase"] == "main" and "deadline" in j for j in jobs)
+        result = []
+        for j in jobs:
+            row = copy.deepcopy(complete[rec.key(j)])
+            row["seconds"] = 9999  # never compared for determinism
+            if mismatch and len(jobs) == 3 and rec.key(j) == rec.REPLAYS[0]:
+                row["theta"][0][0] = 1
+            ib.eb.write_json(j["out"], row)
+            result.append(row)
+        return result
+    monkeypatch.setattr(ib, "parallel", fake_parallel)
+    if over_budget:
+        monkeypatch.setattr(rec, "recovery_estimate", lambda rows: dict(full_replay_expected_seconds=20000))
+        with pytest.raises(RuntimeError, match="remaining cumulative"):
+            rec.recover(out, source)
+        assert calls == [(3, 3)]
+        assert not (out / "ACQUISITIONS_COMPLETE").exists()
+        assert json.loads((out / "recovery.json").read_text())["fallback"]
+        return
+    record = rec.recover(out, source)
+    assert calls == ([(3, 3), (80, 10)] if mismatch else [(3, 3)])
+    assert record["fallback"] == mismatch
+    assert sum(r["reused"] for r in record["source_rows"]) == (0 if mismatch else 79)
+    assert len(ib.load_acquisitions(out)) == 80
+    assert (out / "ACQUISITIONS_COMPLETE").exists()
+    for r in record["source_rows"]:
+        if r["reused"]:
+            f, a, i = rec.key(r)
+            assert rec.digest(out / "acquisition" / "main" / f / a / f"{i}.json") == r["sha256"]
+    assert json.loads((out / "recovery.json").read_text())["complete"]
+
+
+def test_replay_equality_excludes_runtime_but_checks_all_episode_endpoints():
+    import copy
+    from experiments.chem_tape import inherited_bias_recovery as rec
+    row = synthetic_acquisitions()[0]
+    row["episodes"][0].update(solved=True, first_gen=2, evaluations_to_exact=2050)
+    new = copy.deepcopy(row)
+    new["seconds"] = 2000
+    new["episodes"][0]["seconds"] = 1000
+    assert rec.replay_checks({rec.key(row): row}, [new])[0]["passed"]
+    for field in ("solved", "first_gen", "evaluations_to_exact"):
+        bad = copy.deepcopy(new)
+        bad["episodes"][0][field] = None
+        assert not rec.replay_checks({rec.key(row): row}, [bad])[0]["passed"]
+    bad = copy.deepcopy(new)
+    bad["probs"][0] += 1e-15
+    assert not rec.replay_checks({rec.key(row): row}, [bad])[0]["passed"]

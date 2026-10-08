@@ -1,4 +1,4 @@
-"""Fixed inherited-token acquisition study, approved run 2026-10-08-0918.
+"""Fixed inherited-token study (0918) and approved operational recovery (1046).
 
 All outputs belong to RUN_DIR. Preparation timing is a cost gate only. No calibration,
 checkpoint selection, threshold-2 exposure, or outcomes change the fixed roster.
@@ -101,7 +101,7 @@ def acquire(job):
                complete=False, episodes=[], trajectories=[], price=[],
                evaluations=0, evaluation_seconds=0.0, verifier_seconds=0.0,
                reproduction_seconds=0.0, reset_seconds=0.0, generations=0, censuses=0)
-    deadline = start + job.get("seconds", 1200)
+    deadline = job.get("deadline", start + job.get("seconds", float("inf")))
     try:
         for episode in range(job.get("episodes", EPISODES)):
             target = family + ("1" if episode % 2 == 0 else "5")
@@ -180,7 +180,8 @@ def frozen_job(target, vector, probs, index, phase="main"):
 
 
 def score(job):
-    return eb.run_one(dict(job, deadline=time.monotonic() + job.get("seconds", 600)))
+    return eb.run_one(dict(job, deadline=job.get(
+        "deadline", time.monotonic() + job.get("seconds", float("inf")))))
 
 
 def parallel(function, jobs, workers=WORKERS):
@@ -447,7 +448,7 @@ def analyze(out, acquisitions, searches, reference_seeds=SHARED_SEEDS, draws=100
         effects = crossed_effects(dict(tensors, family=f), draws=draws)
         verdict = classify(effects["uniform_over_inherited"])
         linkage, sc = effects["broken_over_inherited"], effects["inherited_over_scaffold"]
-        continuation = ("propose transfer for strategy review" if verdict == "acquired" and
+        continuation = ("propose development-bank threshold-2 extension for strategy review" if verdict == "acquired" and
                         linkage["lower"] > 1 and sc["lower"] < 2 else "return to strategy")
         spread = {}
         for arm in ARMS:
@@ -565,7 +566,7 @@ def load_acquisitions(root):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--out", default=os.environ.get("RUN_DIR"))
-    ap.add_argument("--mode", choices=("validate", "smoke", "stage0", "price", "acquire", "score", "analyze"), required=True)
+    ap.add_argument("--mode", choices=("validate", "smoke", "stage0", "price", "acquire", "score", "analyze", "recover", "recovery-timing"), required=True)
     ap.add_argument("--workers", type=int, default=WORKERS)
     ap.add_argument("--family", choices=FAMILIES)
     ap.add_argument("--timing", type=Path)
@@ -573,6 +574,7 @@ def main():
     ap.add_argument("--acquisitions", type=Path)
     ap.add_argument("--sum-scores", type=Path)
     ap.add_argument("--max-scores", type=Path)
+    ap.add_argument("--source", type=Path, help="original 0918 acquisition directory")
     ap.add_argument("--reference-seeds", type=int, choices=(SHARED_SEEDS,), default=SHARED_SEEDS)
     ap.add_argument("--omit-fit", action="store_true",
                     help="approved cost fallback only; must match across all stages")
@@ -587,6 +589,8 @@ def main():
         ap.error("both scoring directories required")
     if args.mode == "price" and (args.timing is None or args.frozen_timings is None):
         ap.error("--timing and --frozen-timings required")
+    if args.mode in ("recover", "recovery-timing") and (args.source is None or args.omit_fit):
+        ap.error("recovery requires --source and all three references")
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     design = manifest(args.reference_seeds, include_fit=not args.omit_fit)
@@ -594,7 +598,8 @@ def main():
         git_commit=subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
         git_dirty=bool(subprocess.check_output(["git", "status", "--porcelain"], text=True).strip()))
     from folding_evolution.chem_tape import evolve
-    sources = [Path(__file__), Path(eb.__file__), Path(tagged.__file__), Path(evolve.__file__)]
+    sources = [Path(__file__), Path(eb.__file__), Path(tagged.__file__), Path(evolve.__file__),
+               Path(__file__).with_name("inherited_bias_recovery.py")]
     design["source_sha256"] = {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}
     for name in ("acquisitions", "sum_scores", "max_scores"):
         root = getattr(args, name)
@@ -607,7 +612,15 @@ def main():
                 raise RuntimeError("input manifest differs from frozen design")
             design[name] = dict(directory=str(root.resolve()), manifest_sha256=hashlib.sha256(source.read_bytes()).hexdigest())
     eb.write_json(out / "manifest.json", design)
-    if args.mode == "validate":
+    if args.mode in ("recover", "recovery-timing"):
+        from experiments.chem_tape import inherited_bias_recovery as recovery
+        if os.environ.get("RAYON_NUM_THREADS") != "1":
+            raise RuntimeError("recovery and timing require RAYON_NUM_THREADS=1")
+        if args.mode == "recover":
+            recovery.recover(out, args.source)
+        else:
+            recovery.timing(out, args.source, args.workers)
+    elif args.mode == "validate":
         eb.write_json(out / "validation.json", validate())
     elif args.mode == "smoke":
         eb.write_json(out / "validation.json", validate())
