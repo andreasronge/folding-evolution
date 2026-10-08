@@ -1,0 +1,1196 @@
+{
+  "row": "F",
+  "smoke_only": true,
+  "analysed_corpora": [
+    "BE1",
+    "PA1"
+  ],
+  "completed_pairs": 1,
+  "completed_corpora": 2,
+  "g4_complete": true,
+  "full_row_complete": true,
+  "efficacy_eligible": false,
+  "stop_kind": null,
+  "stop_reason": null,
+  "total_searches": 48,
+  "observed_counts": {
+    "G4": 16,
+    "C": 16,
+    "T": 16
+  },
+  "trailing_corpora": [],
+  "trailing_search_summary": {
+    "n": 0
+  },
+  "scope": "C versus restricted T; bank-conditional corpus uncertainty; no isolated token-order effect",
+  "method_hash": "a0c406f1b42aa5124ca21cae7129918ad5de438c3354890173053409c954e831",
+  "sensitivities": {
+    "unsolved_2cap": {
+      "C_T": {
+        "n": 2,
+        "contrasts_log": [
+          2.5304006277549833,
+          -0.2444104422455664
+        ],
+        "speed_ratio": 3.136147364938223,
+        "interval_95": [
+          6.924162159054383e-08,
+          142044915.59672233
+        ],
+        "sd_log": 1.9620877241088885,
+        "half_width_log": 17.628658779815478,
+        "df": 1,
+        "corpus_scores_log": {
+          "BE1": 2.5304006277549833,
+          "PA1": -0.2444104422455664
+        },
+        "equal_family_weight": true,
+        "families": {
+          "BE": {
+            "n": 1,
+            "contrasts_log": [
+              2.5304006277549833
+            ],
+            "speed_ratio": 12.558536427218657,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 1,
+            "contrasts_log": [
+              -0.2444104422455664
+            ],
+            "speed_ratio": 0.783166123824129,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        }
+      },
+      "arms": {
+        "C": {
+          "n": 16,
+          "solved": 14,
+          "solve_rate": 0.875,
+          "geometric_cost": 37591.68624918587,
+          "actual_evaluations": 1573888,
+          "worker_seconds": 77.75116853998043
+        },
+        "T": {
+          "n": 16,
+          "solved": 13,
+          "solve_rate": 0.8125,
+          "geometric_cost": 117893.06777396864,
+          "actual_evaluations": 2928640,
+          "worker_seconds": 136.4241650016047
+        },
+        "G4": {
+          "n": 16,
+          "solved": 9,
+          "solve_rate": 0.5625,
+          "geometric_cost": 263327.59872356063,
+          "actual_evaluations": 4713216,
+          "worker_seconds": 254.13257746002637
+        }
+      },
+      "per_cell": {
+        "BE:F>S?F:M+m": {
+          "C_T": {
+            "n": 1,
+            "contrasts_log": [
+              3.276439857871192
+            ],
+            "speed_ratio": 26.4813273909958,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 13611.402278971842,
+              "actual_evaluations": 68608,
+              "worker_seconds": 3.1917851669713855
+            },
+            "T": {
+              "n": 2,
+              "solved": 1,
+              "solve_rate": 0.5,
+              "geometric_cost": 360447.9999999999,
+              "actual_evaluations": 648192,
+              "worker_seconds": 32.39038366696332
+            },
+            "G4": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 73898.46959173115,
+              "actual_evaluations": 203776,
+              "worker_seconds": 9.532553417026065
+            }
+          }
+        },
+        "BE:F>m?S:F+M": {
+          "C_T": {
+            "n": 1,
+            "contrasts_log": [
+              1.896992624916697
+            ],
+            "speed_ratio": 6.665817654271683,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 17736.200269505316,
+              "actual_evaluations": 37376,
+              "worker_seconds": 1.6018174999626353
+            },
+            "T": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 118226.2768761665,
+              "actual_evaluations": 266240,
+              "worker_seconds": 13.99538295797538
+            },
+            "G4": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 77678.1791753643,
+              "actual_evaluations": 156416,
+              "worker_seconds": 6.112308874959126
+            }
+          }
+        },
+        "BE:S>F?M:F+m": {
+          "C_T": {
+            "n": 1,
+            "contrasts_log": [
+              2.8764084046289033
+            ],
+            "speed_ratio": 17.75040627920733,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 2,
+              "solved": 1,
+              "solve_rate": 0.5,
+              "geometric_cost": 59073.35209720206,
+              "actual_evaluations": 527616,
+              "worker_seconds": 23.48781329090707
+            },
+            "T": {
+              "n": 2,
+              "solved": 0,
+              "solve_rate": 0.0,
+              "geometric_cost": 1048576.0,
+              "actual_evaluations": 1048576,
+              "worker_seconds": 48.985393541981466
+            },
+            "G4": {
+              "n": 2,
+              "solved": 1,
+              "solve_rate": 0.5,
+              "geometric_cost": 262143.99999999994,
+              "actual_evaluations": 589824,
+              "worker_seconds": 20.132157415966503
+            }
+          }
+        },
+        "BE:S>F?m:M+S": {
+          "C_T": {
+            "n": 1,
+            "contrasts_log": [
+              2.071761623603141
+            ],
+            "speed_ratio": 7.938795977150465,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 26127.054483810414,
+              "actual_evaluations": 61952,
+              "worker_seconds": 2.321935583022423
+            },
+            "T": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 207417.35503086515,
+              "actual_evaluations": 538624,
+              "worker_seconds": 22.2985468339175
+            },
+            "G4": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 176489.8608305871,
+              "actual_evaluations": 381952,
+              "worker_seconds": 15.85030412604101
+            }
+          }
+        },
+        "PA:(F>S?F:m)+M": {
+          "C_T": {
+            "n": 1,
+            "contrasts_log": [
+              -1.49481726873044
+            ],
+            "speed_ratio": 0.2242895857069137,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 2,
+              "solved": 1,
+              "solve_rate": 0.5,
+              "geometric_cost": 123696.48738747607,
+              "actual_evaluations": 538880,
+              "worker_seconds": 31.722308167023584
+            },
+            "T": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 27743.833909537483,
+              "actual_evaluations": 56832,
+              "worker_seconds": 2.831385082914494
+            },
+            "G4": {
+              "n": 2,
+              "solved": 0,
+              "solve_rate": 0.0,
+              "geometric_cost": 1048576.0,
+              "actual_evaluations": 1048576,
+              "worker_seconds": 74.66274408402387
+            }
+          }
+        },
+        "PA:(F>S?m:M)+F": {
+          "C_T": {
+            "n": 1,
+            "contrasts_log": [
+              -1.0571207077154252
+            ],
+            "speed_ratio": 0.3474547953664817,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 103884.28269954986,
+              "actual_evaluations": 211968,
+              "worker_seconds": 9.953849083161913
+            },
+            "T": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 36095.092187165836,
+              "actual_evaluations": 89856,
+              "worker_seconds": 3.8941345418570563
+            },
+            "G4": {
+              "n": 2,
+              "solved": 0,
+              "solve_rate": 0.0,
+              "geometric_cost": 1048576.0,
+              "actual_evaluations": 1048576,
+              "worker_seconds": 78.5671190841822
+            }
+          }
+        },
+        "PA:(M>F?m:S)+S": {
+          "C_T": {
+            "n": 1,
+            "contrasts_log": [
+              1.0011621191677014
+            ],
+            "speed_ratio": 2.7214426321346528,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 18937.0798171207,
+              "actual_evaluations": 39168,
+              "worker_seconds": 1.7465284579666331
+            },
+            "T": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 51536.17634244901,
+              "actual_evaluations": 104448,
+              "worker_seconds": 4.543848459026776
+            },
+            "G4": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 75505.2460164192,
+              "actual_evaluations": 235520,
+              "worker_seconds": 9.141875499975868
+            }
+          }
+        },
+        "PA:(S>F?M:m)+m": {
+          "C_T": {
+            "n": 1,
+            "contrasts_log": [
+              0.5731340882958982
+            ],
+            "speed_ratio": 1.7738176499932465,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 43981.366236168666,
+              "actual_evaluations": 88320,
+              "worker_seconds": 3.7251312909647822
+            },
+            "T": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 78014.92370053302,
+              "actual_evaluations": 175872,
+              "worker_seconds": 7.485089916968718
+            },
+            "G4": {
+              "n": 2,
+              "solved": 0,
+              "solve_rate": 0.0,
+              "geometric_cost": 1048576.0,
+              "actual_evaluations": 1048576,
+              "worker_seconds": 40.13351495785173
+            }
+          }
+        }
+      },
+      "cells_with_C_T_above_one": 6,
+      "leave_one_cell_out": {
+        "BE:F>S?F:M+m": {
+          "n": 2,
+          "contrasts_log": [
+            2.281720884382914,
+            -0.2444104422455664
+          ],
+          "speed_ratio": 2.769467936514415,
+          "interval_95": [
+            2.9682719804481523e-07,
+            25839790.632067982
+          ],
+          "sd_log": 1.786244591226768,
+          "half_width_log": 16.048770913303027,
+          "df": 1
+        },
+        "BE:F>m?S:F+M": {
+          "n": 2,
+          "contrasts_log": [
+            2.7415366287010787,
+            -0.2444104422455664
+          ],
+          "speed_ratio": 3.4853312615610053,
+          "interval_95": [
+            2.0121754088321175e-08,
+            603701543.5878391
+          ],
+          "sd_log": 2.111383422130482,
+          "half_width_log": 18.97002740741461,
+          "df": 1
+        },
+        "BE:S>F?M:F+m": {
+          "n": 2,
+          "contrasts_log": [
+            2.4150647021303437,
+            -0.2444104422455664
+          ],
+          "speed_ratio": 2.9604080984849124,
+          "interval_95": [
+            1.3600275315049214e-07,
+            64439990.41605683
+          ],
+          "sd_log": 1.8805329089852785,
+          "half_width_log": 16.89591783760403,
+          "df": 1
+        },
+        "BE:S>F?m:M+S": {
+          "n": 2,
+          "contrasts_log": [
+            2.6832802958055972,
+            -0.2444104422455664
+          ],
+          "speed_ratio": 3.385274265217797,
+          "interval_95": [
+            2.8297736037838816e-08,
+            404982286.76039004
+          ],
+          "sd_log": 2.070189974093026,
+          "half_width_log": 18.599918960940236,
+          "df": 1
+        },
+        "PA:(F>S?F:m)+M": {
+          "n": 2,
+          "contrasts_log": [
+            2.5304006277549833,
+            0.17239183324939145
+          ],
+          "speed_ratio": 3.862815147581024,
+          "interval_95": [
+            1.2047059739191528e-06,
+            12385877.705776839
+          ],
+          "sd_log": 1.6673640086924202,
+          "half_width_log": 14.980671256344264,
+          "df": 1
+        },
+        "PA:(F>S?m:M)+F": {
+          "n": 2,
+          "contrasts_log": [
+            2.5304006277549833,
+            0.02649297957771986
+          ],
+          "speed_ratio": 3.5910577739896046,
+          "interval_95": [
+            4.432487086158127e-07,
+            29093589.412594415
+          ],
+          "sd_log": 1.770530077491003,
+          "half_width_log": 15.907581609106993,
+          "df": 1
+        },
+        "PA:(M>F?m:S)+S": {
+          "n": 2,
+          "contrasts_log": [
+            2.5304006277549833,
+            -0.659601296049989
+          ],
+          "speed_ratio": 2.548231695440953,
+          "interval_95": [
+            4.0239207025211205e-09,
+            1613720859.255871
+          ],
+          "sd_log": 2.2556719923206283,
+          "half_width_log": 20.26640877632856,
+          "df": 1
+        },
+        "PA:(S>F?M:m)+m": {
+          "n": 2,
+          "contrasts_log": [
+            2.5304006277549833,
+            -0.5169252857593879
+          ],
+          "speed_ratio": 2.7366585557503176,
+          "interval_95": [
+            1.0697713536568504e-08,
+            700084183.8922284
+          ],
+          "sd_log": 2.1547848179315023,
+          "half_width_log": 19.359973477482086,
+          "df": 1
+        }
+      },
+      "leave_one_cell_out_range": [
+        2.548231695440953,
+        3.862815147581024
+      ],
+      "descriptive_unpaired_baselines": {
+        "C_G4": {
+          "n": 2,
+          "contrasts_log": [
+            1.642289254675474,
+            2.250942673331228
+          ],
+          "speed_ratio": 7.004942448658151,
+          "interval_95": [
+            0.1465744906130207,
+            334.77325081458525
+          ],
+          "sd_log": 0.4303829597238583,
+          "half_width_log": 3.8668374754063293,
+          "df": 1
+        },
+        "T_G4": {
+          "n": 2,
+          "contrasts_log": [
+            -0.8881113730795089,
+            2.495353115576794
+          ],
+          "speed_ratio": 2.2336139324869184,
+          "interval_95": [
+            1.0318883291054166e-09,
+            4834855728.744279
+          ],
+          "sd_log": 2.3924706838327463,
+          "half_width_log": 21.495496255221802,
+          "df": 1
+        }
+      },
+      "baseline_interval_limitation": "corpus variation only; independent G4 sampling uncertainty omitted",
+      "secondaries": {
+        "source_family_BE_minus_PA": {
+          "n_BE": 1,
+          "n_PA": 1,
+          "difference_log": null,
+          "interval_95_log": null
+        },
+        "target_minus_own_family_training": {
+          "n": 2,
+          "difference_log": -0.05275514879806442,
+          "interval_95_log": [
+            -19.975602217330735,
+            19.87009191973461
+          ],
+          "ratio_of_ratios": 0.9486122528992585,
+          "interval_95_ratio": [
+            2.112059672808735e-09,
+            426060502.8994839
+          ]
+        },
+        "own_family_training_C_T": {
+          "n": 2,
+          "contrasts_log": [
+            1.015193707453679,
+            1.3763067756518668
+          ],
+          "speed_ratio": 3.3060371667698436,
+          "interval_95": [
+            0.33339141889487356,
+            32.78393242481754
+          ],
+          "sd_log": 0.2553454992980188,
+          "half_width_log": 2.2941882887171943,
+          "df": 1
+        }
+      }
+    },
+    "unsolved_1cap": {
+      "C_T": {
+        "n": 2,
+        "contrasts_log": [
+          2.357113832614997,
+          -0.15776704467557323
+        ],
+        "speed_ratio": 3.0031850054190294,
+        "interval_95": [
+          3.457249697812496e-07,
+          26087557.92929955
+        ],
+        "sd_log": 1.7782893222085359,
+        "half_width_log": 15.977295656972304,
+        "df": 1,
+        "corpus_scores_log": {
+          "BE1": 2.357113832614997,
+          "PA1": -0.15776704467557323
+        },
+        "equal_family_weight": true,
+        "families": {
+          "BE": {
+            "n": 1,
+            "contrasts_log": [
+              2.357113832614997
+            ],
+            "speed_ratio": 10.560428262481361,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 1,
+            "contrasts_log": [
+              -0.15776704467557323
+            ],
+            "speed_ratio": 0.8540487139916892,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        }
+      },
+      "arms": {
+        "C": {
+          "n": 16,
+          "solved": 14,
+          "solve_rate": 0.875,
+          "geometric_cost": 34471.72828138487,
+          "actual_evaluations": 1573888,
+          "worker_seconds": 77.75116853998043
+        },
+        "T": {
+          "n": 16,
+          "solved": 13,
+          "solve_rate": 0.8125,
+          "geometric_cost": 103524.97748553427,
+          "actual_evaluations": 2928640,
+          "worker_seconds": 136.4241650016047
+        },
+        "G4": {
+          "n": 16,
+          "solved": 9,
+          "solve_rate": 0.5625,
+          "geometric_cost": 194444.5413712094,
+          "actual_evaluations": 4713216,
+          "worker_seconds": 254.13257746002637
+        }
+      },
+      "per_cell": {
+        "BE:F>S?F:M+m": {
+          "C_T": {
+            "n": 1,
+            "contrasts_log": [
+              2.9298662675912195
+            ],
+            "speed_ratio": 18.725126172994194,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 13611.402278971842,
+              "actual_evaluations": 68608,
+              "worker_seconds": 3.1917851669713855
+            },
+            "T": {
+              "n": 2,
+              "solved": 1,
+              "solve_rate": 0.5,
+              "geometric_cost": 254875.22506512882,
+              "actual_evaluations": 648192,
+              "worker_seconds": 32.39038366696332
+            },
+            "G4": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 73898.46959173115,
+              "actual_evaluations": 203776,
+              "worker_seconds": 9.532553417026065
+            }
+          }
+        },
+        "BE:F>m?S:F+M": {
+          "C_T": {
+            "n": 1,
+            "contrasts_log": [
+              1.896992624916697
+            ],
+            "speed_ratio": 6.665817654271683,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 17736.200269505316,
+              "actual_evaluations": 37376,
+              "worker_seconds": 1.6018174999626353
+            },
+            "T": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 118226.2768761665,
+              "actual_evaluations": 266240,
+              "worker_seconds": 13.99538295797538
+            },
+            "G4": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 77678.1791753643,
+              "actual_evaluations": 156416,
+              "worker_seconds": 6.112308874959126
+            }
+          }
+        },
+        "BE:S>F?M:F+m": {
+          "C_T": {
+            "n": 1,
+            "contrasts_log": [
+              2.5298348143489306
+            ],
+            "speed_ratio": 12.551432648843775,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 2,
+              "solved": 1,
+              "solve_rate": 0.5,
+              "geometric_cost": 41771.1678553521,
+              "actual_evaluations": 527616,
+              "worker_seconds": 23.48781329090707
+            },
+            "T": {
+              "n": 2,
+              "solved": 0,
+              "solve_rate": 0.0,
+              "geometric_cost": 524287.99999999994,
+              "actual_evaluations": 1048576,
+              "worker_seconds": 48.985393541981466
+            },
+            "G4": {
+              "n": 2,
+              "solved": 1,
+              "solve_rate": 0.5,
+              "geometric_cost": 185363.80004736644,
+              "actual_evaluations": 589824,
+              "worker_seconds": 20.132157415966503
+            }
+          }
+        },
+        "BE:S>F?m:M+S": {
+          "C_T": {
+            "n": 1,
+            "contrasts_log": [
+              2.071761623603141
+            ],
+            "speed_ratio": 7.938795977150465,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 26127.054483810414,
+              "actual_evaluations": 61952,
+              "worker_seconds": 2.321935583022423
+            },
+            "T": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 207417.35503086515,
+              "actual_evaluations": 538624,
+              "worker_seconds": 22.2985468339175
+            },
+            "G4": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 176489.8608305871,
+              "actual_evaluations": 381952,
+              "worker_seconds": 15.85030412604101
+            }
+          }
+        },
+        "PA:(F>S?F:m)+M": {
+          "C_T": {
+            "n": 1,
+            "contrasts_log": [
+              -1.1482436784504673
+            ],
+            "speed_ratio": 0.3171933740057601,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 2,
+              "solved": 1,
+              "solve_rate": 0.5,
+              "geometric_cost": 87466.62504064049,
+              "actual_evaluations": 538880,
+              "worker_seconds": 31.722308167023584
+            },
+            "T": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 27743.833909537483,
+              "actual_evaluations": 56832,
+              "worker_seconds": 2.831385082914494
+            },
+            "G4": {
+              "n": 2,
+              "solved": 0,
+              "solve_rate": 0.0,
+              "geometric_cost": 524287.99999999994,
+              "actual_evaluations": 1048576,
+              "worker_seconds": 74.66274408402387
+            }
+          }
+        },
+        "PA:(F>S?m:M)+F": {
+          "C_T": {
+            "n": 1,
+            "contrasts_log": [
+              -1.0571207077154252
+            ],
+            "speed_ratio": 0.3474547953664817,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 103884.28269954986,
+              "actual_evaluations": 211968,
+              "worker_seconds": 9.953849083161913
+            },
+            "T": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 36095.092187165836,
+              "actual_evaluations": 89856,
+              "worker_seconds": 3.8941345418570563
+            },
+            "G4": {
+              "n": 2,
+              "solved": 0,
+              "solve_rate": 0.0,
+              "geometric_cost": 524287.99999999994,
+              "actual_evaluations": 1048576,
+              "worker_seconds": 78.5671190841822
+            }
+          }
+        },
+        "PA:(M>F?m:S)+S": {
+          "C_T": {
+            "n": 1,
+            "contrasts_log": [
+              1.0011621191677014
+            ],
+            "speed_ratio": 2.7214426321346528,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 18937.0798171207,
+              "actual_evaluations": 39168,
+              "worker_seconds": 1.7465284579666331
+            },
+            "T": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 51536.17634244901,
+              "actual_evaluations": 104448,
+              "worker_seconds": 4.543848459026776
+            },
+            "G4": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 75505.2460164192,
+              "actual_evaluations": 235520,
+              "worker_seconds": 9.141875499975868
+            }
+          }
+        },
+        "PA:(S>F?M:m)+m": {
+          "C_T": {
+            "n": 1,
+            "contrasts_log": [
+              0.5731340882958982
+            ],
+            "speed_ratio": 1.7738176499932465,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 43981.366236168666,
+              "actual_evaluations": 88320,
+              "worker_seconds": 3.7251312909647822
+            },
+            "T": {
+              "n": 2,
+              "solved": 2,
+              "solve_rate": 1.0,
+              "geometric_cost": 78014.92370053302,
+              "actual_evaluations": 175872,
+              "worker_seconds": 7.485089916968718
+            },
+            "G4": {
+              "n": 2,
+              "solved": 0,
+              "solve_rate": 0.0,
+              "geometric_cost": 524287.99999999994,
+              "actual_evaluations": 1048576,
+              "worker_seconds": 40.13351495785173
+            }
+          }
+        }
+      },
+      "cells_with_C_T_above_one": 6,
+      "leave_one_cell_out": {
+        "BE:F>S?F:M+m": {
+          "n": 2,
+          "contrasts_log": [
+            2.1661963542895895,
+            -0.15776704467557323
+          ],
+          "speed_ratio": 2.7297626248362374,
+          "interval_95": [
+            1.056908185113655e-06,
+            7050379.676217106
+          ],
+          "sd_log": 1.6432902786376047,
+          "half_width_log": 14.764377373313895,
+          "df": 1
+        },
+        "BE:F>m?S:F+M": {
+          "n": 2,
+          "contrasts_log": [
+            2.51048756851443,
+            -0.15776704467557323
+          ],
+          "speed_ratio": 3.242550663521109,
+          "interval_95": [
+            1.4088323083252035e-07,
+            74630136.91104381
+          ],
+          "sd_log": 1.8867409309189396,
+          "half_width_log": 16.951694701717397,
+          "df": 1
+        },
+        "BE:S>F?M:F+m": {
+          "n": 2,
+          "contrasts_log": [
+            2.299540172037019,
+            -0.15776704467557323
+          ],
+          "speed_ratio": 2.9179653156329537,
+          "interval_95": [
+            4.84262978425059e-07,
+            17582433.435089797
+          ],
+          "sd_log": 1.7375785963961152,
+          "half_width_log": 15.6115242976149,
+          "df": 1
+        },
+        "BE:S>F?m:M+S": {
+          "n": 2,
+          "contrasts_log": [
+            2.452231235618949,
+            -0.15776704467557323
+          ],
+          "speed_ratio": 3.1494634200040355,
+          "interval_95": [
+            1.9812768115332677e-07,
+            50064280.65075526
+          ],
+          "sd_log": 1.8455474828814842,
+          "half_width_log": 16.58158625524303,
+          "df": 1
+        },
+        "PA:(F>S?F:m)+M": {
+          "n": 2,
+          "contrasts_log": [
+            2.357113832614997,
+            0.17239183324939145
+          ],
+          "speed_ratio": 3.542217108484048,
+          "interval_95": [
+            3.3217803297921785e-06,
+            3777282.2998268777
+          ],
+          "sd_log": 1.5448317407588519,
+          "half_width_log": 13.879762507782152,
+          "df": 1
+        },
+        "PA:(F>S?m:M)+F": {
+          "n": 2,
+          "contrasts_log": [
+            2.357113832614997,
+            0.1420175096710441
+          ],
+          "speed_ratio": 3.488827329958867,
+          "interval_95": [
+            2.6975461711297547e-06,
+            4512217.906976629
+          ],
+          "sd_log": 1.5663096309350557,
+          "half_width_log": 14.072733694836801,
+          "df": 1
+        },
+        "PA:(M>F?m:S)+S": {
+          "n": 2,
+          "contrasts_log": [
+            2.357113832614997,
+            -0.5440767659566648
+          ],
+          "speed_ratio": 2.475688485580893,
+          "interval_95": [
+            2.4488987047278597e-08,
+            250277133.38265327
+          ],
+          "sd_log": 2.0514515457646807,
+          "half_width_log": 18.43156086205837,
+          "df": 1
+        },
+        "PA:(S>F?M:m)+m": {
+          "n": 2,
+          "contrasts_log": [
+            2.357113832614997,
+            -0.4014007556660637
+          ],
+          "speed_ratio": 2.6587511989427295,
+          "interval_95": [
+            6.510470449091733e-08,
+            108578296.9626346
+          ],
+          "sd_log": 1.9505643713755552,
+          "half_width_log": 17.525125563211898,
+          "df": 1
+        }
+      },
+      "leave_one_cell_out_range": [
+        2.475688485580893,
+        3.542217108484048
+      ],
+      "descriptive_unpaired_baselines": {
+        "C_G4": {
+          "n": 2,
+          "contrasts_log": [
+            1.6422892546754744,
+            1.8177256854812622
+          ],
+          "speed_ratio": 5.6406960447124455,
+          "interval_95": [
+            1.8504740806596562,
+            17.194216445059507
+          ],
+          "sd_log": 0.12405228988993712,
+          "half_width_log": 1.1145656040010428,
+          "df": 1
+        },
+        "T_G4": {
+          "n": 2,
+          "contrasts_log": [
+            -0.7148245779395226,
+            1.975492730156835
+          ],
+          "speed_ratio": 1.878237948889002,
+          "interval_95": [
+            7.093320446761121e-08,
+            49733799.83499246
+          ],
+          "sd_log": 1.9023416120984726,
+          "half_width_log": 17.091861260973346,
+          "df": 1
+        }
+      },
+      "baseline_interval_limitation": "corpus variation only; independent G4 sampling uncertainty omitted",
+      "secondaries": {
+        "source_family_BE_minus_PA": {
+          "n_BE": 1,
+          "n_PA": 1,
+          "difference_log": null,
+          "interval_95_log": null
+        },
+        "target_minus_own_family_training": {
+          "n": 2,
+          "difference_log": 0.012227399379430293,
+          "interval_95_log": [
+            -18.67209732702086,
+            18.69655212577972
+          ],
+          "ratio_of_ratios": 1.012302459645859,
+          "interval_95_ratio": [
+            7.77698328112248e-09,
+            131767837.57430795
+          ]
+        },
+        "own_family_training_C_T": {
+          "n": 2,
+          "contrasts_log": [
+            0.8743981864024402,
+            1.300493802778123
+          ],
+          "speed_ratio": 2.9666874527497002,
+          "interval_95": [
+            0.19798122523326647,
+            44.454894305925556
+          ],
+          "sd_log": 0.3012950997731071,
+          "half_width_log": 2.707029069427988,
+          "df": 1
+        }
+      }
+    }
+  },
+  "shared_low_solve_guard": false,
+  "censoring_caution": "25% is an interpretive flag; higher solve rates do not eliminate capped-endpoint distortion",
+  "outcome": {
+    "label": "smoke_only",
+    "meaning": "training-only infrastructure check; no target efficacy decision"
+  },
+  "both_fits_costlier_than_G4": false,
+  "G4_interpretation": "See per-arm and per-cell solve counts and descriptive unpaired G4 cost contrasts",
+  "sizing": {
+    "total_corpora_needed": {
+      "precision_1_10": 1632,
+      "observed_effect": 14
+    },
+    "extra_balanced_corpora": {
+      "precision_1_10": 1630,
+      "observed_effect": 12
+    },
+    "approximate_only": true,
+    "acquisition_seconds_per_corpus": 423,
+    "measured_scoring_seconds_per_corpus": 29.32243156968616,
+    "total_seconds_per_extra_corpus": 452.32243156968616,
+    "effective_workers": 5.323659350335657
+  }
+}

@@ -1,0 +1,6 @@
+2026-10-08 15:43:36 cycle 2026-10-08-1246 done; brief: /Users/andreas/developer/folding-evolution/research/briefs/2026-10-08-2026-10-08-1246.md
+2026-10-08 15:43:36 strategist (codex/gpt-6-astra) → allocate [herdr]
+2026-10-08 15:44:52 phase → accept
+2026-10-08 15:44:52 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-08 15:48:22 phase → awaiting_approval
+2026-10-08 15:48:22 proposal: Frozen comparison-gate corpus fits (C vs T) on the eight protected holdouts — stage 2 [questions/10-compositional-map-transfer/25-comparison-gate-transfer] — budget left: 1. Approve with `research.py approve`.

@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "scientific_rows": 48,
+  "excluded_fields": [
+    "budget_seconds",
+    "decode_seconds",
+    "family",
+    "map",
+    "phase",
+    "seconds",
+    "verification_seconds"
+  ],
+  "commit": "45b2bdb2cbe5dee7ef04c3b5ebc10c54ce3e233a"
+}

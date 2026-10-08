@@ -1,0 +1,55 @@
+runs:
+  - id: 2026-10-08-1548-fresh-then-addition
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-08-1548 &&
+      exec .venv/bin/python -m experiments.chem_tape.then_addition_run
+      --row F --workers 10 --deadline-seconds 14280
+    timeout_seconds: 14400
+    track: chem-tape
+    notes: >-
+      Primary fresh selected then-addition-v1 bank: 16 frozen cells,
+      16 frozen corpora C/T x 8 paired seeds per cell, G4 x 16 seeds per cell;
+      4352 searches, no refit or K scoring. Fixed balanced BE/PA prefix,
+      >=6 complete pairs required, no efficacy fallback after error.
+      Work cutoff 14160 s; 120 s reporting reserve and 120 s outer margin.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - schedule.json
+      - target_schedules.json
+      - source_provenance.json
+      - freeze.json
+      - progress.json
+      - validation.json
+      - timing.json
+      - search.jsonl
+      - result.json
+      - report.md
+      - diagnostics.png
+  - id: 2026-10-08-1548-development-holdouts
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-08-1548 &&
+      exec .venv/bin/python -m experiments.chem_tape.then_addition_run
+      --row D --workers 10 --deadline-seconds 12480
+    timeout_seconds: 12600
+    track: chem-tape
+    notes: >-
+      Secondary development row: exact unchanged 1246 frozen 4352-search
+      holdout roster and seeds, 32 C/T tables reused with no refit.
+      Within-shape generalization only; matched/mismatched corpus contrasts
+      and own-family holdout/training shrinkage. Same balanced prefix/error rule.
+      Work cutoff 12360 s; 120 s reporting reserve and 120 s outer margin.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - schedule.json
+      - target_schedules.json
+      - source_provenance.json
+      - freeze.json
+      - progress.json
+      - validation.json
+      - timing.json
+      - search.jsonl
+      - result.json
+      - report.md
+      - diagnostics.png

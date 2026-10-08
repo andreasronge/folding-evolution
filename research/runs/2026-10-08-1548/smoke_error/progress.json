@@ -1,0 +1,6 @@
+{
+  "completed_pairs": 0,
+  "g4_complete": false,
+  "stop_kind": "error",
+  "stop_reason": "ValueError: injected validation failure"
+}

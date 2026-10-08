@@ -1,0 +1,557 @@
+{
+  "row": "D",
+  "smoke_only": true,
+  "analysed_corpora": [],
+  "completed_pairs": 0,
+  "completed_corpora": 0,
+  "g4_complete": false,
+  "full_row_complete": false,
+  "efficacy_eligible": false,
+  "stop_kind": "timeout",
+  "stop_reason": "G4 incomplete at internal deadline",
+  "total_searches": 0,
+  "observed_counts": {},
+  "trailing_corpora": [],
+  "trailing_search_summary": {
+    "n": 0
+  },
+  "scope": "C versus restricted T; bank-conditional corpus uncertainty; no isolated token-order effect",
+  "method_hash": "a0c406f1b42aa5124ca21cae7129918ad5de438c3354890173053409c954e831",
+  "sensitivities": {
+    "unsolved_2cap": {
+      "C_T": {
+        "n": 0,
+        "contrasts_log": [],
+        "speed_ratio": null,
+        "interval_95": null,
+        "sd_log": null,
+        "half_width_log": null,
+        "corpus_scores_log": {},
+        "equal_family_weight": true,
+        "families": {
+          "BE": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        }
+      },
+      "arms": {
+        "C": {
+          "n": 0
+        },
+        "T": {
+          "n": 0
+        },
+        "G4": {
+          "n": 0
+        }
+      },
+      "per_cell": {
+        "BE:F>S?F:M+m": {
+          "C_T": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 0
+            },
+            "T": {
+              "n": 0
+            },
+            "G4": {
+              "n": 0
+            }
+          }
+        },
+        "BE:F>m?S:F+M": {
+          "C_T": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 0
+            },
+            "T": {
+              "n": 0
+            },
+            "G4": {
+              "n": 0
+            }
+          }
+        },
+        "BE:S>F?M:F+m": {
+          "C_T": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 0
+            },
+            "T": {
+              "n": 0
+            },
+            "G4": {
+              "n": 0
+            }
+          }
+        },
+        "BE:S>F?m:M+S": {
+          "C_T": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 0
+            },
+            "T": {
+              "n": 0
+            },
+            "G4": {
+              "n": 0
+            }
+          }
+        },
+        "PA:(F>S?F:m)+M": {
+          "C_T": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 0
+            },
+            "T": {
+              "n": 0
+            },
+            "G4": {
+              "n": 0
+            }
+          }
+        },
+        "PA:(F>S?m:M)+F": {
+          "C_T": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 0
+            },
+            "T": {
+              "n": 0
+            },
+            "G4": {
+              "n": 0
+            }
+          }
+        },
+        "PA:(M>F?m:S)+S": {
+          "C_T": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 0
+            },
+            "T": {
+              "n": 0
+            },
+            "G4": {
+              "n": 0
+            }
+          }
+        },
+        "PA:(S>F?M:m)+m": {
+          "C_T": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 0
+            },
+            "T": {
+              "n": 0
+            },
+            "G4": {
+              "n": 0
+            }
+          }
+        }
+      },
+      "cells_with_C_T_above_one": 0,
+      "leave_one_cell_out": {},
+      "leave_one_cell_out_range": null,
+      "descriptive_unpaired_baselines": {
+        "C_G4": {
+          "n": 0,
+          "contrasts_log": [],
+          "speed_ratio": null,
+          "interval_95": null,
+          "sd_log": null,
+          "half_width_log": null
+        },
+        "T_G4": {
+          "n": 0,
+          "contrasts_log": [],
+          "speed_ratio": null,
+          "interval_95": null,
+          "sd_log": null,
+          "half_width_log": null
+        }
+      },
+      "baseline_interval_limitation": "corpus variation only; independent G4 sampling uncertainty omitted",
+      "secondaries": {
+        "source_family_BE_minus_PA": {
+          "n_BE": 0,
+          "n_PA": 0,
+          "difference_log": null,
+          "interval_95_log": null
+        },
+        "target_minus_own_family_training": {
+          "n": 0,
+          "difference_log": null,
+          "interval_95_log": null,
+          "ratio_of_ratios": null,
+          "interval_95_ratio": null
+        },
+        "own_family_training_C_T": {
+          "n": 0,
+          "contrasts_log": [],
+          "speed_ratio": null,
+          "interval_95": null,
+          "sd_log": null,
+          "half_width_log": null
+        }
+      }
+    },
+    "unsolved_1cap": {
+      "C_T": {
+        "n": 0,
+        "contrasts_log": [],
+        "speed_ratio": null,
+        "interval_95": null,
+        "sd_log": null,
+        "half_width_log": null,
+        "corpus_scores_log": {},
+        "equal_family_weight": true,
+        "families": {
+          "BE": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "PA": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          }
+        }
+      },
+      "arms": {
+        "C": {
+          "n": 0
+        },
+        "T": {
+          "n": 0
+        },
+        "G4": {
+          "n": 0
+        }
+      },
+      "per_cell": {
+        "BE:F>S?F:M+m": {
+          "C_T": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 0
+            },
+            "T": {
+              "n": 0
+            },
+            "G4": {
+              "n": 0
+            }
+          }
+        },
+        "BE:F>m?S:F+M": {
+          "C_T": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 0
+            },
+            "T": {
+              "n": 0
+            },
+            "G4": {
+              "n": 0
+            }
+          }
+        },
+        "BE:S>F?M:F+m": {
+          "C_T": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 0
+            },
+            "T": {
+              "n": 0
+            },
+            "G4": {
+              "n": 0
+            }
+          }
+        },
+        "BE:S>F?m:M+S": {
+          "C_T": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 0
+            },
+            "T": {
+              "n": 0
+            },
+            "G4": {
+              "n": 0
+            }
+          }
+        },
+        "PA:(F>S?F:m)+M": {
+          "C_T": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 0
+            },
+            "T": {
+              "n": 0
+            },
+            "G4": {
+              "n": 0
+            }
+          }
+        },
+        "PA:(F>S?m:M)+F": {
+          "C_T": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 0
+            },
+            "T": {
+              "n": 0
+            },
+            "G4": {
+              "n": 0
+            }
+          }
+        },
+        "PA:(M>F?m:S)+S": {
+          "C_T": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 0
+            },
+            "T": {
+              "n": 0
+            },
+            "G4": {
+              "n": 0
+            }
+          }
+        },
+        "PA:(S>F?M:m)+m": {
+          "C_T": {
+            "n": 0,
+            "contrasts_log": [],
+            "speed_ratio": null,
+            "interval_95": null,
+            "sd_log": null,
+            "half_width_log": null
+          },
+          "arms": {
+            "C": {
+              "n": 0
+            },
+            "T": {
+              "n": 0
+            },
+            "G4": {
+              "n": 0
+            }
+          }
+        }
+      },
+      "cells_with_C_T_above_one": 0,
+      "leave_one_cell_out": {},
+      "leave_one_cell_out_range": null,
+      "descriptive_unpaired_baselines": {
+        "C_G4": {
+          "n": 0,
+          "contrasts_log": [],
+          "speed_ratio": null,
+          "interval_95": null,
+          "sd_log": null,
+          "half_width_log": null
+        },
+        "T_G4": {
+          "n": 0,
+          "contrasts_log": [],
+          "speed_ratio": null,
+          "interval_95": null,
+          "sd_log": null,
+          "half_width_log": null
+        }
+      },
+      "baseline_interval_limitation": "corpus variation only; independent G4 sampling uncertainty omitted",
+      "secondaries": {
+        "source_family_BE_minus_PA": {
+          "n_BE": 0,
+          "n_PA": 0,
+          "difference_log": null,
+          "interval_95_log": null
+        },
+        "target_minus_own_family_training": {
+          "n": 0,
+          "difference_log": null,
+          "interval_95_log": null,
+          "ratio_of_ratios": null,
+          "interval_95_ratio": null
+        },
+        "own_family_training_C_T": {
+          "n": 0,
+          "contrasts_log": [],
+          "speed_ratio": null,
+          "interval_95": null,
+          "sd_log": null,
+          "half_width_log": null
+        }
+      }
+    }
+  },
+  "shared_low_solve_guard": true,
+  "censoring_caution": "25% is an interpretive flag; higher solve rates do not eliminate capped-endpoint distortion",
+  "outcome": {
+    "label": "smoke_only",
+    "meaning": "training-only infrastructure check; no target efficacy decision"
+  },
+  "both_fits_costlier_than_G4": false,
+  "G4_interpretation": "See per-arm and per-cell solve counts and descriptive unpaired G4 cost contrasts",
+  "sizing": {
+    "total_corpora_needed": {
+      "precision_1_10": null,
+      "observed_effect": null
+    },
+    "extra_balanced_corpora": {
+      "precision_1_10": null,
+      "observed_effect": null
+    },
+    "approximate_only": true,
+    "acquisition_seconds_per_corpus": 423,
+    "measured_scoring_seconds_per_corpus": null,
+    "total_seconds_per_extra_corpus": null,
+    "effective_workers": 0.0
+  }
+}

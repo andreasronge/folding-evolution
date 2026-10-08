@@ -1,0 +1,15 @@
+{
+  "G4": {
+    "wall_seconds": 0.2981333340285346,
+    "worker_seconds": 0,
+    "rows": 0,
+    "expected_rows": 16,
+    "complete": false
+  },
+  "reporting": {
+    "wall_seconds": 0.29980208398774266
+  },
+  "total": {
+    "wall_seconds": 1.3478369159856811
+  }
+}
