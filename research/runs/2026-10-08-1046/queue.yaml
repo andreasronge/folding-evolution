@@ -1,0 +1,48 @@
+runs:
+  - id: 2026-10-08-1046-acquisition
+    cmd: >-
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.inherited_bias
+      --mode recover --workers 3 --reference-seeds 16
+      --source /Users/andreas/developer/folding-evolution/experiments/output/2026-10-08/2026-10-08-0918-acquisition
+      --out "$RUN_DIR"
+    timeout_seconds: 9000
+    expect_outputs: [manifest.json, validation.json, recovery.json, ACQUISITIONS_COMPLETE]
+    track: chem-tape
+    notes: "Selective max/inherited/14 completion plus sum/inherited/0 and max/broken/0 replays; 79 hashed source rows reused only after exact gates. Selective 3600 s; fallback shares remaining 9000 s, 10 workers, never resets budget. Full roster mandatory."
+
+  - id: 2026-10-08-1046-sum-scoring
+    cmd: >-
+      test -f "$RUN_DIR/../2026-10-08-1046-acquisition/ACQUISITIONS_COMPLETE" &&
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.inherited_bias
+      --mode score --family sum --workers 10 --reference-seeds 16
+      --acquisitions "$RUN_DIR/../2026-10-08-1046-acquisition" --out "$RUN_DIR"
+    timeout_seconds: 2400
+    expect_outputs: [manifest.json, SCORING_COMPLETE]
+    track: chem-tape
+    notes: "1280 learned + 96 reference searches; sum thresholds 1/5; shared indices 0-15; cap 262144. Measured price 779 s including tail allowance."
+
+  - id: 2026-10-08-1046-max-scoring
+    cmd: >-
+      test -f "$RUN_DIR/../2026-10-08-1046-acquisition/ACQUISITIONS_COMPLETE" &&
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.inherited_bias
+      --mode score --family max --workers 10 --reference-seeds 16
+      --acquisitions "$RUN_DIR/../2026-10-08-1046-acquisition" --out "$RUN_DIR"
+    timeout_seconds: 5400
+    expect_outputs: [manifest.json, SCORING_COMPLETE]
+    track: chem-tape
+    notes: "1280 learned + 96 reference searches; max thresholds 1/5; shared indices 0-15; cap 262144. Measured price 4067 s < 4500 s split threshold; 5/40 learned verifier tails retained. No hidden per-job deadlines."
+
+  - id: 2026-10-08-1046-analysis
+    cmd: >-
+      test -f "$RUN_DIR/../2026-10-08-1046-acquisition/ACQUISITIONS_COMPLETE" &&
+      test -f "$RUN_DIR/../2026-10-08-1046-sum-scoring/SCORING_COMPLETE" &&
+      test -f "$RUN_DIR/../2026-10-08-1046-max-scoring/SCORING_COMPLETE" &&
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.inherited_bias
+      --mode analyze --workers 10 --reference-seeds 16
+      --acquisitions "$RUN_DIR/../2026-10-08-1046-acquisition"
+      --sum-scores "$RUN_DIR/../2026-10-08-1046-sum-scoring"
+      --max-scores "$RUN_DIR/../2026-10-08-1046-max-scoring" --out "$RUN_DIR"
+    timeout_seconds: 300
+    expect_outputs: [manifest.json, result.json, report.md, trajectories.png, search_trajectories.png, COMPLETE]
+    track: chem-tape
+    notes: "80-acquisition/2752-search roster required; 10000 crossed draws; separate family verdicts; capped-cost endpoint and solve counts; development-bank scope; immediate strategy review. Timeout sum 17100 s + preparation allowance 900 s = 5 h, including any fallback."

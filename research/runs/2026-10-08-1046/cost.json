@@ -1,0 +1,190 @@
+{
+  "cut_extrapolated_seconds": 1920.5501145329326,
+  "full_replay_expected_seconds": 5450.639714728412,
+  "selective_expected_seconds": 1920.5501145329326,
+  "basis": "original worker times; cut duration extrapolated from 30/48 episodes; final-worker allowance",
+  "normal_expected_seconds": 7066.715580757812,
+  "fallback_expected_seconds": 12517.355295486224,
+  "preparation_timing_seconds": 279.8242274170043,
+  "queue_timeouts_seconds": 17100,
+  "timing_allowance_seconds": 900,
+  "cumulative_timeout_allowance_seconds": 18000,
+  "scoring": {
+    "sum": {
+      "expected_seconds": 779.4072323969914,
+      "worker_seconds": 7400.320286594331,
+      "cells": [
+        {
+          "target": "sum1",
+          "arm": "inherited",
+          "mean_seconds": 3.370185691467486,
+          "n": 10,
+          "max_seconds": 9.273648665985093
+        },
+        {
+          "target": "sum1",
+          "arm": "broken",
+          "mean_seconds": 8.275107341620606,
+          "n": 10,
+          "max_seconds": 43.75022637506481
+        },
+        {
+          "target": "sum1",
+          "arm": "uniform",
+          "mean_seconds": 1.177706875023432,
+          "n": 1,
+          "max_seconds": 1.177706875023432
+        },
+        {
+          "target": "sum1",
+          "arm": "hand",
+          "mean_seconds": 1.6198426659684628,
+          "n": 1,
+          "max_seconds": 1.6198426659684628
+        },
+        {
+          "target": "sum1",
+          "arm": "fit",
+          "mean_seconds": 34.32347929198295,
+          "n": 1,
+          "max_seconds": 34.32347929198295
+        },
+        {
+          "target": "sum5",
+          "arm": "inherited",
+          "mean_seconds": 4.9474549748003485,
+          "n": 10,
+          "max_seconds": 9.779007832985371
+        },
+        {
+          "target": "sum5",
+          "arm": "broken",
+          "mean_seconds": 4.453908925224096,
+          "n": 10,
+          "max_seconds": 8.617548792040907
+        },
+        {
+          "target": "sum5",
+          "arm": "uniform",
+          "mean_seconds": 3.8371257089311257,
+          "n": 1,
+          "max_seconds": 3.8371257089311257
+        },
+        {
+          "target": "sum5",
+          "arm": "hand",
+          "mean_seconds": 0.37755470792762935,
+          "n": 1,
+          "max_seconds": 0.37755470792762935
+        },
+        {
+          "target": "sum5",
+          "arm": "fit",
+          "mean_seconds": 0.2511700000613928,
+          "n": 1,
+          "max_seconds": 0.2511700000613928
+        }
+      ],
+      "final_worker_allowance": 39.37520373755833,
+      "verifier_tail_count": 0,
+      "n": 46,
+      "observed_tail_rate": 0.0,
+      "learned_tail_count": 0,
+      "learned_n": 40,
+      "learned_tail_rate": 0.0,
+      "verifier_tail_seconds": 0,
+      "projected_verifier_tail_worker_seconds": 0,
+      "stage_timeout_seconds": 2400,
+      "split_max": false
+    },
+    "max": {
+      "expected_seconds": 4066.758233827888,
+      "worker_seconds": 38326.45176916011,
+      "cells": [
+        {
+          "target": "max1",
+          "arm": "inherited",
+          "mean_seconds": 72.79983072908362,
+          "n": 10,
+          "max_seconds": 260.12561879097484
+        },
+        {
+          "target": "max1",
+          "arm": "broken",
+          "mean_seconds": 31.50685888339067,
+          "n": 10,
+          "max_seconds": 186.4176030419767
+        },
+        {
+          "target": "max1",
+          "arm": "uniform",
+          "mean_seconds": 3.88305554096587,
+          "n": 1,
+          "max_seconds": 3.88305554096587
+        },
+        {
+          "target": "max1",
+          "arm": "hand",
+          "mean_seconds": 0.6086086250143126,
+          "n": 1,
+          "max_seconds": 0.6086086250143126
+        },
+        {
+          "target": "max1",
+          "arm": "fit",
+          "mean_seconds": 0.721529790898785,
+          "n": 1,
+          "max_seconds": 0.721529790898785
+        },
+        {
+          "target": "max5",
+          "arm": "inherited",
+          "mean_seconds": 6.333092403912451,
+          "n": 10,
+          "max_seconds": 11.026246665976942
+        },
+        {
+          "target": "max5",
+          "arm": "broken",
+          "mean_seconds": 8.262183899793309,
+          "n": 10,
+          "max_seconds": 10.230911083053797
+        },
+        {
+          "target": "max5",
+          "arm": "uniform",
+          "mean_seconds": 8.961726624984294,
+          "n": 1,
+          "max_seconds": 8.961726624984294
+        },
+        {
+          "target": "max5",
+          "arm": "hand",
+          "mean_seconds": 2.390012708026916,
+          "n": 1,
+          "max_seconds": 2.390012708026916
+        },
+        {
+          "target": "max5",
+          "arm": "fit",
+          "mean_seconds": 0.7989839590154588,
+          "n": 1,
+          "max_seconds": 0.7989839590154588
+        }
+      ],
+      "final_worker_allowance": 234.11305691187735,
+      "verifier_tail_count": 5,
+      "n": 46,
+      "observed_tail_rate": 0.10869565217391304,
+      "learned_tail_count": 5,
+      "learned_n": 40,
+      "learned_tail_rate": 0.125,
+      "verifier_tail_seconds": 822.2512144481298,
+      "projected_verifier_tail_worker_seconds": 26312.038862340152,
+      "stage_timeout_seconds": 5400,
+      "split_max": false
+    }
+  },
+  "admitted": true,
+  "note": "Source worker times are measured; selective completion and full replay are extrapolations. Verifier tails and clustered timing uncertainty retained; no precision/effect claims."
+}

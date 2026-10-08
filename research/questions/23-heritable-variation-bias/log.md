@@ -185,3 +185,79 @@ reproducible under fixed seeds. Remove the per-job deadlines, pin Rayon threads,
 scoring from the verifier costs seen here, and split the queue if needed. That yields the primary
 contrast for about 1.5–2 h of queue. Reasons and price are in
 [decision 0918](../../runs/2026-10-08-0918/decision.md).
+
+## 2026-10-08 — run 2026-10-08-1046: recovery of 0918, frozen scoring ran — Bounded in both families; inherited vectors no better than uniform
+
+**Experiment.** [Strategy](../../runs/2026-10-08-1046/strategy.md),
+[proposal](../../runs/2026-10-08-1046/proposal.md), [critique](../../runs/2026-10-08-1046/critique.md)
+(approve_with_notes), [plan](../../runs/2026-10-08-1046/plan.md),
+[code review](../../runs/2026-10-08-1046/code_review.md) (pass),
+[execution](../../runs/2026-10-08-1046/execution.md), [analysis](../../runs/2026-10-08-1046/analysis.md).
+Code `a804f4f`. The approved 0918 design, unchanged; only operational fixes (per-job deadlines
+removed, Rayon pinned to 1 thread). The 79 valid 0918 acquisitions were reused (SHA-256 checked);
+max/inherited/14 was rerun from its original seed. Replay gates: two complete control replays
+(sum/inherited/0, max/broken/0) and the 30 completed episodes of the cut run matched 0918
+exactly; no fallback. This completes one comparison; it is not a replication. Queue 75 min
+(acquisition 893 s, sum scoring 983 s, max scoring 2 585 s) against 3.25 h of timeouts.
+
+**Result (pre-registered primary).** 80 acquisitions × 2 training targets × 16 shared seeds,
+plus uniform, hand scaffold and 1558 fit on the same 16 seeds per target: 2 752 frozen
+searches, none missing. Endpoint: geometric mean evaluations to first exact solve over both
+targets, censored at 262 144; crossed bootstrap over acquisitions and seeds. Reference vectors
+are single rows (seed noise only).
+
+| Family | R_u = uniform ÷ inherited | Verdict | L = broken ÷ inherited | broken ÷ uniform | S = inherited ÷ scaffold |
+|---|---|---|---|---|---|
+| sum | 0.33 [0.21, 0.53] | Bounded | 1.00 [0.69, 1.41] | 3.00 [1.93, 4.68] | 11.9 [7.0, 20.4] |
+| max | 0.73 [0.50, 1.06] | Bounded | 1.58 [1.04, 2.36] | 2.17 [1.53, 3.04] | 5.75 [3.66, 8.95] |
+
+- **Sum:** the inherited vectors make search 1.9–4.8× costlier than uniform (resolved worse).
+- **Max:** an inherited gain over uniform above 1.06× is excluded; a loss up to about 2× is not.
+  Per target, max1 favours uniform (U/I 0.53) and max5 is tied (1.00), where uniform itself solved
+  only 8/16.
+- **Linkage:** on max, persistent ancestry gave cheaper vectors than shuffled ancestry; the
+  broken control is worse than uniform, not better, so this is not an artefact of a control
+  that beats uniform. On sum, L is unresolved (0.69–1.41). Where linkage mattered it made the
+  vectors less costly, not better than uniform.
+- **Scaffold:** a greater-than-twofold disadvantage against the hand scaffold is established in
+  both families (S lower bounds 7.0 and 3.7); the 1558 fit is 6.8–13× cheaper than inherited.
+- Between-acquisition SD of log cost 0.50–0.65. Runs cheaper than uniform: sum 1/20 inherited,
+  1/20 broken; max 5/20 inherited, 2/20 broken. Cheaper than the scaffold: 0/80.
+  Break-even is undefined (negative saving per search).
+
+**Post hoc observations (not beliefs).**
+- Acquisition solves and frozen solves correlate 0.59–0.85 across the 20 runs of a cell; the
+  shared program seed confounds this, so it does not show that acquisition success could select
+  vectors.
+- Final vectors are concentrated (mean max token probability 0.22 vs 0.045 uniform) on tokens
+  that differ between runs. Replicate-mean inherited vectors correlate 0.04 (sum) and 0.18 (max)
+  with the 1558 fit. On sum the aggregator token fell below uniform (0.023 vs 0.045; scaffold
+  0.089). The max inherited mean carries more GT than broken (0.087 vs 0.039).
+- The 0918 prediction (R_u at or below 1 in both families) held. That the vectors are "mostly
+  drift" is consistent with this, but drift versus selection was not isolated: broken ancestry
+  removes persistent association, it is not a mutation-only control.
+
+**Correction to the 0918 entry above (critique 1046 notes 6–7).** "Both arms moved equally far
+from uniform" should read: both arms reached similar observed mean distances from uniform
+(L1 0.90–0.93); similar distance does not imply equal direction or utility. "This movement is
+what the σ = 0.03 walk … produces without any lineage selection" should read: the movement is
+consistent with substantial drift; its contribution relative to selection was not isolated.
+"At most a small shared component riding on large neutral drift" should read: weak
+cross-replicate correlations suggest a possible shared component; its size, cause and
+usefulness remain unmeasured.
+
+**Reading against the explanations.** A (selection accumulates a useful frozen bias) is not
+supported for this procedure: Acquired is excluded in both families. C (generic supply or
+scaffold recovery) is not supported: no gain over uniform, far below the scaffold. B fits sum
+(no resolved linkage effect, no useful increment); on max linkage had a resolved effect but no
+useful one. D is not separable here (resident-program benefit was not measured). E (too little
+selectable signal at this σ and schedule) remains open as a redesign hypothesis; nothing in
+this run measures it.
+
+Decision: park 23, because the pre-registered comparison is answered for this procedure
+(Bounded in both families, with inherited vectors no better than uniform and more than twofold
+behind the scaffold), the question's two experiments are used, and a further run of the same
+procedure would not change a decision; a redesign (lower σ, different exposure or inheritance
+rule) has no measured selectable signal to justify a slot ahead of root 10's reserve plan. The
+decision goes to the strategist (`next: strategy`), as the strategy and plan require for every
+outcome ([decision 1046](../../runs/2026-10-08-1046/decision.md)).

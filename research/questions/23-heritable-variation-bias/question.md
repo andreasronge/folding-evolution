@@ -1,22 +1,27 @@
 ---
-status: open
+status: parked
 tags: [map-bias, self-adaptation, inheritance, variation, op-frequencies, task-family, fresh-start]
 budget: {experiments: 2, used: 0}
 ---
 # Can inherited token-generation frequencies learn a useful bias through program selection and transfer it to fresh populations?
 
-Current summary: Untested; no primary measurement yet. Three runs of the same mechanism:
-run 2026-10-07-2243 (early-stopped episodes) stopped at an over-strict worst-search cost gate;
-in its single sum timing pair the less successful broken arm received about 3× as many
-generations under early stopping (5 053 vs 1 679; max 5 793 vs 5 624). Run 2026-10-08-0843
-(equal 128-generation episodes, uniform as primary reference, code `c01f16d`) missed a 3 h
-timeout ceiling by 68 s. Run 2026-10-08-0918 (same design, 16 reference seeds, code `511711c`)
-executed: 79 of 80 acquisitions completed, but one max acquisition was cut by a hidden 1 200 s
-per-job deadline. The completeness check correctly blocked scoring, so no frozen search ran.
-Acquisition observations only (not evidence): no resolved inherited − broken difference in
-within-acquisition solves (sum −0.6 [−7.5, +6.0], max +4.1 [−1.3, +9.5] of 48). Both arms drifted
-equally far from uniform (L1 ≈ 0.9), as the σ = 0.03 walk alone would produce. Solve rate fell over
-the 48 episodes in every cell.
+Current summary: Answered for one procedure, negatively (run 2026-10-08-1046, code `a804f4f`,
+pre-registered). Each program carried θ, inherited with N(0, 0.03²) per component; 20
+acquisitions per family × arm, 48 episodes × 128 generations, then each final vector frozen
+and scored on 16 fresh seeds per training target. Uniform ÷ inherited cost: sum 0.33
+[0.21, 0.53] (inherited resolved worse than uniform), max 0.73 [0.50, 1.06] (a gain above
+1.06× excluded). Bounded in both families. The hand scaffold is 11.9× [7.0, 20.4] (sum) and
+5.75× [3.66, 8.95] (max) cheaper than inherited. Persistent ancestry beat shuffled ancestry on
+max (broken ÷ inherited 1.58 [1.04, 2.36]) but not on sum (1.00 [0.69, 1.41]); where it
+mattered it made vectors less costly, not better than uniform. Scope: one modifier law,
+σ = 0.03, this exposure schedule, development bank `tag-threshold-v1`, training targets only,
+fixed token meanings. It bounds this procedure, not self-adaptation. Post hoc (log only):
+final vectors concentrate on run-specific tokens; acquisition and frozen solves correlate
+0.59–0.85 within cells (shared-seed confounded); drift versus selection was not isolated.
+Earlier runs 2243 and 0843 stopped at cost gates; 0918 ran acquisition but a hidden deadline
+blocked scoring, and 1046 completed it. Both arms reached similar observed mean distances
+from uniform (L1 0.90–0.93) in 0918; that is not evidence of equal drift or direction.
+
 Background: root 01 established that externally fitted frequencies speed TAG
 threshold search and that a hand-set INPUT/GT/aggregator scaffold performs comparably;
 root 10 established outer-selected token transfer and useful externally fitted context.
@@ -47,6 +52,10 @@ Related: [concept plan](../../plans/heritable-variation-bias.md),
 [decision](../../runs/2026-10-08-0843/decision.md),
 [run 0918 analysis](../../runs/2026-10-08-0918/analysis.md) and
 [decision](../../runs/2026-10-08-0918/decision.md),
+[run 1046 analysis](../../runs/2026-10-08-1046/analysis.md) and
+[decision](../../runs/2026-10-08-1046/decision.md),
+[self-adaptation, Stephens et al. 1998](https://pubmed.ncbi.nlm.nih.gov/9847423/),
+[root-10 reserve plan](../../plans/comparison-gated-transfer.md),
 [owner note](../../plans/owner-heritable-map.md),
 [01 map bias](../01-map-bias/question.md),
 [08 fitted frequency transfer](../01-map-bias/08-evolve-bias/question.md),
@@ -59,10 +68,19 @@ build/cost failure. The steward sets the actual experiment design and sizes.
 After the 68 s overrun in 0843 the steward re-proposed directly instead of returning to
 strategy (reasons in [decision 0843](../../runs/2026-10-08-0843/decision.md)); any further
 cost or build stop on this design goes to the strategist. Run 0918 executed (it counts as 1 of 2) and
-stopped on a build defect, so it went to strategy with a recommended recovery run.
+stopped on a build defect, so it went to strategy with a recommended recovery run. Run 1046
+completed it (2 of 2 used) and the question was parked; see the explanations' status below.
 
-Reopen if parked or closed: a changed inheritance/exposure rule has evidence of selectable
-benefit that the tested procedure lacked; a new bank makes a learned frequency bias useful
-beyond a hand-set scaffold; or a later decoder-inheritance experiment needs a specific
-frequency-only control. Mere vector movement, more seeds under one learned vector, or
-available compute does not meet this condition.
+Status of the explanations after 1046 (this procedure only): A not supported (Acquired
+excluded in both families); C not supported (no gain over uniform); B fits sum, while on max
+linkage had a resolved but not useful effect; D not separable (resident benefit not
+measured); E open as a redesign hypothesis, unmeasured.
+
+Reopen if: a changed inheritance, mutation-scale or exposure rule comes with a measured
+selectable signal that this procedure lacked (e.g. a cheap acquisition probe whose frozen
+vectors beat uniform on training targets at a resolved bound, or a mutation-only control
+showing that selection, not drift, moves the vectors); a new bank makes a learned frequency
+bias useful beyond a hand-set scaffold; or a later decoder-inheritance experiment needs a
+specific frequency-only control (this run's acquisitions and scoring harness can serve).
+Mere vector movement, the post hoc acquisition/frozen correlation, more seeds under the same
+procedure, or available compute does not meet this condition.
