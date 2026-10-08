@@ -5,13 +5,14 @@ budget: {experiments: 2, used: 0}
 ---
 # Can inherited token-generation frequencies learn a useful bias through program selection and transfer it to fresh populations?
 
-Current summary: Untested. The first design (run 2026-10-07-2243) was built and validated
-but stopped at its pre-run cost gate, which charged every scoring batch the worst observed
-search; at measured means the same roster costs about 1 h (2.3 h with a 2× margin). Stage 0 (one acquisition run per
-family × arm, observations only) showed that early-stopped episodes give the less successful
-arm about 3× more generations and so more drift, and that the max family is rarely solved
-under this exposure (6–7/48 episodes; both learned max vectors censored on all frozen
-searches). Background: root 01 established that externally fitted frequencies speed TAG
+Current summary: Untested. Two designs were built and validated and both stopped at their
+pre-run cost gates. Run 2026-10-07-2243 (early-stopped episodes) used an over-strict
+worst-search gate; its stage 0 showed that early stopping gives the less successful arm about
+3× more generations. Run 2026-10-08-0843 (equal 128-generation episodes, uniform as primary
+reference, code `c01f16d`) missed a 3 h timeout ceiling by 68 s because max acquisitions cost
+400–430 s, mostly exact verification; expected queue ≈ 83 min. Timing runs (n = 1 per cell,
+observations only) solved 35/25 (sum inherited/broken) and 26/19 (max) of 48 episodes.
+Background: root 01 established that externally fitted frequencies speed TAG
 threshold search and that a hand-set INPUT/GT/aggregator scaffold performs comparably;
 root 10 established outer-selected token transfer and useful externally fitted context.
 Neither tested a frequency vector inherited with each program and selected only through
@@ -36,6 +37,9 @@ Related: [concept plan](../../plans/heritable-variation-bias.md),
 [opening strategy](../../runs/2026-10-07-2243/strategy.md),
 [run 2243 stop](../../runs/2026-10-07-2243/infeasible.md) and
 [decision](../../runs/2026-10-07-2243/decision.md),
+[equal-exposure addendum](../../plans/heritable-bias-equal-exposure.md),
+[run 0843 stop](../../runs/2026-10-08-0843/infeasible.md) and
+[decision](../../runs/2026-10-08-0843/decision.md),
 [owner note](../../plans/owner-heritable-map.md),
 [01 map bias](../01-map-bias/question.md),
 [08 fitted frequency transfer](../01-map-bias/08-evolve-bias/question.md),
@@ -45,6 +49,9 @@ Related: [concept plan](../../plans/heritable-variation-bias.md),
 Allocation: two experiments through the next strategy review, at most 8 queue hours and
 about 6 h of agent work/contingency. Return earlier after a feasibility-only result or a
 build/cost failure. The steward sets the actual experiment design and sizes.
+After the 68 s overrun in 0843 the steward re-proposed directly instead of returning to
+strategy (reasons in [decision 0843](../../runs/2026-10-08-0843/decision.md)); any further
+cost or build stop on this design goes to the strategist.
 
 Reopen if parked or closed: a changed inheritance/exposure rule has evidence of selectable
 benefit that the tested procedure lacked; a new bank makes a learned frequency bias useful

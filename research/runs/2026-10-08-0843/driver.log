@@ -1,0 +1,14 @@
+2026-10-08 08:50:40 cycle 2026-10-07-2243 done; brief: /Users/andreas/developer/folding-evolution/research/briefs/2026-10-08-2026-10-07-2243.md
+2026-10-08 08:50:40 strategist (codex/gpt-6-astra) → strategy [herdr]
+2026-10-08 08:56:28 phase → propose
+2026-10-08 08:56:28 steward (claude/claude-opus-5-5) → propose [herdr]
+2026-10-08 08:59:52 phase → accept
+2026-10-08 08:59:52 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-08 09:02:41 phase → awaiting_approval
+2026-10-08 09:02:41 proposal: Inherited token frequencies at equal exposure — frozen vector vs uniform, with broken-ancestry and scaffold controls (slot 1, corrected) [questions/23-heritable-variation-bias] — budget left: 2. Approve with `research.py approve`.
+2026-10-08 09:02:41 auto-approved (critic: approve_with_notes, revisions: 0)
+2026-10-08 09:02:41 phase → prepare
+2026-10-08 09:02:58 researcher (codex/gpt-6.1-sol) → prepare [herdr]
+2026-10-08 09:18:15 blocked: the researcher found the approved design infeasible; see infeasible.md
+2026-10-08 09:18:15 phase → decide
+2026-10-08 09:18:15 steward (claude/claude-opus-5-5) → decide [herdr]

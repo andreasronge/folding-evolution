@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-08, after run 2026-10-07-2243 (root 23, stopped at its cost gate, no result). Latest
+As of 2026-10-08, after run 2026-10-08-0843 (root 23, stopped again at its cost gate, no result). Latest
 result: run 2026-10-07-2156, commit `36c665d`. Core question since the 2026-09-25 reframe: *how
 does the genotype→program map bias what evolution finds and keeps ("arrival of the frequent"),
 and can that bias be adapted to a task family?* Run-by-run history, superseded numbers and the
@@ -36,13 +36,16 @@ intervals unless stated.
   that explained it **failed out of sample** (hand-set vector 5.45× / 11.07×, predicted 17× / 22×).
   Fairly sure of the numbers, narrow in meaning. ([08](questions/01-map-bias/08-evolve-bias/question.md), [run 1558](runs/2026-10-05-1558/analysis.md))
 - **In evolution the fitted bias is about 4× faster than uniform** (4.33× / 3.58×, lower bounds
-  2.6×, 1.9×), and a hand-set INPUT/GT/aggregator scaffold matches it (0.93×, 1.08×). Family
+  2.6×, 1.9×), and a hand-set INPUT/GT/aggregator scaffold is within the registered 0.5–2× margin of it (median
+  ratios 0.93×, 1.08×; a broad margin, not equality). Family
   specificity is unresolved: matched beats the other family's fit only 1.66× / 1.80× (not resolved
   against a 2× bar, 100 pairs). Sampling lift does not predict evolution speed (pass-through
   0.35–3.2). Median speed, one evolution setup. ([08](questions/01-map-bias/08-evolve-bias/question.md), [run 1705](runs/2026-10-05-1705/analysis.md))
-- **The other family's vector gives a real generic speed-up; on max>2 it is the INPUT/GT raise.**
+- **The other family's vector gives a real generic speed-up; on max>2 INPUT/GT alone reproduces it
+  within the tested margin.**
   Pre-registered, 250 pairs: 2.73× (sum>2) and 2.02× (max>2) over uniform (lower bounds 2.12,
-  1.45). INPUT/GT alone matches the full vector on max>2 (0.90× [0.71, 1.08]); on sum>2 both parts
+  1.45). INPUT/GT alone is within the registered 1.5× margin of the
+  full vector on max>2 (0.90× [0.71, 1.08]); on sum>2 both parts
   beat uniform and neither is resolved against the full vector. Its flat sampling rate was a
   cancellation (INPUT/GT raises solvers 3.2× / 3.9×, the rest cuts them to 0.23× / 0.35×).
   Initialization and mutation are coupled, so no mechanism is named; sum>2 open.
@@ -162,8 +165,8 @@ screened and inspected, so all transfer claims are development-bank claims.
 - **A previous-token table fitted to exact G4 solver tapes beats a token-only fit to the same tapes,
   and the gain transfers.** C/T 1.365× [1.288, 1.446] on training (31/32 corpora), 1.293× [1.213,
   1.378] on the withheld cells. Matching C's pooled emitted frequencies does not reproduce it (C/K
-  1.65×), though that control is itself slower than T. No matched-family advantage on withheld cells
-  (BE 1.02× [0.91, 1.15]; one PA cell favoured the mismatched fit, 0.75× [0.63, 0.89]). Tapes carry
+  1.65×), though that control is itself slower than T. No matched-family advantage was resolved on these
+  three withheld cells (BE 1.02× [0.91, 1.15], specificity not refuted; one PA cell favoured the mismatched fit, 0.75× [0.63, 0.89]). Tapes carry
   about 0.45 bits per transition of order information; a corpus pays for itself in about 120–590
   searches. One bank, split and shrinkage (α 50); which structure carries it is unknown.
   ([20](questions/10-compositional-map-transfer/20-solver-corpus-context/question.md))
@@ -182,8 +185,8 @@ screened and inspected, so all transfer claims are development-bank claims.
   ([22](questions/10-compositional-map-transfer/22-feedback-context-increment/question.md))
 
 **Overall.** Useful, transferable assembly information beyond token frequency exists in this
-system's own solvers and can be fitted externally; the selection-based learners tried did not
-reach it. Learned token biases transfer about 2× but show no resolved family specificity.
+system's own solvers and can be fitted externally; the selection-based procedures tried have not
+demonstrated a contextual search advantage over their token controls. Learned token biases transfer about 2× but show no resolved family specificity.
 Not shown: that evolution reaches fitted context; what structure carries it; transfer to a fresh
 bank.
 
@@ -191,13 +194,12 @@ bank.
 
 [23](questions/23-heritable-variation-bias/question.md): can a token-frequency vector inherited
 with each program learn a useful bias through program selection alone, and help fresh populations
-once frozen? **No belief yet.** The first design (run 2026-10-07-2243, commit `25f929e`) was built
-and validated but stopped at an over-strict pre-run cost gate (mean-based pricing ≈ 1–2.3 h).
-Stage-0 observations (one acquisition run per family × arm) are logged, not evidence; they flag two
-design problems: early-stopped episodes give the arm that solves less about 3× more generations
-(so more drift), and the max family is rarely solved under this exposure (6–7/48 episodes).
-([log](questions/23-heritable-variation-bias/log.md), [decision](runs/2026-10-07-2243/decision.md);
-returned to the strategist)
+once frozen? **No belief yet; no substantive run has executed.** Two designs were built and
+validated and both stopped at their pre-run cost gates: 2243 (early-stopped episodes, an
+over-strict worst-search gate) and 0843 (equal 128-generation episodes, commit `c01f16d`), whose
+timeout sum missed a 3 h admission ceiling by 68 s (mean-based queue estimate ≈ 83 min). Timing
+and stage-0 runs (one acquisition per family × arm) are logged as observations, not evidence.
+([log](questions/23-heritable-variation-bias/log.md), [decision](runs/2026-10-08-0843/decision.md))
 
 ## Older context
 

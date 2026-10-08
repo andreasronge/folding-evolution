@@ -72,3 +72,44 @@ The digest was rewritten as current beliefs only (word limit). This is the root-
   Untested: the first design (run 2026-10-07-2243) was built and validated but stopped at an
   over-strict pre-run cost gate; its stage-0 timing runs are logged as observations only.
 
+
+## 2026-10-08 — run 2026-10-08-0843: equal-exposure acquisition, uniform primary (slot 1, corrected), stopped at the cost gate
+
+**Experiment.** [Strategy](../../runs/2026-10-08-0843/strategy.md),
+[proposal](../../runs/2026-10-08-0843/proposal.md),
+[critique](../../runs/2026-10-08-0843/critique.md) (approve_with_notes),
+[plan](../../runs/2026-10-08-0843/plan.md). Same modifier law as 2243, but every episode runs
+exactly 128 generations in both arms (first solve recorded, verification skipped afterwards,
+selection continues). Planned: 20 acquisitions per family × arm (80), each frozen vector scored
+on 16 shared seeds per training target; uniform, scaffold and 1558 fit on 64 seeds per target.
+Primary R_u = uniform ÷ inherited, per family.
+
+**Result: no experiment ran.** Implementation `c01f16d` (on branch `research/2026-10-08-0843`,
+not yet on `research/main`): 111 tests pass, smoke passes in all four cells, analysis updated
+for the 20-run roster, uniform primary, separate family verdicts and S = inherited/scaffold.
+The pre-stated admission rule (timeout sum = 2 × mean-based estimate + 15 min, ceiling 3 h)
+gave 11 397 s for the full roster and 10 868 s for the approved 32-reference-seed fallback,
+**68 s over** 10 800 s. Mean-based expected queue: 87 / 83 min. The overrun came from max
+acquisitions: 396–433 s each against an anticipated 260 s, of which 236–276 s is verification
+(211k–247k fresh verifications before the first witness in some episodes). Stop rule followed
+([infeasible.md](../../runs/2026-10-08-0843/infeasible.md), [projection](../../runs/2026-10-08-0843/cost/projection.json)).
+
+**Timing observations (one acquisition per family × arm, separate streams, excluded from
+inference; no frozen scoring).** All four ran exactly 6 144 generations / 6 192 censuses.
+First exact solves / 48 episodes: sum inherited 35, sum broken 25, max inherited 26, max broken
+19. Under 2243's early-stop rule max solved 7/48 and 6/48 and sum inherited 47/48; the rules
+and seeds differ and n = 1, so this neither shows nor rules out that fixed-duration exposure
+relieves the max under-exposure problem, or that post-solve maintenance slows later sum solves.
+Mean lineage depth 5 995–6 132 of 6 144.
+
+**Correction to the 2243 entry above (critique 0843 note 9).** "Cost itself is not the
+obstacle" was too categorical. 2243 established a plausible mean-based price from four
+acquisitions and 80 searches, not a validated full-roster runtime; the revised acquisition law
+then proved 1.5–1.7× dearer on max than assumed.
+
+Decision: keep 23 open, budget unchanged (2, none used), and propose the same approved design
+with the descriptive reference seeds removed (16 shared contrast seeds only; contrasts never
+used the extra seeds), because that changes no comparison or decision rule, prices at about
+10 600 s against the 10 800 s ceiling, and the strategist reviews immediately after the result
+anyway; a second strategist pass for a 68 s overrun would add an agent cycle without a decision
+to make ([decision 0843](../../runs/2026-10-08-0843/decision.md)).
