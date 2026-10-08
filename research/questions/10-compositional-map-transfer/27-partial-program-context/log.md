@@ -15,3 +15,10 @@ Pre-stated rule: upper bound 1.45 ≥ 1.20 (no "bounded" branch); C_S/T_S and C_
 Where the explanations stand: A supported at this scope (training cells, development bank, one horizon); B not supported in its strong form (C_S over T_S resolved), but the both-solved decomposition and the 0.27× gap to C_exact leave room for much of the useful structure appearing only with complete assembly; C consistent at the measured resolution (parent enrichment above 1.16× excluded; a small enrichment or a loss up to about 8% is not).
 
 Decision: close 27 as answered at this scope, and return to strategy (`next: strategy`), because the pre-stated rule routed to "useful partial-program context" with both lower bounds above 1, which by the proposal and [strategy 1831](../../../runs/2026-10-08-1831/strategy.md) is the condition for the strategist to consider the bounded feedback stage, a continuation that strategy explicitly left unallocated. Resolving the 1.20× margin alone (≈ 64 corpora, ≈ 6 h queue) would not change that choice. Further work belongs in a new sub-question once the strategist funds it. ([decision](../../../runs/2026-10-08-1831/decision.md))
+
+## 2026-10-09 — wording correction (steward, from critique 2116 digest check, notes 7–8)
+
+Corrections to the 1831 entry above; no new data.
+- "not faster solving when both solve" overstates an unresolved, success-conditioned estimate (1.05× [0.88, 1.24]). Read: "more within-cap solves; no resolved speed difference among both-solved pairs". Run 2116 found the same pattern for F/O (both-solved 1.09× [0.95, 1.26]).
+- "A supported at this scope" endorsed A's mechanism ("order/assembly information") more broadly than the run tested. C_S/T_S compares fitting procedures; K was unscored, so order is not isolated. Read: "A's predictive claim is supported on the training cells: the context-fitting procedure beats T and G4; the carrying structure is unidentified." question.md is corrected to match.
+- Reopen check: 2116 used this collector's frozen C_S/T_S rows as its first-round reference (bit-exact replay) under the new question [28](../28-partial-program-feedback/question.md); nothing here needs reopening.

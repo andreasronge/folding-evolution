@@ -538,3 +538,17 @@ cut or shortened there and are kept here verbatim. Relative links are relative t
   per checkpoint (generations 64/128/256). C_S/T_S 1.28× [1.12, 1.45] (13/16 corpora; 1 × cap
   1.22×; …) … C_S/G4 1.62× [1.37, 1.90] (16/16); T_S/G4 1.27×. … used about 7.9× more source
   evaluations per cell."
+
+## 2026-10-09: run 2026-10-08-2116 (28), partial-program feedback vs equal-allocation one-shot — ran
+
+Run 2116 (slot 19, commit `393a4dc`, [analysis](../../runs/2026-10-08-2116/analysis.md)), details in
+[28](28-partial-program-feedback/log.md): on the comparison-gate training cells, two further rounds of
+pre-solve tape collection under the updated context fit (F) against the same allocation under G4 with
+one fit (O). F/O 1.18× [1.01, 1.37] (BE 1.42× [1.17, 1.72], PA 0.98× [0.83, 1.16]); O/R 0.99× [0.89,
+1.10]; F/R 1.16× [0.99, 1.36]; F/TF 1.46× [1.23, 1.75]; F/C_exact 0.31× [0.25, 0.38]; R/G4 replicated
+1831 (1.62×). Pre-stated rule: adopt feedback provisionally, worthwhile 1.15× not established.
+
+Decision: close 28 and return to strategy, because strategy 2116 allocated this one experiment and
+asked for a review after it; resolving the 1.15× margin needs about 600 lineages, and the remaining
+partial-acquisition questions (PA null, gap to exact fit, transfer) need a new design rather than more
+rounds. 19 of 20 slots used. ([decision](../../runs/2026-10-08-2116/decision.md))

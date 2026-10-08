@@ -1,0 +1,27 @@
+runs:
+  - id: 2026-10-08-2116-partial-program-feedback
+    cmd: .venv/bin/python -m experiments.chem_tape.partial_feedback_run --workers 10 --deadline-seconds 17880
+    timeout_seconds: 18000
+    expect_outputs:
+      - config.json
+      - bank.json
+      - schedule.json
+      - search.jsonl
+      - corpora.json
+      - replay.json
+      - freeze.json
+      - progress.json
+      - validation.json
+      - timing.json
+      - result.json
+      - report.md
+      - diagnostics.png
+    track: chem-tape
+    notes: >-
+      Approved three-round training-only comparison. All 16 acquisition lineages,
+      32 sources/cell/round, 16 fresh paired scoring seeds/cell, six arms;
+      2048 replay sources, 12288 new sources and 6144 frozen scoring searches.
+      Ten workers and one Rayon thread/worker. Verified smoke projects 227.39 min,
+      below the 240 min mean gate, so C_exact is retained. Round-one replay failure
+      or empty initial cell is fatal; later empty rounds retain earlier counts.
+      Every output is written under RUN_DIR; no intermediate decoder is scored.
