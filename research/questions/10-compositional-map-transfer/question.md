@@ -48,8 +48,12 @@ K unscored there) and why it shrinks are not identified. Exact solvers are not t
 data: a context fit to tapes from G4 searches that had not yet solved beat a token fit to the same
 tapes 1.28× [1.12, 1.45] and G4 1.62× [1.37, 1.90] on the training cells, mostly by solving within
 the cap more often, with no resolved parent-selection enrichment; the exact-solver fit stays far
-faster (0.27× [0.24, 0.30]) at about 7.9× more source evaluations (27)**
-(18 of 20 slots used; strategy 1831 assigned slot 18 to [27](27-partial-program-context/question.md); allocation 1534 raised the budget from 16 to 20 for a four-slot block, first
+faster (0.27× [0.24, 0.30]) at about 7.9× more source evaluations (27). Collecting two further
+rounds of such tapes under the updated context fit beat spending the same source allocation
+under G4 and fitting once, 1.18× [1.01, 1.37], all of it on BE (1.42× [1.17, 1.72]; PA 0.98×
+[0.83, 1.16]); more G4 tapes alone added nothing (0.99× [0.89, 1.10]), and the gain over keeping
+the first fit is unresolved (1.16× [0.99, 1.36]) (28)**
+(19 of 20 slots used; strategy 2116 assigned slot 19 to [28](28-partial-program-feedback/question.md); strategy 1831 assigned slot 18 to [27](27-partial-program-context/question.md); allocation 1534 raised the budget from 16 to 20 for a four-slot block, first
 slot run 1548; strategy 1246 raised the budget from 15 to 16, for 24; strategy 2129 raised the budget from 14 to 15, for 22; strategy 1924 raised the budget from 13 to 14; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
 2331 to 10, strategy 0803 to 12, strategy 1137 to 13; sub-questions [18](18-compact-context-learning/question.md)
 and [19](19-selection-calibrated-continuation/question.md) closed;
@@ -57,6 +61,15 @@ and [19](19-selection-calibrated-continuation/question.md) closed;
 [21](21-iterated-solver-corpus/question.md) after run 1924;
 [22](22-feedback-context-increment/question.md) closed after run 2156; its first attempt,
 run 2129, stopped at preparation).
+Run 2026-10-08-2116 ([28](28-partial-program-feedback/question.md), commit `393a4dc`): 16
+lineages (one 1831 corpus each, round 1 replayed bit-exactly), 96 sources per own training cell
+per acquisition arm; F collects rounds 2–3 under C1/C2 and freezes C3, TF the same with token
+fits, O collects under G4 and fits once; R = C1; G4 and C_exact references; 6 144 paired scoring
+searches, 200 min, complete. F/O 1.18× [1.01, 1.37] (1 × cap 1.16×; both-solved 1.09× [0.95,
+1.26]; BE 1.42× [1.17, 1.72], PA 0.98× [0.83, 1.16]); F/R 1.16× [0.99, 1.36]; O/R 0.99× [0.89,
+1.10]; F/TF 1.46× [1.23, 1.75]; F/C_exact 0.31× [0.25, 0.38]; R/G4 1.62× [1.41, 1.86] (replicates
+1831). Solves C_exact 92%, F 74%, R 73%, O 72%, TF 66%, G4 62%. F used 7.4% fewer source
+evaluations than O.
 Run 2026-10-08-1831 ([27](27-partial-program-context/question.md), commit `998a9fe`): 16
 partial corpora (8 BE, 8 PA), 32 G4 sources per own training cell stopped at first solve or 65 536
 evals, 8 parent (S) + 8 uniform (P) tapes per unsolved checkpoint (64/128/256 generations), 89 536
@@ -216,7 +229,7 @@ Competing explanations:
 - E: The proposed tasks or adaptation loop are not tractable at the measured budget.
   This is a feasibility result about this design, not a negative answer to A.
 
-Where they stand after runs 1707, 1924, 2156 and 1548: A's first half (held-out gain beyond a fitted independent-token
+Where they stand after runs 1707, 1924, 2156, 1548 (1831 and 2116 bear on acquisition, not transfer): A's first half (held-out gain beyond a fitted independent-token
 map) is supported for an externally fitted previous-token table, now also on a fresh bank of a new
 shape (2.12×, 26), not yet for any adapted-by-selection decoder; its second half (advantage tied to the training family) is not supported:
 no matched-family gain was resolved on the three withheld cells, one PA cell resolved the other way, and
@@ -232,7 +245,10 @@ isolated; cross-shape shrinkage of C/T from training is resolved, 0.68×, but 2.
 was resolved by the four-reducer bank. Run 1831 (27) bears on how A's fitted decoder could be
 acquired rather than on transfer: a C-over-T advantage (1.28×, training cells) is already
 available from searches that have not yet solved, at about 1/8 of the exact corpora's source
-evaluations, though it is much weaker than the exact-solver fit.
+evaluations, though it is much weaker than the exact-solver fit. Run 2116 (28) shows that
+collecting further under the updated partial fit beats collecting further under G4 by a small,
+BE-carried margin (1.18× [1.01, 1.37]); it closes about a tenth of the log gap to the
+exact-solver fit.
 
 Sub-questions: [11-composition-bank](11-composition-bank/question.md) (closed: this bank
 fails on tractability at 524k and on the 4 096 headroom rule against G; run 2026-10-05-2247),
@@ -300,6 +316,10 @@ shrinkage from training 0.68× [0.57, 0.81]; one selected bank, two gates, K uns
 2026-10-08-1831: context fitted to tapes from not-yet-solved G4 searches beats a token fit to the
 same tapes 1.28× [1.12, 1.45] and G4 1.62× [1.37, 1.90] on the training cells; mostly a
 within-cap reliability gain, BE-carried; no resolved parent enrichment; exact-solver C 3.7× faster).
+[28-partial-program-feedback](28-partial-program-feedback/question.md) (closed, 1 of 1 slot, run
+2026-10-08-2116: two feedback rounds of partial-tape collection under the updated context fit
+beat equal-allocation one-shot G4 collection, F/O 1.18× [1.01, 1.37], BE 1.42×, PA 0.98× [0.83,
+1.16]; more G4 data adds nothing, O/R 0.99× [0.89, 1.10]; F/R unresolved; training cells only).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
@@ -317,6 +337,7 @@ Related: [core question](../../../README.md#core-question),
 [run 1246 decision](../../runs/2026-10-08-1246/decision.md),
 [run 1548 decision](../../runs/2026-10-08-1548/decision.md),
 [run 1831 decision](../../runs/2026-10-08-1831/decision.md),
+[run 2116 decision](../../runs/2026-10-08-2116/decision.md),
 [digest](../../digest.md), [chem-tape findings](../../../docs/chem-tape/findings.md).
 
 Review after the feasibility experiment and after the four allocated experiments. A
