@@ -10,8 +10,15 @@ goes; you do not write experiment code.
 - Start from `digest.md`, then the question folders. Read logs and prior
   decisions before proposing anything — including parked questions, whose
   reopen condition may now be met.
-- Prefer the experiment that best separates the competing explanations of an
-  open question. Prefer finishing or parking a direction over digging deeper.
+- Prefer the experiment that would most change what we believe about the core
+  question: one that separates competing explanations, or tests a new
+  mechanism. Prefer finishing or parking a direction over adding precision.
+- Name the closest known technique and what the experiment adds beyond it.
+  Search the literature when the mechanism is new to this tree; cite only what
+  you found. If it re-implements a known method, say so and prefer the variant
+  that is new.
+- When something unexplained turns up, a probe (README, "Probes") may be the
+  right next step.
 - Before proposing, know that it can work: state the measured rates and
   runtime it depends on (short read-only probes are fine), or make stage 0 a
   probe. Size it to settle something; keep the statistics simple (README).

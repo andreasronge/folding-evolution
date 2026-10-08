@@ -153,3 +153,28 @@ the run's record led to these changes:
 - **Ledger.** The driver writes `briefs/<run>-ledger.md`, one row per cycle
   (critic verdict, code review, queue minutes against the estimate, charged,
   outcome, decision), the owner's first table to read.
+
+## v4 (after run 2026-10-05-2225)
+
+The run reinvented EDA / N-gram GP without citing it, spent ~8 cycles on the
+same 3 holdout tasks, and grew the digest to 10.8k words. Changes, from a
+Codex critique of the proposed fixes:
+
+- Critic judges value as well as validity (`revise` for low value next to a
+  named alternative, `reject` for no contribution); strategist stops when no
+  candidate justifies its cost.
+- Proposals ≤ 800 words, name the closest known technique and how the map
+  adapts (external fit, outer-loop selection, per-individual inheritance);
+  literature search when a mechanism is new (Codex agents get web search).
+- Strategist compares the current line with a mechanistically different
+  candidate and answers new or changed owner notes.
+- Probes (`kind: probe`): ≤ 60 min queue timeouts, descriptive, results are
+  observations; one per run plus one per four full experiments.
+- Task banks (`bank:`): the driver tells proposer and critic how often each
+  bank was used; transfer claims need a fresh frozen bank.
+- Budget exhaustion gets a short `allocate` decision (grant a block through
+  the next review, or full strategy) instead of a full strategy review.
+- Digest check covers all belief updates since the last check; the run
+  summary adds a final claim check.
+- Digest over `digest_max_words` is condensed by the steward after decide.
+- Ledger records agent minutes per cycle, bank and probe.

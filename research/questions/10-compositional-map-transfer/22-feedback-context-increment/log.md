@@ -23,3 +23,37 @@
   the design: the tables, seeds, replay and code are validated, T2 is fast and solvable, and at
   either measured throughput (4.3 or 9.7 workers) the full training and holdout roster fits in
   well under an hour once the autonomous deadline no longer caps it.
+
+- 2026-10-07 (2129, wording correction from the 2156 critique's digest check): in the 2129 entry
+  above, read "no T1/T2 search of the primary roster ran" as "only the fixed 160-row T2 timing
+  block (seed 0 of the primary training roster) was evaluated; the rest of the roster was not
+  launched and no four-arm interaction was computed", and "fits in well under an hour" as
+  "projects to about 22–53 minutes under the stated holdout-cost assumptions; full-roster
+  throughput and T2 holdout cost were unmeasured". (Run 2156 then took 26.4 min.)
+
+- 2026-10-07 (2156, [analysis](../../../runs/2026-10-07-2156/analysis.md), code commit `36c665d`,
+  root 10 slot 15 of 15): T1 (1707 token-only fit) and T2 (token-only fit to the 1924 feedback
+  corpus) scored on the exact 1924 seeds and training indices where C1 and C2 had been scored;
+  32 lineages, 5 120 training and 3 072 holdout searches per arm. All checks passed (128 table
+  hashes, 16 384 saved C rows, 64/64 replays, no duplicates); queue 26.4 min of 75, holdout
+  admitted by the timing gate. Unsolved 0.3–1.5% in every arm, charged 2 × cap.
+  Training (primary): I = (C2/T2)/(C1/T1) = 1.169× [1.093, 1.250], 25/32 lineages above 1, no
+  single lineage carries it (leave-one-out lower bounds 1.08–1.11). T2/T1 1.201× [1.150, 1.255],
+  so the token-only fit also improved. By family: BE I 1.337× [1.19, 1.50], PA I 1.021× [0.953,
+  1.094] (PA T2/T1 1.24× against C2/C1 1.27×). Lower bound stays above 1 under 1× and 4× cap and
+  dropping unsolved seeds; the non-registered median-over-seeds variant gives 1.089× [1.008,
+  1.177], so part of the mean effect sits in the slow tail. Seed noise accounts for nearly all the
+  between-lineage spread in training. Holdout: I = 1.087× [0.984, 1.200] (21/32 above 1), T2/T1
+  1.186× [1.107, 1.271], C2/T2 1.365× [1.287, 1.447]; between-lineage variance exceeds seed noise
+  about 1.6×; about 46 balanced lineages would put the lower bound above 1 at the observed effect
+  (roughly twice that for good power), and no practical n bounds it within ±10%.
+  Outcome: training row 1 (feedback raised the advantage of this additionally fitted context
+  procedure over this restricted token fit; both fits improved); holdout row 4 (transfer of the
+  interaction unresolved — not equality, not absence). Explanation A (contextual increment) is
+  supported on training cells, concentrated in BE; B (corpus improves any fit equally) is not
+  excluded for PA, whose interval sits inside ±10%; C (I < 1) is excluded on training.
+  Decision: close 22 because its pre-registered primary contrast is answered (row 1) and the
+  remaining unknown, transfer of the interaction to the withheld cells, needs new lineages
+  (about 50–90, with fresh C1/C2 corpora, roughly 1.5–3 h) rather than a rerun of this design;
+  root 10 has no slot left, so whether that replication beats the root's other gaps is the
+  strategist's call (next: strategy).

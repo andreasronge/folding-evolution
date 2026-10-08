@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-07 (run 2026-10-07-2129, token-only T1/T2 against the saved C1/C2, stopped at preparation on the autonomous deadline with no result; last completed run 2026-10-07-1924, commit `5565d54`: one feedback refit of the solver-corpus tables from solvers found under them, against the parent and a fresh one-shot refit, training and withheld cells; before it run 2026-10-07-1707, commit `627336d`: previous-token and token-only tables fitted directly to exact G4 solver tapes, training and withheld cells; before it run 2026-10-07-1137, commit `86ef669`: the same token-only versus rank-one-context continuation from the saved token maps, at 96 searches per candidate, training cells only; before it run 2026-10-07-0821, commit `f61aec4`: the same comparison at 24 searches per child; before that run 2026-10-07-0315, commit `5dae3a6`: the same starting-program × search-decoder crossing on the ten training cells; before that run 2026-10-06-2331, commit `8f42f38`: the frozen maps' starting programs crossed with the decoder used during search, on the three withheld cells; before that run 2026-10-06-2229, commit `33fcee2`: the frozen crossed BE/PA token maps scored on the three withheld cells, stage 2; before that run 2026-10-06-1723, `db96645`, crossed BE/PA token learning on the four-reducer bank, stage 1, training cells only; before that run 2026-10-06-1603, `92ba7c5`, the four-reducer FIRST bank feasibility study; before that run 2026-10-06-1425, `b397f72`, the saved-map shape-shift check, after runs 1400 and 1419 with the same design were blocked by a merge conflict; before it run 2026-10-06-0811, `0709104`, contextual moves versus continued token learning from the learned post-addition maps; before 0811 run 2026-10-06-0132, `02cf76f`, root 10's first decoder-learning study; run 2026-10-06-0001, `a65ded0`, and run 2026-10-05-2247, `0995d33`; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 were blocked before running). This covers the **map-bias line**, the current
+As of 2026-10-07 (run 2026-10-07-2156, commit `36c665d`: token-only fits T1 and T2 scored on the exact seeds of the saved C1 and C2, completing the four-arm feedback crossing on training and withheld cells; its first attempt, run 2026-10-07-2129, stopped at preparation on the autonomous deadline with no result; before it run 2026-10-07-1924, commit `5565d54`: one feedback refit of the solver-corpus tables from solvers found under them, against the parent and a fresh one-shot refit, training and withheld cells; before it run 2026-10-07-1707, commit `627336d`: previous-token and token-only tables fitted directly to exact G4 solver tapes, training and withheld cells; before it run 2026-10-07-1137, commit `86ef669`: the same token-only versus rank-one-context continuation from the saved token maps, at 96 searches per candidate, training cells only; before it run 2026-10-07-0821, commit `f61aec4`: the same comparison at 24 searches per child; before that run 2026-10-07-0315, commit `5dae3a6`: the same starting-program × search-decoder crossing on the ten training cells; before that run 2026-10-06-2331, commit `8f42f38`: the frozen maps' starting programs crossed with the decoder used during search, on the three withheld cells; before that run 2026-10-06-2229, commit `33fcee2`: the frozen crossed BE/PA token maps scored on the three withheld cells, stage 2; before that run 2026-10-06-1723, `db96645`, crossed BE/PA token learning on the four-reducer bank, stage 1, training cells only; before that run 2026-10-06-1603, `92ba7c5`, the four-reducer FIRST bank feasibility study; before that run 2026-10-06-1425, `b397f72`, the saved-map shape-shift check, after runs 1400 and 1419 with the same design were blocked by a merge conflict; before it run 2026-10-06-0811, `0709104`, contextual moves versus continued token learning from the learned post-addition maps; before 0811 run 2026-10-06-0132, `02cf76f`, root 10's first decoder-learning study; run 2026-10-06-0001, `a65ded0`, and run 2026-10-05-2247, `0995d33`; runs 2026-10-05-1510, 2026-10-05-2039 and 2026-10-05-2242 were blocked before running). This covers the **map-bias line**, the current
 core question since the 2026-09-25 reframe: *how does the genotype→program map bias what
 evolution finds and keeps ("arrival of the frequent")?* Until 2026-10-05 the line studied
 whether the chemistry can discover, preserve and reuse a **shared helper** (one functional part
@@ -38,9 +38,11 @@ fit to the same tapes about 1.37× on training cells and 1.29× on the withheld 
 independent corpora, with no resolved family advantage (see "Solver-corpus context fit"). One
 feedback step added further search speed: refitting each table to exact solvers found under it
 beat its parent about 1.40× on training and 1.29× on the withheld cells, while a fresh one-shot
-refit was not resolved from the parent (see "Solver-corpus feedback refit"); whether feedback
-increased the advantage over a token-only fit is untested (22; its first attempt, run 2129,
-stopped at preparation on the deadline, no result). Root 10 has used 14 of its 15 slots.
+refit was not resolved from the parent (see "Solver-corpus feedback refit"). On the training
+cells that step also raised the fitted context's advantage over a token-only fit to the same
+corpora, by about 1.17× and mostly on BE, while the token-only fit itself improved about 1.20×;
+on the withheld cells that interaction is unresolved (see "Feedback context increment"). Root 10
+has used all 15 of its slots.
 
 Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32, one section per experiment; reviews and report tables in [docs/map-bias/reviews/](../docs/map-bias/reviews/)) and
 [findings](../docs/map-bias/findings.md) (items 1–17; the owner-promoted, reviewed claims).
@@ -707,15 +709,54 @@ one bank and split, external fitting).
   Collection under C costs 0.63 worker-s per search against 2.17 under G4; C2's evaluation saving
   pays back the second round in a median of about 350 training searches (descriptive).
 - **Not shown:** whether a second step keeps helping or the sharpening compounds into harm; why
-  C2 is faster (no token-only refit T2, no start-row ablation, no active-token analysis); how
+  C2 is faster (no start-row ablation, no active-token analysis; the token-only refit T2 was run
+  later, see the next section); how
   often C2 re-emits its own corpus tapes; a C2-over-G4 number (not run; multiplying ratios
   assumes independence); family specificity. On one PA training cell, `(S?M:F)+m`, no gain was
   resolved (0.98× [0.84, 1.13], descriptive among 13 cells; a gain or a loss is not excluded).
 
+## Feedback context increment (root 10, run 2026-10-07-2156)
+
+One run, commit `36c665d`, complete data (16 384 new T searches, 26 min; 128 table hashes, the
+16 384 saved C1/C2 rows and 64/64 replays validated; no duplicates; holdout admitted by a
+timing-only gate). T1 = 1707's token-only fit, T2 = the token-only fit to the 1924 feedback
+corpus (saved in 1924, never scored); both scored on the exact seeds and training indices where
+1924 scored C1 (= 1707's C) and C2. 32 lineages, 5 120 training and 3 072 withheld searches per
+arm; unsolved 0.3–1.5% per arm, charged 2 × cap. Interaction I = (C2/T2)/(C1/T1); I > 1 means
+feedback raised the contextual fit's advantage. Training families weighted equally (15 df);
+withheld cells over 32 lineages (31 df). Pre-registered rows; reviewed analysis. Fairly sure of
+the training numbers; this extends 1924's seeds, it is not an independent replication.
+([22](questions/10-compositional-map-transfer/22-feedback-context-increment/question.md),
+[analysis](runs/2026-10-07-2156/analysis.md))
+
+- **On training cells, feedback raised the fitted context's advantage over the token-only fit
+  (BE-carried, partly tail-driven).** I = 1.169× [1.093, 1.250]; 25/32 lineages above 1; no
+  single lineage carries it (leave-one-out lower bounds 1.08–1.11); stable under 1× or 4× cap
+  and dropping unsolved seeds (lowest 1.131× [1.059, 1.209]). BE 1.337× [1.19, 1.50]; PA 1.021×
+  [0.953, 1.094], unresolved and inside ±10%. A median-over-seeds variant (not pre-registered)
+  gives 1.089× [1.008, 1.177], so part of the mean effect sits in slow or unsolved seeds.
+- **The token-only fit also gained from feedback.** T2/T1 1.201× [1.150, 1.255] on training,
+  1.186× [1.107, 1.271] on the withheld cells. Of C2's 1.40× over C1 on training, the token-only
+  fit matched about 1.20× and the interaction is the remaining 1.17×. In PA the two gains were
+  similar (T2/T1 1.24×, C2/C1 1.27×). The context fit still wins after feedback: C2/T2 1.580×
+  [1.520, 1.641] training, 1.365× [1.287, 1.447] withheld.
+- **On the withheld cells the interaction is unresolved.** I = 1.087× [0.984, 1.200], 21/32
+  lineages above 1. This is neither equality nor absence. Between-lineage variance there is about
+  1.6× the seed noise, so more seeds on these lineages would not settle it; about 46 new balanced
+  lineages would put the lower bound above 1 at the observed effect (about twice that for good
+  power).
+- **C1/T1 reproduced on 1924's seeds.** 1.352× [1.274, 1.434] against 1707's independent-seed
+  1.365×.
+- **Not shown:** what the extra contextual advantage is made of (yield, diversity, tape content
+  and the fitting rule stay bundled in "feedback"); why it is BE-specific in this sample (one BE
+  withheld cell, family not separated from shape or difficulty); anything about token maps in
+  general (T is 24 global multipliers over G4's fixed context, fitted by likelihood); a second
+  feedback step.
+
 ## Open questions
 
 - [10-compositional-map-transfer](questions/10-compositional-map-transfer/question.md) (open,
-  root, budget 15, 14 used): can a decoder adapted across related tasks help fresh populations
+  root, budget 15, 15 used): can a decoder adapted across related tasks help fresh populations
   solve unseen operation combinations beyond a token-frequency bias? Two feasibility studies
   (one bank failed split/headroom, one failed the two-family requirement but kept a PA split),
   then two learning studies: learned token multipliers on G transfer about 2× to the withheld
@@ -732,10 +773,10 @@ one bank and split, external fitting).
   solver tapes beat a token-only fit to the same tapes 1.37× on training and 1.29× on the
   withheld cells, no resolved family advantage (20, closed). Refitting those tables to solvers
   found under them gave a further 1.40× on training and 1.29× on the withheld cells, attributable
-  to the collection procedure (21, closed). Whether that feedback increment is contextual, i.e.
-  whether it raised C's advantage over a token-only fit, is open (22); its first attempt (run
-  2129) stopped at preparation because the autonomous deadline left too little time, with no
-  result. 14 of 15 slots used.
+  to the collection procedure (21, closed). On training cells that feedback step raised C's
+  advantage over a token-only fit, I 1.17× [1.09, 1.25], mostly in BE, while the token-only fit
+  also improved 1.20×; on the withheld cells I is unresolved, 1.09× [0.98, 1.20] (22, closed).
+  15 of 15 slots used.
   - [11-composition-bank](questions/10-compositional-map-transfer/11-composition-bank/question.md)
     (closed, run 2026-10-05-2247): this 3×3 bank has no eligible split at 524k (Sm-SEL 27/50
     under U), and all four splits fail the 4 096 headroom rule under the hand-set grammar G.
@@ -791,10 +832,10 @@ one bank and split, external fitting).
     a fresh one-shot G4 refit C' is not resolved from C (0.997× [0.940, 1.058]) and C2/C' is
     1.41× / 1.33×. One step, external fitting; yield, diversity and tape content not separated.
   - [22-feedback-context-increment](questions/10-compositional-map-transfer/22-feedback-context-increment/question.md)
-    (open, 1 slot, unused): does feedback raise C's advantage over the token-only fit, I =
-    (C2/T2)/(C1/T1)? Run 2129 validated tables, the saved C1/C2 roster and 64/64 replays and timed
-    T2 (160/160 solved), but the primary roster could not be admitted before the autonomous
-    deadline; no interaction computed. Re-proposed as run 2156.
+    (closed, 1 of 1 slot, run 2026-10-07-2156, training row 1, holdout row 4; first attempt 2129
+    stopped at preparation): I = (C2/T2)/(C1/T1) 1.169× [1.093, 1.250] on training (BE 1.34×
+    [1.19, 1.50], PA 1.02× [0.95, 1.09]); T2/T1 1.20×; withheld I 1.087× [0.984, 1.200],
+    unresolved. Reopen on a funded replication with about 46–90 new lineages.
 - [01-map-bias](questions/01-map-bias/question.md) (open, root, budget spent): how does the map
   bias what evolution finds and keeps?
 - [02-fixed-target-sampling](questions/01-map-bias/02-fixed-target-sampling/question.md)
