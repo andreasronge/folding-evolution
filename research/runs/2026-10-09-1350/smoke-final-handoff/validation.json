@@ -1,0 +1,5 @@
+{
+  "passed": true,
+  "smoke_replay_rows": 64,
+  "historical_paired": true
+}

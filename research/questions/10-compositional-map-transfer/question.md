@@ -1,7 +1,7 @@
 ---
 status: open
 tags: [map-bias, evolve-the-bias, task-family, compositional-transfer, decoder, fresh-start]
-budget: {experiments: 24, used: 0}
+budget: {experiments: 25, used: 0}
 ---
 # Can an adapted decoder help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 
@@ -61,8 +61,8 @@ rounds of such tapes under the updated context fit beat spending the same source
 under G4 and fitting once, 1.18× [1.01, 1.37], gain resolved on BE (1.42× [1.17, 1.72]), PA
 unresolved (0.98× [0.83, 1.16]); with more G4 tapes alone no improvement was resolved (0.99× [0.89,
 1.10]; gains above about 10% excluded at this scope), and the gain over keeping the first fit is
-unresolved (1.16× [0.99, 1.36]) (28). A different kind of unit also helps on the training cells: inserting intact 3–6-token fragments, extracted from other cells' training solvers, as one-step block edits on top of C's unchanged search made it 1.57× [1.42, 1.75] cheaper than C, 1.60× cheaper than blocks from the library's per-position marginals and 1.23× [1.12, 1.36] cheaper than blocks sampled from C's own chain; that library-free chain block alone beat C 1.28× [1.17, 1.39], cause not isolated (32). Frozen whole-corpus libraries kept the advantage on excluded compositions: on then-addition F/C 1.47× [1.38, 1.56], F/W 1.20× [1.11, 1.29], W/C 1.23× [1.15, 1.31], and on the comparison-gate holdouts F/C 1.75×, F/W 1.27×; F/C's change from training (0.93× [0.83, 1.05]) is unresolved, where C/T lost a third across the same shape (development banks; the libraries are shared syntax; externally fitted, nothing acquired) (32)**
-(24 of 24 slots used; strategy 1036 raised the budget from 23 to 24 and assigned slot 24 to [32](32-learned-fragment-operator/question.md)'s reuse stage; strategy 0826 raised the budget from 22 to 23 and assigned slot 23 to [32](32-learned-fragment-operator/question.md); strategy 0537 raised the budget from 21 to 22 and assigned slot 22 to [31](31-distribution-preserving-recoding/question.md); strategy 0239 raised the budget from 20 to 21 and assigned slot 21 to [30](30-position-matched-replacement/question.md); strategy 0125 assigned slot 20 to [29](29-frequency-matched-transfer/question.md); strategy 2116 assigned slot 19 to [28](28-partial-program-feedback/question.md); strategy 1831 assigned slot 18 to [27](27-partial-program-context/question.md); allocation 1534 raised the budget from 16 to 20 for a four-slot block, first
+unresolved (1.16× [0.99, 1.36]) (28). A different kind of unit also helps on the training cells: inserting intact 3–6-token fragments, extracted from other cells' training solvers, as one-step block edits on top of C's unchanged search made it 1.57× [1.42, 1.75] cheaper than C, 1.60× cheaper than blocks from the library's per-position marginals and 1.23× [1.12, 1.36] cheaper than blocks sampled from C's own chain; that library-free chain block alone beat C 1.28× [1.17, 1.39], cause not isolated (32). Frozen whole-corpus libraries kept the advantage on excluded compositions: on then-addition F/C 1.47× [1.38, 1.56], F/W 1.20× [1.11, 1.29], W/C 1.23× [1.15, 1.31], and on the comparison-gate holdouts F/C 1.75×, F/W 1.27×; F/C's change from training (0.93× [0.83, 1.05]) is unresolved, where C/T lost a third across the same shape (development banks; the libraries are shared syntax; externally fitted, nothing acquired) (32). The same extractor applied to parents archived before their source search first solved gave no worthwhile gain over C-chain blocks with its length law on then-addition, E/W_E 0.981× [0.911, 1.057] (a gain above about 1.06× excluded at this scope), and was resolved slower than the exact-solver library, E/F 0.843× [0.795, 0.892]; one source selection and one extractor, C still fitted from exact solvers (33)**
+(25 of 25 slots used; strategy 1350 raised the budget from 24 to 25 and assigned slot 25 to [33](33-pre-solve-fragment-source/question.md); strategy 1036 raised the budget from 23 to 24 and assigned slot 24 to [32](32-learned-fragment-operator/question.md)'s reuse stage; strategy 0826 raised the budget from 22 to 23 and assigned slot 23 to [32](32-learned-fragment-operator/question.md); strategy 0537 raised the budget from 21 to 22 and assigned slot 22 to [31](31-distribution-preserving-recoding/question.md); strategy 0239 raised the budget from 20 to 21 and assigned slot 21 to [30](30-position-matched-replacement/question.md); strategy 0125 assigned slot 20 to [29](29-frequency-matched-transfer/question.md); strategy 2116 assigned slot 19 to [28](28-partial-program-feedback/question.md); strategy 1831 assigned slot 18 to [27](27-partial-program-context/question.md); allocation 1534 raised the budget from 16 to 20 for a four-slot block, first
 slot run 1548; strategy 1246 raised the budget from 15 to 16, for 24; strategy 2129 raised the budget from 14 to 15, for 22; strategy 1924 raised the budget from 13 to 14; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
 2331 to 10, strategy 0803 to 12, strategy 1137 to 13; sub-questions [18](18-compact-context-learning/question.md)
 and [19](19-selection-calibrated-continuation/question.md) closed;
@@ -378,6 +378,10 @@ slots, run 2026-10-09-0843: learned fragment block edits beat C on training cell
 1.75], F/W 1.23× [1.12, 1.36], F/B 1.60×; W/C 1.28× [1.17, 1.39]; run 2026-10-09-1036: frozen
 whole-corpus libraries on then-addition F/C 1.47× [1.38, 1.56], F/W 1.20× [1.11, 1.29], W/C 1.23×
 [1.15, 1.31], holdouts F/C 1.75×, F/W 1.27×; development banks; acquisition untested).
+[33-pre-solve-fragment-source](33-pre-solve-fragment-source/question.md) (closed, 1 of 1 slot,
+run 2026-10-09-1350: the 0843 extractor on pre-solve parents from 1831 gives full libraries without
+`gt` joins; on then-addition E/W_E 0.981× [0.911, 1.057], rule 3, no worthwhile increment; E/F
+0.843× [0.795, 0.892], E/W 1.007×; development bank, C fitted from exact solvers).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
@@ -402,6 +406,7 @@ Related: [core question](../../../README.md#core-question),
 [run 0537 decision](../../runs/2026-10-09-0537/decision.md),
 [run 0843 decision](../../runs/2026-10-09-0843/decision.md),
 [run 1036 decision](../../runs/2026-10-09-1036/decision.md),
+[run 1350 decision](../../runs/2026-10-09-1350/decision.md),
 [digest](../../digest.md), [chem-tape findings](../../../docs/chem-tape/findings.md).
 
 Review after the feasibility experiment and after the four allocated experiments. A
