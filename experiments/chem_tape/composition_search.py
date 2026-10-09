@@ -131,7 +131,7 @@ def outputs(programs, inputs, alphabet="v2_rmin"):
 
 
 def search(job, *, return_solver=False, collector=None, decoder_factory=Decoder,
-           initial_transform=None):
+           initial_transform=None, child_transform=None):
     cell, arm, table, seed, cap, pop_size = job[:6]
     inputs = job[6] if len(job) >= 7 else INPUTS
     alphabet = job[7] if len(job) >= 8 else "v2_rmin"
@@ -252,6 +252,8 @@ def search(job, *, return_solver=False, collector=None, decoder_factory=Decoder,
         splice = crossing[:, None] & (np.arange(32)[None, :] >= points[:, None])
         child = np.where(splice, pop[parents[1]], child)
         child[mask] = replacements[mask]
+        if child_transform is not None:
+            child = child_transform(child, decoder, generation)
         elite = np.argsort(-scores, kind="stable")[:2]
         pop = np.concatenate((pop[elite], child))
     elapsed = time.monotonic() - start
