@@ -133,7 +133,8 @@ def plots(out, rows, result, arms=ARMS):
         xs = sorted(points)
         axes[0, 1].plot(xs, [np.mean([p[0] for p in points[x]]) for x in xs], label=arm)
         axes[0, 2].plot(xs, [np.mean([p[1] for p in points[x]]) for x in xs], label=arm)
-        axes[1, 0].plot(range(7), result['diagnostics'][arm]['changed_histogram'], label=arm)
+        counts = result['diagnostics'][arm]['changed_histogram']
+        axes[1, 0].plot(range(len(counts)), counts, label=arm)
     for ax in axes.flat[:4]:
         ax.legend()
     axes[0, 0].set(title='Search cost distribution', yscale='log', xlabel='sorted searches')

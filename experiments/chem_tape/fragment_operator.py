@@ -8,7 +8,7 @@ from experiments.chem_tape.composition_bank import TA
 from experiments.chem_tape.composition_search import Decoder
 from folding_evolution.chem_tape import executor as vm
 
-ARMS = ('C', 'F', 'B', 'W')
+ARMS = ('C', 'F', 'B', 'W')  # historical rosters remain unchanged
 RATE = .2
 
 
@@ -61,7 +61,7 @@ def trace(tokens, inputs):
 
 class BlockOperator:
     def __init__(self, arm, library, seed, diagnostic_inputs=()):
-        if arm not in ARMS:
+        if arm not in (*ARMS, 'R'):
             raise ValueError('unknown block arm')
         self.arm = arm
         self.rng = np.random.default_rng([seed, 4])
@@ -75,6 +75,10 @@ class BlockOperator:
                           changed_histogram=[0] * 7, span_histogram=[0] * 7,
                           sampled_offspring=0, sampled_inputs=0, offspring_underflow=0,
                           offspring_wrong_type=0, offspring_default_use=0)
+        if arm == 'R':
+            self.stats.update(changed_histogram=[0] * 33, inside_changed_tokens=0,
+                              suffix_changed_tokens=0, inside_changed_histogram=[0] * 7,
+                              suffix_changed_histogram=[0] * 33)
 
     def edit(self, child, decoder, *, force=False, boundary=False):
         self.stats['eligible_children'] += len(child)
@@ -110,7 +114,8 @@ class BlockOperator:
                     block[:, j] = decoder.lookup[previous, self.rng.integers(decoder.allele_range, size=len(rows))]
                     previous = block[:, j]
             desired[rows[:, None], positions] = block
-        # Repair next allele under the final new token, retaining its old decoded token.
+        # W retains the old boundary token. R refreshes the unchanged allele's
+        # new token instead, preserving the entire UNREPAIRED decoded output.
         lower = np.concatenate((np.zeros((decoder.n_tokens + 1, 1), dtype=np.int64), decoder.table[:, :-1]), axis=1)
         for j in range(7):
             rows = np.flatnonzero((j <= lengths) & (starts + j < 32))
@@ -119,13 +124,27 @@ class BlockOperator:
             pos = starts[rows] + j
             token = desired[rows, pos]
             previous = np.where(pos == 0, decoder.n_tokens, desired[rows, np.maximum(pos - 1, 0)])
+            if self.arm == 'R':
+                boundary_rows = j == lengths[rows]
+                token = token.copy()
+                token[boundary_rows] = decoder.lookup[previous[boundary_rows], child[ix[rows[boundary_rows]], pos[boundary_rows]]]
             child[ix[rows], pos] = self.rng.integers(lower[previous, token], decoder.table[previous, token], dtype=np.int32)
+        if self.arm == 'R':
+            desired = decoder.decode(child[ix])
+            positions = np.arange(32)[None, :]
+            inside = (positions >= starts[:, None]) & (positions < (starts + lengths)[:, None])
+            different = before != desired
+            for name, mask in (('inside', inside), ('suffix', positions >= (starts + lengths)[:, None])):
+                counts = np.sum(different & mask, axis=1)
+                self.stats[name + '_changed_tokens'] += int(counts.sum())
+                key = name + '_changed_histogram'
+                self.stats[key] = (np.array(self.stats[key]) + np.bincount(counts, minlength=len(self.stats[key]))).tolist()
         changes = np.sum(before != desired, axis=1)
         self.stats['edited_children'] += len(ix)
         self.stats['span_tokens'] += int(lengths.sum())
         self.stats['changed_tokens'] += int(changes.sum())
         for key, vals in (('changed_histogram', changes), ('span_histogram', lengths)):
-            self.stats[key] = (np.array(self.stats[key]) + np.bincount(vals, minlength=7)).tolist()
+            self.stats[key] = (np.array(self.stats[key]) + np.bincount(vals, minlength=len(self.stats[key]))).tolist()
         return child, dict(indices=ix, before=before, desired=desired, lengths=lengths, starts=starts)
 
     def __call__(self, child, decoder, generation):
