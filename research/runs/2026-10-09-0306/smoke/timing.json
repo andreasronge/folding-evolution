@@ -1,0 +1,23 @@
+{
+  "CT_replay": {
+    "wall_seconds": 33.00725737493485,
+    "worker_seconds": 263.1176020408748,
+    "rows": 32,
+    "expected_rows": 32,
+    "complete": true
+  },
+  "K_replay": {
+    "wall_seconds": 21.164994832943194,
+    "worker_seconds": 117.72371320798993,
+    "rows": 16,
+    "expected_rows": 16,
+    "complete": true
+  },
+  "QP_timing": {
+    "wall_seconds": 61.034186207922176,
+    "worker_seconds": 507.9805940830847,
+    "rows": 32,
+    "expected_rows": 32,
+    "complete": true
+  }
+}

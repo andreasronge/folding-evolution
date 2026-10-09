@@ -573,3 +573,73 @@ Decision: close 29 and return to strategy (`next: strategy`), because the pre-st
 "insufficient", all 20 of root 10's slots are used, and strategy 0125 asked for a review after this
 comparison, with the fragment plan's full price, before any further allocation.
 ([decision](../../runs/2026-10-09-0125/decision.md))
+
+## 2026-10-09: runs 2026-10-09-0239 and -0306 (30), frozen position-matched Q and P on then-addition — ran
+
+Slot 21 (granted by strategy 0239). Run 0239 built and validated the projections but stopped at its
+runtime admission gate, 70 s over a conservative 3 h price; run 0306 (commit `2bab2c2`,
+[analysis](../../runs/2026-10-09-0306/analysis.md)) scored them, details in
+[30](30-position-matched-replacement/log.md). On 1548 row F with C/T/K's paired seeds: C/Q 2.41×
+[2.11, 2.75], C/P 5.47× [4.79, 6.25], all 16 corpora and cells above 1.20; Q/K 1.03× [0.93, 1.13];
+Q/P 2.27× [2.10, 2.45]. Pre-stated rule: this G4-based positional replacement is insufficient, and so
+is independent positional supply. Development bank; external projections; supply versus variation
+neighbourhood not separated.
+
+Decision: close 30 and return to strategy (`next: strategy`), because both replacements resolved
+as insufficient, all 21 of root 10's slots are used, and strategy 0239 asked for a review after this
+result, with the fragment plan as the competing investment. ([decision](../../runs/2026-10-09-0306/decision.md))
+
+## 2026-10-09 — digest condensing (run 2026-10-09-0306): wording moved here
+
+The digest was compressed under its word limit; no belief changed. These root-10 passages were
+cut or shortened there and are kept here verbatim. Relative links are relative to `research/`.
+
+- Intro: "U uniform"; "Every bank before then-addition-v1 (26) was screened and inspected, so its
+  transfer claims are development-bank claims; then-addition-v1 is the first fresh bank, frozen
+  with the method before scoring." (then-addition-v1 is now also a development bank, per 29 and 30.)
+- Banks (11, 12, 15): "no eligible split on the 3×3 bank (11), alias identities in six shapes (12),
+  no role-covered branch-else (BE) holdout with FIRST added, though post-addition (PA) splits exist
+  (15)."
+- 24: "G4 solves 68% of training-cell searches at 524k (hardest cell 47%)."
+- 13: "2.23× on branch-else"; "From G-marg, token learning gains 1.7–2.1×".
+- 16: "about 2.2× on own-family training cells, 2.0× on the BE and 2.5–2.6× on the PA withheld cells
+  (all six resolved)"; "a 1.1× preference is not excluded (about 64–75 trajectories per family would
+  detect it)".
+- 13 (full learner): "(gain > 1.09× excluded at that budget); its three-cell steps were far below
+  score noise, a plausible but unisolated cause."
+- 13/14 (row residuals): "withheld PA 1.16× [0.91, 1.48] and 1.06× [0.83, 1.31], unresolved; their
+  off-family shift did not replicate across learning runs."
+- 18/19 (rank-one): "in a loop where token continuation learned (T/S 1.14× and 1.12×, both
+  resolved) … a mean gain above about 1.07× is excluded for this loop and these token-tuned starts;
+  small gains or losses up to 13% are not. Context learned jointly from G4, or added without
+  displacing token steps, is untested."
+- 21: "The refit sharpens the decoder (row entropy 3.91 → 3.80 bits), not shown causal. A second
+  step is untested."
+- 22: "partly slow seeds, median variant 1.089× [1.008, 1.177]); the token-only fit also gained
+  (about 1.2×); C2/T2 still 1.58× / 1.37×. Withheld I 1.087× [0.984, 1.200]: neither equality nor
+  absence."
+- 25/26: "(`A>B ? C+D : E`, same 13 tokens, 16 cells chosen by a semantic screen alone and pinned
+  before any search): 2.12× [1.86, 2.41], 16/16 corpora, 14/16 cells resolved; 1.96× at 1 × cap,
+  1.74× on pairs both arms solved."
+- 29/30: "K (G4 × 24 multipliers, pooled marginals within 3e-5 of C's) C/K 2.48× [2.17, 2.83]
+  (1 × cap 2.25×, both-solved 1.92×) … Q (G4 matched to C's marginal at each of 32 positions, C's
+  start row) C/Q 2.41× [2.11, 2.75] (both-solved 1.95×)". The digest now says "both-solved pairs
+  still about 1.9× for K and Q".
+- 27: "C_S/G4 1.62× [1.37, 1.90]; the same frozen table gave 1.62× [1.41, 1.86] on fresh seeds in
+  2116. Selected parents not resolved from uniform population samples (C_S/C_P 1.04× [0.92,
+  1.16]), so any extra parent enrichment is below about 1.16×. … Scope: own training cells of a
+  development bank (no transfer), one collection horizon, K unscored."
+- 28: "PA collection diagnostics also improved, and their causal contribution to the scoring
+  difference is unresolved. More G4 tapes gave no resolved gain (O over the first fit 0.99×
+  [0.89, 1.10])".
+- Overall (previous wording): "Useful assembly information beyond a token-only fit exists in this
+  system's own solvers and can be fitted externally; the exact-solver fit transfers to withheld
+  compositions and, on one fresh bank of a new shape, at about 2× (shrunk by a third from
+  training). A much weaker advantage is already fittable from populations that have not yet solved
+  (training cells only); collecting further under that fit adds a small margin over collecting
+  under G4, resolved only on BE. The selection-based procedures tried have not demonstrated a
+  contextual search advantage over their token controls. Learned token biases transfer about 2×
+  but show no resolved family specificity. Neither pooled emitted frequency (20, 29) nor
+  per-position frequency on G4's template or alone (30) carries the fitted table's advantage. Not
+  shown: that evolution reaches fitted context; whether C's conditional rows or its wider mutation
+  neighbourhood carry it; transfer beyond this one fresh shape."

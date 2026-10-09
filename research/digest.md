@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-09, after run 2026-10-09-0125 (commit `8e62831`). Core question since the
+As of 2026-10-09, after run 2026-10-09-0306 (commit `2bab2c2`). Core question since the
 2026-09-25 reframe: *how does the genotype→program map bias what evolution finds and keeps
 ("arrival of the frequent"), and can that bias be adapted to a task family?* Run-by-run history,
 superseded numbers and fuller wording are in the questions' `log.md` files.
@@ -76,29 +76,29 @@ crossover v2, lexicase, P 1024, L 64). Fairly sure for these layouts; nothing be
   (≤ 1.2e-7). 100 insertions cannot tell drift from a disadvantage.
   ([07](questions/01-map-bias/07-shared-arrival/question.md), parked; [03](questions/01-map-bias/03-rare-shared-establishment/question.md) closed)
 
-## 10 Compositional map transfer (root open, 20 of 21 used)
+## 10 Compositional map transfer (root open, 21 of 21 used)
 
 [10](questions/10-compositional-map-transfer/question.md): can a decoder adapted across related
 tasks help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 Stack tape `v2_rmin(_first)`, length-4 lists, P 256, lexicase on 64 cases with an exact check over
-the domain (D1331 from 0001 on), 524k cap. G / G4 are hand-set previous-token grammars; U uniform;
-"-marg" the same token marginals without context. Sub-questions 11–29 closed; 30 (per-position
-controls of the fitted tables) open, not yet scored. Every bank before
-then-addition-v1 (26) was screened and inspected, so its transfer claims are development-bank
-claims; then-addition-v1 is the first fresh bank, frozen with the method before scoring.
+the domain (D1331 from 0001 on), 524k cap. G / G4 are hand-set previous-token grammars;
+"-marg" the same token marginals without context. Sub-questions 11–30 closed. Banks before
+then-addition-v1 (26) were screened and inspected, so their transfer claims are development-bank
+claims; then-addition-v1 was the first fresh bank, frozen with the method before scoring, and is
+now a development bank too.
 
 **Banks.**
 - **The sign-gated banks could not support a symmetric two-family test** (these shapes, domains
-  and frozen rules): no eligible split on the 3×3 bank ([11](questions/10-compositional-map-transfer/11-composition-bank/question.md)),
-  alias identities in six shapes ([12](questions/10-compositional-map-transfer/12-generic-grammar-headroom/question.md)),
-  no role-covered branch-else (BE) holdout with FIRST added, though post-addition (PA) splits exist
-  ([15](questions/10-compositional-map-transfer/15-four-reducer-family-bank/question.md)). Hence a
-  one-family PA split (G), then a BE/PA split on the four-reducer bank (BE 1 holdout cell, PA 2; G4).
+  and frozen rules; [11](questions/10-compositional-map-transfer/11-composition-bank/question.md),
+  [12](questions/10-compositional-map-transfer/12-generic-grammar-headroom/question.md),
+  [15](questions/10-compositional-map-transfer/15-four-reducer-family-bank/question.md)); hence a
+  one-family post-addition (PA) split (G), then a branch-else (BE)/PA split on the four-reducer
+  bank (BE 1 holdout cell, PA 2; G4).
 - **A comparison-gated bank gives a protected multi-holdout split with headroom.** BE
   `A>B ? C : D+E`, PA `(A>B ? C : D)+E`, 13 tokens: 37 BE and 56 PA behaviours after the exact
   ≤ 9-token screen (not a 13-token minimality certificate); a frozen, performance-blind split gives
   4 training and 4 holdouts per family with matched token totals; G4 solves 68% of training-cell
-  searches at 524k (hardest cell 47%). ([24](questions/10-compositional-map-transfer/24-comparison-gate-bank/question.md), [run 1246](runs/2026-10-08-1246/analysis.md))
+  searches at 524k. ([24](questions/10-compositional-map-transfer/24-comparison-gate-bank/question.md), [run 1246](runs/2026-10-08-1246/analysis.md))
 - **Ten-token branch cells leave room above the hand-set grammars** (G medians 2–10× above 4 096;
   G4 medians 8.7k–28.7k on all 13 retained cells). (12, 15)
 
@@ -117,17 +117,16 @@ claims; then-addition-v1 is the first fresh bank, frozen with the method before 
 **Token learning by outer-loop selection** (multipliers on the hand-set rows; 4+12 loop).
 - **Learned token weights transfer about 2–2.5× to withheld cells, on both setups.** On G (PA only,
   200 seeds): 2.23× [1.82, 2.75] on training, 2.06–2.25× (lower bounds ≥ 1.60) on the two withheld
-  cells, 2.23× on branch-else, unresolved on linear (1.08× [0.72, 1.57]); mostly INPUT up, DUP down,
-  IF_GT up. From G-marg, token learning gains 1.7–2.1× but stays at 0.41–0.57× of G.
+  cells, unresolved on linear (1.08× [0.72, 1.57]); mostly INPUT up, DUP down, IF_GT up. From
+  G-marg it gains 1.7–2.1× but stays at 0.41–0.57× of G.
   ([13](questions/10-compositional-map-transfer/13-post-addition-map-learning/question.md)) On G4:
-  about 2.2× on own-family training cells, 2.0× on the BE and 2.5–2.6× on the PA withheld cells (all
-  six resolved). ([16](questions/10-compositional-map-transfer/16-crossed-family-adaptation/question.md))
+  about 2.2× on own training cells, 2.0× (BE) and 2.5–2.6× (PA) on withheld cells, all resolved.
+  ([16](questions/10-compositional-map-transfer/16-crossed-family-adaptation/question.md))
 - **That gain is mostly generic; no family advantage was resolved on withheld cells.** Cross-family
   training gains 2.07× and 1.93×; all 20 maps make the same big moves. Matched over mismatched on
-  withheld cells 1.02× [0.84, 1.25] (BE), 0.96× [0.79, 1.15] (PA); a 1.1× preference is not excluded
-  (about 64–75 trajectories per family would detect it). An in-sample interaction of 1.24× [1.09,
-  1.41] hints at family information on trained cells; a better family prior is not separated from
-  repair of G4's weak spots. (16)
+  withheld cells 1.02× [0.84, 1.25] (BE), 0.96× [0.79, 1.15] (PA); a 1.1× preference is not
+  excluded. An in-sample interaction of 1.24× [1.09, 1.41] hints at family information on trained
+  cells; a better family prior is not separated from repair of G4's weak spots. (16)
 - **The frozen maps help through both the starting programs and the decoder used during search,
   sub-additively.** Given the other, ongoing decoder 1.39× / 1.28× and start 1.30× / 1.33×
   (withheld / training), diagonal 2.29× / 2.44×, interaction −0.34 / −0.52 log2 (20/20 maps). Not
@@ -136,15 +135,13 @@ claims; then-addition-v1 is the first fresh bank, frozen with the method before 
   ([17](questions/10-compositional-map-transfer/17-decoder-initialization-variation/question.md))
 
 **Context learned by outer-loop selection: no resolved gain from four procedures.**
-- **Full 552-weight learner from G**: 0.92× [0.78, 1.09] on training (gain > 1.09× excluded at that
-  budget); its three-cell steps were far below score noise, a plausible but unisolated cause. (13)
+- **Full 552-weight learner from G**: 0.92× [0.78, 1.09] on training; steps far below score noise
+  are a plausible, unisolated cause. (13)
 - **Row residuals on learned M versus continued token learning**: training 1.00× [0.90, 1.11];
-  withheld PA 1.16× [0.91, 1.48] and 1.06× [0.83, 1.31], unresolved; their off-family shift did not
-  replicate across learning runs. (13, [14](questions/10-compositional-map-transfer/14-saved-map-shape-shift/question.md))
-- **Rank-one context steps mixed into token continuation**: in a loop where token continuation
-  learned (T/S 1.14× and 1.12×, both resolved), C/T 0.967× [0.871, 1.073]: a mean gain above about
-  1.07× is excluded for this loop and these token-tuned starts; small gains or losses up to 13% are
-  not. Context learned jointly from G4, or added without displacing token steps, is untested.
+  withheld PA 1.16× and 1.06×, unresolved, and not replicated across learning runs. (13, [14](questions/10-compositional-map-transfer/14-saved-map-shape-shift/question.md))
+- **Rank-one context steps mixed into token continuation**: where token continuation itself
+  learned (1.14×, 1.12×, resolved), C/T 0.967× [0.871, 1.073]: a gain above about 1.07× excluded for
+  this loop and these token-tuned starts. Context learned jointly from G4 is untested.
   ([18](questions/10-compositional-map-transfer/18-compact-context-learning/question.md),
   [19](questions/10-compositional-map-transfer/19-selection-calibrated-continuation/question.md))
 
@@ -153,21 +150,20 @@ claims; then-addition-v1 is the first fresh bank, frozen with the method before 
   and the gain transfers.** C/T 1.365× [1.288, 1.446] on training (31/32 corpora), 1.293× [1.213,
   1.378] withheld. Matching C's pooled emitted frequencies does not reproduce it (C/K 1.65×, though
   K is slower than T). No matched-family advantage resolved on the three withheld cells (BE 1.02×
-  [0.91, 1.15], specificity not refuted; one PA cell favoured the mismatched fit, 0.75×). Tapes carry about 0.45 bits per
-  transition of order information; a corpus pays for itself in about 120–590 searches. One bank,
-  split and shrinkage (α 50); which structure carries it is unknown.
+  [0.91, 1.15], specificity not refuted; one PA cell favoured the mismatched fit, 0.75×). Tapes
+  carry about 0.45 bits per transition of order information; a corpus pays for itself in about
+  120–590 searches. One bank, split and shrinkage (α 50); which structure carries it is unknown.
   ([20](questions/10-compositional-map-transfer/20-solver-corpus-context/question.md))
 - **One feedback refit, to solvers found under the fitted table, speeds search further.** C2/C
   1.404× [1.347, 1.464] on training (32/32 lineages), 1.289× [1.204, 1.381] withheld; a fresh
   one-shot G4 refit is not resolved from C (0.997× [0.940, 1.058]), so the gain is the collection
-  procedure (yield, diversity and tape content bundled). The refit sharpens the decoder (row entropy
-  3.91 → 3.80 bits), not shown causal. A second step is untested.
+  procedure (yield, diversity and tape content bundled). The refit sharpens the decoder (lower row
+  entropy), not shown causal; a second step is untested.
   ([21](questions/10-compositional-map-transfer/21-iterated-solver-corpus/question.md))
 - **On training cells that step raised context's advantage over a token-only fit; on withheld cells
   this is unresolved.** I = (C2/T2)/(C1/T1) 1.169× [1.093, 1.250] (BE 1.34×, PA 1.02× [0.95, 1.09];
-  partly slow seeds, median variant 1.089× [1.008, 1.177]); the token-only fit also gained (about
-  1.2×); C2/T2 still 1.58× / 1.37×. Withheld I 1.087× [0.984, 1.200]: neither equality nor absence.
-  Same seeds as 1924, not an independent replication.
+  median variant 1.089× [1.008, 1.177]); the token-only fit also gained about 1.2×. Withheld I
+  1.087× [0.984, 1.200]. Same seeds as 1924, not an independent replication.
   ([22](questions/10-compositional-map-transfer/22-feedback-context-increment/question.md))
 - **The one-shot context advantage replicates on the comparison-gate bank's training cells, larger.**
   16 new G4 corpora (yield 58.9%): C/T 3.11× [2.78, 3.48] (BE 2.86×, PA 3.37×; 2.82× at 1 × cap),
@@ -176,56 +172,58 @@ claims; then-addition-v1 is the first fresh bank, frozen with the method before 
 - **Those frozen tables keep most of the advantage on protected holdouts and on one fresh bank of a
   new shape, shrunk from training.** No refit. Comparison-gate-v1's eight protected holdouts
   (development bank): C/T 2.60× [2.31, 2.92], 8/8 resolved. Fresh `then-addition-v1`
-  (`A>B ? C+D : E`, same 13 tokens, 16 cells chosen by a semantic screen alone and pinned before any
-  search): 2.12× [1.86, 2.41], 16/16 corpora, 14/16 cells resolved; 1.96× at 1 × cap, 1.74× on pairs
-  both arms solved. Shrinkage from training is resolved across shape, 0.68× [0.57, 0.81], unresolved
-  within shape, 0.88× [0.72, 1.07]. Family matching on the holdouts unresolved, 1.10× [0.89, 1.35];
-  on the fresh bank C/T is larger for BE-fitted corpora (ratio of C/T ratios 1.38× [1.13, 1.68];
-  secondary). Scope: one fresh bank, designed after v1 was seen, all cells on two tie-heavy gates;
-  the interval conditions on these 16 cells; why the gain shrinks is not identified.
+  (`A>B ? C+D : E`, 16 cells chosen by a semantic screen alone, pinned before any search): 2.12×
+  [1.86, 2.41], 16/16 corpora, 14/16 cells resolved; 1.74× on pairs both arms solved. Shrinkage
+  from training is resolved across shape, 0.68× [0.57, 0.81], not within shape, 0.88× [0.72, 1.07].
+  Family matching on the holdouts unresolved, 1.10× [0.89, 1.35]; on the fresh bank C/T is larger
+  for BE-fitted corpora (ratio of C/T ratios 1.38× [1.13, 1.68]; secondary). Scope: one fresh bank,
+  designed after v1 was seen, all cells on two tie-heavy gates; the interval conditions on these 16
+  cells; why the gain shrinks is not identified.
   ([25](questions/10-compositional-map-transfer/25-comparison-gate-transfer/question.md),
   [26](questions/10-compositional-map-transfer/26-then-addition-fresh-bank/question.md), [run 1548](runs/2026-10-08-1548/analysis.md))
-- **On then-addition (now a development bank), a G4 map matched to C's pooled emitted frequencies
-  does not reproduce C's advantage, and is slower than the token-only fit.** The frozen K tables (G4 × 24 multipliers,
-  pooled marginals within 3e-5 of C's), same seeds and case draws: C/K 2.48× [2.17, 2.83] (1 × cap
-  2.25×, both-solved 1.92×), all 16 corpora and cells above 1.2; K/T 0.86× [0.77, 0.96], as on the
-  old bank (C/K 1.65×, K/T 0.83×). Scope: K keeps G4's context and matches pooled, not positional,
-  marginals, so context and positional frequency are not separated; then-addition is a development
-  bank by now. ([29](questions/10-compositional-map-transfer/29-frequency-matched-transfer/question.md), [run 0125](runs/2026-10-09-0125/analysis.md))
+- **On then-addition, frozen maps matched to C's pooled or per-position emitted frequencies do not
+  reproduce C's advantage.** Same seeds and case draws, 16 corpora; every corpus and cell above 1.2
+  for each: K (G4 × 24 multipliers, C's pooled marginals) C/K 2.48× [2.17, 2.83], and K is slower
+  than the token fit (K/T 0.86× [0.77, 0.96]), as on the old bank (1.65×, 0.83×); Q (G4 matched to
+  C's marginal at each of 32 positions) C/Q 2.41× [2.11, 2.75], not resolved from K (Q/K 1.03×
+  [0.93, 1.13]); P (independent positional draws, no context) C/P 5.47× [4.79, 6.25], solving 50.5%
+  against C's 86.5%. Both-solved pairs still about 1.9× for K and Q. Scope: external projections
+  under the uniform latent prior, one operator set; C's mutation changes about 3 tokens against 1.7
+  (K, Q) and 0.9 (P), so supply and variation neighbourhood are not separated; a learned positional
+  map is untested. ([29](questions/10-compositional-map-transfer/29-frequency-matched-transfer/question.md),
+  [30](questions/10-compositional-map-transfer/30-position-matched-replacement/question.md),
+  [run 0125](runs/2026-10-09-0125/analysis.md), [run 0306](runs/2026-10-09-0306/analysis.md))
 
 **Context fitted to non-solving programs (external fitting, before any exact solve).**
 - **Tapes from G4 searches that had not yet solved teach a context fit that beats a token fit to the
-  same tapes and G4 on the comparison-gate training cells, mostly by more runs solving within the
-  cap.** 16 corpora of parent tapes from searches stopped at first solve or 65k evaluations: C_S/T_S
-  1.28× [1.12, 1.45] (13/16 corpora; both-solved pairs 1.05× [0.88, 1.24]; BE 1.42× [1.17, 1.72], PA
+  same tapes, and G4, on the comparison-gate training cells, mostly by more runs solving within the
+  cap.** 16 corpora of parent tapes (searches stopped at first solve or 65k evaluations): C_S/T_S
+  1.28× [1.12, 1.45] (13/16 corpora; both-solved 1.05× [0.88, 1.24]; BE 1.42× [1.17, 1.72], PA
   1.15× [0.96, 1.38] unresolved); a worthwhile 1.20× is plausible, not established. C_S/G4 1.62×
-  [1.37, 1.90]; the same frozen table gave 1.62× [1.41, 1.86] on fresh seeds in 2116. Selected parents not resolved from uniform population samples (C_S/C_P 1.04× [0.92,
-  1.16]), so any extra parent enrichment is below about 1.16×. The exact-solver fit stays 3.7× faster (C_S/C_exact 0.27× [0.24, 0.30]) using about 7.9×
-  more source evaluations. Scope: own training cells of a development bank (no transfer), one
-  collection horizon, K unscored.
+  [1.37, 1.90], again 1.62× [1.41, 1.86] on fresh seeds (2116). Selected parents not resolved from
+  uniform population samples (C_S/C_P 1.04× [0.92, 1.16]). The exact-solver fit stays 3.7× faster
+  (C_S/C_exact 0.27× [0.24, 0.30]) for about 7.9× more source evaluations. Scope: own training cells of a development bank, one collection
+  horizon, K unscored.
   ([27](questions/10-compositional-map-transfer/27-partial-program-context/question.md), [run 1831](runs/2026-10-08-1831/analysis.md))
 - **Collecting further under that partial fit beat collecting the same allocation under G4, by a
   small margin resolved only on BE.** 16 lineages, 96 sources per cell per arm: two rounds under the
-  updated context fit (F) against one fit to G4-collected tapes (O), F/O 1.18× [1.01, 1.37]; a
-  worthwhile 1.15× is neither established nor excluded. BE 1.42× [1.17, 1.72], PA 0.98× [0.83, 1.16]
-  unresolved; PA collection diagnostics also improved, and their causal contribution to the scoring
-  difference is unresolved. More G4 tapes gave no resolved gain
-  (O over the first fit 0.99× [0.89, 1.10]); F over keeping the first fit is unresolved (1.16×
+  updated fit (F) against one fit to G4-collected tapes (O), F/O 1.18× [1.01, 1.37]; a worthwhile
+  1.15× is neither established nor excluded. BE 1.42× [1.17, 1.72], PA 0.98× [0.83, 1.16]
+  unresolved (PA collection diagnostics improved too; their causal role is unresolved). More G4
+  tapes gave no resolved gain (0.99× [0.89, 1.10]); F over keeping the first fit unresolved (1.16×
   [0.99, 1.36]). Context feedback beat token feedback 1.46× [1.23, 1.75]; F stays far below the
   exact-solver fit (0.31×). Scope: 27's training cells, three rounds, equal source allocation;
   yield and tape content bundled.
   ([28](questions/10-compositional-map-transfer/28-partial-program-feedback/question.md), [run 2116](runs/2026-10-08-2116/analysis.md))
 
-**Overall.** Useful assembly information beyond a token-only fit exists in this system's own
-solvers and can be fitted externally; the exact-solver fit transfers to withheld compositions and,
-on one fresh bank of a new shape, at about 2× (shrunk by a third from training). A much weaker
-advantage is already fittable from populations that have not yet solved (training cells only);
-collecting further under that fit adds a small margin over collecting under G4, resolved only on BE. The selection-based
-procedures tried have not demonstrated a contextual search advantage over their token controls.
-Learned token biases transfer about 2× but show no resolved family specificity. Pooled emitted
-frequency on G4's template does not carry the fitted table's advantage on either bank (20, 29). Not
-shown: that evolution reaches fitted context; whether context or positional frequency carries it;
-transfer beyond this one fresh shape.
+**Overall.** Assembly information beyond a token-only fit exists in this system's own solvers and
+can be fitted externally; it transfers to withheld compositions and to one fresh bank of a new shape
+at about 2× (a third smaller than on training), and pooled or per-position emitted frequency does
+not carry it. A much weaker version is fittable before any exact solve (training cells only).
+Selection-based context learning shows no advantage over token controls; learned token biases
+transfer about 2× with no resolved family specificity. Not shown: that evolution reaches fitted
+context; whether C's conditional rows or its wider mutation neighbourhood carry it; transfer
+beyond one fresh shape.
 
 ## 23 Heritable variation bias (root parked, budget 2, 2 used)
 

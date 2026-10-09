@@ -45,9 +45,11 @@ bank, 2.60× [2.31, 2.92] (25), and on a fresh bank of a new shape, then-additio
 (16 semantically selected cells on two gates), 2.12× [1.86, 2.41], a resolved shrinkage from
 training of 0.68× [0.57, 0.81] (26). On that bank a G4 token map matched to C's pooled emitted
 frequencies (K) does not reproduce the gain: C/K 2.48× [2.17, 2.83], all 16 corpora and cells,
-and K is slower than the token-only fit (K/T 0.86× [0.77, 0.96]) (29). Which structure carries
-C − K (context dependencies or positional frequencies; K keeps G4's context) and why the gain
-shrinks across shape are not identified. Exact solvers are not the only usable
+and K is slower than the token-only fit (K/T 0.86× [0.77, 0.96]) (29). Matching C's per-position
+frequencies does not reproduce it either: on G4's grammar (Q) C/Q 2.41× [2.11, 2.75], not resolved
+from K (Q/K 1.03× [0.93, 1.13]), and as independent positional draws (P) C/P 5.47× [4.79, 6.25]
+(30). Whether C's own conditional rows or the wider mutation neighbourhood they create carry the
+remaining gap, and why the gain shrinks across shape, are not identified. Exact solvers are not the only usable
 data: a context fit to tapes from G4 searches that had not yet solved beat a token fit to the same
 tapes 1.28× [1.12, 1.45] and G4 1.62× [1.37, 1.90] on the training cells, mostly by solving within
 the cap more often, with no resolved parent-selection enrichment; the exact-solver fit stays far
@@ -57,7 +59,7 @@ under G4 and fitting once, 1.18× [1.01, 1.37], gain resolved on BE (1.42× [1.1
 unresolved (0.98× [0.83, 1.16]); with more G4 tapes alone no improvement was resolved (0.99× [0.89,
 1.10]; gains above about 10% excluded at this scope), and the gain over keeping the first fit is
 unresolved (1.16× [0.99, 1.36]) (28)**
-(20 of 20 slots used; strategy 0125 assigned slot 20 to [29](29-frequency-matched-transfer/question.md); strategy 2116 assigned slot 19 to [28](28-partial-program-feedback/question.md); strategy 1831 assigned slot 18 to [27](27-partial-program-context/question.md); allocation 1534 raised the budget from 16 to 20 for a four-slot block, first
+(21 of 21 slots used; strategy 0239 raised the budget from 20 to 21 and assigned slot 21 to [30](30-position-matched-replacement/question.md); strategy 0125 assigned slot 20 to [29](29-frequency-matched-transfer/question.md); strategy 2116 assigned slot 19 to [28](28-partial-program-feedback/question.md); strategy 1831 assigned slot 18 to [27](27-partial-program-context/question.md); allocation 1534 raised the budget from 16 to 20 for a four-slot block, first
 slot run 1548; strategy 1246 raised the budget from 15 to 16, for 24; strategy 2129 raised the budget from 14 to 15, for 22; strategy 1924 raised the budget from 13 to 14; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
 2331 to 10, strategy 0803 to 12, strategy 1137 to 13; sub-questions [18](18-compact-context-learning/question.md)
 and [19](19-selection-calibrated-continuation/question.md) closed;
@@ -65,6 +67,14 @@ and [19](19-selection-calibrated-continuation/question.md) closed;
 [21](21-iterated-solver-corpus/question.md) after run 1924;
 [22](22-feedback-context-increment/question.md) closed after run 2156; its first attempt,
 run 2129, stopped at preparation).
+Run 2026-10-09-0306 ([30](30-position-matched-replacement/question.md), commit `2bab2c2`; first
+attempt 0239 stopped at its runtime admission gate): frozen Q (G4 × per-position multipliers matched
+to C's marginal at all 32 positions, C's start row) and P (independent draws from C's positional
+marginals) from the 16 1246 C tables, on 1548 row F with C/T/K's paired seeds; 4 096 searches,
+96 min, complete, replays bit-exact. C/Q 2.41× [2.11, 2.75] (1 × cap 2.21×, both-solved 1.95×;
+16/16 corpora and cells above 1.20); C/P 5.47× [4.79, 6.25]; Q/K 1.03× [0.93, 1.13]; Q/P 2.27×;
+T/Q 1.14× [1.04, 1.24]. Solves C 86.5%, T 75.5%, Q 73.9%, K 72.5%, P 50.5%. Tokens changed per
+allele resample C 2.97, Q/K/T 1.73, P 0.92.
 Run 2026-10-09-0125 ([29](29-frequency-matched-transfer/question.md), commit `8e62831`): the
 16 frozen 1246 K tables (G4 × 24 multipliers matched to C's pooled emitted marginals) on 1548 row
 F's 16 then-addition cells with C/T's paired seeds and case draws; 2 048 searches, 42 min,
@@ -239,7 +249,7 @@ Competing explanations:
 - E: The proposed tasks or adaptation loop are not tractable at the measured budget.
   This is a feasibility result about this design, not a negative answer to A.
 
-Where they stand after runs 1707, 1924, 2156, 1548, 0125 (1831 and 2116 bear on acquisition, not transfer): A's first half (held-out gain beyond a fitted independent-token
+Where they stand after runs 1707, 1924, 2156, 1548, 0125, 0306 (1831 and 2116 bear on acquisition, not transfer): A's first half (held-out gain beyond a fitted independent-token
 map) is supported for an externally fitted previous-token table, now also on a fresh bank of a new
 shape (2.12×, 26), not yet for any adapted-by-selection decoder; its second half (advantage tied to the training family) is not supported:
 no matched-family gain was resolved on the three withheld cells, one PA cell resolved the other way, and
@@ -261,8 +271,10 @@ margin (1.18× [1.01, 1.37]; resolved on BE, PA unresolved); at the point estima
 gap to the exact-solver fit, while improvement over retaining the first fit remains unresolved
 (F/R 1.16× [0.99, 1.36]). Run 0125 (29) narrows B for the fitted tables on then-addition, now a development bank: a G4
 map matched to C's pooled emitted frequencies is 2.48× slower than C and slower than T, so pooled
-frequency on G4's template does not reproduce C's gain there; a positional-frequency or other non-contextual explanation
-is not excluded.
+frequency on G4's template does not reproduce C's gain there. Run 0306 (30) narrows it further:
+per-position frequency on G4's template (C/Q 2.41×) or alone (C/P 5.47×) does not reproduce it
+either. These are two frozen external projections under one operator set; a positional learner, or
+an explanation through C's wider mutation neighbourhood, is not excluded.
 
 Sub-questions: [11-composition-bank](11-composition-bank/question.md) (closed: this bank
 fails on tractability at 524k and on the 4 096 headroom rule against G; run 2026-10-05-2247),
@@ -339,10 +351,10 @@ beat equal-allocation one-shot G4 collection, F/O 1.18× [1.01, 1.37], BE 1.42×
 run 2026-10-09-0125: on then-addition C beats a G4 map matched to its pooled emitted frequencies,
 C/K 2.48× [2.17, 2.83], 16/16 corpora; K/T 0.86× [0.77, 0.96]; context versus positional
 frequency not separated; development bank by now).
-[30-position-matched-replacement](30-position-matched-replacement/question.md) (open, 0 of 1
-slot used: frozen per-position projections Q and P of C on then-addition; run 2026-10-09-0239 passed
-every intervention and replay gate but stopped at its runtime admission gate, 70 s over a 3 h
-price; re-proposed with a 3 h 15 min scoring timeout in run 2026-10-09-0306).
+[30-position-matched-replacement](30-position-matched-replacement/question.md) (closed, 1 of 1
+slot, run 2026-10-09-0306 after 0239 stopped at admission: frozen per-position projections of C
+on then-addition do not reproduce it, C/Q 2.41× [2.11, 2.75], C/P 5.47× [4.79, 6.25]; Q/K 1.03×
+[0.93, 1.13]; development bank).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
@@ -363,6 +375,7 @@ Related: [core question](../../../README.md#core-question),
 [run 2116 decision](../../runs/2026-10-08-2116/decision.md),
 [run 0125 decision](../../runs/2026-10-09-0125/decision.md),
 [run 0239 decision](../../runs/2026-10-09-0239/decision.md),
+[run 0306 decision](../../runs/2026-10-09-0306/decision.md),
 [digest](../../digest.md), [chem-tape findings](../../../docs/chem-tape/findings.md).
 
 Review after the feasibility experiment and after the four allocated experiments. A
