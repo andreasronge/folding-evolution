@@ -1,0 +1,87 @@
+{
+  "admitted": true,
+  "selected_seeds": 16,
+  "candidates": [
+    {
+      "seeds": 16,
+      "projected_seconds": 5606.460970445722
+    },
+    {
+      "seeds": 12,
+      "projected_seconds": 4204.845727834292
+    }
+  ],
+  "projected_seconds": 5606.460970445722,
+  "prepare_seconds": 124.81200425000861,
+  "workers": 10,
+  "mean_worker_seconds": {
+    "F": 6.023262869190148,
+    "W": 5.879040481790071
+  },
+  "timing_groups": {
+    "F|BE|0": {
+      "n": 8,
+      "worker_seconds": 62.375776958069764
+    },
+    "F|BE|1": {
+      "n": 8,
+      "worker_seconds": 22.666614042129368
+    },
+    "F|BE|2": {
+      "n": 8,
+      "worker_seconds": 110.25093699910212
+    },
+    "F|BE|3": {
+      "n": 8,
+      "worker_seconds": 26.0145536250202
+    },
+    "F|PA|0": {
+      "n": 8,
+      "worker_seconds": 35.93041187571362
+    },
+    "F|PA|1": {
+      "n": 8,
+      "worker_seconds": 53.55771887698211
+    },
+    "F|PA|2": {
+      "n": 8,
+      "worker_seconds": 55.31260854296852
+    },
+    "F|PA|3": {
+      "n": 8,
+      "worker_seconds": 19.380202708183788
+    },
+    "W|BE|0": {
+      "n": 8,
+      "worker_seconds": 43.913639249745756
+    },
+    "W|BE|1": {
+      "n": 8,
+      "worker_seconds": 41.65130179096013
+    },
+    "W|BE|2": {
+      "n": 8,
+      "worker_seconds": 51.84243508300278
+    },
+    "W|BE|3": {
+      "n": 8,
+      "worker_seconds": 32.98919695895165
+    },
+    "W|PA|0": {
+      "n": 8,
+      "worker_seconds": 74.05244462704286
+    },
+    "W|PA|1": {
+      "n": 8,
+      "worker_seconds": 28.6343464149395
+    },
+    "W|PA|2": {
+      "n": 8,
+      "worker_seconds": 57.805302334949374
+    },
+    "W|PA|3": {
+      "n": 8,
+      "worker_seconds": 45.36992437497247
+    }
+  }
+}

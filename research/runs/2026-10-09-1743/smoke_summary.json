@@ -1,0 +1,171 @@
+{
+  "preparation_directory": "smoke4",
+  "handoff_directory": "handoff",
+  "admission": {
+    "admitted": true,
+    "selected_seeds": 16,
+    "candidates": [
+      {
+        "seeds": 16,
+        "projected_seconds": 6912.432778801768
+      },
+      {
+        "seeds": 12,
+        "projected_seconds": 5184.324584101327
+      }
+    ],
+    "projected_seconds": 6912.432778801768,
+    "prepare_seconds": 131.98452150006779,
+    "workers": 10,
+    "mean_worker_seconds": {
+      "F": 6.47911402477439,
+      "W": 6.2196495716216305
+    },
+    "smoke_wall_seconds": 93.91892362502404,
+    "effective_smoke_workers": 8.653430414238708,
+    "timing_groups": {
+      "F|BE|0": {
+        "n": 8,
+        "worker_seconds": 10.421474123024382
+      },
+      "F|BE|1": {
+        "n": 8,
+        "worker_seconds": 23.968421791912988
+      },
+      "F|BE|2": {
+        "n": 8,
+        "worker_seconds": 37.630916749010794
+      },
+      "F|BE|3": {
+        "n": 8,
+        "worker_seconds": 69.7260343353264
+      },
+      "F|PA|0": {
+        "n": 8,
+        "worker_seconds": 38.44661620713305
+      },
+      "F|PA|1": {
+        "n": 8,
+        "worker_seconds": 71.51014591800049
+      },
+      "F|PA|2": {
+        "n": 8,
+        "worker_seconds": 114.72158146020956
+      },
+      "F|PA|3": {
+        "n": 8,
+        "worker_seconds": 48.23810700094327
+      },
+      "W|BE|0": {
+        "n": 8,
+        "worker_seconds": 51.79300624981988
+      },
+      "W|BE|1": {
+        "n": 8,
+        "worker_seconds": 26.99469654180575
+      },
+      "W|BE|2": {
+        "n": 8,
+        "worker_seconds": 32.49320625094697
+      },
+      "W|BE|3": {
+        "n": 8,
+        "worker_seconds": 51.420691624167375
+      },
+      "W|PA|0": {
+        "n": 8,
+        "worker_seconds": 15.765212624100968
+      },
+      "W|PA|1": {
+        "n": 8,
+        "worker_seconds": 65.44507062609773
+      },
+      "W|PA|2": {
+        "n": 8,
+        "worker_seconds": 79.42634245799854
+      },
+      "W|PA|3": {
+        "n": 8,
+        "worker_seconds": 74.71934620884713
+      }
+    }
+  },
+  "validation": {
+    "estimator": {
+      "full_C_hashes": 16,
+      "all_empty_G4": true
+    },
+    "edits": {
+      "F": {
+        "passed": true,
+        "edits": 10000,
+        "tape_start": 2691,
+        "tape_end": 2669
+      },
+      "W": {
+        "passed": true,
+        "edits": 10000,
+        "tape_start": 2691,
+        "tape_end": 2669
+      }
+    },
+    "empty_library_fallback": {
+      "passed": true,
+      "forced_edits": 2048,
+      "identical_F_W": true
+    },
+    "historical_replay": {
+      "passed": true,
+      "F": 16,
+      "W": 16,
+      "G4": 2,
+      "fields": [
+        "cell",
+        "arm",
+        "seed",
+        "cap",
+        "pop_size",
+        "solved",
+        "evaluations",
+        "shortcuts",
+        "unique_shortcuts",
+        "training_perfect_individuals",
+        "generations",
+        "training_indices",
+        "curve",
+        "table_hash",
+        "initial_tokens_hash",
+        "initial_source_hash",
+        "initial_reencoded",
+        "solver",
+        "operator"
+      ],
+      "calibration": {
+        "F": 0.9228986679967057,
+        "W": 0.8221287222451282,
+        "G4": 0.6261335249362454
+      },
+      "calibration_caveat": "same-hardware replay of selected rows; workload-dependent timing ratio, not a universal correction"
+    },
+    "passed": true,
+    "source_attempts": 3072,
+    "selected_attempts": 1024,
+    "paired_initial_programs": true
+  },
+  "handoff": {
+    "passed": true,
+    "smoke_replay_rows": 128
+  },
+  "acquisitions": 64,
+  "selected_source_attempts": 1024,
+  "source_exact_solvers": 615,
+  "source_empty_cells": 14,
+  "library_size_range": [
+    4,
+    32
+  ],
+  "full_efficacy_executed": false,
+  "selected_tests_passed": 42,
+  "queue_validated": true,
+  "timeout_sum_seconds": 12600
+}

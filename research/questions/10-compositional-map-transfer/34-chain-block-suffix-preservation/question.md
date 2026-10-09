@@ -14,15 +14,17 @@ neutrally within the token it now decodes to, so the change may ripple on. Paire
 C rows (replayed bit-exactly), 16 corpora × 16 cells × 16 seeds:
 
 - **W/R 0.954× [0.903, 1.007]** (> 1 favours the repair). A repair gain above 0.7% is excluded at this
-  scope, and so is the worthwhile 1.10×; a repair cost up to about 10% is not excluded, nor is no
-  difference. Same direction and bound under 1 × cap (upper 1.008), both-solved (1.031), BE (1.061),
-  PA (1.016) and on the comparison-gate holdouts (0.963 [0.850, 1.092], descriptive).
+  scope (pooled primary only), and so is the worthwhile 1.10×; a repair cost up to about 10% is not
+  excluded, nor is no difference. The 1.10× threshold is excluded under each sensitivity and family
+  split: 1 × cap (upper 1.008), both-solved (1.031), BE (1.061), PA (1.016); comparison-gate holdouts
+  0.963 [0.850, 1.092], descriptive.
 - **R/C 1.286× [1.208, 1.370]**, 16/16 corpora (W/C 1.227× in the same pairs). Coordinated chain
   proposals help without containment; whether they are W's sole cause (its length law, token supply)
   is untested.
 - **Ripple is frequent but local**: 64% of R's block edits change the decoded suffix, by about 3
-  tokens when they do; an edit changes 4.7 tokens on average against W's 2.9. C's previous-token
-  chain resynchronises quickly, so 32's "point mutation re-decodes the whole suffix" was wrong.
+  tokens when they do; an edit changes 4.7 tokens on average against W's 2.9. Under these block
+  edits, downstream token changes are typically local despite suffix re-decoding; ordinary point
+  mutation's ripple was not measured (corrected 1743, critique note 9).
 
 Competing explanations for W/C, after 1606: (a) containment — not supported, excluded above 1.007×
 at this scope; (b) coordinated chain content — consistent (R/C > 1), not isolated from W's length
@@ -33,8 +35,9 @@ the gap is 42 extra R solves in 4 096.
 Scope: one externally fitted previous-token decoder (C from exact solvers; W's length law from F),
 32-token tapes, blocks of 3–5 tokens; ripple rides on the block operator only, ordinary mutation and
 crossover unchanged; development bank then-addition-v1. Not a general locality or GE-ripple result,
-not acquisition, not transfer. Practical consequence: later acquisition baselines need not keep the
-boundary repair at this resolution.
+not acquisition, not transfer. Practical consequence: dropping the repair is a supported
+implementation choice under the tested full-C setup; its effect under changed decoders (e.g. newly
+fitted C4) remains unmeasured (corrected 1743, critique note 8).
 
 Opened 2026-10-09 (steward, run 1606) under [strategy 1606](../../../runs/2026-10-09-1606/strategy.md)
 and the [plan](../../../plans/chain-block-suffix-preservation.md); slot 26 of root 10.

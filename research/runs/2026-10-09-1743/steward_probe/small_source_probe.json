@@ -1,0 +1,1805 @@
+{
+ "info": {
+  "BE1": {
+   "full_C_reproduced": true,
+   "solvers": 10,
+   "per_cell": {
+    "BE:F>S?F:M+m": 3,
+    "BE:F>m?S:F+M": 2,
+    "BE:S>F?M:F+m": 3,
+    "BE:S>F?m:M+S": 2
+   },
+   "library_size": 24,
+   "library_lengths": [
+    3,
+    3,
+    3,
+    3,
+    4,
+    3,
+    3,
+    3,
+    4,
+    3,
+    3,
+    3,
+    5,
+    5,
+    4,
+    4,
+    4,
+    4,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "row_entropy_bits": {
+    "C4": 3.4541077917503555,
+    "C": 3.8021565419500303,
+    "G4": 4.148120014514795
+   },
+   "tv_C4_C": 0.29679500000000003
+  },
+  "PA1": {
+   "full_C_reproduced": true,
+   "solvers": 8,
+   "per_cell": {
+    "PA:(F>S?F:m)+M": 1,
+    "PA:(F>S?m:M)+F": 2,
+    "PA:(M>F?m:S)+S": 3,
+    "PA:(S>F?M:m)+m": 2
+   },
+   "library_size": 19,
+   "library_lengths": [
+    3,
+    4,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3,
+    5,
+    4,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "row_entropy_bits": {
+    "C4": 3.395624700824748,
+    "C": 3.8101410464453163,
+    "G4": 4.148120014514795
+   },
+   "tv_C4_C": 0.3323683333333334
+  },
+  "BE2": {
+   "full_C_reproduced": true,
+   "solvers": 4,
+   "per_cell": {
+    "BE:F>S?F:M+m": 2,
+    "BE:F>m?S:F+M": 1,
+    "BE:S>F?M:F+m": 1,
+    "BE:S>F?m:M+S": 0
+   },
+   "library_size": 4,
+   "library_lengths": [
+    3,
+    4,
+    3,
+    3
+   ],
+   "row_entropy_bits": {
+    "C4": 3.519562426722805,
+    "C": 3.799788197826459,
+    "G4": 4.148120014514795
+   },
+   "tv_C4_C": 0.30701833333333334
+  },
+  "PA2": {
+   "full_C_reproduced": true,
+   "solvers": 7,
+   "per_cell": {
+    "PA:(F>S?F:m)+M": 2,
+    "PA:(F>S?m:M)+F": 2,
+    "PA:(M>F?m:S)+S": 1,
+    "PA:(S>F?M:m)+m": 2
+   },
+   "library_size": 8,
+   "library_lengths": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "row_entropy_bits": {
+    "C4": 3.3508915155327643,
+    "C": 3.8194142333058347,
+    "G4": 4.148120014514795
+   },
+   "tv_C4_C": 0.35039833333333337
+  },
+  "BE3": {
+   "full_C_reproduced": true,
+   "solvers": 9,
+   "per_cell": {
+    "BE:F>S?F:M+m": 3,
+    "BE:F>m?S:F+M": 2,
+    "BE:S>F?M:F+m": 2,
+    "BE:S>F?m:M+S": 2
+   },
+   "library_size": 21,
+   "library_lengths": [
+    3,
+    3,
+    3,
+    3,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3,
+    4,
+    4,
+    4,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "row_entropy_bits": {
+    "C4": 3.409225731257178,
+    "C": 3.766817935749239,
+    "G4": 4.148120014514795
+   },
+   "tv_C4_C": 0.2866766666666667
+  },
+  "PA3": {
+   "full_C_reproduced": true,
+   "solvers": 10,
+   "per_cell": {
+    "PA:(F>S?F:m)+M": 1,
+    "PA:(F>S?m:M)+F": 4,
+    "PA:(M>F?m:S)+S": 1,
+    "PA:(S>F?M:m)+m": 4
+   },
+   "library_size": 25,
+   "library_lengths": [
+    3,
+    3,
+    3,
+    4,
+    3,
+    3,
+    3,
+    4,
+    3,
+    3,
+    3,
+    3,
+    5,
+    5,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "row_entropy_bits": {
+    "C4": 3.355856504076174,
+    "C": 3.7971520360373576,
+    "G4": 4.148120014514795
+   },
+   "tv_C4_C": 0.32504500000000003
+  },
+  "BE4": {
+   "full_C_reproduced": true,
+   "solvers": 11,
+   "per_cell": {
+    "BE:F>S?F:M+m": 3,
+    "BE:F>m?S:F+M": 2,
+    "BE:S>F?M:F+m": 3,
+    "BE:S>F?m:M+S": 3
+   },
+   "library_size": 24,
+   "library_lengths": [
+    3,
+    3,
+    3,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    5,
+    4,
+    4,
+    4,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "row_entropy_bits": {
+    "C4": 3.4766316418356813,
+    "C": 3.8006149182900923,
+    "G4": 4.148120014514795
+   },
+   "tv_C4_C": 0.27771
+  },
+  "PA4": {
+   "full_C_reproduced": true,
+   "solvers": 10,
+   "per_cell": {
+    "PA:(F>S?F:m)+M": 1,
+    "PA:(F>S?m:M)+F": 3,
+    "PA:(M>F?m:S)+S": 2,
+    "PA:(S>F?M:m)+m": 4
+   },
+   "library_size": 27,
+   "library_lengths": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    5,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "row_entropy_bits": {
+    "C4": 3.3914932414832064,
+    "C": 3.8226435124555733,
+    "G4": 4.148120014514795
+   },
+   "tv_C4_C": 0.3017433333333333
+  },
+  "BE5": {
+   "full_C_reproduced": true,
+   "solvers": 8,
+   "per_cell": {
+    "BE:F>S?F:M+m": 1,
+    "BE:F>m?S:F+M": 3,
+    "BE:S>F?M:F+m": 1,
+    "BE:S>F?m:M+S": 3
+   },
+   "library_size": 16,
+   "library_lengths": [
+    3,
+    3,
+    3,
+    3,
+    4,
+    3,
+    3,
+    3,
+    5,
+    4,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "row_entropy_bits": {
+    "C4": 3.416631866058105,
+    "C": 3.7878072042289084,
+    "G4": 4.148120014514795
+   },
+   "tv_C4_C": 0.3120316666666667
+  },
+  "PA5": {
+   "full_C_reproduced": true,
+   "solvers": 14,
+   "per_cell": {
+    "PA:(F>S?F:m)+M": 2,
+    "PA:(F>S?m:M)+F": 4,
+    "PA:(M>F?m:S)+S": 4,
+    "PA:(S>F?M:m)+m": 4
+   },
+   "library_size": 28,
+   "library_lengths": [
+    3,
+    3,
+    3,
+    4,
+    3,
+    3,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    5,
+    4,
+    4,
+    3,
+    3,
+    3,
+    3,
+    4,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "row_entropy_bits": {
+    "C4": 3.546517037317406,
+    "C": 3.8052298688626762,
+    "G4": 4.148120014514795
+   },
+   "tv_C4_C": 0.25963166666666665
+  },
+  "BE6": {
+   "full_C_reproduced": true,
+   "solvers": 9,
+   "per_cell": {
+    "BE:F>S?F:M+m": 3,
+    "BE:F>m?S:F+M": 3,
+    "BE:S>F?M:F+m": 1,
+    "BE:S>F?m:M+S": 2
+   },
+   "library_size": 27,
+   "library_lengths": [
+    3,
+    4,
+    3,
+    3,
+    3,
+    3,
+    4,
+    3,
+    3,
+    5,
+    5,
+    4,
+    4,
+    4,
+    4,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "row_entropy_bits": {
+    "C4": 3.4894357614698044,
+    "C": 3.77219148559438,
+    "G4": 4.148120014514795
+   },
+   "tv_C4_C": 0.29255000000000003
+  },
+  "PA6": {
+   "full_C_reproduced": true,
+   "solvers": 11,
+   "per_cell": {
+    "PA:(F>S?F:m)+M": 0,
+    "PA:(F>S?m:M)+F": 3,
+    "PA:(M>F?m:S)+S": 4,
+    "PA:(S>F?M:m)+m": 4
+   },
+   "library_size": 26,
+   "library_lengths": [
+    3,
+    4,
+    3,
+    3,
+    3,
+    3,
+    5,
+    4,
+    3,
+    4,
+    3,
+    3,
+    3,
+    3,
+    5,
+    4,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "row_entropy_bits": {
+    "C4": 3.717258680472834,
+    "C": 3.811234818491727,
+    "G4": 4.148120014514795
+   },
+   "tv_C4_C": 0.21308500000000002
+  },
+  "BE7": {
+   "full_C_reproduced": true,
+   "solvers": 10,
+   "per_cell": {
+    "BE:F>S?F:M+m": 0,
+    "BE:F>m?S:F+M": 4,
+    "BE:S>F?M:F+m": 3,
+    "BE:S>F?m:M+S": 3
+   },
+   "library_size": 19,
+   "library_lengths": [
+    3,
+    3,
+    4,
+    3,
+    4,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "row_entropy_bits": {
+    "C4": 3.6966187836416613,
+    "C": 3.7820869107235784,
+    "G4": 4.148120014514795
+   },
+   "tv_C4_C": 0.23055333333333333
+  },
+  "PA7": {
+   "full_C_reproduced": true,
+   "solvers": 11,
+   "per_cell": {
+    "PA:(F>S?F:m)+M": 2,
+    "PA:(F>S?m:M)+F": 4,
+    "PA:(M>F?m:S)+S": 4,
+    "PA:(S>F?M:m)+m": 1
+   },
+   "library_size": 21,
+   "library_lengths": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    4,
+    4,
+    4,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "row_entropy_bits": {
+    "C4": 3.5008287252770014,
+    "C": 3.7977453578681906,
+    "G4": 4.148120014514795
+   },
+   "tv_C4_C": 0.27885333333333334
+  },
+  "BE8": {
+   "full_C_reproduced": true,
+   "solvers": 7,
+   "per_cell": {
+    "BE:F>S?F:M+m": 0,
+    "BE:F>m?S:F+M": 3,
+    "BE:S>F?M:F+m": 1,
+    "BE:S>F?m:M+S": 3
+   },
+   "library_size": 16,
+   "library_lengths": [
+    3,
+    4,
+    3,
+    3,
+    3,
+    3,
+    5,
+    5,
+    4,
+    4,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "row_entropy_bits": {
+    "C4": 3.6770243017182507,
+    "C": 3.796470083140061,
+    "G4": 4.148120014514795
+   },
+   "tv_C4_C": 0.25033833333333333
+  },
+  "PA8": {
+   "full_C_reproduced": true,
+   "solvers": 11,
+   "per_cell": {
+    "PA:(F>S?F:m)+M": 1,
+    "PA:(F>S?m:M)+F": 3,
+    "PA:(M>F?m:S)+S": 4,
+    "PA:(S>F?M:m)+m": 3
+   },
+   "library_size": 22,
+   "library_lengths": [
+    3,
+    3,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    4,
+    4,
+    4,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "row_entropy_bits": {
+    "C4": 3.5205684544295877,
+    "C": 3.8376341959171203,
+    "G4": 4.148120014514795
+   },
+   "tv_C4_C": 0.28319833333333333
+  }
+ },
+ "fit_extract_seconds": 1.0262677669525146,
+ "probe": {
+  "C4": {
+   "n": 64,
+   "solved": 51,
+   "geo_cost": 111910.37415505719,
+   "mean_worker_s": 7.899024104133787
+  },
+  "C4+F4": {
+   "n": 64,
+   "solved": 61,
+   "geo_cost": 41677.19283702807,
+   "mean_worker_s": 3.8073531529098545
+  }
+ },
+ "wall": 81.71880793571472,
+ "rows": [
+  {
+   "corpus": "BE1",
+   "cell": "TA:F>m?F+M:S",
+   "seed": 917000000000,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 53760,
+   "seconds": 2.038621624931693
+  },
+  {
+   "corpus": "BE1",
+   "cell": "TA:F>m?F+M:S",
+   "seed": 917000000000,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 33792,
+   "seconds": 2.4539204579778016
+  },
+  {
+   "corpus": "BE1",
+   "cell": "TA:F>m?M+S:M",
+   "seed": 917000000001,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 20736,
+   "seconds": 0.7615482909604907
+  },
+  {
+   "corpus": "BE1",
+   "cell": "TA:F>m?M+S:M",
+   "seed": 917000000001,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 7168,
+   "seconds": 0.31788866606075317
+  },
+  {
+   "corpus": "BE1",
+   "cell": "TA:F>m?S+m:M",
+   "seed": 917000000002,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 75008,
+   "seconds": 2.225595208001323
+  },
+  {
+   "corpus": "BE1",
+   "cell": "TA:F>m?S+m:M",
+   "seed": 917000000002,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 84480,
+   "seconds": 2.7186889580916613
+  },
+  {
+   "corpus": "BE1",
+   "cell": "TA:M>F?M+m:S",
+   "seed": 917000000003,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 251648,
+   "seconds": 12.093512875027955
+  },
+  {
+   "corpus": "BE1",
+   "cell": "TA:M>F?M+m:S",
+   "seed": 917000000003,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 18688,
+   "seconds": 0.7355922909919173
+  },
+  {
+   "corpus": "PA1",
+   "cell": "TA:F>m?F+S:M",
+   "seed": 917000001000,
+   "arm4": "C",
+   "solved": false,
+   "evaluations": 524288,
+   "seconds": 23.90596749994438
+  },
+  {
+   "corpus": "PA1",
+   "cell": "TA:F>m?F+S:M",
+   "seed": 917000001000,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 150528,
+   "seconds": 7.3659705829340965
+  },
+  {
+   "corpus": "PA1",
+   "cell": "TA:F>m?M+S:S",
+   "seed": 917000001001,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 84480,
+   "seconds": 3.510322834015824
+  },
+  {
+   "corpus": "PA1",
+   "cell": "TA:F>m?M+S:S",
+   "seed": 917000001001,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 20992,
+   "seconds": 0.854105000034906
+  },
+  {
+   "corpus": "PA1",
+   "cell": "TA:M>F?F+S:m",
+   "seed": 917000001002,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 26112,
+   "seconds": 1.2651004169601947
+  },
+  {
+   "corpus": "PA1",
+   "cell": "TA:M>F?F+S:m",
+   "seed": 917000001002,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 48640,
+   "seconds": 2.270648500067182
+  },
+  {
+   "corpus": "PA1",
+   "cell": "TA:M>F?S+S:m",
+   "seed": 917000001003,
+   "arm4": "C",
+   "solved": false,
+   "evaluations": 524288,
+   "seconds": 23.170963958953507
+  },
+  {
+   "corpus": "PA1",
+   "cell": "TA:M>F?S+S:m",
+   "seed": 917000001003,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 38912,
+   "seconds": 1.4751008750172332
+  },
+  {
+   "corpus": "BE2",
+   "cell": "TA:F>m?M+M:S",
+   "seed": 917000002000,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 250880,
+   "seconds": 9.46230083401315
+  },
+  {
+   "corpus": "BE2",
+   "cell": "TA:F>m?M+M:S",
+   "seed": 917000002000,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 149760,
+   "seconds": 5.449502749950625
+  },
+  {
+   "corpus": "BE2",
+   "cell": "TA:F>m?M+m:S",
+   "seed": 917000002001,
+   "arm4": "C",
+   "solved": false,
+   "evaluations": 524288,
+   "seconds": 22.335248375078663
+  },
+  {
+   "corpus": "BE2",
+   "cell": "TA:F>m?M+m:S",
+   "seed": 917000002001,
+   "arm4": "F",
+   "solved": false,
+   "evaluations": 524288,
+   "seconds": 25.8785502910614
+  },
+  {
+   "corpus": "BE2",
+   "cell": "TA:M>F?F+m:S",
+   "seed": 917000002002,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 63488,
+   "seconds": 2.191035500029102
+  },
+  {
+   "corpus": "BE2",
+   "cell": "TA:M>F?F+m:S",
+   "seed": 917000002002,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 156416,
+   "seconds": 6.612257583998144
+  },
+  {
+   "corpus": "BE2",
+   "cell": "TA:M>F?S+m:F",
+   "seed": 917000002003,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 136192,
+   "seconds": 5.724655749974772
+  },
+  {
+   "corpus": "BE2",
+   "cell": "TA:M>F?S+m:F",
+   "seed": 917000002003,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 36352,
+   "seconds": 1.4670263329753652
+  },
+  {
+   "corpus": "PA2",
+   "cell": "TA:F>m?M+S:F",
+   "seed": 917000003000,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 242432,
+   "seconds": 9.346989332931116
+  },
+  {
+   "corpus": "PA2",
+   "cell": "TA:F>m?M+S:F",
+   "seed": 917000003000,
+   "arm4": "F",
+   "solved": false,
+   "evaluations": 524288,
+   "seconds": 23.10382750001736
+  },
+  {
+   "corpus": "PA2",
+   "cell": "TA:F>m?S+S:M",
+   "seed": 917000003001,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 411904,
+   "seconds": 18.246924457955174
+  },
+  {
+   "corpus": "PA2",
+   "cell": "TA:F>m?S+S:M",
+   "seed": 917000003001,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 460800,
+   "seconds": 21.440273582935333
+  },
+  {
+   "corpus": "PA2",
+   "cell": "TA:M>F?M+S:m",
+   "seed": 917000003002,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 82432,
+   "seconds": 3.2851221249438822
+  },
+  {
+   "corpus": "PA2",
+   "cell": "TA:M>F?M+S:m",
+   "seed": 917000003002,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 34560,
+   "seconds": 1.283395583042875
+  },
+  {
+   "corpus": "PA2",
+   "cell": "TA:M>F?S+m:m",
+   "seed": 917000003003,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 25600,
+   "seconds": 0.9573814580217004
+  },
+  {
+   "corpus": "PA2",
+   "cell": "TA:M>F?S+m:m",
+   "seed": 917000003003,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 1024,
+   "seconds": 0.048863040981814265
+  },
+  {
+   "corpus": "BE3",
+   "cell": "TA:F>m?M+S:M",
+   "seed": 917000004000,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 22784,
+   "seconds": 0.7016461250605062
+  },
+  {
+   "corpus": "BE3",
+   "cell": "TA:F>m?M+S:M",
+   "seed": 917000004000,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 19200,
+   "seconds": 0.7606229579541832
+  },
+  {
+   "corpus": "BE3",
+   "cell": "TA:F>m?S+m:M",
+   "seed": 917000004001,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 61696,
+   "seconds": 2.1774677919456735
+  },
+  {
+   "corpus": "BE3",
+   "cell": "TA:F>m?S+m:M",
+   "seed": 917000004001,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 42752,
+   "seconds": 1.524374790955335
+  },
+  {
+   "corpus": "BE3",
+   "cell": "TA:M>F?M+m:S",
+   "seed": 917000004002,
+   "arm4": "C",
+   "solved": false,
+   "evaluations": 524288,
+   "seconds": 20.784972458030097
+  },
+  {
+   "corpus": "BE3",
+   "cell": "TA:M>F?M+m:S",
+   "seed": 917000004002,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 36864,
+   "seconds": 1.5034523330396041
+  },
+  {
+   "corpus": "BE3",
+   "cell": "TA:F>m?F+M:S",
+   "seed": 917000004003,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 115968,
+   "seconds": 5.113708707969636
+  },
+  {
+   "corpus": "BE3",
+   "cell": "TA:F>m?F+M:S",
+   "seed": 917000004003,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 39680,
+   "seconds": 1.6971828329842538
+  },
+  {
+   "corpus": "PA3",
+   "cell": "TA:F>m?M+S:S",
+   "seed": 917000005000,
+   "arm4": "C",
+   "solved": false,
+   "evaluations": 524288,
+   "seconds": 19.520378250046633
+  },
+  {
+   "corpus": "PA3",
+   "cell": "TA:F>m?M+S:S",
+   "seed": 917000005000,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 8704,
+   "seconds": 0.3045805419096723
+  },
+  {
+   "corpus": "PA3",
+   "cell": "TA:M>F?F+S:m",
+   "seed": 917000005001,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 170240,
+   "seconds": 6.1763077499344945
+  },
+  {
+   "corpus": "PA3",
+   "cell": "TA:M>F?F+S:m",
+   "seed": 917000005001,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 96768,
+   "seconds": 4.469280084013008
+  },
+  {
+   "corpus": "PA3",
+   "cell": "TA:M>F?S+S:m",
+   "seed": 917000005002,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 126976,
+   "seconds": 5.464570665964857
+  },
+  {
+   "corpus": "PA3",
+   "cell": "TA:M>F?S+S:m",
+   "seed": 917000005002,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 16896,
+   "seconds": 0.638584875036031
+  },
+  {
+   "corpus": "PA3",
+   "cell": "TA:F>m?F+S:M",
+   "seed": 917000005003,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 340480,
+   "seconds": 16.706084290985018
+  },
+  {
+   "corpus": "PA3",
+   "cell": "TA:F>m?F+S:M",
+   "seed": 917000005003,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 346880,
+   "seconds": 14.43001795897726
+  },
+  {
+   "corpus": "BE4",
+   "cell": "TA:F>m?M+m:S",
+   "seed": 917000006000,
+   "arm4": "C",
+   "solved": false,
+   "evaluations": 524288,
+   "seconds": 24.625046250061132
+  },
+  {
+   "corpus": "BE4",
+   "cell": "TA:F>m?M+m:S",
+   "seed": 917000006000,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 55040,
+   "seconds": 2.088890084065497
+  },
+  {
+   "corpus": "BE4",
+   "cell": "TA:M>F?F+m:S",
+   "seed": 917000006001,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 13824,
+   "seconds": 0.5625916660064831
+  },
+  {
+   "corpus": "BE4",
+   "cell": "TA:M>F?F+m:S",
+   "seed": 917000006001,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 7936,
+   "seconds": 0.3076206659898162
+  },
+  {
+   "corpus": "BE4",
+   "cell": "TA:M>F?S+m:F",
+   "seed": 917000006002,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 7680,
+   "seconds": 0.2804410000098869
+  },
+  {
+   "corpus": "BE4",
+   "cell": "TA:M>F?S+m:F",
+   "seed": 917000006002,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 29184,
+   "seconds": 1.2518164160428569
+  },
+  {
+   "corpus": "BE4",
+   "cell": "TA:F>m?M+M:S",
+   "seed": 917000006003,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 195328,
+   "seconds": 9.787541792029515
+  },
+  {
+   "corpus": "BE4",
+   "cell": "TA:F>m?M+M:S",
+   "seed": 917000006003,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 148224,
+   "seconds": 7.0473077920032665
+  },
+  {
+   "corpus": "PA4",
+   "cell": "TA:F>m?S+S:M",
+   "seed": 917000007000,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 65280,
+   "seconds": 2.4055520839756355
+  },
+  {
+   "corpus": "PA4",
+   "cell": "TA:F>m?S+S:M",
+   "seed": 917000007000,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 207360,
+   "seconds": 8.380734957987443
+  },
+  {
+   "corpus": "PA4",
+   "cell": "TA:M>F?M+S:m",
+   "seed": 917000007001,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 11008,
+   "seconds": 0.36297704209573567
+  },
+  {
+   "corpus": "PA4",
+   "cell": "TA:M>F?M+S:m",
+   "seed": 917000007001,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 29440,
+   "seconds": 1.2555923329200596
+  },
+  {
+   "corpus": "PA4",
+   "cell": "TA:M>F?S+m:m",
+   "seed": 917000007002,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 19712,
+   "seconds": 0.8858977080089971
+  },
+  {
+   "corpus": "PA4",
+   "cell": "TA:M>F?S+m:m",
+   "seed": 917000007002,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 13568,
+   "seconds": 0.5988030000589788
+  },
+  {
+   "corpus": "PA4",
+   "cell": "TA:F>m?M+S:F",
+   "seed": 917000007003,
+   "arm4": "C",
+   "solved": false,
+   "evaluations": 524288,
+   "seconds": 20.042742958059534
+  },
+  {
+   "corpus": "PA4",
+   "cell": "TA:F>m?M+S:F",
+   "seed": 917000007003,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 53248,
+   "seconds": 2.643788208020851
+  },
+  {
+   "corpus": "BE5",
+   "cell": "TA:F>m?S+m:M",
+   "seed": 917000008000,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 252928,
+   "seconds": 10.044990999973379
+  },
+  {
+   "corpus": "BE5",
+   "cell": "TA:F>m?S+m:M",
+   "seed": 917000008000,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 94976,
+   "seconds": 3.8679167079972103
+  },
+  {
+   "corpus": "BE5",
+   "cell": "TA:M>F?M+m:S",
+   "seed": 917000008001,
+   "arm4": "C",
+   "solved": false,
+   "evaluations": 524288,
+   "seconds": 23.00809383392334
+  },
+  {
+   "corpus": "BE5",
+   "cell": "TA:M>F?M+m:S",
+   "seed": 917000008001,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 21504,
+   "seconds": 0.9924725409364328
+  },
+  {
+   "corpus": "BE5",
+   "cell": "TA:F>m?F+M:S",
+   "seed": 917000008002,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 99328,
+   "seconds": 3.440582082956098
+  },
+  {
+   "corpus": "BE5",
+   "cell": "TA:F>m?F+M:S",
+   "seed": 917000008002,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 60672,
+   "seconds": 2.5469129169359803
+  },
+  {
+   "corpus": "BE5",
+   "cell": "TA:F>m?M+S:M",
+   "seed": 917000008003,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 29440,
+   "seconds": 1.1932549580233172
+  },
+  {
+   "corpus": "BE5",
+   "cell": "TA:F>m?M+S:M",
+   "seed": 917000008003,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 6912,
+   "seconds": 0.2535270410589874
+  },
+  {
+   "corpus": "PA5",
+   "cell": "TA:M>F?F+S:m",
+   "seed": 917000009000,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 3584,
+   "seconds": 0.12501499999780208
+  },
+  {
+   "corpus": "PA5",
+   "cell": "TA:M>F?F+S:m",
+   "seed": 917000009000,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 3584,
+   "seconds": 0.1224442080128938
+  },
+  {
+   "corpus": "PA5",
+   "cell": "TA:M>F?S+S:m",
+   "seed": 917000009001,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 30720,
+   "seconds": 0.9251024579862133
+  },
+  {
+   "corpus": "PA5",
+   "cell": "TA:M>F?S+S:m",
+   "seed": 917000009001,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 66560,
+   "seconds": 2.5519016669131815
+  },
+  {
+   "corpus": "PA5",
+   "cell": "TA:F>m?F+S:M",
+   "seed": 917000009002,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 9216,
+   "seconds": 0.3661774169886485
+  },
+  {
+   "corpus": "PA5",
+   "cell": "TA:F>m?F+S:M",
+   "seed": 917000009002,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 17920,
+   "seconds": 0.7274221250554547
+  },
+  {
+   "corpus": "PA5",
+   "cell": "TA:F>m?M+S:S",
+   "seed": 917000009003,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 116224,
+   "seconds": 5.189727165969089
+  },
+  {
+   "corpus": "PA5",
+   "cell": "TA:F>m?M+S:S",
+   "seed": 917000009003,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 10496,
+   "seconds": 0.39575754199177027
+  },
+  {
+   "corpus": "BE6",
+   "cell": "TA:M>F?F+m:S",
+   "seed": 917000010000,
+   "arm4": "C",
+   "solved": false,
+   "evaluations": 524288,
+   "seconds": 23.35141670901794
+  },
+  {
+   "corpus": "BE6",
+   "cell": "TA:M>F?F+m:S",
+   "seed": 917000010000,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 61696,
+   "seconds": 2.904741083038971
+  },
+  {
+   "corpus": "BE6",
+   "cell": "TA:M>F?S+m:F",
+   "seed": 917000010001,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 73728,
+   "seconds": 3.13648716697935
+  },
+  {
+   "corpus": "BE6",
+   "cell": "TA:M>F?S+m:F",
+   "seed": 917000010001,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 26368,
+   "seconds": 1.186490833060816
+  },
+  {
+   "corpus": "BE6",
+   "cell": "TA:F>m?M+M:S",
+   "seed": 917000010002,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 83200,
+   "seconds": 3.626382124959491
+  },
+  {
+   "corpus": "BE6",
+   "cell": "TA:F>m?M+M:S",
+   "seed": 917000010002,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 24064,
+   "seconds": 1.0867496670689434
+  },
+  {
+   "corpus": "BE6",
+   "cell": "TA:F>m?M+m:S",
+   "seed": 917000010003,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 30976,
+   "seconds": 1.708823375054635
+  },
+  {
+   "corpus": "BE6",
+   "cell": "TA:F>m?M+m:S",
+   "seed": 917000010003,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 41728,
+   "seconds": 1.8611892089247704
+  },
+  {
+   "corpus": "PA6",
+   "cell": "TA:M>F?M+S:m",
+   "seed": 917000011000,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 77056,
+   "seconds": 3.0981614999473095
+  },
+  {
+   "corpus": "PA6",
+   "cell": "TA:M>F?M+S:m",
+   "seed": 917000011000,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 64000,
+   "seconds": 2.9602191250305623
+  },
+  {
+   "corpus": "PA6",
+   "cell": "TA:M>F?S+m:m",
+   "seed": 917000011001,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 15872,
+   "seconds": 0.7439451670506969
+  },
+  {
+   "corpus": "PA6",
+   "cell": "TA:M>F?S+m:m",
+   "seed": 917000011001,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 5632,
+   "seconds": 0.24414654192514718
+  },
+  {
+   "corpus": "PA6",
+   "cell": "TA:F>m?M+S:F",
+   "seed": 917000011002,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 75264,
+   "seconds": 3.9282670830143616
+  },
+  {
+   "corpus": "PA6",
+   "cell": "TA:F>m?M+S:F",
+   "seed": 917000011002,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 116224,
+   "seconds": 5.217922333045863
+  },
+  {
+   "corpus": "PA6",
+   "cell": "TA:F>m?S+S:M",
+   "seed": 917000011003,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 39936,
+   "seconds": 1.5690952079603449
+  },
+  {
+   "corpus": "PA6",
+   "cell": "TA:F>m?S+S:M",
+   "seed": 917000011003,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 83968,
+   "seconds": 4.042260874994099
+  },
+  {
+   "corpus": "BE7",
+   "cell": "TA:M>F?M+m:S",
+   "seed": 917000012000,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 46848,
+   "seconds": 1.9723873749608174
+  },
+  {
+   "corpus": "BE7",
+   "cell": "TA:M>F?M+m:S",
+   "seed": 917000012000,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 31488,
+   "seconds": 1.5647311250213534
+  },
+  {
+   "corpus": "BE7",
+   "cell": "TA:F>m?F+M:S",
+   "seed": 917000012001,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 190720,
+   "seconds": 10.730339666013606
+  },
+  {
+   "corpus": "BE7",
+   "cell": "TA:F>m?F+M:S",
+   "seed": 917000012001,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 153856,
+   "seconds": 8.070586916059256
+  },
+  {
+   "corpus": "BE7",
+   "cell": "TA:F>m?M+S:M",
+   "seed": 917000012002,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 118272,
+   "seconds": 5.591229874989949
+  },
+  {
+   "corpus": "BE7",
+   "cell": "TA:F>m?M+S:M",
+   "seed": 917000012002,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 22016,
+   "seconds": 0.7905882920604199
+  },
+  {
+   "corpus": "BE7",
+   "cell": "TA:F>m?S+m:M",
+   "seed": 917000012003,
+   "arm4": "C",
+   "solved": false,
+   "evaluations": 524288,
+   "seconds": 21.710456958971918
+  },
+  {
+   "corpus": "BE7",
+   "cell": "TA:F>m?S+m:M",
+   "seed": 917000012003,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 156672,
+   "seconds": 6.247862459043972
+  },
+  {
+   "corpus": "PA7",
+   "cell": "TA:M>F?S+S:m",
+   "seed": 917000013000,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 39936,
+   "seconds": 1.2194967500399798
+  },
+  {
+   "corpus": "PA7",
+   "cell": "TA:M>F?S+S:m",
+   "seed": 917000013000,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 32512,
+   "seconds": 1.0658686669776216
+  },
+  {
+   "corpus": "PA7",
+   "cell": "TA:F>m?F+S:M",
+   "seed": 917000013001,
+   "arm4": "C",
+   "solved": false,
+   "evaluations": 524288,
+   "seconds": 22.273607125040144
+  },
+  {
+   "corpus": "PA7",
+   "cell": "TA:F>m?F+S:M",
+   "seed": 917000013001,
+   "arm4": "F",
+   "solved": false,
+   "evaluations": 524288,
+   "seconds": 21.624492708942853
+  },
+  {
+   "corpus": "PA7",
+   "cell": "TA:F>m?M+S:S",
+   "seed": 917000013002,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 30976,
+   "seconds": 1.2171303749782965
+  },
+  {
+   "corpus": "PA7",
+   "cell": "TA:F>m?M+S:S",
+   "seed": 917000013002,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 12288,
+   "seconds": 0.4915249579353258
+  },
+  {
+   "corpus": "PA7",
+   "cell": "TA:M>F?F+S:m",
+   "seed": 917000013003,
+   "arm4": "C",
+   "solved": false,
+   "evaluations": 524288,
+   "seconds": 20.869873291929252
+  },
+  {
+   "corpus": "PA7",
+   "cell": "TA:M>F?F+S:m",
+   "seed": 917000013003,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 41216,
+   "seconds": 1.6766970830503851
+  },
+  {
+   "corpus": "BE8",
+   "cell": "TA:M>F?S+m:F",
+   "seed": 917000014000,
+   "arm4": "C",
+   "solved": false,
+   "evaluations": 524288,
+   "seconds": 19.86031004099641
+  },
+  {
+   "corpus": "BE8",
+   "cell": "TA:M>F?S+m:F",
+   "seed": 917000014000,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 9984,
+   "seconds": 0.37252025003544986
+  },
+  {
+   "corpus": "BE8",
+   "cell": "TA:F>m?M+M:S",
+   "seed": 917000014001,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 82944,
+   "seconds": 3.385496416944079
+  },
+  {
+   "corpus": "BE8",
+   "cell": "TA:F>m?M+M:S",
+   "seed": 917000014001,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 191744,
+   "seconds": 11.295565375010483
+  },
+  {
+   "corpus": "BE8",
+   "cell": "TA:F>m?M+m:S",
+   "seed": 917000014002,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 43264,
+   "seconds": 1.9874352080514655
+  },
+  {
+   "corpus": "BE8",
+   "cell": "TA:F>m?M+m:S",
+   "seed": 917000014002,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 24064,
+   "seconds": 1.0884707500226796
+  },
+  {
+   "corpus": "BE8",
+   "cell": "TA:M>F?F+m:S",
+   "seed": 917000014003,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 69632,
+   "seconds": 3.3277345419628546
+  },
+  {
+   "corpus": "BE8",
+   "cell": "TA:M>F?F+m:S",
+   "seed": 917000014003,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 50688,
+   "seconds": 2.1301062499405816
+  },
+  {
+   "corpus": "PA8",
+   "cell": "TA:M>F?S+m:m",
+   "seed": 917000015000,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 256000,
+   "seconds": 11.111733875004575
+  },
+  {
+   "corpus": "PA8",
+   "cell": "TA:M>F?S+m:m",
+   "seed": 917000015000,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 28416,
+   "seconds": 1.1902505829930305
+  },
+  {
+   "corpus": "PA8",
+   "cell": "TA:F>m?M+S:F",
+   "seed": 917000015001,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 68608,
+   "seconds": 2.845248125027865
+  },
+  {
+   "corpus": "PA8",
+   "cell": "TA:F>m?M+S:F",
+   "seed": 917000015001,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 43776,
+   "seconds": 1.739473707973957
+  },
+  {
+   "corpus": "PA8",
+   "cell": "TA:F>m?S+S:M",
+   "seed": 917000015002,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 77312,
+   "seconds": 3.01298458292149
+  },
+  {
+   "corpus": "PA8",
+   "cell": "TA:F>m?S+S:M",
+   "seed": 917000015002,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 12544,
+   "seconds": 0.49892679206095636
+  },
+  {
+   "corpus": "PA8",
+   "cell": "TA:M>F?M+S:m",
+   "seed": 917000015003,
+   "arm4": "C",
+   "solved": true,
+   "evaluations": 358400,
+   "seconds": 12.847339125000872
+  },
+  {
+   "corpus": "PA8",
+   "cell": "TA:M>F?M+S:m",
+   "seed": 917000015003,
+   "arm4": "F",
+   "solved": true,
+   "evaluations": 11776,
+   "seconds": 0.4825996250147
+  }
+ ]
+}

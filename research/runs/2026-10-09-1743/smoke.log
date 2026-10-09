@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-09-1743/experiments/chem_tape/small_source_run.py", line 362, in <module>
+    main()
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-09-1743/experiments/chem_tape/small_source_run.py", line 358, in main
+    Runner(args).run()
+    ^^^^^^^^^^^^
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-09-1743/experiments/chem_tape/small_source_run.py", line 141, in __init__
+    self.reference, self.g4, self.old, self.reference_provenance = references()
+                                                                   ^^^^^^^^^^^^
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-09-1743/experiments/chem_tape/small_source_run.py", line 64, in references
+    raise ValueError('1548 G4 reference incomplete')
+ValueError: 1548 G4 reference incomplete

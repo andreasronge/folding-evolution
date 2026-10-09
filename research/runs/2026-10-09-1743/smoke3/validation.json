@@ -1,0 +1,62 @@
+{
+  "estimator": {
+    "full_C_hashes": 16,
+    "all_empty_G4": true
+  },
+  "edits": {
+    "F": {
+      "passed": true,
+      "edits": 10000,
+      "tape_start": 2691,
+      "tape_end": 2669
+    },
+    "W": {
+      "passed": true,
+      "edits": 10000,
+      "tape_start": 2691,
+      "tape_end": 2669
+    }
+  },
+  "empty_library_fallback": {
+    "passed": true,
+    "forced_edits": 2048,
+    "identical_F_W": true
+  },
+  "historical_replay": {
+    "passed": true,
+    "F": 16,
+    "W": 16,
+    "G4": 2,
+    "fields": [
+      "cell",
+      "arm",
+      "seed",
+      "cap",
+      "pop_size",
+      "solved",
+      "evaluations",
+      "shortcuts",
+      "unique_shortcuts",
+      "training_perfect_individuals",
+      "generations",
+      "training_indices",
+      "curve",
+      "table_hash",
+      "initial_tokens_hash",
+      "initial_source_hash",
+      "initial_reencoded",
+      "solver",
+      "operator"
+    ],
+    "calibration": {
+      "F": 0.9040292796679776,
+      "W": 0.8123846817756982,
+      "G4": 0.630803786058241
+    },
+    "calibration_caveat": "same-hardware replay of selected rows; workload-dependent timing ratio, not a universal correction"
+  },
+  "passed": true,
+  "source_attempts": 3072,
+  "selected_attempts": 1024,
+  "paired_initial_programs": true
+}
