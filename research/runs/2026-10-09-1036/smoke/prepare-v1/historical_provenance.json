@@ -1,0 +1,27 @@
+{
+  "fragments-prepare": {
+    "path": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-09/2026-10-09-0843-fragments-prepare/search.jsonl",
+    "sha256": "f1dba167e030c64e1a94ac12313ecd128dbbe1807c89b75ad9b9f3af7bdf8244"
+  },
+  "fragments-score": {
+    "path": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-09/2026-10-09-0843-fragments-score/search.jsonl",
+    "sha256": "b919851aaa0000c04d517e94fc1747bb8874e127657744a63e11aab07fe3193d"
+  },
+  "historical": {
+    "holdout": {
+      "commit": "45b2bdb2cbe5dee7ef04c3b5ebc10c54ce3e233a",
+      "path": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-08/2026-10-08-1548-development-holdouts/search.jsonl",
+      "sha256": "78f76c3b52c9c877b419a8e462ac314bf613829ea5a5232ab4e999cf9a69e894"
+    },
+    "then_addition": {
+      "commit": "45b2bdb2cbe5dee7ef04c3b5ebc10c54ce3e233a",
+      "path": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-08/2026-10-08-1548-fresh-then-addition/search.jsonl",
+      "sha256": "792282393b1d03cef558f0b3d2fbc1689217b05482154b52851368f80a84d312"
+    }
+  },
+  "whole_libraries": {
+    "commit": "e347793549b0531f7acf167a5cc1768ae77ff127",
+    "path": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-09/2026-10-09-0843-fragments-prepare/whole_libraries.json",
+    "sha256": "5d199a2e1bac974837333bfa92202a24da3a4f6aa5561f8bac11e3ddd1b4b4f7"
+  }
+}

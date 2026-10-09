@@ -1,0 +1,62 @@
+{
+  "edits": {
+    "F": {
+      "passed": true,
+      "edits": 10000,
+      "tape_start": 2678,
+      "tape_end": 2668
+    },
+    "W": {
+      "passed": true,
+      "edits": 10000,
+      "tape_start": 2678,
+      "tape_end": 2668
+    }
+  },
+  "C_replay": {
+    "passed": true,
+    "rows": 16,
+    "fields": [
+      "cell",
+      "arm",
+      "seed",
+      "cap",
+      "pop_size",
+      "solved",
+      "evaluations",
+      "shortcuts",
+      "unique_shortcuts",
+      "training_perfect_individuals",
+      "generations",
+      "training_indices",
+      "curve",
+      "table_hash",
+      "initial_tokens_hash",
+      "initial_source_hash",
+      "initial_reencoded"
+    ]
+  },
+  "passed": true,
+  "libraries_match_0843": true,
+  "paired_initial_tokens": true,
+  "elite_exclusion": true,
+  "smoke_rows": 96,
+  "library_sizes": {
+    "BE1": 32,
+    "PA1": 32,
+    "BE2": 32,
+    "PA2": 32,
+    "BE3": 32,
+    "PA3": 32,
+    "BE4": 32,
+    "PA4": 32,
+    "BE5": 32,
+    "PA5": 32,
+    "BE6": 32,
+    "PA6": 32,
+    "BE7": 32,
+    "PA7": 32,
+    "BE8": 32,
+    "PA8": 32
+  }
+}

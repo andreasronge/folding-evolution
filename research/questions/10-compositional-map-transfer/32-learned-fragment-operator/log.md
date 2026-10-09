@@ -49,3 +49,59 @@ Decision: keep 32 open and return to strategy (`next: strategy`), because the pr
 rule 1 sends the reuse stage to strategy review, root 10 has no slot left, and the result raises
 a competing question (why a library-free block edit, W, beats C by 1.28×) that the strategist
 should weigh against reuse. ([decision](../../../runs/2026-10-09-0843/decision.md))
+
+## 2026-10-09: steward probe (run 2026-10-09-1036), read-only
+
+Variance components of 0843's paired log-cost contrasts (16 corpora × 128 pairs): pair SD
+1.85–1.88; between-corpus SD F/W 0.06, F/C 0.10, W/C ≈ 0. Projected F/W 95% half-width
+×1.136 / ×1.098 / ×1.082 / ×1.072 at 64 / 128 / 192 / 256 pairs per corpus (training-noise
+scenario). Whole-corpus libraries (0843 prepare): 32/32 in all 16 corpora, 113 distinct
+fragments, lengths 3/4/5 = 398/95/19 slots, none dropped as padded solvers.
+[Probe](../../../runs/2026-10-09-1036/steward_probe/variance_probe.py). Budget raised 1 → 2
+for the reuse stage allocated by [strategy 1036](../../../runs/2026-10-09-1036/strategy.md).
+
+## 2026-10-09: run 2026-10-09-1036 (slot 24), frozen fragment reuse on excluded compositions — ran
+
+Commit `348f9e2`, [analysis](../../../runs/2026-10-09-1036/analysis.md),
+[proposal](../../../runs/2026-10-09-1036/proposal.md), [plan](../../../runs/2026-10-09-1036/plan.md).
+C's 16 frozen comparison-gate tables and search unchanged (P 256, lexicase, 524k cap). Arms C (no
+operator), F (one intact fragment, p 0.2 per non-elite child, from the corpus's whole-corpus
+library of 32 fragments from all four training cells, rebuilt to the pinned 0843 hashes) and W
+(C's own chain from the preceding token, F's length and start laws). No B arm. Primary:
+then-addition-v1, 16 corpora × 16 cells × 16 seeds (4 096 paired searches per arm); reference:
+the 8 comparison-gate holdouts, 16 × 8 × 8 (1 024 per arm). Complete roster (15 360 rows), every
+prepare check passed (libraries 32/32 and equal to 0843; 10k-edit audits; 16 historical C replays
+bit-exact; 12 288 NOP-padded fragment/cell tests with 0 solvers; 96 smoke replays). 152 min queue.
+
+Solved, then-addition: C 87.1%, F 90.8%, W 88.9% (C matches 1548's 86.5%); holdouts C 92.8%,
+F 96.9%, W 96.3%. Primary metric (unsolved = 2 × cap, t over 16 corpora, 15 df), then-addition:
+F/W **1.195× [1.111, 1.286]** (14/16 corpora; BE 1.15× [1.01, 1.33], PA 1.24× [1.14, 1.35];
+1 × cap 1.18× [1.10, 1.26]; both-solved 1.15× [1.09, 1.22]); F/C **1.466× [1.380, 1.558]**
+(16/16 corpora); W/C 1.227× [1.148, 1.311] (16/16). Holdouts (reference, no rule): F/W 1.27×
+[1.17, 1.38], F/C 1.75× [1.57, 1.95], W/C 1.38× [1.23, 1.56]. Observed F/W half-width ×1.076
+against the projected ×1.072. Descriptive ratio of then-addition to 0843 training values (not a
+clean attenuation estimate: LOO 3-cell libraries there, whole 4-cell libraries here): F/C 0.93×
+[0.83, 1.05], F/W 0.97× [0.86, 1.09], W/C 0.96× [0.85, 1.10]; C/T lost a third across the same
+shape change (0.68×). Per cell (descriptive): F/C above 1 in 16/16 (13 resolved), F/W 0.96–1.54
+(15/16 above 1, 5 resolved), W/C 0.97–1.59; across cells log F/W and log W/C correlate −0.67
+(post hoc): where chain blocks help most, fragments add least. Libraries: 113 distinct fragments
+in 512 slots (lengths 3/4/5 = 398/95/19), mostly shared syntax (`input first gt`, `add input
+first`, `input reduce_min input` in all 16). F solvers carry more library windows (9.1 vs 7.4
+distinct; 74% vs 62% with a 4+-token window), occurrence not ancestry. Repayment (descriptive):
+F saves 1.51 worker-s per then-addition search against C and 0.50 against W; extraction costs 4 s,
+but the shared solver corpus cost 48 039 worker-s, about 96 000 searches of F-over-W saving.
+
+Rule 2 fired (`repertoire_earns_acquisition_review`): F/W lower bound > 1 with point ≥ 1.10, and
+F/C lower bound > 1. This does not establish a true F/W increment above 1.10 (the lower bound
+clears it by 1%; both-solved and BE-only lower bounds do not). Steward's guess (F/W 1.05–1.15,
+F/C ~1.4, W/C ~1.25) was right on F/C and W/C, slightly low on F/W. Interpretation limits: both
+banks are development banks and then-addition needs the libraries' shared joins by construction,
+so this is reuse of one literal-block procedure across one shape change, not modularity,
+fresh-bank transfer, family specificity or acquisition; without B on this shape, F/W does not
+separate intact content from changed token supply.
+
+Decision: close 32 and return to strategy (`next: strategy`), because the question is answered
+at its tested scope (training cells, protected holdouts and one excluded shape all favour F over
+C and W), both its slots are used, and pre-registered rule 2 routes to a strategy review of
+whether to acquire a repertoire, which is a different question with an unpriced design.
+([decision](../../../runs/2026-10-09-1036/decision.md))
