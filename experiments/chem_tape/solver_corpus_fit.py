@@ -53,6 +53,41 @@ def emitted(table):
     return total / 32
 
 
+def small_source_counts(rows, cells):
+    """Legacy cell normalization, with expected G4 counts for empty cells."""
+    g = np.diff(tables()["G4"], prepend=0, axis=1) / R
+    expected = np.zeros((25, 24))
+    position = np.zeros(25)
+    position[24] = 1
+    for _ in range(32):
+        expected += position[:, None] * g
+        next_position = position @ g
+        position = np.zeros(25)
+        position[:24] = next_position
+    if any(r['cell'] not in cells for r in rows):
+        raise ValueError('non-training source')
+    counts = np.zeros((25, 24))
+    yields = {}
+    for cid in cells:
+        sub = [r for r in rows if r['cell'] == cid]
+        # Validate failures too; transition_counts raises only after validation.
+        if any((r['solver'] is not None) != r['solved'] for r in sub):
+            raise ValueError('solver tape/solve mismatch')
+        yields[cid] = sum(r['solved'] for r in sub)
+        if yields[cid]:
+            cell_counts, _ = transition_counts(sub, [cid])
+        else:
+            cell_counts = expected / expected.sum() * 1600
+        counts += cell_counts
+    return counts, yields
+
+
+def fit_context(counts):
+    """Unchanged alpha-50 C estimator, without fitting unused T/K controls."""
+    g = np.diff(tables()["G4"], prepend=0, axis=1) / R
+    return normalize((counts + 50 * g) / (counts.sum(1, keepdims=True) + 50), R)
+
+
 def fit(n):
     g = np.diff(tables()["G4"], prepend=0, axis=1) / R
 

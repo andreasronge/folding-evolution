@@ -60,11 +60,15 @@ def trace(tokens, inputs):
 
 
 class BlockOperator:
-    def __init__(self, arm, library, seed, diagnostic_inputs=()):
+    def __init__(self, arm, library, seed, diagnostic_inputs=(), *, empty_fallback=False):
         if arm not in (*ARMS, 'R'):
             raise ValueError('unknown block arm')
         self.arm = arm
         self.rng = np.random.default_rng([seed, 4])
+        if not library and empty_fallback and arm in ('F', 'W'):
+            # Only lengths are used by W: dummy tokens never become a repertoire.
+            self.arm = 'W'
+            library = [{'tokens': [0] * length} for length in range(3, 7)]
         self.fragments = np.asarray([r['tokens'] + [0] * (6 - len(r['tokens'])) for r in library], dtype=np.uint8)
         self.lengths = np.array([len(r['tokens']) for r in library])
         if arm != 'C' and not len(library):
