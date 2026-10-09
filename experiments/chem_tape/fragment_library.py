@@ -16,21 +16,33 @@ from experiments.chem_tape.composition_bank import TA
 def extract_corpus(envelope):
     tid, rows, inputs, cells, indices = envelope
     started = time.monotonic()
+    sources = []
+    for row in rows:
+        if not row['solved']:
+            continue
+        if not np.array_equal(outputs([row['solver']], inputs, 'v2_rmin_first')[0], cells[row['cell']]['labels']):
+            raise ValueError('source solver fails full-domain validation')
+        sources.append(dict(cell=row['cell'], seed=row['seed'], tape=row['solver']))
+    result = extract_windows(tid, sources, inputs, cells, indices)
+    result['seconds'] = time.monotonic() - started
+    return result
+
+
+def extract_windows(tid, sources, inputs, cells, indices, *, partial=False):
+    """Common 0843 rule; caller validates the explicit source interface."""
+    started = time.monotonic()
     sampled = [inputs[i] for i in indices]
     diagnostic_inputs = sampled[:4]
     candidates = defaultdict(list)
     activity = []
-    for row in rows:
-        tape = row['solver']
-        if not row['solved']:
-            continue
+    for row in sources:
+        tape = row['tape']
         mutants = np.tile(tape, (33, 1))
         mutants[np.arange(32) + 1, np.arange(32)] = 0
         observed = outputs(mutants, sampled, 'v2_rmin_first')
         active = np.any(observed[1:] != observed[0], axis=1)
-        if not np.array_equal(outputs([tape], inputs, 'v2_rmin_first')[0], cells[row['cell']]['labels']):
-            raise ValueError('source solver fails full-domain validation')
-        activity.append(dict(cell=row['cell'], seed=row['seed'], active=active.tolist()))
+        activity.append(dict(cell=row['cell'], seed=row['seed'], active=active.tolist(),
+                             **({'checkpoint': row['checkpoint'], 'slot': row['slot']} if partial else {})))
         context = trace(tape, diagnostic_inputs)
         if [r['output'] for r in context['executions']] != observed[0, :4].tolist():
             raise ValueError('Python/Rust trace mismatch on source')
@@ -47,6 +59,7 @@ def extract_corpus(envelope):
                     for p in positions:
                         metrics.update({k: v for k, v in p.items() if k != 'stack_delta'})
                 candidates[f].append(dict(cell=row['cell'], seed=row['seed'], start=start,
+                                          **({'checkpoint': row['checkpoint'], 'slot': row['slot']} if partial else {}),
                                           context_inputs=4, context_stack_deltas=deltas,
                                           context_totals=dict(metrics)))
 
@@ -85,14 +98,17 @@ def extract_corpus(envelope):
                                  length=len(f), source_cells=source_cells, count=len(sources),
                                  provenance=sources, standalone=standalone(f),
                                  source_context_totals=dict(totals), padded_solves=solves))
+            if partial:
+                retained[-1]['distinct_source_searches'] = len({(p['cell'], p['seed']) for p in sources})
             if len(retained) == 32:
                 break
         return dict(held_out_cell=held, recurring_candidates=len(eligible), fragments=retained,
                     dropped_padded_solvers=dropped, hash=digest(retained),
-                    activity_scope='NOP knockout contribution in the original source program on 96 inputs',
+                    activity_scope=('NOP knockout output influence on 96 inputs; not fitness benefit' if partial
+                                    else 'NOP knockout contribution in the original source program on 96 inputs'),
                     stack_scope='standalone empty-stack effect on 96 inputs; source-context use on first four of those inputs')
 
-    libraries = {tid + '|' + held: library(held) for held in TRAINING[tid[:2]]}
+    libraries = {} if partial else {tid + '|' + held: library(held) for held in TRAINING[tid[:2]]}
     whole_started = time.monotonic()
     whole = library(None)
     return dict(corpus=tid, libraries=libraries, whole_corpus=whole, activity=activity,

@@ -162,6 +162,7 @@ def admit(rows, elapsed, workers):
 
 class Runner:
     arms = ARMS
+    execute = staticmethod(execute)
 
     def __init__(self, args):
         os.environ['RAYON_NUM_THREADS'] = '1'
@@ -199,6 +200,7 @@ class Runner:
 
     def jobs(self, roster, off=False):
         expected = {row_key(r) for r in roster}
+        expected_arms = {r['arm'] for r in roster}
         rows = []
         envelopes = [self.envelope(r, off) for r in roster]
         with (self.out / 'search.jsonl').open('a', buffering=1) as stream:
@@ -216,7 +218,7 @@ class Runner:
                 rows.append(r)
                 stream.write(json.dumps(r, allow_nan=False) + '\n')
                 write_json(self.out, 'progress.json', dict(completed=len(rows), total=len(roster), phase=r['phase']))
-            if not run_jobs(self.pool, execute, envelopes, self.deadline, save) or expected:
+            if not run_jobs(self.pool, self.execute, envelopes, self.deadline, save) or expected:
                 raise TimeoutError('incomplete roster; no efficacy decision')
         rows.sort(key=row_key)
         paired = defaultdict(list)
@@ -224,7 +226,7 @@ class Runner:
             paired[r['corpus'], r['cell'], r['seed']].append(r)
         if not off:
             for rs in paired.values():
-                if {r['arm'] for r in rs} != set(self.arms) or len(rs) != len(self.arms) or len({r['initial_tokens_hash'] for r in rs}) != 1 or len({tuple(r['training_indices']) for r in rs}) != 1:
+                if {r['arm'] for r in rs} != expected_arms or len(rs) != len(expected_arms) or len({r['initial_tokens_hash'] for r in rs}) != 1 or len({tuple(r['training_indices']) for r in rs}) != 1:
                     raise ValueError('paired initial tokens/cases mismatch')
                 for r in rs:
                     stats = r['operator']
