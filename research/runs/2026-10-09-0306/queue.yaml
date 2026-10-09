@@ -1,0 +1,75 @@
+runs:
+  - id: 2026-10-09-0306-position-matched-prepare
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-09-0306 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.position_matched_run
+      --prepare --workers 10 --deadline-seconds 1780
+    timeout_seconds: 1800
+    track: chem-tape
+    notes: >-
+      Repeat all fixed projection, exhaustive lookup and historical replay gates
+      on the reviewed implementation and Rust binary. 32 C/T and 16 positional-K
+      replays must be bit-exact. The 32 Q/P timing searches rotate across all
+      16 corpora and cells and are excluded from efficacy evidence. Admit only
+      if preparation <= 1800 s, expected = 1.15 x max(average, finite-batch)
+      + fitting + 120 s < 11700 s, and hard bound = all-capped (including
+      scheduling tail) + fitting + 120 s < 11700 s. Per blocking code review,
+      the all-capped bound has no additional 15% multiplier; preserve the
+      original 1.15 x max(all three projections) + fitting + 120 s price as
+      a diagnostic only. Log the exact predicate and both admission prices
+      in preparation.json. This changes the original admission predicate;
+      measurements, scientific gates and the full roster remain unchanged.
+      Reviewed implementation smoke admitted at 197.02 s preparation,
+      9061.02 s expected with safety, and 9511.24 s hard bound.
+      Published conservative diagnostic remains 10912.52 s.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - schedule.json
+      - preparation_schedules.json
+      - source_provenance.json
+      - projected_tables.json
+      - freeze.json
+      - validation.json
+      - timing.json
+      - search.jsonl
+      - variation.json
+      - preparation.json
+
+  - id: 2026-10-09-0306-position-matched-score
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-09-0306 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.position_matched_run
+      --preparation "${RUN_DIR%/*}/2026-10-09-0306-position-matched-prepare/preparation.json"
+      --workers 10 --deadline-seconds 11580
+    timeout_seconds: 11700
+    track: chem-tape
+    notes: >-
+      Exactly 4096 new searches: Q/P x 16 pinned 1246 corpora x 16 then-addition
+      cells x 8 paired 1548 row F seeds/case draws. Population 256, cap 524288,
+      unchanged D1331 exact verification and variation operators. Reuse pinned
+      1548 C/T/G4 and 0125 K; no target tuning, extra fits, arms, seeds or top-up.
+      Requires the preceding entry's admitted preparation with matching code,
+      binary, map, source and roster hashes; old 0239 preparation is refused.
+      Complete roster required for efficacy; C/P is always read alongside C/Q.
+      Development-bank mechanism scope, no learnability or causal claim.
+      120 s reporting reserve inside deadline and 120 s outer margin.
+      Sequential preparation plus scoring timeouts sum to 13500 s (3.75 h).
+    expect_outputs:
+      - config.json
+      - bank.json
+      - schedule.json
+      - preparation_schedules.json
+      - source_provenance.json
+      - projected_tables.json
+      - freeze.json
+      - progress.json
+      - validation.json
+      - timing.json
+      - search.jsonl
+      - variation.json
+      - result.json
+      - report.md
+      - diagnostics.png

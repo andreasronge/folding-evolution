@@ -1,0 +1,213 @@
+{
+  "task": "2026-10-09-0239",
+  "prepare_only": true,
+  "arguments": {
+    "prepare": true,
+    "preparation": null,
+    "workers": 10,
+    "deadline_seconds": 1780.0
+  },
+  "workers": 10,
+  "cap": 524288,
+  "population": 256,
+  "cases": 64,
+  "tape_length": 32,
+  "git_commit": "0faced8fddfc529c1d5ca7ea90e8e8d2ec9dd8ef",
+  "implementation_hashes": {
+    "frequency_matched_run.py": "1542837b791bd04516f00e209139bc5935c1e0180d885607dd522027a25e245e",
+    "frequency_matched_report.py": "fb82482e9639f315cd4de9d066d678a1ba9a945f8f46483973e6ea5dc1b32340",
+    "then_addition_run.py": "d0c99f6a5edddaae57a3fb14ccd8068c57a8bb6b7763c626ec6e010c5de1e0a1",
+    "then_addition_bank.py": "8bf4d4262ffd840d3114775595898f444cd9df536320ab5803a1b3dfad092069",
+    "comparison_gate_bank.py": "f0715724dbef12e61b995922eaffb5379c99cde0301fd202e8cde138756384fe",
+    "comparison_gate_run.py": "a49181acc678d11d893c53d813fcb26170ceb0fde10fe6c74c81cdc167ebbf96",
+    "composition_search.py": "1e285eb7e076ff829eb113a7a6f840b0ca6a89da9a9ce76ade09bc836aca1c50",
+    "composition_run.py": "e7ef63e8ee879a4ceaa73525c37664188db34fc673bbde7458ca3fa57f392544",
+    "solver_corpus_run.py": "a0186e4cdeec26158f3045b541cc297e12b1f29e73795ea43ad36d838e84b897",
+    "solver_corpus_fit.py": "792708b138a2ce5a3bced50bbb22c3d89ff43ab4f578055e146ba99ba9f3f1ff",
+    "four_reducer_maps.py": "4aa8d42651fa1ea5172e6fcf882a2015e2350022158b1be60ff2f892806f7455",
+    "four_reducer_bank.py": "3eb825896a2ae14c9eafae5518586c53b9b869f78103489cc87d5dd691cfe0dc",
+    "crossed_learning_run.py": "d54a43afef0ba5699f876c44a696c0f8990719f857465e2d9d91bb3ff8e6c420",
+    "map_learning.py": "930ac384f99ca3b8903f0f12b3e37720c070f42dd291a5a8725526b89c682e0a",
+    "assembly_bank.py": "ceb0e2cb81f08beaf3507ea66bdf3030588d84c945771da873508251ef4c27d8",
+    "_folding_rust.cpython-312-darwin.so": "2c853fa09e6b8fef3f1781b0f329222b383b71eb0f4391dcb81716fb1dd82f5f",
+    "evolve.py": "86df8478595eba73a130140e6de87fb0672b55826e136c775f59dbaf0e609840",
+    "executor.py": "7b193e76c1f669c064ab3e041f18d35a24703e32de8dc7ce152ca543b8e77c63",
+    "alphabet.py": "d33501479cacdd4ac51acfcc91f22e6a0e863b4e1809e4ddd528076f46cc1ccd",
+    "position_matched.py": "24daf5c0675c179e66c9349b3687930382831ea1d222877507fc0457675fd070",
+    "position_matched_run.py": "3bf16b0f8239db7e94decbfcd4f24adf9adaa957d0b36900b745c4be15a1e2cd",
+    "position_matched_report.py": "6e8b58be9c9fea6d818ae232622ebb0cdd9233b7ceadcda9a7b120fd707e73ad"
+  },
+  "bank_sha256": "26be2d562275ff908b9874667b80ac88795984fb74c2ce3d8dc2738f726e5748",
+  "source_provenance_sha256": "5f3987bb2ff33f2ad24b1db4969b941a7dc1a1be806045c1aa705136761c5ea9",
+  "K_provenance_sha256": "6d88de0c27f496f4bc05866a094f8492042aed42e80e90b884536f6e1ace1094",
+  "source_table_hashes": {
+    "BE1": {
+      "T": "74fe3dd90e887202c8f6be486aece75e416ad9bb193a92855525fe48eaf60b11",
+      "C": "2a9fc619a7a50692d5bbc3cbcba75a3ea4fa33c4d42f0f283fed5b5a53fdee3b",
+      "K": "0f7023d56f430d6aded4ebb6970f46491018bfb1c12b99276e307480215f8744"
+    },
+    "PA1": {
+      "T": "1532358122b3de174c015b13453c64af1c4e6004fbaca820d12f770412718a9d",
+      "C": "9622e61c1e34979ca1f8e40e68846981bfe54892f6ffa37e52726f3f9fc57aad",
+      "K": "901f571717aa72a5c990caeaeb457fe4ec65c6233ce8d4f01da019c05f6c5909"
+    },
+    "BE2": {
+      "T": "ca3b980a02732550de7ff847a4470229fc21a9d56d2c1f348b75530956e52cbf",
+      "C": "60e91e45b5a6b8d854bf7fabc2eb6fd9499875b4844047f2db51fe48f1a07ec8",
+      "K": "3f0dad8c07471ba63ac5dae9f23c90620e1e4f670a14c318e90d2d11ae9a992e"
+    },
+    "PA2": {
+      "T": "eb6f9b130b76117d8e36ae10af4953209e15947213759aace65a78564e65500c",
+      "C": "2087aa1e3fb0faff1053d95bcc0f0f59824f5368166dcd514d0ba800bf319dbc",
+      "K": "91c18facc328ce7864e6b39fad7bf2dd0450b7a4e9ecded16045a1b86146ac91"
+    },
+    "BE3": {
+      "T": "6242ae8441aa7d46af4e977492095e603a826d3962968386186935ab34b99688",
+      "C": "7969c48ef5c2b8dc958f53c6399122369968785ea79718a4c9a739a709ad8cef",
+      "K": "67772dfde3acc7710aaa9200b806e1f97df5fec09b1ec990d52a9ab054f300a5"
+    },
+    "PA3": {
+      "T": "4303ad08df2405f4c93b4eca019918254b62a0e42d2fdc4d8168c91a3fa2bfa9",
+      "C": "88936caa86cff9dcbc03a6a11a511fdd9d2a8da18a67efe3d84f4bee5a811c9f",
+      "K": "69463350afb48bed9f3e471726bcf75e6e54e79d28135decefe410994e0c48f7"
+    },
+    "BE4": {
+      "T": "4991a17e4a5634c95bfe6495e1b1a18e944b9c62ffa614d6ae6feac41f2e3cc6",
+      "C": "6d5e3a660068f2b7c5ebe011f04182975913c28b509ab7472127a84f332f010a",
+      "K": "fa41db6d2018693271f98fcfade66f06e1d89107ef280f912035a0b45eeb8713"
+    },
+    "PA4": {
+      "T": "b6aa8b81d9528637cc3fa85531c6fc6c717d02fb97fd1f500a66057cba15af7b",
+      "C": "afb26c28131c9448b9fbe371e5c3d828dc23b6bde0ed86156deefab7572b33f1",
+      "K": "945507d9e805814105ab3c44aa4ec7a192f4024cf17c5de9806698a6e586efab"
+    },
+    "BE5": {
+      "T": "50852a8870893fd69f5d1f4bdd7bea24a013e38e734ce66473eeece76fcce5ee",
+      "C": "29ee24a84f4db871bd2697939634fadc02ab2c03f6adb1ca5cf26b9791e6782b",
+      "K": "fd845c8e036f3265505ae7d0415fed9e54b611a54f47384aedb196eb9d7d9303"
+    },
+    "PA5": {
+      "T": "ee5cd703d5e32cbe839bcf1902041233176f3a6f5ab49bdd281a45b540a8b746",
+      "C": "2f1f3cb18f4e4871b8a40a54f15141eaea1af0690e5e2ebc37ad37d3511a9cd0",
+      "K": "cfc2ed713afeb4f18cb935eebe7795e60ad407cd865476e5e8a3bbe839ef235d"
+    },
+    "BE6": {
+      "T": "6edb469e473345eb4f30ad50b8b1c76e3d435f5c603b6fad3ef036fb0327b982",
+      "C": "a4d472b64633180b7aba899c50d092ef697a08ca5a5d1df8d4795d28da25faf4",
+      "K": "f6fdd4cf9a3453a4f6aee4ffe9879a8415a204e1ca05329bf2b48fabe7e9daed"
+    },
+    "PA6": {
+      "T": "bd6bc6ac935907a0d5aab5b137163b04e12559c81b81714e2e6ce9fa2fd8d78e",
+      "C": "07961b77afdd2a02af5513590f218733a9611bedca16b1dbe30828c39ba102f3",
+      "K": "3b3f0f8b8a9146777e5c626862a2fd5697b39c5b42373cca982a600c21734a5b"
+    },
+    "BE7": {
+      "T": "dbe4829b8f012af820855e7a2046c523e6e07fb95bcfd16b7ae321b5e8edea47",
+      "C": "626f6a757d152172463692b0f68180acf63d86a1d2591d13da97b8acb8c8ce7e",
+      "K": "525b2f7e33bd83df44ae7f0d6ea7151a54d1bb86736cfc91a2144a4e635da9ed"
+    },
+    "PA7": {
+      "T": "ddada2f99ffa71be5dbd308efdcff2b57771a8701bee760e43dd0ab7cb2ecf76",
+      "C": "bb10484d528f3c9eee052ae4ef0d13cad0e617b18ac29bd1ec7abb4439805f12",
+      "K": "23d8ed17389218e96e1e398e6487b9d5a441979be7dd01d21bc12483dd600163"
+    },
+    "BE8": {
+      "T": "35e8ce9a532e2296e7bcae2ddc1b75596e9329b78919433f5952df0971e4750a",
+      "C": "19ed8dabc02a9f4d03fcc96fc0569f30790561df0aa19d0a7d0f595583ba418b",
+      "K": "ea894fc829ed3c9c94d6906145c003b712187e52634efd7755db7d22969376a6"
+    },
+    "PA8": {
+      "T": "8e8a22fbb911be781777143821a8352007c58a2de2349eaeea1e7786a50d3755",
+      "C": "7c6e0ad813d633e40cfb7139410a5250e5d6d2cd3976dd74b6447383330582b0",
+      "K": "c677f22819350c1d01305a33dfc7e180ff502f749174f35628382bc51bc8a6d6"
+    }
+  },
+  "projected_table_hashes": {
+    "BE1": {
+      "Q": "6fd4c716f5057574fcbfaf02b3c4ba9f996895bf436ad4fbe05264d284fb17b8",
+      "P": "cca97b6c2dbabb47eb8767b2ba54393c0cc1f3f54752b16fbfdffb1fa662139b"
+    },
+    "PA1": {
+      "Q": "a0b02118adc8cd041771450264fe90907dad84c55321a7eb88fd1fbe40f5325d",
+      "P": "741b93e93b7212dc5676b819599b0a7a754c4c461a2491537fe9514e754f4b1e"
+    },
+    "BE2": {
+      "Q": "61476148635492d04f8f9037a702e3a07b49c0c509f384f285fac30df2063f76",
+      "P": "cd0e3f9b58c432aebfaaa3377fbf8c7b524e7f9bfa6c5022a08cd1da65bef2c1"
+    },
+    "PA2": {
+      "Q": "91ec88218b1747afb1bd31da2c250eb4eec8ffd77b53801ae2c13a0a60f28a70",
+      "P": "22f66b144407297c7d5ba29666f91745b03de237e99eaaff9a301c7d4fc81a05"
+    },
+    "BE3": {
+      "Q": "b9c03ba5ae291d30cc3d975476f6d120e9178d61b3c834cf319796cd263fe649",
+      "P": "87cb6bc152abcba238f5dbf7324eec6dbfbe27af3aa8d247bdf4777fb6a89a66"
+    },
+    "PA3": {
+      "Q": "d6ef7241c65619b01afaea47a4ea87300a9440f9e460044959b0deeb24956f43",
+      "P": "af6554c82bdc565eaccf4a32239539aadab7fd8a3e35bce1a3c0b4cc1457f30b"
+    },
+    "BE4": {
+      "Q": "649d1832d2f6e991335445fb2020050cbd53f7855502d16327f7a88c76ae68fe",
+      "P": "fdb6e54cd75c62c10d13d00cdba710113b18f9ead15481dee8c40b0f94883928"
+    },
+    "PA4": {
+      "Q": "c9043d2709eb1585a2b3c16ccfb01837fe39cff957533aa606a7eda4af225e7b",
+      "P": "3f74d7206dc463d92f64135d6ddb6f1e43c9ff9004eca5d0e28b70b44f93e83d"
+    },
+    "BE5": {
+      "Q": "06676b0307a8b262eef361e5faea97a29a39af8988e86e3ac4c347fdce38deef",
+      "P": "50ac068dcf6e2baf9ce9d30f6406c76b424b2d90813bce255198c73080913c9c"
+    },
+    "PA5": {
+      "Q": "5fc3e0673caea8af532c16c3eeeae1a3155813007f41efb9b10a8d689112d9ff",
+      "P": "c65c5dd22825c5d5c65be87a912432240c065defe172375473a1c9f6bf15c742"
+    },
+    "BE6": {
+      "Q": "88948b0f7c4c46c200b15a6bd35c02d6243c20c871d52230a63bd26e79532a25",
+      "P": "4b779ffed67dae56f2c856396d598443feb3c3aaf0ea14a2dd8ffa41fbe92dcd"
+    },
+    "PA6": {
+      "Q": "cea2071c4bcacc8f9e6eb949d33db12162caaf7792b6f2704957d225fbab53d9",
+      "P": "796dd6488744604700c98976cc5628f17aa67102d2aed5d7dbd08111cefb829a"
+    },
+    "BE7": {
+      "Q": "6525e0d79a5d738d084144ba748405be7c9ff9393fad4cd6b50106098019c9b7",
+      "P": "d9684c84ec1d668865937aa5af39a9455ac9e7eff4da6b067d9c2e0b555703e0"
+    },
+    "PA7": {
+      "Q": "5923c2971cd5995509744e9ee2f4cc0d64e44a4edc947796c20949501e22a02a",
+      "P": "66ed7bbd48ce26ed0a9e6eabe2f8a1226c2fc4b1d42891cc3af6cbb447712560"
+    },
+    "BE8": {
+      "Q": "b5613fc066707032d604b6559c6b25ba04128af30e78a00623e716cdbc01c866",
+      "P": "ac55a9d6b25231989ac076c5143bfc302448ad9d0214c53a795d629a71ce96c7"
+    },
+    "PA8": {
+      "Q": "5baac7b586ee19d43719e224ed77c06a838ba80a6012d38c5aedbb445bdbccad",
+      "P": "7dff7d06668fb0bfa772ddce83bf5eca6f17cf6a7a6e5d2217ff871be3eb8308"
+    }
+  },
+  "projection_method": {
+    "positions": 32,
+    "tokens": 24,
+    "allele_range": 24000,
+    "minimum_count": 250,
+    "Q_steps": 400,
+    "Q_step": 0.7,
+    "Q_multiplier_bounds": null,
+    "Q_start": "exact C start row; unreachable body rows use normalized G4",
+    "P": "normalize tiled C positional marginal; all previous rows identical",
+    "max_token_error": 0.001,
+    "max_total_variation": 0.005
+  },
+  "schedule_hash": "1a9db0fafb6e4eabd7daa1ae7bc700c8a7bfaa1f80790f2185dff9505b42b616",
+  "preparation_schedule_hash": "e53dd02581294e27040ed677dab1cd22d89100ff7c61e76a2125ebc4e8a11686",
+  "primary": "C/Q = exp(mean_corpus(mean_cell_seed(log(cost_Q)-log(cost_C))))",
+  "unsolved_cost": "2*cap",
+  "interval": "95% t over 16 corpus means, 15 df",
+  "threshold": 1.2,
+  "full_n": 4096,
+  "fit_validation_seconds": 50.085927749983966,
+  "scope": "Frozen external projections; then-addition development bank; uniform-prior marginals; supply and variation not separated"
+}

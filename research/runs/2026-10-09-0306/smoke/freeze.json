@@ -1,0 +1,108 @@
+{
+  "frozen_before_scoring": true,
+  "schedule_hash": "1a9db0fafb6e4eabd7daa1ae7bc700c8a7bfaa1f80790f2185dff9505b42b616",
+  "bank_sha256": "26be2d562275ff908b9874667b80ac88795984fb74c2ce3d8dc2738f726e5748",
+  "projection_method": {
+    "positions": 32,
+    "tokens": 24,
+    "allele_range": 24000,
+    "minimum_count": 250,
+    "Q_steps": 400,
+    "Q_step": 0.7,
+    "Q_multiplier_bounds": null,
+    "Q_start": "exact C start row; unreachable body rows use normalized G4",
+    "P": "normalize tiled C positional marginal; all previous rows identical",
+    "max_token_error": 0.001,
+    "max_total_variation": 0.005
+  },
+  "projected_table_hashes": {
+    "BE1": {
+      "Q": "6fd4c716f5057574fcbfaf02b3c4ba9f996895bf436ad4fbe05264d284fb17b8",
+      "P": "cca97b6c2dbabb47eb8767b2ba54393c0cc1f3f54752b16fbfdffb1fa662139b"
+    },
+    "PA1": {
+      "Q": "a0b02118adc8cd041771450264fe90907dad84c55321a7eb88fd1fbe40f5325d",
+      "P": "741b93e93b7212dc5676b819599b0a7a754c4c461a2491537fe9514e754f4b1e"
+    },
+    "BE2": {
+      "Q": "61476148635492d04f8f9037a702e3a07b49c0c509f384f285fac30df2063f76",
+      "P": "cd0e3f9b58c432aebfaaa3377fbf8c7b524e7f9bfa6c5022a08cd1da65bef2c1"
+    },
+    "PA2": {
+      "Q": "91ec88218b1747afb1bd31da2c250eb4eec8ffd77b53801ae2c13a0a60f28a70",
+      "P": "22f66b144407297c7d5ba29666f91745b03de237e99eaaff9a301c7d4fc81a05"
+    },
+    "BE3": {
+      "Q": "b9c03ba5ae291d30cc3d975476f6d120e9178d61b3c834cf319796cd263fe649",
+      "P": "87cb6bc152abcba238f5dbf7324eec6dbfbe27af3aa8d247bdf4777fb6a89a66"
+    },
+    "PA3": {
+      "Q": "d6ef7241c65619b01afaea47a4ea87300a9440f9e460044959b0deeb24956f43",
+      "P": "af6554c82bdc565eaccf4a32239539aadab7fd8a3e35bce1a3c0b4cc1457f30b"
+    },
+    "BE4": {
+      "Q": "649d1832d2f6e991335445fb2020050cbd53f7855502d16327f7a88c76ae68fe",
+      "P": "fdb6e54cd75c62c10d13d00cdba710113b18f9ead15481dee8c40b0f94883928"
+    },
+    "PA4": {
+      "Q": "c9043d2709eb1585a2b3c16ccfb01837fe39cff957533aa606a7eda4af225e7b",
+      "P": "3f74d7206dc463d92f64135d6ddb6f1e43c9ff9004eca5d0e28b70b44f93e83d"
+    },
+    "BE5": {
+      "Q": "06676b0307a8b262eef361e5faea97a29a39af8988e86e3ac4c347fdce38deef",
+      "P": "50ac068dcf6e2baf9ce9d30f6406c76b424b2d90813bce255198c73080913c9c"
+    },
+    "PA5": {
+      "Q": "5fc3e0673caea8af532c16c3eeeae1a3155813007f41efb9b10a8d689112d9ff",
+      "P": "c65c5dd22825c5d5c65be87a912432240c065defe172375473a1c9f6bf15c742"
+    },
+    "BE6": {
+      "Q": "88948b0f7c4c46c200b15a6bd35c02d6243c20c871d52230a63bd26e79532a25",
+      "P": "4b779ffed67dae56f2c856396d598443feb3c3aaf0ea14a2dd8ffa41fbe92dcd"
+    },
+    "PA6": {
+      "Q": "cea2071c4bcacc8f9e6eb949d33db12162caaf7792b6f2704957d225fbab53d9",
+      "P": "796dd6488744604700c98976cc5628f17aa67102d2aed5d7dbd08111cefb829a"
+    },
+    "BE7": {
+      "Q": "6525e0d79a5d738d084144ba748405be7c9ff9393fad4cd6b50106098019c9b7",
+      "P": "d9684c84ec1d668865937aa5af39a9455ac9e7eff4da6b067d9c2e0b555703e0"
+    },
+    "PA7": {
+      "Q": "5923c2971cd5995509744e9ee2f4cc0d64e44a4edc947796c20949501e22a02a",
+      "P": "66ed7bbd48ce26ed0a9e6eabe2f8a1226c2fc4b1d42891cc3af6cbb447712560"
+    },
+    "BE8": {
+      "Q": "b5613fc066707032d604b6559c6b25ba04128af30e78a00623e716cdbc01c866",
+      "P": "ac55a9d6b25231989ac076c5143bfc302448ad9d0214c53a795d629a71ce96c7"
+    },
+    "PA8": {
+      "Q": "5baac7b586ee19d43719e224ed77c06a838ba80a6012d38c5aedbb445bdbccad",
+      "P": "7dff7d06668fb0bfa772ddce83bf5eca6f17cf6a7a6e5d2217ff871be3eb8308"
+    }
+  },
+  "implementation_hashes": {
+    "frequency_matched_run.py": "1542837b791bd04516f00e209139bc5935c1e0180d885607dd522027a25e245e",
+    "frequency_matched_report.py": "fb82482e9639f315cd4de9d066d678a1ba9a945f8f46483973e6ea5dc1b32340",
+    "then_addition_run.py": "d0c99f6a5edddaae57a3fb14ccd8068c57a8bb6b7763c626ec6e010c5de1e0a1",
+    "then_addition_bank.py": "8bf4d4262ffd840d3114775595898f444cd9df536320ab5803a1b3dfad092069",
+    "comparison_gate_bank.py": "f0715724dbef12e61b995922eaffb5379c99cde0301fd202e8cde138756384fe",
+    "comparison_gate_run.py": "a49181acc678d11d893c53d813fcb26170ceb0fde10fe6c74c81cdc167ebbf96",
+    "composition_search.py": "1e285eb7e076ff829eb113a7a6f840b0ca6a89da9a9ce76ade09bc836aca1c50",
+    "composition_run.py": "e7ef63e8ee879a4ceaa73525c37664188db34fc673bbde7458ca3fa57f392544",
+    "solver_corpus_run.py": "a0186e4cdeec26158f3045b541cc297e12b1f29e73795ea43ad36d838e84b897",
+    "solver_corpus_fit.py": "792708b138a2ce5a3bced50bbb22c3d89ff43ab4f578055e146ba99ba9f3f1ff",
+    "four_reducer_maps.py": "4aa8d42651fa1ea5172e6fcf882a2015e2350022158b1be60ff2f892806f7455",
+    "four_reducer_bank.py": "3eb825896a2ae14c9eafae5518586c53b9b869f78103489cc87d5dd691cfe0dc",
+    "crossed_learning_run.py": "d54a43afef0ba5699f876c44a696c0f8990719f857465e2d9d91bb3ff8e6c420",
+    "map_learning.py": "930ac384f99ca3b8903f0f12b3e37720c070f42dd291a5a8725526b89c682e0a",
+    "assembly_bank.py": "ceb0e2cb81f08beaf3507ea66bdf3030588d84c945771da873508251ef4c27d8",
+    "_folding_rust.cpython-312-darwin.so": "2c853fa09e6b8fef3f1781b0f329222b383b71eb0f4391dcb81716fb1dd82f5f",
+    "evolve.py": "86df8478595eba73a130140e6de87fb0672b55826e136c775f59dbaf0e609840",
+    "executor.py": "7b193e76c1f669c064ab3e041f18d35a24703e32de8dc7ce152ca543b8e77c63",
+    "alphabet.py": "d33501479cacdd4ac51acfcc91f22e6a0e863b4e1809e4ddd528076f46cc1ccd",
+    "position_matched.py": "24daf5c0675c179e66c9349b3687930382831ea1d222877507fc0457675fd070",
+    "position_matched_run.py": "3bf16b0f8239db7e94decbfcd4f24adf9adaa957d0b36900b745c4be15a1e2cd",
+    "position_matched_report.py": "6e8b58be9c9fea6d818ae232622ebb0cdd9233b7ceadcda9a7b120fd707e73ad"
+  }
+}
