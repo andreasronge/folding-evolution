@@ -451,3 +451,35 @@ P 1024, L 64). Fairly sure for these layouts; nothing beyond them.
   ([07](questions/01-map-bias/07-shared-arrival/question.md), parked; [03](questions/01-map-bias/03-rare-shared-establishment/question.md) closed)
 
 ```
+
+## 2026-10-10 — digest condensing (steward task 2026-10-09-2303): former digest text moved here
+
+The digest was rewritten under its word limit (3009 → about 2890 words); no belief changed. Dropped
+from this root's section: the post-hoc product model that failed out of sample (run 1558); the
+scaffold-versus-fitted ratios 0.93× and 1.08× (run 1705); "registered" before the 1.5× margin
+(run 1814; the margin is still pre-registered). Former 08/09 bullets, verbatim, links relative to
+`research/`:
+
+```
+**Fitting the bias to a threshold family** (sum/max > k, TAG, lexicase, crossover v2, L 64, P 1024).
+- **In sampling, a fitted `op_weights` vector transfers to a held-out member**: 4.9× (sum>2) and
+  8.9× (max>2) more exact solvers than uniform, against 1.0× / 1.3× for the other family's fit;
+  mainly the aggregator weight. One seed, one fit; a post-hoc product model failed out of sample.
+  Numbers solid, meaning narrow.
+  ([08](questions/01-map-bias/08-evolve-bias/question.md), [run 1558](runs/2026-10-05-1558/analysis.md))
+- **In evolution the fitted bias is about 4× faster than uniform** (4.33× / 3.58×, lower bounds
+  2.6×, 1.9×); a hand-set INPUT/GT/aggregator scaffold is within the registered 0.5–2× margin of it
+  (0.93×, 1.08×; not equality). Family specificity unresolved (1.66× / 1.80× over the other
+  family's fit, against a 2× bar). Sampling lift does not predict speed. Median speed, one setup.
+  ([08](questions/01-map-bias/08-evolve-bias/question.md), [run 1705](runs/2026-10-05-1705/analysis.md))
+- **The other family's vector gives a real generic speed-up; on max>2 INPUT/GT alone reproduces it
+  within the tested margin.** Pre-registered, 250 pairs: 2.73× (sum>2), 2.02× (max>2) over uniform
+  (lower bounds 2.12, 1.45); INPUT/GT alone versus the full vector on max>2 0.90× [0.71, 1.08]
+  (registered 1.5× margin); on sum>2 neither part is resolved. Initialization and mutation are
+  coupled, so no mechanism is named.
+  ([09](questions/01-map-bias/09-generic-bias-speedup/question.md), [run 1814](runs/2026-10-05-1814/analysis.md))
+- **On sum>2 the exact max>2 shortcut is used as a last step but is not needed** (pilot, 50 seeds):
+  the solver's parent in 55/60 exposed runs; barring it delays 49/55 pairs but 100/100 still solve.
+  Its share of the gain is unknown (1.30, 0.71–2.32).
+  ([09](questions/01-map-bias/09-generic-bias-speedup/question.md), [run 1957](runs/2026-10-05-1957/analysis.md))
+```

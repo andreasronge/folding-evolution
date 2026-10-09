@@ -1,0 +1,19 @@
+{
+  "task": "2026-10-09-2303",
+  "arguments": {
+    "prepare": false,
+    "smoke": true,
+    "preparation": null,
+    "workers": 10,
+    "deadline_seconds": 600
+  },
+  "seed_base": 206610092303,
+  "cap": 524288,
+  "population": 256,
+  "arms": [
+    "A8",
+    "S8",
+    "full_F"
+  ],
+  "git_commit": "abb473f79a69385322df08189b3bfa3972a89818"
+}

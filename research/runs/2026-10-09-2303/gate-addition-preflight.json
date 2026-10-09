@@ -1,0 +1,408 @@
+{
+  "candidate": "gate-addition: (A+B)>C ? D : E; all four reducers with one repeated",
+  "scope": "Deterministic label-only preflight, no evolutionary search; NOT executor validation or the <=9-token screen; not a frozen evaluation bank.",
+  "counts": {
+    "raw": 240,
+    "nonconstant_active": 216,
+    "distinct_active": 120,
+    "below_80_percent_to_both_old_rosters": 64
+  },
+  "references": [
+    {
+      "file": "comparison_gate_1246_bank.json",
+      "sha256": "df3476d0823cff5eaed57fccf19f01e6a2699442be3139b5f05cb56e5f7aa15d",
+      "cells": 220
+    },
+    {
+      "file": "then_addition_1548_bank.json",
+      "sha256": "26be2d562275ff908b9874667b80ac88795984fb74c2ce3d8dc2738f726e5748",
+      "cells": 86
+    }
+  ],
+  "eligible_before_short_program_screen": [
+    {
+      "id": "GA:(F+F)>M?S:m",
+      "repeated": "F",
+      "label_hash": "6fb407062f9dff27999bd1771688cc27eb7af246b194e889abeb0d29aab7f667",
+      "old_bank_max_agreement": 0.6446280991735537
+    },
+    {
+      "id": "GA:(F+F)>M?m:S",
+      "repeated": "F",
+      "label_hash": "2041aa7625bce328fd342b0c7417d218dc3cc7fe72ad01bc5cd616d18d5e6e46",
+      "old_bank_max_agreement": 0.6446280991735537
+    },
+    {
+      "id": "GA:(F+F)>S?M:m",
+      "repeated": "F",
+      "label_hash": "1e33b78d5b814cd7b7618e6a6799aec1b7cfe53dacdf6542483588f05a100396",
+      "old_bank_max_agreement": 0.6844477836213373
+    },
+    {
+      "id": "GA:(F+F)>S?m:M",
+      "repeated": "F",
+      "label_hash": "43a8220677d73d9e441cffc80e6074d7becb149067943fd71f59f607e23b44cd",
+      "old_bank_max_agreement": 0.5304282494365139
+    },
+    {
+      "id": "GA:(F+F)>m?M:S",
+      "repeated": "F",
+      "label_hash": "a1396ce46e60300f5d1c0250cb6d13a81cc0613b2b6e06e0c70a6f38c8781dad",
+      "old_bank_max_agreement": 0.6003005259203607
+    },
+    {
+      "id": "GA:(F+F)>m?S:M",
+      "repeated": "F",
+      "label_hash": "8517de9e4454dfe5a332caebcb184dc6ade4fc42bd85d303c51e7572e6ccfdda",
+      "old_bank_max_agreement": 0.6003005259203607
+    },
+    {
+      "id": "GA:(F+M)>M?S:m",
+      "repeated": "M",
+      "label_hash": "358f7e0f99e2bcd397aafcf4ec175ae8c32a8bdbe5c29fcfea484a4b46446d78",
+      "old_bank_max_agreement": 0.5627347858752817
+    },
+    {
+      "id": "GA:(F+M)>M?m:S",
+      "repeated": "M",
+      "label_hash": "31d81bc743f5ea1ba311b5f0643173f51b9fc10d00b10ee3746ae024e0173a42",
+      "old_bank_max_agreement": 0.560480841472577
+    },
+    {
+      "id": "GA:(F+M)>S?M:m",
+      "repeated": "M",
+      "label_hash": "7c271ca4be72e71c5a1a697b36dbae5473d83e1677c29812a3cb2f9ec42eb45f",
+      "old_bank_max_agreement": 0.7257700976709242
+    },
+    {
+      "id": "GA:(F+M)>S?S:m",
+      "repeated": "S",
+      "label_hash": "e9a2e4b708061c0ffb02d50e6878a5e99f8ffd15b0ec683dcd1e3279183fa73b",
+      "old_bank_max_agreement": 0.7295266716754321
+    },
+    {
+      "id": "GA:(F+M)>S?m:M",
+      "repeated": "M",
+      "label_hash": "ccb14247ec1600c450997b7b26d4be322df1affc421b5151a23618edff6a1a5a",
+      "old_bank_max_agreement": 0.7257700976709242
+    },
+    {
+      "id": "GA:(F+M)>S?m:S",
+      "repeated": "S",
+      "label_hash": "053cb0f1d6067e71489fb8febca5bdff50fda1901bf6e15ed785f139f38bdee6",
+      "old_bank_max_agreement": 0.7295266716754321
+    },
+    {
+      "id": "GA:(F+S)>F?M:m",
+      "repeated": "F",
+      "label_hash": "2e5d8fd3c23187d844abd75fde5592fef515c7e411d5000a0eb66fd2977a6e3d",
+      "old_bank_max_agreement": 0.5725018782870023
+    },
+    {
+      "id": "GA:(F+S)>F?m:M",
+      "repeated": "F",
+      "label_hash": "9f82417d7eac61651073388a2daa5821dbbb2f0bd440509d3f190241ca03aabf",
+      "old_bank_max_agreement": 0.560480841472577
+    },
+    {
+      "id": "GA:(F+S)>M?F:m",
+      "repeated": "F",
+      "label_hash": "3b13e1211c07b1b5f4144307269c099a3d6874ce7bef2dff150c6f7c3edd41a6",
+      "old_bank_max_agreement": 0.7407963936889557
+    },
+    {
+      "id": "GA:(F+S)>M?M:m",
+      "repeated": "M",
+      "label_hash": "8a75f64fe032aeef39bc3f346c5b1a62aa958eed06e0e86e126bdd590cd799e8",
+      "old_bank_max_agreement": 0.7002253944402704
+    },
+    {
+      "id": "GA:(F+S)>M?S:m",
+      "repeated": "S",
+      "label_hash": "d65304f42cbfbc883355c9b8694dba0b544b4796f5e98dbb7d1c645daa149d63",
+      "old_bank_max_agreement": 0.695717505634861
+    },
+    {
+      "id": "GA:(F+S)>M?m:F",
+      "repeated": "F",
+      "label_hash": "938116708655ffae10b1c3c2a5eea506d837173d47687a1e5f3677ea8987ac9b",
+      "old_bank_max_agreement": 0.7407963936889557
+    },
+    {
+      "id": "GA:(F+S)>M?m:M",
+      "repeated": "M",
+      "label_hash": "7cbfeed4c3b17f86a54e430223057c16b5a34cd9a534c84fd790cdbca63aae47",
+      "old_bank_max_agreement": 0.6844477836213373
+    },
+    {
+      "id": "GA:(F+S)>M?m:S",
+      "repeated": "S",
+      "label_hash": "32d4ea59704989d110c8d75f4c9c1c99089c8772024b56bf9bdfbe2a63f69f3d",
+      "old_bank_max_agreement": 0.6844477836213373
+    },
+    {
+      "id": "GA:(F+S)>S?M:m",
+      "repeated": "S",
+      "label_hash": "49413ddfd9ed56447370e76e1dd65e5d51965dcf1470aa14abb23f0e593e969a",
+      "old_bank_max_agreement": 0.6431254695717505
+    },
+    {
+      "id": "GA:(F+S)>S?m:M",
+      "repeated": "S",
+      "label_hash": "c7e626a54c9370f8f84a85fb809ace90e704df9693403c4d3dd4870e3a79aea2",
+      "old_bank_max_agreement": 0.5416979714500376
+    },
+    {
+      "id": "GA:(F+S)>m?F:M",
+      "repeated": "F",
+      "label_hash": "30e9119402116be9f4e9bfcbdeee14dfd0ed4360ad034d1a0428d5c5c98bbfb7",
+      "old_bank_max_agreement": 0.7062359128474831
+    },
+    {
+      "id": "GA:(F+S)>m?M:F",
+      "repeated": "F",
+      "label_hash": "c1f0ba9ad66e2c89882618d46c5ae505dbcb3f98e4ea336a4c3dc0639ef625ee",
+      "old_bank_max_agreement": 0.7062359128474831
+    },
+    {
+      "id": "GA:(F+S)>m?M:S",
+      "repeated": "S",
+      "label_hash": "16eff89c8ec45c90cdd3a72ffdc7ca48d04257e9103274dccc65d4692c174c0b",
+      "old_bank_max_agreement": 0.6536438767843726
+    },
+    {
+      "id": "GA:(F+S)>m?M:m",
+      "repeated": "m",
+      "label_hash": "fb99638957ac503676f005ede01678d2cc5c1eb4071f6a7a1a7eb0f3af8129d5",
+      "old_bank_max_agreement": 0.6581517655897822
+    },
+    {
+      "id": "GA:(F+S)>m?S:M",
+      "repeated": "S",
+      "label_hash": "8982d533db9c3a37033ee5fc93fdd521d4207469d51ad646e24adbae861fca47",
+      "old_bank_max_agreement": 0.642374154770849
+    },
+    {
+      "id": "GA:(F+S)>m?m:M",
+      "repeated": "m",
+      "label_hash": "5cd7ca9569b6d58e27c2eb5dff8c63ebb5046d1d1bfe872267a750148cfd135d",
+      "old_bank_max_agreement": 0.642374154770849
+    },
+    {
+      "id": "GA:(F+m)>m?M:S",
+      "repeated": "m",
+      "label_hash": "244d0f7bd06e3f5d600c556e24eadee62a0f4bfc433c4f9f285d76c64c0dc7e4",
+      "old_bank_max_agreement": 0.5830202854996244
+    },
+    {
+      "id": "GA:(F+m)>m?S:M",
+      "repeated": "m",
+      "label_hash": "dcf9da53b6ff654ac8c3bdbf22306001afcc011456e6f307c6f41b323e809f39",
+      "old_bank_max_agreement": 0.5830202854996244
+    },
+    {
+      "id": "GA:(M+S)>F?F:m",
+      "repeated": "F",
+      "label_hash": "07e8386e6f6955009cdb735fb5ef1b931ec003f3e383afc79618dc31b2968792",
+      "old_bank_max_agreement": 0.7325319308790383
+    },
+    {
+      "id": "GA:(M+S)>F?M:m",
+      "repeated": "M",
+      "label_hash": "596fce104d80932ab20dbc10ff4e2e6c21ff49096970933992ee9238336ab4d2",
+      "old_bank_max_agreement": 0.6754320060105184
+    },
+    {
+      "id": "GA:(M+S)>F?S:m",
+      "repeated": "S",
+      "label_hash": "75bbecdeba04c8e4b1f29faddddaccdb8e9bda6cc9ed3c2f236770cda5f9d882",
+      "old_bank_max_agreement": 0.7145003756574004
+    },
+    {
+      "id": "GA:(M+S)>F?m:F",
+      "repeated": "F",
+      "label_hash": "dddf211bfdd751769a5d12f778c289e7e427331011c3e5b5920c488ea8659997",
+      "old_bank_max_agreement": 0.7325319308790383
+    },
+    {
+      "id": "GA:(M+S)>F?m:M",
+      "repeated": "M",
+      "label_hash": "9da7ce11b485b9f0adba0bfb5878b38e771fe4643fb27d752509b029aafdc05d",
+      "old_bank_max_agreement": 0.6596543951915853
+    },
+    {
+      "id": "GA:(M+S)>F?m:S",
+      "repeated": "S",
+      "label_hash": "05be2d49c950e3c83dc426675f3d1efb00fe137157b6c5f244b5561d1a1a0093",
+      "old_bank_max_agreement": 0.6882043576258452
+    },
+    {
+      "id": "GA:(M+S)>M?F:m",
+      "repeated": "M",
+      "label_hash": "19865e717251b8106d3b48e6dc3fa99f0423b445590bd10e17083301905c32b2",
+      "old_bank_max_agreement": 0.6987227648384673
+    },
+    {
+      "id": "GA:(M+S)>M?m:F",
+      "repeated": "M",
+      "label_hash": "2d8aa357effdc1ae2fa43a8b9f4c4113ecb4a7da9072e5fcdd17f006e8e0ba32",
+      "old_bank_max_agreement": 0.6987227648384673
+    },
+    {
+      "id": "GA:(M+m)>F?F:S",
+      "repeated": "F",
+      "label_hash": "70550d3d1108738ef22d8c16cb6e488fc8139545941f7afdd32e5fb7e75a15a9",
+      "old_bank_max_agreement": 0.5792637114951165
+    },
+    {
+      "id": "GA:(M+m)>F?M:S",
+      "repeated": "M",
+      "label_hash": "ed23918f63b37a3a3a7dd1eab47f3a8aca17a27ae923d0c9a364ddf039a59186",
+      "old_bank_max_agreement": 0.5740045078888054
+    },
+    {
+      "id": "GA:(M+m)>F?S:F",
+      "repeated": "F",
+      "label_hash": "30b81b2f6d49983141f8aa37ed614757ee45f0d5b714ea2385b2e9e78d1e9974",
+      "old_bank_max_agreement": 0.5980465815176559
+    },
+    {
+      "id": "GA:(M+m)>F?S:M",
+      "repeated": "M",
+      "label_hash": "abd1d4a2bfd3bf90afb187649192ffbee87a2bf96b16895bfdf31521972a7060",
+      "old_bank_max_agreement": 0.5740045078888054
+    },
+    {
+      "id": "GA:(M+m)>F?S:m",
+      "repeated": "m",
+      "label_hash": "631de5eeb39cdba6cd951bd13a05d3ee9884c8b9b97ddd43811fbe6a7a9427c9",
+      "old_bank_max_agreement": 0.5702479338842975
+    },
+    {
+      "id": "GA:(M+m)>F?m:S",
+      "repeated": "m",
+      "label_hash": "34ea067e1b46ba6b28709e1218969119117c52d65c3c9b24a37b391a1da19b22",
+      "old_bank_max_agreement": 0.5702479338842975
+    },
+    {
+      "id": "GA:(M+m)>S?F:M",
+      "repeated": "M",
+      "label_hash": "b90990a5a9cd852590739d499d637c8ddd018a18851d49dae80099ff806f8c97",
+      "old_bank_max_agreement": 0.7145003756574004
+    },
+    {
+      "id": "GA:(M+m)>S?F:S",
+      "repeated": "S",
+      "label_hash": "797404220f8f2ed140c63bd0fa6c055932afb1e4d317cd0d248e819c554bcf9b",
+      "old_bank_max_agreement": 0.66190833959429
+    },
+    {
+      "id": "GA:(M+m)>S?F:m",
+      "repeated": "m",
+      "label_hash": "6bd9e6f0e73532eaa95c175cca1e0257f37581a7124c78f3fc97151a00779d35",
+      "old_bank_max_agreement": 0.7370398196844478
+    },
+    {
+      "id": "GA:(M+m)>S?M:F",
+      "repeated": "M",
+      "label_hash": "0279f0d699e2bfc0fedb4565a0714e871b4d6474c01a0df4da63377314604807",
+      "old_bank_max_agreement": 0.7145003756574004
+    },
+    {
+      "id": "GA:(M+m)>S?S:F",
+      "repeated": "S",
+      "label_hash": "7bfc3202105dcd13ee0db3909cc6ded4bcc1b779915e924a3dd3e058a1692fa2",
+      "old_bank_max_agreement": 0.66190833959429
+    },
+    {
+      "id": "GA:(M+m)>S?m:F",
+      "repeated": "m",
+      "label_hash": "38d3d5ef20bc412497ad3696f1b1ad7bcf004c1a6b1c9e0f881b8ce46a246bf7",
+      "old_bank_max_agreement": 0.7370398196844478
+    },
+    {
+      "id": "GA:(S+S)>F?M:m",
+      "repeated": "S",
+      "label_hash": "4bf4a0883b4e90e8b3288c2e515a1e07be16105d8941037e3ec50ef9d472f4e7",
+      "old_bank_max_agreement": 0.5567242674680691
+    },
+    {
+      "id": "GA:(S+S)>F?m:M",
+      "repeated": "S",
+      "label_hash": "5d476c656f0f22a1aabb30f39085386328ed943b6d055d71ecc1b51247dfb3e1",
+      "old_bank_max_agreement": 0.5447032306536439
+    },
+    {
+      "id": "GA:(S+S)>M?F:m",
+      "repeated": "S",
+      "label_hash": "30deec4212d8454cccb23cc0062dad1a26d1f5dc25faadc97c367d415af9c310",
+      "old_bank_max_agreement": 0.7640871525169046
+    },
+    {
+      "id": "GA:(S+S)>M?m:F",
+      "repeated": "S",
+      "label_hash": "fac0382a640e8f1b61e6d15629781566d3f292897f76458108f3583fc3eed6bd",
+      "old_bank_max_agreement": 0.7640871525169046
+    },
+    {
+      "id": "GA:(S+S)>m?F:M",
+      "repeated": "S",
+      "label_hash": "4a6fab84a0c65ebc42f8ac6739d484558d77b8c397f372a3f5c6bba034a0ce1c",
+      "old_bank_max_agreement": 0.743801652892562
+    },
+    {
+      "id": "GA:(S+S)>m?M:F",
+      "repeated": "S",
+      "label_hash": "d9abe9f0e18e6bf00634070c163d32f7846812d786149267e4347b491ab6a7f1",
+      "old_bank_max_agreement": 0.743801652892562
+    },
+    {
+      "id": "GA:(S+m)>F?F:M",
+      "repeated": "F",
+      "label_hash": "351d50c0a3a63d415ea1cfb169ff0b6f8ee581904d83c1935686998bdc8d202a",
+      "old_bank_max_agreement": 0.7670924117205109
+    },
+    {
+      "id": "GA:(S+m)>F?M:F",
+      "repeated": "F",
+      "label_hash": "0a2b8c05d1cf4760b5cffae6743894938e965649617d0e9f00b09fc375ad4c16",
+      "old_bank_max_agreement": 0.7670924117205109
+    },
+    {
+      "id": "GA:(S+m)>F?M:S",
+      "repeated": "S",
+      "label_hash": "b763d0cfb2aefff36108eb7b64fc64e4497e9004ae5151461349701775dbe1ea",
+      "old_bank_max_agreement": 0.7445529676934636
+    },
+    {
+      "id": "GA:(S+m)>F?M:m",
+      "repeated": "m",
+      "label_hash": "a217a421e18f1636cede16d4eebbb72b6cca9fec6f5d33f1ea358de515ac5509",
+      "old_bank_max_agreement": 0.7122464312546957
+    },
+    {
+      "id": "GA:(S+m)>F?S:M",
+      "repeated": "S",
+      "label_hash": "a36838e0a579c6f6b3db270798f7fdf66c2bca5278d1f4f362ecc399dddac8fd",
+      "old_bank_max_agreement": 0.7287753568745304
+    },
+    {
+      "id": "GA:(S+m)>F?m:M",
+      "repeated": "m",
+      "label_hash": "50f1aba2dc714619439849f64ffe07478088a324a99e3d41e17af84586bf7619",
+      "old_bank_max_agreement": 0.6964688204357626
+    },
+    {
+      "id": "GA:(S+m)>m?F:M",
+      "repeated": "m",
+      "label_hash": "a9d8afe62876dde78ba423da04a4e9f3ffeefeb434e42b939c44769be3f1ff2b",
+      "old_bank_max_agreement": 0.709992486851991
+    },
+    {
+      "id": "GA:(S+m)>m?M:F",
+      "repeated": "m",
+      "label_hash": "972202ce85edc7f75430ec274507cf72de2272b88d1d16ec15bc9bb6c096b83c",
+      "old_bank_max_agreement": 0.709992486851991
+    }
+  ]
+}

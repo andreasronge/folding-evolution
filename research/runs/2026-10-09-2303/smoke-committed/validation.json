@@ -1,0 +1,24 @@
+{
+  "empty_fallback": {
+    "passed": true,
+    "forced_edits": 2048,
+    "identical_F_W": true
+  },
+  "suffix_edits": {
+    "F": {
+      "passed": true,
+      "edits": 10000,
+      "tape_start": 2771,
+      "tape_end": 2670
+    }
+  },
+  "passed": true,
+  "historical_rows": 50,
+  "historical_worker_seconds": 158.68196508428082,
+  "calibration": {
+    "A8": 0.8280156716860666,
+    "S8": 0.9225088170142373,
+    "full_F": 0.9270217769622949,
+    "G4": 0.9224735097083546
+  }
+}

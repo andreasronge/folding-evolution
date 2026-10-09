@@ -1,0 +1,18 @@
+{
+  "empty_fallback": {
+    "passed": true,
+    "forced_edits": 2048,
+    "identical_F_W": true
+  },
+  "suffix_edits": {
+    "F": {
+      "passed": true,
+      "edits": 10000,
+      "tape_start": 2771,
+      "tape_end": 2670
+    }
+  },
+  "passed": true,
+  "historical_rows": 2,
+  "historical_worker_seconds": 0.46847458300180733
+}

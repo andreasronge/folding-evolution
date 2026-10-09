@@ -1,0 +1,29 @@
+{
+  "task": "2026-10-09-2303",
+  "arguments": {
+    "prepare": false,
+    "smoke": true,
+    "preparation": null,
+    "workers": 10,
+    "deadline_seconds": 900
+  },
+  "seed_base": 206610092303,
+  "cap": 524288,
+  "population": 256,
+  "arms": [
+    "A8",
+    "S8",
+    "full_F"
+  ],
+  "method": {
+    "selection": "lexicase",
+    "crossover": 0.7,
+    "mutation": 0.03,
+    "elites": 2,
+    "fragment_rate": 0.2,
+    "operator": "F",
+    "empty_fallback": "uniform C-chain lengths3..6",
+    "suffix": "preserved"
+  },
+  "git_commit": "74196a82db1a2b5b2cfacb812d6bd0e906a78e99"
+}
