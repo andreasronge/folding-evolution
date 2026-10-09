@@ -1,7 +1,7 @@
 ---
 status: open
 tags: [map-bias, evolve-the-bias, task-family, compositional-transfer, decoder, fresh-start]
-budget: {experiments: 25, used: 0}
+budget: {experiments: 26, used: 0}
 ---
 # Can an adapted decoder help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 
@@ -61,8 +61,8 @@ rounds of such tapes under the updated context fit beat spending the same source
 under G4 and fitting once, 1.18× [1.01, 1.37], gain resolved on BE (1.42× [1.17, 1.72]), PA
 unresolved (0.98× [0.83, 1.16]); with more G4 tapes alone no improvement was resolved (0.99× [0.89,
 1.10]; gains above about 10% excluded at this scope), and the gain over keeping the first fit is
-unresolved (1.16× [0.99, 1.36]) (28). A different kind of unit also helps on the training cells: inserting intact 3–6-token fragments, extracted from other cells' training solvers, as one-step block edits on top of C's unchanged search made it 1.57× [1.42, 1.75] cheaper than C, 1.60× cheaper than blocks from the library's per-position marginals and 1.23× [1.12, 1.36] cheaper than blocks sampled from C's own chain; that library-free chain block alone beat C 1.28× [1.17, 1.39], cause not isolated (32). Frozen whole-corpus libraries kept the advantage on excluded compositions: on then-addition F/C 1.47× [1.38, 1.56], F/W 1.20× [1.11, 1.29], W/C 1.23× [1.15, 1.31], and on the comparison-gate holdouts F/C 1.75×, F/W 1.27×; F/C's change from training (0.93× [0.83, 1.05]) is unresolved, where C/T lost a third across the same shape (development banks; the libraries are shared syntax; externally fitted, nothing acquired) (32). The same extractor applied to parents archived before their source search first solved gave no worthwhile gain over C-chain blocks with its length law on then-addition, E/W_E 0.981× [0.911, 1.057] (a gain above about 1.06× excluded at this scope), and was resolved slower than the exact-solver library, E/F 0.843× [0.795, 0.892]; one source selection and one extractor, C still fitted from exact solvers (33)**
-(25 of 25 slots used; strategy 1350 raised the budget from 24 to 25 and assigned slot 25 to [33](33-pre-solve-fragment-source/question.md); strategy 1036 raised the budget from 23 to 24 and assigned slot 24 to [32](32-learned-fragment-operator/question.md)'s reuse stage; strategy 0826 raised the budget from 22 to 23 and assigned slot 23 to [32](32-learned-fragment-operator/question.md); strategy 0537 raised the budget from 21 to 22 and assigned slot 22 to [31](31-distribution-preserving-recoding/question.md); strategy 0239 raised the budget from 20 to 21 and assigned slot 21 to [30](30-position-matched-replacement/question.md); strategy 0125 assigned slot 20 to [29](29-frequency-matched-transfer/question.md); strategy 2116 assigned slot 19 to [28](28-partial-program-feedback/question.md); strategy 1831 assigned slot 18 to [27](27-partial-program-context/question.md); allocation 1534 raised the budget from 16 to 20 for a four-slot block, first
+unresolved (1.16× [0.99, 1.36]) (28). A different kind of unit also helps on the training cells: inserting intact 3–6-token fragments, extracted from other cells' training solvers, as one-step block edits on top of C's unchanged search made it 1.57× [1.42, 1.75] cheaper than C, 1.60× cheaper than blocks from the library's per-position marginals and 1.23× [1.12, 1.36] cheaper than blocks sampled from C's own chain; that library-free chain block alone beat C 1.28× [1.17, 1.39], cause not isolated (32). Frozen whole-corpus libraries kept the advantage on excluded compositions: on then-addition F/C 1.47× [1.38, 1.56], F/W 1.20× [1.11, 1.29], W/C 1.23× [1.15, 1.31], and on the comparison-gate holdouts F/C 1.75×, F/W 1.27×; F/C's change from training (0.93× [0.83, 1.05]) is unresolved, where C/T lost a third across the same shape (development banks; the libraries are shared syntax; externally fitted, nothing acquired) (32). The same extractor applied to parents archived before their source search first solved gave no worthwhile gain over C-chain blocks with its length law on then-addition, E/W_E 0.981× [0.911, 1.057] (a gain above about 1.06× excluded at this scope), and was resolved slower than the exact-solver library, E/F 0.843× [0.795, 0.892]; one source selection and one extractor, C still fitted from exact solvers (33). The C-chain block operator's boundary repair, which keeps the decoded suffix, is not needed at this resolution: without it (R) the same blocks were not resolved slower on then-addition, W/R 0.954× [0.903, 1.007] (a repair gain above 0.7% and the worthwhile 1.10× excluded, a repair cost up to about 10% not), and still beat C 1.29× [1.21, 1.37]; the suffix ripple is local, about 3 tokens when it occurs (34)**
+(26 of 26 slots used; strategy 1606 raised the budget from 25 to 26 and assigned slot 26 to [34](34-chain-block-suffix-preservation/question.md); strategy 1350 raised the budget from 24 to 25 and assigned slot 25 to [33](33-pre-solve-fragment-source/question.md); strategy 1036 raised the budget from 23 to 24 and assigned slot 24 to [32](32-learned-fragment-operator/question.md)'s reuse stage; strategy 0826 raised the budget from 22 to 23 and assigned slot 23 to [32](32-learned-fragment-operator/question.md); strategy 0537 raised the budget from 21 to 22 and assigned slot 22 to [31](31-distribution-preserving-recoding/question.md); strategy 0239 raised the budget from 20 to 21 and assigned slot 21 to [30](30-position-matched-replacement/question.md); strategy 0125 assigned slot 20 to [29](29-frequency-matched-transfer/question.md); strategy 2116 assigned slot 19 to [28](28-partial-program-feedback/question.md); strategy 1831 assigned slot 18 to [27](27-partial-program-context/question.md); allocation 1534 raised the budget from 16 to 20 for a four-slot block, first
 slot run 1548; strategy 1246 raised the budget from 15 to 16, for 24; strategy 2129 raised the budget from 14 to 15, for 22; strategy 1924 raised the budget from 13 to 14; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
 2331 to 10, strategy 0803 to 12, strategy 1137 to 13; sub-questions [18](18-compact-context-learning/question.md)
 and [19](19-selection-calibrated-continuation/question.md) closed;
@@ -288,7 +288,11 @@ either. These are two frozen external projections under one operator set; a posi
 not excluded. Run 0537 (31) tested the neighbourhood explanation with one intervention: Q recoded
 to C's mutation width at an exactly fixed random-program distribution was 1.17× [1.09, 1.25] slower
 than Q, and stronger recoding was slower still. So random, undirected width does not explain C's
-gain. Structured coupling of the kind C's rows create is not excluded.
+gain. Structured coupling of the kind C's rows create is not excluded. Run 1606 (34) tested containment inside the
+C-chain block operator: removing the boundary repair resolved no slowdown (W/R 0.954× [0.903, 1.007]; a repair
+gain above 0.7% excluded), so the block operator's gain over C does not need the kept suffix at this
+resolution; coordinated chain
+proposals help without it (R/C 1.29×), though they are not isolated from the operator's length law.
 
 Sub-questions: [11-composition-bank](11-composition-bank/question.md) (closed: this bank
 fails on tractability at 524k and on the 4 096 headroom rule against G; run 2026-10-05-2247),
@@ -382,6 +386,10 @@ whole-corpus libraries on then-addition F/C 1.47× [1.38, 1.56], F/W 1.20× [1.1
 run 2026-10-09-1350: the 0843 extractor on pre-solve parents from 1831 gives full libraries without
 `gt` joins; on then-addition E/W_E 0.981× [0.911, 1.057], rule 3, no worthwhile increment; E/F
 0.843× [0.795, 0.892], E/W 1.007×; development bank, C fitted from exact solvers).
+[34-chain-block-suffix-preservation](34-chain-block-suffix-preservation/question.md) (closed, 1 of 1
+slot, run 2026-10-09-1606: C-chain blocks without the boundary repair (R) on then-addition, W/R 0.954×
+[0.903, 1.007], rule 3, repair not needed at this resolution; R/C 1.286× [1.208, 1.370]; ripple ~3
+tokens when it occurs; development bank, C fitted from exact solvers).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
@@ -407,6 +415,7 @@ Related: [core question](../../../README.md#core-question),
 [run 0843 decision](../../runs/2026-10-09-0843/decision.md),
 [run 1036 decision](../../runs/2026-10-09-1036/decision.md),
 [run 1350 decision](../../runs/2026-10-09-1350/decision.md),
+[run 1606 decision](../../runs/2026-10-09-1606/decision.md),
 [digest](../../digest.md), [chem-tape findings](../../../docs/chem-tape/findings.md).
 
 Review after the feasibility experiment and after the four allocated experiments. A

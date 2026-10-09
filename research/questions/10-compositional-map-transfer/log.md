@@ -1044,3 +1044,30 @@ no resolved family specificity. Not shown: that evolution reaches fitted context
 whether C's conditional content or structured coupling carries it; that a fragment repertoire can
 be acquired at a useful cost; transfer beyond one fresh shape.
 ```
+
+## 2026-10-09: correction to the run 1350 entry (critique 1606, digest check)
+
+"E/C 1.235× (= W/C)" above reads an unresolved result as equality and attribution. Correct reading:
+E/C is similar in point estimate to W/C (1.227×); no additional E/W gain was resolved (1.007× [0.948,
+1.070]); W_E/W 1.026× [0.942, 1.117] leaves a useful length-law effect unexcluded; the pooled E/W_E
+interval excludes the prespecified 1.10 increment. Within families, BE's upper bound (1.090) is below
+1.10 but PA's (1.122) is not: PA remains unresolved at 1.10. Corrected in
+[33](33-pre-solve-fragment-source/question.md).
+
+## 2026-10-09: run 2026-10-09-1606 (34), C-chain blocks with versus without suffix preservation — ran
+
+Slot 26 (strategy 1606 raised the budget 25 → 26). Run 1606 (commit `af8a7e5`,
+[analysis](../../runs/2026-10-09-1606/analysis.md)), details in
+[34](34-chain-block-suffix-preservation/log.md). R: W's C-chain blocks without the boundary repair
+(the boundary allele refreshed neutrally within the token it now decodes to, so the suffix may
+ripple), paired with 1036's W and C rows (replayed bit-exactly), then-addition-v1, 16 corpora × 16
+cells × 16 seeds. W/R 0.954× [0.903, 1.007] (> 1 favours the repair; upper bounds 1.008–1.061 under
+1 × cap, both-solved, BE, PA); R/C 1.286× [1.208, 1.370], 16/16 corpora (W/C 1.227× same pairs).
+Ripple: 64% of edits change the suffix, about 3 tokens when they do (4.7 tokens per edit vs W's 2.9).
+Rule 3, `not_needed_at_this_resolution`; rule 1 (ripple helps) missed by 0.7%. Development bank; C
+external fit; ordinary mutation and crossover unchanged.
+
+Decision: close 34 and return to strategy (`next: strategy`), because rule 3 fired with margin under
+every sensitivity, so boundary repair is not needed in later acquisition baselines at this resolution;
+all 26 root-10 slots are used, and every pre-set outcome returned to strategy.
+([decision](../../runs/2026-10-09-1606/decision.md))

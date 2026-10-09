@@ -11,10 +11,12 @@ Current summary: **no worthwhile increment for this source and extractor on then
 archived before their 1831 source search first solved, fills 32/32 in all 16 corpora. Inserted as
 block edits on C's unchanged search (E), it is not resolved from C-chain blocks with E's length law
 (W_E): **E/W_E 0.981× [0.911, 1.057]**, 7/16 corpora above 1; a gain above about 1.06× is excluded
-at this scope, a small gain or loss is not. Same under 1 × cap, both-solved and each family.
+at this scope, a small gain or loss is not. The pooled 1.10 bound holds under both cap/both-solved
+sensitivities and in BE; PA remains unresolved at 1.10 (upper bound 1.122).
 Paired against 1036's rows (replayed bit-exactly): E is resolved slower than the exact-solver
-library, **E/F 0.843× [0.795, 0.892]** (0/16 corpora above 1), and indistinguishable from W
-(E/W 1.007× [0.948, 1.070]); E/C 1.235× equals W/C, i.e. the block operator's gain. Pre-registered
+library, **E/F 0.843× [0.795, 0.892]** (0/16 corpora above 1), and not resolved from W
+(E/W 1.007× [0.948, 1.070]); E/C 1.235× is similar in point estimate to W/C (1.227×), but no
+additional E/W gain was resolved and W_E/W 1.026× [0.942, 1.117] leaves a length-law effect open. Pre-registered
 rule 3 fired: this source/extractor ends at this scope.
 
 Descriptive (not tested): the pre-solve libraries share their reducer/add syntax with the exact
