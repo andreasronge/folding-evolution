@@ -1,0 +1,12 @@
+{
+  "origin": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-09/2026-10-09-2033-sparse-feedback-score",
+  "sha256": {
+    "builds.json": "10c134fb7374069c38e07e5f1ee28a8203a90144de899be5e605afa9d43f7aff",
+    "preparation.json": "d24d5d8ef76b8293e5a0ba6ed1fb79823511766a9a3abc0f2614bbafc50b54bc",
+    "freeze.json": "09fdf19477ac03d39c2a60a3f2338f8871abbe58c515bbdac6a7f630c7e38fa8",
+    "validation.json": "90af12272479f96651b1c4f95447637022cb74e76eed03e0770a39e868e79185",
+    "config.json": "ef0d4aced1f16cc8110910e68ecbed6fcfe113f4d8ec940c8190e84bd8a4728f",
+    "metadata.json": "34a5c3e2be314693d54b77bfb666dcc662476039b4928522089d65b65e08c30d",
+    "replay.json": "f9cdf8f25eac4de9c8fbdef66a94958f9ceaa362a060fe1fe2f72862ab142848"
+  }
+}
