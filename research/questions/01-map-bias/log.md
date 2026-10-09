@@ -241,3 +241,18 @@ cut or shortened there and are kept here verbatim. Relative links are relative t
 - Shared helpers header: "hand-built shared, partly shared and duplicated forms".
 - Status line: "Status: 03, 05, 06 closed; 02, 04, 07, 08, 09 parked with reopen conditions in
   their question files." (now in the root-01 intro of the digest)
+
+## 2026-10-09 — digest condensing (run 2026-10-09-0843): wording moved here
+
+The digest was compressed under its word limit (3105 → about 2950 words); no belief changed. These
+root-01 passages were cut or shortened there and are kept here verbatim. Relative links are
+relative to `research/`.
+
+- Run 1558 (08): "the post-hoc product model that explained it failed out of sample".
+- Run 1705 (08): "Family specificity unresolved: matched over the other family's fit 1.66× / 1.80×
+  (not resolved against a 2× bar)."
+- Run 1814 (09): "Its flat sampling rate was a cancellation (INPUT/GT raises solvers 3.2× / 3.9×,
+  the rest cuts them to 0.23× / 0.35×)."
+- Run 1957 (09): "Its share of the gain is unknown (rest-of-vector gain 1.30, 0.71–2.32)".
+- Shared helpers (§31 G, §32 L): "Shared endings are rare (about 4–8 in 100–450 runs, B-helper
+  type); shared never loses to duplicated as such (losers end partly shared)."

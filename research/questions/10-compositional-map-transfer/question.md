@@ -1,7 +1,7 @@
 ---
 status: open
 tags: [map-bias, evolve-the-bias, task-family, compositional-transfer, decoder, fresh-start]
-budget: {experiments: 22, used: 0}
+budget: {experiments: 23, used: 0}
 ---
 # Can an adapted decoder help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 
@@ -61,8 +61,8 @@ rounds of such tapes under the updated context fit beat spending the same source
 under G4 and fitting once, 1.18× [1.01, 1.37], gain resolved on BE (1.42× [1.17, 1.72]), PA
 unresolved (0.98× [0.83, 1.16]); with more G4 tapes alone no improvement was resolved (0.99× [0.89,
 1.10]; gains above about 10% excluded at this scope), and the gain over keeping the first fit is
-unresolved (1.16× [0.99, 1.36]) (28)**
-(22 of 22 slots used; strategy 0537 raised the budget from 21 to 22 and assigned slot 22 to [31](31-distribution-preserving-recoding/question.md); strategy 0239 raised the budget from 20 to 21 and assigned slot 21 to [30](30-position-matched-replacement/question.md); strategy 0125 assigned slot 20 to [29](29-frequency-matched-transfer/question.md); strategy 2116 assigned slot 19 to [28](28-partial-program-feedback/question.md); strategy 1831 assigned slot 18 to [27](27-partial-program-context/question.md); allocation 1534 raised the budget from 16 to 20 for a four-slot block, first
+unresolved (1.16× [0.99, 1.36]) (28). A different kind of unit also helps on the training cells: inserting intact 3–6-token fragments, extracted from other cells' training solvers, as one-step block edits on top of C's unchanged search made it 1.57× [1.42, 1.75] cheaper than C, 1.60× cheaper than blocks from the library's per-position marginals and 1.23× [1.12, 1.36] cheaper than blocks sampled from C's own chain; that library-free chain block alone beat C 1.28× [1.17, 1.39], cause not isolated (training cells of a development bank; reuse untested) (32)**
+(23 of 23 slots used; strategy 0826 raised the budget from 22 to 23 and assigned slot 23 to [32](32-learned-fragment-operator/question.md); strategy 0537 raised the budget from 21 to 22 and assigned slot 22 to [31](31-distribution-preserving-recoding/question.md); strategy 0239 raised the budget from 20 to 21 and assigned slot 21 to [30](30-position-matched-replacement/question.md); strategy 0125 assigned slot 20 to [29](29-frequency-matched-transfer/question.md); strategy 2116 assigned slot 19 to [28](28-partial-program-feedback/question.md); strategy 1831 assigned slot 18 to [27](27-partial-program-context/question.md); allocation 1534 raised the budget from 16 to 20 for a four-slot block, first
 slot run 1548; strategy 1246 raised the budget from 15 to 16, for 24; strategy 2129 raised the budget from 14 to 15, for 22; strategy 1924 raised the budget from 13 to 14; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
 2331 to 10, strategy 0803 to 12, strategy 1137 to 13; sub-questions [18](18-compact-context-learning/question.md)
 and [19](19-selection-calibrated-continuation/question.md) closed;
@@ -373,6 +373,9 @@ on then-addition do not reproduce it, C/Q 2.41× [2.11, 2.75], C/P 5.47× [4.79,
 1 of 1 slot, run 2026-10-09-0537: Q recoded by random context-dependent allele permutations to C's
 mutation width, at Q's exact random-program distribution, is slower than Q, cost_Q/cost_R30 0.855
 [0.801, 0.914]; full-row recoding 0.409; no useful gain at either dose; development bank).
+[32-learned-fragment-operator](32-learned-fragment-operator/question.md) (open, 1 of 1
+slot, run 2026-10-09-0843: learned fragment block edits beat C on training cells, F/C 1.57× [1.42,
+1.75], F/W 1.23× [1.12, 1.36], F/B 1.60×; W/C 1.28× [1.17, 1.39]; reuse stage awaits strategy).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
@@ -395,6 +398,7 @@ Related: [core question](../../../README.md#core-question),
 [run 0239 decision](../../runs/2026-10-09-0239/decision.md),
 [run 0306 decision](../../runs/2026-10-09-0306/decision.md),
 [run 0537 decision](../../runs/2026-10-09-0537/decision.md),
+[run 0843 decision](../../runs/2026-10-09-0843/decision.md),
 [digest](../../digest.md), [chem-tape findings](../../../docs/chem-tape/findings.md).
 
 Review after the feasibility experiment and after the four allocated experiments. A

@@ -1,0 +1,113 @@
+{
+  "admission": {
+    "admitted": true,
+    "selected_seeds": 32,
+    "projected_seconds": 5976.40097803127,
+    "prepare_wall_seconds": 108.02467275003437,
+    "workers": 10,
+    "timings": {
+      "C": {
+        "n": 32,
+        "solved": 29,
+        "mean_seconds": 6.262830390525778,
+        "max_seconds": 67.03843187494203,
+        "worker_seconds": 200.4105724968249,
+        "capped": 3,
+        "seconds_per_evaluation": 5.878163379003771e-05,
+        "expected_full_solves": {
+          "32": 1856,
+          "24": 1392,
+          "16": 928
+        }
+      },
+      "F": {
+        "n": 32,
+        "solved": 31,
+        "mean_seconds": 5.791603515477618,
+        "max_seconds": 90.87249729200266,
+        "worker_seconds": 185.33131249528378,
+        "capped": 1,
+        "seconds_per_evaluation": 7.214254503584477e-05,
+        "expected_full_solves": {
+          "32": 1984,
+          "24": 1488,
+          "16": 992
+        }
+      },
+      "B": {
+        "n": 32,
+        "solved": 29,
+        "mean_seconds": 6.030921441408282,
+        "max_seconds": 27.249507750035264,
+        "worker_seconds": 192.989486125065,
+        "capped": 3,
+        "seconds_per_evaluation": 4.8689865024609906e-05,
+        "expected_full_solves": {
+          "32": 1856,
+          "24": 1392,
+          "16": 928
+        }
+      },
+      "W": {
+        "n": 32,
+        "solved": 28,
+        "mean_seconds": 7.289988479147723,
+        "max_seconds": 78.20625937497243,
+        "worker_seconds": 233.27963133272715,
+        "capped": 4,
+        "seconds_per_evaluation": 6.444929343613165e-05,
+        "expected_full_solves": {
+          "32": 1792,
+          "24": 1344,
+          "16": 896
+        }
+      }
+    },
+    "candidates": [
+      {
+        "seeds": 32,
+        "searches_per_arm": 2048,
+        "projected_seconds": 5976.40097803127,
+        "with_reserve_seconds": 6309.782243313009,
+        "fits": true
+      },
+      {
+        "seeds": 24,
+        "searches_per_arm": 1536,
+        "projected_seconds": 4482.300733523452,
+        "with_reserve_seconds": 4815.681998805191,
+        "fits": true
+      },
+      {
+        "seeds": 16,
+        "searches_per_arm": 1024,
+        "projected_seconds": 2988.200489015635,
+        "with_reserve_seconds": 3321.5817542973737,
+        "fits": true
+      }
+    ],
+    "scoring_timeout_seconds": 11700,
+    "prepare_timeout_seconds": 2700,
+    "reserve_seconds": 240,
+    "smoke_replay_projected_seconds": 93.38126528173859,
+    "rule": "largest 32/24/16 with sum(64*n*arm_mean_worker_s)*1.15/workers <=12600 and +smoke_replay+240 <=11700; preparation <=2700",
+    "rate_caveat": "32 smoke searches per arm across all corpora; not efficacy and limited rate precision"
+  },
+  "reuse_price": {
+    "seeds_per_cell": 8,
+    "cells_per_corpus": 24,
+    "searches_per_arm": 3072,
+    "arms": [
+      "F",
+      "C"
+    ],
+    "price_only": true,
+    "library_build_worker_seconds": 3.907242542831227,
+    "library_build_queue_seconds": 0.4493328924255911,
+    "scoring_queue_seconds": 4258.59041031288,
+    "validation_and_reporting_queue_seconds": 600,
+    "agent_hours": 2.5,
+    "caveat": "extrapolation from training smoke; held-out/then-addition difficulty can differ; full build uses cached corpus extraction and no scored reuse",
+    "complete_expected_hours": 3.8497332620014735
+  }
+}

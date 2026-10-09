@@ -285,3 +285,9 @@ cut or shortened there and are kept here verbatim. Relative links are relative t
 - "Broken ÷ inherited 1.58× [1.04, 2.36] on max (broken itself 2.17× costlier than uniform)";
   "Whether the vectors' movement is mostly drift was not isolated (no mutation-only control). Post
   hoc observations are in the [log](questions/23-heritable-variation-bias/log.md)."
+
+## 2026-10-09 — digest condensing (run 2026-10-09-0843): wording moved here
+
+The digest was compressed under its word limit; no belief changed. This root-23 passage was
+shortened there and is kept here verbatim: "Drift versus selection in the vectors' movement was not
+isolated (no mutation-only control)."

@@ -1,0 +1,49 @@
+{
+  "seed": 202610090844,
+  "replicates": 512,
+  "procedure": "within each historical corpus/cell, independent with-replacement C pseudo-arms of size n; equal-cell mean log contrasts; SD across 16 corpora",
+  "empirical": {
+    "16": {
+      "median_corpus_sd": 0.2545110434634221,
+      "sd_quantiles": [
+        0.1701613606019848,
+        0.2545110434634221,
+        0.35056525642967407
+      ],
+      "median_half_width_factor": 1.1452458864959172
+    },
+    "24": {
+      "median_corpus_sd": 0.20801626199776257,
+      "sd_quantiles": [
+        0.13752926882342187,
+        0.20801626199776257,
+        0.2952712979569532
+      ],
+      "median_half_width_factor": 1.1172206535178009
+    },
+    "32": {
+      "median_corpus_sd": 0.17931369315061463,
+      "sd_quantiles": [
+        0.11770135669002729,
+        0.17931369315061463,
+        0.24920832312515906
+      ],
+      "median_half_width_factor": 1.100263308413545
+    }
+  },
+  "steward_scenarios": {
+    "16": {
+      "sd": 0.27,
+      "half_width_factor": 1.1547372677928904
+    },
+    "24": {
+      "sd": 0.22,
+      "half_width_factor": 1.1243776976972024
+    },
+    "32": {
+      "sd": 0.19,
+      "half_width_factor": 1.1065464439942054
+    }
+  },
+  "caveat": "C resampling estimates a noise scenario, not F benefit heterogeneity. Original .27/.19 calculation was not saved by the steward; this is an explicit reproducible reconstruction, not asserted identical."
+}

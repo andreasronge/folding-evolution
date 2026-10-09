@@ -1,9 +1,10 @@
 # Learn reusable executable fragments from training solvers
 
 Candidate plan for [root 10](../questions/10-compositional-map-transfer/question.md),
-written by [strategy 0125](../runs/2026-10-09-0125/strategy.md). **Not allocated yet.**
-This supplies a bounded alternative for the next review; it is not an experiment
-registration or a commitment to a full library-learning engine.
+written by [strategy 0125](../runs/2026-10-09-0125/strategy.md). **First stage allocated by
+[strategy 0826](../runs/2026-10-09-0826/strategy.md); reuse stage requires review.**
+This is a bounded direction, not an experiment registration or a commitment to a full
+library-learning engine. The current allocation and qualifications appear below.
 
 **Question.** Does treating learned program fragments as units of variation improve
 fresh search beyond the existing fitted previous-token decoder and matched primitive
@@ -74,3 +75,54 @@ Reconsider this candidate at the next strategy review when the K result and a bo
 training-corpus inspection can justify the full cost. C beating K would strengthen the
 case for structure beyond pooled frequency, but would neither prove this candidate nor
 be a necessary condition for it. No automatic abstraction build follows a positive K test.
+
+**Allocation and update, 2026-10-09 0826.** K and the positional replacements Q/P have
+now failed to reproduce C on then-addition. Random recoding of Q to C's mutation width
+made it slower at exactly unchanged random-program supply
+([0537](../runs/2026-10-09-0537/analysis.md)). These results remove specific simpler
+replacements; they do not establish executable fragments as C's mechanism or predict
+that this library will help. The new question is whether explicitly learned, coherent
+variation units add useful search power beyond C itself.
+
+Allocate **one experiment**, root 10 budget **22 → 23**, through the next strategy
+review. The steward should open a sub-question for this representation test, retaining
+the earlier questions as completed references. Expect **5–7 h total** for extraction,
+validation, measured pricing, training comparison and agent review, with at most **4 h
+summed queue timeouts** and the **120 min prepare limit**. The separate reuse stage
+remains an unallocated **6–9 h**, making **11–16 h** for the complete candidate. Reprice
+both stages before admission using the actual deadline, 2026-10-10T08:12:10. The
+remaining approximately 24 h is time for a complete answer, not a reason to enlarge it.
+
+Use the existing 1246 training corpora and frozen C tables. Source inspection in this
+review confirms that `Decoder.encode` and the ordinary offspring path are available
+on `research/main`; it does not establish the cost of the fragment path. The extractor,
+dependency checks and block operator remain new work. Preserve independent corpora and
+both source families; no library, fragment length, insertion rate or corpus is selected
+by then-addition or comparison-gate holdout performance. Repeated substrings alone are
+not evidence of active reusable computation. Require the bounded semantic check in the
+original plan, and retain source-task provenance and empty-library outcomes.
+
+Keep two questions distinct. Intact blocks versus their position-matched block control
+asks whether their joint content helps under the new operator. Intact blocks versus
+unchanged C asks whether the new procedure is worth using. **A win over a damaged block
+control alone does not earn the reuse stage.** Recent random-recoding losses make this
+particularly important. Report underflow/wrong-type/default use, contribution to output,
+and realized token-change footprints: equal replacement spans do not guarantee equal
+numbers of changed tokens. The executor has closed semantics, so these are differences
+in effective computation, not necessarily invalid programs or crashes.
+
+Use the same re-encoding law in all block arms. A difference from legacy C can include
+the new operator and latent refresh; do not call it an isolated effect of fragments.
+If separating that implementation effect becomes necessary, price a matched-path
+control before adding it. Do not turn the first study into a general operator matrix.
+No new opcode, function-call engine, recursive abstraction learner or fresh task bank
+is part of this allocation. All current evaluation banks are development data.
+
+Exit to strategy with a decision-relevant training comparison, interpretable controls,
+and a measured price for frozen-library reuse; or return earlier with a specific
+semantic, build or complete-cost obstruction. A useful increment over C, supported by
+the block-content comparison, would justify considering reuse on excluded compositions.
+A tightly small increment or harm ends this extractor/operator's expansion. A broad
+interval requires a resolution price, not a negative verdict. If only a probe is
+possible, keep its queue timeouts within 60 minutes and reprice confirmation **and**
+reuse before requesting more allocation. No automatic length/rate sweep follows.

@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "smoke_replay_rows": 128,
+  "fields": [
+    "cell",
+    "arm",
+    "seed",
+    "cap",
+    "pop_size",
+    "solved",
+    "evaluations",
+    "shortcuts",
+    "unique_shortcuts",
+    "training_perfect_individuals",
+    "generations",
+    "training_indices",
+    "curve",
+    "table_hash",
+    "initial_tokens_hash",
+    "initial_source_hash",
+    "initial_reencoded",
+    "solver",
+    "operator"
+  ]
+}

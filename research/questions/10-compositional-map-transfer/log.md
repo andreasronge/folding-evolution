@@ -661,3 +661,63 @@ Also fixed critique 0537 notes 7–9: the digest "Overall" wording, and question
 Decision: close 31 and return to strategy (`next: strategy`), because both doses resolved well below
 the 1.20 band, all 22 of root 10's slots are used, and strategy 0537 asked for a review after this
 result. ([decision](../../runs/2026-10-09-0537/decision.md))
+
+## 2026-10-09: run 2026-10-09-0843 (32), learned fragment block edits on training cells — ran
+
+Slot 23 (strategy 0826 raised the budget 22 → 23). Run 0843 (commit `e347793`,
+[analysis](../../runs/2026-10-09-0843/analysis.md)), details in
+[32](32-learned-fragment-operator/log.md). On C's unchanged search, one 3–6-token block per
+non-elite child (p 0.2) from a leave-one-cell-out fragment library (F), the library's
+per-position marginals (B) or C's own chain (W); 16 corpora × 4 training cells × 32 paired seeds.
+F/C 1.57× [1.42, 1.75] (16/16 corpora), F/B 1.60× [1.45, 1.77], F/W 1.23× [1.12, 1.36],
+W/C 1.28× [1.17, 1.39], B/C 0.98× [0.93, 1.04]. Rule 1, `earns_review_of_reuse`. Training cells
+of a development bank; libraries are mostly shared 3-token syntax; W/C's cause (suffix-preserving
+local edits vs chain content) not isolated.
+
+Decision: keep 32 open and return to strategy (`next: strategy`), because rule 1 sends reuse to
+strategy review and all 23 slots are used. ([decision](../../runs/2026-10-09-0843/decision.md))
+
+## 2026-10-09 — digest condensing (run 2026-10-09-0843): wording moved here
+
+The digest was compressed under its word limit (3105 → about 2950 words); no belief changed. These
+root-10 passages were cut or shortened there and are kept here verbatim. Relative links are
+relative to `research/`.
+
+- Intro: "Banks before then-addition-v1 (26) were screened and inspected, so their transfer claims
+  are development-bank claims; then-addition-v1 was the first fresh bank, frozen with the method
+  before scoring, and is now a development bank too."
+- 24 (bank): "37 BE and 56 PA behaviours after the exact ≤ 9-token screen (not a 13-token
+  minimality certificate); a frozen, performance-blind split gives 4 training and 4 holdouts per
+  family with matched token totals".
+- 11/12/15: "G/G-marg 2.6–4.5× (ADD/DADD) and about 10–20× (SEL), all intervals above 1; 1.5–6.0×
+  (15/16 resolved) on the second bank; G4/G4-marg 4.4× [3.4, 5.6] (BE), 3.3× [2.7, 4.0] (PA)."
+- 15: family grammars matched over swapped "strengthened by context over marginal controls (1.51×,
+  1.46×)".
+- 17: "The start weighs more on BE training cells (−0.45 log2 [−0.68, −0.22]; not separated from
+  shape or difficulty)."
+- 13/14/18/19 were three bullets: "Full 552-weight learner from G: 0.92× [0.78, 1.09] on training.
+  (13)"; "Row residuals on learned M versus continued token learning: training 1.00× [0.90, 1.11];
+  withheld unresolved and not replicated. (13, 14)"; "Rank-one context steps mixed into token
+  continuation: where token continuation itself learned (1.14×, 1.12×, resolved), C/T 0.967×
+  [0.871, 1.073]: a gain above about 1.07× excluded for this loop and these token-tuned starts.
+  Context learned jointly from G4 is untested. (18, 19)"
+- 20: "BE 1.02× [0.91, 1.15], specificity not refuted; one PA cell favoured the mismatched fit,
+  0.75×). Tapes carry about 0.45 bits per transition of order information; a corpus pays for itself
+  in about 120–590 searches."
+- 21: "The refit sharpens the decoder (lower row entropy), not shown causal; a second step is
+  untested."
+- 22: "PA 1.02× [0.95, 1.09]; median variant 1.089× [1.008, 1.177])".
+- 24 (replication): "16 new G4 corpora (yield 58.9%): C/T 3.11× [2.78, 3.48] (BE 2.86×, PA 3.37×;
+  2.82× at 1 × cap)".
+- 25/26: "(`A>B ? C+D : E`, 16 cells chosen by a semantic screen alone, pinned before any search):
+  2.12× [1.86, 2.41], 16/16 corpora, 14/16 cells resolved; 1.74× on pairs both arms solved." and
+  "(ratio of C/T ratios 1.38× [1.13, 1.68]; secondary)".
+- 29/30: "K is slower than the token fit (K/T 0.86× [0.77, 0.96]), as on the old bank (1.65×,
+  0.83×)"; "P … C/P 5.47× [4.79, 6.25], solving 50.5% against C's 86.5%. Both-solved pairs still
+  about 1.9× for K and Q."
+- 31: "(token counts per row exact, starting tapes identical to Q's)"; "R30/Q 0.86× [0.80, 0.91]
+  (14/16 corpora below 1; both realizations and families)".
+- 32: "Uneven across cells (F/C 0.99–2.17×, descriptive; on one BE cell F is worse than W)."
+- 27: "Selected parents not resolved from uniform population samples (C_S/C_P 1.04× [0.92,
+  1.16])."
+- 28: "BE 1.42× [1.17, 1.72], PA 0.98× [0.83, 1.16] unresolved."

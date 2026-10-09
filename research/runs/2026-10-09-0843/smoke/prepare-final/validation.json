@@ -1,0 +1,59 @@
+{
+  "edits": {
+    "F": {
+      "passed": true,
+      "edits": 10000,
+      "tape_start": 2690,
+      "tape_end": 2669
+    },
+    "B": {
+      "passed": true,
+      "edits": 10000,
+      "tape_start": 2690,
+      "tape_end": 2669
+    },
+    "W": {
+      "passed": true,
+      "edits": 10000,
+      "tape_start": 2690,
+      "tape_end": 2669
+    }
+  },
+  "minimum_library_size": 32,
+  "C_refit_check": {
+    "passed": true,
+    "corpora": 16,
+    "seconds": 2.438574791071005,
+    "scope": "verification only; searches always use original frozen C"
+  },
+  "C_replay": {
+    "passed": true,
+    "rows": 16,
+    "fields": [
+      "cell",
+      "arm",
+      "seed",
+      "cap",
+      "pop_size",
+      "solved",
+      "evaluations",
+      "shortcuts",
+      "unique_shortcuts",
+      "training_perfect_individuals",
+      "generations",
+      "training_indices",
+      "curve",
+      "table_hash",
+      "initial_tokens_hash",
+      "initial_source_hash",
+      "initial_reencoded"
+    ]
+  },
+  "passed": true,
+  "source_rows": 3072,
+  "source_hash": "a8402465d255a33d45df122e8154de0619a999406471b7a8cb07557c3205b4a5",
+  "smoke_rows": 128,
+  "paired_initial_tokens": true,
+  "elite_exclusion": true,
+  "smoke_wall_seconds": 98.00085533398669
+}
