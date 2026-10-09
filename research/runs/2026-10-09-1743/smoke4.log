@@ -1,0 +1,89 @@
+{
+  "admitted": true,
+  "selected_seeds": 16,
+  "candidates": [
+    {
+      "seeds": 16,
+      "projected_seconds": 6912.432778801768
+    },
+    {
+      "seeds": 12,
+      "projected_seconds": 5184.324584101327
+    }
+  ],
+  "projected_seconds": 6912.432778801768,
+  "prepare_seconds": 131.98452150006779,
+  "workers": 10,
+  "mean_worker_seconds": {
+    "F": 6.47911402477439,
+    "W": 6.2196495716216305
+  },
+  "smoke_wall_seconds": 93.91892362502404,
+  "effective_smoke_workers": 8.653430414238708,
+  "timing_groups": {
+    "F|BE|0": {
+      "n": 8,
+      "worker_seconds": 10.421474123024382
+    },
+    "F|BE|1": {
+      "n": 8,
+      "worker_seconds": 23.968421791912988
+    },
+    "F|BE|2": {
+      "n": 8,
+      "worker_seconds": 37.630916749010794
+    },
+    "F|BE|3": {
+      "n": 8,
+      "worker_seconds": 69.7260343353264
+    },
+    "F|PA|0": {
+      "n": 8,
+      "worker_seconds": 38.44661620713305
+    },
+    "F|PA|1": {
+      "n": 8,
+      "worker_seconds": 71.51014591800049
+    },
+    "F|PA|2": {
+      "n": 8,
+      "worker_seconds": 114.72158146020956
+    },
+    "F|PA|3": {
+      "n": 8,
+      "worker_seconds": 48.23810700094327
+    },
+    "W|BE|0": {
+      "n": 8,
+      "worker_seconds": 51.79300624981988
+    },
+    "W|BE|1": {
+      "n": 8,
+      "worker_seconds": 26.99469654180575
+    },
+    "W|BE|2": {
+      "n": 8,
+      "worker_seconds": 32.49320625094697
+    },
+    "W|BE|3": {
+      "n": 8,
+      "worker_seconds": 51.420691624167375
+    },
+    "W|PA|0": {
+      "n": 8,
+      "worker_seconds": 15.765212624100968
+    },
+    "W|PA|1": {
+      "n": 8,
+      "worker_seconds": 65.44507062609773
+    },
+    "W|PA|2": {
+      "n": 8,
+      "worker_seconds": 79.42634245799854
+    },
+    "W|PA|3": {
+      "n": 8,
+      "worker_seconds": 74.71934620884713
+    }
+  }
+}

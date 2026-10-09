@@ -1,0 +1,92 @@
+runs:
+  - id: 2026-10-09-1743-small-source-prepare
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-09-1743 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.small_source_run
+      --prepare --workers 10 --deadline-seconds 1680
+    timeout_seconds: 1800
+    track: chem-tape
+    notes: >-
+      Validate pinned1246 source schedule, unique attempt keys, exact solvers,
+      failures and G4 table hashes. Build64 separate acquisitions:16 corpora x
+      four disjoint4-attempt blocks per training cell. Reproduce16 full-C
+      hashes and all-empty G4. Retain unchanged alpha50/cell-mass1600 estimator
+      and all-active recurrent3..6 windows, at most32. Empty cells use expected
+      length32 G4 transitions; empty libraries make F4/W4 both use uniform3..6
+      C4 chains. Audit10000 suffix-preserving F and W edits plus2048 empty-path
+      edits. Replay16 each historical1036 F/W scientific payloads and two1548
+      G4 rows; timing metadata excluded. Time128 non-scoring searches balanced
+      across both new arms, all16 corpora, both families, all16 target cells and
+      four source blocks. Freeze16 seeds if projection with15pct margin is
+      <=150min, else12 if it fits, else fail with no scoring. Timing alone;
+      measured implementation smoke admits16 at115.2min. Log each acquisition's
+      own source effort, verification, fit and extraction. Do not replenish,
+      pool blocks, tune, filter targets or remove the reviewed suffix repair.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - target_bank.json
+      - source_provenance.json
+      - historical_provenance.json
+      - candidate_schedules.json
+      - preparation_schedules.json
+      - builds.json
+      - validation.json
+      - freeze.json
+      - preparation.json
+      - schedule.json
+      - progress.json
+      - search.jsonl
+
+  - id: 2026-10-09-1743-small-source-score
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-09-1743 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.small_source_run
+      --preparation "${RUN_DIR%/*}/2026-10-09-1743-small-source-prepare/preparation.json"
+      --workers 10 --deadline-seconds 10680
+    timeout_seconds: 10800
+    track: chem-tape
+    notes: >-
+      Require matching admitted source, bank, reference, build, code/backend
+      and schedule hashes. Replay128 preparation-smoke scientific payloads
+      before efficacy. Score C4F4/C4W4 on1036's then-addition seeds/cells:
+      8192 searches at16 seeds or6144 at timing-only12 fallback. Assign source
+      block by seed ordinal modulo4. New arms share initial populations and
+      cases; references full F/W/C match cases with intentionally different
+      decoder-induced programs. G4 remains unpaired. Fixed cap524288,pop256,
+      lexicase,crossover.7,mutation.03,two untouched elites,block-rate.2 and
+      decoded suffix kept. Primary rho is cost_full_F/cost_cheap_F, equal
+      blocks within corpus, unsolved2cap, corpus95pct t interval df15:
+      lower>.833 retained, upper<.833 tight loss, otherwise unresolved. Return
+      to strategy under every outcome. Report blocks,cells,BE/PA,1cap,
+      both-solved,solves,actual capped effort,fragments/gt/fallbacks,fitness,
+      diversity and edit diagnostics. Price arithmetic A+N*S with one deployed
+      acquisition including failures/verification/fit/extraction; W4 pays
+      extraction of its length law. Preserve corpus acquisition/search
+      dependence in bootstrap, report crossovers in both directions and
+      qualify historical worker times using selected same-hardware replays.
+      Evaluation curves exclude non-evaluation overhead; seconds include it.
+      Retention and economic repayment are separate; W4 cannot establish
+      decoder-only efficacy. No incomplete roster may yield efficacy, no
+      automatic extension, fresh-bank transfer or inherited-adaptation claim.
+      Summed timeouts1800+10800=12600s=210min.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - target_bank.json
+      - source_provenance.json
+      - historical_provenance.json
+      - candidate_schedules.json
+      - builds.json
+      - freeze.json
+      - preparation.json
+      - schedule.json
+      - validation.json
+      - progress.json
+      - search.jsonl
+      - result.json
+      - report.md
+      - diagnostics.png
+      - cost_curves.png

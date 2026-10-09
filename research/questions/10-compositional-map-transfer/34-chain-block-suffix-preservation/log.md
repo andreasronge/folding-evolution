@@ -44,3 +44,16 @@ below 1.10): suffix preservation is not needed in later acquisition baselines at
 so the next acquired-decoder test may use either policy; the one slot and root 10's 26 slots are
 used, and every rule was pre-set to return to strategy.
 ([decision](../../../runs/2026-10-09-1606/decision.md))
+
+## 2026-10-09: corrections from critique 1743 (digest check, notes 7–9)
+
+- "Same bound under 1 × cap, both-solved, BE and PA" overstated: the 0.7% repair-gain bound is the
+  pooled primary's only (upper 1.007); the sensitivities' upper bounds are 1.008, 1.031, 1.061 and
+  1.016, so what holds under each is that the worthwhile 1.10× repair gain is excluded.
+- "Later acquisition baselines need not keep the repair" widened scope: run 1606 tested full C and
+  its block law only. Dropping repair is a supported implementation choice under the tested full-C
+  setup; its effect under changed decoders remains unmeasured (1743 kept the repair).
+- "Corrects 32's 're-decodes the whole suffix'" conflated re-decoding with token change. Run 1606
+  measured changed suffix tokens after block edits: under these edits downstream changes are
+  typically local despite suffix re-decoding. Ordinary point-mutation ripple was not measured.
+Corrected in [question.md](question.md), the root log and the digest.

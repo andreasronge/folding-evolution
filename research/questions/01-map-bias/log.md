@@ -290,3 +290,88 @@ crossover v2, lexicase, P 1024, L 64). Fairly sure for these layouts; nothing be
   it was lost in 294/300 runs; with self as mate it won 183/240 contests (selected mate 34/240,
   crossover off 75/120). (§29–§31, [06](questions/01-map-bias/06-self-mate-establishment/question.md))
 ```
+
+## 2026-10-09 — digest condensing (run 2026-10-09-1743): former digest text moved here
+
+The digest was rewritten under its word limit (3035 → about 2920 words); no belief changed. This
+is the section as it stood before the rewrite, verbatim. Relative links are relative to
+`research/`. Wording only was shortened (e.g. "a broad margin, not equality" → "not equality"; "hurt by dilution" → "dilute"). The digest header before the rewrite, kept here too:
+
+```
+# Digest: what we currently believe, and why
+
+As of 2026-10-09, after run 2026-10-09-1743 (commit `652fde5`). Core question since the
+2026-09-25 reframe: *how does the genotype→program map bias what evolution finds and keeps
+("arrival of the frequent"), and can that bias be adapted to a task family?* History, superseded
+numbers and fuller wording are in the questions' `log.md` files.
+
+Sources: [notebook](../docs/map-bias/notebook.md) (§1–§32; reviews in
+[docs/map-bias/reviews/](../docs/map-bias/reviews/)) and [findings](../docs/map-bias/findings.md)
+(items 1–17, owner-promoted). §NN is a notebook section. Exploratory hobby work, mostly 30–50
+seeds per cell; pre-registration is noted where it applies. Ratios are speed (> 1 = first arm
+faster) with 95% intervals unless stated.
+
+## 01 Map bias (root open, budget spent)
+
+[01](questions/01-map-bias/question.md). Chem-tape and TAG alphabets, threshold and fixed-target
+tasks. 03, 05, 06 closed; 02, 04, 07, 08, 09 parked with reopen conditions in their question files.
+
+**Measuring the bias.**
+- **Random-genotype frequency predicts which tasks are easy, not which hard ones get solved.**
+  Evolution routinely finds behaviours rarer than 1 in 50M random tapes; on the chem-tape alphabet
+  chem decoder and direct encoding have almost the same bias. ([item 1](../docs/map-bias/findings.md), §1)
+- **Folding's advantage over direct encoding on fixed targets looks like sampling**: where the maps
+  differ, folding makes exact solvers 1.3–30× more common and solves more often, and evolution was
+  mostly a worse sampler than random search (one exception). Not general: on TAG threshold tasks
+  with lexicase every arm solved 9–40× sooner than computed (not run) random search. Steering
+  untested. ([item 17](../docs/map-bias/findings.md), §27–§28; [02](questions/01-map-bias/02-fixed-target-sampling/question.md), parked)
+- **The frequency knob changes how often a part is made, not what is reachable**: weighting one op
+  switches between equivalent routes without changing solve rates; very high weights hurt by
+  dilution. ([item 12](../docs/map-bias/findings.md), §16, §19)
+
+**Fitting the bias to a threshold family** (sum/max > k, TAG, lexicase, crossover v2, L 64, P 1024).
+- **In sampling, a fitted `op_weights` vector transfers to a held-out member**: 4.9× (sum>2) and
+  8.9× (max>2) more exact solvers than uniform, against 1.0× / 1.3× for the other family's fit;
+  mainly the aggregator weight. One seed, one fit; the post-hoc product model failed out of sample.
+  Numbers solid, meaning narrow. ([08](questions/01-map-bias/08-evolve-bias/question.md), [run 1558](runs/2026-10-05-1558/analysis.md))
+- **In evolution the fitted bias is about 4× faster than uniform** (4.33× / 3.58×, lower bounds
+  2.6×, 1.9×); a hand-set INPUT/GT/aggregator scaffold is within the registered 0.5–2× margin of it
+  (0.93×, 1.08×; broad, not equality). Family specificity unresolved (1.66× / 1.80× over the other
+  family's fit, against a 2× bar). Sampling lift does not predict speed (pass-through 0.35–3.2).
+  Median speed, one setup. ([08](questions/01-map-bias/08-evolve-bias/question.md), [run 1705](runs/2026-10-05-1705/analysis.md))
+- **The other family's vector gives a real generic speed-up; on max>2 INPUT/GT alone reproduces it
+  within the tested margin.** Pre-registered, 250 pairs: 2.73× (sum>2), 2.02× (max>2) over uniform
+  (lower bounds 2.12, 1.45); INPUT/GT alone versus the full vector on max>2 0.90× [0.71, 1.08]
+  (registered 1.5× margin); on sum>2 neither part is resolved against the full vector. Its flat
+  sampling rate was a cancellation. Initialization and mutation are coupled; no mechanism named.
+  ([09](questions/01-map-bias/09-generic-bias-speedup/question.md), [run 1814](runs/2026-10-05-1814/analysis.md))
+- **On sum>2 the exact max>2 shortcut is used as a last step but is not needed** (pilot, 50 seeds):
+  the solver's parent in 55/60 exposed runs; barring it delays 49/55 pairs but 100/100 still solve.
+  Its share of the gain is unknown (1.30, 0.71–2.32); not a null on the stepping stone.
+  ([09](questions/01-map-bias/09-generic-bias-speedup/question.md), [run 1957](runs/2026-10-05-1957/analysis.md))
+
+**Building blocks (chem-tape, tagged runs).** Lexicase, not a new primitive, supplies blocks;
+arrangement is then the bottleneck. Tagged transplants are safe (0 crashes in 940); crossover
+merges blocks when the join is cheap, but a one-op-join stack does as well, so the advantage is the
+join's cost, not modularity. XOR/valley thread closed: joins are built by small edits, no valley found.
+([items 4–16](../docs/map-bias/findings.md), §3–§26)
+
+**Shared helpers** (three outputs on tags 0/1/2 sharing parts A and B; crossover v2, lexicase,
+P 1024, L 64). Fairly sure for these layouts; nothing beyond them.
+- **Retention is easy; establishment from rare is blocked by mixing between lineages.** A majority
+  shared form persists and wins (270/270). From 1/32–1/10 with a selected mate it was lost in
+  294/300 runs; with self as mate it won 183/240 contests (selected mate 34/240, crossover off
+  75/120). (§29–§31, [06](questions/01-map-bias/06-self-mate-establishment/question.md))
+- **Crossover is also what solves, but discovery needs no lineage mixing**: random starts solve
+  48–50/50 with crossover, 0–4/50 without; self-mating solves 68–80% by generation 3000, about 3×
+  slower than a selected mate. A helper already in the host does not rescue a rare shared form.
+  (§31 G, §32 J–K; [04](questions/01-map-bias/04-random-start-discovery/question.md) parked, [05](questions/01-map-bias/05-latent-helper/question.md) closed)
+- **Solutions arrive mostly partly shared or duplicated, and the first established form is kept**
+  (121/129). Shared endings are rare (about 4–8 in 100–450 runs); shared never loses to duplicated
+  as such. Shortcuts are structural: about a third of each final population fits training without
+  being exact (9/35 runs still so at 256 cases). (§31 G, §32 L)
+- **Why shared endings are rare is unresolved.** Exact shared children arrive (about 2 per run, all
+  A-only/other); single copies drift out (0/100 established, ≤ 3.6%); no B-helper in 30M children
+  (≤ 1.2e-7). 100 insertions cannot tell drift from a disadvantage.
+  ([07](questions/01-map-bias/07-shared-arrival/question.md), parked; [03](questions/01-map-bias/03-rare-shared-establishment/question.md) closed)
+```

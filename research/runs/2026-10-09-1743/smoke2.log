@@ -1,0 +1,25 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-09-1743/experiments/chem_tape/small_source_run.py", line 362, in <module>
+    if __name__=='__main__':
+        ^^^^^^
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-09-1743/experiments/chem_tape/small_source_run.py", line 358, in main
+    parser.error('approved timing requires10 workers')
+^^^^^^^^^^^^^^^^^^
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-09-1743/experiments/chem_tape/fragment_run.py", line 359, in run
+    self.prepare()
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-09-1743/experiments/chem_tape/small_source_run.py", line 221, in prepare
+    if any(actual[k] != v for k, v in r.items()) or actual['arm'] != 'G4':
+                                        ^^^^^^^^
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-09-1743/experiments/chem_tape/four_reducer_maps.py", line 61, in tables
+    Decoder(t)
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-09-1743/experiments/chem_tape/composition_search.py", line 65, in __init__
+    np.searchsorted(row, np.arange(self.allele_range), side="right")
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-09-1743/.venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py", line 1501, in searchsorted
+    return _wrapfunc(a, 'searchsorted', v, side=side, sorter=sorter)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-09-1743/.venv/lib/python3.12/site-packages/numpy/_core/fromnumeric.py", line 54, in _wrapfunc
+    return bound(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

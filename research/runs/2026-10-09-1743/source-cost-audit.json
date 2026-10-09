@@ -1,0 +1,1319 @@
+{
+  "purpose": "Read-only strategy cost/provenance audit; no new fit, library extraction or efficacy scoring.",
+  "source": "experiments/output/2026-10-08/2026-10-08-1246-comparison-gate-training",
+  "rule": "First four collection attempts per corpus and training cell in the saved schedule, including failures. Four chosen as the same allocated evaluations as 32 short attempts at cap 65536; not chosen from prefix yields.",
+  "hashes": {
+    "schedule.json": "2e28da3bf43e883fc5ed26b85e83e55f2eb1cb5623cf27a4fb4a60c29a8ca47d",
+    "search.jsonl": "95a1bf0782cf8e5e2f1f754ced4f82a831c4acb2b5aea5077da20fc415294995",
+    "corpora.json": "96458a79535337f8a6549b378a3eaa8cb65e86e7e8e02df51a1b735675ae633e"
+  },
+  "source_cap": 524288,
+  "corpora": 16,
+  "selected_attempts": 256,
+  "selected_solvers": 150,
+  "empty_source_cells": [
+    {
+      "corpus": "BE2",
+      "cell": "BE:S>F?m:M+S"
+    },
+    {
+      "corpus": "BE7",
+      "cell": "BE:F>S?F:M+m"
+    },
+    {
+      "corpus": "BE8",
+      "cell": "BE:F>S?F:M+m"
+    },
+    {
+      "corpus": "PA6",
+      "cell": "PA:(F>S?F:m)+M"
+    }
+  ],
+  "source_search_evaluations": 79662848,
+  "source_search_worker_seconds": 3841.7448509931564,
+  "full_source_search_evaluations": 980987904,
+  "full_source_search_worker_seconds": 48039.385688812705,
+  "cost_scope": "search seconds only; charge verification, fitting and extraction separately in complete acquisition cost",
+  "selected_attempt_keys": [
+    {
+      "corpus": "BE1",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610081246
+    },
+    {
+      "corpus": "BE1",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610081247
+    },
+    {
+      "corpus": "BE1",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610081248
+    },
+    {
+      "corpus": "BE1",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610081249
+    },
+    {
+      "corpus": "BE1",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610081446
+    },
+    {
+      "corpus": "BE1",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610081447
+    },
+    {
+      "corpus": "BE1",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610081448
+    },
+    {
+      "corpus": "BE1",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610081449
+    },
+    {
+      "corpus": "BE1",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610081646
+    },
+    {
+      "corpus": "BE1",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610081647
+    },
+    {
+      "corpus": "BE1",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610081648
+    },
+    {
+      "corpus": "BE1",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610081649
+    },
+    {
+      "corpus": "BE1",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610081846
+    },
+    {
+      "corpus": "BE1",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610081847
+    },
+    {
+      "corpus": "BE1",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610081848
+    },
+    {
+      "corpus": "BE1",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610081849
+    },
+    {
+      "corpus": "BE2",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610083246
+    },
+    {
+      "corpus": "BE2",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610083247
+    },
+    {
+      "corpus": "BE2",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610083248
+    },
+    {
+      "corpus": "BE2",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610083249
+    },
+    {
+      "corpus": "BE2",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610083446
+    },
+    {
+      "corpus": "BE2",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610083447
+    },
+    {
+      "corpus": "BE2",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610083448
+    },
+    {
+      "corpus": "BE2",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610083449
+    },
+    {
+      "corpus": "BE2",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610083646
+    },
+    {
+      "corpus": "BE2",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610083647
+    },
+    {
+      "corpus": "BE2",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610083648
+    },
+    {
+      "corpus": "BE2",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610083649
+    },
+    {
+      "corpus": "BE2",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610083846
+    },
+    {
+      "corpus": "BE2",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610083847
+    },
+    {
+      "corpus": "BE2",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610083848
+    },
+    {
+      "corpus": "BE2",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610083849
+    },
+    {
+      "corpus": "BE3",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610085246
+    },
+    {
+      "corpus": "BE3",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610085247
+    },
+    {
+      "corpus": "BE3",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610085248
+    },
+    {
+      "corpus": "BE3",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610085249
+    },
+    {
+      "corpus": "BE3",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610085446
+    },
+    {
+      "corpus": "BE3",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610085447
+    },
+    {
+      "corpus": "BE3",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610085448
+    },
+    {
+      "corpus": "BE3",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610085449
+    },
+    {
+      "corpus": "BE3",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610085646
+    },
+    {
+      "corpus": "BE3",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610085647
+    },
+    {
+      "corpus": "BE3",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610085648
+    },
+    {
+      "corpus": "BE3",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610085649
+    },
+    {
+      "corpus": "BE3",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610085846
+    },
+    {
+      "corpus": "BE3",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610085847
+    },
+    {
+      "corpus": "BE3",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610085848
+    },
+    {
+      "corpus": "BE3",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610085849
+    },
+    {
+      "corpus": "BE4",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610087246
+    },
+    {
+      "corpus": "BE4",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610087247
+    },
+    {
+      "corpus": "BE4",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610087248
+    },
+    {
+      "corpus": "BE4",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610087249
+    },
+    {
+      "corpus": "BE4",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610087446
+    },
+    {
+      "corpus": "BE4",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610087447
+    },
+    {
+      "corpus": "BE4",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610087448
+    },
+    {
+      "corpus": "BE4",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610087449
+    },
+    {
+      "corpus": "BE4",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610087646
+    },
+    {
+      "corpus": "BE4",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610087647
+    },
+    {
+      "corpus": "BE4",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610087648
+    },
+    {
+      "corpus": "BE4",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610087649
+    },
+    {
+      "corpus": "BE4",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610087846
+    },
+    {
+      "corpus": "BE4",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610087847
+    },
+    {
+      "corpus": "BE4",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610087848
+    },
+    {
+      "corpus": "BE4",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610087849
+    },
+    {
+      "corpus": "BE5",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610089246
+    },
+    {
+      "corpus": "BE5",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610089247
+    },
+    {
+      "corpus": "BE5",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610089248
+    },
+    {
+      "corpus": "BE5",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610089249
+    },
+    {
+      "corpus": "BE5",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610089446
+    },
+    {
+      "corpus": "BE5",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610089447
+    },
+    {
+      "corpus": "BE5",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610089448
+    },
+    {
+      "corpus": "BE5",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610089449
+    },
+    {
+      "corpus": "BE5",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610089646
+    },
+    {
+      "corpus": "BE5",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610089647
+    },
+    {
+      "corpus": "BE5",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610089648
+    },
+    {
+      "corpus": "BE5",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610089649
+    },
+    {
+      "corpus": "BE5",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610089846
+    },
+    {
+      "corpus": "BE5",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610089847
+    },
+    {
+      "corpus": "BE5",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610089848
+    },
+    {
+      "corpus": "BE5",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610089849
+    },
+    {
+      "corpus": "BE6",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610091246
+    },
+    {
+      "corpus": "BE6",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610091247
+    },
+    {
+      "corpus": "BE6",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610091248
+    },
+    {
+      "corpus": "BE6",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610091249
+    },
+    {
+      "corpus": "BE6",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610091446
+    },
+    {
+      "corpus": "BE6",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610091447
+    },
+    {
+      "corpus": "BE6",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610091448
+    },
+    {
+      "corpus": "BE6",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610091449
+    },
+    {
+      "corpus": "BE6",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610091646
+    },
+    {
+      "corpus": "BE6",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610091647
+    },
+    {
+      "corpus": "BE6",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610091648
+    },
+    {
+      "corpus": "BE6",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610091649
+    },
+    {
+      "corpus": "BE6",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610091846
+    },
+    {
+      "corpus": "BE6",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610091847
+    },
+    {
+      "corpus": "BE6",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610091848
+    },
+    {
+      "corpus": "BE6",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610091849
+    },
+    {
+      "corpus": "BE7",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610093246
+    },
+    {
+      "corpus": "BE7",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610093247
+    },
+    {
+      "corpus": "BE7",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610093248
+    },
+    {
+      "corpus": "BE7",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610093249
+    },
+    {
+      "corpus": "BE7",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610093446
+    },
+    {
+      "corpus": "BE7",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610093447
+    },
+    {
+      "corpus": "BE7",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610093448
+    },
+    {
+      "corpus": "BE7",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610093449
+    },
+    {
+      "corpus": "BE7",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610093646
+    },
+    {
+      "corpus": "BE7",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610093647
+    },
+    {
+      "corpus": "BE7",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610093648
+    },
+    {
+      "corpus": "BE7",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610093649
+    },
+    {
+      "corpus": "BE7",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610093846
+    },
+    {
+      "corpus": "BE7",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610093847
+    },
+    {
+      "corpus": "BE7",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610093848
+    },
+    {
+      "corpus": "BE7",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610093849
+    },
+    {
+      "corpus": "BE8",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610095246
+    },
+    {
+      "corpus": "BE8",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610095247
+    },
+    {
+      "corpus": "BE8",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610095248
+    },
+    {
+      "corpus": "BE8",
+      "cell": "BE:F>S?F:M+m",
+      "seed": 202610095249
+    },
+    {
+      "corpus": "BE8",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610095446
+    },
+    {
+      "corpus": "BE8",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610095447
+    },
+    {
+      "corpus": "BE8",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610095448
+    },
+    {
+      "corpus": "BE8",
+      "cell": "BE:F>m?S:F+M",
+      "seed": 202610095449
+    },
+    {
+      "corpus": "BE8",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610095646
+    },
+    {
+      "corpus": "BE8",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610095647
+    },
+    {
+      "corpus": "BE8",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610095648
+    },
+    {
+      "corpus": "BE8",
+      "cell": "BE:S>F?M:F+m",
+      "seed": 202610095649
+    },
+    {
+      "corpus": "BE8",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610095846
+    },
+    {
+      "corpus": "BE8",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610095847
+    },
+    {
+      "corpus": "BE8",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610095848
+    },
+    {
+      "corpus": "BE8",
+      "cell": "BE:S>F?m:M+S",
+      "seed": 202610095849
+    },
+    {
+      "corpus": "PA1",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610181246
+    },
+    {
+      "corpus": "PA1",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610181247
+    },
+    {
+      "corpus": "PA1",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610181248
+    },
+    {
+      "corpus": "PA1",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610181249
+    },
+    {
+      "corpus": "PA1",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610181446
+    },
+    {
+      "corpus": "PA1",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610181447
+    },
+    {
+      "corpus": "PA1",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610181448
+    },
+    {
+      "corpus": "PA1",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610181449
+    },
+    {
+      "corpus": "PA1",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610181646
+    },
+    {
+      "corpus": "PA1",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610181647
+    },
+    {
+      "corpus": "PA1",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610181648
+    },
+    {
+      "corpus": "PA1",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610181649
+    },
+    {
+      "corpus": "PA1",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610181846
+    },
+    {
+      "corpus": "PA1",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610181847
+    },
+    {
+      "corpus": "PA1",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610181848
+    },
+    {
+      "corpus": "PA1",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610181849
+    },
+    {
+      "corpus": "PA2",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610183246
+    },
+    {
+      "corpus": "PA2",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610183247
+    },
+    {
+      "corpus": "PA2",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610183248
+    },
+    {
+      "corpus": "PA2",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610183249
+    },
+    {
+      "corpus": "PA2",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610183446
+    },
+    {
+      "corpus": "PA2",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610183447
+    },
+    {
+      "corpus": "PA2",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610183448
+    },
+    {
+      "corpus": "PA2",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610183449
+    },
+    {
+      "corpus": "PA2",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610183646
+    },
+    {
+      "corpus": "PA2",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610183647
+    },
+    {
+      "corpus": "PA2",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610183648
+    },
+    {
+      "corpus": "PA2",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610183649
+    },
+    {
+      "corpus": "PA2",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610183846
+    },
+    {
+      "corpus": "PA2",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610183847
+    },
+    {
+      "corpus": "PA2",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610183848
+    },
+    {
+      "corpus": "PA2",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610183849
+    },
+    {
+      "corpus": "PA3",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610185246
+    },
+    {
+      "corpus": "PA3",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610185247
+    },
+    {
+      "corpus": "PA3",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610185248
+    },
+    {
+      "corpus": "PA3",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610185249
+    },
+    {
+      "corpus": "PA3",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610185446
+    },
+    {
+      "corpus": "PA3",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610185447
+    },
+    {
+      "corpus": "PA3",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610185448
+    },
+    {
+      "corpus": "PA3",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610185449
+    },
+    {
+      "corpus": "PA3",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610185646
+    },
+    {
+      "corpus": "PA3",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610185647
+    },
+    {
+      "corpus": "PA3",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610185648
+    },
+    {
+      "corpus": "PA3",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610185649
+    },
+    {
+      "corpus": "PA3",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610185846
+    },
+    {
+      "corpus": "PA3",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610185847
+    },
+    {
+      "corpus": "PA3",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610185848
+    },
+    {
+      "corpus": "PA3",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610185849
+    },
+    {
+      "corpus": "PA4",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610187246
+    },
+    {
+      "corpus": "PA4",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610187247
+    },
+    {
+      "corpus": "PA4",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610187248
+    },
+    {
+      "corpus": "PA4",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610187249
+    },
+    {
+      "corpus": "PA4",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610187446
+    },
+    {
+      "corpus": "PA4",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610187447
+    },
+    {
+      "corpus": "PA4",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610187448
+    },
+    {
+      "corpus": "PA4",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610187449
+    },
+    {
+      "corpus": "PA4",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610187646
+    },
+    {
+      "corpus": "PA4",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610187647
+    },
+    {
+      "corpus": "PA4",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610187648
+    },
+    {
+      "corpus": "PA4",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610187649
+    },
+    {
+      "corpus": "PA4",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610187846
+    },
+    {
+      "corpus": "PA4",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610187847
+    },
+    {
+      "corpus": "PA4",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610187848
+    },
+    {
+      "corpus": "PA4",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610187849
+    },
+    {
+      "corpus": "PA5",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610189246
+    },
+    {
+      "corpus": "PA5",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610189247
+    },
+    {
+      "corpus": "PA5",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610189248
+    },
+    {
+      "corpus": "PA5",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610189249
+    },
+    {
+      "corpus": "PA5",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610189446
+    },
+    {
+      "corpus": "PA5",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610189447
+    },
+    {
+      "corpus": "PA5",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610189448
+    },
+    {
+      "corpus": "PA5",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610189449
+    },
+    {
+      "corpus": "PA5",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610189646
+    },
+    {
+      "corpus": "PA5",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610189647
+    },
+    {
+      "corpus": "PA5",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610189648
+    },
+    {
+      "corpus": "PA5",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610189649
+    },
+    {
+      "corpus": "PA5",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610189846
+    },
+    {
+      "corpus": "PA5",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610189847
+    },
+    {
+      "corpus": "PA5",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610189848
+    },
+    {
+      "corpus": "PA5",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610189849
+    },
+    {
+      "corpus": "PA6",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610191246
+    },
+    {
+      "corpus": "PA6",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610191247
+    },
+    {
+      "corpus": "PA6",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610191248
+    },
+    {
+      "corpus": "PA6",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610191249
+    },
+    {
+      "corpus": "PA6",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610191446
+    },
+    {
+      "corpus": "PA6",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610191447
+    },
+    {
+      "corpus": "PA6",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610191448
+    },
+    {
+      "corpus": "PA6",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610191449
+    },
+    {
+      "corpus": "PA6",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610191646
+    },
+    {
+      "corpus": "PA6",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610191647
+    },
+    {
+      "corpus": "PA6",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610191648
+    },
+    {
+      "corpus": "PA6",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610191649
+    },
+    {
+      "corpus": "PA6",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610191846
+    },
+    {
+      "corpus": "PA6",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610191847
+    },
+    {
+      "corpus": "PA6",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610191848
+    },
+    {
+      "corpus": "PA6",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610191849
+    },
+    {
+      "corpus": "PA7",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610193246
+    },
+    {
+      "corpus": "PA7",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610193247
+    },
+    {
+      "corpus": "PA7",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610193248
+    },
+    {
+      "corpus": "PA7",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610193249
+    },
+    {
+      "corpus": "PA7",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610193446
+    },
+    {
+      "corpus": "PA7",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610193447
+    },
+    {
+      "corpus": "PA7",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610193448
+    },
+    {
+      "corpus": "PA7",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610193449
+    },
+    {
+      "corpus": "PA7",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610193646
+    },
+    {
+      "corpus": "PA7",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610193647
+    },
+    {
+      "corpus": "PA7",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610193648
+    },
+    {
+      "corpus": "PA7",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610193649
+    },
+    {
+      "corpus": "PA7",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610193846
+    },
+    {
+      "corpus": "PA7",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610193847
+    },
+    {
+      "corpus": "PA7",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610193848
+    },
+    {
+      "corpus": "PA7",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610193849
+    },
+    {
+      "corpus": "PA8",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610195246
+    },
+    {
+      "corpus": "PA8",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610195247
+    },
+    {
+      "corpus": "PA8",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610195248
+    },
+    {
+      "corpus": "PA8",
+      "cell": "PA:(F>S?F:m)+M",
+      "seed": 202610195249
+    },
+    {
+      "corpus": "PA8",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610195446
+    },
+    {
+      "corpus": "PA8",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610195447
+    },
+    {
+      "corpus": "PA8",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610195448
+    },
+    {
+      "corpus": "PA8",
+      "cell": "PA:(F>S?m:M)+F",
+      "seed": 202610195449
+    },
+    {
+      "corpus": "PA8",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610195646
+    },
+    {
+      "corpus": "PA8",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610195647
+    },
+    {
+      "corpus": "PA8",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610195648
+    },
+    {
+      "corpus": "PA8",
+      "cell": "PA:(M>F?m:S)+S",
+      "seed": 202610195649
+    },
+    {
+      "corpus": "PA8",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610195846
+    },
+    {
+      "corpus": "PA8",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610195847
+    },
+    {
+      "corpus": "PA8",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610195848
+    },
+    {
+      "corpus": "PA8",
+      "cell": "PA:(S>F?M:m)+m",
+      "seed": 202610195849
+    }
+  ]
+}
