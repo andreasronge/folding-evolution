@@ -1,0 +1,31 @@
+{
+  "admitted": true,
+  "selected_seeds": 16,
+  "candidates": [
+    {
+      "seeds": 16,
+      "projected_seconds": 6343.575306004658,
+      "with_reserve_seconds": 6682.693670160981,
+      "fits": true
+    },
+    {
+      "seeds": 12,
+      "projected_seconds": 4757.681479503493,
+      "with_reserve_seconds": 5096.799843659816,
+      "fits": true
+    }
+  ],
+  "workers": 10,
+  "projected_seconds": 6343.575306004658,
+  "effective_workers": 8.408505028616773,
+  "timing_wall_seconds": 86.18988187506329,
+  "mean_worker_seconds": {
+    "A8": 6.720597328714575,
+    "S8": 4.603278533197226
+  },
+  "collection_wall_seconds": 80.50291949999519,
+  "collection_worker_seconds": 703.4005566678243,
+  "prepare_seconds": 191.26812266698107,
+  "timing_only": true,
+  "implementation_smoke": true
+}

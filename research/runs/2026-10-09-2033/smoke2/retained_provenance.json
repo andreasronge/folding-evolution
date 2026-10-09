@@ -1,0 +1,13 @@
+{
+  "source": "2026-10-09-1743-small-source-prepare/score",
+  "sha256": {
+    "builds.json": "7e07a9882d883d21a2a09880a5950aae582de90361ede4b962cc61680081dd82",
+    "freeze.json": "46cfb84d7faf4b3ceb0bbee42609f8530790927823cab4d81e9a4d425c2dfc19",
+    "preparation.json": "d276325401691af5e96ef8ebfba30f1b4b83d9f92a755839f1c711b994237c83",
+    "validation.json": "0e256de6a75fe1b4015ff5346556f25c2f3e4fd5f86f99265fb7de5306354306",
+    "config.json": "74f29356219aa8e1f0b37ebb37f32077703ad985490fd372d63e7cbfef1b3ce0",
+    "metadata.json": "c81272f188ad615c77b8fd94c2528371c469ab8ec93c02282e02eb4d929865df",
+    "primary.jsonl": "1d6fc8a0d9b8a4f8cded416d33fac2c858abd274becc123a15baaf285ac7156d",
+    "score_metadata.json": "a98e3c13c7e7dbe21c3a08f1e02c8248b8a67f3069b9bf60dacac3f53949b091"
+  }
+}

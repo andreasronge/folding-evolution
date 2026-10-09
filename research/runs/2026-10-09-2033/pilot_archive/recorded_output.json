@@ -1,0 +1,10 @@
+{
+  "commands": {
+    "toolu_01L1XadWFDZV8reGiTaQ9ZEV": "cd /tmp/ssf_probe && for f in probe.py probe2.py; do sed -i '' \"s#sys.path\\[:0\\] = \\['/tmp/ssf_probe/src', '/tmp/ssf_probe'\\]#sys.path.insert(0, '/tmp/ssf_wt')#\" $f; done; cd /tmp/ssf_wt && timeout 300 .venv/bin/python /tmp/ssf_probe/probe2.py 2>&1 | tail -1",
+    "toolu_01CkzVmpe9GoAPbGcTiN11Fp": "cd /tmp/ssf_wt && for b in 0 2; do PYTHONHASHSEED=0 timeout 400 .venv/bin/python /tmp/ssf_probe/probe.py $b 2>&1 | tail -3 | cut -c1-600; done"
+  },
+  "outputs": {
+    "toolu_01L1XadWFDZV8reGiTaQ9ZEV": "[(False, 524288), (True, 299264), (True, 96000), (True, 178688), (False, 524288), (True, 24320), (False, 524288), (False, 524288), (False, 524288), (True, 206848), (True, 44032), (True, 204288), (True, 89600), (True, 56064), (True, 47104), (True, 63232)]\nShell cwd was reset to /Users/andreas/developer/folding-evolution",
+    "toolu_01CkzVmpe9GoAPbGcTiN11Fp": "64 searches 57 solved; wall 50 s; worker-s mean 4.89 evals mean 106320\nin source-empty cells 4 solved 3\n[('BE:F>S?F:M+m', False), ('BE:F>m?S:F+M', False), ('BE:F>m?S:F+M', False), ('BE:S>F?M:F+m', False), ('BE:S>F?m:M+S', False), ('PA:(F>S?F:m)+M', False), ('PA:(F>S?m:M)+F', False)]\n64 searches 60 solved; wall 35 s; worker-s mean 4.07 evals mean 93388\nin source-empty cells 2 solved 1\n[('BE:F>S?F:M+m', False), ('BE:S>F?M:F+m', False), ('BE:S>F?M:F+m', False), ('BE:S>F?M:F+m', False)]\nShell cwd was reset to /Users/andreas/developer/folding-evolution"
+  }
+}

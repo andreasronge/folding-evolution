@@ -1,0 +1,96 @@
+{
+  "smoke": "smoke4",
+  "collection_rows": 128,
+  "collection_solved": 111,
+  "mean_collection_evaluations": 118302.0,
+  "mean_collection_worker_seconds": 5.495316848967377,
+  "admission": {
+    "admitted": true,
+    "selected_seeds": 16,
+    "candidates": [
+      {
+        "seeds": 16,
+        "projected_seconds": 6343.575306004658,
+        "with_reserve_seconds": 6682.693670160981,
+        "fits": true
+      },
+      {
+        "seeds": 12,
+        "projected_seconds": 4757.681479503493,
+        "with_reserve_seconds": 5096.799843659816,
+        "fits": true
+      }
+    ],
+    "workers": 10,
+    "projected_seconds": 6343.575306004658,
+    "effective_workers": 8.408505028616773,
+    "timing_wall_seconds": 86.18988187506329,
+    "mean_worker_seconds": {
+      "A8": 6.720597328714575,
+      "S8": 4.603278533197226
+    },
+    "collection_wall_seconds": 80.50291949999519,
+    "collection_worker_seconds": 703.4005566678243,
+    "prepare_seconds": 191.26812266698107,
+    "timing_only": true,
+    "implementation_smoke": true
+  },
+  "validation": {
+    "empty_library_fallback": {
+      "passed": true,
+      "forced_edits": 2048,
+      "identical_F_W": true
+    },
+    "first_batch": {
+      "passed": true,
+      "decoder_hashes": 64,
+      "library_hashes": 64
+    },
+    "historical_replay": {
+      "passed": true,
+      "seed": 16,
+      "full": 16,
+      "G4": 2,
+      "calibration": {
+        "seed": 0.8491855597952811,
+        "full": 0.8025421774619387,
+        "G4": 0.6279556202411053
+      }
+    },
+    "edits": {
+      "F": {
+        "passed": true,
+        "edits": 10000,
+        "tape_start": 2721,
+        "tape_end": 2707
+      }
+    },
+    "passed": true,
+    "attempt_keys_disjoint": true,
+    "collection_rows": 128,
+    "final_builds": 128
+  },
+  "handoff_replay_rows": 128,
+  "guard_checks": {
+    "reject_smoke": {
+      "returncode": 1,
+      "efficacy_rows": 0,
+      "rejected": true
+    },
+    "reject_admission_change": {
+      "returncode": 1,
+      "efficacy_rows": 0,
+      "rejected": true
+    }
+  },
+  "tests_passed": 35,
+  "queue_timeout_sum_seconds": 13500,
+  "full_efficacy_searches": 0,
+  "implementation_sha256": {
+    "sparse_feedback_run.py": "27d4f6616716edf69081d98ad670f7c87ed862a98596bac0b89f51e583a47f82",
+    "sparse_feedback_report.py": "949517fa24f6003d5744e137bf5a498bf8957d6821f05b323b985975bea98420"
+  },
+  "commit": "e12edbfb7884d30fa8c211f1c906fdb0083b45e4",
+  "worktree_clean": true,
+  "research_files_committed": false
+}

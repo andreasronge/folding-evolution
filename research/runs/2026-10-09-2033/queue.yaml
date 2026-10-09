@@ -1,0 +1,104 @@
+runs:
+  - id: 2026-10-09-2033-sparse-feedback-prepare
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-09-2033 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.sparse_feedback_run
+      --prepare --workers 10 --deadline-seconds 2580
+    timeout_seconds: 2700
+    track: chem-tape
+    notes: >-
+      Freeze and hash all1024 new adaptive keys before collection. First batch
+      is1246 schedule positions4b:4b+4 per training cell; S8 continuation
+      positions16+4b:20+4b, disjoint from all first blocks. Retain failures.
+      Rebuild all64 first-batch C4/F4 tables and libraries bit-exactly against
+      pinned1743. Replay16 retained1743 F rows across all corpora/four blocks,
+      16 full1036 F rows and2 G4 rows. Audit2048 empty-path and10000 suffix
+      edits. Collect1024 fresh training searches under each block's frozen
+      C4+F4; operator/fallback unchanged. Pool exactly8 attempts per cell for
+      A8 and S8; fit/extract using unchanged alpha50,cell-mass1600 and empty
+      cell G4 expected transitions. Build128 final biases. Charge first batch,
+      intermediate verification/fit/extraction, continuation including failed
+      attempts and final verification/fit/extraction. Time128 diagnostic
+      final-arm searches balanced over both arms/all corpora/blocks/targets.
+      Before efficacy inspect timing only: project8192 searches with15pct
+      margin, handoff replay and240s report reserve; choose16 total seeds
+      (4 per block) if <=10800s, otherwise12 (3 per block,6144 rows), otherwise
+      fail admission. Freeze admission, builds, accounting, implementation,
+      backend, bank, source, references and schedules. No source replenishment,
+      tuning, extra feedback round or efficacy-based roster change.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - target_bank.json
+      - source_provenance.json
+      - historical_provenance.json
+      - retained_provenance.json
+      - source_schedules.json
+      - collection_schedule.json
+      - collection.jsonl
+      - candidate_schedules.json
+      - replay_schedules.json
+      - seed_builds.json
+      - builds.json
+      - validation.json
+      - freeze.json
+      - preparation.json
+      - schedule.json
+      - progress.json
+      - search.jsonl
+
+  - id: 2026-10-09-2033-sparse-feedback-score
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-09-2033 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.sparse_feedback_run
+      --preparation "${RUN_DIR%/*}/2026-10-09-2033-sparse-feedback-prepare/preparation.json"
+      --workers 10 --deadline-seconds 10680
+    timeout_seconds: 10800
+    track: chem-tape
+    notes: >-
+      Require complete admitted full collection; implementation-smoke
+      preparation cannot score. Verify all frozen hashes and replay128 timing
+      scientific payloads before efficacy. Score the historical1743 roster:
+      16 corpora x4 nested builds x16 then-addition cells x4 seeds per block
+      x2 arms=8192 rows (timing-only12 fallback6144). Seed ordinal modulo4
+      selects source block. Pair allele draws/cases, with different decoded
+      starting programs from rebuilt tables. cap524288,pop256,lexicase,
+      crossover.7,mutation.03,two untouched elites,block-rate.2,suffix kept.
+      Primary sigma=cost(S8)/cost(A8), equal cells/seeds then equal four blocks
+      within each of16 corpus units, failures2cap,95pct t df15; lower>1.10
+      worthwhile final-search increment, upper<1.10 excludes that increment,
+      otherwise unresolved (not equivalence). Return to strategy under every
+      outcome. Report1cap,both-solved,BE/PA,blocks,cells; A8/S8 versus retained
+      C4F4 and full F/C; solver counts,empty cells,libraries,gt,fitness,diversity
+      and edits. Reference rows are reused after sampled replay, not rescored.
+      Report fully charged arithmetic A+N*S for A8,S8,C4F4,fullF,G4 regardless
+      of sigma: evaluation and qualified worker-second curves, paired
+      difference intervals at N0,1,4,16,64,256,1024,4096 and crossover directions.
+      Bootstrap whole corpus records within family to retain dependence;
+      independently resample unpaired G4. Acquisition price and search-speed
+      verdicts are separate; usefulness needs a stated reuse horizon. Include
+      independent-corpus resolution scenarios and lower-bound source/reference
+      prices; no automatic top-up, inherited adaptation or fresh-bank claim.
+      Summed timeouts2700+10800=13500s=225min=3.75h.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - target_bank.json
+      - source_provenance.json
+      - historical_provenance.json
+      - retained_provenance.json
+      - source_schedules.json
+      - candidate_schedules.json
+      - builds.json
+      - freeze.json
+      - preparation.json
+      - schedule.json
+      - validation.json
+      - progress.json
+      - search.jsonl
+      - result.json
+      - report.md
+      - diagnostics.png
+      - cost_curves.png

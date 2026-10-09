@@ -1,0 +1,30 @@
+{
+  "first_batch": {
+    "passed": true,
+    "decoder_hashes": 64,
+    "library_hashes": 64
+  },
+  "historical_replay": {
+    "passed": true,
+    "seed": 16,
+    "full": 16,
+    "G4": 2,
+    "calibration": {
+      "seed": 0.8322714942554957,
+      "full": 0.7989729190173597,
+      "G4": 0.6325203752878282
+    }
+  },
+  "edits": {
+    "F": {
+      "passed": true,
+      "edits": 10000,
+      "tape_start": 2721,
+      "tape_end": 2707
+    }
+  },
+  "passed": true,
+  "attempt_keys_disjoint": true,
+  "collection_rows": 128,
+  "final_builds": 128
+}
