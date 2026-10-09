@@ -118,12 +118,12 @@ def report(out, rows, schedule, libraries, preparation):
     return result
 
 
-def plots(out, rows, result):
+def plots(out, rows, result, arms=ARMS):
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     fig, axes = plt.subplots(2, 3, figsize=(14, 8))
-    for arm in ARMS:
+    for arm in arms:
         rs = [r for r in rows if r['arm'] == arm]
         axes[0, 0].plot(sorted([cost(r) for r in rs]), label=arm)
         points = defaultdict(list)
@@ -140,9 +140,9 @@ def plots(out, rows, result):
     axes[0, 1].set(title='Observed fitness (surviving searches)', xlabel='evaluations', ylabel='correct / 64')
     axes[0, 2].set(title='Behavior diversity (surviving searches)', xlabel='evaluations', ylabel='unique correctness vectors')
     axes[1, 0].set(title='Realized changed tokens per block', xlabel='token Hamming distance')
-    axes[1, 1].bar(ARMS, [result['summaries'][a]['solve_rate'] for a in ARMS])
+    axes[1, 1].bar(arms, [result['summaries'][a]['solve_rate'] for a in arms])
     axes[1, 1].set(title='Solve fraction', ylim=(0, 1))
-    axes[1, 2].bar(ARMS, [result['diagnostics'][a]['tokens_changed_per_edit'] for a in ARMS])
+    axes[1, 2].bar(arms, [result['diagnostics'][a]['tokens_changed_per_edit'] for a in arms])
     axes[1, 2].set(title='Mean realized edits per attempted block')
     fig.tight_layout()
     fig.savefig(out / 'diagnostics.png', dpi=150)

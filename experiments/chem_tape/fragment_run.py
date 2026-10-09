@@ -161,6 +161,8 @@ def admit(rows, elapsed, workers):
 
 
 class Runner:
+    arms = ARMS
+
     def __init__(self, args):
         os.environ['RAYON_NUM_THREADS'] = '1'
         self.args, self.started = args, time.monotonic()
@@ -222,7 +224,7 @@ class Runner:
             paired[r['corpus'], r['cell'], r['seed']].append(r)
         if not off:
             for rs in paired.values():
-                if {r['arm'] for r in rs} != set(ARMS) or len(rs) != 4 or len({r['initial_tokens_hash'] for r in rs}) != 1 or len({tuple(r['training_indices']) for r in rs}) != 1:
+                if {r['arm'] for r in rs} != set(self.arms) or len(rs) != len(self.arms) or len({r['initial_tokens_hash'] for r in rs}) != 1 or len({tuple(r['training_indices']) for r in rs}) != 1:
                     raise ValueError('paired initial tokens/cases mismatch')
                 for r in rs:
                     stats = r['operator']

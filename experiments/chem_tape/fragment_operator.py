@@ -141,11 +141,11 @@ class BlockOperator:
         return child
 
 
-def validate_edits(corpora, libraries, n=10000):
+def validate_edits(corpora, libraries, n=10000, arms=ARMS[1:]):
     """End-to-end invariants across all 64 libraries; 10k forced edits per arm."""
     result = {}
     keys = sorted(libraries)
-    for arm in ARMS[1:]:
+    for arm in arms:
         done, starts_count, ends_count = 0, 0, 0
         for i, key in enumerate(keys):
             count = n // len(keys) + (i < n % len(keys))
