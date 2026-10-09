@@ -10,12 +10,14 @@ Spending two further rounds of partial-tape collection under the updated context
 beat spending the same source allocation under G4 and fitting once (O): F/O 1.18× [1.01, 1.37]
 (16 lineages, 2 × cap; 1 × cap 1.16× [1.01, 1.33]). The pre-stated rule labels this "adopt
 feedback provisionally"; a worthwhile 1.15× gain is neither established nor excluded. The gain is
-BE-carried: BE 1.42× [1.17, 1.72] (8/8 lineages), PA 0.98× [0.83, 1.16] (3/8). More G4 data did
-not help (O/R 0.99× [0.89, 1.10]), and F over keeping the first fit is unresolved (F/R 1.16×
+resolved on BE, 1.42× [1.17, 1.72] (8/8 lineages); PA is unresolved, 0.98× [0.83, 1.16] (3/8); the
+family difference was not tested. No improvement from more G4 data was resolved (O/R 0.99× [0.89,
+1.10]; gains above about 10% excluded at this scope), and F over keeping the first fit is unresolved (F/R 1.16×
 [0.99, 1.36]). Context feedback beat independent token feedback, F/TF 1.46× [1.23, 1.75]. The
 exact-solver fit stays far ahead (F/C_exact 0.31× [0.25, 0.38]; its acquisition cost is
 unmatched). Feedback sources solve about twice as often before the cap and leave more accurate
-tapes in both families, so PA's unresolved result is not explained by yield.** Plan:
+tapes in both families: PA also improved on these collection diagnostics, and those summaries do
+not explain the scoring pattern.** Plan:
 [partial-program feedback](../../../plans/partial-program-feedback.md);
 [analysis](../../../runs/2026-10-08-2116/analysis.md).
 Not shown: transfer (own training cells of a development bank only), equal actual evaluations
@@ -29,8 +31,9 @@ Competing explanations:
 - C (reinforcement/starvation): sources under the updated decoder solve sooner and contribute fewer,
   more self-similar tapes, or reinforce shortcuts; feedback is worse than one-shot.
 
-Where they stand after run 2116: A supported at this scope for BE (overall lower bound 1.01);
-B not supported (more G4 data added nothing, O/R 0.99×, while feedback collection added 1.18×);
+Where they stand after run 2116: A supported at this scope, with the gain resolved on BE and PA unresolved (overall lower bound 1.01);
+B not supported (no improvement resolved from more G4 data, O/R 0.99× [0.89, 1.10], while feedback
+collection gave 1.18× [1.01, 1.37]);
 C not supported overall (no starvation, no degradation; PA unresolved around 1).
 
 Scope limits: external fitting (EDA-style), not inheritance or selection among decoders;

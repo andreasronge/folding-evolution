@@ -20,3 +20,11 @@ Pre-stated rule (plan precedence): UB 1.37 not below 1.15, LB 1.01 > 1, point 1.
 Where the explanations stand: A (feedback) supported at this scope for BE only, at a margin just above 1 overall; B (data quantity only) not supported, since more G4 data added nothing (O/R) while feedback collection did; C (reinforcement/starvation) not supported overall (no starvation, no degradation; PA alone is unresolved around 1, admitting a loss down to 0.83× or a gain up to 1.16×). The win identifies the collection procedure, with yield and tape content bundled.
 
 Decision: close 28 as answered at this scope, and return to strategy (`next: strategy`), because the pre-stated rule routed to provisional adoption with the worthwhile margin unresolved, resolving that margin by replication is priced at about 600 lineages, and [strategy 2116](../../../runs/2026-10-08-2116/strategy.md) allocated this one experiment and asked for a review after it ("no result automatically earns more feedback rounds"). Root 10 has 1 of 20 slots left. ([decision](../../../runs/2026-10-08-2116/decision.md))
+
+## 2026-10-09: wording correction (critic 0125, digest check notes 5–8)
+
+The entry above overstates four points; the numbers stand, the readings below replace the wording.
+- Heading "BE only" and "A supported … for BE only": read **gain resolved on BE; PA unresolved** (PA F/O 0.98× [0.83, 1.16] admits a gain up to 1.16×); the family contrast was not tested.
+- "Tripling the G4 allocation did not change the fit's value", "these are practically one effect", "more G4 data added nothing": read **O/R is unresolved, 0.99× [0.89, 1.10]; no improvement was resolved and gains above about 10% are excluded at this scope; F/O and F/R have similar point estimates but different uncertainty.**
+- "Feedback closed roughly a tenth of the … log gap": **at the point estimates**; improvement over retaining the first fit (F/R 1.16× [0.99, 1.36]) remains unresolved.
+- The question summary's "PA's unresolved result is not explained by yield" is replaced by: PA also improved on measured collection diagnostics; those summaries do not isolate yield's causal contribution and do not explain the scoring pattern.

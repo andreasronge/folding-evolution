@@ -1,0 +1,32 @@
+runs:
+  - id: 2026-10-09-0125-frequency-matched-K
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-09-0125 &&
+      exec .venv/bin/python -m experiments.chem_tape.frequency_matched_run
+      --preparation experiments/chem_tape/data/frequency_matched_0125/preparation.json
+      --workers 10 --deadline-seconds 8880
+    timeout_seconds: 9000
+    track: chem-tape
+    notes: >-
+      Exactly 2048 K searches on 1548 row F's 16 corpora x 16 cells x 8 seeds.
+      Reuse pinned C/T/G4 rows, no acquisition or fitting. Same P256,
+      cap524288, 64-case draws and exact D1331 verification.
+      Current-build 32-row C/T replay and 16-search K timing passed in preparation;
+      admitted implementation/binary must match and timed K rows replay within
+      the full roster. All 16 corpora required; no efficacy fallback or top-up.
+      120 s reporting reserve inside deadline and 120 s outer margin.
+      Preparation 96.62 s; 30 min allowance plus 150 min timeout <= 3 h.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - schedule.json
+      - preparation_schedules.json
+      - source_provenance.json
+      - freeze.json
+      - progress.json
+      - validation.json
+      - timing.json
+      - search.jsonl
+      - result.json
+      - report.md
+      - diagnostics.png
