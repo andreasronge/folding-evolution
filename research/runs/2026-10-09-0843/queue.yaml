@@ -1,0 +1,88 @@
+runs:
+  - id: 2026-10-09-0843-fragments-prepare
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-09-0843 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.fragment_run
+      --prepare --workers 10 --deadline-seconds 2580
+    timeout_seconds: 2700
+    track: chem-tape
+    notes: >-
+      Rebuild from SHA-pinned 1246 G4 collection tapes and original frozen C.
+      NOP knockout on 96 fixed inputs; all-active 3-6 windows, recurrence
+      in at least two source cells, leave one training cell out, deterministic
+      rank, full-domain NOP-padding exclusion, top 32 and minimum 8.
+      Retain per-fragment provenance and measured stack/default diagnostics.
+      Check 10000 edits per F/B/W across every corpus/cell and interior/start/end
+      positions, preserving decoded outside tokens and tape end with conditional
+      uniform window-plus-next inverse encoding. Reconstruct all 16 C tables
+      for verification and replay 16 historical C searches bit-exactly on a
+      substantive-field allowlist. Run exactly 128 non-scoring smoke searches,
+      four arms x four cell indices x eight seeds across both families and all
+      16 corpora. Save reproducible C pseudo-arm precision scenarios and complete
+      continuation pricing. Final implementation smoke admitted 32 seeds:
+      preparation 108.02 s, projected scoring 5976.40 s, replay/report reserves
+      bring score price to 6309.78 s. Preparation must be <=2700 s; select largest
+      32/24/16 seeds with approved expected price <=12600 s and score price
+      including replay/reserves <=11700 s. No arm/corpus/cell dropping or tuning.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - source_provenance.json
+      - libraries.json
+      - whole_libraries.json
+      - library_sizes.json
+      - activity.json
+      - preparation_schedules.json
+      - precision.json
+      - validation.json
+      - progress.json
+      - search.jsonl
+      - freeze.json
+      - preparation.json
+      - schedule.json
+
+  - id: 2026-10-09-0843-fragments-score
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-09-0843 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.fragment_run
+      --preparation "${RUN_DIR%/*}/2026-10-09-0843-fragments-prepare/preparation.json"
+      --workers 10 --deadline-seconds 11580
+    timeout_seconds: 11700
+    track: chem-tape
+    notes: >-
+      Requires admitted matching code/backend, source, original C tables,
+      libraries and fixed roster. Replay all 128 non-scoring smoke payloads
+      exactly before scoring. At admitted 32 seeds, 8192 fresh searches total:
+      C/F/B/W x 16 corpora x four training cells x 32 paired seeds. Only
+      preparation's predeclared admission rule can select 24/16 instead.
+      Population 256, cap 524288, lexicase, crossover .7, mutation .03, two
+      untouched elites. Each non-elite child receives one block with probability
+      .2 after normal variation, on a separate RNG. F intact uniform fragment;
+      B independent position marginals given length; W C chain given preceding
+      token. Shared empirical library length law and uniform valid start.
+      Report actual edits, sparse offspring safe-pop/default diagnostics,
+      solver library occurrence, solves/costs, per-evaluation times, fitness and
+      behavior diversity. Complete-roster efficacy only, equal corpus log-cost
+      contrasts and 95% t intervals with df=15; unsolved 2*cap. Approved ordered
+      rules including unresolved content and practical rule-3 label, sensitivities
+      at 1*cap, both-solved, BE/PA, W/C and B/C. Price resolution to x1.07
+      half-width and separately reviewed reuse, including preparation and agent
+      work. Scope is externally fitted literal blocks on development banks.
+      No scored reuse, extra seeds, sweep, acquisition or modularity claim.
+      Summed queue timeouts: 2700+11700=14400 s (four hours).
+    expect_outputs:
+      - config.json
+      - bank.json
+      - source_provenance.json
+      - libraries.json
+      - freeze.json
+      - schedule.json
+      - preparation.json
+      - validation.json
+      - progress.json
+      - search.jsonl
+      - result.json
+      - report.md
+      - diagnostics.png

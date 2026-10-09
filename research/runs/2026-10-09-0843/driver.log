@@ -1,0 +1,19 @@
+2026-10-09 08:43:08 proposal sent back to the steward (The critic recommends `revise`; see critique.md beside the proposal.)
+2026-10-09 08:43:08 steward (claude/claude-opus-5-5) → propose [herdr]
+2026-10-09 08:46:38 phase → accept
+2026-10-09 08:46:38 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-09 08:48:06 phase → awaiting_approval
+2026-10-09 08:48:06 proposal: Learned executable fragments as block edits on top of C (training cells), revised [questions/10-compositional-map-transfer/32-learned-fragment-operator] — budget left: 1. Approve with `research.py approve`.
+2026-10-09 08:48:06 auto-approved (critic: approve_with_notes, revisions: 1)
+2026-10-09 08:48:06 phase → prepare
+2026-10-09 08:48:23 researcher (codex/gpt-6.1-sol) → prepare [herdr]
+2026-10-09 09:06:31 phase → review_code
+2026-10-09 09:06:31 reviewer (claude/claude-fable-5-1) → review_code [herdr]
+2026-10-09 09:12:55 phase → execute
+2026-10-09 09:12:55 running queue (2 entries)
+2026-10-09 10:28:43 phase → analyse
+2026-10-09 10:28:43 reviewer (claude/claude-fable-5-1) → analyse [herdr]
+2026-10-09 10:36:14 phase → decide
+2026-10-09 10:36:14 steward (claude/claude-opus-5-5) → decide [herdr]
+2026-10-09 10:39:28 steward (claude/claude-opus-5-5) → condense [herdr]
+2026-10-09 10:41:41 digest condensed: 3105 → 2946 words

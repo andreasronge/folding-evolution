@@ -1,0 +1,8 @@
+2026-10-09 08:29:30 cycle 2026-10-09-0537 done; brief: /Users/andreas/developer/folding-evolution/research/briefs/2026-10-09-2026-10-09-0537.md
+2026-10-09 08:29:30 strategist (codex/gpt-6-astra) → strategy [herdr]
+2026-10-09 08:35:23 phase → propose
+2026-10-09 08:35:23 steward (claude/claude-opus-5-5) → propose [herdr]
+2026-10-09 08:41:00 phase → accept
+2026-10-09 08:41:00 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-09 08:43:08 phase → awaiting_approval
+2026-10-09 08:43:08 proposal: Learned executable fragments as block edits on top of C (training cells) [questions/10-compositional-map-transfer/32-learned-fragment-operator] — budget left: 1. Approve with `research.py approve`.
