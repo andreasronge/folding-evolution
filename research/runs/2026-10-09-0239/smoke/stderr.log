@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-09-0239/experiments/chem_tape/position_matched_run.py", line 325, in <module>
+    main()
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-09-0239/experiments/chem_tape/position_matched_run.py", line 321, in main
+    Runner(args).run()
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-09-0239/experiments/chem_tape/position_matched_run.py", line 309, in run
+    raise RuntimeError(error)
+RuntimeError: ValueError: complete workload plus safety exceeds approved preparation/scoring budget

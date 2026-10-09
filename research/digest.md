@@ -76,13 +76,14 @@ crossover v2, lexicase, P 1024, L 64). Fairly sure for these layouts; nothing be
   (≤ 1.2e-7). 100 insertions cannot tell drift from a disadvantage.
   ([07](questions/01-map-bias/07-shared-arrival/question.md), parked; [03](questions/01-map-bias/03-rare-shared-establishment/question.md) closed)
 
-## 10 Compositional map transfer (root open, 20 of 20 used)
+## 10 Compositional map transfer (root open, 20 of 21 used)
 
 [10](questions/10-compositional-map-transfer/question.md): can a decoder adapted across related
 tasks help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 Stack tape `v2_rmin(_first)`, length-4 lists, P 256, lexicase on 64 cases with an exact check over
 the domain (D1331 from 0001 on), 524k cap. G / G4 are hand-set previous-token grammars; U uniform;
-"-marg" the same token marginals without context. Sub-questions 11–29 closed. Every bank before
+"-marg" the same token marginals without context. Sub-questions 11–29 closed; 30 (per-position
+controls of the fitted tables) open, not yet scored. Every bank before
 then-addition-v1 (26) was screened and inspected, so its transfer claims are development-bank
 claims; then-addition-v1 is the first fresh bank, frozen with the method before scoring.
 
@@ -184,8 +185,8 @@ claims; then-addition-v1 is the first fresh bank, frozen with the method before 
   the interval conditions on these 16 cells; why the gain shrinks is not identified.
   ([25](questions/10-compositional-map-transfer/25-comparison-gate-transfer/question.md),
   [26](questions/10-compositional-map-transfer/26-then-addition-fresh-bank/question.md), [run 1548](runs/2026-10-08-1548/analysis.md))
-- **On that fresh bank, a G4 map matched to C's pooled emitted frequencies does not reproduce C's
-  advantage, and is slower than the token-only fit.** The frozen K tables (G4 × 24 multipliers,
+- **On then-addition (now a development bank), a G4 map matched to C's pooled emitted frequencies
+  does not reproduce C's advantage, and is slower than the token-only fit.** The frozen K tables (G4 × 24 multipliers,
   pooled marginals within 3e-5 of C's), same seeds and case draws: C/K 2.48× [2.17, 2.83] (1 × cap
   2.25×, both-solved 1.92×), all 16 corpora and cells above 1.2; K/T 0.86× [0.77, 0.96], as on the
   old bank (C/K 1.65×, K/T 0.83×). Scope: K keeps G4's context and matches pooled, not positional,
@@ -207,7 +208,8 @@ claims; then-addition-v1 is the first fresh bank, frozen with the method before 
   small margin resolved only on BE.** 16 lineages, 96 sources per cell per arm: two rounds under the
   updated context fit (F) against one fit to G4-collected tapes (O), F/O 1.18× [1.01, 1.37]; a
   worthwhile 1.15× is neither established nor excluded. BE 1.42× [1.17, 1.72], PA 0.98× [0.83, 1.16]
-  unresolved, though PA collection improved as much as BE's. More G4 tapes gave no resolved gain
+  unresolved; PA collection diagnostics also improved, and their causal contribution to the scoring
+  difference is unresolved. More G4 tapes gave no resolved gain
   (O over the first fit 0.99× [0.89, 1.10]); F over keeping the first fit is unresolved (1.16×
   [0.99, 1.36]). Context feedback beat token feedback 1.46× [1.23, 1.75]; F stays far below the
   exact-solver fit (0.31×). Scope: 27's training cells, three rounds, equal source allocation;
