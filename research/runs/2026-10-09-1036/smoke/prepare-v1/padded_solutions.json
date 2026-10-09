@@ -1,0 +1,70 @@
+{
+  "tests": 12288,
+  "hits": {
+    "BE1": {
+      "then_addition": [],
+      "holdout": []
+    },
+    "BE2": {
+      "then_addition": [],
+      "holdout": []
+    },
+    "PA4": {
+      "then_addition": [],
+      "holdout": []
+    },
+    "PA1": {
+      "then_addition": [],
+      "holdout": []
+    },
+    "BE5": {
+      "then_addition": [],
+      "holdout": []
+    },
+    "BE3": {
+      "then_addition": [],
+      "holdout": []
+    },
+    "PA3": {
+      "then_addition": [],
+      "holdout": []
+    },
+    "PA2": {
+      "then_addition": [],
+      "holdout": []
+    },
+    "PA5": {
+      "then_addition": [],
+      "holdout": []
+    },
+    "BE4": {
+      "then_addition": [],
+      "holdout": []
+    },
+    "BE6": {
+      "then_addition": [],
+      "holdout": []
+    },
+    "PA6": {
+      "then_addition": [],
+      "holdout": []
+    },
+    "BE7": {
+      "then_addition": [],
+      "holdout": []
+    },
+    "PA7": {
+      "then_addition": [],
+      "holdout": []
+    },
+    "BE8": {
+      "then_addition": [],
+      "holdout": []
+    },
+    "PA8": {
+      "then_addition": [],
+      "holdout": []
+    }
+  },
+  "filtered": false
+}

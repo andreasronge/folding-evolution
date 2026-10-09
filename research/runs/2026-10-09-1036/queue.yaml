@@ -1,0 +1,95 @@
+runs:
+  - id: 2026-10-09-1036-fragment-reuse-prepare
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-09-1036 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.fragment_reuse_run
+      --prepare --workers 10 --deadline-seconds 1680
+    timeout_seconds: 1800
+    track: chem-tape
+    notes: >-
+      Freeze full 16/12-primary-seed schedules and fixed 8-seed holdouts before
+      searching; fresh disjoint base204610091036. Rebuild all16 whole-corpus
+      libraries from SHA-pinned1246 source and match the exact saved0843 records.
+      No target filtering or tuning. Audit10000 edits each for F/W, including
+      interior/start/end and decoded suffix/terminal/allele-preimage invariants.
+      Replay16 historical1548 C rows bit-exactly with operator off. Report12288
+      full-domain NOP-padded evaluation-cell tests, expected zero, never filter.
+      Save W's per-corpus library-derived length law; no stored token repertoire
+      does not mean no library-derived information. Time exactly96 non-scoring
+      searches: C/F/W x eight frozen historical-C-difficulty-ranked cells x
+      four seeds, spanning both banks, source families and all16 corpora.
+      Select16 primary seeds if timing projection with15pct margin <=195min,
+      else12 if it fits; holdouts remain8. Otherwise feasibility stop. No
+      efficacy-based sizing, pruned cells/corpora, changed caps or automatic
+      top-up. Implementation smoke admitted16 seeds at about153 scoring minutes.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - target_banks.json
+      - source_provenance.json
+      - historical_provenance.json
+      - candidate_schedules.json
+      - preparation_schedules.json
+      - libraries.json
+      - activity.json
+      - operator_laws.json
+      - padded_solutions.json
+      - validation.json
+      - progress.json
+      - search.jsonl
+      - freeze.json
+      - preparation.json
+      - schedule.json
+
+  - id: 2026-10-09-1036-fragment-reuse-score
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-09-1036 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.fragment_reuse_run
+      --preparation "${RUN_DIR%/*}/2026-10-09-1036-fragment-reuse-prepare/preparation.json"
+      --workers 10 --deadline-seconds 12180
+    timeout_seconds: 12300
+    track: chem-tape
+    notes: >-
+      Requires admitted matching source/library/bank/C-table/code/backend/roster
+      hashes and10 workers. Replay all96 non-scoring smoke scientific payloads
+      before scoring; shared initial populations and cases and untouched elites.
+      At16 seeds execute15360 searches: C/F/W x16 corpora x16 primary cells x16
+      seeds, plus C/F/W x16 corpora x8 reference holdouts x8 seeds. Sole timing
+      fallback is12 primary seeds (12288 total searches). C search unchanged:
+      population256, cap524288, lexicase, crossover.7, mutation.03, two elites;
+      non-elite block probability.2 after ordinary variation, separate operator
+      RNG. F whole-corpus fragments versus W C-chain blocks, same empirical
+      length law, valid-start law and decoded-suffix repair. Then-addition only
+      determines ordered harm/acquisition-review/no-worthwhile-increment/
+      unresolved decision; F/W scientific, F/C practical, threshold1.10.
+      Corpus95pct t intervals with15df, unsolved2cap; report holdouts separately,
+      BE/PA, per-cell,1cap/both-solved sensitivities, solves, actual edits/defaults,
+      solver-library occurrence and costs/fitness/diversity plots. No incomplete
+      roster may yield efficacy. Repayment uses arithmetic evaluation and wall
+      savings versus C and W, consistent units and separate source collection.
+      Price unresolved F/W to x1.05 half-width as a conditional variance scenario;
+      no new work authorized. Both banks development; no acquisition/modularity/
+      fresh-transfer claim. Whole libraries use4 source cells versus3 in0843.
+      Timeout ledger1800+12300=14100s (235min), under4h.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - target_banks.json
+      - source_provenance.json
+      - historical_provenance.json
+      - candidate_schedules.json
+      - preparation_schedules.json
+      - libraries.json
+      - operator_laws.json
+      - freeze.json
+      - schedule.json
+      - preparation.json
+      - validation.json
+      - progress.json
+      - search.jsonl
+      - result.json
+      - report.md
+      - then_addition_diagnostics.png
+      - holdout_diagnostics.png

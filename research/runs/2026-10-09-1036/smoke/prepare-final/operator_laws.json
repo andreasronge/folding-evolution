@@ -1,0 +1,250 @@
+{
+  "BE2": {
+    "length_counts": {
+      "3": 24,
+      "4": 7,
+      "5": 1
+    },
+    "length_probabilities": {
+      "3": 0.75,
+      "4": 0.21875,
+      "5": 0.03125
+    },
+    "start": "uniform integers0..32-length",
+    "rate": 0.2,
+    "suffix": "conditional uniform window+next preimage; decoded suffix retained",
+    "caveat": "W stores no token repertoire; its length schedule is library-derived"
+  },
+  "PA4": {
+    "length_counts": {
+      "3": 24,
+      "4": 6,
+      "5": 2
+    },
+    "length_probabilities": {
+      "3": 0.75,
+      "4": 0.1875,
+      "5": 0.0625
+    },
+    "start": "uniform integers0..32-length",
+    "rate": 0.2,
+    "suffix": "conditional uniform window+next preimage; decoded suffix retained",
+    "caveat": "W stores no token repertoire; its length schedule is library-derived"
+  },
+  "PA1": {
+    "length_counts": {
+      "3": 26,
+      "4": 5,
+      "5": 1
+    },
+    "length_probabilities": {
+      "3": 0.8125,
+      "4": 0.15625,
+      "5": 0.03125
+    },
+    "start": "uniform integers0..32-length",
+    "rate": 0.2,
+    "suffix": "conditional uniform window+next preimage; decoded suffix retained",
+    "caveat": "W stores no token repertoire; its length schedule is library-derived"
+  },
+  "BE1": {
+    "length_counts": {
+      "3": 26,
+      "4": 5,
+      "5": 1
+    },
+    "length_probabilities": {
+      "3": 0.8125,
+      "4": 0.15625,
+      "5": 0.03125
+    },
+    "start": "uniform integers0..32-length",
+    "rate": 0.2,
+    "suffix": "conditional uniform window+next preimage; decoded suffix retained",
+    "caveat": "W stores no token repertoire; its length schedule is library-derived"
+  },
+  "BE5": {
+    "length_counts": {
+      "3": 26,
+      "4": 6
+    },
+    "length_probabilities": {
+      "3": 0.8125,
+      "4": 0.1875
+    },
+    "start": "uniform integers0..32-length",
+    "rate": 0.2,
+    "suffix": "conditional uniform window+next preimage; decoded suffix retained",
+    "caveat": "W stores no token repertoire; its length schedule is library-derived"
+  },
+  "PA5": {
+    "length_counts": {
+      "3": 23,
+      "4": 7,
+      "5": 2
+    },
+    "length_probabilities": {
+      "3": 0.71875,
+      "4": 0.21875,
+      "5": 0.0625
+    },
+    "start": "uniform integers0..32-length",
+    "rate": 0.2,
+    "suffix": "conditional uniform window+next preimage; decoded suffix retained",
+    "caveat": "W stores no token repertoire; its length schedule is library-derived"
+  },
+  "PA3": {
+    "length_counts": {
+      "3": 25,
+      "4": 5,
+      "5": 2
+    },
+    "length_probabilities": {
+      "3": 0.78125,
+      "4": 0.15625,
+      "5": 0.0625
+    },
+    "start": "uniform integers0..32-length",
+    "rate": 0.2,
+    "suffix": "conditional uniform window+next preimage; decoded suffix retained",
+    "caveat": "W stores no token repertoire; its length schedule is library-derived"
+  },
+  "PA2": {
+    "length_counts": {
+      "3": 24,
+      "4": 7,
+      "5": 1
+    },
+    "length_probabilities": {
+      "3": 0.75,
+      "4": 0.21875,
+      "5": 0.03125
+    },
+    "start": "uniform integers0..32-length",
+    "rate": 0.2,
+    "suffix": "conditional uniform window+next preimage; decoded suffix retained",
+    "caveat": "W stores no token repertoire; its length schedule is library-derived"
+  },
+  "BE4": {
+    "length_counts": {
+      "3": 25,
+      "4": 6,
+      "5": 1
+    },
+    "length_probabilities": {
+      "3": 0.78125,
+      "4": 0.1875,
+      "5": 0.03125
+    },
+    "start": "uniform integers0..32-length",
+    "rate": 0.2,
+    "suffix": "conditional uniform window+next preimage; decoded suffix retained",
+    "caveat": "W stores no token repertoire; its length schedule is library-derived"
+  },
+  "BE3": {
+    "length_counts": {
+      "3": 27,
+      "4": 5
+    },
+    "length_probabilities": {
+      "3": 0.84375,
+      "4": 0.15625
+    },
+    "start": "uniform integers0..32-length",
+    "rate": 0.2,
+    "suffix": "conditional uniform window+next preimage; decoded suffix retained",
+    "caveat": "W stores no token repertoire; its length schedule is library-derived"
+  },
+  "BE6": {
+    "length_counts": {
+      "3": 25,
+      "4": 5,
+      "5": 2
+    },
+    "length_probabilities": {
+      "3": 0.78125,
+      "4": 0.15625,
+      "5": 0.0625
+    },
+    "start": "uniform integers0..32-length",
+    "rate": 0.2,
+    "suffix": "conditional uniform window+next preimage; decoded suffix retained",
+    "caveat": "W stores no token repertoire; its length schedule is library-derived"
+  },
+  "BE8": {
+    "length_counts": {
+      "3": 23,
+      "4": 7,
+      "5": 2
+    },
+    "length_probabilities": {
+      "3": 0.71875,
+      "4": 0.21875,
+      "5": 0.0625
+    },
+    "start": "uniform integers0..32-length",
+    "rate": 0.2,
+    "suffix": "conditional uniform window+next preimage; decoded suffix retained",
+    "caveat": "W stores no token repertoire; its length schedule is library-derived"
+  },
+  "PA6": {
+    "length_counts": {
+      "3": 27,
+      "4": 4,
+      "5": 1
+    },
+    "length_probabilities": {
+      "3": 0.84375,
+      "4": 0.125,
+      "5": 0.03125
+    },
+    "start": "uniform integers0..32-length",
+    "rate": 0.2,
+    "suffix": "conditional uniform window+next preimage; decoded suffix retained",
+    "caveat": "W stores no token repertoire; its length schedule is library-derived"
+  },
+  "BE7": {
+    "length_counts": {
+      "3": 26,
+      "4": 6
+    },
+    "length_probabilities": {
+      "3": 0.8125,
+      "4": 0.1875
+    },
+    "start": "uniform integers0..32-length",
+    "rate": 0.2,
+    "suffix": "conditional uniform window+next preimage; decoded suffix retained",
+    "caveat": "W stores no token repertoire; its length schedule is library-derived"
+  },
+  "PA7": {
+    "length_counts": {
+      "3": 22,
+      "4": 7,
+      "5": 3
+    },
+    "length_probabilities": {
+      "3": 0.6875,
+      "4": 0.21875,
+      "5": 0.09375
+    },
+    "start": "uniform integers0..32-length",
+    "rate": 0.2,
+    "suffix": "conditional uniform window+next preimage; decoded suffix retained",
+    "caveat": "W stores no token repertoire; its length schedule is library-derived"
+  },
+  "PA8": {
+    "length_counts": {
+      "3": 25,
+      "4": 7
+    },
+    "length_probabilities": {
+      "3": 0.78125,
+      "4": 0.21875
+    },
+    "start": "uniform integers0..32-length",
+    "rate": 0.2,
+    "suffix": "conditional uniform window+next preimage; decoded suffix retained",
+    "caveat": "W stores no token repertoire; its length schedule is library-derived"
+  }
+}
