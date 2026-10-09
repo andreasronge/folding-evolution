@@ -76,3 +76,11 @@ interpretation control in the same direction ("both fail"), with both lower boun
 pooled supply on this bank (no resolved gain; above about 1.13× excluded); another positional
 control would not change the representation decision. Return to strategy (`next: strategy`), as
 strategy 0239 and the plan require after this result. ([decision](../../../runs/2026-10-09-0306/decision.md))
+
+## 2026-10-09: wording fix after critique 0537 (note 9)
+
+Reopen if: "which would contradict the frozen-projection result" replaced by "which would establish
+a successful positional alternative beyond the two frozen projections tested". 0306 §4 states that
+failure of Q and P does not reject every positional learner. The variation-matched clause now notes
+that [31](../31-distribution-preserving-recoding/question.md) tried Q with C's width (random
+recoding) and found it slower than Q, so that clause is not met. No status change.

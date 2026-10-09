@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-09, after run 2026-10-09-0306 (commit `2bab2c2`). Core question since the
+As of 2026-10-09, after run 2026-10-09-0537 (commit `fe196c1`). Core question since the
 2026-09-25 reframe: *how does the genotype→program map bias what evolution finds and keeps
 ("arrival of the frequent"), and can that bias be adapted to a task family?* Run-by-run history,
 superseded numbers and fuller wording are in the questions' `log.md` files.
@@ -76,13 +76,13 @@ crossover v2, lexicase, P 1024, L 64). Fairly sure for these layouts; nothing be
   (≤ 1.2e-7). 100 insertions cannot tell drift from a disadvantage.
   ([07](questions/01-map-bias/07-shared-arrival/question.md), parked; [03](questions/01-map-bias/03-rare-shared-establishment/question.md) closed)
 
-## 10 Compositional map transfer (root open, 21 of 21 used)
+## 10 Compositional map transfer (root open, 22 of 22 used)
 
 [10](questions/10-compositional-map-transfer/question.md): can a decoder adapted across related
 tasks help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 Stack tape `v2_rmin(_first)`, length-4 lists, P 256, lexicase on 64 cases with an exact check over
 the domain (D1331 from 0001 on), 524k cap. G / G4 are hand-set previous-token grammars;
-"-marg" the same token marginals without context. Sub-questions 11–30 closed. Banks before
+"-marg" the same token marginals without context. Sub-questions 11–31 closed. Banks before
 then-addition-v1 (26) were screened and inspected, so their transfer claims are development-bank
 claims; then-addition-v1 was the first fresh bank, frozen with the method before scoring, and is
 now a development bank too.
@@ -189,10 +189,19 @@ now a development bank too.
   [0.93, 1.13]); P (independent positional draws, no context) C/P 5.47× [4.79, 6.25], solving 50.5%
   against C's 86.5%. Both-solved pairs still about 1.9× for K and Q. Scope: external projections
   under the uniform latent prior, one operator set; C's mutation changes about 3 tokens against 1.7
-  (K, Q) and 0.9 (P), so supply and variation neighbourhood are not separated; a learned positional
-  map is untested. ([29](questions/10-compositional-map-transfer/29-frequency-matched-transfer/question.md),
+  (K, Q) and 0.9 (P); a learned positional map is untested.
+  ([29](questions/10-compositional-map-transfer/29-frequency-matched-transfer/question.md),
   [30](questions/10-compositional-map-transfer/30-position-matched-replacement/question.md),
   [run 0125](runs/2026-10-09-0125/analysis.md), [run 0306](runs/2026-10-09-0306/analysis.md))
+- **Recoding Q to C's mutation width, with Q's random-program distribution held exactly fixed, made
+  search slower.** Context-dependent allele permutations within each row (token counts per row
+  exact, starting tapes identical to Q's) raised tokens changed per resample from 1.7 to 3.0 (C
+  2.95). R30/Q 0.86× [0.80, 0.91] (14/16 corpora below 1; both realizations and families);
+  full-row permutation R100/Q 0.41× [0.39, 0.43]; C/R30 2.82× [2.49, 3.19]. So random, undirected
+  width does not carry C's advantage. Scope: two random recodings, one development bank; width is
+  not isolated from changed allele–token correlations; structured coupling and C's content are not
+  separated. ([31](questions/10-compositional-map-transfer/31-distribution-preserving-recoding/question.md),
+  [run 0537](runs/2026-10-09-0537/analysis.md))
 
 **Context fitted to non-solving programs (external fitting, before any exact solve).**
 - **Tapes from G4 searches that had not yet solved teach a context fit that beats a token fit to the
@@ -218,12 +227,13 @@ now a development bank too.
 
 **Overall.** Assembly information beyond a token-only fit exists in this system's own solvers and
 can be fitted externally; it transfers to withheld compositions and to one fresh bank of a new shape
-at about 2× (a third smaller than on training), and pooled or per-position emitted frequency does
-not carry it. A much weaker version is fittable before any exact solve (training cells only).
-Selection-based context learning shows no advantage over token controls; learned token biases
-transfer about 2× with no resolved family specificity. Not shown: that evolution reaches fitted
-context; whether C's conditional rows or its wider mutation neighbourhood carry it; transfer
-beyond one fresh shape.
+at about 2× (a third smaller than on training). On then-addition, under these operators, the tested
+frozen pooled and positional frequency projections do not reproduce C's advantage, and neither does
+Q randomly recoded to C's mutation width. A much weaker version is fittable before any exact solve
+(training cells only). The selection-based procedures tested have not established a reproducible
+contextual search advantage over token controls; learned token biases transfer about 2× with no
+resolved family specificity. Not shown: that evolution reaches fitted context; whether C's
+conditional content or structured coupling carries it; transfer beyond one fresh shape.
 
 ## 23 Heritable variation bias (root parked, budget 2, 2 used)
 

@@ -44,6 +44,7 @@ marginals are under the uniform latent prior, not the populations selection visi
 set; the result rejects these two frozen replacements, not every positional learner.
 
 Related: [root 10](../question.md), [29](../29-frequency-matched-transfer/question.md),
+[31](../31-distribution-preserving-recoding/question.md),
 [26](../26-then-addition-fresh-bank/question.md), [plan](../../../plans/position-matched-context.md),
 [strategy 0239](../../../runs/2026-10-09-0239/strategy.md),
 [proposal 0239](../../../runs/2026-10-09-0239/proposal.md),
@@ -55,7 +56,9 @@ Related: [root 10](../question.md), [29](../29-frequency-matched-transfer/questi
 [fragment plan](../../../plans/learned-executable-fragments.md).
 
 Reopen if: a positional learner acquired by selection or feedback (not an external projection)
-reaches C within 1.2× on a bank, which would contradict the frozen-projection result; or a
-variation-matched control (C's rows with a mutation neighbourhood matched to Q/K, or Q with C's)
-shows the C − Q gap is mostly a neighbourhood effect, making the positional reading worth revisiting
-with matched variation; or a fresh bank shows C/Q ≤ 1.2.
+reaches C within 1.2× on a bank, which would establish a successful positional alternative beyond
+the two frozen projections tested; or a variation-matched control (C's rows with a mutation
+neighbourhood matched to Q/K, or Q with C's) shows the C − Q gap is mostly a neighbourhood effect,
+making the positional reading worth revisiting with matched variation (Q with C's width by random
+recoding was tried in [31](../31-distribution-preserving-recoding/question.md) and was slower than
+Q, so this has not happened); or a fresh bank shows C/Q ≤ 1.2.

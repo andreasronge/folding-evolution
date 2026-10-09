@@ -1,0 +1,81 @@
+runs:
+  - id: 2026-10-09-0537-recoded-prepare
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-09-0537 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.recoded_run
+      --prepare --workers 10 --deadline-seconds 1780
+    timeout_seconds: 1800
+    track: chem-tape
+    notes: >-
+      Repeat all preparation gates on reviewed code/backend. Recover exactly
+      936 historical solved 1246 C searches, bit-exactly, to save their missing
+      solver tapes; no new scientific seeds or fitting. Validate all 64 fixed
+      R30/R100 maps and all 4096 paired Q initial-token hashes. Replay 16 Q
+      rows through identity recoding/inverse initialization and 16 unchanged C
+      rows bit-exactly. Time 64 fixed recoded searches across all corpora,
+      doses and realizations; exclude them from efficacy until full-roster
+      replay. Frozen fraction 30% uses 7200 of the actual 24000 alleles, correcting
+      the proposal's count typo. Require preparation <=1800 s and both runtime
+      prices <11760 s: expected=1.15*max(sample,finite-batch)+setup+120;
+      bound=all-capped including scheduling tail+setup+120. No added safety
+      multiplier on the all-capped bound. Committed-code smoke at fe196c1
+      admitted: 514.44 s preparation, 7636.00 s expected price and 10375.39 s
+      all-capped bound, including measured map/setup/audit cost.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - schedule.json
+      - preparation_schedules.json
+      - source_provenance.json
+      - C_solvers.jsonl
+      - initial_hashes.json
+      - freeze.json
+      - validation.json
+      - timing.json
+      - search.jsonl
+      - variation.json
+      - preparation.json
+
+  - id: 2026-10-09-0537-recoded-score
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-09-0537 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.recoded_run
+      --preparation "${RUN_DIR%/*}/2026-10-09-0537-recoded-prepare/preparation.json"
+      --workers 10 --deadline-seconds 11880
+    timeout_seconds: 12000
+    track: chem-tape
+    notes: >-
+      Exactly 4096 new scored searches: R30/R100 x 16 pinned corpora x 16
+      then-addition development cells x 8 historical paired seeds/case draws,
+      population 256 and cap 524288. Two fixed realizations per corpus/dose;
+      sorted seed indices 0-3 use k=0 and 4-7 use k=1. No realization selection,
+      extra arms, refitting, tuning, seeds or top-up. Requires admitted preceding
+      preparation with matching code/backend, Q source, bank, roster, recovered
+      C-tape and initial hashes. Reconstruct and hash every actual recoded map
+      before scoring; replay timing rows deterministically. A complete roster
+      is required for efficacy. Explicit primary G=cost_Q/cost_R30 with 95% t
+      corpus interval (n=16, df=15) and 1.20 useful-gain boundary; H=cost_R30/cost_C
+      approaches C only if its upper bound <=1.50. Report R100, solves, cap and
+      both-solved sensitivities, cell/realization spread and resolution price.
+      Fixed uniform-prior supply, not a pure width intervention, causal gap
+      partition, acquisition or transfer. Internal reporting reserve 120 s
+      plus outer margin 120 s. Total queue timeout is 13800 s (230 minutes).
+    expect_outputs:
+      - config.json
+      - bank.json
+      - schedule.json
+      - preparation_schedules.json
+      - source_provenance.json
+      - initial_hashes.json
+      - freeze.json
+      - progress.json
+      - validation.json
+      - timing.json
+      - search.jsonl
+      - variation.json
+      - result.json
+      - report.md
+      - diagnostics.png
+      - variation.png

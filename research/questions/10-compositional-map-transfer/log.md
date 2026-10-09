@@ -643,3 +643,21 @@ cut or shortened there and are kept here verbatim. Relative links are relative t
   per-position frequency on G4's template or alone (30) carries the fitted table's advantage. Not
   shown: that evolution reaches fitted context; whether C's conditional rows or its wider mutation
   neighbourhood carry it; transfer beyond this one fresh shape."
+
+## 2026-10-09: run 2026-10-09-0537 (31), Q recoded to C's mutation width at fixed random-program distribution — ran
+
+Slot 22 (strategy 0537 raised the budget 21 → 22). Run 0537 (commit `fe196c1`,
+[analysis](../../runs/2026-10-09-0537/analysis.md)), details in
+[31](31-distribution-preserving-recoding/log.md). The 16 Q tables were recoded by context-dependent
+allele permutations within body rows. Token counts per row were exact, and starting tapes equalled
+Q's. R30 matched C's mutation width (3.00 tokens per resample against C 2.95 and Q 1.71). Results:
+cost_Q/cost_R30 0.855 [0.801, 0.914], so R30 is 1.17× slower than Q; full-row R100 0.409
+[0.386, 0.434]; R30 is 2.82× [2.49, 3.19] slower than C. Label: no useful gain at either dose.
+Development bank; random recodings only; mutation width is not isolated from the other changes the
+recoding makes.
+
+Also fixed critique 0537 notes 7–9: the digest "Overall" wording, and question 30's reopen clause.
+
+Decision: close 31 and return to strategy (`next: strategy`), because both doses resolved well below
+the 1.20 band, all 22 of root 10's slots are used, and strategy 0537 asked for a review after this
+result. ([decision](../../runs/2026-10-09-0537/decision.md))
