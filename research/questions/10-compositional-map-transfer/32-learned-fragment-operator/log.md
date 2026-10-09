@@ -105,3 +105,11 @@ at its tested scope (training cells, protected holdouts and one excluded shape a
 C and W), both its slots are used, and pre-registered rule 2 routes to a strategy review of
 whether to acquire a repertoire, which is a different question with an unpriced design.
 ([decision](../../../runs/2026-10-09-1036/decision.md))
+
+## 2026-10-09 — wording fixes (steward, run 2026-10-09-1350; critique 1350 notes 7–8)
+
+Competing explanation (a) no longer says joint content is "supported … over W across shape": on
+then-addition there is no B arm, so the fragment procedure's gain over W does not separate joint
+content from changed token supply. The r −0.67 correlation between log F/W and log W/C is now
+descriptive only; "may partly substitute" became a hypothesis, unseparated from the shared log
+cost(W) term. Numbers unchanged. Follow-on note added pointing to 33's pre-solve source result.

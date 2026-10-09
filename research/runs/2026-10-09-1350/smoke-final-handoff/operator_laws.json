@@ -1,0 +1,246 @@
+{
+  "BE1": {
+    "length_counts": {
+      "3": 27,
+      "4": 4,
+      "5": 1
+    },
+    "length_probabilities": {
+      "3": 0.84375,
+      "4": 0.125,
+      "5": 0.03125
+    },
+    "rate": 0.2,
+    "start": "uniform0..32-length",
+    "fallback": false,
+    "empty_library_law": "both E/W_E use historical whole-library lengths and C-chain content",
+    "suffix": "unchanged0843 conditional window+next preimage; decoded suffix retained"
+  },
+  "PA1": {
+    "length_counts": {
+      "3": 29,
+      "4": 3
+    },
+    "length_probabilities": {
+      "3": 0.90625,
+      "4": 0.09375
+    },
+    "rate": 0.2,
+    "start": "uniform0..32-length",
+    "fallback": false,
+    "empty_library_law": "both E/W_E use historical whole-library lengths and C-chain content",
+    "suffix": "unchanged0843 conditional window+next preimage; decoded suffix retained"
+  },
+  "PA3": {
+    "length_counts": {
+      "3": 28,
+      "4": 4
+    },
+    "length_probabilities": {
+      "3": 0.875,
+      "4": 0.125
+    },
+    "rate": 0.2,
+    "start": "uniform0..32-length",
+    "fallback": false,
+    "empty_library_law": "both E/W_E use historical whole-library lengths and C-chain content",
+    "suffix": "unchanged0843 conditional window+next preimage; decoded suffix retained"
+  },
+  "BE2": {
+    "length_counts": {
+      "3": 27,
+      "4": 5
+    },
+    "length_probabilities": {
+      "3": 0.84375,
+      "4": 0.15625
+    },
+    "rate": 0.2,
+    "start": "uniform0..32-length",
+    "fallback": false,
+    "empty_library_law": "both E/W_E use historical whole-library lengths and C-chain content",
+    "suffix": "unchanged0843 conditional window+next preimage; decoded suffix retained"
+  },
+  "BE4": {
+    "length_counts": {
+      "3": 28,
+      "4": 4
+    },
+    "length_probabilities": {
+      "3": 0.875,
+      "4": 0.125
+    },
+    "rate": 0.2,
+    "start": "uniform0..32-length",
+    "fallback": false,
+    "empty_library_law": "both E/W_E use historical whole-library lengths and C-chain content",
+    "suffix": "unchanged0843 conditional window+next preimage; decoded suffix retained"
+  },
+  "BE3": {
+    "length_counts": {
+      "3": 29,
+      "4": 3
+    },
+    "length_probabilities": {
+      "3": 0.90625,
+      "4": 0.09375
+    },
+    "rate": 0.2,
+    "start": "uniform0..32-length",
+    "fallback": false,
+    "empty_library_law": "both E/W_E use historical whole-library lengths and C-chain content",
+    "suffix": "unchanged0843 conditional window+next preimage; decoded suffix retained"
+  },
+  "PA2": {
+    "length_counts": {
+      "3": 27,
+      "4": 4,
+      "5": 1
+    },
+    "length_probabilities": {
+      "3": 0.84375,
+      "4": 0.125,
+      "5": 0.03125
+    },
+    "rate": 0.2,
+    "start": "uniform0..32-length",
+    "fallback": false,
+    "empty_library_law": "both E/W_E use historical whole-library lengths and C-chain content",
+    "suffix": "unchanged0843 conditional window+next preimage; decoded suffix retained"
+  },
+  "PA4": {
+    "length_counts": {
+      "3": 27,
+      "4": 5
+    },
+    "length_probabilities": {
+      "3": 0.84375,
+      "4": 0.15625
+    },
+    "rate": 0.2,
+    "start": "uniform0..32-length",
+    "fallback": false,
+    "empty_library_law": "both E/W_E use historical whole-library lengths and C-chain content",
+    "suffix": "unchanged0843 conditional window+next preimage; decoded suffix retained"
+  },
+  "BE5": {
+    "length_counts": {
+      "3": 27,
+      "4": 5
+    },
+    "length_probabilities": {
+      "3": 0.84375,
+      "4": 0.15625
+    },
+    "rate": 0.2,
+    "start": "uniform0..32-length",
+    "fallback": false,
+    "empty_library_law": "both E/W_E use historical whole-library lengths and C-chain content",
+    "suffix": "unchanged0843 conditional window+next preimage; decoded suffix retained"
+  },
+  "PA5": {
+    "length_counts": {
+      "3": 28,
+      "4": 4
+    },
+    "length_probabilities": {
+      "3": 0.875,
+      "4": 0.125
+    },
+    "rate": 0.2,
+    "start": "uniform0..32-length",
+    "fallback": false,
+    "empty_library_law": "both E/W_E use historical whole-library lengths and C-chain content",
+    "suffix": "unchanged0843 conditional window+next preimage; decoded suffix retained"
+  },
+  "PA6": {
+    "length_counts": {
+      "3": 29,
+      "4": 3
+    },
+    "length_probabilities": {
+      "3": 0.90625,
+      "4": 0.09375
+    },
+    "rate": 0.2,
+    "start": "uniform0..32-length",
+    "fallback": false,
+    "empty_library_law": "both E/W_E use historical whole-library lengths and C-chain content",
+    "suffix": "unchanged0843 conditional window+next preimage; decoded suffix retained"
+  },
+  "BE7": {
+    "length_counts": {
+      "3": 28,
+      "4": 4
+    },
+    "length_probabilities": {
+      "3": 0.875,
+      "4": 0.125
+    },
+    "rate": 0.2,
+    "start": "uniform0..32-length",
+    "fallback": false,
+    "empty_library_law": "both E/W_E use historical whole-library lengths and C-chain content",
+    "suffix": "unchanged0843 conditional window+next preimage; decoded suffix retained"
+  },
+  "PA7": {
+    "length_counts": {
+      "3": 26,
+      "4": 6
+    },
+    "length_probabilities": {
+      "3": 0.8125,
+      "4": 0.1875
+    },
+    "rate": 0.2,
+    "start": "uniform0..32-length",
+    "fallback": false,
+    "empty_library_law": "both E/W_E use historical whole-library lengths and C-chain content",
+    "suffix": "unchanged0843 conditional window+next preimage; decoded suffix retained"
+  },
+  "BE6": {
+    "length_counts": {
+      "3": 26,
+      "4": 6
+    },
+    "length_probabilities": {
+      "3": 0.8125,
+      "4": 0.1875
+    },
+    "rate": 0.2,
+    "start": "uniform0..32-length",
+    "fallback": false,
+    "empty_library_law": "both E/W_E use historical whole-library lengths and C-chain content",
+    "suffix": "unchanged0843 conditional window+next preimage; decoded suffix retained"
+  },
+  "PA8": {
+    "length_counts": {
+      "3": 28,
+      "4": 4
+    },
+    "length_probabilities": {
+      "3": 0.875,
+      "4": 0.125
+    },
+    "rate": 0.2,
+    "start": "uniform0..32-length",
+    "fallback": false,
+    "empty_library_law": "both E/W_E use historical whole-library lengths and C-chain content",
+    "suffix": "unchanged0843 conditional window+next preimage; decoded suffix retained"
+  },
+  "BE8": {
+    "length_counts": {
+      "3": 28,
+      "4": 4
+    },
+    "length_probabilities": {
+      "3": 0.875,
+      "4": 0.125
+    },
+    "rate": 0.2,
+    "start": "uniform0..32-length",
+    "fallback": false,
+    "empty_library_law": "both E/W_E use historical whole-library lengths and C-chain content",
+    "suffix": "unchanged0843 conditional window+next preimage; decoded suffix retained"
+  }
+}

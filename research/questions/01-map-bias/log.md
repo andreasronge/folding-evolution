@@ -256,3 +256,37 @@ relative to `research/`.
 - Run 1957 (09): "Its share of the gain is unknown (rest-of-vector gain 1.30, 0.71–2.32)".
 - Shared helpers (§31 G, §32 L): "Shared endings are rare (about 4–8 in 100–450 runs, B-helper
   type); shared never loses to duplicated as such (losers end partly shared)."
+
+## 2026-10-09 — digest rewrite (run 2026-10-09-1350): wording moved here
+
+The digest was rewritten under its word limit (3031 → about 2870 words); no belief changed. These
+root-01 passages were shortened there and are kept here verbatim. Relative links are relative to
+`research/`. Dropped from the digest: the shared-helper line's stop date (2026-10-05) and
+"INPUT/GT raises solvers, the rest cuts them" (the cancellation's direction).
+
+```
+- **In evolution the fitted bias is about 4× faster than uniform** (4.33× / 3.58×, lower bounds
+  2.6×, 1.9×); a hand-set INPUT/GT/aggregator scaffold is within the registered 0.5–2× margin of it
+  (0.93×, 1.08×; a broad margin, not equality). Family specificity unresolved (matched over the
+  other family's fit 1.66× / 1.80× against a 2× bar). Sampling lift does not predict speed
+  (pass-through 0.35–3.2). Median speed, one setup. ([08](questions/01-map-bias/08-evolve-bias/question.md), [run 1705](runs/2026-10-05-1705/analysis.md))
+```
+
+```
+- **The other family's vector gives a real generic speed-up; on max>2 INPUT/GT alone reproduces it
+  within the tested margin.** Pre-registered, 250 pairs: 2.73× (sum>2), 2.02× (max>2) over uniform
+  (lower bounds 2.12, 1.45). INPUT/GT alone versus the full vector on max>2: 0.90× [0.71, 1.08]
+  (registered 1.5× margin); on sum>2 neither part is resolved against the full vector. Its flat
+  sampling rate was a cancellation (INPUT/GT raises solvers, the rest cuts them). Initialization
+  and mutation are coupled, so no mechanism is named.
+  ([09](questions/01-map-bias/09-generic-bias-speedup/question.md), [run 1814](runs/2026-10-05-1814/analysis.md))
+```
+
+```
+**Shared helpers** (line stopped 2026-10-05; three outputs on tags 0/1/2 sharing parts A and B;
+crossover v2, lexicase, P 1024, L 64). Fairly sure for these layouts; nothing beyond them.
+- **Retention is easy; establishment from rare is blocked by mixing between lineages.** A majority
+  shared form persists, and the majority form wins (270/270). From 1/32–1/10 with a selected mate
+  it was lost in 294/300 runs; with self as mate it won 183/240 contests (selected mate 34/240,
+  crossover off 75/120). (§29–§31, [06](questions/01-map-bias/06-self-mate-establishment/question.md))
+```

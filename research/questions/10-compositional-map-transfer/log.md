@@ -810,3 +810,237 @@ are relative to `research/`.
   G4 tapes gave no resolved gain (0.99× [0.89, 1.10]); F over keeping the first fit unresolved
   (1.16× [0.99, 1.36]); F stays far below the exact-solver fit (0.31×).
 ```
+
+## 2026-10-09: run 2026-10-09-1350 (33), pre-solve fragment source on then-addition — ran
+
+Slot 25 (strategy 1350 raised the budget 24 → 25). Run 1350 (commit `e9a04f8`,
+[analysis](../../runs/2026-10-09-1350/analysis.md)), details in
+[33](33-pre-solve-fragment-source/log.md). The 0843 fragment extractor applied to 1831's archived
+pre-solve parents (E) against C-chain blocks with E's length law (W_E), on 1036's harness and seeds,
+then-addition-v1 (16 corpora × 16 cells × 16 seeds), with 1036's F/W/C rows replayed bit-exactly as
+paired references. E/W_E 0.981× [0.911, 1.057] (7/16 corpora), E/F 0.843× [0.795, 0.892] (0/16),
+E/W 1.007×, E/C 1.235× (= W/C). Rule 3, `no_worthwhile_increment_ends_source`. Pre-solve libraries
+contain no `gt` comparison joins (descriptive). Development bank; C fitted from exact solvers;
+one source selection and extractor.
+
+Decision: close 33 and return to strategy (`next: strategy`), because rule 3 fired with margin,
+ending this source/extractor at this scope, all 25 root-10 slots are used, and every pre-set
+outcome returned to strategy. ([decision](../../runs/2026-10-09-1350/decision.md))
+
+## 2026-10-09 — digest condensing (run 2026-10-09-1350): wording moved here
+
+The digest gained the 33 bullet and an Overall clause for run 1350 (2967 → 3031 words). Beliefs on
+15, 22 and 24 did not change; these passages were shortened there and are kept here verbatim.
+
+```
+- **On training cells that step raised context's advantage over a token-only fit; on withheld cells
+  this is unresolved.** I = (C2/T2)/(C1/T1) 1.169× [1.093, 1.250] (BE 1.34×, PA 1.02× [0.95, 1.09]);
+  the token-only fit also gained about 1.2×. Withheld I 1.087× [0.984, 1.200]. Same seeds as 1924,
+  not an independent replication.
+  ([22](questions/10-compositional-map-transfer/22-feedback-context-increment/question.md))
+```
+
+```
+- **The one-shot context advantage replicates on the comparison-gate bank's training cells, larger.**
+  16 new G4 corpora: C/T 3.11× [2.78, 3.48] (BE 2.86×, PA 3.37×), 16/16 corpora; a broad shift, not
+  only fewer capped T runs. Why it exceeds the old bank's 1.37× is not identified.
+```
+
+```
+- **A fixed decoder can express a family preference**: two hand-set family grammars give matched
+  over swapped 1.68× [1.39, 2.05] (BE) and 1.32× [1.12, 1.57] (PA); against G4 the BE grammar helps
+  BE (1.36×), the PA grammar shows no resolved PA gain (0.87× [0.75, 1.04]). Expressivity only,
+  not what a learner finds. (15)
+```
+
+## 2026-10-09 — digest rewrite (run 2026-10-09-1350): wording moved here
+
+The digest was rewritten under its word limit (3031 → about 2870 words); no belief changed. These
+root-10 passages were shortened or merged there (22 into 21's bullet, 24's replication into the
+25/26 bullet, the bank bullets into one paragraph) and are kept here verbatim. Relative links are
+relative to `research/`. Details now only here: 20's shrinkage α 50 and "though K is slower than
+T"; 19's token-continuation gains (1.14×, 1.12×); 21's 1924 seeds for 22; 28's 16 lineages; 32's
+"both families", both-solved F/W 1.15× [1.09, 1.22], per-cell F/W 0.96–1.54× and "libraries built
+differently"; 33's 32/32 libraries per corpus, 1036's seeds and E/W 1.007× [0.948, 1.070]; run
+links 0125, 0306, 0537 (still reachable from 29–31).
+
+```
+Sub-questions 11–33 closed. Banks before
+then-addition-v1 (26) were screened and inspected, so transfer claims on them are development-bank
+claims; then-addition-v1, the first fresh bank (frozen with the method before scoring), is now a
+development bank too.
+```
+
+```
+**Banks.**
+- **The sign-gated banks could not support a symmetric two-family test** (these shapes and rules;
+  [11](questions/10-compositional-map-transfer/11-composition-bank/question.md),
+  [12](questions/10-compositional-map-transfer/12-generic-grammar-headroom/question.md),
+  [15](questions/10-compositional-map-transfer/15-four-reducer-family-bank/question.md)); hence a
+  post-addition (PA) split (G), then a branch-else (BE)/PA split on four reducers (G4).
+- **A comparison-gated bank gives a protected multi-holdout split with headroom.** BE
+  `A>B ? C : D+E`, PA `(A>B ? C : D)+E`, 13 tokens: 37 BE and 56 PA behaviours after an exact
+  ≤ 9-token screen (no 13-token minimality certificate); a frozen, performance-blind split gives 4
+  training and 4 holdouts per family; G4 solves 68% of training-cell searches at 524k.
+  ([24](questions/10-compositional-map-transfer/24-comparison-gate-bank/question.md), [run 1246](runs/2026-10-08-1246/analysis.md))
+- **Ten-token branch cells leave room above the hand-set grammars** (12, 15).
+```
+
+```
+- **Contextual grammars beat their own token marginals on all three banks**: G/G-marg 2.6–20×
+  (11, all intervals above 1), 1.5–6.0× with 15/16 cell contrasts resolved (12), G4/G4-marg 4.4×
+  [3.4, 5.6] BE and 3.3× [2.7, 4.0] PA (15). Not a mechanism: G also emits far more exact solvers and changes more
+  tokens per mutation.
+```
+
+```
+- **Learned token weights transfer about 2–2.5× to withheld cells, on both setups.** On G (PA only,
+  200 seeds): 2.23× [1.82, 2.75] on training, 2.06–2.25× (lower bounds ≥ 1.60) on two withheld
+  cells, unresolved on linear (1.08× [0.72, 1.57]); mostly INPUT up, DUP down, IF_GT up.
+  ([13](questions/10-compositional-map-transfer/13-post-addition-map-learning/question.md)) On G4:
+  about 2.2× on own training cells, 2.0× (BE) and 2.5–2.6× (PA) withheld, all resolved.
+  ([16](questions/10-compositional-map-transfer/16-crossed-family-adaptation/question.md))
+```
+
+```
+**Context learned by outer-loop selection: no resolved gain from four procedures.** Full
+552-weight learner from G 0.92× [0.78, 1.09] on training (13). Row residuals on learned M versus
+continued token learning 1.00× [0.90, 1.11] on training; withheld unresolved and not replicated
+(13, [14](questions/10-compositional-map-transfer/14-saved-map-shape-shift/question.md)). Rank-one
+context steps mixed into token continuation, where token continuation itself learned (1.14×,
+1.12×): C/T 0.967× [0.871, 1.073], a gain above about 1.07× excluded for this loop and these
+token-tuned starts ([18](questions/10-compositional-map-transfer/18-compact-context-learning/question.md),
+[19](questions/10-compositional-map-transfer/19-selection-calibrated-continuation/question.md)).
+Context learned jointly from G4 is untested.
+```
+
+```
+- **A previous-token table fitted to exact G4 solver tapes beats a token-only fit to the same tapes,
+  and the gain transfers.** C/T 1.365× [1.288, 1.446] on training (31/32 corpora), 1.293× [1.213,
+  1.378] withheld. Matching C's pooled emitted frequencies does not reproduce it (C/K 1.65×, though
+  K is slower than T). No matched-family advantage resolved on the three withheld cells (BE 1.02×
+  [0.91, 1.15], specificity not refuted). One bank, split and shrinkage (α 50); which structure
+  carries it is unknown. ([20](questions/10-compositional-map-transfer/20-solver-corpus-context/question.md))
+```
+
+```
+  procedure (yield, diversity and tape content bundled). A second step is untested.
+  ([21](questions/10-compositional-map-transfer/21-iterated-solver-corpus/question.md))
+- **That step raised context's advantage over a token-only fit on training cells (withheld
+  unresolved).** I 1.169× [1.093, 1.250], mostly BE; withheld 1.087× [0.984, 1.200]; 1924's seeds.
+  ([22](questions/10-compositional-map-transfer/22-feedback-context-increment/question.md))
+```
+
+```
+- **The one-shot advantage replicates, larger, on the comparison-gate training cells.** C/T 3.11×
+  [2.78, 3.48], 16/16 new corpora; why it exceeds 1.37× is not identified.
+  ([24](questions/10-compositional-map-transfer/24-comparison-gate-bank/question.md), [run 1246](runs/2026-10-08-1246/analysis.md))
+- **Those frozen tables keep most of the advantage on protected holdouts and on one fresh bank of a
+  new shape, shrunk from training.** No refit. Comparison-gate-v1's eight protected holdouts
+  (development bank): C/T 2.60× [2.31, 2.92], 8/8 resolved. Fresh `then-addition-v1`
+  (`A>B ? C+D : E`, 16 cells pinned before any search): 2.12× [1.86, 2.41], 16/16 corpora, 14/16
+  cells resolved. Shrinkage from training is resolved across shape, 0.68× [0.57, 0.81], not within
+  shape, 0.88× [0.72, 1.07]. Family matching on the holdouts unresolved, 1.10× [0.89, 1.35]; on the
+  fresh bank C/T is larger for BE-fitted corpora (1.38× [1.13, 1.68]; secondary). Scope: one fresh
+  bank, designed after v1 was seen, all cells on two tie-heavy gates; the interval conditions on
+  these 16 cells; why the gain shrinks is not identified.
+  ([25](questions/10-compositional-map-transfer/25-comparison-gate-transfer/question.md),
+  [26](questions/10-compositional-map-transfer/26-then-addition-fresh-bank/question.md), [run 1548](runs/2026-10-08-1548/analysis.md))
+```
+
+```
+- **On then-addition, frozen maps matched to C's pooled or per-position emitted frequencies do not
+  reproduce C's advantage.** Same seeds, 16 corpora: C/K 2.48× [2.17, 2.83] (K: G4 × 24 multipliers
+  matched to C's pooled marginals; K/T 0.86× [0.77, 0.96]); C/Q 2.41× [2.11, 2.75] (Q: matched at
+  each of 32 positions; Q/K 1.03× [0.93, 1.13]); C/P 5.47× [4.79, 6.25] (independent positional
+  draws). Scope: external projections, one operator set; C's mutation changes about 3 tokens against
+  1.7 (K, Q); a learned positional map is untested.
+  ([29](questions/10-compositional-map-transfer/29-frequency-matched-transfer/question.md),
+  [30](questions/10-compositional-map-transfer/30-position-matched-replacement/question.md),
+  [run 0125](runs/2026-10-09-0125/analysis.md), [run 0306](runs/2026-10-09-0306/analysis.md))
+```
+
+```
+- **Recoding Q to C's mutation width, with Q's random-program distribution held exactly fixed, made
+  search slower.** Context-dependent allele permutations raised tokens changed per resample from 1.7
+  to 3.0 (C 2.95): R30/Q 0.86× [0.80, 0.91]; full-row R100/Q 0.41× [0.39, 0.43]. Random, undirected
+  width does not carry C's advantage. Scope: two random recodings, one development bank; structured
+  coupling and C's content are not separated. ([31](questions/10-compositional-map-transfer/31-distribution-preserving-recoding/question.md),
+  [run 0537](runs/2026-10-09-0537/analysis.md))
+```
+
+```
+  3–6-token block, decoded suffix kept. Fragments (F): 32 knockout-active windows recurring in the
+  corpus's training solvers; controls: the library's per-position marginals (B) and C's own chain
+  (W), same length and start laws. Leave-one-cell-out libraries, 16 corpora × 4 cells × 32 paired
+  seeds: F/C 1.57× [1.42, 1.75] (16/16 corpora, both families), F/B 1.60× [1.45, 1.77], F/W 1.23×
+  [1.12, 1.36]. ([32](questions/10-compositional-map-transfer/32-learned-fragment-operator/question.md), [run 0843](runs/2026-10-09-0843/analysis.md))
+```
+
+```
+- **Frozen whole-corpus libraries keep that advantage on the excluded compositions tested.** No
+  refit, no B arm. Then-addition (16 cells × 16 corpora × 16 seeds): F/C 1.47× [1.38, 1.56] (16/16
+  corpora), F/W 1.20× [1.11, 1.29] (14/16; both-solved 1.15× [1.09, 1.22]); comparison-gate
+  holdouts F/C 1.75× [1.57, 1.95], F/W 1.27× [1.17, 1.38]. F/C's change from training, 0.93× [0.83,
+  1.05], is unresolved (descriptive; libraries built differently), whereas C/T lost a third across
+  the same shape. An F/W gain above a worthwhile 1.10× is not established. Uneven across cells
+  (F/W 0.96–1.54×, 5/16 resolved). Scope: development banks; the libraries are the banks' shared
+  3–5-token syntax, which then-addition needs by construction, so this is reuse of one externally
+  fitted procedure across one shape change, not modularity, fresh-bank transfer or acquisition;
+  changed token supply is not excluded on this shape. (32, [run 1036](runs/2026-10-09-1036/analysis.md))
+```
+
+```
+- **A library-free block edit sampled from C's own chain also beats C; marginal blocks showed no
+  resolved gain.** W/C 1.28× [1.17, 1.39] on training cells, 1.23× [1.15, 1.31] on then-addition,
+  1.38× [1.23, 1.56] on holdouts; B/C 0.98× [0.93, 1.04] on training cells (a gain above 1.04×
+  excluded, a small loss not) at ~2.8 tokens changed per edit, so edit size alone does not explain
+  F's or W's gain. Why W wins is not isolated: C's point mutation re-decodes the whole suffix, the
+  block arms keep it. (32)
+```
+
+```
+- **The same extractor applied to pre-solve parents gave no worthwhile gain over C-chain blocks on
+  then-addition.** E: libraries (32/32 per corpus) from 1831's parents archived before their search
+  first solved; W_E: C-chain blocks with E's length law; 1036's seeds, 16 corpora × 16 cells × 16
+  seeds. E/W_E 0.981× [0.911, 1.057] (a gain above about 1.06× excluded, a small gain or loss not);
+  E/F 0.843× [0.795, 0.892], 0/16 corpora; E/W 1.007× [0.948, 1.070]. The pre-solve libraries lack
+  the exact libraries' `gt` comparison joins (descriptive; whether those joins carry F's increment
+  is untested). Scope: one source selection and extractor, C still fitted from exact solvers,
+  development bank. ([33](questions/10-compositional-map-transfer/33-pre-solve-fragment-source/question.md), [run 1350](runs/2026-10-09-1350/analysis.md))
+```
+
+```
+  cap.** 16 corpora of parent tapes (stopped at first solve or 65k evaluations): C_S/T_S 1.28×
+  [1.12, 1.45] (both-solved 1.05× [0.88, 1.24]; PA unresolved); C_S/G4 1.62× [1.37, 1.90], again
+  1.62× on fresh seeds (2116). Selected parents not resolved from uniform population samples
+  (1.04× [0.92, 1.16]). The exact-solver fit stays 3.7× faster for about 7.9× more source
+  evaluations. Scope: own training cells, one collection horizon.
+  ([27](questions/10-compositional-map-transfer/27-partial-program-context/question.md), [run 1831](runs/2026-10-08-1831/analysis.md))
+```
+
+```
+- **Collecting further under that partial fit beat collecting the same allocation under G4, by a
+  small margin resolved only on BE.** 16 lineages, 96 sources per cell per arm: two rounds under the
+  updated fit (F) against one fit to G4-collected tapes (O), F/O 1.18× [1.01, 1.37] (BE 1.42×,
+  PA 0.98× [0.83, 1.16]); F over keeping the first fit unresolved (1.16× [0.99, 1.36]); F stays far
+  below the exact-solver fit (0.31×). Scope: 27's training
+  cells, three rounds; yield and tape content bundled.
+  ([28](questions/10-compositional-map-transfer/28-partial-program-feedback/question.md), [run 2116](runs/2026-10-08-2116/analysis.md))
+```
+
+```
+**Overall.** Assembly information beyond a token-only fit exists in this system's own solvers and
+can be fitted externally; it transfers to withheld compositions and to one fresh bank of a new shape
+at about 2× (a third smaller than on training). On then-addition, under these operators, the
+tested frozen pooled and positional frequency projections do not reproduce C's advantage, nor does Q randomly recoded to C's
+mutation width. A much weaker context fit is possible before any exact solve (training cells only).
+Learned fragments inserted as block edits add about 1.5× over C on training cells, protected
+holdouts and then-addition, about 1.2× of it beyond blocks sampled from C's own chain (development
+banks, external fitting); the same extractor on pre-solve parents gave no worthwhile gain over
+those chain blocks. The selection-based procedures tested have not
+established a reproducible contextual advantage over token controls; learned token biases transfer about 2× with
+no resolved family specificity. Not shown: that evolution reaches fitted context or fragments;
+whether C's conditional content or structured coupling carries it; that a fragment repertoire can
+be acquired at a useful cost; transfer beyond one fresh shape.
+```

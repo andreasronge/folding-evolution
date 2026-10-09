@@ -37,22 +37,26 @@ specificity or acquisition. On this shape F/W does not separate intact content f
 token supply (no B). The gain is uneven across cells: F/C 0.99–2.17× on training cells
 (descriptive; on `BE:F>S?F:M+m` F/C is unresolved, 0.99× [0.70, 1.41], and F is worse than W in
 the descriptive comparison, 0.79× [0.65, 0.96]); F/W 0.96–1.54× on then-addition cells, 5/16
-resolved, negatively correlated with W/C across cells (r −0.67, post hoc), so fragments and chain
-blocks may partly substitute. Why W beats C is not isolated: C's point mutation re-decodes the
+resolved; log F/W and log W/C are negatively correlated across cells (r −0.67, post hoc,
+descriptive). Substitution between fragments and chain blocks is a hypothesis, not separated from
+both ratios sharing log cost(W) with opposite signs. Why W beats C is not isolated: C's point mutation re-decodes the
 whole suffix, the block arms keep it, so W/C bundles local, suffix-preserving editing with
 chain-sampled content. Solvers under F carry more library windows (occurrence, not ancestry).
 Cost: F saves about 0.5 worker-s per search over W on then-addition; extraction is 4 s, but the
 shared solver corpus cost 48 039 worker-s.
 
 Competing explanations for the F gain: (a) learned joint content — supported over B and W on
-training cells and over W across shape; (b) extra contiguous editing — W and B rule out "more
+training cells; across shape the fragment procedure beats W, but joint content versus changed token
+supply remains unresolved there (no B); (b) extra contiguous editing — W and B rule out "more
 mutation" as the whole story; (c) the re-encoding path's suffix preservation — part of W/C,
 unseparated; (d) memorization of the scored cell's solutions — not needed: the gain holds on
 holdouts and on then-addition, where no fragment solves a cell when NOP-padded; (e) changed token
 supply — excluded for B on training cells, untested across shape.
 
 Open follow-ons, not allocated (strategy decides): whether evolution can acquire such a
-repertoire, and at what source cost; why a library-free chain block beats C's point mutation;
+repertoire, and at what source cost (one cheap source tested in
+[33](../33-pre-solve-fragment-source/question.md): pre-solve parents through the same extractor gave
+no worthwhile gain over W, E/W_E 0.981× [0.911, 1.057], and E/F 0.843×); why a library-free chain block beats C's point mutation;
 reuse on a bank fresh to the method.
 
 Closest technique: run-transferable libraries ([Keijzer, Ryan & Cattolico 2004](https://www.cs.york.ac.uk/rts/docs/GECCO_2004/Conference%20proceedings/papers/3103/31030531.pdf)),

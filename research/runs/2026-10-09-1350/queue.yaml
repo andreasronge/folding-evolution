@@ -1,0 +1,100 @@
+runs:
+  - id: 2026-10-09-1350-pre-solve-fragments-prepare
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-09-1350 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.pre_solve_run
+      --prepare --workers 10 --deadline-seconds 1680
+    timeout_seconds: 1800
+    track: chem-tape
+    notes: >-
+      SHA-pin saved1831 collection and1036 results, reuse exact frozen C.
+      All2048 source attempts retained in manifest. Minimum-slot S at64/128/256,
+      performance-blind; revalidate checkpoint before first solve and selected
+      full-domain non-exactness. Shared extractor uses96 seed0 inputs, all-active
+      3-6 windows, >=2 cells, rank -cells,-raw occurrences,-length,tokens, top32
+      after family training-cell NOP-pad exclusion. Repeated positions/checkpoints
+      count separately; distinct searches reported, not ranked. No fake solved
+      flags. Empty libraries use matched historical-length C-chain fallback for
+      both arms. Report then-addition padded hits without filtering. Check
+      Python/Rust traces and10000 edits each through F/W implementation. Replay
+      48 historical C/F/W rows, one per arm/corpus; any mismatch demotes ALL
+      historical arms to unpaired references but preserves new E/W_E primary.
+      Freeze both16/12-seed schedules and64 timing rows spanning all16 target
+      cells in both families and all16 corpora before searches. Timing alone:
+      measured worker/concurrency projection x1.15 <=135min at16 else12; otherwise
+      infeasible, no redesign. Final committed smoke admitted16 at106.30 scoring
+      minutes; full preparation116.07s. No efficacy-based resizing.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - target_banks.json
+      - source_provenance.json
+      - archive_provenance.json
+      - candidate_schedules.json
+      - preparation_schedules.json
+      - source_manifest.json
+      - libraries.json
+      - activity.json
+      - operator_laws.json
+      - padded_solutions.json
+      - validation.json
+      - progress.json
+      - search.jsonl
+      - freeze.json
+      - preparation.json
+      - schedule.json
+
+  - id: 2026-10-09-1350-pre-solve-fragments-score
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-09-1350 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.pre_solve_run
+      --preparation "${RUN_DIR%/*}/2026-10-09-1350-pre-solve-fragments-prepare/preparation.json"
+      --workers 10 --deadline-seconds 8880
+    timeout_seconds: 9000
+    track: chem-tape
+    notes: >-
+      Validate frozen source/library/law/manifest/bank/table/code/Rust/roster
+      hashes, then replay all64 smoke scientific payloads before efficacy.
+      E/W_E x16 corpora x16 then-addition cells x16 original1036 seeds =8192
+      new searches; timing-only12-seed fallback =6144. No holdout or new F/W/C
+      efficacy searches. P256, cap524288, lexicase, unchanged ordinary variation,
+      block probability.2 on non-elite children, decoded suffix retained. E
+      uniform intact pre-solve fragment; W_E matched-length/start C-chain block.
+      E/W_E>1 favors E. Unsolved2cap, equal16-corpus mean paired log-cost ratio,
+      95pct t15df. Ordered harm/useful early source/no worthwhile increment/
+      unresolved rules, threshold1.10. Secondary E/F,E/C,W_E/W require successful
+      historical replay and complete same-seed references; historical timing
+      descriptive. Report both-solved/1cap, BE/PA, cells, library occurrence,
+      edits/defaults, fitness/diversity/cost plots, arithmetic worker/evaluation
+      savings and separately charged partial collection versus shared exact C.
+      Complete roster mandatory. Resolution x1.05 price conditional on observed
+      corpus variance; more seeds may not remove heterogeneity. Any continuation,
+      including unallocated6-9h complete early route, needs strategy review.
+      Development procedure comparison under exact-solver C; no solver-free,
+      inheritance, fresh-transfer, joint-content or gate-join mechanism claim.
+      Timeout ledger1800+9000=10800s,3h, below approved4h and driver8h caps.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - target_banks.json
+      - source_provenance.json
+      - archive_provenance.json
+      - candidate_schedules.json
+      - preparation_schedules.json
+      - source_manifest.json
+      - libraries.json
+      - activity.json
+      - operator_laws.json
+      - padded_solutions.json
+      - freeze.json
+      - schedule.json
+      - preparation.json
+      - validation.json
+      - progress.json
+      - search.jsonl
+      - historical_references.json
+      - result.json
+      - report.md
+      - then_addition_diagnostics.png

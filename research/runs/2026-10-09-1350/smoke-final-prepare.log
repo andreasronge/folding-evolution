@@ -1,0 +1,45 @@
+{
+  "admitted": true,
+  "selected_seeds": 16,
+  "projected_seconds": 6377.750426387786,
+  "timings": {
+    "E": {
+      "n": 32,
+      "solved": 29,
+      "mean_seconds": 6.0294338346975564,
+      "max_seconds": 29.10823791695293,
+      "worker_seconds": 192.9418827103218
+    },
+    "W_E": {
+      "n": 32,
+      "solved": 30,
+      "mean_seconds": 3.9769088502398517,
+      "max_seconds": 27.365631707943976,
+      "worker_seconds": 127.26108320767526
+    }
+  },
+  "measured_cpu_efficiency": 7.3903607748766555,
+  "smoke_wall_seconds": 43.32710887491703,
+  "prepare_wall_seconds": 116.06829225004185,
+  "workers": 10,
+  "candidates": [
+    {
+      "seeds": 16,
+      "searches_per_arm": 4096,
+      "projected_seconds": 6377.750426387786,
+      "smoke_handoff_seconds": 49.82617520615458,
+      "reporting_reserve_seconds": 180,
+      "fits": true
+    },
+    {
+      "seeds": 12,
+      "searches_per_arm": 3072,
+      "projected_seconds": 4783.312819790841,
+      "smoke_handoff_seconds": 49.82617520615458,
+      "reporting_reserve_seconds": 180,
+      "fits": true
+    }
+  ],
+  "rule": "timing only: measured projection x1.15 <=135min at16 else12; prepare<=30min; handoff/report fit150min",
+  "rate_caveat": "Fixed representative32 searches/arm; solve counts descriptive, not used in admission"
+}
