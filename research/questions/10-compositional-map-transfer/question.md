@@ -1,7 +1,7 @@
 ---
 status: open
 tags: [map-bias, evolve-the-bias, task-family, compositional-transfer, decoder, fresh-start]
-budget: {experiments: 20, used: 0}
+budget: {experiments: 21, used: 0}
 ---
 # Can an adapted decoder help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 
@@ -43,17 +43,21 @@ effect: C/T 3.11× [2.78, 3.48] over 16 fresh corpora, 16/16 corpora favouring C
 frozen tables kept most of that advantage on the eight protected holdouts of that (development)
 bank, 2.60× [2.31, 2.92] (25), and on a fresh bank of a new shape, then-addition `A>B ? C+D : E`
 (16 semantically selected cells on two gates), 2.12× [1.86, 2.41], a resolved shrinkage from
-training of 0.68× [0.57, 0.81] (26). What carries the gain (emitted frequencies versus order,
-K unscored there) and why it shrinks are not identified. Exact solvers are not the only usable
+training of 0.68× [0.57, 0.81] (26). On that bank a G4 token map matched to C's pooled emitted
+frequencies (K) does not reproduce the gain: C/K 2.48× [2.17, 2.83], all 16 corpora and cells,
+and K is slower than the token-only fit (K/T 0.86× [0.77, 0.96]) (29). Which structure carries
+C − K (context dependencies or positional frequencies; K keeps G4's context) and why the gain
+shrinks across shape are not identified. Exact solvers are not the only usable
 data: a context fit to tapes from G4 searches that had not yet solved beat a token fit to the same
 tapes 1.28× [1.12, 1.45] and G4 1.62× [1.37, 1.90] on the training cells, mostly by solving within
 the cap more often, with no resolved parent-selection enrichment; the exact-solver fit stays far
 faster (0.27× [0.24, 0.30]) at about 7.9× more source evaluations (27). Collecting two further
 rounds of such tapes under the updated context fit beat spending the same source allocation
-under G4 and fitting once, 1.18× [1.01, 1.37], all of it on BE (1.42× [1.17, 1.72]; PA 0.98×
-[0.83, 1.16]); more G4 tapes alone added nothing (0.99× [0.89, 1.10]), and the gain over keeping
-the first fit is unresolved (1.16× [0.99, 1.36]) (28)**
-(19 of 20 slots used; strategy 2116 assigned slot 19 to [28](28-partial-program-feedback/question.md); strategy 1831 assigned slot 18 to [27](27-partial-program-context/question.md); allocation 1534 raised the budget from 16 to 20 for a four-slot block, first
+under G4 and fitting once, 1.18× [1.01, 1.37], gain resolved on BE (1.42× [1.17, 1.72]), PA
+unresolved (0.98× [0.83, 1.16]); with more G4 tapes alone no improvement was resolved (0.99× [0.89,
+1.10]; gains above about 10% excluded at this scope), and the gain over keeping the first fit is
+unresolved (1.16× [0.99, 1.36]) (28)**
+(20 of 20 slots used; strategy 0125 assigned slot 20 to [29](29-frequency-matched-transfer/question.md); strategy 2116 assigned slot 19 to [28](28-partial-program-feedback/question.md); strategy 1831 assigned slot 18 to [27](27-partial-program-context/question.md); allocation 1534 raised the budget from 16 to 20 for a four-slot block, first
 slot run 1548; strategy 1246 raised the budget from 15 to 16, for 24; strategy 2129 raised the budget from 14 to 15, for 22; strategy 1924 raised the budget from 13 to 14; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
 2331 to 10, strategy 0803 to 12, strategy 1137 to 13; sub-questions [18](18-compact-context-learning/question.md)
 and [19](19-selection-calibrated-continuation/question.md) closed;
@@ -61,6 +65,12 @@ and [19](19-selection-calibrated-continuation/question.md) closed;
 [21](21-iterated-solver-corpus/question.md) after run 1924;
 [22](22-feedback-context-increment/question.md) closed after run 2156; its first attempt,
 run 2129, stopped at preparation).
+Run 2026-10-09-0125 ([29](29-frequency-matched-transfer/question.md), commit `8e62831`): the
+16 frozen 1246 K tables (G4 × 24 multipliers matched to C's pooled emitted marginals) on 1548 row
+F's 16 then-addition cells with C/T's paired seeds and case draws; 2 048 searches, 42 min,
+complete, 32/32 C/T replays bit-exact. C/K 2.48× [2.17, 2.83] (1 × cap 2.25×, both-solved 1.92×;
+BE-fitted 2.77×, PA-fitted 2.21×); K/T 0.86× [0.77, 0.96]; K/G4 1.57× (unpaired). Solves C 86.5%,
+T 75.5%, K 72.5%, G4 63.3%.
 Run 2026-10-08-2116 ([28](28-partial-program-feedback/question.md), commit `393a4dc`): 16
 lineages (one 1831 corpus each, round 1 replayed bit-exactly), 96 sources per own training cell
 per acquisition arm; F collects rounds 2–3 under C1/C2 and freezes C3, TF the same with token
@@ -229,7 +239,7 @@ Competing explanations:
 - E: The proposed tasks or adaptation loop are not tractable at the measured budget.
   This is a feasibility result about this design, not a negative answer to A.
 
-Where they stand after runs 1707, 1924, 2156, 1548 (1831 and 2116 bear on acquisition, not transfer): A's first half (held-out gain beyond a fitted independent-token
+Where they stand after runs 1707, 1924, 2156, 1548, 0125 (1831 and 2116 bear on acquisition, not transfer): A's first half (held-out gain beyond a fitted independent-token
 map) is supported for an externally fitted previous-token table, now also on a fresh bank of a new
 shape (2.12×, 26), not yet for any adapted-by-selection decoder; its second half (advantage tied to the training family) is not supported:
 no matched-family gain was resolved on the three withheld cells, one PA cell resolved the other way, and
@@ -246,9 +256,13 @@ was resolved by the four-reducer bank. Run 1831 (27) bears on how A's fitted dec
 acquired rather than on transfer: a C-over-T advantage (1.28×, training cells) is already
 available from searches that have not yet solved, at about 1/8 of the exact corpora's source
 evaluations, though it is much weaker than the exact-solver fit. Run 2116 (28) shows that
-collecting further under the updated partial fit beats collecting further under G4 by a small,
-BE-carried margin (1.18× [1.01, 1.37]); it closes about a tenth of the log gap to the
-exact-solver fit.
+collecting further under the updated partial fit beats collecting further under G4 by a small
+margin (1.18× [1.01, 1.37]; resolved on BE, PA unresolved); at the point estimates it closes about a tenth of the log
+gap to the exact-solver fit, while improvement over retaining the first fit remains unresolved
+(F/R 1.16× [0.99, 1.36]). Run 0125 (29) narrows B for the fitted tables on then-addition, now a development bank: a G4
+map matched to C's pooled emitted frequencies is 2.48× slower than C and slower than T, so pooled
+frequency on G4's template does not reproduce C's gain there; a positional-frequency or other non-contextual explanation
+is not excluded.
 
 Sub-questions: [11-composition-bank](11-composition-bank/question.md) (closed: this bank
 fails on tractability at 524k and on the 4 096 headroom rule against G; run 2026-10-05-2247),
@@ -319,7 +333,16 @@ within-cap reliability gain, BE-carried; no resolved parent enrichment; exact-so
 [28-partial-program-feedback](28-partial-program-feedback/question.md) (closed, 1 of 1 slot, run
 2026-10-08-2116: two feedback rounds of partial-tape collection under the updated context fit
 beat equal-allocation one-shot G4 collection, F/O 1.18× [1.01, 1.37], BE 1.42×, PA 0.98× [0.83,
-1.16]; more G4 data adds nothing, O/R 0.99× [0.89, 1.10]; F/R unresolved; training cells only).
+1.16], gain resolved on BE, PA unresolved; no improvement resolved from more G4 data, O/R 0.99×
+[0.89, 1.10]; F/R unresolved; training cells only).
+[29-frequency-matched-transfer](29-frequency-matched-transfer/question.md) (closed, 1 of 1 slot,
+run 2026-10-09-0125: on then-addition C beats a G4 map matched to its pooled emitted frequencies,
+C/K 2.48× [2.17, 2.83], 16/16 corpora; K/T 0.86× [0.77, 0.96]; context versus positional
+frequency not separated; development bank by now).
+[30-position-matched-replacement](30-position-matched-replacement/question.md) (open, 0 of 1
+slot used: frozen per-position projections Q and P of C on then-addition; run 2026-10-09-0239 passed
+every intervention and replay gate but stopped at its runtime admission gate, 70 s over a 3 h
+price; re-proposed with a 3 h 15 min scoring timeout in run 2026-10-09-0306).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
@@ -338,6 +361,8 @@ Related: [core question](../../../README.md#core-question),
 [run 1548 decision](../../runs/2026-10-08-1548/decision.md),
 [run 1831 decision](../../runs/2026-10-08-1831/decision.md),
 [run 2116 decision](../../runs/2026-10-08-2116/decision.md),
+[run 0125 decision](../../runs/2026-10-09-0125/decision.md),
+[run 0239 decision](../../runs/2026-10-09-0239/decision.md),
 [digest](../../digest.md), [chem-tape findings](../../../docs/chem-tape/findings.md).
 
 Review after the feasibility experiment and after the four allocated experiments. A

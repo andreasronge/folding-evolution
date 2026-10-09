@@ -552,3 +552,24 @@ Decision: close 28 and return to strategy, because strategy 2116 allocated this 
 asked for a review after it; resolving the 1.15× margin needs about 600 lineages, and the remaining
 partial-acquisition questions (PA null, gap to exact fit, transfer) need a new design rather than more
 rounds. 19 of 20 slots used. ([decision](../../runs/2026-10-08-2116/decision.md))
+
+## 2026-10-09: run 2026-10-09-0125 (29), frozen frequency-matched K on then-addition — ran
+
+Run 0125 (slot 20, commit `8e62831`, [analysis](../../runs/2026-10-09-0125/analysis.md)), details in
+[29](29-frequency-matched-transfer/log.md): the 16 frozen 1246 K tables (G4 × 24 multipliers matched
+to C's pooled emitted marginals) scored on 1548 row F with C/T's paired seeds; 2 048 searches, 42 min,
+complete, replays bit-exact. C/K 2.48× [2.17, 2.83] (all 16 corpora and cells above 1.20; 1 × cap
+2.25×; both-solved 1.92×); K/T 0.86× [0.77, 0.96]; K/G4 1.57× (unpaired, descriptive). Pre-stated
+rule: this G4-based pooled-frequency replacement is insufficient within 20% on these cells. Replicates
+question 20's direction (C/K 1.65×, K/T 0.83×) on a second bank. Context versus positional frequency
+not separated; then-addition is now a development bank.
+
+Wording correction to the 2116 entry above (critic 0125, notes 5–8): "PA null" reads "PA unresolved,
+0.98× [0.83, 1.16]"; more G4 data gave no resolved improvement (O/R 0.99× [0.89, 1.10]), not "nothing";
+the "tenth of the log gap" is point-estimate arithmetic with F/R unresolved. question.md and 28 are
+corrected; see [28's log](28-partial-program-feedback/log.md).
+
+Decision: close 29 and return to strategy (`next: strategy`), because the pre-stated rule routed to
+"insufficient", all 20 of root 10's slots are used, and strategy 0125 asked for a review after this
+comparison, with the fragment plan's full price, before any further allocation.
+([decision](../../runs/2026-10-09-0125/decision.md))
