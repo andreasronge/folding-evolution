@@ -1,4 +1,4 @@
-"""0239 frozen Q/P replacement on the complete paired 1548 row F roster."""
+"""0306 rerun of frozen Q/P replacement on the complete paired 1548 row F roster."""
 
 import argparse
 import gzip
@@ -28,6 +28,25 @@ from experiments.chem_tape.position_matched import (
 
 DATA = Path(__file__).with_name('data') / 'position_matched_0239'
 K_PROVENANCE_SHA = '6d88de0c27f496f4bc05866a094f8492042aed42e80e90b884536f6e1ace1094'
+
+
+def runtime_admission(sample, batch_projection, capped, fit_seconds, elapsed):
+    """Apply safety to expected work and retain a separate zero-solve hard bound."""
+    expected = 1.15 * max(sample, batch_projection) + fit_seconds + 120
+    bound = capped + fit_seconds + 120
+    return dict(
+        admitted=elapsed <= 1800 and expected < 11700 and bound < 11700,
+        expected_scoring_with_safety_seconds=expected,
+        all_capped_scoring_bound_seconds=bound,
+        admission_rule=dict(
+            version='expected_safety_and_capped_bound_v1',
+            predicate='elapsed <= 1800 and expected < 11700 and bound < 11700',
+            expected='1.15 * max(sample, batch_projection) + fit_seconds + 120',
+            bound='capped + fit_seconds + 120',
+            safety_multiplier_scope='expected runtime; all-capped bound has no additional multiplier',
+            conservative_price_role='diagnostic only; unchanged 1.15 * max(sample, batch_projection, capped) + fit_seconds + 120',
+        ),
+    )
 
 
 def implementation_hashes():
@@ -127,7 +146,7 @@ class Runner(SearchRunner):
         self.projected_hashes = {t: {a: table_hash(r['tables'][a]) for a in ('Q', 'P')} for t, r in self.corpora.items()}
         hashes = implementation_hashes()
         self.config = dict(
-            task='2026-10-09-0239', prepare_only=args.prepare, arguments=vars(args),
+            task='2026-10-09-0306', prepare_only=args.prepare, arguments=vars(args),
             workers=args.workers, cap=CAP, population=256, cases=64, tape_length=32,
             git_commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
             implementation_hashes=hashes, bank_sha256=bank_module.BANK_SHA,
@@ -259,7 +278,7 @@ class Runner(SearchRunner):
         capped += max(v['per_search_capped_worker_seconds'] for v in price.values())
         scoring_projection = 1.15 * max(sample, batch_projection, capped) + self.fit_seconds + 120
         elapsed = time.monotonic() - self.started
-        p = dict(admitted=elapsed <= 1800 and scoring_projection < 11700,
+        p = dict(**runtime_admission(sample, batch_projection, capped, self.fit_seconds, elapsed),
                  preparation_wall_seconds=elapsed, workers=self.args.workers,
                  implementation_hashes=self.config['implementation_hashes'],
                  schedule_hash=self.config['schedule_hash'], preparation_schedule_hash=self.config['preparation_schedule_hash'],
@@ -273,7 +292,7 @@ class Runner(SearchRunner):
                  fit_validation_seconds=self.fit_seconds)
         write_json(self.out, 'preparation.json', p)
         if not p['admitted']:
-            raise ValueError('complete workload plus safety exceeds approved preparation/scoring budget')
+            raise ValueError('preparation, expected runtime with safety, or all-capped bound exceeds approved budget')
         self.validation['passed'] = True
 
     def score(self):

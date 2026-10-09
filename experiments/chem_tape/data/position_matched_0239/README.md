@@ -30,7 +30,7 @@ venv (Rust has not changed):
 
 ```sh
 RUN_DIR=/absolute/preparation RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.position_matched_run --prepare --workers 10 --deadline-seconds 1780
-RUN_DIR=/absolute/full RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.position_matched_run --preparation /absolute/preparation/preparation.json --workers 10 --deadline-seconds 10680
+RUN_DIR=/absolute/full RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.position_matched_run --preparation /absolute/preparation/preparation.json --workers 10 --deadline-seconds 11580
 ```
 
 Preparation requires 32 bit-exact C/T replays, 16 bit-exact positional-K
@@ -38,9 +38,15 @@ replays, exhaustive lookup checks, and 32 fixed full-cap Q/P timing searches
 (one per arm/corpus, rotating across all 16 target cells). Full execution
 requires admitted preparation with matching implementation/binary hashes,
 source provenance, roster and projected map hashes. Timed rows replay in the
-4,096-search full roster. Admission prices observed average cost, finite-batch
-wall time, all-capped tails and lookup/fit overhead, with 15% safety and 120 s
-reporting reserve, against the approved three-hour scoring timeout.
+4,096-search full roster. The 0306 rerun uses an approved 11,700 s (195-minute)
+scoring timeout. Preparation must finish within 1,800 s, and both admission
+prices must be strictly below 11,700 s: expected runtime is
+`1.15 * max(average, finite-batch) + fitting/checking + 120 s`, and the hard
+zero-solve bound is `all-capped (including scheduling tail) + fitting/checking
++ 120 s`. The published conservative price retains its original 15% multiplier
+on the maximum of all three projections as a diagnostic. `preparation.json`
+records both admission prices and the exact predicate separately; these changes
+address the 0306 code review without changing any scientific measurements.
 
 No incomplete roster can give an efficacy decision. C/Q is cost_Q/cost_C;
 C/P is cost_P/cost_C, Q/K is cost_K/cost_Q, and Q/P is cost_P/cost_Q. Corpus
@@ -51,7 +57,7 @@ mutation and crossover diagnostics use an independent fixed seed and are
 never used to tune the projections. Supply versus variation, learning and
 transfer beyond this development bank remain unresolved by this design.
 
-The saved `preparation.json` is **not admitted**: conservative complete scoring
+The original 0239 saved `preparation.json` is **not admitted**: conservative complete scoring
 price is 10,869.70 s, above the approved 10,800 s. All scientific intervention
 and historical replay gates passed; no full queue was issued. It preserves the
 measurements and exact implementation/binary hashes for reviewer inspection;

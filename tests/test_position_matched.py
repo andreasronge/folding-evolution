@@ -9,9 +9,36 @@ from experiments.chem_tape.four_reducer_maps import R, tables
 from experiments.chem_tape.position_matched import (
     PositionalDecoder, marginals, project, reference_decode, table_hash,
 )
-from experiments.chem_tape.position_matched_run import schedules
+from experiments.chem_tape.position_matched_run import runtime_admission, schedules
 from experiments.chem_tape.position_matched_report import make_report, route, joint_interpretation
 from experiments.chem_tape import then_addition_bank
+
+
+def test_runtime_admission_tolerates_measured_timing_drift():
+    # Review's measured projections, including a 6% slowdown that would flip
+    # the old conservative-price predicate despite ample roster headroom.
+    for drift in (1, 1.019, 1.06):
+        sample, batch, capped, fit = np.array([6502.15, 7812.38, 9485.97, 50.09]) * drift
+        result = runtime_admission(sample, batch, capped, fit, 198.86 * drift)
+        assert result['admitted']
+        assert result['expected_scoring_with_safety_seconds'] < 11700
+        assert result['all_capped_scoring_bound_seconds'] < 11700
+        assert result['admission_rule']['version'] == 'expected_safety_and_capped_bound_v1'
+        if drift == 1.06:
+            assert 1.15 * max(sample, batch, capped) + fit + 120 > 11700
+
+
+@pytest.mark.parametrize('sample,batch,capped,elapsed,admitted', [
+    (0, 0, 11579, 1800, True),     # Preparation limit is inclusive.
+    (0, 0, 11579, 1800.01, False),
+    (0, 0, 11580, 1, False),       # All-capped timeout is a strict hard bound.
+    (0, 10000, 11579, 1, True),
+    (0, 10100, 11579, 1, False),   # Expected work can independently refuse.
+    (10100, 0, 11579, 1, False),   # Both expected projections matter.
+    (0, 11580 / 1.15, 0, 1, False),  # Expected timeout is also strict.
+])
+def test_runtime_admission_budget_guards(sample, batch, capped, elapsed, admitted):
+    assert runtime_admission(sample, batch, capped, 0, elapsed)['admitted'] == admitted
 
 
 def test_changing_positions_lookup_and_repeated_legacy_identity():
