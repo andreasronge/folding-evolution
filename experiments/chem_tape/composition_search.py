@@ -130,13 +130,13 @@ def outputs(programs, inputs, alphabet="v2_rmin"):
     ).reshape(len(programs), len(inputs))
 
 
-def search(job, *, return_solver=False, collector=None):
+def search(job, *, return_solver=False, collector=None, decoder_factory=Decoder):
     cell, arm, table, seed, cap, pop_size = job[:6]
     inputs = job[6] if len(job) >= 7 else INPUTS
     alphabet = job[7] if len(job) >= 8 else "v2_rmin"
     initialization = job[8] if len(job) >= 9 else None
     start = time.monotonic()
-    decoder = Decoder(table)
+    decoder = decoder_factory(table)
     # Independent streams prevent arm-dependent selection from changing the
     # initialization, cases, crossover positions, or allele-resampling draws.
     cases_rng = np.random.default_rng([seed, 0])

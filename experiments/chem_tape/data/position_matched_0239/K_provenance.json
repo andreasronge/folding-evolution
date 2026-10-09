@@ -1,0 +1,13 @@
+{
+  "source": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-09/2026-10-09-0125-frequency-matched-K",
+  "sha256": {
+    "config.json": "fbd1c1cfc04adf49928b2adfe4148aa5440e43a96c2356ebb6b0bd8676e386ac",
+    "metadata.json": "c914d196c9c8ddf68bc463748b88bf9f2c625984123ba85ddf4de0f6443af2e2",
+    "freeze.json": "c88351e3873e6520f6462f82b17abe5210117565cdd12d1b8be023206146203d",
+    "validation.json": "0a63fd7d9c01e98a5ea57e433306f214d6106cd8932a9ed3e0c114be2aa704c0",
+    "progress.json": "f278e59ad4bc23b78c66cf2bda3f1f4d8996390c2e0415bc26c99575507a8faf",
+    "schedule.json": "9cd11e70877f6ed9d074652de97419f19ac9cb9f7036c4d580c0d1d25f0c3801",
+    "search.jsonl": "0509cf99fbf4a28c6b537e0163977cddb4d6766983ea95617460e0b00326cf4b"
+  },
+  "commit": "8e628310bba8f4cca6c473fb5c2102de3854df3a"
+}
