@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-09-2033/experiments/chem_tape/sparse_feedback_run.py", line 710, in <module>
+    main()
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-09-2033/experiments/chem_tape/sparse_feedback_run.py", line 706, in main
+    Runner(args).run()
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-09-2033/experiments/chem_tape/fragment_run.py", line 361, in run
+    self.score()
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-09-2033/experiments/chem_tape/sparse_feedback_run.py", line 661, in score
+    raise ValueError("frozen preparation changed/incomplete")
+ValueError: frozen preparation changed/incomplete

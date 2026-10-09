@@ -15,7 +15,8 @@ corpora × 16 then-addition cells × 16 seeds, paired with 1036's full rows:
 
 - **Retention ρ = cost(full F)/cost(C4+F4) 0.679× [0.614, 0.752]**: about 1.47× the search cost
   (1.33–1.63×). The 0.833 tolerance is excluded under 1 × cap, both-solved (upper 0.832), BE, PA
-  and in each of the four source blocks. Solves 85.9% against 90.8%.
+  pooled; every block's point estimate loses, but blocks 0 and 1 do not exclude it separately
+  (upper bounds 0.858, 0.912, 0.811, 0.808). Solves 85.9% against 90.8%.
 - **C4+F4 is not resolved from the full decoder alone**: full C/C4+F4 0.996× [0.919, 1.080] in cost.
   The cheap pipeline gives back roughly the library's whole advantage, but stays about 4× cheaper
   than G4 per capped search (unpaired).

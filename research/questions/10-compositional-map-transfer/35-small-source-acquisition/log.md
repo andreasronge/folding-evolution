@@ -43,3 +43,11 @@ with margin under every sensitivity, block and family, so the four-attempt polic
 pre-set 20% retention target; the plan routes every outcome to strategy, root 10's 27 slots are
 used, and whether an intermediate source budget is worth pricing is an allocation question, not a
 continuation of this one. ([decision](../../../runs/2026-10-09-1743/decision.md))
+
+## 2026-10-09: correction (steward, per strategy 2033)
+
+The 1743 entry above and the earlier summary said the 0.833 tolerance was excluded in every
+source block. Per-block upper bounds are 0.858, 0.912, 0.811 and 0.808: the tolerance is
+excluded pooled, in both families and under the cap sensitivities, but not in blocks 0 and 1
+separately. All four block point estimates lose. The pooled decision stands. Full C is the
+reference without block edits, not C with its own blocks.

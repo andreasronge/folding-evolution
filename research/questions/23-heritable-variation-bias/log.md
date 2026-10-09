@@ -318,3 +318,31 @@ once frozen? TAG threshold tasks (sum/max > 1, 5), development bank `tag-thresho
   1.41]. Drift versus selection was not isolated (no mutation-only control).
   ([log](questions/23-heritable-variation-bias/log.md))
 ```
+
+## 2026-10-09 — digest condensing (run 2026-10-09-2033): former digest text moved here
+
+The digest was rewritten under its word limit (3058 → about 2930 words); no belief changed. This
+is the section as it stood before the rewrite, verbatim. Relative links are relative to
+`research/`. Dropped from the digest: the acquisition schedule "48 episodes × 128 generations" and
+"shared" (seeds) in the run-1046 bullet.
+
+```
+## 23 Heritable variation bias (root parked, budget 2, 2 used)
+
+[23](questions/23-heritable-variation-bias/question.md): can a token-frequency vector inherited
+with each program learn a useful bias through program selection alone, and help fresh populations
+once frozen? TAG threshold tasks (sum/max > 1, 5), development bank `tag-threshold-v1`.
+
+- **Under the one procedure tested, inherited frequencies gave fresh populations no useful bias
+  (the registered 1.5× gain over uniform) on their training targets.** Pre-registered, 20
+  acquisitions per family × arm (σ = 0.03, 48 episodes × 128 generations), each frozen vector scored
+  on 16 shared seeds per target. Uniform ÷ inherited cost: sum 0.33× [0.21, 0.53] (inherited
+  resolved worse), max 0.73× [0.50, 1.06] (a gain above 1.06× excluded, a loss up to about 2× not).
+  The hand scaffold is 11.9× and 5.75× cheaper. Fairly sure for this σ, schedule and inheritance
+  rule; not a verdict on self-adaptation, silent on transfer. ([run 1046](runs/2026-10-08-1046/analysis.md))
+- **Persistent ancestry made the max vectors less costly than shuffled ancestry; no gain over uniform
+  was established.** Broken ÷ inherited 1.58× [1.04, 2.36] on max; unresolved on sum, 1.00× [0.69,
+  1.41]. Drift versus selection not isolated (no mutation-only control).
+  ([log](questions/23-heritable-variation-bias/log.md))
+
+```

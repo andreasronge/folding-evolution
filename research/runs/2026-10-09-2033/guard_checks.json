@@ -1,0 +1,12 @@
+{
+  "reject_smoke": {
+    "returncode": 1,
+    "efficacy_rows": 0,
+    "rejected": true
+  },
+  "reject_admission_change": {
+    "returncode": 1,
+    "efficacy_rows": 0,
+    "rejected": true
+  }
+}

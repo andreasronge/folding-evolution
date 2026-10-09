@@ -1,0 +1,13 @@
+{
+  "source_session": "63cffffd-e41f-4a1d-899e-d7528a72288d.jsonl",
+  "commit": "652fde5",
+  "manifest_status": "reconstructed from original command, historical builds and PYTHONHASHSEED=0 on Python3.12; original probe did not emit seeds or raw tapes",
+  "rows": 128,
+  "unique_keys": 128,
+  "caveat": "Only aggregate stdout was saved by the original probe. Raw per-search results were never archived; these are not reconstructed observations and not used in final acquisition. New implementation smoke archives complete payloads.",
+  "sha256": {
+    "reconstructed_seed_manifest.json": "24ea4a67175add8824951009dcd698ba553d4cff47211d1db4a10125713a6505",
+    "recorded_output.json": "3da8d5fde908954a0415cf2043a594ce9bde5b5b1dadf5a014e12ab483e6a26b",
+    "original_probe.py": "76152d2eac7be5155ee1e417e20a5aa7706685d5de3d5da9db07ef5bbd281c79"
+  }
+}
