@@ -1,0 +1,45 @@
+{
+  "id": "2026-10-09-0306-position-matched-score",
+  "queue_entry": {
+    "id": "2026-10-09-0306-position-matched-score",
+    "cmd": "cd /Users/andreas/developer/folding-evolution-research/2026-10-09-0306 && exec env RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.position_matched_run --preparation \"${RUN_DIR%/*}/2026-10-09-0306-position-matched-prepare/preparation.json\" --workers 10 --deadline-seconds 11580",
+    "timeout_seconds": 11700,
+    "expect_outputs": [
+      "config.json",
+      "bank.json",
+      "schedule.json",
+      "preparation_schedules.json",
+      "source_provenance.json",
+      "projected_tables.json",
+      "freeze.json",
+      "progress.json",
+      "validation.json",
+      "timing.json",
+      "search.jsonl",
+      "variation.json",
+      "result.json",
+      "report.md",
+      "diagnostics.png"
+    ],
+    "track": "chem-tape",
+    "notes": "Exactly 4096 new searches: Q/P x 16 pinned 1246 corpora x 16 then-addition cells x 8 paired 1548 row F seeds/case draws. Population 256, cap 524288, unchanged D1331 exact verification and variation operators. Reuse pinned 1548 C/T/G4 and 0125 K; no target tuning, extra fits, arms, seeds or top-up. Requires the preceding entry's admitted preparation with matching code, binary, map, source and roster hashes; old 0239 preparation is refused. Complete roster required for efficacy; C/P is always read alongside C/Q. Development-bank mechanism scope, no learnability or causal claim. 120 s reporting reserve inside deadline and 120 s outer margin. Sequential preparation plus scoring timeouts sum to 13500 s (3.75 h)."
+  },
+  "git_commit": "2bab2c29db138dac4ef92f76d80707f5fe84f7e6",
+  "git_dirty": false,
+  "python_version": "3.12.14",
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "started_at": "2026-10-09T01:56:21.660443+00:00",
+  "ended_at": "2026-10-09T03:32:37.245665+00:00",
+  "exit_code": 0,
+  "status": "done",
+  "wall_seconds": 5775.585,
+  "profile": {
+    "wall_seconds": 5775.585,
+    "user_cpu_seconds": 55893.475,
+    "sys_cpu_seconds": 141.419,
+    "peak_rss_mb": 556.9,
+    "voluntary_ctxt_switches": 12587,
+    "involuntary_ctxt_switches": 20679061,
+    "cpu_efficiency": 9.68
+  }
+}

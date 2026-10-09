@@ -130,7 +130,8 @@ def outputs(programs, inputs, alphabet="v2_rmin"):
     ).reshape(len(programs), len(inputs))
 
 
-def search(job, *, return_solver=False, collector=None, decoder_factory=Decoder):
+def search(job, *, return_solver=False, collector=None, decoder_factory=Decoder,
+           initial_transform=None):
     cell, arm, table, seed, cap, pop_size = job[:6]
     inputs = job[6] if len(job) >= 7 else INPUTS
     alphabet = job[7] if len(job) >= 8 else "v2_rmin"
@@ -151,6 +152,10 @@ def search(job, *, return_solver=False, collector=None, decoder_factory=Decoder)
     )
     source = decoder
     reencoded = False
+    if initial_transform is not None:
+        if initialization is not None:
+            raise ValueError("choose one initialization transformation")
+        pop = initial_transform(pop, decoder)
     if initialization is not None:
         source = Decoder(initialization["source_table"])
         if (source.allele_range, source.n_tokens) != (

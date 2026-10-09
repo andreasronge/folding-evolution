@@ -1,0 +1,14 @@
+{
+  "commit": "2bab2c29db138dac4ef92f76d80707f5fe84f7e6",
+  "source": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-09/2026-10-09-0306-position-matched-score",
+  "sha256": {
+    "config.json": "9b74f5e130feca93f1e9ef76b632d69f98ee794f86d4c1b821addd018bf0740b",
+    "freeze.json": "53ddfc7aa4c43bc34b715b71b111611e0ac9d3d5a93c21b02866dc0d442a8e92",
+    "metadata.json": "48678b435480cf37b10fbf6b50b2443d737f45be058995b91f56a0209930f9ad",
+    "progress.json": "50f60beadde1ce5d0e6b10fbe142c867926629ee936e8ef8cdf98581d18a9505",
+    "schedule.json": "6e0c4864c48cfe04b0c808fd4c7b9b1adbeb21c1bb78e14d66aad9c9dff51b8b",
+    "validation.json": "e92927910ccc3c3ef64b45df62541497ee159326cca4c83b262cb11604a0cbfb",
+    "projected_tables.json": "3302cc4583d661e205d74db43476f137550020974218811e5749e330c613b29b",
+    "search.jsonl": "946c9af0332bf8432772dddc57eb8d76abaac92344d5ce1ba5d23bc97573d963"
+  }
+}
