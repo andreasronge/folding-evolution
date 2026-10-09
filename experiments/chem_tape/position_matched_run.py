@@ -259,7 +259,7 @@ class Runner(SearchRunner):
         capped += max(v['per_search_capped_worker_seconds'] for v in price.values())
         scoring_projection = 1.15 * max(sample, batch_projection, capped) + self.fit_seconds + 120
         elapsed = time.monotonic() - self.started
-        p = dict(admitted=elapsed <= 1800 and scoring_projection < 10800,
+        p = dict(admitted=elapsed <= 1800 and scoring_projection < 11700,
                  preparation_wall_seconds=elapsed, workers=self.args.workers,
                  implementation_hashes=self.config['implementation_hashes'],
                  schedule_hash=self.config['schedule_hash'], preparation_schedule_hash=self.config['preparation_schedule_hash'],
@@ -269,7 +269,7 @@ class Runner(SearchRunner):
                  sample_projection_seconds=sample, batch_projection_seconds=batch_projection,
                  all_capped_projection_seconds=capped, safety_multiplier=1.15,
                  scoring_projection_with_safety_seconds=scoring_projection,
-                 scoring_timeout_seconds=10800, reporting_reserve_seconds=120,
+                 scoring_timeout_seconds=11700, reporting_reserve_seconds=120,
                  fit_validation_seconds=self.fit_seconds)
         write_json(self.out, 'preparation.json', p)
         if not p['admitted']:
@@ -314,7 +314,7 @@ def main():
     parser.add_argument('--prepare', action='store_true')
     parser.add_argument('--preparation')
     parser.add_argument('--workers', type=int, default=10)
-    parser.add_argument('--deadline-seconds', type=float, default=10680)
+    parser.add_argument('--deadline-seconds', type=float, default=11580)
     args = parser.parse_args()
     if args.workers < 1 or args.deadline_seconds <= 120:
         parser.error('positive workers and deadline > 120 required')
