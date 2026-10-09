@@ -1,7 +1,7 @@
 ---
 status: open
 tags: [map-bias, evolve-the-bias, task-family, compositional-transfer, decoder, fresh-start]
-budget: {experiments: 21, used: 0}
+budget: {experiments: 22, used: 0}
 ---
 # Can an adapted decoder help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 
@@ -48,8 +48,11 @@ frequencies (K) does not reproduce the gain: C/K 2.48× [2.17, 2.83], all 16 cor
 and K is slower than the token-only fit (K/T 0.86× [0.77, 0.96]) (29). Matching C's per-position
 frequencies does not reproduce it either: on G4's grammar (Q) C/Q 2.41× [2.11, 2.75], not resolved
 from K (Q/K 1.03× [0.93, 1.13]), and as independent positional draws (P) C/P 5.47× [4.79, 6.25]
-(30). Whether C's own conditional rows or the wider mutation neighbourhood they create carry the
-remaining gap, and why the gain shrinks across shape, are not identified. Exact solvers are not the only usable
+(30). Widening Q's mutation to C's size by random context-dependent allele recoding, with Q's
+random-program distribution and starting tapes held exactly fixed, made search slower, not faster:
+R30 cost 1.17× [1.09, 1.25] Q's, and a full-row recoding 2.4× (31). So undirected width does not
+carry the gap. Whether C's conditional content or its structured coupling does, and why the gain
+shrinks across shape, are not identified. Exact solvers are not the only usable
 data: a context fit to tapes from G4 searches that had not yet solved beat a token fit to the same
 tapes 1.28× [1.12, 1.45] and G4 1.62× [1.37, 1.90] on the training cells, mostly by solving within
 the cap more often, with no resolved parent-selection enrichment; the exact-solver fit stays far
@@ -59,7 +62,7 @@ under G4 and fitting once, 1.18× [1.01, 1.37], gain resolved on BE (1.42× [1.1
 unresolved (0.98× [0.83, 1.16]); with more G4 tapes alone no improvement was resolved (0.99× [0.89,
 1.10]; gains above about 10% excluded at this scope), and the gain over keeping the first fit is
 unresolved (1.16× [0.99, 1.36]) (28)**
-(21 of 21 slots used; strategy 0239 raised the budget from 20 to 21 and assigned slot 21 to [30](30-position-matched-replacement/question.md); strategy 0125 assigned slot 20 to [29](29-frequency-matched-transfer/question.md); strategy 2116 assigned slot 19 to [28](28-partial-program-feedback/question.md); strategy 1831 assigned slot 18 to [27](27-partial-program-context/question.md); allocation 1534 raised the budget from 16 to 20 for a four-slot block, first
+(22 of 22 slots used; strategy 0537 raised the budget from 21 to 22 and assigned slot 22 to [31](31-distribution-preserving-recoding/question.md); strategy 0239 raised the budget from 20 to 21 and assigned slot 21 to [30](30-position-matched-replacement/question.md); strategy 0125 assigned slot 20 to [29](29-frequency-matched-transfer/question.md); strategy 2116 assigned slot 19 to [28](28-partial-program-feedback/question.md); strategy 1831 assigned slot 18 to [27](27-partial-program-context/question.md); allocation 1534 raised the budget from 16 to 20 for a four-slot block, first
 slot run 1548; strategy 1246 raised the budget from 15 to 16, for 24; strategy 2129 raised the budget from 14 to 15, for 22; strategy 1924 raised the budget from 13 to 14; strategy 1400 raised the budget from 5 to 7, strategy 1723 to 9, strategy
 2331 to 10, strategy 0803 to 12, strategy 1137 to 13; sub-questions [18](18-compact-context-learning/question.md)
 and [19](19-selection-calibrated-continuation/question.md) closed;
@@ -67,6 +70,14 @@ and [19](19-selection-calibrated-continuation/question.md) closed;
 [21](21-iterated-solver-corpus/question.md) after run 1924;
 [22](22-feedback-context-increment/question.md) closed after run 2156; its first attempt,
 run 2129, stopped at preparation).
+Run 2026-10-09-0537 ([31](31-distribution-preserving-recoding/question.md), commit `fe196c1`): the
+16 Q tables recoded by context-dependent allele permutations within each body row (R30: 30% of
+entries, R100: all), row counts exact so the uniform-prior tape distribution is Q's; generation 0
+inverse-mapped to Q's token tapes; 4 096 searches on Q's triples, 100 min, gates all passed (the
+queue's `failed` mark is a plotting import after results were written). Tokens per allele resample
+C 2.95, Q 1.71, R30 3.00, R100 7.71. cost_Q/cost_R30 0.855 [0.801, 0.914] (14/16 corpora < 1),
+cost_Q/cost_R100 0.409 [0.386, 0.434], cost_R30/cost_C 2.82× [2.49, 3.19]. Solves C 86.5%, Q 73.9%,
+R30 73.7%, R100 52.4%.
 Run 2026-10-09-0306 ([30](30-position-matched-replacement/question.md), commit `2bab2c2`; first
 attempt 0239 stopped at its runtime admission gate): frozen Q (G4 × per-position multipliers matched
 to C's marginal at all 32 positions, C's start row) and P (independent draws from C's positional
@@ -249,7 +260,7 @@ Competing explanations:
 - E: The proposed tasks or adaptation loop are not tractable at the measured budget.
   This is a feasibility result about this design, not a negative answer to A.
 
-Where they stand after runs 1707, 1924, 2156, 1548, 0125, 0306 (1831 and 2116 bear on acquisition, not transfer): A's first half (held-out gain beyond a fitted independent-token
+Where they stand after runs 1707, 1924, 2156, 1548, 0125, 0306, 0537 (1831 and 2116 bear on acquisition, not transfer): A's first half (held-out gain beyond a fitted independent-token
 map) is supported for an externally fitted previous-token table, now also on a fresh bank of a new
 shape (2.12×, 26), not yet for any adapted-by-selection decoder; its second half (advantage tied to the training family) is not supported:
 no matched-family gain was resolved on the three withheld cells, one PA cell resolved the other way, and
@@ -273,8 +284,11 @@ gap to the exact-solver fit, while improvement over retaining the first fit rema
 map matched to C's pooled emitted frequencies is 2.48× slower than C and slower than T, so pooled
 frequency on G4's template does not reproduce C's gain there. Run 0306 (30) narrows it further:
 per-position frequency on G4's template (C/Q 2.41×) or alone (C/P 5.47×) does not reproduce it
-either. These are two frozen external projections under one operator set; a positional learner, or
-an explanation through C's wider mutation neighbourhood, is not excluded.
+either. These are two frozen external projections under one operator set; a positional learner is
+not excluded. Run 0537 (31) tested the neighbourhood explanation with one intervention: Q recoded
+to C's mutation width at an exactly fixed random-program distribution was 1.17× [1.09, 1.25] slower
+than Q, and stronger recoding was slower still. So random, undirected width does not explain C's
+gain. Structured coupling of the kind C's rows create is not excluded.
 
 Sub-questions: [11-composition-bank](11-composition-bank/question.md) (closed: this bank
 fails on tractability at 524k and on the 4 096 headroom rule against G; run 2026-10-05-2247),
@@ -355,6 +369,10 @@ frequency not separated; development bank by now).
 slot, run 2026-10-09-0306 after 0239 stopped at admission: frozen per-position projections of C
 on then-addition do not reproduce it, C/Q 2.41× [2.11, 2.75], C/P 5.47× [4.79, 6.25]; Q/K 1.03×
 [0.93, 1.13]; development bank).
+[31-distribution-preserving-recoding](31-distribution-preserving-recoding/question.md) (closed,
+1 of 1 slot, run 2026-10-09-0537: Q recoded by random context-dependent allele permutations to C's
+mutation width, at Q's exact random-program distribution, is slower than Q, cost_Q/cost_R30 0.855
+[0.801, 0.914]; full-row recoding 0.409; no useful gain at either dose; development bank).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
@@ -376,6 +394,7 @@ Related: [core question](../../../README.md#core-question),
 [run 0125 decision](../../runs/2026-10-09-0125/decision.md),
 [run 0239 decision](../../runs/2026-10-09-0239/decision.md),
 [run 0306 decision](../../runs/2026-10-09-0306/decision.md),
+[run 0537 decision](../../runs/2026-10-09-0537/decision.md),
 [digest](../../digest.md), [chem-tape findings](../../../docs/chem-tape/findings.md).
 
 Review after the feasibility experiment and after the four allocated experiments. A

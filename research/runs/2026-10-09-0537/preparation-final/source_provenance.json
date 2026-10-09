@@ -1,0 +1,27 @@
+{
+  "Q": "c84b8375c483cabed8bfdaa06e5f32b64f8a3b7eb9a49223b667615604a5b8ce",
+  "C": {
+    "sha256": {
+      "config.json": "540afff378aca6e478dfc62c6663643d942a8ce97e1ea9e8e6b646a776c66407",
+      "freeze.json": "cfa37b1761673a3dbd3fc4c023f2ddc1459f411ded75bb4dbd0ea174a43c5a20",
+      "metadata.json": "2c0cb9a1223c6d172eb6c0ee68de9627c7928871bb7140461dd765e9666a9333",
+      "progress.json": "7d50534ba95681cc3cfafe5f59f698eba7fe46682ab9fab574126b7ab0c64ee2",
+      "schedule.json": "c76b7a2bd66bb9c694e54c10319a60264ba3066b1400ac116e10a84fa1dc1236",
+      "search.jsonl": "792282393b1d03cef558f0b3d2fbc1689217b05482154b52851368f80a84d312",
+      "validation.json": "08c63e8a43055106f654790466b8644a320933d045d082d6035f326ff64c87f7"
+    },
+    "source_commit": "45b2bdb2cbe5dee7ef04c3b5ebc10c54ce3e233a",
+    "source_path": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-08/2026-10-08-1548-fresh-then-addition"
+  },
+  "tables": {
+    "commit": "5dd86bd2926522958b4ae5a8b013abe124d26cd0",
+    "sha256": {
+      "config.json": "c8c9ee2d5bff13a5ec3809c40d09a1440f761ef525a1dea4d487e318d8b9bb82",
+      "corpora.json": "96458a79535337f8a6549b378a3eaa8cb65e86e7e8e02df51a1b735675ae633e",
+      "freeze.json": "5c0924f7e3ce4ed273251a39bbe91c590e849375dbbe66abd22e0edf0e89715d",
+      "schedule.json": "2e28da3bf43e883fc5ed26b85e83e55f2eb1cb5623cf27a4fb4a60c29a8ca47d",
+      "search.jsonl": "95a1bf0782cf8e5e2f1f754ced4f82a831c4acb2b5aea5077da20fc415294995"
+    },
+    "source": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-08/2026-10-08-1246-comparison-gate-training"
+  }
+}

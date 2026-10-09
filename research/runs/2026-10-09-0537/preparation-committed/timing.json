@@ -1,0 +1,14 @@
+{
+  "replay": {
+    "wall_seconds": 33.7565969589632,
+    "worker_seconds": 290.2892745002173,
+    "rows": 32,
+    "complete": true
+  },
+  "recoded_timing": {
+    "wall_seconds": 101.10421862499788,
+    "worker_seconds": 927.5633365347749,
+    "rows": 64,
+    "complete": true
+  }
+}

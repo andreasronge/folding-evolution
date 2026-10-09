@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "pairing_checks": 96,
+  "initial_rows": 4096,
+  "row_counts_passed": true,
+  "C_recovery": {
+    "passed": true,
+    "rows": 936,
+    "wall_seconds": 304.78626737510785,
+    "worker_seconds": 2913.901440369198
+  },
+  "replay": {
+    "passed": true,
+    "rows": 32,
+    "errors": [],
+    "Q_rows": 16,
+    "C_rows": 16
+  }
+}
