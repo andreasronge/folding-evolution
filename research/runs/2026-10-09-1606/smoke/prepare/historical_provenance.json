@@ -1,0 +1,10 @@
+{
+  "path": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-09/2026-10-09-1036-fragment-reuse-score",
+  "sha256": {
+    "search.jsonl": "9f97e3f1eb42a9b4e8998bb4b6d4650132febeb6746bdcd0951ae9accabf094f",
+    "config.json": "dc758dff5eb42d3e8a426cc5333bb022e6e745db58b3a6f0c6dd900d7d5168b2",
+    "freeze.json": "69ae238dc4d2fdb9af5e3937080748702f2f881e9dcdca895cbeef11df1c1ebc",
+    "schedule.json": "8f24548055adac5315869c2eff87f4124dc88f1180e13ef84a236dab35edee87",
+    "bank.json": "df3476d0823cff5eaed57fccf19f01e6a2699442be3139b5f05cb56e5f7aa15d"
+  }
+}

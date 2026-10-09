@@ -1,0 +1,82 @@
+{
+  "forced_edits": {
+    "passed": true,
+    "seed": 1606,
+    "coverage": {
+      "edits": 10000,
+      "tape_start": 2670,
+      "tape_end": 2652,
+      "no_op_block": 2064,
+      "unchanged_final_block_token": 4525
+    },
+    "inside_histogram": {
+      "0": 2064,
+      "1": 575,
+      "2": 2512,
+      "3": 3873,
+      "4": 842,
+      "5": 134
+    },
+    "suffix_histogram": {
+      "0": 6955,
+      "1": 902,
+      "2": 580,
+      "3": 473,
+      "4": 314,
+      "5": 227,
+      "6": 142,
+      "7": 113,
+      "8": 76,
+      "9": 56,
+      "10": 49,
+      "11": 43,
+      "12": 23,
+      "13": 19,
+      "14": 9,
+      "15": 3,
+      "16": 5,
+      "17": 4,
+      "18": 3,
+      "19": 1,
+      "21": 1,
+      "22": 1,
+      "23": 1
+    },
+    "suffix_ripple_fraction": 0.3045,
+    "note": "Constructed neutral controls included; histogram is an invariant audit, not the natural edit-rate estimate. Scoring logs natural R edits."
+  },
+  "historical_replay": {
+    "passed": true,
+    "rows": 32,
+    "fields": [
+      "cell",
+      "arm",
+      "seed",
+      "cap",
+      "pop_size",
+      "solved",
+      "evaluations",
+      "shortcuts",
+      "unique_shortcuts",
+      "training_perfect_individuals",
+      "generations",
+      "training_indices",
+      "curve",
+      "table_hash",
+      "initial_tokens_hash",
+      "initial_source_hash",
+      "initial_reencoded",
+      "solver",
+      "operator"
+    ],
+    "differences": []
+  },
+  "historical_metadata": {
+    "passed": true,
+    "rows": 15360,
+    "full_roster": true
+  },
+  "passed": true,
+  "smoke_rows": 32,
+  "elite_exclusion": true
+}

@@ -1,0 +1,386 @@
+{
+ "BE1": {
+  "random": {
+   "edits": 2000,
+   "at_tape_end": 0.0295,
+   "block_noop": 0.0025,
+   "last_token_unchanged": 0.063,
+   "boundary_token_changed": 0.672,
+   "suffix_any_changed": 0.672,
+   "mean_suffix_tokens_changed": 2.118,
+   "mean_suffix_changed_given_any": 3.1517857142857144,
+   "mean_suffix_length": 14.587
+  },
+  "solvers": {
+   "edits": 1880,
+   "at_tape_end": 0.034574468085106384,
+   "block_noop": 0.0047872340425531915,
+   "last_token_unchanged": 0.09148936170212765,
+   "boundary_token_changed": 0.6281914893617021,
+   "suffix_any_changed": 0.6281914893617021,
+   "mean_suffix_tokens_changed": 1.877659574468085,
+   "mean_suffix_changed_given_any": 2.988992379339543,
+   "mean_suffix_length": 14.354255319148937
+  }
+ },
+ "BE2": {
+  "random": {
+   "edits": 2000,
+   "at_tape_end": 0.0375,
+   "block_noop": 0.0025,
+   "last_token_unchanged": 0.08,
+   "boundary_token_changed": 0.6705,
+   "suffix_any_changed": 0.6705,
+   "mean_suffix_tokens_changed": 2.38,
+   "mean_suffix_changed_given_any": 3.5495898583146905,
+   "mean_suffix_length": 14.107
+  },
+  "solvers": {
+   "edits": 1904,
+   "at_tape_end": 0.027836134453781514,
+   "block_noop": 0.0063025210084033615,
+   "last_token_unchanged": 0.08140756302521009,
+   "boundary_token_changed": 0.6596638655462185,
+   "suffix_any_changed": 0.6596638655462185,
+   "mean_suffix_tokens_changed": 2.144432773109244,
+   "mean_suffix_changed_given_any": 3.250796178343949,
+   "mean_suffix_length": 14.689600840336135
+  }
+ },
+ "BE3": {
+  "random": {
+   "edits": 2000,
+   "at_tape_end": 0.0325,
+   "block_noop": 0.004,
+   "last_token_unchanged": 0.083,
+   "boundary_token_changed": 0.6695,
+   "suffix_any_changed": 0.6695,
+   "mean_suffix_tokens_changed": 2.2535,
+   "mean_suffix_changed_given_any": 3.365944734876774,
+   "mean_suffix_length": 14.2125
+  },
+  "solvers": {
+   "edits": 1840,
+   "at_tape_end": 0.03152173913043478,
+   "block_noop": 0.004347826086956522,
+   "last_token_unchanged": 0.09782608695652174,
+   "boundary_token_changed": 0.628804347826087,
+   "suffix_any_changed": 0.628804347826087,
+   "mean_suffix_tokens_changed": 2.0228260869565218,
+   "mean_suffix_changed_given_any": 3.2169403630077786,
+   "mean_suffix_length": 14.367934782608696
+  }
+ },
+ "BE4": {
+  "random": {
+   "edits": 2000,
+   "at_tape_end": 0.027,
+   "block_noop": 0.0005,
+   "last_token_unchanged": 0.079,
+   "boundary_token_changed": 0.67,
+   "suffix_any_changed": 0.67,
+   "mean_suffix_tokens_changed": 2.102,
+   "mean_suffix_changed_given_any": 3.1373134328358208,
+   "mean_suffix_length": 14.4325
+  },
+  "solvers": {
+   "edits": 1848,
+   "at_tape_end": 0.0367965367965368,
+   "block_noop": 0.005411255411255411,
+   "last_token_unchanged": 0.09145021645021645,
+   "boundary_token_changed": 0.6423160173160173,
+   "suffix_any_changed": 0.6423160173160173,
+   "mean_suffix_tokens_changed": 1.8977272727272727,
+   "mean_suffix_changed_given_any": 2.954507160909857,
+   "mean_suffix_length": 14.258116883116884
+  }
+ },
+ "BE5": {
+  "random": {
+   "edits": 2000,
+   "at_tape_end": 0.0395,
+   "block_noop": 0.0015,
+   "last_token_unchanged": 0.0645,
+   "boundary_token_changed": 0.6625,
+   "suffix_any_changed": 0.6625,
+   "mean_suffix_tokens_changed": 2.269,
+   "mean_suffix_changed_given_any": 3.4249056603773584,
+   "mean_suffix_length": 14.3835
+  },
+  "solvers": {
+   "edits": 1832,
+   "at_tape_end": 0.027292576419213975,
+   "block_noop": 0.0049126637554585155,
+   "last_token_unchanged": 0.09115720524017468,
+   "boundary_token_changed": 0.6468340611353712,
+   "suffix_any_changed": 0.6468340611353712,
+   "mean_suffix_tokens_changed": 1.9312227074235808,
+   "mean_suffix_changed_given_any": 2.985654008438819,
+   "mean_suffix_length": 14.793668122270743
+  }
+ },
+ "BE6": {
+  "random": {
+   "edits": 2000,
+   "at_tape_end": 0.03,
+   "block_noop": 0.0045,
+   "last_token_unchanged": 0.0925,
+   "boundary_token_changed": 0.657,
+   "suffix_any_changed": 0.657,
+   "mean_suffix_tokens_changed": 2.078,
+   "mean_suffix_changed_given_any": 3.162861491628615,
+   "mean_suffix_length": 14.404
+  },
+  "solvers": {
+   "edits": 1888,
+   "at_tape_end": 0.03760593220338983,
+   "block_noop": 0.00423728813559322,
+   "last_token_unchanged": 0.09057203389830508,
+   "boundary_token_changed": 0.6366525423728814,
+   "suffix_any_changed": 0.6366525423728814,
+   "mean_suffix_tokens_changed": 1.9608050847457628,
+   "mean_suffix_changed_given_any": 3.0798668885191347,
+   "mean_suffix_length": 14.208156779661017
+  }
+ },
+ "BE7": {
+  "random": {
+   "edits": 2000,
+   "at_tape_end": 0.0365,
+   "block_noop": 0.004,
+   "last_token_unchanged": 0.076,
+   "boundary_token_changed": 0.6655,
+   "suffix_any_changed": 0.6655,
+   "mean_suffix_tokens_changed": 2.1745,
+   "mean_suffix_changed_given_any": 3.267468069120962,
+   "mean_suffix_length": 14.567
+  },
+  "solvers": {
+   "edits": 1752,
+   "at_tape_end": 0.03367579908675799,
+   "block_noop": 0.0045662100456621,
+   "last_token_unchanged": 0.08732876712328767,
+   "boundary_token_changed": 0.6484018264840182,
+   "suffix_any_changed": 0.6484018264840182,
+   "mean_suffix_tokens_changed": 1.86986301369863,
+   "mean_suffix_changed_given_any": 2.8838028169014085,
+   "mean_suffix_length": 14.407534246575343
+  }
+ },
+ "BE8": {
+  "random": {
+   "edits": 2000,
+   "at_tape_end": 0.0305,
+   "block_noop": 0.0015,
+   "last_token_unchanged": 0.083,
+   "boundary_token_changed": 0.6785,
+   "suffix_any_changed": 0.6785,
+   "mean_suffix_tokens_changed": 2.235,
+   "mean_suffix_changed_given_any": 3.294030950626382,
+   "mean_suffix_length": 14.489
+  },
+  "solvers": {
+   "edits": 1864,
+   "at_tape_end": 0.039163090128755365,
+   "block_noop": 0.0037553648068669528,
+   "last_token_unchanged": 0.0917381974248927,
+   "boundary_token_changed": 0.651824034334764,
+   "suffix_any_changed": 0.651824034334764,
+   "mean_suffix_tokens_changed": 1.8471030042918455,
+   "mean_suffix_changed_given_any": 2.8337448559670784,
+   "mean_suffix_length": 14.327789699570815
+  }
+ },
+ "PA1": {
+  "random": {
+   "edits": 2000,
+   "at_tape_end": 0.0375,
+   "block_noop": 0.0025,
+   "last_token_unchanged": 0.082,
+   "boundary_token_changed": 0.646,
+   "suffix_any_changed": 0.646,
+   "mean_suffix_tokens_changed": 2.16,
+   "mean_suffix_changed_given_any": 3.343653250773994,
+   "mean_suffix_length": 14.2645
+  },
+  "solvers": {
+   "edits": 1776,
+   "at_tape_end": 0.036036036036036036,
+   "block_noop": 0.0033783783783783786,
+   "last_token_unchanged": 0.08727477477477477,
+   "boundary_token_changed": 0.6463963963963963,
+   "suffix_any_changed": 0.6463963963963963,
+   "mean_suffix_tokens_changed": 1.8873873873873874,
+   "mean_suffix_changed_given_any": 2.9198606271777003,
+   "mean_suffix_length": 14.300675675675675
+  }
+ },
+ "PA2": {
+  "random": {
+   "edits": 2000,
+   "at_tape_end": 0.038,
+   "block_noop": 0.002,
+   "last_token_unchanged": 0.069,
+   "boundary_token_changed": 0.6715,
+   "suffix_any_changed": 0.6715,
+   "mean_suffix_tokens_changed": 2.2655,
+   "mean_suffix_changed_given_any": 3.3737900223380493,
+   "mean_suffix_length": 13.9335
+  },
+  "solvers": {
+   "edits": 1824,
+   "at_tape_end": 0.03070175438596491,
+   "block_noop": 0.0021929824561403508,
+   "last_token_unchanged": 0.09046052631578948,
+   "boundary_token_changed": 0.6447368421052632,
+   "suffix_any_changed": 0.6447368421052632,
+   "mean_suffix_tokens_changed": 2.0021929824561404,
+   "mean_suffix_changed_given_any": 3.1054421768707483,
+   "mean_suffix_length": 14.389254385964913
+  }
+ },
+ "PA3": {
+  "random": {
+   "edits": 2000,
+   "at_tape_end": 0.033,
+   "block_noop": 0.0045,
+   "last_token_unchanged": 0.092,
+   "boundary_token_changed": 0.669,
+   "suffix_any_changed": 0.669,
+   "mean_suffix_tokens_changed": 2.3205,
+   "mean_suffix_changed_given_any": 3.468609865470852,
+   "mean_suffix_length": 14.6355
+  },
+  "solvers": {
+   "edits": 1776,
+   "at_tape_end": 0.029842342342342343,
+   "block_noop": 0.0045045045045045045,
+   "last_token_unchanged": 0.08108108108108109,
+   "boundary_token_changed": 0.670045045045045,
+   "suffix_any_changed": 0.670045045045045,
+   "mean_suffix_tokens_changed": 2.109234234234234,
+   "mean_suffix_changed_given_any": 3.1478991596638655,
+   "mean_suffix_length": 14.366554054054054
+  }
+ },
+ "PA4": {
+  "random": {
+   "edits": 2000,
+   "at_tape_end": 0.039,
+   "block_noop": 0.0035,
+   "last_token_unchanged": 0.0735,
+   "boundary_token_changed": 0.665,
+   "suffix_any_changed": 0.665,
+   "mean_suffix_tokens_changed": 2.2905,
+   "mean_suffix_changed_given_any": 3.444360902255639,
+   "mean_suffix_length": 14.481
+  },
+  "solvers": {
+   "edits": 1760,
+   "at_tape_end": 0.04090909090909091,
+   "block_noop": 0.00625,
+   "last_token_unchanged": 0.07897727272727273,
+   "boundary_token_changed": 0.6551136363636364,
+   "suffix_any_changed": 0.6551136363636364,
+   "mean_suffix_tokens_changed": 1.9443181818181818,
+   "mean_suffix_changed_given_any": 2.9679098005203817,
+   "mean_suffix_length": 13.952272727272728
+  }
+ },
+ "PA5": {
+  "random": {
+   "edits": 2000,
+   "at_tape_end": 0.0375,
+   "block_noop": 0.004,
+   "last_token_unchanged": 0.082,
+   "boundary_token_changed": 0.6635,
+   "suffix_any_changed": 0.6635,
+   "mean_suffix_tokens_changed": 2.322,
+   "mean_suffix_changed_given_any": 3.4996232102486813,
+   "mean_suffix_length": 14.0565
+  },
+  "solvers": {
+   "edits": 1816,
+   "at_tape_end": 0.03248898678414097,
+   "block_noop": 0.0016519823788546256,
+   "last_token_unchanged": 0.08865638766519823,
+   "boundary_token_changed": 0.6602422907488987,
+   "suffix_any_changed": 0.6602422907488987,
+   "mean_suffix_tokens_changed": 1.972466960352423,
+   "mean_suffix_changed_given_any": 2.987489574645538,
+   "mean_suffix_length": 14.541299559471366
+  }
+ },
+ "PA6": {
+  "random": {
+   "edits": 2000,
+   "at_tape_end": 0.0335,
+   "block_noop": 0.0025,
+   "last_token_unchanged": 0.074,
+   "boundary_token_changed": 0.673,
+   "suffix_any_changed": 0.673,
+   "mean_suffix_tokens_changed": 2.2305,
+   "mean_suffix_changed_given_any": 3.3142644873699854,
+   "mean_suffix_length": 14.2245
+  },
+  "solvers": {
+   "edits": 1784,
+   "at_tape_end": 0.03699551569506727,
+   "block_noop": 0.002802690582959641,
+   "last_token_unchanged": 0.08352017937219731,
+   "boundary_token_changed": 0.6535874439461884,
+   "suffix_any_changed": 0.6535874439461884,
+   "mean_suffix_tokens_changed": 1.9899103139013452,
+   "mean_suffix_changed_given_any": 3.044596912521441,
+   "mean_suffix_length": 14.135089686098654
+  }
+ },
+ "PA7": {
+  "random": {
+   "edits": 2000,
+   "at_tape_end": 0.033,
+   "block_noop": 0.0025,
+   "last_token_unchanged": 0.0695,
+   "boundary_token_changed": 0.69,
+   "suffix_any_changed": 0.69,
+   "mean_suffix_tokens_changed": 2.2705,
+   "mean_suffix_changed_given_any": 3.2905797101449274,
+   "mean_suffix_length": 14.0305
+  },
+  "solvers": {
+   "edits": 1808,
+   "at_tape_end": 0.03650442477876106,
+   "block_noop": 0.0027654867256637168,
+   "last_token_unchanged": 0.0790929203539823,
+   "boundary_token_changed": 0.6526548672566371,
+   "suffix_any_changed": 0.6526548672566371,
+   "mean_suffix_tokens_changed": 1.8998893805309736,
+   "mean_suffix_changed_given_any": 2.9110169491525424,
+   "mean_suffix_length": 14.232300884955752
+  }
+ },
+ "PA8": {
+  "random": {
+   "edits": 2000,
+   "at_tape_end": 0.0355,
+   "block_noop": 0.001,
+   "last_token_unchanged": 0.074,
+   "boundary_token_changed": 0.6635,
+   "suffix_any_changed": 0.6635,
+   "mean_suffix_tokens_changed": 2.099,
+   "mean_suffix_changed_given_any": 3.1635267520723436,
+   "mean_suffix_length": 14.207
+  },
+  "solvers": {
+   "edits": 1792,
+   "at_tape_end": 0.03794642857142857,
+   "block_noop": 0.00390625,
+   "last_token_unchanged": 0.08203125,
+   "boundary_token_changed": 0.6361607142857143,
+   "suffix_any_changed": 0.6361607142857143,
+   "mean_suffix_tokens_changed": 1.8515625,
+   "mean_suffix_changed_given_any": 2.9105263157894736,
+   "mean_suffix_length": 14.467075892857142
+  }
+ }
+}

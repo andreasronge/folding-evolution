@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-09, after run 2026-10-09-1350 (commit `e9a04f8`). Core question since the
+As of 2026-10-09, after run 2026-10-09-1606 (commit `af8a7e5`). Core question since the
 2026-09-25 reframe: *how does the genotype→program map bias what evolution finds and keeps
 ("arrival of the frequent"), and can that bias be adapted to a task family?* History, superseded
 numbers and fuller wording are in the questions' `log.md` files.
@@ -75,13 +75,13 @@ P 1024, L 64). Fairly sure for these layouts; nothing beyond them.
   (≤ 1.2e-7). 100 insertions cannot tell drift from a disadvantage.
   ([07](questions/01-map-bias/07-shared-arrival/question.md), parked; [03](questions/01-map-bias/03-rare-shared-establishment/question.md) closed)
 
-## 10 Compositional map transfer (root open, 25 of 25 used)
+## 10 Compositional map transfer (root open, 26 of 26 used)
 
 [10](questions/10-compositional-map-transfer/question.md): can a decoder adapted across related
 tasks help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 Stack tape `v2_rmin(_first)`, length-4 lists, P 256, lexicase on 64 cases with an exact check over
 the domain (D1331 from 0001 on), 524k cap. G / G4 are hand-set previous-token grammars;
-"-marg" the same token marginals without context. Sub-questions 11–33 closed. Every bank is now a
+"-marg" the same token marginals without context. Sub-questions 11–34 closed. Every bank is now a
 development bank: those before then-addition-v1 (26) were screened and inspected, and
 then-addition-v1, the first fresh bank (frozen with the method before scoring), has since been
 reused for decisions.
@@ -197,11 +197,18 @@ Context learned jointly from G4 is untested.
 - **A library-free block edit sampled from C's own chain also beats C; marginal blocks showed no
   resolved gain.** W/C 1.28× [1.17, 1.39] training, 1.23× [1.15, 1.31] then-addition, 1.38× [1.23,
   1.56] holdouts; B/C 0.98× [0.93, 1.04] on training (a gain above 1.04× excluded, a small loss not)
-  at ~2.8 tokens changed per edit, so edit size alone does not explain F's or W's gain. Why W wins
-  is not isolated: C's point mutation re-decodes the whole suffix, block arms keep it. (32)
+  at ~2.8 tokens changed per edit, so edit size alone does not explain F's or W's gain. (32)
+- **W's boundary repair (keeping the decoded suffix) is not needed for its gain on then-addition, at
+  this resolution.** R: the same chain blocks and draws without the repair, so the next tokens may
+  re-decode. Paired with 1036's rows, 16 corpora × 16 cells × 16 seeds: W/R 0.954× [0.903, 1.007]
+  (> 1 would favour the repair; a repair gain above 0.7% excluded, a repair cost up to about 10% not;
+  same bound under 1 × cap, both-solved, BE and PA); R/C 1.286× [1.208, 1.370], 16/16 corpora. The
+  ripple is local: 64% of edits change the suffix, by about 3 tokens when they do (4.7 tokens per edit
+  against W's 2.9). Chain proposals help without containment; not isolated from W's length law or
+  token supply. Scope: one fitted decoder, ripple only on the block operator, development bank. ([34](questions/10-compositional-map-transfer/34-chain-block-suffix-preservation/question.md), [run 1606](runs/2026-10-09-1606/analysis.md))
 - **The same extractor applied to pre-solve parents gave no worthwhile gain over C-chain blocks on
   then-addition.** E: libraries from 1831's parents archived before their search first solved;
-  W_E: C-chain blocks with E's length law; 16 corpora × 16 cells × 16 seeds. E/W_E 0.981× [0.911,
+  W_E: chain blocks with E's length law. E/W_E 0.981× [0.911,
   1.057] (a gain above about 1.06× excluded, a small gain or loss not); E/F 0.843× [0.795, 0.892],
   0/16 corpora. The pre-solve libraries lack F's `gt` comparison joins (descriptive; whether those
   carry F's increment is untested). Scope: one source selection and extractor, C still fitted from
@@ -229,7 +236,7 @@ projections do not reproduce C's advantage, nor does Q randomly recoded to C's m
 much weaker context fit is possible before any exact solve (training cells only). Learned fragments
 as block edits add about 1.5× over C on training cells, holdouts and then-addition, about 1.2× of
 it beyond blocks from C's own chain; the extractor on pre-solve parents gave no worthwhile gain over
-those. Selection-based procedures have not established a reproducible contextual advantage over token
+those, and the chain blocks need no suffix-preserving repair at the resolution tested. Selection-based procedures have not established a reproducible contextual advantage over token
 controls; learned token biases transfer about 2× with no resolved family specificity. Not shown:
 that evolution reaches fitted context or fragments; whether C's conditional content or structured
 coupling carries it; that a fragment repertoire can be acquired at a useful cost; transfer beyond

@@ -1,0 +1,90 @@
+runs:
+  - id: 2026-10-09-1606-suffix-preservation-prepare
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-09-1606 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.suffix_preservation_run
+      --prepare --workers 10 --deadline-seconds 1680
+    timeout_seconds: 1800
+    track: chem-tape
+    notes: >-
+      SHA-pin historical1036 results/config/bank/freeze/full roster/libraries/laws
+      and exact source C. Check every historical roster row and pairing metadata;
+      replay one primary W/C row per corpus,32 searches, scientific payload plus
+      solver and operator stats. Forced10000-edit audit checks actual decoded
+      prefix/block/suffix, R=unrepaired decode, boundary interval, unchanged later
+      alleles and identical-input RNG state; includes tape ends, neutral blocks,
+      unchanged final block tokens. Historical replay failure selects approved
+      fresh W/R fallback8192 primary searches, no holdouts or paired C.
+      Freeze both rosters before searches. Timing exactly32 searches at10 workers
+      covers all16 cells and all16 corpora; main path R only, fallback16 W/R pairs.
+      Use measured worker/concurrency efficiency,15pct margin, conservatively
+      primary-cost holdouts, handoff/report reserve; full roster must fit110min.
+      No seed reduction, outcome-dependent resizing, top-up or changed cap.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - target_banks.json
+      - source_provenance.json
+      - historical_provenance.json
+      - candidate_schedules.json
+      - preparation_schedules.json
+      - libraries.json
+      - operator_laws.json
+      - validation.json
+      - progress.json
+      - search.jsonl
+      - freeze.json
+      - preparation.json
+      - schedule.json
+
+  - id: 2026-10-09-1606-suffix-preservation-score
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-09-1606 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.suffix_preservation_run
+      --preparation "${RUN_DIR%/*}/2026-10-09-1606-suffix-preservation-prepare/preparation.json"
+      --workers 10 --deadline-seconds 6480
+    timeout_seconds: 6600
+    track: chem-tape
+    notes: >-
+      Verify admitted matching source/library/law/bank/table/code/native-backend/
+      roster hashes; replay all32 smoke payloads before efficacy scoring.
+      Paired mode4096 R primary searches (16 corpora x16 cells x16 original1036
+      seeds),1024 R descriptive holdouts (16 x8 x8). Complete historical W/C
+      references matched by corpus/cell/seed; R uses same initial tokens and cases.
+      Fallback8192 new-seed primary W/R, no holdouts or historical paired C.
+      P256, cap524288, lexicase, ordinary crossover.7/mutation.03/two elites;
+      non-elite block probability.2, same empirical length/start/C-chain laws.
+      R uniformly refreshes boundary within unchanged allele's unrepaired token
+      interval; later alleles unchanged; actual child decode counts suffix ripple.
+      W/R>1 favors repair. Equal-corpus paired log-cost ratio, unsolved2cap,
+      95pct t15df. Ordered ripple-helps/preservation-needed/not-needed-at-resolution/
+      unresolved rules at1.10; unresolved retains incumbent repair and prices1.05
+      without extension. R/C, holdout, BE/PA, cells,1cap/both-solved, solves,
+      arithmetic evaluation/worker means, actual block/suffix histograms and plots
+      descriptive. Any incomplete roster refuses efficacy. Every outcome returns
+      to strategy; development-bank boundary-policy mechanism only, no acquisition,
+      fresh transfer, literal necessity or sole-cause attribution. Timeout ledger
+      1800+6600=8400s,140min. Optional holdout files emitted only in paired mode.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - target_banks.json
+      - source_provenance.json
+      - historical_provenance.json
+      - candidate_schedules.json
+      - preparation_schedules.json
+      - libraries.json
+      - operator_laws.json
+      - freeze.json
+      - preparation.json
+      - schedule.json
+      - validation.json
+      - progress.json
+      - search.jsonl
+      - historical_references.json
+      - result.json
+      - report.md
+      - then_addition_diagnostics.png
+      - then_addition_ripple.png

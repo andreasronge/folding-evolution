@@ -49,3 +49,11 @@ Decision: close 33 and return to strategy (`next: strategy`), because the pre-re
 fired with margin under every sensitivity, ending this source/extractor at this scope; its one slot
 and root 10's 25 slots are used; every rule was pre-set to return to strategy.
 ([decision](../../../runs/2026-10-09-1350/decision.md))
+
+## 2026-10-09: wording correction (critique 1606, digest check)
+
+"Also under every sensitivity" in the entry above holds for 1 × cap and both-solved, and for BE
+(upper 1.090), not for PA: its interval [0.866, 1.122] excludes neither a 1.06 nor a 1.10 gain, so PA
+remains unresolved at 1.10 (the analysis's family statement was wrong). The pooled rule-3 decision
+stands; it did not rest on the family splits. "E/C ≈ W/C" is similarity of point estimates, not
+attribution: E/W 1.007× [0.948, 1.070], W_E/W 1.026× [0.942, 1.117]. question.md corrected.
