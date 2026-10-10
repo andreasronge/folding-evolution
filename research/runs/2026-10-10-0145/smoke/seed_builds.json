@@ -1,0 +1,7696 @@
+{
+  "PA1": {
+    "corpus": "PA1",
+    "block": "PA1",
+    "table": [
+      [
+        286,
+        572,
+        3143,
+        3429,
+        6000,
+        8571,
+        8857,
+        10857,
+        11143,
+        11429,
+        13429,
+        17143,
+        17429,
+        17715,
+        18001,
+        18287,
+        18573,
+        22287,
+        22573,
+        22859,
+        23145,
+        23430,
+        23715,
+        24000
+      ],
+      [
+        718,
+        989,
+        1239,
+        1489,
+        1739,
+        3072,
+        3343,
+        3593,
+        3843,
+        4624,
+        4874,
+        6717,
+        7498,
+        7748,
+        8019,
+        8269,
+        8519,
+        8790,
+        13050,
+        13300,
+        13550,
+        14267,
+        19867,
+        24000
+      ],
+      [
+        250,
+        7935,
+        8185,
+        8435,
+        8685,
+        8935,
+        9185,
+        9988,
+        10238,
+        13794,
+        15744,
+        15994,
+        16244,
+        16494,
+        16744,
+        18235,
+        18485,
+        22500,
+        22750,
+        23000,
+        23250,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        250,
+        7111,
+        7361,
+        7611,
+        7861,
+        8111,
+        8361,
+        18037,
+        18287,
+        19519,
+        19769,
+        20019,
+        20269,
+        20519,
+        20769,
+        21019,
+        21269,
+        22500,
+        22750,
+        23000,
+        23250,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        632,
+        1264,
+        1896,
+        2528,
+        3160,
+        3792,
+        4424,
+        5056,
+        5688,
+        6320,
+        6952,
+        7584,
+        8216,
+        8847,
+        9478,
+        10109,
+        10740,
+        11371,
+        12002,
+        16423,
+        22107,
+        22738,
+        23369,
+        24000
+      ],
+      [
+        250,
+        4139,
+        4389,
+        4639,
+        4889,
+        6432,
+        6682,
+        12546,
+        13349,
+        17238,
+        17488,
+        17738,
+        17988,
+        18238,
+        19781,
+        20031,
+        20281,
+        21701,
+        21951,
+        22201,
+        22451,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        250,
+        6418,
+        6668,
+        6918,
+        7168,
+        7418,
+        7668,
+        12244,
+        12494,
+        13887,
+        14137,
+        14387,
+        14637,
+        18020,
+        18270,
+        18520,
+        18770,
+        20163,
+        20413,
+        20663,
+        20913,
+        21163,
+        23750,
+        24000
+      ],
+      [
+        897,
+        7920,
+        8694,
+        9220,
+        9622,
+        9872,
+        10122,
+        13309,
+        14082,
+        15536,
+        16062,
+        16312,
+        16562,
+        16812,
+        17062,
+        17312,
+        17838,
+        19787,
+        20037,
+        20563,
+        20965,
+        22481,
+        22731,
+        24000
+      ],
+      [
+        2031,
+        4549,
+        4799,
+        5049,
+        5299,
+        5549,
+        5799,
+        7667,
+        7917,
+        8485,
+        8735,
+        8985,
+        9235,
+        9485,
+        9735,
+        9985,
+        10235,
+        22500,
+        22750,
+        23000,
+        23250,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        250,
+        2427,
+        5474,
+        5724,
+        5974,
+        6224,
+        6474,
+        8361,
+        9667,
+        9917,
+        11803,
+        12053,
+        13359,
+        13609,
+        13859,
+        14109,
+        14359,
+        14609,
+        14859,
+        16745,
+        18631,
+        21678,
+        22694,
+        24000
+      ],
+      [
+        250,
+        500,
+        2775,
+        4000,
+        4250,
+        6525,
+        6775,
+        7025,
+        8600,
+        8850,
+        10425,
+        10675,
+        10925,
+        11175,
+        11425,
+        13000,
+        13250,
+        15525,
+        16750,
+        17000,
+        18225,
+        21200,
+        22775,
+        24000
+      ],
+      [
+        250,
+        8651,
+        8901,
+        10404,
+        10654,
+        12157,
+        12407,
+        14087,
+        15237,
+        16917,
+        17167,
+        17417,
+        17667,
+        20231,
+        20481,
+        20731,
+        20981,
+        21600,
+        21850,
+        22100,
+        22350,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        343,
+        686,
+        1029,
+        1372,
+        1715,
+        6172,
+        8572,
+        8915,
+        12000,
+        12343,
+        12686,
+        13029,
+        13372,
+        13715,
+        14058,
+        14401,
+        14744,
+        15087,
+        22287,
+        22630,
+        22973,
+        23316,
+        23658,
+        24000
+      ],
+      [
+        286,
+        2857,
+        3143,
+        3429,
+        3715,
+        6286,
+        6572,
+        10286,
+        10572,
+        12572,
+        12858,
+        13144,
+        15144,
+        18858,
+        19144,
+        19430,
+        19716,
+        20002,
+        20288,
+        20574,
+        20859,
+        21144,
+        23715,
+        24000
+      ],
+      [
+        400,
+        800,
+        1200,
+        1600,
+        2000,
+        8800,
+        9200,
+        9600,
+        10000,
+        10400,
+        10800,
+        11200,
+        11600,
+        12000,
+        12400,
+        12800,
+        13200,
+        13600,
+        14000,
+        17600,
+        18000,
+        18400,
+        18800,
+        24000
+      ],
+      [
+        316,
+        2526,
+        2842,
+        3158,
+        3474,
+        3790,
+        4106,
+        6316,
+        6632,
+        8842,
+        9158,
+        9474,
+        9790,
+        10106,
+        10422,
+        10738,
+        11054,
+        18317,
+        18633,
+        18949,
+        23054,
+        23370,
+        23685,
+        24000
+      ],
+      [
+        250,
+        8010,
+        8260,
+        13234,
+        13484,
+        13734,
+        13984,
+        15377,
+        15627,
+        17020,
+        19607,
+        19857,
+        20107,
+        20357,
+        20607,
+        20857,
+        21107,
+        22500,
+        22750,
+        23000,
+        23250,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        250,
+        7785,
+        8035,
+        8285,
+        8535,
+        9362,
+        10577,
+        14806,
+        16216,
+        17140,
+        17772,
+        19182,
+        20008,
+        20258,
+        20508,
+        20758,
+        21008,
+        21348,
+        21598,
+        21848,
+        22098,
+        22924,
+        23750,
+        24000
+      ],
+      [
+        250,
+        7800,
+        9050,
+        9300,
+        9550,
+        10200,
+        10450,
+        14000,
+        14250,
+        15400,
+        18250,
+        18500,
+        18750,
+        19000,
+        19250,
+        19500,
+        19750,
+        21300,
+        21550,
+        22400,
+        22650,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        250,
+        8257,
+        8507,
+        8757,
+        9007,
+        9257,
+        9507,
+        10700,
+        10950,
+        12142,
+        12392,
+        12642,
+        12892,
+        13142,
+        13392,
+        13642,
+        13892,
+        19854,
+        20104,
+        20354,
+        20604,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        1954,
+        6140,
+        6419,
+        6698,
+        6977,
+        7256,
+        7535,
+        11721,
+        12000,
+        12279,
+        15907,
+        16186,
+        16465,
+        18977,
+        19256,
+        19535,
+        19814,
+        22326,
+        22605,
+        22884,
+        23163,
+        23442,
+        23721,
+        24000
+      ],
+      [
+        250,
+        2919,
+        3169,
+        3419,
+        3669,
+        5082,
+        5332,
+        6745,
+        11611,
+        11861,
+        12111,
+        12361,
+        12611,
+        12861,
+        14274,
+        14524,
+        16565,
+        16815,
+        19483,
+        19733,
+        22401,
+        22651,
+        23750,
+        24000
+      ],
+      [
+        577,
+        5147,
+        5724,
+        5974,
+        6224,
+        6978,
+        7228,
+        16590,
+        16840,
+        17861,
+        18111,
+        18361,
+        18611,
+        18861,
+        19111,
+        19361,
+        20648,
+        21669,
+        22246,
+        22496,
+        23250,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        250,
+        7571,
+        7821,
+        8071,
+        8321,
+        8571,
+        9493,
+        12910,
+        14266,
+        15513,
+        16435,
+        16685,
+        16935,
+        18291,
+        18541,
+        18791,
+        19041,
+        21373,
+        22295,
+        22545,
+        23250,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        250,
+        10878,
+        11128,
+        12270,
+        12520,
+        12770,
+        13020,
+        13270,
+        13520,
+        15716,
+        16858,
+        19757,
+        20007,
+        20257,
+        21750,
+        22000,
+        22250,
+        22500,
+        22750,
+        23000,
+        23250,
+        23500,
+        23750,
+        24000
+      ]
+    ],
+    "table_hash": "5c8135747c28f97c35099acd802473b3a71f3a6de06a5b986f8fcd20e7b188f9",
+    "library": {
+      "held_out_cell": null,
+      "recurring_candidates": 27,
+      "fragments": [
+        {
+          "tokens": [
+            1,
+            22,
+            7
+          ],
+          "names": [
+            "_op_input",
+            "_op_reduce_min",
+            "_op_add"
+          ],
+          "length": 3,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(M>F?F:S)+m",
+            "PA:(M>F?M:S)+m",
+            "PA:(S>F?M:S)+m"
+          ],
+          "count": 10,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110347,
+              "start": 28,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110348,
+              "start": 29,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110446,
+              "start": 29,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110447,
+              "start": 12,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110245,
+              "start": 29,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110247,
+              "start": 10,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110247,
+              "start": 16,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110248,
+              "start": 29,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "PA:(S>F?M:S)+m",
+              "seed": 206620110145,
+              "start": 28,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "PA:(S>F?M:S)+m",
+              "seed": 206620110146,
+              "start": 29,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "default_use": 96,
+              "pop_calls": 288,
+              "underflow": 96
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "default_use": 0,
+            "pop_calls": 120
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            1,
+            18,
+            1
+          ],
+          "names": [
+            "_op_input",
+            "_op_reduce_max",
+            "_op_input"
+          ],
+          "length": 3,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(M>F?F:S)+m",
+            "PA:(M>F?M:S)+m"
+          ],
+          "count": 7,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110345,
+              "start": 2,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110346,
+              "start": 10,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110348,
+              "start": 17,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110447,
+              "start": 15,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110247,
+              "start": 8,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110248,
+              "start": 14,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110248,
+              "start": 16,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "default_use": 0,
+              "pop_calls": 96
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,intlist": 96
+            }
+          },
+          "source_context_totals": {
+            "default_use": 0,
+            "pop_calls": 28
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            17,
+            1,
+            22
+          ],
+          "names": [
+            "_op_if_gt",
+            "_op_input",
+            "_op_reduce_min"
+          ],
+          "length": 3,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(M>F?F:S)+m",
+            "PA:(M>F?M:S)+m"
+          ],
+          "count": 5,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110346,
+              "start": 27,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "context_totals": {
+                "pop_calls": 16,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110347,
+              "start": 27,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "context_totals": {
+                "pop_calls": 16,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110348,
+              "start": 28,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "context_totals": {
+                "pop_calls": 16,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110446,
+              "start": 28,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "context_totals": {
+                "pop_calls": 16,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110248,
+              "start": 28,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "context_totals": {
+                "pop_calls": 16,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 384,
+              "underflow": 288,
+              "default_use": 288
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 80,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            18,
+            1,
+            23
+          ],
+          "names": [
+            "_op_reduce_max",
+            "_op_input",
+            "_op_first"
+          ],
+          "length": 3,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(M>F?F:S)+m",
+            "PA:(M>F?M:S)+m"
+          ],
+          "count": 5,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110346,
+              "start": 11,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "context_totals": {
+                "pop_calls": 8,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110348,
+              "start": 18,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "context_totals": {
+                "pop_calls": 8,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110445,
+              "start": 20,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "pop_calls": 8,
+                "wrong_type": 4,
+                "default_use": 4
+              }
+            },
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110447,
+              "start": 16,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "context_totals": {
+                "pop_calls": 8,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110248,
+              "start": 17,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "context_totals": {
+                "pop_calls": 8,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 192,
+              "underflow": 96,
+              "default_use": 96
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 40,
+            "default_use": 4,
+            "wrong_type": 4
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            1,
+            18,
+            1,
+            23
+          ],
+          "names": [
+            "_op_input",
+            "_op_reduce_max",
+            "_op_input",
+            "_op_first"
+          ],
+          "length": 4,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(M>F?F:S)+m",
+            "PA:(M>F?M:S)+m"
+          ],
+          "count": 4,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110346,
+              "start": 10,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 8
+              }
+            },
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110348,
+              "start": 17,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 8
+              }
+            },
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110447,
+              "start": 15,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 8
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110248,
+              "start": 16,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 8
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "default_use": 0,
+              "pop_calls": 192
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "default_use": 0,
+            "pop_calls": 32
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            17,
+            1,
+            22,
+            7
+          ],
+          "names": [
+            "_op_if_gt",
+            "_op_input",
+            "_op_reduce_min",
+            "_op_add"
+          ],
+          "length": 4,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(M>F?F:S)+m",
+            "PA:(M>F?M:S)+m"
+          ],
+          "count": 4,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110347,
+              "start": 27,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 24,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110348,
+              "start": 28,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 24,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110446,
+              "start": 28,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 24,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110248,
+              "start": 28,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 24,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 576,
+              "underflow": 288,
+              "default_use": 288
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 96,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            1,
+            11,
+            1
+          ],
+          "names": [
+            "_op_input",
+            "_op_reduce_add",
+            "_op_input"
+          ],
+          "length": 3,
+          "source_cells": [
+            "PA:(M>F?M:S)+m",
+            "PA:(S>F?M:S)+m"
+          ],
+          "count": 4,
+          "provenance": [
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110245,
+              "start": 10,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110247,
+              "start": 14,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110248,
+              "start": 12,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "PA:(S>F?M:S)+m",
+              "seed": 206620110145,
+              "start": 20,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "default_use": 0,
+              "pop_calls": 96
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,intlist": 96
+            }
+          },
+          "source_context_totals": {
+            "default_use": 0,
+            "pop_calls": 16
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            22,
+            1,
+            18
+          ],
+          "names": [
+            "_op_reduce_min",
+            "_op_input",
+            "_op_reduce_max"
+          ],
+          "length": 3,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(M>F?M:S)+m"
+          ],
+          "count": 4,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110345,
+              "start": 1,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "context_totals": {
+                "pop_calls": 8,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110347,
+              "start": 9,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "context_totals": {
+                "pop_calls": 8,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110348,
+              "start": 16,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "context_totals": {
+                "pop_calls": 8,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110247,
+              "start": 25,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "pop_calls": 8,
+                "wrong_type": 4,
+                "default_use": 4
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 192,
+              "underflow": 96,
+              "default_use": 96
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 32,
+            "default_use": 4,
+            "wrong_type": 4
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            8,
+            17,
+            1,
+            22,
+            7
+          ],
+          "names": [
+            "_op_gt",
+            "_op_if_gt",
+            "_op_input",
+            "_op_reduce_min",
+            "_op_add"
+          ],
+          "length": 5,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(M>F?M:S)+m"
+          ],
+          "count": 3,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110347,
+              "start": 26,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -3,
+                -3,
+                -3,
+                -3
+              ],
+              "context_totals": {
+                "pop_calls": 32,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110348,
+              "start": 27,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -3,
+                -3,
+                -3,
+                -3
+              ],
+              "context_totals": {
+                "pop_calls": 32,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110248,
+              "start": 27,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -3,
+                -3,
+                -3,
+                -3
+              ],
+              "context_totals": {
+                "pop_calls": 32,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 768,
+              "underflow": 384,
+              "default_use": 384
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 96,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            8,
+            17,
+            1,
+            22
+          ],
+          "names": [
+            "_op_gt",
+            "_op_if_gt",
+            "_op_input",
+            "_op_reduce_min"
+          ],
+          "length": 4,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(M>F?M:S)+m"
+          ],
+          "count": 3,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110347,
+              "start": 26,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 24,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110348,
+              "start": 27,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 24,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110248,
+              "start": 27,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 24,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 576,
+              "underflow": 384,
+              "default_use": 384
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 72,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            1,
+            5,
+            1
+          ],
+          "names": [
+            "_op_input",
+            "_op_sum",
+            "_op_input"
+          ],
+          "length": 3,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(M>F?F:S)+m"
+          ],
+          "count": 3,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110346,
+              "start": 14,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110445,
+              "start": 6,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110446,
+              "start": 9,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "default_use": 0,
+              "pop_calls": 96
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,intlist": 96
+            }
+          },
+          "source_context_totals": {
+            "default_use": 0,
+            "pop_calls": 12
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            1,
+            18,
+            10
+          ],
+          "names": [
+            "_op_input",
+            "_op_reduce_max",
+            "_op_swap"
+          ],
+          "length": 3,
+          "source_cells": [
+            "PA:(M>F?F:S)+m",
+            "PA:(S>F?M:S)+m"
+          ],
+          "count": 3,
+          "provenance": [
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110445,
+              "start": 23,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4,
+                "underflow": 0
+              }
+            },
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110446,
+              "start": 15,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4,
+                "underflow": 0
+              }
+            },
+            {
+              "cell": "PA:(S>F?M:S)+m",
+              "seed": 206620110146,
+              "start": 24,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4,
+                "underflow": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "default_use": 96,
+              "pop_calls": 96,
+              "underflow": 96
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "default_use": 0,
+            "pop_calls": 12,
+            "underflow": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            1,
+            22,
+            1
+          ],
+          "names": [
+            "_op_input",
+            "_op_reduce_min",
+            "_op_input"
+          ],
+          "length": 3,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(M>F?F:S)+m"
+          ],
+          "count": 3,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110345,
+              "start": 0,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110347,
+              "start": 8,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110445,
+              "start": 13,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "default_use": 0,
+              "pop_calls": 96
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,intlist": 96
+            }
+          },
+          "source_context_totals": {
+            "default_use": 0,
+            "pop_calls": 12
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            1,
+            23,
+            1
+          ],
+          "names": [
+            "_op_input",
+            "_op_first",
+            "_op_input"
+          ],
+          "length": 3,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(M>F?F:S)+m"
+          ],
+          "count": 3,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110346,
+              "start": 12,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110445,
+              "start": 21,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110447,
+              "start": 10,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "default_use": 0,
+              "pop_calls": 96
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,intlist": 96
+            }
+          },
+          "source_context_totals": {
+            "default_use": 0,
+            "pop_calls": 12
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            8,
+            17,
+            1
+          ],
+          "names": [
+            "_op_gt",
+            "_op_if_gt",
+            "_op_input"
+          ],
+          "length": 3,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(M>F?M:S)+m"
+          ],
+          "count": 3,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110347,
+              "start": 26,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 20,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110348,
+              "start": 27,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 20,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110248,
+              "start": 27,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 20,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 480,
+              "underflow": 384,
+              "default_use": 384
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,intlist": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 60,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            1,
+            5,
+            1,
+            22
+          ],
+          "names": [
+            "_op_input",
+            "_op_sum",
+            "_op_input",
+            "_op_reduce_min"
+          ],
+          "length": 4,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(M>F?F:S)+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110346,
+              "start": 14,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 8
+              }
+            },
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110445,
+              "start": 6,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 8
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "default_use": 0,
+              "pop_calls": 192
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "default_use": 0,
+            "pop_calls": 16
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            1,
+            18,
+            1,
+            22
+          ],
+          "names": [
+            "_op_input",
+            "_op_reduce_max",
+            "_op_input",
+            "_op_reduce_min"
+          ],
+          "length": 4,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(M>F?M:S)+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110345,
+              "start": 2,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 8
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110247,
+              "start": 8,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 8
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "default_use": 0,
+              "pop_calls": 192
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "default_use": 0,
+            "pop_calls": 16
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            18,
+            1,
+            23,
+            1
+          ],
+          "names": [
+            "_op_reduce_max",
+            "_op_input",
+            "_op_first",
+            "_op_input"
+          ],
+          "length": 4,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(M>F?F:S)+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110346,
+              "start": 11,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "pop_calls": 8,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110445,
+              "start": 20,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                3,
+                3,
+                3,
+                3
+              ],
+              "context_totals": {
+                "pop_calls": 8,
+                "wrong_type": 4,
+                "default_use": 4
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 192,
+              "underflow": 96,
+              "default_use": 96
+            },
+            "stack_effects": {
+              "3": 96
+            },
+            "final_stack_types": {
+              "int,int,intlist": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 16,
+            "default_use": 4,
+            "wrong_type": 4
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            1,
+            18,
+            7
+          ],
+          "names": [
+            "_op_input",
+            "_op_reduce_max",
+            "_op_add"
+          ],
+          "length": 3,
+          "source_cells": [
+            "PA:(M>F?M:S)+m",
+            "PA:(S>F?M:S)+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110247,
+              "start": 26,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "PA:(S>F?M:S)+m",
+              "seed": 206620110145,
+              "start": 7,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "default_use": 96,
+              "pop_calls": 288,
+              "underflow": 96
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "default_use": 0,
+            "pop_calls": 24
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            1,
+            23,
+            7
+          ],
+          "names": [
+            "_op_input",
+            "_op_first",
+            "_op_add"
+          ],
+          "length": 3,
+          "source_cells": [
+            "PA:(M>F?F:S)+m",
+            "PA:(M>F?M:S)+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110445,
+              "start": 15,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110247,
+              "start": 20,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "default_use": 96,
+              "pop_calls": 288,
+              "underflow": 96
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "default_use": 0,
+            "pop_calls": 24
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            5,
+            1,
+            22
+          ],
+          "names": [
+            "_op_sum",
+            "_op_input",
+            "_op_reduce_min"
+          ],
+          "length": 3,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(M>F?F:S)+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110346,
+              "start": 15,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "context_totals": {
+                "pop_calls": 8,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110445,
+              "start": 7,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "context_totals": {
+                "pop_calls": 8,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 192,
+              "underflow": 96,
+              "default_use": 96
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 16,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            5,
+            9,
+            2
+          ],
+          "names": [
+            "_op_sum",
+            "_op_dup",
+            "_op_const_0"
+          ],
+          "length": 3,
+          "source_cells": [
+            "PA:(M>F?F:S)+m",
+            "PA:(S>F?M:S)+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110446,
+              "start": 22,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                3,
+                3,
+                3,
+                3
+              ],
+              "context_totals": {
+                "pop_calls": 4,
+                "wrong_type": 4,
+                "default_use": 4
+              }
+            },
+            {
+              "cell": "PA:(S>F?M:S)+m",
+              "seed": 206620110146,
+              "start": 15,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "pop_calls": 4,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 96,
+              "underflow": 96,
+              "default_use": 96
+            },
+            "stack_effects": {
+              "3": 96
+            },
+            "final_stack_types": {
+              "int,int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 8,
+            "wrong_type": 4,
+            "default_use": 4
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            7,
+            1,
+            18
+          ],
+          "names": [
+            "_op_add",
+            "_op_input",
+            "_op_reduce_max"
+          ],
+          "length": 3,
+          "source_cells": [
+            "PA:(M>F?F:S)+m",
+            "PA:(S>F?M:S)+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "PA:(M>F?F:S)+m",
+              "seed": 206620110447,
+              "start": 14,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "pop_calls": 12,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(S>F?M:S)+m",
+              "seed": 206620110145,
+              "start": 6,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "pop_calls": 12,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 288,
+              "underflow": 192,
+              "default_use": 192
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 24,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            17,
+            1,
+            11
+          ],
+          "names": [
+            "_op_if_gt",
+            "_op_input",
+            "_op_reduce_add"
+          ],
+          "length": 3,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(S>F?M:S)+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110348,
+              "start": 24,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "context_totals": {
+                "pop_calls": 16,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(S>F?M:S)+m",
+              "seed": 206620110145,
+              "start": 19,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "context_totals": {
+                "pop_calls": 16,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 384,
+              "underflow": 288,
+              "default_use": 288
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 32,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            17,
+            8,
+            17
+          ],
+          "names": [
+            "_op_if_gt",
+            "_op_gt",
+            "_op_if_gt"
+          ],
+          "length": 3,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(M>F?M:S)+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110346,
+              "start": 22,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -5,
+                -5,
+                -5,
+                -5
+              ],
+              "context_totals": {
+                "pop_calls": 32,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110248,
+              "start": 26,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -5,
+                -5,
+                -5,
+                -5
+              ],
+              "context_totals": {
+                "pop_calls": 32,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 768,
+              "underflow": 576,
+              "default_use": 576
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 64,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            18,
+            1,
+            22
+          ],
+          "names": [
+            "_op_reduce_max",
+            "_op_input",
+            "_op_reduce_min"
+          ],
+          "length": 3,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(M>F?M:S)+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110345,
+              "start": 3,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "context_totals": {
+                "pop_calls": 8,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110247,
+              "start": 9,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "context_totals": {
+                "pop_calls": 8,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 192,
+              "underflow": 96,
+              "default_use": 96
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 16,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            23,
+            1,
+            23
+          ],
+          "names": [
+            "_op_first",
+            "_op_input",
+            "_op_first"
+          ],
+          "length": 3,
+          "source_cells": [
+            "PA:(F>S?M:m)+m",
+            "PA:(M>F?M:S)+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "PA:(F>S?M:m)+m",
+              "seed": 206620110347,
+              "start": 14,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "context_totals": {
+                "pop_calls": 8,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "PA:(M>F?M:S)+m",
+              "seed": 206620110245,
+              "start": 16,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "pop_calls": 8,
+                "wrong_type": 4,
+                "default_use": 4
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 192,
+              "underflow": 96,
+              "default_use": 96
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 16,
+            "default_use": 4,
+            "wrong_type": 4
+          },
+          "padded_solves": []
+        }
+      ],
+      "dropped_padded_solvers": [],
+      "hash": "7f07d66680d6f59b2fb526083d1d3000091303d1fe0315ae568a2704570b7916",
+      "activity_scope": "NOP knockout contribution in the original source program on 96 inputs",
+      "stack_scope": "standalone empty-stack effect on 96 inputs; source-context use on first four of those inputs"
+    },
+    "activity": [
+      {
+        "cell": "PA:(F>S?M:m)+m",
+        "seed": 206620110345,
+        "active": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          false,
+          true,
+          true,
+          false,
+          true,
+          true,
+          false,
+          true,
+          false,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "cell": "PA:(F>S?M:m)+m",
+        "seed": 206620110346,
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "cell": "PA:(F>S?M:m)+m",
+        "seed": 206620110347,
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "cell": "PA:(F>S?M:m)+m",
+        "seed": 206620110348,
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "cell": "PA:(M>F?F:S)+m",
+        "seed": 206620110445,
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          true
+        ]
+      },
+      {
+        "cell": "PA:(M>F?F:S)+m",
+        "seed": 206620110446,
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "cell": "PA:(M>F?F:S)+m",
+        "seed": 206620110447,
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "cell": "PA:(M>F?M:S)+m",
+        "seed": 206620110245,
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          true,
+          true,
+          false,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "cell": "PA:(M>F?M:S)+m",
+        "seed": 206620110247,
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "cell": "PA:(M>F?M:S)+m",
+        "seed": 206620110248,
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "cell": "PA:(S>F?M:S)+m",
+        "seed": 206620110145,
+        "active": [
+          true,
+          false,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "cell": "PA:(S>F?M:S)+m",
+        "seed": 206620110146,
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true
+        ]
+      }
+    ],
+    "yields": {
+      "PA:(S>F?M:S)+m": 2,
+      "PA:(M>F?M:S)+m": 3,
+      "PA:(F>S?M:m)+m": 4,
+      "PA:(M>F?F:S)+m": 3
+    },
+    "empty_cells": [],
+    "attempt_keys": [
+      [
+        "PA1",
+        "PA:(F>S?M:m)+m",
+        206620110345
+      ],
+      [
+        "PA1",
+        "PA:(F>S?M:m)+m",
+        206620110346
+      ],
+      [
+        "PA1",
+        "PA:(F>S?M:m)+m",
+        206620110347
+      ],
+      [
+        "PA1",
+        "PA:(F>S?M:m)+m",
+        206620110348
+      ],
+      [
+        "PA1",
+        "PA:(M>F?F:S)+m",
+        206620110445
+      ],
+      [
+        "PA1",
+        "PA:(M>F?F:S)+m",
+        206620110446
+      ],
+      [
+        "PA1",
+        "PA:(M>F?F:S)+m",
+        206620110447
+      ],
+      [
+        "PA1",
+        "PA:(M>F?F:S)+m",
+        206620110448
+      ],
+      [
+        "PA1",
+        "PA:(M>F?M:S)+m",
+        206620110245
+      ],
+      [
+        "PA1",
+        "PA:(M>F?M:S)+m",
+        206620110246
+      ],
+      [
+        "PA1",
+        "PA:(M>F?M:S)+m",
+        206620110247
+      ],
+      [
+        "PA1",
+        "PA:(M>F?M:S)+m",
+        206620110248
+      ],
+      [
+        "PA1",
+        "PA:(S>F?M:S)+m",
+        206620110145
+      ],
+      [
+        "PA1",
+        "PA:(S>F?M:S)+m",
+        206620110146
+      ],
+      [
+        "PA1",
+        "PA:(S>F?M:S)+m",
+        206620110147
+      ],
+      [
+        "PA1",
+        "PA:(S>F?M:S)+m",
+        206620110148
+      ]
+    ],
+    "attempts_hash": "b25fbda872d82c19dc9f6079965796c96d2d9832cbe4354aa0aceed391e0b105",
+    "acquisition": {
+      "evaluations": 4712960,
+      "source_worker_seconds": 192.69624253816437,
+      "verification_seconds": 0.002538834000006318,
+      "fit_seconds": 0.1228301249211654,
+      "extraction_seconds": 0.026410499936901033
+    }
+  },
+  "BE1": {
+    "corpus": "BE1",
+    "block": "BE1",
+    "table": [
+      [
+        267,
+        534,
+        801,
+        1068,
+        1335,
+        1602,
+        1869,
+        2136,
+        4536,
+        4803,
+        6669,
+        9069,
+        9336,
+        9603,
+        9870,
+        10137,
+        10403,
+        14936,
+        15202,
+        15468,
+        17868,
+        20268,
+        20534,
+        24000
+      ],
+      [
+        250,
+        809,
+        1059,
+        1309,
+        1559,
+        3111,
+        3670,
+        3958,
+        4208,
+        4458,
+        4746,
+        8194,
+        8753,
+        9312,
+        9562,
+        9812,
+        10100,
+        10350,
+        14063,
+        14313,
+        14563,
+        14813,
+        18729,
+        24000
+      ],
+      [
+        250,
+        7375,
+        7625,
+        7875,
+        8125,
+        8375,
+        8625,
+        12096,
+        12346,
+        13625,
+        13875,
+        14125,
+        14375,
+        14625,
+        14875,
+        15125,
+        15375,
+        22500,
+        22750,
+        23000,
+        23250,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        250,
+        3500,
+        3750,
+        4000,
+        4250,
+        4500,
+        4750,
+        10261,
+        10511,
+        11500,
+        11750,
+        12000,
+        12250,
+        12500,
+        12750,
+        13000,
+        15402,
+        20348,
+        20598,
+        20848,
+        23250,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        522,
+        1044,
+        1566,
+        6261,
+        6783,
+        7305,
+        7827,
+        8349,
+        8871,
+        9393,
+        13045,
+        13567,
+        14089,
+        18784,
+        19306,
+        19828,
+        20350,
+        20872,
+        21394,
+        21916,
+        22437,
+        22958,
+        23479,
+        24000
+      ],
+      [
+        250,
+        8419,
+        8669,
+        8919,
+        9169,
+        10927,
+        11177,
+        14796,
+        15046,
+        15770,
+        17528,
+        17778,
+        18028,
+        18278,
+        18528,
+        18778,
+        19028,
+        21406,
+        21656,
+        21906,
+        22156,
+        22406,
+        22656,
+        24000
+      ],
+      [
+        250,
+        1211,
+        3546,
+        8078,
+        8328,
+        8578,
+        8828,
+        16381,
+        16631,
+        17592,
+        17842,
+        18092,
+        18342,
+        18592,
+        18842,
+        19092,
+        19342,
+        22500,
+        22750,
+        23000,
+        23250,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        488,
+        8957,
+        9207,
+        9457,
+        9830,
+        10080,
+        11028,
+        13985,
+        15736,
+        17545,
+        18378,
+        18751,
+        19124,
+        19612,
+        19862,
+        20810,
+        21298,
+        21548,
+        21798,
+        22171,
+        22421,
+        22794,
+        23282,
+        24000
+      ],
+      [
+        250,
+        2735,
+        2985,
+        3235,
+        3485,
+        3735,
+        3985,
+        6215,
+        6465,
+        7931,
+        8181,
+        8431,
+        8681,
+        8931,
+        10014,
+        10264,
+        11093,
+        22500,
+        22750,
+        23000,
+        23250,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        250,
+        3604,
+        3854,
+        5167,
+        5417,
+        6438,
+        6688,
+        8001,
+        8251,
+        8501,
+        8751,
+        10063,
+        11084,
+        12396,
+        13417,
+        13667,
+        13917,
+        14167,
+        14417,
+        16896,
+        20250,
+        20500,
+        22688,
+        24000
+      ],
+      [
+        1707,
+        3902,
+        5609,
+        5859,
+        6109,
+        8304,
+        8554,
+        8804,
+        12951,
+        13201,
+        13451,
+        13701,
+        13951,
+        17610,
+        17860,
+        18110,
+        18360,
+        20555,
+        20805,
+        21055,
+        23250,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        1096,
+        5931,
+        6181,
+        6431,
+        6681,
+        6931,
+        7181,
+        13563,
+        15432,
+        16915,
+        17165,
+        17415,
+        17665,
+        17915,
+        18165,
+        19261,
+        20357,
+        20808,
+        21058,
+        22154,
+        23250,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        353,
+        706,
+        1059,
+        1412,
+        1765,
+        2118,
+        2471,
+        4942,
+        5295,
+        10589,
+        10942,
+        11295,
+        11648,
+        12001,
+        12354,
+        15530,
+        15883,
+        16236,
+        19412,
+        19765,
+        20118,
+        20471,
+        20824,
+        24000
+      ],
+      [
+        286,
+        572,
+        858,
+        1144,
+        1430,
+        1716,
+        2002,
+        2288,
+        2574,
+        2860,
+        3146,
+        5717,
+        7717,
+        8003,
+        8289,
+        8575,
+        8860,
+        9145,
+        14002,
+        16002,
+        18573,
+        21144,
+        23715,
+        24000
+      ],
+      [
+        364,
+        728,
+        1092,
+        6546,
+        6910,
+        7274,
+        7638,
+        8002,
+        11275,
+        11639,
+        14912,
+        15276,
+        15640,
+        16004,
+        16368,
+        16732,
+        17095,
+        17458,
+        17821,
+        18184,
+        18547,
+        21092,
+        23637,
+        24000
+      ],
+      [
+        250,
+        9886,
+        10136,
+        10386,
+        10636,
+        10886,
+        11136,
+        14257,
+        14507,
+        15457,
+        15707,
+        15957,
+        16207,
+        16457,
+        16707,
+        16957,
+        17207,
+        22500,
+        22750,
+        23000,
+        23250,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        250,
+        3322,
+        3572,
+        3822,
+        4072,
+        4322,
+        4572,
+        7644,
+        9914,
+        14589,
+        14839,
+        15089,
+        15339,
+        17075,
+        17325,
+        17575,
+        17825,
+        22500,
+        22750,
+        23000,
+        23250,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        1213,
+        8869,
+        10250,
+        10500,
+        10750,
+        11000,
+        11711,
+        14347,
+        14597,
+        15559,
+        15809,
+        16059,
+        16770,
+        17020,
+        18736,
+        19447,
+        19697,
+        22500,
+        22750,
+        23000,
+        23250,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        250,
+        4608,
+        4858,
+        5108,
+        5358,
+        6464,
+        7570,
+        12188,
+        12438,
+        13934,
+        15040,
+        15290,
+        15540,
+        15790,
+        16040,
+        16290,
+        17136,
+        19413,
+        20259,
+        20509,
+        22655,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        250,
+        7882,
+        8132,
+        8382,
+        8632,
+        8882,
+        9132,
+        13119,
+        13369,
+        16900,
+        17150,
+        17400,
+        17650,
+        17900,
+        19836,
+        20086,
+        20336,
+        22500,
+        22750,
+        23000,
+        23250,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        3342,
+        5112,
+        5362,
+        5612,
+        7382,
+        7632,
+        7882,
+        9652,
+        9902,
+        11671,
+        15013,
+        16389,
+        16639,
+        16889,
+        17139,
+        17389,
+        17639,
+        17889,
+        18139,
+        21481,
+        21731,
+        21981,
+        23750,
+        24000
+      ],
+      [
+        3000,
+        5334,
+        5668,
+        6002,
+        6336,
+        6670,
+        7003,
+        7336,
+        7669,
+        10003,
+        10336,
+        10669,
+        13669,
+        14002,
+        14335,
+        14668,
+        15001,
+        15334,
+        15667,
+        20001,
+        20334,
+        23334,
+        23667,
+        24000
+      ],
+      [
+        250,
+        3187,
+        3437,
+        3687,
+        3937,
+        4685,
+        4935,
+        14090,
+        15069,
+        18006,
+        18256,
+        18506,
+        18756,
+        19006,
+        19256,
+        19506,
+        19756,
+        22002,
+        22252,
+        23000,
+        23250,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        250,
+        7067,
+        7878,
+        8128,
+        8378,
+        8628,
+        9438,
+        12632,
+        15731,
+        16828,
+        17078,
+        17328,
+        17578,
+        17828,
+        18078,
+        18888,
+        20271,
+        22130,
+        22750,
+        23000,
+        23250,
+        23500,
+        23750,
+        24000
+      ],
+      [
+        250,
+        5420,
+        5670,
+        7212,
+        8754,
+        9004,
+        9254,
+        10796,
+        13427,
+        13677,
+        13927,
+        15106,
+        15356,
+        15606,
+        15856,
+        17398,
+        17648,
+        18827,
+        19077,
+        19327,
+        22321,
+        23500,
+        23750,
+        24000
+      ]
+    ],
+    "table_hash": "538c7fc0aa518eb3e433ddfb195904e0429ad935a149802e2092b5a626435045",
+    "library": {
+      "held_out_cell": null,
+      "recurring_candidates": 33,
+      "fragments": [
+        {
+          "tokens": [
+            1,
+            22,
+            7
+          ],
+          "names": [
+            "_op_input",
+            "_op_reduce_min",
+            "_op_add"
+          ],
+          "length": 3,
+          "source_cells": [
+            "BE:F>m?F:M+S",
+            "BE:S>F?M:S+m",
+            "BE:S>F?m:M+m"
+          ],
+          "count": 6,
+          "provenance": [
+            {
+              "cell": "BE:F>m?F:M+S",
+              "seed": 206620100445,
+              "start": 24,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100145,
+              "start": 19,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100146,
+              "start": 19,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100147,
+              "start": 17,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "BE:S>F?m:M+m",
+              "seed": 206620100346,
+              "start": 27,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "BE:S>F?m:M+m",
+              "seed": 206620100348,
+              "start": 29,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "default_use": 96,
+              "pop_calls": 288,
+              "underflow": 96
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "default_use": 0,
+            "pop_calls": 72
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            7,
+            1,
+            23
+          ],
+          "names": [
+            "_op_add",
+            "_op_input",
+            "_op_first"
+          ],
+          "length": 3,
+          "source_cells": [
+            "BE:F>m?F:M+S",
+            "BE:S>F?M:M+m",
+            "BE:S>F?M:S+m"
+          ],
+          "count": 6,
+          "provenance": [
+            {
+              "cell": "BE:F>m?F:M+S",
+              "seed": 206620100445,
+              "start": 9,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "pop_calls": 12,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:F>m?F:M+S",
+              "seed": 206620100445,
+              "start": 20,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "pop_calls": 12,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:F>m?F:M+S",
+              "seed": 206620100447,
+              "start": 23,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "pop_calls": 12,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100245,
+              "start": 27,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "pop_calls": 12,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100145,
+              "start": 11,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "pop_calls": 12,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100146,
+              "start": 27,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "pop_calls": 12,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 288,
+              "underflow": 192,
+              "default_use": 192
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 72,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            8,
+            17,
+            1
+          ],
+          "names": [
+            "_op_gt",
+            "_op_if_gt",
+            "_op_input"
+          ],
+          "length": 3,
+          "source_cells": [
+            "BE:S>F?M:M+m",
+            "BE:S>F?M:S+m",
+            "BE:S>F?m:M+m"
+          ],
+          "count": 4,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100248,
+              "start": 26,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 20,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100145,
+              "start": 17,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 20,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?m:M+m",
+              "seed": 206620100346,
+              "start": 25,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 20,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?m:M+m",
+              "seed": 206620100348,
+              "start": 20,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 20,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 480,
+              "underflow": 384,
+              "default_use": 384
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,intlist": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 80,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            7,
+            8,
+            17
+          ],
+          "names": [
+            "_op_add",
+            "_op_gt",
+            "_op_if_gt"
+          ],
+          "length": 3,
+          "source_cells": [
+            "BE:F>m?F:M+S",
+            "BE:S>F?M:M+m",
+            "BE:S>F?m:M+m"
+          ],
+          "count": 3,
+          "provenance": [
+            {
+              "cell": "BE:F>m?F:M+S",
+              "seed": 206620100446,
+              "start": 28,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -4,
+                -4,
+                -4,
+                -4
+              ],
+              "context_totals": {
+                "pop_calls": 28,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100248,
+              "start": 25,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -4,
+                -4,
+                -4,
+                -4
+              ],
+              "context_totals": {
+                "pop_calls": 28,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?m:M+m",
+              "seed": 206620100348,
+              "start": 19,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -4,
+                -4,
+                -4,
+                -4
+              ],
+              "context_totals": {
+                "pop_calls": 28,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 672,
+              "underflow": 480,
+              "default_use": 480
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 84,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            1,
+            23,
+            8,
+            17
+          ],
+          "names": [
+            "_op_input",
+            "_op_first",
+            "_op_gt",
+            "_op_if_gt"
+          ],
+          "length": 4,
+          "source_cells": [
+            "BE:S>F?M:M+m",
+            "BE:S>F?M:S+m"
+          ],
+          "count": 4,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100245,
+              "start": 28,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 24
+              }
+            },
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100246,
+              "start": 20,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 24
+              }
+            },
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100247,
+              "start": 11,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 24
+              }
+            },
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100146,
+              "start": 28,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 24
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "default_use": 288,
+              "pop_calls": 576,
+              "underflow": 288
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "default_use": 0,
+            "pop_calls": 96
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            1,
+            18,
+            7
+          ],
+          "names": [
+            "_op_input",
+            "_op_reduce_max",
+            "_op_add"
+          ],
+          "length": 3,
+          "source_cells": [
+            "BE:F>m?F:M+S",
+            "BE:S>F?M:M+m"
+          ],
+          "count": 4,
+          "provenance": [
+            {
+              "cell": "BE:F>m?F:M+S",
+              "seed": 206620100446,
+              "start": 5,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100245,
+              "start": 12,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100245,
+              "start": 19,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100248,
+              "start": 28,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "default_use": 96,
+              "pop_calls": 288,
+              "underflow": 96
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "default_use": 0,
+            "pop_calls": 48
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            1,
+            23,
+            8
+          ],
+          "names": [
+            "_op_input",
+            "_op_first",
+            "_op_gt"
+          ],
+          "length": 3,
+          "source_cells": [
+            "BE:S>F?M:M+m",
+            "BE:S>F?M:S+m"
+          ],
+          "count": 4,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100245,
+              "start": 28,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100246,
+              "start": 20,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100247,
+              "start": 11,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            },
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100146,
+              "start": 28,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 12
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "default_use": 96,
+              "pop_calls": 288,
+              "underflow": 96
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "default_use": 0,
+            "pop_calls": 48
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            17,
+            1,
+            22
+          ],
+          "names": [
+            "_op_if_gt",
+            "_op_input",
+            "_op_reduce_min"
+          ],
+          "length": 3,
+          "source_cells": [
+            "BE:S>F?M:S+m",
+            "BE:S>F?m:M+m"
+          ],
+          "count": 4,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100145,
+              "start": 18,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "context_totals": {
+                "pop_calls": 16,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?m:M+m",
+              "seed": 206620100345,
+              "start": 27,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "context_totals": {
+                "pop_calls": 16,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?m:M+m",
+              "seed": 206620100346,
+              "start": 26,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "context_totals": {
+                "pop_calls": 16,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?m:M+m",
+              "seed": 206620100348,
+              "start": 28,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "context_totals": {
+                "pop_calls": 16,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 384,
+              "underflow": 288,
+              "default_use": 288
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 64,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            23,
+            8,
+            17
+          ],
+          "names": [
+            "_op_first",
+            "_op_gt",
+            "_op_if_gt"
+          ],
+          "length": 3,
+          "source_cells": [
+            "BE:S>F?M:M+m",
+            "BE:S>F?M:S+m"
+          ],
+          "count": 4,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100245,
+              "start": 29,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -3,
+                -3,
+                -3,
+                -3
+              ],
+              "context_totals": {
+                "pop_calls": 24,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100246,
+              "start": 21,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -3,
+                -3,
+                -3,
+                -3
+              ],
+              "context_totals": {
+                "pop_calls": 24,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100247,
+              "start": 12,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -3,
+                -3,
+                -3,
+                -3
+              ],
+              "context_totals": {
+                "pop_calls": 24,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100146,
+              "start": 29,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -3,
+                -3,
+                -3,
+                -3
+              ],
+              "context_totals": {
+                "pop_calls": 24,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 576,
+              "underflow": 384,
+              "default_use": 384
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 96,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            17,
+            1,
+            22,
+            7
+          ],
+          "names": [
+            "_op_if_gt",
+            "_op_input",
+            "_op_reduce_min",
+            "_op_add"
+          ],
+          "length": 4,
+          "source_cells": [
+            "BE:S>F?M:S+m",
+            "BE:S>F?m:M+m"
+          ],
+          "count": 3,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100145,
+              "start": 18,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 24,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?m:M+m",
+              "seed": 206620100346,
+              "start": 26,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 24,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?m:M+m",
+              "seed": 206620100348,
+              "start": 28,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 24,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 576,
+              "underflow": 288,
+              "default_use": 288
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 72,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            1,
+            11,
+            1
+          ],
+          "names": [
+            "_op_input",
+            "_op_reduce_add",
+            "_op_input"
+          ],
+          "length": 3,
+          "source_cells": [
+            "BE:S>F?M:M+m",
+            "BE:S>F?M:S+m"
+          ],
+          "count": 3,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100246,
+              "start": 18,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100247,
+              "start": 9,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100147,
+              "start": 13,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "default_use": 0,
+              "pop_calls": 96
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,intlist": 96
+            }
+          },
+          "source_context_totals": {
+            "default_use": 0,
+            "pop_calls": 12
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            1,
+            23,
+            1
+          ],
+          "names": [
+            "_op_input",
+            "_op_first",
+            "_op_input"
+          ],
+          "length": 3,
+          "source_cells": [
+            "BE:F>m?F:M+S",
+            "BE:S>F?M:S+m"
+          ],
+          "count": 3,
+          "provenance": [
+            {
+              "cell": "BE:F>m?F:M+S",
+              "seed": 206620100447,
+              "start": 24,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "BE:F>m?F:M+S",
+              "seed": 206620100447,
+              "start": 26,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100145,
+              "start": 12,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "default_use": 0,
+              "pop_calls": 96
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,intlist": 96
+            }
+          },
+          "source_context_totals": {
+            "default_use": 0,
+            "pop_calls": 12
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            5,
+            7,
+            1,
+            23,
+            8,
+            17
+          ],
+          "names": [
+            "_op_sum",
+            "_op_add",
+            "_op_input",
+            "_op_first",
+            "_op_gt",
+            "_op_if_gt"
+          ],
+          "length": 6,
+          "source_cells": [
+            "BE:S>F?M:M+m",
+            "BE:S>F?M:S+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100245,
+              "start": 26,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -3,
+                -3,
+                -3,
+                -3
+              ],
+              "context_totals": {
+                "pop_calls": 36,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100146,
+              "start": 26,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 36,
+                "wrong_type": 4,
+                "default_use": 4
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 864,
+              "underflow": 384,
+              "default_use": 384
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 72,
+            "default_use": 4,
+            "wrong_type": 4
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            10,
+            8,
+            17,
+            1,
+            22,
+            7
+          ],
+          "names": [
+            "_op_swap",
+            "_op_gt",
+            "_op_if_gt",
+            "_op_input",
+            "_op_reduce_min",
+            "_op_add"
+          ],
+          "length": 6,
+          "source_cells": [
+            "BE:S>F?M:S+m",
+            "BE:S>F?m:M+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100145,
+              "start": 16,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -3,
+                -3,
+                -3,
+                -3
+              ],
+              "context_totals": {
+                "underflow": 0,
+                "default_use": 0,
+                "pop_calls": 32
+              }
+            },
+            {
+              "cell": "BE:S>F?m:M+m",
+              "seed": 206620100346,
+              "start": 24,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -3,
+                -3,
+                -3,
+                -3
+              ],
+              "context_totals": {
+                "underflow": 0,
+                "default_use": 0,
+                "pop_calls": 32
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "underflow": 384,
+              "default_use": 384,
+              "pop_calls": 768
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "underflow": 0,
+            "default_use": 0,
+            "pop_calls": 64
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            5,
+            7,
+            1,
+            23,
+            8
+          ],
+          "names": [
+            "_op_sum",
+            "_op_add",
+            "_op_input",
+            "_op_first",
+            "_op_gt"
+          ],
+          "length": 5,
+          "source_cells": [
+            "BE:S>F?M:M+m",
+            "BE:S>F?M:S+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100245,
+              "start": 26,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "context_totals": {
+                "pop_calls": 24,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100146,
+              "start": 26,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "pop_calls": 24,
+                "wrong_type": 4,
+                "default_use": 4
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 576,
+              "underflow": 192,
+              "default_use": 192
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 48,
+            "default_use": 4,
+            "wrong_type": 4
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            7,
+            1,
+            23,
+            8,
+            17
+          ],
+          "names": [
+            "_op_add",
+            "_op_input",
+            "_op_first",
+            "_op_gt",
+            "_op_if_gt"
+          ],
+          "length": 5,
+          "source_cells": [
+            "BE:S>F?M:M+m",
+            "BE:S>F?M:S+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100245,
+              "start": 27,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -3,
+                -3,
+                -3,
+                -3
+              ],
+              "context_totals": {
+                "pop_calls": 32,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100146,
+              "start": 27,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -3,
+                -3,
+                -3,
+                -3
+              ],
+              "context_totals": {
+                "pop_calls": 32,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 768,
+              "underflow": 384,
+              "default_use": 384
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 64,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            8,
+            17,
+            1,
+            22,
+            7
+          ],
+          "names": [
+            "_op_gt",
+            "_op_if_gt",
+            "_op_input",
+            "_op_reduce_min",
+            "_op_add"
+          ],
+          "length": 5,
+          "source_cells": [
+            "BE:S>F?M:S+m",
+            "BE:S>F?m:M+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100145,
+              "start": 17,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -3,
+                -3,
+                -3,
+                -3
+              ],
+              "context_totals": {
+                "pop_calls": 32,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?m:M+m",
+              "seed": 206620100346,
+              "start": 25,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -3,
+                -3,
+                -3,
+                -3
+              ],
+              "context_totals": {
+                "pop_calls": 32,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 768,
+              "underflow": 384,
+              "default_use": 384
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 64,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            10,
+            8,
+            17,
+            1,
+            22
+          ],
+          "names": [
+            "_op_swap",
+            "_op_gt",
+            "_op_if_gt",
+            "_op_input",
+            "_op_reduce_min"
+          ],
+          "length": 5,
+          "source_cells": [
+            "BE:S>F?M:S+m",
+            "BE:S>F?m:M+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100145,
+              "start": 16,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "underflow": 0,
+                "default_use": 0,
+                "pop_calls": 24
+              }
+            },
+            {
+              "cell": "BE:S>F?m:M+m",
+              "seed": 206620100346,
+              "start": 24,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "underflow": 0,
+                "default_use": 0,
+                "pop_calls": 24
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "underflow": 384,
+              "default_use": 384,
+              "pop_calls": 576
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "underflow": 0,
+            "default_use": 0,
+            "pop_calls": 48
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            5,
+            7,
+            1,
+            23
+          ],
+          "names": [
+            "_op_sum",
+            "_op_add",
+            "_op_input",
+            "_op_first"
+          ],
+          "length": 4,
+          "source_cells": [
+            "BE:S>F?M:M+m",
+            "BE:S>F?M:S+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100245,
+              "start": 26,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "pop_calls": 16,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100146,
+              "start": 26,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "context_totals": {
+                "pop_calls": 16,
+                "wrong_type": 4,
+                "default_use": 4
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 384,
+              "underflow": 192,
+              "default_use": 192
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 32,
+            "default_use": 4,
+            "wrong_type": 4
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            7,
+            1,
+            23,
+            1
+          ],
+          "names": [
+            "_op_add",
+            "_op_input",
+            "_op_first",
+            "_op_input"
+          ],
+          "length": 4,
+          "source_cells": [
+            "BE:F>m?F:M+S",
+            "BE:S>F?M:S+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "BE:F>m?F:M+S",
+              "seed": 206620100447,
+              "start": 23,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "context_totals": {
+                "pop_calls": 12,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100145,
+              "start": 11,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "context_totals": {
+                "pop_calls": 12,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 288,
+              "underflow": 192,
+              "default_use": 192
+            },
+            "stack_effects": {
+              "3": 96
+            },
+            "final_stack_types": {
+              "int,int,intlist": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 24,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            7,
+            1,
+            23,
+            8
+          ],
+          "names": [
+            "_op_add",
+            "_op_input",
+            "_op_first",
+            "_op_gt"
+          ],
+          "length": 4,
+          "source_cells": [
+            "BE:S>F?M:M+m",
+            "BE:S>F?M:S+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100245,
+              "start": 27,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "context_totals": {
+                "pop_calls": 20,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100146,
+              "start": 27,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "context_totals": {
+                "pop_calls": 20,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 480,
+              "underflow": 192,
+              "default_use": 192
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 40,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            7,
+            8,
+            17,
+            1
+          ],
+          "names": [
+            "_op_add",
+            "_op_gt",
+            "_op_if_gt",
+            "_op_input"
+          ],
+          "length": 4,
+          "source_cells": [
+            "BE:S>F?M:M+m",
+            "BE:S>F?m:M+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100248,
+              "start": 25,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -3,
+                -3,
+                -3,
+                -3
+              ],
+              "context_totals": {
+                "pop_calls": 28,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?m:M+m",
+              "seed": 206620100348,
+              "start": 19,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -3,
+                -3,
+                -3,
+                -3
+              ],
+              "context_totals": {
+                "pop_calls": 28,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 672,
+              "underflow": 480,
+              "default_use": 480
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,intlist": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 56,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            8,
+            17,
+            1,
+            22
+          ],
+          "names": [
+            "_op_gt",
+            "_op_if_gt",
+            "_op_input",
+            "_op_reduce_min"
+          ],
+          "length": 4,
+          "source_cells": [
+            "BE:S>F?M:S+m",
+            "BE:S>F?m:M+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100145,
+              "start": 17,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 24,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?m:M+m",
+              "seed": 206620100346,
+              "start": 25,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 24,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 576,
+              "underflow": 384,
+              "default_use": 384
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 48,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            10,
+            8,
+            17,
+            1
+          ],
+          "names": [
+            "_op_swap",
+            "_op_gt",
+            "_op_if_gt",
+            "_op_input"
+          ],
+          "length": 4,
+          "source_cells": [
+            "BE:S>F?M:S+m",
+            "BE:S>F?m:M+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100145,
+              "start": 16,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "underflow": 0,
+                "default_use": 0,
+                "pop_calls": 20
+              }
+            },
+            {
+              "cell": "BE:S>F?m:M+m",
+              "seed": 206620100346,
+              "start": 24,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "underflow": 0,
+                "default_use": 0,
+                "pop_calls": 20
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "underflow": 384,
+              "default_use": 384,
+              "pop_calls": 480
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,intlist": 96
+            }
+          },
+          "source_context_totals": {
+            "underflow": 0,
+            "default_use": 0,
+            "pop_calls": 40
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            17,
+            1,
+            18,
+            7
+          ],
+          "names": [
+            "_op_if_gt",
+            "_op_input",
+            "_op_reduce_max",
+            "_op_add"
+          ],
+          "length": 4,
+          "source_cells": [
+            "BE:F>m?F:M+S",
+            "BE:S>F?M:M+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "BE:F>m?F:M+S",
+              "seed": 206620100446,
+              "start": 4,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 24,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100248,
+              "start": 27,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -2,
+                -2,
+                -2,
+                -2
+              ],
+              "context_totals": {
+                "pop_calls": 24,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 576,
+              "underflow": 288,
+              "default_use": 288
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 48,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            1,
+            18,
+            1
+          ],
+          "names": [
+            "_op_input",
+            "_op_reduce_max",
+            "_op_input"
+          ],
+          "length": 3,
+          "source_cells": [
+            "BE:S>F?M:M+m",
+            "BE:S>F?M:S+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100246,
+              "start": 2,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100146,
+              "start": 22,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "default_use": 0,
+              "pop_calls": 96
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,intlist": 96
+            }
+          },
+          "source_context_totals": {
+            "default_use": 0,
+            "pop_calls": 8
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            1,
+            22,
+            9
+          ],
+          "names": [
+            "_op_input",
+            "_op_reduce_min",
+            "_op_dup"
+          ],
+          "length": 3,
+          "source_cells": [
+            "BE:F>m?F:M+S",
+            "BE:S>F?M:M+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "BE:F>m?F:M+S",
+              "seed": 206620100446,
+              "start": 18,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            },
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100246,
+              "start": 4,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                2,
+                2,
+                2,
+                2
+              ],
+              "context_totals": {
+                "default_use": 0,
+                "pop_calls": 4
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "default_use": 0,
+              "pop_calls": 96
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "default_use": 0,
+            "pop_calls": 8
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            5,
+            7,
+            1
+          ],
+          "names": [
+            "_op_sum",
+            "_op_add",
+            "_op_input"
+          ],
+          "length": 3,
+          "source_cells": [
+            "BE:S>F?M:M+m",
+            "BE:S>F?M:S+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100245,
+              "start": 26,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "pop_calls": 12,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100146,
+              "start": 26,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "context_totals": {
+                "pop_calls": 12,
+                "wrong_type": 4,
+                "default_use": 4
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 288,
+              "underflow": 192,
+              "default_use": 192
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,intlist": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 24,
+            "default_use": 4,
+            "wrong_type": 4
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            7,
+            1,
+            18
+          ],
+          "names": [
+            "_op_add",
+            "_op_input",
+            "_op_reduce_max"
+          ],
+          "length": 3,
+          "source_cells": [
+            "BE:S>F?M:M+m",
+            "BE:S>F?M:S+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100245,
+              "start": 11,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "pop_calls": 12,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100146,
+              "start": 21,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "context_totals": {
+                "pop_calls": 12,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 288,
+              "underflow": 192,
+              "default_use": 192
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 24,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            7,
+            7,
+            15
+          ],
+          "names": [
+            "_op_add",
+            "_op_add",
+            "_op_const_2"
+          ],
+          "length": 3,
+          "source_cells": [
+            "BE:F>m?F:M+S",
+            "BE:S>F?m:M+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "BE:F>m?F:M+S",
+              "seed": 206620100445,
+              "start": 17,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "context_totals": {
+                "pop_calls": 16,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?m:M+m",
+              "seed": 206620100345,
+              "start": 20,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "context_totals": {
+                "pop_calls": 16,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 384,
+              "underflow": 288,
+              "default_use": 288
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 32,
+            "default_use": 0
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            10,
+            8,
+            17
+          ],
+          "names": [
+            "_op_swap",
+            "_op_gt",
+            "_op_if_gt"
+          ],
+          "length": 3,
+          "source_cells": [
+            "BE:S>F?M:S+m",
+            "BE:S>F?m:M+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "BE:S>F?M:S+m",
+              "seed": 206620100145,
+              "start": 16,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -3,
+                -3,
+                -3,
+                -3
+              ],
+              "context_totals": {
+                "underflow": 0,
+                "default_use": 0,
+                "pop_calls": 20
+              }
+            },
+            {
+              "cell": "BE:S>F?m:M+m",
+              "seed": 206620100346,
+              "start": 24,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -3,
+                -3,
+                -3,
+                -3
+              ],
+              "context_totals": {
+                "underflow": 0,
+                "default_use": 0,
+                "pop_calls": 20
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "underflow": 384,
+              "default_use": 384,
+              "pop_calls": 480
+            },
+            "stack_effects": {
+              "1": 96
+            },
+            "final_stack_types": {
+              "int": 96
+            }
+          },
+          "source_context_totals": {
+            "underflow": 0,
+            "default_use": 0,
+            "pop_calls": 40
+          },
+          "padded_solves": []
+        },
+        {
+          "tokens": [
+            17,
+            1,
+            18
+          ],
+          "names": [
+            "_op_if_gt",
+            "_op_input",
+            "_op_reduce_max"
+          ],
+          "length": 3,
+          "source_cells": [
+            "BE:F>m?F:M+S",
+            "BE:S>F?M:M+m"
+          ],
+          "count": 2,
+          "provenance": [
+            {
+              "cell": "BE:F>m?F:M+S",
+              "seed": 206620100446,
+              "start": 4,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "context_totals": {
+                "pop_calls": 16,
+                "default_use": 0
+              }
+            },
+            {
+              "cell": "BE:S>F?M:M+m",
+              "seed": 206620100248,
+              "start": 27,
+              "context_inputs": 4,
+              "context_stack_deltas": [
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "context_totals": {
+                "pop_calls": 16,
+                "default_use": 0
+              }
+            }
+          ],
+          "standalone": {
+            "inputs": 96,
+            "totals": {
+              "pop_calls": 384,
+              "underflow": 288,
+              "default_use": 288
+            },
+            "stack_effects": {
+              "2": 96
+            },
+            "final_stack_types": {
+              "int,int": 96
+            }
+          },
+          "source_context_totals": {
+            "pop_calls": 32,
+            "default_use": 0
+          },
+          "padded_solves": []
+        }
+      ],
+      "dropped_padded_solvers": [],
+      "hash": "4d45d096038ef2ee4122dd6255677adf9319f4fb688ae4c2ac3faee9ff926ee7",
+      "activity_scope": "NOP knockout contribution in the original source program on 96 inputs",
+      "stack_scope": "standalone empty-stack effect on 96 inputs; source-context use on first four of those inputs"
+    },
+    "activity": [
+      {
+        "cell": "BE:F>m?F:M+S",
+        "seed": 206620100445,
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "cell": "BE:F>m?F:M+S",
+        "seed": 206620100446,
+        "active": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "cell": "BE:F>m?F:M+S",
+        "seed": 206620100447,
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "cell": "BE:S>F?M:M+m",
+        "seed": 206620100245,
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "cell": "BE:S>F?M:M+m",
+        "seed": 206620100246,
+        "active": [
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "cell": "BE:S>F?M:M+m",
+        "seed": 206620100247,
+        "active": [
+          false,
+          false,
+          false,
+          true,
+          true,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          true,
+          true,
+          true,
+          false,
+          false,
+          true,
+          true,
+          false,
+          true,
+          false,
+          false,
+          true,
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "cell": "BE:S>F?M:M+m",
+        "seed": 206620100248,
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "cell": "BE:S>F?M:S+m",
+        "seed": 206620100145,
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "cell": "BE:S>F?M:S+m",
+        "seed": 206620100146,
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "cell": "BE:S>F?M:S+m",
+        "seed": 206620100147,
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "cell": "BE:S>F?m:M+m",
+        "seed": 206620100345,
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "cell": "BE:S>F?m:M+m",
+        "seed": 206620100346,
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "cell": "BE:S>F?m:M+m",
+        "seed": 206620100348,
+        "active": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      }
+    ],
+    "yields": {
+      "BE:S>F?M:S+m": 3,
+      "BE:S>F?M:M+m": 4,
+      "BE:S>F?m:M+m": 3,
+      "BE:F>m?F:M+S": 3
+    },
+    "empty_cells": [],
+    "attempt_keys": [
+      [
+        "BE1",
+        "BE:F>m?F:M+S",
+        206620100445
+      ],
+      [
+        "BE1",
+        "BE:F>m?F:M+S",
+        206620100446
+      ],
+      [
+        "BE1",
+        "BE:F>m?F:M+S",
+        206620100447
+      ],
+      [
+        "BE1",
+        "BE:F>m?F:M+S",
+        206620100448
+      ],
+      [
+        "BE1",
+        "BE:S>F?M:M+m",
+        206620100245
+      ],
+      [
+        "BE1",
+        "BE:S>F?M:M+m",
+        206620100246
+      ],
+      [
+        "BE1",
+        "BE:S>F?M:M+m",
+        206620100247
+      ],
+      [
+        "BE1",
+        "BE:S>F?M:M+m",
+        206620100248
+      ],
+      [
+        "BE1",
+        "BE:S>F?M:S+m",
+        206620100145
+      ],
+      [
+        "BE1",
+        "BE:S>F?M:S+m",
+        206620100146
+      ],
+      [
+        "BE1",
+        "BE:S>F?M:S+m",
+        206620100147
+      ],
+      [
+        "BE1",
+        "BE:S>F?M:S+m",
+        206620100148
+      ],
+      [
+        "BE1",
+        "BE:S>F?m:M+m",
+        206620100345
+      ],
+      [
+        "BE1",
+        "BE:S>F?m:M+m",
+        206620100346
+      ],
+      [
+        "BE1",
+        "BE:S>F?m:M+m",
+        206620100347
+      ],
+      [
+        "BE1",
+        "BE:S>F?m:M+m",
+        206620100348
+      ]
+    ],
+    "attempts_hash": "87173b23a9db30ae8e5614fceddefe59c049fdae1e2fbae71f8775f017403273",
+    "acquisition": {
+      "evaluations": 3229952,
+      "source_worker_seconds": 146.59788079501595,
+      "verification_seconds": 0.002475209068506956,
+      "fit_seconds": 0.12275429198052734,
+      "extraction_seconds": 0.03276312502566725
+    }
+  }
+}

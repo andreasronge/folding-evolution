@@ -1,0 +1,6778 @@
+{
+  "admitted": false,
+  "admission": {
+    "admitted": true,
+    "selected": {
+      "arms": [
+        "A8",
+        "S8"
+      ],
+      "seeds": 4,
+      "searches": 2048,
+      "projected_seconds": 6584.531773020326,
+      "with_reserve_seconds": 6875.973427497047,
+      "fits": true
+    },
+    "candidates": [
+      {
+        "arms": [
+          "A8",
+          "S8"
+        ],
+        "seeds": 4,
+        "searches": 2048,
+        "projected_seconds": 6584.531773020326,
+        "with_reserve_seconds": 6875.973427497047,
+        "fits": true
+      },
+      {
+        "arms": [
+          "A8"
+        ],
+        "seeds": 4,
+        "searches": 1024,
+        "projected_seconds": 3508.2303712651296,
+        "with_reserve_seconds": 3799.672025741851,
+        "fits": true
+      }
+    ],
+    "effective_workers": 7.1019308693467025,
+    "workers": 10,
+    "prepare_seconds": 153.72209500009194,
+    "timing_wall_seconds": 44.731873458018526,
+    "mean_worker_seconds": {
+      "A8": 21.157616822747514,
+      "S8": 18.55271729665401
+    },
+    "replay_reserve_seconds": 51.4416544767213,
+    "report_reserve_seconds": 240,
+    "remaining_seconds": 18168.99370121956,
+    "finish_by": "2026-10-10T07:12:10+02:00",
+    "timing_only": true
+  },
+  "validation": {
+    "passed": true,
+    "legacy_build": "BE1|0|A8",
+    "legacy_table_hash": "2a10e2b2b2ad20404a8030e48d151e23bcd62dd8c2ec85c3dffcd1961781fc44",
+    "legacy_library_hash": "24414c4d0998058459710aca852fa9f9184dd782dc8f6dc0a5d3d62a73565cea",
+    "empty_fallback": {
+      "passed": true,
+      "forced_edits": 2048,
+      "identical_F_W": true
+    },
+    "historical_replay_rows": 2,
+    "G4_time_calibration": 0.5558927158453746,
+    "edits": {
+      "F": {
+        "passed": true,
+        "edits": 10000,
+        "tape_start": 2661,
+        "tape_end": 2667
+      }
+    }
+  },
+  "method_freeze": {
+    "source_bank_sha256": "df3476d0823cff5eaed57fccf19f01e6a2699442be3139b5f05cb56e5f7aa15d",
+    "target_bank_sha256": "d2fc77e957f71ad71e8d7f9e720f8fb24824510e9670d025cd8271d3113ea451",
+    "references_sha256": "f9c139de1b4e1ca623a3fcf9a5d363c483545c7067144df9532149129d43b861",
+    "implementation_hashes": {
+      "fragment_run.py": "d6d2e601111f89d0500d239f49dc919f860206ff0c088ec8bda51c6490e770d9",
+      "_folding_rust": "33ce621bb5edddb066bdc92544da89366c0356fc7c258f9f9241b6ca237f26a6",
+      "_folding_rust._folding_rust": "2c853fa09e6b8fef3f1781b0f329222b383b71eb0f4391dcb81716fb1dd82f5f",
+      "experiments.chem_tape.assembly_bank": "ceb0e2cb81f08beaf3507ea66bdf3030588d84c945771da873508251ef4c27d8",
+      "experiments.chem_tape.comparison_gate_bank": "9c54d3444426209aac238efc5f6d9f50a226bccb6d3203a8fa1fb8a6e0cdd911",
+      "experiments.chem_tape.comparison_gate_report": "258a77f66201796a4a00deeb5d5fe92bdc7861e4d2842d090aed3187287d5346",
+      "experiments.chem_tape.comparison_gate_run": "a49181acc678d11d893c53d813fcb26170ceb0fde10fe6c74c81cdc167ebbf96",
+      "experiments.chem_tape.composition_bank": "b56522742ca8dd7820b12854d87035e76e9e8af6bae8028d52d9cc67f8407bc9",
+      "experiments.chem_tape.composition_calibrate": "c5fd4be52580d1dfc810ec55607349cd30b78c27e365b54773952409b7db7589",
+      "experiments.chem_tape.composition_report": "0ee1d681c80961e1141eb5bf1f6c5637e13fb495f0f94b0ea7c38fd2d03a0189",
+      "experiments.chem_tape.composition_run": "e7ef63e8ee879a4ceaa73525c37664188db34fc673bbde7458ca3fa57f392544",
+      "experiments.chem_tape.composition_search": "3d9c6c7fc14b6899b43254052a211bc116957a3a97ca75cb7bdc3dcda600f64c",
+      "experiments.chem_tape.crossed_holdout_report": "37d0c1e22d70b0934c775cf46f95a20ce99489e6eed58cbd1d19dea2d0324043",
+      "experiments.chem_tape.crossed_holdout_run": "9912fe64affe39ab420d21114b5509a2179f1f46d20aa2a9e78e7a7d98756cd6",
+      "experiments.chem_tape.crossed_learning_report": "f9c5c67c028ae2a795ba2cd132047bc4c371b82557bb09211c5b5f57af84645b",
+      "experiments.chem_tape.crossed_learning_run": "d54a43afef0ba5699f876c44a696c0f8990719f857465e2d9d91bb3ff8e6c420",
+      "experiments.chem_tape.four_reducer_bank": "3eb825896a2ae14c9eafae5518586c53b9b869f78103489cc87d5dd691cfe0dc",
+      "experiments.chem_tape.four_reducer_maps": "4aa8d42651fa1ea5172e6fcf882a2015e2350022158b1be60ff2f892806f7455",
+      "experiments.chem_tape.fragment_library": "36630b293adc0d3932258dc10c9b0b519e8796ac3e19c2c6046871b7b9a5444d",
+      "experiments.chem_tape.fragment_operator": "20acf7ddc97c4d8344798a137f7bc150d1c0d589b88a85142afae9b3e3446127",
+      "experiments.chem_tape.fragment_report": "445d701d2168a3a8c40744ff5cc14d4520aff144af7ba9c567da3f42015b2fb3",
+      "experiments.chem_tape.fragment_reuse_report": "458c003aff67e41e864dd3d1b507ceb26f5d8dbf8a078c6c279aabc9b92eea59",
+      "experiments.chem_tape.fragment_reuse_run": "ce4163fbad6b9254156c63def602a32995450e6b200ebeaf091aadbf6d4ad95d",
+      "experiments.chem_tape.fragment_run": "d6d2e601111f89d0500d239f49dc919f860206ff0c088ec8bda51c6490e770d9",
+      "experiments.chem_tape.map_learning": "930ac384f99ca3b8903f0f12b3e37720c070f42dd291a5a8725526b89c682e0a",
+      "experiments.chem_tape.small_source_report": "329a6d87e857e904c3f839d58b05d37e87b3515f43738f0bd9345deffb2db5ca",
+      "experiments.chem_tape.small_source_run": "427864f8deac19d9166ee6e1de3a716dd5e25c9ed27afe36b269d7e428d878b4",
+      "experiments.chem_tape.solver_corpus_fit": "a478b94a31c8f15400788df0272b851c8ea7e6d755b322dcdc27acba1285aa22",
+      "experiments.chem_tape.solver_corpus_report": "116bd66dd2009c3cf5a4ab5e8fab6300d083314615a708e7cff9d51fcde19a05",
+      "experiments.chem_tape.solver_corpus_run": "a0186e4cdeec26158f3045b541cc297e12b1f29e73795ea43ad36d838e84b897",
+      "experiments.chem_tape.source_replication_report": "ced1beecfbd3c3fa4ec743d0dd4fbf29c4d23bf4dddd2f1e13abae77aefcd0c8",
+      "experiments.chem_tape.sparse_feedback_report": "949517fa24f6003d5744e137bf5a498bf8957d6821f05b323b985975bea98420",
+      "experiments.chem_tape.sparse_feedback_run": "27d4f6616716edf69081d98ad670f7c87ed862a98596bac0b89f51e583a47f82",
+      "experiments.chem_tape.then_addition_bank": "8bf4d4262ffd840d3114775595898f444cd9df536320ab5803a1b3dfad092069",
+      "experiments.chem_tape.then_addition_run": "d0c99f6a5edddaae57a3fb14ccd8068c57a8bb6b7763c626ec6e010c5de1e0a1",
+      "experiments.chem_tape.two_sum_bank": "bbf4016aae7787c5d3d23367aae373ddfcb065d01ab7809f27bfdf8f99c93876",
+      "experiments.chem_tape.two_sum_report": "069a37874f8f8cd4054f61d827ac9f872800421667de5a437adcd5a9633dca70",
+      "experiments.chem_tape.two_sum_run": "10de362d2d9064a080000c66c733581123615b1277e60d23b750b4a59b3192d7",
+      "folding_evolution.chem_tape.alphabet": "d33501479cacdd4ac51acfcc91f22e6a0e863b4e1809e4ddd528076f46cc1ccd",
+      "folding_evolution.chem_tape.config": "ec7688f730d8197f32d5dafb8d825f18657229004386bab4d9d99012e8cbacc3",
+      "folding_evolution.chem_tape.engine": "fe32e900916cf3d50faaaaec28592f0d7c2e57fa490e35b02608e3100c9d9548",
+      "folding_evolution.chem_tape.engine_mlx": "0d900c2d3445e49922106c95d0ae9bc7276a899a5dc7af4875463d5fa2cc33b4",
+      "folding_evolution.chem_tape.engine_numpy": "a34406da0cb9a89deffcc1385e7f7f06be5f59f30ade1b9913de0d19e4953ed5",
+      "folding_evolution.chem_tape.evaluate": "f824fe61b75620766d522045007c0ccc3221576d86705340a73c6aebbc7fee35",
+      "folding_evolution.chem_tape.evolve": "86df8478595eba73a130140e6de87fb0672b55826e136c775f59dbaf0e609840",
+      "folding_evolution.chem_tape.executor": "7b193e76c1f669c064ab3e041f18d35a24703e32de8dc7ce152ca543b8e77c63",
+      "folding_evolution.chem_tape.metrics": "28053ae6b12ddee1ab952e204ccf5f9ea411b3eb0c949f23359592878ec46289",
+      "folding_evolution.chem_tape.tasks": "c766619ce435a3b013f4026e9c92d969c4f5ab18293c1004f35d4e516946f104"
+    },
+    "source_schedule_hash": "43b3c20cb2cd30229bc132870cadc689b4a79ebcd7b0f669ef2b550e25b2f4a5",
+    "roster_hash": "a7cc563b1a0653dad254ca6bde3401145912b176d1781f5b0e2a6ee851106da0",
+    "schedule_hashes": {
+      "all": "afaedba22b3a83ddbcf588a54e1b051a279f7a22bf8b78de18af73e7908cfb6e",
+      "A8": "5393ba2c17691b74f52aee4fe7871fd21364cfcfd9f345457ccafbc32ca07c75"
+    },
+    "timing_hash": "2340467fdbaf97a6ee1ba6b646b52fde667b75f670e8af4bc67355fe4274ae6e",
+    "smoke": true,
+    "builds_hash": "9427aa683e5e241417d00a82459dca132cc758619f940bca90b96af86f597e41",
+    "seed_builds_hash": "5393629a68ad7ccd86889c5cd5153098bb96b9f9ab19a8591cd383f79236f281",
+    "validation_hash": "8c3e84be41a5f133e4f100716232b195ae70ca0e4baa55dc796eba742473b460",
+    "frozen_before_confirmation": true
+  },
+  "admission_hash": "16fb8d1bf901e7eacf806922fd7aafd56be172079e85f4625d21355f118a20b7",
+  "timing_rows": [
+    {
+      "cell": "TB:F>m?m+m:M+S",
+      "arm": "A8",
+      "seed": 206613100145,
+      "cap": 524288,
+      "pop_size": 256,
+      "solved": false,
+      "evaluations": 524288,
+      "seconds": 27.528031708090566,
+      "budget_seconds": {
+        "4096": 0.12476066604722291,
+        "32768": 1.2879899580730125,
+        "65536": 3.0605885830009356,
+        "131072": 6.513962541008368,
+        "262144": 13.490254250005819,
+        "524288": 27.528030208079144
+      },
+      "shortcuts": 0,
+      "unique_shortcuts": 0,
+      "training_perfect_individuals": 0,
+      "decode_seconds": 0.19675556011497974,
+      "generations": 2048,
+      "training_indices": [
+        1225,
+        411,
+        1151,
+        683,
+        337,
+        1233,
+        1314,
+        397,
+        371,
+        639,
+        514,
+        947,
+        340,
+        759,
+        813,
+        845,
+        626,
+        127,
+        854,
+        1122,
+        717,
+        1239,
+        1026,
+        1285,
+        614,
+        203,
+        907,
+        1032,
+        1154,
+        767,
+        1322,
+        917,
+        415,
+        1130,
+        776,
+        1039,
+        671,
+        1061,
+        169,
+        667,
+        982,
+        281,
+        895,
+        103,
+        1001,
+        361,
+        1330,
+        649,
+        88,
+        355,
+        192,
+        1299,
+        994,
+        933,
+        364,
+        1141,
+        696,
+        246,
+        1078,
+        748,
+        34,
+        1113,
+        1009,
+        1003
+      ],
+      "curve": [
+        [
+          256,
+          19,
+          19
+        ],
+        [
+          8448,
+          46,
+          30
+        ],
+        [
+          16640,
+          46,
+          39
+        ],
+        [
+          24832,
+          50,
+          43
+        ],
+        [
+          33024,
+          52,
+          67
+        ],
+        [
+          41216,
+          52,
+          70
+        ],
+        [
+          49408,
+          52,
+          79
+        ],
+        [
+          57600,
+          52,
+          80
+        ],
+        [
+          65792,
+          52,
+          87
+        ],
+        [
+          73984,
+          52,
+          81
+        ],
+        [
+          82176,
+          53,
+          72
+        ],
+        [
+          90368,
+          53,
+          75
+        ],
+        [
+          98560,
+          53,
+          73
+        ],
+        [
+          106752,
+          53,
+          81
+        ],
+        [
+          114944,
+          53,
+          83
+        ],
+        [
+          123136,
+          53,
+          85
+        ],
+        [
+          131328,
+          53,
+          81
+        ],
+        [
+          139520,
+          53,
+          87
+        ],
+        [
+          147712,
+          53,
+          74
+        ],
+        [
+          155904,
+          54,
+          76
+        ],
+        [
+          164096,
+          54,
+          72
+        ],
+        [
+          172288,
+          54,
+          78
+        ],
+        [
+          180480,
+          54,
+          73
+        ],
+        [
+          188672,
+          54,
+          75
+        ],
+        [
+          196864,
+          54,
+          83
+        ],
+        [
+          205056,
+          54,
+          72
+        ],
+        [
+          213248,
+          54,
+          81
+        ],
+        [
+          221440,
+          54,
+          77
+        ],
+        [
+          229632,
+          54,
+          77
+        ],
+        [
+          237824,
+          54,
+          75
+        ],
+        [
+          246016,
+          54,
+          85
+        ],
+        [
+          254208,
+          54,
+          79
+        ],
+        [
+          262400,
+          54,
+          76
+        ],
+        [
+          270592,
+          54,
+          70
+        ],
+        [
+          278784,
+          54,
+          68
+        ],
+        [
+          286976,
+          54,
+          93
+        ],
+        [
+          295168,
+          54,
+          88
+        ],
+        [
+          303360,
+          54,
+          80
+        ],
+        [
+          311552,
+          54,
+          79
+        ],
+        [
+          319744,
+          54,
+          93
+        ],
+        [
+          327936,
+          54,
+          87
+        ],
+        [
+          336128,
+          54,
+          88
+        ],
+        [
+          344320,
+          54,
+          94
+        ],
+        [
+          352512,
+          54,
+          92
+        ],
+        [
+          360704,
+          55,
+          85
+        ],
+        [
+          368896,
+          55,
+          86
+        ],
+        [
+          377088,
+          55,
+          81
+        ],
+        [
+          385280,
+          55,
+          88
+        ],
+        [
+          393472,
+          55,
+          79
+        ],
+        [
+          401664,
+          55,
+          92
+        ],
+        [
+          409856,
+          55,
+          86
+        ],
+        [
+          418048,
+          55,
+          88
+        ],
+        [
+          426240,
+          55,
+          72
+        ],
+        [
+          434432,
+          55,
+          74
+        ],
+        [
+          442624,
+          55,
+          90
+        ],
+        [
+          450816,
+          55,
+          78
+        ],
+        [
+          459008,
+          55,
+          87
+        ],
+        [
+          467200,
+          55,
+          90
+        ],
+        [
+          475392,
+          55,
+          83
+        ],
+        [
+          483584,
+          55,
+          92
+        ],
+        [
+          491776,
+          55,
+          76
+        ],
+        [
+          499968,
+          55,
+          96
+        ],
+        [
+          508160,
+          55,
+          86
+        ],
+        [
+          516352,
+          55,
+          87
+        ]
+      ],
+      "table_hash": "a1986011226758f71f034efcb43471e321ba04c93eb6ed8f4be057ccab876bf4",
+      "initial_tokens_hash": "d2d96df2c6615190df963563d6218a72be4423f7697ad683d8f2daa71356951a",
+      "initial_source_hash": "a1986011226758f71f034efcb43471e321ba04c93eb6ed8f4be057ccab876bf4",
+      "initial_reencoded": false,
+      "solver": null,
+      "phase": "timing",
+      "family": "BE",
+      "corpus": "BE1",
+      "block": 0,
+      "seed_ordinal": 0,
+      "operator": {
+        "eligible_children": 519938,
+        "edited_children": 104317,
+        "span_tokens": 365396,
+        "changed_tokens": 313636,
+        "changed_histogram": [
+          1274,
+          6092,
+          19498,
+          52068,
+          16593,
+          6780,
+          2012
+        ],
+        "span_histogram": [
+          0,
+          0,
+          0,
+          68337,
+          22797,
+          9901,
+          3282
+        ],
+        "sampled_offspring": 64,
+        "sampled_inputs": 256,
+        "offspring_underflow": 208,
+        "offspring_wrong_type": 656,
+        "offspring_default_use": 864
+      },
+      "external_verification_seconds": 0.00010158296208828688
+    },
+    {
+      "cell": "TB:F>m?m+m:M+S",
+      "arm": "S8",
+      "seed": 206613100145,
+      "cap": 524288,
+      "pop_size": 256,
+      "solved": true,
+      "evaluations": 71424,
+      "seconds": 3.1129087089793757,
+      "budget_seconds": {
+        "4096": 0.13377124990802258,
+        "32768": 1.2738677919842303,
+        "65536": 2.84877537493594,
+        "131072": 3.1129087089793757,
+        "262144": 3.1129087089793757,
+        "524288": 3.1129087089793757
+      },
+      "shortcuts": 0,
+      "unique_shortcuts": 0,
+      "training_perfect_individuals": 1,
+      "decode_seconds": 0.027303908369503915,
+      "generations": 279,
+      "training_indices": [
+        1225,
+        411,
+        1151,
+        683,
+        337,
+        1233,
+        1314,
+        397,
+        371,
+        639,
+        514,
+        947,
+        340,
+        759,
+        813,
+        845,
+        626,
+        127,
+        854,
+        1122,
+        717,
+        1239,
+        1026,
+        1285,
+        614,
+        203,
+        907,
+        1032,
+        1154,
+        767,
+        1322,
+        917,
+        415,
+        1130,
+        776,
+        1039,
+        671,
+        1061,
+        169,
+        667,
+        982,
+        281,
+        895,
+        103,
+        1001,
+        361,
+        1330,
+        649,
+        88,
+        355,
+        192,
+        1299,
+        994,
+        933,
+        364,
+        1141,
+        696,
+        246,
+        1078,
+        748,
+        34,
+        1113,
+        1009,
+        1003
+      ],
+      "curve": [
+        [
+          256,
+          46,
+          18
+        ],
+        [
+          8448,
+          46,
+          18
+        ],
+        [
+          16640,
+          46,
+          25
+        ],
+        [
+          24832,
+          46,
+          41
+        ],
+        [
+          33024,
+          47,
+          49
+        ],
+        [
+          41216,
+          48,
+          80
+        ],
+        [
+          49408,
+          48,
+          73
+        ],
+        [
+          57600,
+          49,
+          79
+        ],
+        [
+          65792,
+          52,
+          68
+        ],
+        [
+          71424,
+          64,
+          63
+        ]
+      ],
+      "table_hash": "4833328f615af868b8fcea690621cd3c02ae7e34460a6d4425a2ec364770743c",
+      "initial_tokens_hash": "12c92d5b103ccea20d6db2a100fa5b83a8e1c5a9f202152cc901c8833386111a",
+      "initial_source_hash": "4833328f615af868b8fcea690621cd3c02ae7e34460a6d4425a2ec364770743c",
+      "initial_reencoded": false,
+      "solver": [
+        1,
+        22,
+        7,
+        1,
+        18,
+        20,
+        10,
+        9,
+        12,
+        12,
+        7,
+        1,
+        5,
+        1,
+        18,
+        7,
+        13,
+        3,
+        1,
+        22,
+        7,
+        1,
+        23,
+        8,
+        17,
+        14,
+        18,
+        7,
+        1,
+        10,
+        2,
+        7
+      ],
+      "phase": "timing",
+      "family": "BE",
+      "corpus": "BE1",
+      "block": 0,
+      "seed_ordinal": 0,
+      "operator": {
+        "eligible_children": 70612,
+        "edited_children": 14091,
+        "span_tokens": 50284,
+        "changed_tokens": 43295,
+        "changed_histogram": [
+          156,
+          732,
+          2357,
+          6932,
+          2743,
+          945,
+          226
+        ],
+        "span_histogram": [
+          0,
+          0,
+          0,
+          8324,
+          4001,
+          1288,
+          478
+        ],
+        "sampled_offspring": 9,
+        "sampled_inputs": 36,
+        "offspring_underflow": 52,
+        "offspring_wrong_type": 172,
+        "offspring_default_use": 224
+      },
+      "external_verification_seconds": 0.0004474991001188755
+    },
+    {
+      "cell": "TB:M>F?F+M:S+m",
+      "arm": "A8",
+      "seed": 206613100245,
+      "cap": 524288,
+      "pop_size": 256,
+      "solved": false,
+      "evaluations": 524288,
+      "seconds": 26.674400042044,
+      "budget_seconds": {
+        "4096": 0.1600740000139922,
+        "32768": 1.2243982090149075,
+        "65536": 2.4880756670609117,
+        "131072": 5.612427250016481,
+        "262144": 12.278409042046405,
+        "524288": 26.674398667062633
+      },
+      "shortcuts": 0,
+      "unique_shortcuts": 0,
+      "training_perfect_individuals": 0,
+      "decode_seconds": 0.2024410974700004,
+      "generations": 2048,
+      "training_indices": [
+        1019,
+        1253,
+        470,
+        528,
+        1134,
+        784,
+        262,
+        498,
+        1165,
+        755,
+        102,
+        101,
+        759,
+        322,
+        1123,
+        825,
+        932,
+        26,
+        509,
+        1100,
+        1138,
+        714,
+        797,
+        1041,
+        981,
+        244,
+        436,
+        1286,
+        482,
+        1092,
+        426,
+        486,
+        445,
+        827,
+        870,
+        23,
+        887,
+        632,
+        31,
+        1103,
+        685,
+        464,
+        575,
+        366,
+        1033,
+        355,
+        754,
+        61,
+        468,
+        1127,
+        896,
+        1168,
+        314,
+        170,
+        272,
+        1183,
+        103,
+        1008,
+        804,
+        787,
+        524,
+        466,
+        756,
+        1306
+      ],
+      "curve": [
+        [
+          256,
+          33,
+          28
+        ],
+        [
+          8448,
+          35,
+          82
+        ],
+        [
+          16640,
+          45,
+          70
+        ],
+        [
+          24832,
+          45,
+          64
+        ],
+        [
+          33024,
+          45,
+          73
+        ],
+        [
+          41216,
+          45,
+          71
+        ],
+        [
+          49408,
+          52,
+          69
+        ],
+        [
+          57600,
+          52,
+          82
+        ],
+        [
+          65792,
+          52,
+          73
+        ],
+        [
+          73984,
+          52,
+          71
+        ],
+        [
+          82176,
+          53,
+          80
+        ],
+        [
+          90368,
+          53,
+          79
+        ],
+        [
+          98560,
+          53,
+          65
+        ],
+        [
+          106752,
+          53,
+          73
+        ],
+        [
+          114944,
+          53,
+          69
+        ],
+        [
+          123136,
+          53,
+          73
+        ],
+        [
+          131328,
+          53,
+          88
+        ],
+        [
+          139520,
+          53,
+          87
+        ],
+        [
+          147712,
+          53,
+          86
+        ],
+        [
+          155904,
+          53,
+          69
+        ],
+        [
+          164096,
+          53,
+          68
+        ],
+        [
+          172288,
+          53,
+          63
+        ],
+        [
+          180480,
+          53,
+          78
+        ],
+        [
+          188672,
+          53,
+          71
+        ],
+        [
+          196864,
+          53,
+          79
+        ],
+        [
+          205056,
+          53,
+          72
+        ],
+        [
+          213248,
+          53,
+          69
+        ],
+        [
+          221440,
+          53,
+          74
+        ],
+        [
+          229632,
+          53,
+          79
+        ],
+        [
+          237824,
+          53,
+          67
+        ],
+        [
+          246016,
+          53,
+          80
+        ],
+        [
+          254208,
+          53,
+          71
+        ],
+        [
+          262400,
+          53,
+          79
+        ],
+        [
+          270592,
+          53,
+          60
+        ],
+        [
+          278784,
+          53,
+          77
+        ],
+        [
+          286976,
+          53,
+          80
+        ],
+        [
+          295168,
+          53,
+          69
+        ],
+        [
+          303360,
+          53,
+          89
+        ],
+        [
+          311552,
+          53,
+          73
+        ],
+        [
+          319744,
+          53,
+          91
+        ],
+        [
+          327936,
+          53,
+          71
+        ],
+        [
+          336128,
+          53,
+          80
+        ],
+        [
+          344320,
+          53,
+          58
+        ],
+        [
+          352512,
+          53,
+          61
+        ],
+        [
+          360704,
+          53,
+          65
+        ],
+        [
+          368896,
+          53,
+          77
+        ],
+        [
+          377088,
+          53,
+          57
+        ],
+        [
+          385280,
+          53,
+          75
+        ],
+        [
+          393472,
+          53,
+          73
+        ],
+        [
+          401664,
+          53,
+          61
+        ],
+        [
+          409856,
+          53,
+          69
+        ],
+        [
+          418048,
+          53,
+          61
+        ],
+        [
+          426240,
+          53,
+          59
+        ],
+        [
+          434432,
+          53,
+          80
+        ],
+        [
+          442624,
+          53,
+          70
+        ],
+        [
+          450816,
+          53,
+          74
+        ],
+        [
+          459008,
+          53,
+          66
+        ],
+        [
+          467200,
+          53,
+          60
+        ],
+        [
+          475392,
+          53,
+          71
+        ],
+        [
+          483584,
+          53,
+          72
+        ],
+        [
+          491776,
+          53,
+          68
+        ],
+        [
+          499968,
+          53,
+          73
+        ],
+        [
+          508160,
+          53,
+          68
+        ],
+        [
+          516352,
+          53,
+          72
+        ]
+      ],
+      "table_hash": "a1986011226758f71f034efcb43471e321ba04c93eb6ed8f4be057ccab876bf4",
+      "initial_tokens_hash": "6631243d2c68970145d584449f22694f4164a682ccba81ad05bcdda754d5a77f",
+      "initial_source_hash": "a1986011226758f71f034efcb43471e321ba04c93eb6ed8f4be057ccab876bf4",
+      "initial_reencoded": false,
+      "solver": null,
+      "phase": "timing",
+      "family": "BE",
+      "corpus": "BE1",
+      "block": 0,
+      "seed_ordinal": 0,
+      "operator": {
+        "eligible_children": 519938,
+        "edited_children": 103850,
+        "span_tokens": 363633,
+        "changed_tokens": 321334,
+        "changed_histogram": [
+          1251,
+          4613,
+          15912,
+          54995,
+          17673,
+          7216,
+          2190
+        ],
+        "span_histogram": [
+          0,
+          0,
+          0,
+          68092,
+          22732,
+          9727,
+          3299
+        ],
+        "sampled_offspring": 64,
+        "sampled_inputs": 256,
+        "offspring_underflow": 404,
+        "offspring_wrong_type": 1096,
+        "offspring_default_use": 1500
+      },
+      "external_verification_seconds": 0.00012354191858321428
+    },
+    {
+      "cell": "TB:M>F?F+M:S+m",
+      "arm": "S8",
+      "seed": 206613100245,
+      "cap": 524288,
+      "pop_size": 256,
+      "solved": false,
+      "evaluations": 524288,
+      "seconds": 24.821310417028144,
+      "budget_seconds": {
+        "4096": 0.1445215840358287,
+        "32768": 1.435771334101446,
+        "65536": 2.986149875097908,
+        "131072": 6.115345666999929,
+        "262144": 12.343871042015962,
+        "524288": 24.821308250073344
+      },
+      "shortcuts": 0,
+      "unique_shortcuts": 0,
+      "training_perfect_individuals": 0,
+      "decode_seconds": 0.20665235933847725,
+      "generations": 2048,
+      "training_indices": [
+        1019,
+        1253,
+        470,
+        528,
+        1134,
+        784,
+        262,
+        498,
+        1165,
+        755,
+        102,
+        101,
+        759,
+        322,
+        1123,
+        825,
+        932,
+        26,
+        509,
+        1100,
+        1138,
+        714,
+        797,
+        1041,
+        981,
+        244,
+        436,
+        1286,
+        482,
+        1092,
+        426,
+        486,
+        445,
+        827,
+        870,
+        23,
+        887,
+        632,
+        31,
+        1103,
+        685,
+        464,
+        575,
+        366,
+        1033,
+        355,
+        754,
+        61,
+        468,
+        1127,
+        896,
+        1168,
+        314,
+        170,
+        272,
+        1183,
+        103,
+        1008,
+        804,
+        787,
+        524,
+        466,
+        756,
+        1306
+      ],
+      "curve": [
+        [
+          256,
+          35,
+          23
+        ],
+        [
+          8448,
+          45,
+          78
+        ],
+        [
+          16640,
+          52,
+          61
+        ],
+        [
+          24832,
+          52,
+          71
+        ],
+        [
+          33024,
+          52,
+          76
+        ],
+        [
+          41216,
+          52,
+          73
+        ],
+        [
+          49408,
+          52,
+          71
+        ],
+        [
+          57600,
+          52,
+          72
+        ],
+        [
+          65792,
+          52,
+          72
+        ],
+        [
+          73984,
+          52,
+          68
+        ],
+        [
+          82176,
+          52,
+          71
+        ],
+        [
+          90368,
+          52,
+          91
+        ],
+        [
+          98560,
+          52,
+          89
+        ],
+        [
+          106752,
+          52,
+          88
+        ],
+        [
+          114944,
+          52,
+          80
+        ],
+        [
+          123136,
+          52,
+          89
+        ],
+        [
+          131328,
+          52,
+          90
+        ],
+        [
+          139520,
+          52,
+          81
+        ],
+        [
+          147712,
+          52,
+          79
+        ],
+        [
+          155904,
+          52,
+          81
+        ],
+        [
+          164096,
+          52,
+          88
+        ],
+        [
+          172288,
+          52,
+          95
+        ],
+        [
+          180480,
+          52,
+          88
+        ],
+        [
+          188672,
+          52,
+          88
+        ],
+        [
+          196864,
+          52,
+          87
+        ],
+        [
+          205056,
+          52,
+          93
+        ],
+        [
+          213248,
+          52,
+          87
+        ],
+        [
+          221440,
+          52,
+          84
+        ],
+        [
+          229632,
+          52,
+          88
+        ],
+        [
+          237824,
+          52,
+          105
+        ],
+        [
+          246016,
+          52,
+          91
+        ],
+        [
+          254208,
+          52,
+          76
+        ],
+        [
+          262400,
+          52,
+          81
+        ],
+        [
+          270592,
+          52,
+          92
+        ],
+        [
+          278784,
+          52,
+          92
+        ],
+        [
+          286976,
+          52,
+          90
+        ],
+        [
+          295168,
+          52,
+          83
+        ],
+        [
+          303360,
+          52,
+          98
+        ],
+        [
+          311552,
+          52,
+          88
+        ],
+        [
+          319744,
+          52,
+          92
+        ],
+        [
+          327936,
+          52,
+          82
+        ],
+        [
+          336128,
+          52,
+          104
+        ],
+        [
+          344320,
+          52,
+          86
+        ],
+        [
+          352512,
+          52,
+          86
+        ],
+        [
+          360704,
+          52,
+          84
+        ],
+        [
+          368896,
+          52,
+          92
+        ],
+        [
+          377088,
+          52,
+          91
+        ],
+        [
+          385280,
+          52,
+          112
+        ],
+        [
+          393472,
+          52,
+          99
+        ],
+        [
+          401664,
+          52,
+          83
+        ],
+        [
+          409856,
+          52,
+          77
+        ],
+        [
+          418048,
+          52,
+          89
+        ],
+        [
+          426240,
+          52,
+          82
+        ],
+        [
+          434432,
+          52,
+          77
+        ],
+        [
+          442624,
+          52,
+          90
+        ],
+        [
+          450816,
+          52,
+          87
+        ],
+        [
+          459008,
+          53,
+          82
+        ],
+        [
+          467200,
+          53,
+          80
+        ],
+        [
+          475392,
+          53,
+          83
+        ],
+        [
+          483584,
+          53,
+          73
+        ],
+        [
+          491776,
+          53,
+          86
+        ],
+        [
+          499968,
+          53,
+          73
+        ],
+        [
+          508160,
+          53,
+          79
+        ],
+        [
+          516352,
+          56,
+          88
+        ]
+      ],
+      "table_hash": "4833328f615af868b8fcea690621cd3c02ae7e34460a6d4425a2ec364770743c",
+      "initial_tokens_hash": "ddfd52ff0ada3dda1705dc28dd45f4155138d8dd73475e7cd5bbd000ff55dc42",
+      "initial_source_hash": "4833328f615af868b8fcea690621cd3c02ae7e34460a6d4425a2ec364770743c",
+      "initial_reencoded": false,
+      "solver": null,
+      "phase": "timing",
+      "family": "BE",
+      "corpus": "BE1",
+      "block": 0,
+      "seed_ordinal": 0,
+      "operator": {
+        "eligible_children": 519938,
+        "edited_children": 103928,
+        "span_tokens": 370224,
+        "changed_tokens": 316036,
+        "changed_histogram": [
+          1114,
+          5992,
+          18524,
+          50022,
+          20017,
+          6692,
+          1567
+        ],
+        "span_histogram": [
+          0,
+          0,
+          0,
+          61832,
+          29035,
+          9778,
+          3283
+        ],
+        "sampled_offspring": 64,
+        "sampled_inputs": 256,
+        "offspring_underflow": 368,
+        "offspring_wrong_type": 884,
+        "offspring_default_use": 1252
+      },
+      "external_verification_seconds": 0.00012170791160315275
+    },
+    {
+      "cell": "TB:M>S?M+M:F+m",
+      "arm": "A8",
+      "seed": 206613100445,
+      "cap": 524288,
+      "pop_size": 256,
+      "solved": false,
+      "evaluations": 524288,
+      "seconds": 23.55269970803056,
+      "budget_seconds": {
+        "4096": 0.11197645799256861,
+        "32768": 1.4200573329580948,
+        "65536": 2.6595244579948485,
+        "131072": 5.798636374995112,
+        "262144": 12.135004832991399,
+        "524288": 23.552698708022945
+      },
+      "shortcuts": 0,
+      "unique_shortcuts": 0,
+      "training_perfect_individuals": 0,
+      "decode_seconds": 0.2016172172734514,
+      "generations": 2048,
+      "training_indices": [
+        1,
+        736,
+        359,
+        1227,
+        823,
+        1178,
+        411,
+        899,
+        1103,
+        855,
+        1293,
+        878,
+        229,
+        422,
+        441,
+        215,
+        759,
+        897,
+        439,
+        1218,
+        219,
+        1093,
+        966,
+        740,
+        442,
+        26,
+        824,
+        200,
+        1164,
+        276,
+        1138,
+        195,
+        1205,
+        773,
+        84,
+        634,
+        167,
+        892,
+        935,
+        1154,
+        1118,
+        896,
+        445,
+        618,
+        50,
+        1018,
+        74,
+        1276,
+        479,
+        1049,
+        198,
+        117,
+        338,
+        1322,
+        576,
+        75,
+        340,
+        457,
+        697,
+        80,
+        364,
+        917,
+        528,
+        675
+      ],
+      "curve": [
+        [
+          256,
+          16,
+          23
+        ],
+        [
+          8448,
+          48,
+          44
+        ],
+        [
+          16640,
+          49,
+          48
+        ],
+        [
+          24832,
+          50,
+          50
+        ],
+        [
+          33024,
+          50,
+          62
+        ],
+        [
+          41216,
+          55,
+          41
+        ],
+        [
+          49408,
+          55,
+          45
+        ],
+        [
+          57600,
+          55,
+          47
+        ],
+        [
+          65792,
+          55,
+          44
+        ],
+        [
+          73984,
+          55,
+          35
+        ],
+        [
+          82176,
+          55,
+          46
+        ],
+        [
+          90368,
+          57,
+          40
+        ],
+        [
+          98560,
+          57,
+          38
+        ],
+        [
+          106752,
+          57,
+          34
+        ],
+        [
+          114944,
+          57,
+          52
+        ],
+        [
+          123136,
+          57,
+          39
+        ],
+        [
+          131328,
+          57,
+          38
+        ],
+        [
+          139520,
+          57,
+          45
+        ],
+        [
+          147712,
+          57,
+          44
+        ],
+        [
+          155904,
+          57,
+          44
+        ],
+        [
+          164096,
+          57,
+          43
+        ],
+        [
+          172288,
+          57,
+          49
+        ],
+        [
+          180480,
+          57,
+          39
+        ],
+        [
+          188672,
+          57,
+          49
+        ],
+        [
+          196864,
+          57,
+          46
+        ],
+        [
+          205056,
+          57,
+          48
+        ],
+        [
+          213248,
+          57,
+          46
+        ],
+        [
+          221440,
+          57,
+          48
+        ],
+        [
+          229632,
+          57,
+          49
+        ],
+        [
+          237824,
+          57,
+          40
+        ],
+        [
+          246016,
+          57,
+          49
+        ],
+        [
+          254208,
+          57,
+          50
+        ],
+        [
+          262400,
+          57,
+          47
+        ],
+        [
+          270592,
+          57,
+          47
+        ],
+        [
+          278784,
+          57,
+          42
+        ],
+        [
+          286976,
+          57,
+          44
+        ],
+        [
+          295168,
+          57,
+          39
+        ],
+        [
+          303360,
+          57,
+          42
+        ],
+        [
+          311552,
+          57,
+          44
+        ],
+        [
+          319744,
+          57,
+          46
+        ],
+        [
+          327936,
+          57,
+          46
+        ],
+        [
+          336128,
+          57,
+          48
+        ],
+        [
+          344320,
+          57,
+          42
+        ],
+        [
+          352512,
+          57,
+          39
+        ],
+        [
+          360704,
+          57,
+          43
+        ],
+        [
+          368896,
+          57,
+          42
+        ],
+        [
+          377088,
+          57,
+          41
+        ],
+        [
+          385280,
+          57,
+          43
+        ],
+        [
+          393472,
+          57,
+          47
+        ],
+        [
+          401664,
+          57,
+          40
+        ],
+        [
+          409856,
+          57,
+          42
+        ],
+        [
+          418048,
+          57,
+          42
+        ],
+        [
+          426240,
+          57,
+          43
+        ],
+        [
+          434432,
+          57,
+          41
+        ],
+        [
+          442624,
+          57,
+          42
+        ],
+        [
+          450816,
+          57,
+          47
+        ],
+        [
+          459008,
+          57,
+          44
+        ],
+        [
+          467200,
+          57,
+          39
+        ],
+        [
+          475392,
+          57,
+          37
+        ],
+        [
+          483584,
+          57,
+          40
+        ],
+        [
+          491776,
+          57,
+          37
+        ],
+        [
+          499968,
+          57,
+          37
+        ],
+        [
+          508160,
+          57,
+          35
+        ],
+        [
+          516352,
+          57,
+          43
+        ]
+      ],
+      "table_hash": "a1986011226758f71f034efcb43471e321ba04c93eb6ed8f4be057ccab876bf4",
+      "initial_tokens_hash": "9a841f17c98d5124c5c9b9c19fc76b36c1c1c3059d4ce4991393c671859231c9",
+      "initial_source_hash": "a1986011226758f71f034efcb43471e321ba04c93eb6ed8f4be057ccab876bf4",
+      "initial_reencoded": false,
+      "solver": null,
+      "phase": "timing",
+      "family": "BE",
+      "corpus": "BE1",
+      "block": 0,
+      "seed_ordinal": 0,
+      "operator": {
+        "eligible_children": 519938,
+        "edited_children": 104160,
+        "span_tokens": 364984,
+        "changed_tokens": 319889,
+        "changed_histogram": [
+          792,
+          4301,
+          18736,
+          53931,
+          17593,
+          6891,
+          1916
+        ],
+        "span_histogram": [
+          0,
+          0,
+          0,
+          68104,
+          22914,
+          9836,
+          3306
+        ],
+        "sampled_offspring": 64,
+        "sampled_inputs": 256,
+        "offspring_underflow": 524,
+        "offspring_wrong_type": 1224,
+        "offspring_default_use": 1748
+      },
+      "external_verification_seconds": 0.0001402499619871378
+    },
+    {
+      "cell": "TB:M>S?M+M:F+m",
+      "arm": "S8",
+      "seed": 206613100445,
+      "cap": 524288,
+      "pop_size": 256,
+      "solved": true,
+      "evaluations": 461568,
+      "seconds": 23.11240754101891,
+      "budget_seconds": {
+        "4096": 0.18119020806625485,
+        "32768": 1.2978261660318822,
+        "65536": 2.786619915976189,
+        "131072": 6.261993916006759,
+        "262144": 12.506045041023754,
+        "524288": 23.11240754101891
+      },
+      "shortcuts": 0,
+      "unique_shortcuts": 0,
+      "training_perfect_individuals": 1,
+      "decode_seconds": 0.17533463588915765,
+      "generations": 1803,
+      "training_indices": [
+        1,
+        736,
+        359,
+        1227,
+        823,
+        1178,
+        411,
+        899,
+        1103,
+        855,
+        1293,
+        878,
+        229,
+        422,
+        441,
+        215,
+        759,
+        897,
+        439,
+        1218,
+        219,
+        1093,
+        966,
+        740,
+        442,
+        26,
+        824,
+        200,
+        1164,
+        276,
+        1138,
+        195,
+        1205,
+        773,
+        84,
+        634,
+        167,
+        892,
+        935,
+        1154,
+        1118,
+        896,
+        445,
+        618,
+        50,
+        1018,
+        74,
+        1276,
+        479,
+        1049,
+        198,
+        117,
+        338,
+        1322,
+        576,
+        75,
+        340,
+        457,
+        697,
+        80,
+        364,
+        917,
+        528,
+        675
+      ],
+      "curve": [
+        [
+          256,
+          22,
+          20
+        ],
+        [
+          8448,
+          51,
+          41
+        ],
+        [
+          16640,
+          51,
+          39
+        ],
+        [
+          24832,
+          51,
+          54
+        ],
+        [
+          33024,
+          51,
+          61
+        ],
+        [
+          41216,
+          51,
+          56
+        ],
+        [
+          49408,
+          52,
+          69
+        ],
+        [
+          57600,
+          54,
+          64
+        ],
+        [
+          65792,
+          54,
+          71
+        ],
+        [
+          73984,
+          54,
+          63
+        ],
+        [
+          82176,
+          54,
+          65
+        ],
+        [
+          90368,
+          54,
+          76
+        ],
+        [
+          98560,
+          56,
+          75
+        ],
+        [
+          106752,
+          56,
+          73
+        ],
+        [
+          114944,
+          56,
+          63
+        ],
+        [
+          123136,
+          56,
+          64
+        ],
+        [
+          131328,
+          56,
+          62
+        ],
+        [
+          139520,
+          56,
+          61
+        ],
+        [
+          147712,
+          56,
+          70
+        ],
+        [
+          155904,
+          56,
+          58
+        ],
+        [
+          164096,
+          56,
+          69
+        ],
+        [
+          172288,
+          56,
+          69
+        ],
+        [
+          180480,
+          56,
+          61
+        ],
+        [
+          188672,
+          56,
+          64
+        ],
+        [
+          196864,
+          56,
+          66
+        ],
+        [
+          205056,
+          56,
+          63
+        ],
+        [
+          213248,
+          56,
+          72
+        ],
+        [
+          221440,
+          56,
+          68
+        ],
+        [
+          229632,
+          56,
+          81
+        ],
+        [
+          237824,
+          56,
+          79
+        ],
+        [
+          246016,
+          56,
+          79
+        ],
+        [
+          254208,
+          56,
+          77
+        ],
+        [
+          262400,
+          56,
+          79
+        ],
+        [
+          270592,
+          56,
+          71
+        ],
+        [
+          278784,
+          56,
+          67
+        ],
+        [
+          286976,
+          57,
+          83
+        ],
+        [
+          295168,
+          57,
+          86
+        ],
+        [
+          303360,
+          57,
+          80
+        ],
+        [
+          311552,
+          57,
+          76
+        ],
+        [
+          319744,
+          57,
+          78
+        ],
+        [
+          327936,
+          57,
+          76
+        ],
+        [
+          336128,
+          57,
+          78
+        ],
+        [
+          344320,
+          57,
+          88
+        ],
+        [
+          352512,
+          57,
+          79
+        ],
+        [
+          360704,
+          57,
+          89
+        ],
+        [
+          368896,
+          57,
+          83
+        ],
+        [
+          377088,
+          57,
+          101
+        ],
+        [
+          385280,
+          57,
+          83
+        ],
+        [
+          393472,
+          57,
+          71
+        ],
+        [
+          401664,
+          57,
+          98
+        ],
+        [
+          409856,
+          57,
+          94
+        ],
+        [
+          418048,
+          61,
+          64
+        ],
+        [
+          426240,
+          61,
+          63
+        ],
+        [
+          434432,
+          61,
+          61
+        ],
+        [
+          442624,
+          61,
+          55
+        ],
+        [
+          450816,
+          61,
+          53
+        ],
+        [
+          459008,
+          61,
+          64
+        ],
+        [
+          461568,
+          64,
+          75
+        ]
+      ],
+      "table_hash": "4833328f615af868b8fcea690621cd3c02ae7e34460a6d4425a2ec364770743c",
+      "initial_tokens_hash": "d6465febdad431aac675929b0bc169de7fa43cf77870211b712cc6c3921b0fa2",
+      "initial_source_hash": "4833328f615af868b8fcea690621cd3c02ae7e34460a6d4425a2ec364770743c",
+      "initial_reencoded": false,
+      "solver": [
+        1,
+        22,
+        1,
+        18,
+        1,
+        18,
+        1,
+        22,
+        1,
+        22,
+        7,
+        17,
+        1,
+        18,
+        1,
+        5,
+        20,
+        0,
+        8,
+        17,
+        9,
+        10,
+        1,
+        23,
+        10,
+        9,
+        1,
+        23,
+        8,
+        17,
+        7,
+        7
+      ],
+      "phase": "timing",
+      "family": "BE",
+      "corpus": "BE1",
+      "block": 0,
+      "seed_ordinal": 0,
+      "operator": {
+        "eligible_children": 457708,
+        "edited_children": 91608,
+        "span_tokens": 326530,
+        "changed_tokens": 282083,
+        "changed_histogram": [
+          838,
+          4754,
+          14942,
+          45519,
+          18434,
+          5574,
+          1547
+        ],
+        "span_histogram": [
+          0,
+          0,
+          0,
+          54362,
+          25707,
+          8618,
+          2921
+        ],
+        "sampled_offspring": 57,
+        "sampled_inputs": 228,
+        "offspring_underflow": 288,
+        "offspring_wrong_type": 656,
+        "offspring_default_use": 944
+      },
+      "external_verification_seconds": 0.0005445419810712337
+    },
+    {
+      "cell": "TB:S>m?M+M:F+S",
+      "arm": "A8",
+      "seed": 206613100345,
+      "cap": 524288,
+      "pop_size": 256,
+      "solved": false,
+      "evaluations": 524288,
+      "seconds": 24.24055058299564,
+      "budget_seconds": {
+        "4096": 0.1207707499852404,
+        "32768": 1.0716555829858407,
+        "65536": 2.5377736660884693,
+        "131072": 5.566338500007987,
+        "262144": 11.962559457984753,
+        "524288": 24.240547624998726
+      },
+      "shortcuts": 0,
+      "unique_shortcuts": 0,
+      "training_perfect_individuals": 0,
+      "decode_seconds": 0.19562872115056962,
+      "generations": 2048,
+      "training_indices": [
+        731,
+        100,
+        1220,
+        436,
+        312,
+        354,
+        1330,
+        896,
+        377,
+        483,
+        537,
+        132,
+        498,
+        1305,
+        1039,
+        927,
+        242,
+        1240,
+        1,
+        855,
+        1037,
+        1020,
+        746,
+        547,
+        1224,
+        362,
+        1245,
+        677,
+        16,
+        757,
+        124,
+        982,
+        507,
+        795,
+        201,
+        217,
+        936,
+        829,
+        1219,
+        287,
+        1001,
+        907,
+        994,
+        1088,
+        494,
+        1276,
+        141,
+        0,
+        224,
+        445,
+        323,
+        1244,
+        642,
+        319,
+        593,
+        707,
+        743,
+        175,
+        302,
+        463,
+        1046,
+        1316,
+        1002,
+        384
+      ],
+      "curve": [
+        [
+          256,
+          24,
+          10
+        ],
+        [
+          8448,
+          47,
+          48
+        ],
+        [
+          16640,
+          47,
+          41
+        ],
+        [
+          24832,
+          47,
+          51
+        ],
+        [
+          33024,
+          47,
+          41
+        ],
+        [
+          41216,
+          56,
+          43
+        ],
+        [
+          49408,
+          56,
+          45
+        ],
+        [
+          57600,
+          56,
+          47
+        ],
+        [
+          65792,
+          56,
+          55
+        ],
+        [
+          73984,
+          56,
+          49
+        ],
+        [
+          82176,
+          56,
+          53
+        ],
+        [
+          90368,
+          56,
+          60
+        ],
+        [
+          98560,
+          56,
+          64
+        ],
+        [
+          106752,
+          56,
+          75
+        ],
+        [
+          114944,
+          56,
+          78
+        ],
+        [
+          123136,
+          56,
+          63
+        ],
+        [
+          131328,
+          56,
+          75
+        ],
+        [
+          139520,
+          56,
+          74
+        ],
+        [
+          147712,
+          56,
+          73
+        ],
+        [
+          155904,
+          56,
+          72
+        ],
+        [
+          164096,
+          56,
+          80
+        ],
+        [
+          172288,
+          56,
+          63
+        ],
+        [
+          180480,
+          56,
+          68
+        ],
+        [
+          188672,
+          56,
+          69
+        ],
+        [
+          196864,
+          56,
+          72
+        ],
+        [
+          205056,
+          56,
+          69
+        ],
+        [
+          213248,
+          56,
+          71
+        ],
+        [
+          221440,
+          56,
+          67
+        ],
+        [
+          229632,
+          56,
+          73
+        ],
+        [
+          237824,
+          56,
+          79
+        ],
+        [
+          246016,
+          56,
+          77
+        ],
+        [
+          254208,
+          56,
+          51
+        ],
+        [
+          262400,
+          56,
+          56
+        ],
+        [
+          270592,
+          56,
+          62
+        ],
+        [
+          278784,
+          56,
+          70
+        ],
+        [
+          286976,
+          56,
+          61
+        ],
+        [
+          295168,
+          56,
+          56
+        ],
+        [
+          303360,
+          56,
+          60
+        ],
+        [
+          311552,
+          56,
+          67
+        ],
+        [
+          319744,
+          56,
+          57
+        ],
+        [
+          327936,
+          59,
+          53
+        ],
+        [
+          336128,
+          59,
+          52
+        ],
+        [
+          344320,
+          59,
+          52
+        ],
+        [
+          352512,
+          59,
+          60
+        ],
+        [
+          360704,
+          59,
+          40
+        ],
+        [
+          368896,
+          59,
+          46
+        ],
+        [
+          377088,
+          59,
+          47
+        ],
+        [
+          385280,
+          59,
+          48
+        ],
+        [
+          393472,
+          59,
+          32
+        ],
+        [
+          401664,
+          59,
+          37
+        ],
+        [
+          409856,
+          59,
+          47
+        ],
+        [
+          418048,
+          59,
+          41
+        ],
+        [
+          426240,
+          59,
+          44
+        ],
+        [
+          434432,
+          59,
+          41
+        ],
+        [
+          442624,
+          59,
+          44
+        ],
+        [
+          450816,
+          59,
+          47
+        ],
+        [
+          459008,
+          59,
+          44
+        ],
+        [
+          467200,
+          59,
+          43
+        ],
+        [
+          475392,
+          59,
+          46
+        ],
+        [
+          483584,
+          61,
+          59
+        ],
+        [
+          491776,
+          61,
+          49
+        ],
+        [
+          499968,
+          61,
+          45
+        ],
+        [
+          508160,
+          61,
+          49
+        ],
+        [
+          516352,
+          61,
+          40
+        ]
+      ],
+      "table_hash": "a1986011226758f71f034efcb43471e321ba04c93eb6ed8f4be057ccab876bf4",
+      "initial_tokens_hash": "91b65effe21c1fe4b9d9de017db84e1c33834e56f1527b4459845d5ee2a8f656",
+      "initial_source_hash": "a1986011226758f71f034efcb43471e321ba04c93eb6ed8f4be057ccab876bf4",
+      "initial_reencoded": false,
+      "solver": null,
+      "phase": "timing",
+      "family": "BE",
+      "corpus": "BE1",
+      "block": 0,
+      "seed_ordinal": 0,
+      "operator": {
+        "eligible_children": 519938,
+        "edited_children": 103789,
+        "span_tokens": 363501,
+        "changed_tokens": 312903,
+        "changed_histogram": [
+          1101,
+          6613,
+          18326,
+          52090,
+          16905,
+          6776,
+          1978
+        ],
+        "span_histogram": [
+          0,
+          0,
+          0,
+          67904,
+          22870,
+          9781,
+          3234
+        ],
+        "sampled_offspring": 64,
+        "sampled_inputs": 256,
+        "offspring_underflow": 552,
+        "offspring_wrong_type": 1100,
+        "offspring_default_use": 1652
+      },
+      "external_verification_seconds": 0.0001230419147759676
+    },
+    {
+      "cell": "TB:S>m?M+M:F+S",
+      "arm": "S8",
+      "seed": 206613100345,
+      "cap": 524288,
+      "pop_size": 256,
+      "solved": true,
+      "evaluations": 470528,
+      "seconds": 25.508366790949367,
+      "budget_seconds": {
+        "4096": 0.138447874924168,
+        "32768": 1.107826791005209,
+        "65536": 2.4573725409572944,
+        "131072": 5.783303707954474,
+        "262144": 13.070409415988252,
+        "524288": 25.508366790949367
+      },
+      "shortcuts": 0,
+      "unique_shortcuts": 0,
+      "training_perfect_individuals": 1,
+      "decode_seconds": 0.18014798720832914,
+      "generations": 1838,
+      "training_indices": [
+        731,
+        100,
+        1220,
+        436,
+        312,
+        354,
+        1330,
+        896,
+        377,
+        483,
+        537,
+        132,
+        498,
+        1305,
+        1039,
+        927,
+        242,
+        1240,
+        1,
+        855,
+        1037,
+        1020,
+        746,
+        547,
+        1224,
+        362,
+        1245,
+        677,
+        16,
+        757,
+        124,
+        982,
+        507,
+        795,
+        201,
+        217,
+        936,
+        829,
+        1219,
+        287,
+        1001,
+        907,
+        994,
+        1088,
+        494,
+        1276,
+        141,
+        0,
+        224,
+        445,
+        323,
+        1244,
+        642,
+        319,
+        593,
+        707,
+        743,
+        175,
+        302,
+        463,
+        1046,
+        1316,
+        1002,
+        384
+      ],
+      "curve": [
+        [
+          256,
+          12,
+          11
+        ],
+        [
+          8448,
+          47,
+          19
+        ],
+        [
+          16640,
+          47,
+          31
+        ],
+        [
+          24832,
+          54,
+          46
+        ],
+        [
+          33024,
+          54,
+          62
+        ],
+        [
+          41216,
+          54,
+          66
+        ],
+        [
+          49408,
+          54,
+          52
+        ],
+        [
+          57600,
+          54,
+          65
+        ],
+        [
+          65792,
+          54,
+          54
+        ],
+        [
+          73984,
+          54,
+          82
+        ],
+        [
+          82176,
+          54,
+          79
+        ],
+        [
+          90368,
+          54,
+          74
+        ],
+        [
+          98560,
+          55,
+          79
+        ],
+        [
+          106752,
+          55,
+          87
+        ],
+        [
+          114944,
+          55,
+          95
+        ],
+        [
+          123136,
+          55,
+          95
+        ],
+        [
+          131328,
+          55,
+          87
+        ],
+        [
+          139520,
+          56,
+          95
+        ],
+        [
+          147712,
+          56,
+          96
+        ],
+        [
+          155904,
+          58,
+          93
+        ],
+        [
+          164096,
+          58,
+          92
+        ],
+        [
+          172288,
+          58,
+          86
+        ],
+        [
+          180480,
+          58,
+          85
+        ],
+        [
+          188672,
+          59,
+          70
+        ],
+        [
+          196864,
+          59,
+          93
+        ],
+        [
+          205056,
+          59,
+          75
+        ],
+        [
+          213248,
+          59,
+          78
+        ],
+        [
+          221440,
+          59,
+          92
+        ],
+        [
+          229632,
+          59,
+          75
+        ],
+        [
+          237824,
+          59,
+          77
+        ],
+        [
+          246016,
+          59,
+          73
+        ],
+        [
+          254208,
+          59,
+          66
+        ],
+        [
+          262400,
+          59,
+          74
+        ],
+        [
+          270592,
+          59,
+          70
+        ],
+        [
+          278784,
+          59,
+          88
+        ],
+        [
+          286976,
+          59,
+          91
+        ],
+        [
+          295168,
+          59,
+          101
+        ],
+        [
+          303360,
+          59,
+          77
+        ],
+        [
+          311552,
+          59,
+          69
+        ],
+        [
+          319744,
+          59,
+          72
+        ],
+        [
+          327936,
+          59,
+          65
+        ],
+        [
+          336128,
+          59,
+          76
+        ],
+        [
+          344320,
+          59,
+          71
+        ],
+        [
+          352512,
+          59,
+          60
+        ],
+        [
+          360704,
+          59,
+          61
+        ],
+        [
+          368896,
+          59,
+          66
+        ],
+        [
+          377088,
+          59,
+          61
+        ],
+        [
+          385280,
+          59,
+          52
+        ],
+        [
+          393472,
+          59,
+          69
+        ],
+        [
+          401664,
+          59,
+          62
+        ],
+        [
+          409856,
+          59,
+          64
+        ],
+        [
+          418048,
+          59,
+          63
+        ],
+        [
+          426240,
+          59,
+          62
+        ],
+        [
+          434432,
+          59,
+          71
+        ],
+        [
+          442624,
+          59,
+          69
+        ],
+        [
+          450816,
+          59,
+          62
+        ],
+        [
+          459008,
+          59,
+          67
+        ],
+        [
+          467200,
+          59,
+          56
+        ],
+        [
+          470528,
+          64,
+          55
+        ]
+      ],
+      "table_hash": "4833328f615af868b8fcea690621cd3c02ae7e34460a6d4425a2ec364770743c",
+      "initial_tokens_hash": "abfa02b00ebd0b916b33486d1316001ceb97aa98511be8b2fc1d839484726800",
+      "initial_source_hash": "4833328f615af868b8fcea690621cd3c02ae7e34460a6d4425a2ec364770743c",
+      "initial_reencoded": false,
+      "solver": [
+        1,
+        21,
+        19,
+        7,
+        1,
+        11,
+        0,
+        15,
+        17,
+        1,
+        23,
+        7,
+        1,
+        22,
+        1,
+        18,
+        1,
+        5,
+        1,
+        22,
+        8,
+        17,
+        9,
+        10,
+        7,
+        13,
+        9,
+        1,
+        18,
+        7,
+        17,
+        7
+      ],
+      "phase": "timing",
+      "family": "BE",
+      "corpus": "BE1",
+      "block": 0,
+      "seed_ordinal": 0,
+      "operator": {
+        "eligible_children": 466598,
+        "edited_children": 93249,
+        "span_tokens": 332173,
+        "changed_tokens": 281391,
+        "changed_histogram": [
+          882,
+          5783,
+          16977,
+          44905,
+          17882,
+          5509,
+          1311
+        ],
+        "span_histogram": [
+          0,
+          0,
+          0,
+          55185,
+          26547,
+          8672,
+          2845
+        ],
+        "sampled_offspring": 58,
+        "sampled_inputs": 232,
+        "offspring_underflow": 308,
+        "offspring_wrong_type": 672,
+        "offspring_default_use": 980
+      },
+      "external_verification_seconds": 0.0005933750653639436
+    },
+    {
+      "cell": "TB:F>m?m+m:M+S",
+      "arm": "A8",
+      "seed": 206613110145,
+      "cap": 524288,
+      "pop_size": 256,
+      "solved": true,
+      "evaluations": 105216,
+      "seconds": 3.761815167032182,
+      "budget_seconds": {
+        "4096": 0.12278241699095815,
+        "32768": 1.0027307079872116,
+        "65536": 2.1246582919266075,
+        "131072": 3.761815167032182,
+        "262144": 3.761815167032182,
+        "524288": 3.761815167032182
+      },
+      "shortcuts": 0,
+      "unique_shortcuts": 0,
+      "training_perfect_individuals": 1,
+      "decode_seconds": 0.038937538396567106,
+      "generations": 411,
+      "training_indices": [
+        144,
+        278,
+        235,
+        995,
+        1003,
+        7,
+        1039,
+        1021,
+        851,
+        330,
+        979,
+        263,
+        401,
+        442,
+        739,
+        523,
+        298,
+        932,
+        909,
+        1186,
+        738,
+        1057,
+        972,
+        14,
+        145,
+        923,
+        350,
+        250,
+        206,
+        845,
+        1047,
+        725,
+        809,
+        1291,
+        767,
+        281,
+        1233,
+        253,
+        455,
+        819,
+        1320,
+        495,
+        418,
+        1148,
+        1207,
+        868,
+        751,
+        760,
+        65,
+        773,
+        115,
+        879,
+        831,
+        172,
+        387,
+        406,
+        555,
+        980,
+        1307,
+        434,
+        421,
+        392,
+        62,
+        1236
+      ],
+      "curve": [
+        [
+          256,
+          42,
+          22
+        ],
+        [
+          8448,
+          42,
+          18
+        ],
+        [
+          16640,
+          42,
+          16
+        ],
+        [
+          24832,
+          42,
+          21
+        ],
+        [
+          33024,
+          42,
+          27
+        ],
+        [
+          41216,
+          42,
+          43
+        ],
+        [
+          49408,
+          42,
+          46
+        ],
+        [
+          57600,
+          49,
+          48
+        ],
+        [
+          65792,
+          49,
+          50
+        ],
+        [
+          73984,
+          49,
+          65
+        ],
+        [
+          82176,
+          49,
+          73
+        ],
+        [
+          90368,
+          50,
+          78
+        ],
+        [
+          98560,
+          53,
+          97
+        ],
+        [
+          105216,
+          64,
+          92
+        ]
+      ],
+      "table_hash": "a11925a82fbe712c014969e0df5e00923ce0f324bb21a3a0dc47cfade8ae6627",
+      "initial_tokens_hash": "a24cdd22fc11f8bf728975fe42bdbf61ae56dcc87d1ea7451d8eb3e40f43e986",
+      "initial_source_hash": "a11925a82fbe712c014969e0df5e00923ce0f324bb21a3a0dc47cfade8ae6627",
+      "initial_reencoded": false,
+      "solver": [
+        1,
+        18,
+        19,
+        17,
+        1,
+        5,
+        1,
+        18,
+        7,
+        1,
+        22,
+        1,
+        22,
+        1,
+        22,
+        7,
+        0,
+        10,
+        1,
+        22,
+        11,
+        13,
+        7,
+        1,
+        23,
+        17,
+        1,
+        23,
+        10,
+        21,
+        8,
+        17
+      ],
+      "phase": "timing",
+      "family": "PA",
+      "corpus": "PA1",
+      "block": 0,
+      "seed_ordinal": 0,
+      "operator": {
+        "eligible_children": 104140,
+        "edited_children": 20823,
+        "span_tokens": 73482,
+        "changed_tokens": 63121,
+        "changed_histogram": [
+          222,
+          1136,
+          3824,
+          10251,
+          3746,
+          1264,
+          380
+        ],
+        "span_histogram": [
+          0,
+          0,
+          0,
+          13070,
+          5158,
+          1930,
+          665
+        ],
+        "sampled_offspring": 13,
+        "sampled_inputs": 52,
+        "offspring_underflow": 52,
+        "offspring_wrong_type": 232,
+        "offspring_default_use": 284
+      },
+      "external_verification_seconds": 0.0005291239358484745
+    },
+    {
+      "cell": "TB:F>m?m+m:M+S",
+      "arm": "S8",
+      "seed": 206613110145,
+      "cap": 524288,
+      "pop_size": 256,
+      "solved": false,
+      "evaluations": 524288,
+      "seconds": 20.760994625044987,
+      "budget_seconds": {
+        "4096": 0.10650108300615102,
+        "32768": 1.107674458064139,
+        "65536": 2.232484749983996,
+        "131072": 4.775997290969826,
+        "262144": 10.111964583047666,
+        "524288": 20.76099325006362
+      },
+      "shortcuts": 0,
+      "unique_shortcuts": 0,
+      "training_perfect_individuals": 0,
+      "decode_seconds": 0.20386323612183332,
+      "generations": 2048,
+      "training_indices": [
+        144,
+        278,
+        235,
+        995,
+        1003,
+        7,
+        1039,
+        1021,
+        851,
+        330,
+        979,
+        263,
+        401,
+        442,
+        739,
+        523,
+        298,
+        932,
+        909,
+        1186,
+        738,
+        1057,
+        972,
+        14,
+        145,
+        923,
+        350,
+        250,
+        206,
+        845,
+        1047,
+        725,
+        809,
+        1291,
+        767,
+        281,
+        1233,
+        253,
+        455,
+        819,
+        1320,
+        495,
+        418,
+        1148,
+        1207,
+        868,
+        751,
+        760,
+        65,
+        773,
+        115,
+        879,
+        831,
+        172,
+        387,
+        406,
+        555,
+        980,
+        1307,
+        434,
+        421,
+        392,
+        62,
+        1236
+      ],
+      "curve": [
+        [
+          256,
+          24,
+          22
+        ],
+        [
+          8448,
+          42,
+          28
+        ],
+        [
+          16640,
+          42,
+          36
+        ],
+        [
+          24832,
+          42,
+          30
+        ],
+        [
+          33024,
+          42,
+          38
+        ],
+        [
+          41216,
+          42,
+          31
+        ],
+        [
+          49408,
+          42,
+          38
+        ],
+        [
+          57600,
+          42,
+          41
+        ],
+        [
+          65792,
+          42,
+          49
+        ],
+        [
+          73984,
+          42,
+          42
+        ],
+        [
+          82176,
+          42,
+          39
+        ],
+        [
+          90368,
+          42,
+          38
+        ],
+        [
+          98560,
+          42,
+          41
+        ],
+        [
+          106752,
+          42,
+          43
+        ],
+        [
+          114944,
+          42,
+          31
+        ],
+        [
+          123136,
+          42,
+          33
+        ],
+        [
+          131328,
+          42,
+          45
+        ],
+        [
+          139520,
+          42,
+          42
+        ],
+        [
+          147712,
+          42,
+          32
+        ],
+        [
+          155904,
+          42,
+          51
+        ],
+        [
+          164096,
+          42,
+          44
+        ],
+        [
+          172288,
+          42,
+          42
+        ],
+        [
+          180480,
+          42,
+          38
+        ],
+        [
+          188672,
+          42,
+          44
+        ],
+        [
+          196864,
+          42,
+          49
+        ],
+        [
+          205056,
+          42,
+          51
+        ],
+        [
+          213248,
+          43,
+          44
+        ],
+        [
+          221440,
+          43,
+          41
+        ],
+        [
+          229632,
+          43,
+          59
+        ],
+        [
+          237824,
+          43,
+          43
+        ],
+        [
+          246016,
+          43,
+          48
+        ],
+        [
+          254208,
+          43,
+          41
+        ],
+        [
+          262400,
+          43,
+          71
+        ],
+        [
+          270592,
+          49,
+          70
+        ],
+        [
+          278784,
+          49,
+          67
+        ],
+        [
+          286976,
+          49,
+          76
+        ],
+        [
+          295168,
+          49,
+          60
+        ],
+        [
+          303360,
+          54,
+          65
+        ],
+        [
+          311552,
+          54,
+          77
+        ],
+        [
+          319744,
+          54,
+          67
+        ],
+        [
+          327936,
+          54,
+          86
+        ],
+        [
+          336128,
+          54,
+          77
+        ],
+        [
+          344320,
+          54,
+          66
+        ],
+        [
+          352512,
+          54,
+          76
+        ],
+        [
+          360704,
+          54,
+          76
+        ],
+        [
+          368896,
+          54,
+          74
+        ],
+        [
+          377088,
+          54,
+          65
+        ],
+        [
+          385280,
+          54,
+          71
+        ],
+        [
+          393472,
+          54,
+          65
+        ],
+        [
+          401664,
+          54,
+          76
+        ],
+        [
+          409856,
+          54,
+          71
+        ],
+        [
+          418048,
+          54,
+          88
+        ],
+        [
+          426240,
+          54,
+          77
+        ],
+        [
+          434432,
+          54,
+          67
+        ],
+        [
+          442624,
+          54,
+          69
+        ],
+        [
+          450816,
+          54,
+          70
+        ],
+        [
+          459008,
+          54,
+          68
+        ],
+        [
+          467200,
+          54,
+          82
+        ],
+        [
+          475392,
+          54,
+          67
+        ],
+        [
+          483584,
+          54,
+          72
+        ],
+        [
+          491776,
+          54,
+          89
+        ],
+        [
+          499968,
+          54,
+          73
+        ],
+        [
+          508160,
+          54,
+          78
+        ],
+        [
+          516352,
+          54,
+          76
+        ]
+      ],
+      "table_hash": "f4cff249cdf71488109c92c1ea7b085094869edd3e23041dee1b24a3263df8d6",
+      "initial_tokens_hash": "86c8f5adcda0bf8423f372ca02f52e3fa831e84537ca97659d11743bed1eb7c8",
+      "initial_source_hash": "f4cff249cdf71488109c92c1ea7b085094869edd3e23041dee1b24a3263df8d6",
+      "initial_reencoded": false,
+      "solver": null,
+      "phase": "timing",
+      "family": "PA",
+      "corpus": "PA1",
+      "block": 0,
+      "seed_ordinal": 0,
+      "operator": {
+        "eligible_children": 519938,
+        "edited_children": 104280,
+        "span_tokens": 371630,
+        "changed_tokens": 316540,
+        "changed_histogram": [
+          698,
+          5330,
+          20269,
+          49768,
+          21454,
+          5014,
+          1747
+        ],
+        "span_histogram": [
+          0,
+          0,
+          0,
+          58665,
+          35728,
+          6599,
+          3288
+        ],
+        "sampled_offspring": 64,
+        "sampled_inputs": 256,
+        "offspring_underflow": 396,
+        "offspring_wrong_type": 1032,
+        "offspring_default_use": 1428
+      },
+      "external_verification_seconds": 0.00013866601511836052
+    },
+    {
+      "cell": "TB:M>F?F+M:S+m",
+      "arm": "A8",
+      "seed": 206613110245,
+      "cap": 524288,
+      "pop_size": 256,
+      "solved": false,
+      "evaluations": 524288,
+      "seconds": 25.01546066708397,
+      "budget_seconds": {
+        "4096": 0.14648937503807247,
+        "32768": 1.3136185000184923,
+        "65536": 2.9201795830158517,
+        "131072": 6.1248450831044465,
+        "262144": 12.402379792067222,
+        "524288": 25.01545950002037
+      },
+      "shortcuts": 0,
+      "unique_shortcuts": 0,
+      "training_perfect_individuals": 0,
+      "decode_seconds": 0.19711991294752806,
+      "generations": 2048,
+      "training_indices": [
+        673,
+        171,
+        1219,
+        671,
+        724,
+        741,
+        629,
+        389,
+        4,
+        1321,
+        1165,
+        693,
+        691,
+        144,
+        532,
+        1320,
+        784,
+        1313,
+        938,
+        45,
+        1257,
+        62,
+        1145,
+        799,
+        974,
+        162,
+        93,
+        841,
+        551,
+        989,
+        592,
+        627,
+        1081,
+        1150,
+        1319,
+        789,
+        1055,
+        416,
+        1139,
+        506,
+        768,
+        124,
+        1281,
+        531,
+        679,
+        925,
+        246,
+        218,
+        798,
+        819,
+        1172,
+        577,
+        1308,
+        590,
+        382,
+        424,
+        211,
+        917,
+        726,
+        196,
+        1057,
+        589,
+        120,
+        639
+      ],
+      "curve": [
+        [
+          256,
+          39,
+          27
+        ],
+        [
+          8448,
+          47,
+          78
+        ],
+        [
+          16640,
+          47,
+          95
+        ],
+        [
+          24832,
+          48,
+          90
+        ],
+        [
+          33024,
+          48,
+          83
+        ],
+        [
+          41216,
+          48,
+          90
+        ],
+        [
+          49408,
+          49,
+          105
+        ],
+        [
+          57600,
+          49,
+          90
+        ],
+        [
+          65792,
+          49,
+          88
+        ],
+        [
+          73984,
+          49,
+          95
+        ],
+        [
+          82176,
+          49,
+          91
+        ],
+        [
+          90368,
+          49,
+          99
+        ],
+        [
+          98560,
+          49,
+          87
+        ],
+        [
+          106752,
+          51,
+          85
+        ],
+        [
+          114944,
+          51,
+          97
+        ],
+        [
+          123136,
+          51,
+          82
+        ],
+        [
+          131328,
+          51,
+          92
+        ],
+        [
+          139520,
+          51,
+          86
+        ],
+        [
+          147712,
+          51,
+          86
+        ],
+        [
+          155904,
+          51,
+          89
+        ],
+        [
+          164096,
+          51,
+          94
+        ],
+        [
+          172288,
+          51,
+          90
+        ],
+        [
+          180480,
+          51,
+          79
+        ],
+        [
+          188672,
+          51,
+          83
+        ],
+        [
+          196864,
+          51,
+          78
+        ],
+        [
+          205056,
+          51,
+          82
+        ],
+        [
+          213248,
+          51,
+          85
+        ],
+        [
+          221440,
+          51,
+          79
+        ],
+        [
+          229632,
+          51,
+          75
+        ],
+        [
+          237824,
+          51,
+          77
+        ],
+        [
+          246016,
+          51,
+          88
+        ],
+        [
+          254208,
+          51,
+          83
+        ],
+        [
+          262400,
+          51,
+          84
+        ],
+        [
+          270592,
+          51,
+          81
+        ],
+        [
+          278784,
+          51,
+          83
+        ],
+        [
+          286976,
+          51,
+          89
+        ],
+        [
+          295168,
+          51,
+          82
+        ],
+        [
+          303360,
+          51,
+          84
+        ],
+        [
+          311552,
+          51,
+          105
+        ],
+        [
+          319744,
+          51,
+          93
+        ],
+        [
+          327936,
+          51,
+          85
+        ],
+        [
+          336128,
+          51,
+          91
+        ],
+        [
+          344320,
+          51,
+          84
+        ],
+        [
+          352512,
+          51,
+          81
+        ],
+        [
+          360704,
+          51,
+          92
+        ],
+        [
+          368896,
+          51,
+          77
+        ],
+        [
+          377088,
+          51,
+          86
+        ],
+        [
+          385280,
+          51,
+          92
+        ],
+        [
+          393472,
+          51,
+          95
+        ],
+        [
+          401664,
+          51,
+          88
+        ],
+        [
+          409856,
+          51,
+          87
+        ],
+        [
+          418048,
+          51,
+          96
+        ],
+        [
+          426240,
+          51,
+          87
+        ],
+        [
+          434432,
+          51,
+          83
+        ],
+        [
+          442624,
+          51,
+          87
+        ],
+        [
+          450816,
+          51,
+          82
+        ],
+        [
+          459008,
+          51,
+          91
+        ],
+        [
+          467200,
+          51,
+          82
+        ],
+        [
+          475392,
+          51,
+          80
+        ],
+        [
+          483584,
+          51,
+          92
+        ],
+        [
+          491776,
+          51,
+          80
+        ],
+        [
+          499968,
+          51,
+          86
+        ],
+        [
+          508160,
+          51,
+          89
+        ],
+        [
+          516352,
+          51,
+          80
+        ]
+      ],
+      "table_hash": "a11925a82fbe712c014969e0df5e00923ce0f324bb21a3a0dc47cfade8ae6627",
+      "initial_tokens_hash": "c375d96b9ec260f79b1e1ab8c52900fda45b6b6fbf73c4bc45742a569effa13a",
+      "initial_source_hash": "a11925a82fbe712c014969e0df5e00923ce0f324bb21a3a0dc47cfade8ae6627",
+      "initial_reencoded": false,
+      "solver": null,
+      "phase": "timing",
+      "family": "PA",
+      "corpus": "PA1",
+      "block": 0,
+      "seed_ordinal": 0,
+      "operator": {
+        "eligible_children": 519938,
+        "edited_children": 104016,
+        "span_tokens": 367182,
+        "changed_tokens": 311131,
+        "changed_histogram": [
+          1699,
+          6086,
+          20075,
+          50058,
+          17686,
+          6495,
+          1917
+        ],
+        "span_histogram": [
+          0,
+          0,
+          0,
+          65081,
+          25980,
+          9711,
+          3244
+        ],
+        "sampled_offspring": 64,
+        "sampled_inputs": 256,
+        "offspring_underflow": 328,
+        "offspring_wrong_type": 752,
+        "offspring_default_use": 1080
+      },
+      "external_verification_seconds": 8.454092312604189e-05
+    },
+    {
+      "cell": "TB:M>F?F+M:S+m",
+      "arm": "S8",
+      "seed": 206613110245,
+      "cap": 524288,
+      "pop_size": 256,
+      "solved": false,
+      "evaluations": 524288,
+      "seconds": 23.85926308296621,
+      "budget_seconds": {
+        "4096": 0.1255105830496177,
+        "32768": 1.2758797910064459,
+        "65536": 2.692187999957241,
+        "131072": 5.617203957983293,
+        "262144": 11.570447499980219,
+        "524288": 23.85925933299586
+      },
+      "shortcuts": 0,
+      "unique_shortcuts": 0,
+      "training_perfect_individuals": 0,
+      "decode_seconds": 0.20599440205842257,
+      "generations": 2048,
+      "training_indices": [
+        673,
+        171,
+        1219,
+        671,
+        724,
+        741,
+        629,
+        389,
+        4,
+        1321,
+        1165,
+        693,
+        691,
+        144,
+        532,
+        1320,
+        784,
+        1313,
+        938,
+        45,
+        1257,
+        62,
+        1145,
+        799,
+        974,
+        162,
+        93,
+        841,
+        551,
+        989,
+        592,
+        627,
+        1081,
+        1150,
+        1319,
+        789,
+        1055,
+        416,
+        1139,
+        506,
+        768,
+        124,
+        1281,
+        531,
+        679,
+        925,
+        246,
+        218,
+        798,
+        819,
+        1172,
+        577,
+        1308,
+        590,
+        382,
+        424,
+        211,
+        917,
+        726,
+        196,
+        1057,
+        589,
+        120,
+        639
+      ],
+      "curve": [
+        [
+          256,
+          31,
+          26
+        ],
+        [
+          8448,
+          43,
+          61
+        ],
+        [
+          16640,
+          51,
+          73
+        ],
+        [
+          24832,
+          51,
+          85
+        ],
+        [
+          33024,
+          51,
+          73
+        ],
+        [
+          41216,
+          51,
+          72
+        ],
+        [
+          49408,
+          51,
+          92
+        ],
+        [
+          57600,
+          51,
+          73
+        ],
+        [
+          65792,
+          51,
+          86
+        ],
+        [
+          73984,
+          51,
+          84
+        ],
+        [
+          82176,
+          51,
+          100
+        ],
+        [
+          90368,
+          51,
+          84
+        ],
+        [
+          98560,
+          51,
+          88
+        ],
+        [
+          106752,
+          51,
+          100
+        ],
+        [
+          114944,
+          51,
+          102
+        ],
+        [
+          123136,
+          51,
+          87
+        ],
+        [
+          131328,
+          51,
+          92
+        ],
+        [
+          139520,
+          51,
+          101
+        ],
+        [
+          147712,
+          51,
+          87
+        ],
+        [
+          155904,
+          51,
+          97
+        ],
+        [
+          164096,
+          51,
+          108
+        ],
+        [
+          172288,
+          51,
+          110
+        ],
+        [
+          180480,
+          51,
+          90
+        ],
+        [
+          188672,
+          51,
+          98
+        ],
+        [
+          196864,
+          51,
+          101
+        ],
+        [
+          205056,
+          51,
+          86
+        ],
+        [
+          213248,
+          51,
+          82
+        ],
+        [
+          221440,
+          51,
+          93
+        ],
+        [
+          229632,
+          51,
+          108
+        ],
+        [
+          237824,
+          51,
+          106
+        ],
+        [
+          246016,
+          51,
+          110
+        ],
+        [
+          254208,
+          51,
+          99
+        ],
+        [
+          262400,
+          51,
+          108
+        ],
+        [
+          270592,
+          51,
+          99
+        ],
+        [
+          278784,
+          51,
+          103
+        ],
+        [
+          286976,
+          51,
+          102
+        ],
+        [
+          295168,
+          51,
+          107
+        ],
+        [
+          303360,
+          51,
+          91
+        ],
+        [
+          311552,
+          51,
+          93
+        ],
+        [
+          319744,
+          51,
+          107
+        ],
+        [
+          327936,
+          51,
+          94
+        ],
+        [
+          336128,
+          51,
+          98
+        ],
+        [
+          344320,
+          51,
+          95
+        ],
+        [
+          352512,
+          51,
+          101
+        ],
+        [
+          360704,
+          51,
+          95
+        ],
+        [
+          368896,
+          51,
+          102
+        ],
+        [
+          377088,
+          51,
+          100
+        ],
+        [
+          385280,
+          51,
+          107
+        ],
+        [
+          393472,
+          51,
+          102
+        ],
+        [
+          401664,
+          51,
+          93
+        ],
+        [
+          409856,
+          51,
+          106
+        ],
+        [
+          418048,
+          51,
+          113
+        ],
+        [
+          426240,
+          51,
+          100
+        ],
+        [
+          434432,
+          51,
+          95
+        ],
+        [
+          442624,
+          51,
+          99
+        ],
+        [
+          450816,
+          51,
+          103
+        ],
+        [
+          459008,
+          51,
+          89
+        ],
+        [
+          467200,
+          51,
+          93
+        ],
+        [
+          475392,
+          51,
+          93
+        ],
+        [
+          483584,
+          51,
+          92
+        ],
+        [
+          491776,
+          51,
+          97
+        ],
+        [
+          499968,
+          51,
+          92
+        ],
+        [
+          508160,
+          51,
+          106
+        ],
+        [
+          516352,
+          51,
+          92
+        ]
+      ],
+      "table_hash": "f4cff249cdf71488109c92c1ea7b085094869edd3e23041dee1b24a3263df8d6",
+      "initial_tokens_hash": "25acc612e7dccba649c3d34ea804cfe3fa0a89cfebb3ba4224d6b7a26652b503",
+      "initial_source_hash": "f4cff249cdf71488109c92c1ea7b085094869edd3e23041dee1b24a3263df8d6",
+      "initial_reencoded": false,
+      "solver": null,
+      "phase": "timing",
+      "family": "PA",
+      "corpus": "PA1",
+      "block": 0,
+      "seed_ordinal": 0,
+      "operator": {
+        "eligible_children": 519938,
+        "edited_children": 104267,
+        "span_tokens": 371572,
+        "changed_tokens": 311375,
+        "changed_histogram": [
+          1168,
+          7161,
+          20426,
+          47164,
+          21674,
+          4870,
+          1804
+        ],
+        "span_histogram": [
+          0,
+          0,
+          0,
+          58628,
+          35829,
+          6488,
+          3322
+        ],
+        "sampled_offspring": 64,
+        "sampled_inputs": 256,
+        "offspring_underflow": 420,
+        "offspring_wrong_type": 624,
+        "offspring_default_use": 1044
+      },
+      "external_verification_seconds": 0.00011466711293905973
+    },
+    {
+      "cell": "TB:M>S?M+M:F+m",
+      "arm": "A8",
+      "seed": 206613110445,
+      "cap": 524288,
+      "pop_size": 256,
+      "solved": false,
+      "evaluations": 524288,
+      "seconds": 21.066532458062284,
+      "budget_seconds": {
+        "4096": 0.1643345830962062,
+        "32768": 1.691373125067912,
+        "65536": 3.474253792082891,
+        "131072": 6.292431625071913,
+        "262144": 11.458539542043582,
+        "524288": 21.066531667020172
+      },
+      "shortcuts": 0,
+      "unique_shortcuts": 0,
+      "training_perfect_individuals": 0,
+      "decode_seconds": 0.13684751524124295,
+      "generations": 2048,
+      "training_indices": [
+        875,
+        316,
+        1258,
+        704,
+        736,
+        168,
+        1174,
+        528,
+        1149,
+        479,
+        1164,
+        1148,
+        1271,
+        318,
+        195,
+        721,
+        1255,
+        954,
+        345,
+        522,
+        111,
+        53,
+        1207,
+        246,
+        1166,
+        1189,
+        987,
+        1186,
+        1061,
+        256,
+        343,
+        1277,
+        785,
+        357,
+        301,
+        326,
+        431,
+        1035,
+        1245,
+        505,
+        1088,
+        170,
+        779,
+        735,
+        1221,
+        1239,
+        1058,
+        795,
+        781,
+        484,
+        26,
+        359,
+        771,
+        341,
+        120,
+        324,
+        135,
+        978,
+        1163,
+        774,
+        1095,
+        1097,
+        502,
+        968
+      ],
+      "curve": [
+        [
+          256,
+          25,
+          22
+        ],
+        [
+          8448,
+          56,
+          52
+        ],
+        [
+          16640,
+          63,
+          62
+        ],
+        [
+          24832,
+          63,
+          54
+        ],
+        [
+          33024,
+          63,
+          56
+        ],
+        [
+          41216,
+          63,
+          58
+        ],
+        [
+          49408,
+          63,
+          58
+        ],
+        [
+          57600,
+          63,
+          55
+        ],
+        [
+          65792,
+          63,
+          71
+        ],
+        [
+          73984,
+          63,
+          53
+        ],
+        [
+          82176,
+          63,
+          56
+        ],
+        [
+          90368,
+          63,
+          63
+        ],
+        [
+          98560,
+          63,
+          56
+        ],
+        [
+          106752,
+          63,
+          51
+        ],
+        [
+          114944,
+          63,
+          63
+        ],
+        [
+          123136,
+          63,
+          51
+        ],
+        [
+          131328,
+          63,
+          56
+        ],
+        [
+          139520,
+          63,
+          68
+        ],
+        [
+          147712,
+          63,
+          49
+        ],
+        [
+          155904,
+          63,
+          49
+        ],
+        [
+          164096,
+          63,
+          54
+        ],
+        [
+          172288,
+          63,
+          54
+        ],
+        [
+          180480,
+          63,
+          68
+        ],
+        [
+          188672,
+          63,
+          52
+        ],
+        [
+          196864,
+          63,
+          49
+        ],
+        [
+          205056,
+          63,
+          52
+        ],
+        [
+          213248,
+          63,
+          68
+        ],
+        [
+          221440,
+          63,
+          63
+        ],
+        [
+          229632,
+          63,
+          56
+        ],
+        [
+          237824,
+          63,
+          56
+        ],
+        [
+          246016,
+          63,
+          62
+        ],
+        [
+          254208,
+          63,
+          50
+        ],
+        [
+          262400,
+          63,
+          58
+        ],
+        [
+          270592,
+          63,
+          64
+        ],
+        [
+          278784,
+          63,
+          51
+        ],
+        [
+          286976,
+          63,
+          61
+        ],
+        [
+          295168,
+          63,
+          59
+        ],
+        [
+          303360,
+          63,
+          64
+        ],
+        [
+          311552,
+          63,
+          56
+        ],
+        [
+          319744,
+          63,
+          59
+        ],
+        [
+          327936,
+          63,
+          56
+        ],
+        [
+          336128,
+          63,
+          51
+        ],
+        [
+          344320,
+          63,
+          57
+        ],
+        [
+          352512,
+          63,
+          60
+        ],
+        [
+          360704,
+          63,
+          51
+        ],
+        [
+          368896,
+          63,
+          58
+        ],
+        [
+          377088,
+          63,
+          57
+        ],
+        [
+          385280,
+          63,
+          53
+        ],
+        [
+          393472,
+          63,
+          62
+        ],
+        [
+          401664,
+          63,
+          65
+        ],
+        [
+          409856,
+          63,
+          59
+        ],
+        [
+          418048,
+          63,
+          53
+        ],
+        [
+          426240,
+          63,
+          53
+        ],
+        [
+          434432,
+          63,
+          51
+        ],
+        [
+          442624,
+          63,
+          57
+        ],
+        [
+          450816,
+          63,
+          62
+        ],
+        [
+          459008,
+          63,
+          61
+        ],
+        [
+          467200,
+          63,
+          53
+        ],
+        [
+          475392,
+          63,
+          55
+        ],
+        [
+          483584,
+          63,
+          57
+        ],
+        [
+          491776,
+          63,
+          60
+        ],
+        [
+          499968,
+          63,
+          62
+        ],
+        [
+          508160,
+          63,
+          63
+        ],
+        [
+          516352,
+          63,
+          53
+        ]
+      ],
+      "table_hash": "a11925a82fbe712c014969e0df5e00923ce0f324bb21a3a0dc47cfade8ae6627",
+      "initial_tokens_hash": "804b90980c08df6ce274f5fa930364c0af5803466dbc7a533dfdccdd6f99cd75",
+      "initial_source_hash": "a11925a82fbe712c014969e0df5e00923ce0f324bb21a3a0dc47cfade8ae6627",
+      "initial_reencoded": false,
+      "solver": null,
+      "phase": "timing",
+      "family": "PA",
+      "corpus": "PA1",
+      "block": 0,
+      "seed_ordinal": 0,
+      "operator": {
+        "eligible_children": 519938,
+        "edited_children": 103552,
+        "span_tokens": 366192,
+        "changed_tokens": 308507,
+        "changed_histogram": [
+          964,
+          7863,
+          19753,
+          49246,
+          17231,
+          6494,
+          2001
+        ],
+        "span_histogram": [
+          0,
+          0,
+          0,
+          64507,
+          25850,
+          9899,
+          3296
+        ],
+        "sampled_offspring": 64,
+        "sampled_inputs": 256,
+        "offspring_underflow": 480,
+        "offspring_wrong_type": 864,
+        "offspring_default_use": 1344
+      },
+      "external_verification_seconds": 8.820893708616495e-05
+    },
+    {
+      "cell": "TB:M>S?M+M:F+m",
+      "arm": "S8",
+      "seed": 206613110445,
+      "cap": 524288,
+      "pop_size": 256,
+      "solved": true,
+      "evaluations": 226304,
+      "seconds": 8.837692375062034,
+      "budget_seconds": {
+        "4096": 0.15018095797859132,
+        "32768": 1.2359975000144914,
+        "65536": 2.6935104579897597,
+        "131072": 5.183400291018188,
+        "262144": 8.837692375062034,
+        "524288": 8.837692375062034
+      },
+      "shortcuts": 0,
+      "unique_shortcuts": 0,
+      "training_perfect_individuals": 1,
+      "decode_seconds": 0.06935642461758107,
+      "generations": 884,
+      "training_indices": [
+        875,
+        316,
+        1258,
+        704,
+        736,
+        168,
+        1174,
+        528,
+        1149,
+        479,
+        1164,
+        1148,
+        1271,
+        318,
+        195,
+        721,
+        1255,
+        954,
+        345,
+        522,
+        111,
+        53,
+        1207,
+        246,
+        1166,
+        1189,
+        987,
+        1186,
+        1061,
+        256,
+        343,
+        1277,
+        785,
+        357,
+        301,
+        326,
+        431,
+        1035,
+        1245,
+        505,
+        1088,
+        170,
+        779,
+        735,
+        1221,
+        1239,
+        1058,
+        795,
+        781,
+        484,
+        26,
+        359,
+        771,
+        341,
+        120,
+        324,
+        135,
+        978,
+        1163,
+        774,
+        1095,
+        1097,
+        502,
+        968
+      ],
+      "curve": [
+        [
+          256,
+          9,
+          20
+        ],
+        [
+          8448,
+          49,
+          41
+        ],
+        [
+          16640,
+          49,
+          44
+        ],
+        [
+          24832,
+          49,
+          50
+        ],
+        [
+          33024,
+          60,
+          61
+        ],
+        [
+          41216,
+          60,
+          68
+        ],
+        [
+          49408,
+          60,
+          58
+        ],
+        [
+          57600,
+          60,
+          72
+        ],
+        [
+          65792,
+          60,
+          51
+        ],
+        [
+          73984,
+          60,
+          69
+        ],
+        [
+          82176,
+          60,
+          60
+        ],
+        [
+          90368,
+          60,
+          60
+        ],
+        [
+          98560,
+          60,
+          64
+        ],
+        [
+          106752,
+          60,
+          63
+        ],
+        [
+          114944,
+          60,
+          67
+        ],
+        [
+          123136,
+          60,
+          67
+        ],
+        [
+          131328,
+          60,
+          63
+        ],
+        [
+          139520,
+          60,
+          58
+        ],
+        [
+          147712,
+          60,
+          68
+        ],
+        [
+          155904,
+          60,
+          67
+        ],
+        [
+          164096,
+          60,
+          62
+        ],
+        [
+          172288,
+          60,
+          62
+        ],
+        [
+          180480,
+          60,
+          67
+        ],
+        [
+          188672,
+          60,
+          60
+        ],
+        [
+          196864,
+          60,
+          71
+        ],
+        [
+          205056,
+          60,
+          65
+        ],
+        [
+          213248,
+          60,
+          69
+        ],
+        [
+          221440,
+          60,
+          59
+        ],
+        [
+          226304,
+          64,
+          66
+        ]
+      ],
+      "table_hash": "f4cff249cdf71488109c92c1ea7b085094869edd3e23041dee1b24a3263df8d6",
+      "initial_tokens_hash": "7c8e5c1e8fde2e34e7bda68b54e42bd2bac6799a78075182dbcd317d3f14740b",
+      "initial_source_hash": "f4cff249cdf71488109c92c1ea7b085094869edd3e23041dee1b24a3263df8d6",
+      "initial_reencoded": false,
+      "solver": [
+        1,
+        5,
+        21,
+        21,
+        1,
+        21,
+        1,
+        23,
+        1,
+        1,
+        18,
+        1,
+        18,
+        7,
+        0,
+        23,
+        1,
+        23,
+        1,
+        22,
+        7,
+        21,
+        7,
+        1,
+        6,
+        1,
+        11,
+        7,
+        1,
+        18,
+        8,
+        17
+      ],
+      "phase": "timing",
+      "family": "PA",
+      "corpus": "PA1",
+      "block": 0,
+      "seed_ordinal": 0,
+      "operator": {
+        "eligible_children": 224282,
+        "edited_children": 44568,
+        "span_tokens": 158887,
+        "changed_tokens": 135250,
+        "changed_histogram": [
+          294,
+          2778,
+          8184,
+          20735,
+          9781,
+          2001,
+          795
+        ],
+        "span_histogram": [
+          0,
+          0,
+          0,
+          24867,
+          15578,
+          2764,
+          1359
+        ],
+        "sampled_offspring": 28,
+        "sampled_inputs": 112,
+        "offspring_underflow": 184,
+        "offspring_wrong_type": 688,
+        "offspring_default_use": 872
+      },
+      "external_verification_seconds": 0.00040291703771799803
+    },
+    {
+      "cell": "TB:S>m?M+M:F+S",
+      "arm": "A8",
+      "seed": 206613110345,
+      "cap": 524288,
+      "pop_size": 256,
+      "solved": false,
+      "evaluations": 524288,
+      "seconds": 17.420169790973887,
+      "budget_seconds": {
+        "4096": 0.1322713749250397,
+        "32768": 1.3011044579325244,
+        "65536": 2.6527264160104096,
+        "131072": 5.395329665974714,
+        "262144": 9.758576457970776,
+        "524288": 17.420168915996328
+      },
+      "shortcuts": 0,
+      "unique_shortcuts": 0,
+      "training_perfect_individuals": 0,
+      "decode_seconds": 0.16199497319757938,
+      "generations": 2048,
+      "training_indices": [
+        1215,
+        510,
+        1012,
+        748,
+        258,
+        406,
+        1189,
+        1017,
+        777,
+        686,
+        806,
+        281,
+        195,
+        1174,
+        1262,
+        1052,
+        223,
+        360,
+        120,
+        262,
+        246,
+        124,
+        21,
+        271,
+        909,
+        513,
+        523,
+        792,
+        563,
+        1056,
+        1330,
+        1280,
+        1154,
+        694,
+        709,
+        420,
+        241,
+        888,
+        1011,
+        634,
+        202,
+        1006,
+        63,
+        319,
+        65,
+        765,
+        1219,
+        20,
+        1275,
+        358,
+        31,
+        872,
+        1242,
+        866,
+        549,
+        903,
+        521,
+        1129,
+        744,
+        1207,
+        371,
+        1034,
+        332,
+        348
+      ],
+      "curve": [
+        [
+          256,
+          18,
+          8
+        ],
+        [
+          8448,
+          50,
+          19
+        ],
+        [
+          16640,
+          50,
+          23
+        ],
+        [
+          24832,
+          52,
+          46
+        ],
+        [
+          33024,
+          60,
+          38
+        ],
+        [
+          41216,
+          60,
+          42
+        ],
+        [
+          49408,
+          60,
+          40
+        ],
+        [
+          57600,
+          60,
+          42
+        ],
+        [
+          65792,
+          60,
+          41
+        ],
+        [
+          73984,
+          60,
+          43
+        ],
+        [
+          82176,
+          60,
+          54
+        ],
+        [
+          90368,
+          60,
+          46
+        ],
+        [
+          98560,
+          60,
+          44
+        ],
+        [
+          106752,
+          60,
+          36
+        ],
+        [
+          114944,
+          60,
+          47
+        ],
+        [
+          123136,
+          60,
+          42
+        ],
+        [
+          131328,
+          60,
+          51
+        ],
+        [
+          139520,
+          60,
+          52
+        ],
+        [
+          147712,
+          60,
+          42
+        ],
+        [
+          155904,
+          60,
+          37
+        ],
+        [
+          164096,
+          60,
+          38
+        ],
+        [
+          172288,
+          60,
+          43
+        ],
+        [
+          180480,
+          60,
+          51
+        ],
+        [
+          188672,
+          60,
+          42
+        ],
+        [
+          196864,
+          60,
+          37
+        ],
+        [
+          205056,
+          60,
+          47
+        ],
+        [
+          213248,
+          60,
+          47
+        ],
+        [
+          221440,
+          60,
+          52
+        ],
+        [
+          229632,
+          60,
+          46
+        ],
+        [
+          237824,
+          60,
+          44
+        ],
+        [
+          246016,
+          60,
+          52
+        ],
+        [
+          254208,
+          60,
+          48
+        ],
+        [
+          262400,
+          60,
+          47
+        ],
+        [
+          270592,
+          60,
+          43
+        ],
+        [
+          278784,
+          60,
+          42
+        ],
+        [
+          286976,
+          60,
+          44
+        ],
+        [
+          295168,
+          60,
+          50
+        ],
+        [
+          303360,
+          60,
+          41
+        ],
+        [
+          311552,
+          60,
+          39
+        ],
+        [
+          319744,
+          60,
+          44
+        ],
+        [
+          327936,
+          60,
+          44
+        ],
+        [
+          336128,
+          60,
+          53
+        ],
+        [
+          344320,
+          60,
+          46
+        ],
+        [
+          352512,
+          60,
+          40
+        ],
+        [
+          360704,
+          60,
+          44
+        ],
+        [
+          368896,
+          60,
+          42
+        ],
+        [
+          377088,
+          60,
+          37
+        ],
+        [
+          385280,
+          60,
+          34
+        ],
+        [
+          393472,
+          60,
+          41
+        ],
+        [
+          401664,
+          60,
+          45
+        ],
+        [
+          409856,
+          60,
+          40
+        ],
+        [
+          418048,
+          60,
+          49
+        ],
+        [
+          426240,
+          60,
+          44
+        ],
+        [
+          434432,
+          60,
+          40
+        ],
+        [
+          442624,
+          60,
+          45
+        ],
+        [
+          450816,
+          60,
+          48
+        ],
+        [
+          459008,
+          60,
+          43
+        ],
+        [
+          467200,
+          60,
+          42
+        ],
+        [
+          475392,
+          60,
+          48
+        ],
+        [
+          483584,
+          60,
+          41
+        ],
+        [
+          491776,
+          60,
+          40
+        ],
+        [
+          499968,
+          60,
+          37
+        ],
+        [
+          508160,
+          60,
+          51
+        ],
+        [
+          516352,
+          60,
+          46
+        ]
+      ],
+      "table_hash": "a11925a82fbe712c014969e0df5e00923ce0f324bb21a3a0dc47cfade8ae6627",
+      "initial_tokens_hash": "ac8ff76085142a0b349f8b0c6e34a727bf10c3d496c028a068648b07613a9175",
+      "initial_source_hash": "a11925a82fbe712c014969e0df5e00923ce0f324bb21a3a0dc47cfade8ae6627",
+      "initial_reencoded": false,
+      "solver": null,
+      "phase": "timing",
+      "family": "PA",
+      "corpus": "PA1",
+      "block": 0,
+      "seed_ordinal": 0,
+      "operator": {
+        "eligible_children": 519938,
+        "edited_children": 103671,
+        "span_tokens": 365607,
+        "changed_tokens": 316848,
+        "changed_histogram": [
+          871,
+          6030,
+          17760,
+          51316,
+          19121,
+          6572,
+          2001
+        ],
+        "span_histogram": [
+          0,
+          0,
+          0,
+          65092,
+          25730,
+          9683,
+          3166
+        ],
+        "sampled_offspring": 64,
+        "sampled_inputs": 256,
+        "offspring_underflow": 204,
+        "offspring_wrong_type": 1124,
+        "offspring_default_use": 1328
+      },
+      "external_verification_seconds": 8.41671135276556e-05
+    },
+    {
+      "cell": "TB:S>m?M+M:F+S",
+      "arm": "S8",
+      "seed": 206613110345,
+      "cap": 524288,
+      "pop_size": 256,
+      "solved": false,
+      "evaluations": 524288,
+      "seconds": 18.406330708996393,
+      "budget_seconds": {
+        "4096": 0.18239383399486542,
+        "32768": 1.7783628340112045,
+        "65536": 3.6525066670728847,
+        "131072": 6.4871957920258865,
+        "262144": 10.769508500001393,
+        "524288": 18.406329874997027
+      },
+      "shortcuts": 0,
+      "unique_shortcuts": 0,
+      "training_perfect_individuals": 0,
+      "decode_seconds": 0.14387797692324966,
+      "generations": 2048,
+      "training_indices": [
+        1215,
+        510,
+        1012,
+        748,
+        258,
+        406,
+        1189,
+        1017,
+        777,
+        686,
+        806,
+        281,
+        195,
+        1174,
+        1262,
+        1052,
+        223,
+        360,
+        120,
+        262,
+        246,
+        124,
+        21,
+        271,
+        909,
+        513,
+        523,
+        792,
+        563,
+        1056,
+        1330,
+        1280,
+        1154,
+        694,
+        709,
+        420,
+        241,
+        888,
+        1011,
+        634,
+        202,
+        1006,
+        63,
+        319,
+        65,
+        765,
+        1219,
+        20,
+        1275,
+        358,
+        31,
+        872,
+        1242,
+        866,
+        549,
+        903,
+        521,
+        1129,
+        744,
+        1207,
+        371,
+        1034,
+        332,
+        348
+      ],
+      "curve": [
+        [
+          256,
+          22,
+          16
+        ],
+        [
+          8448,
+          53,
+          45
+        ],
+        [
+          16640,
+          53,
+          55
+        ],
+        [
+          24832,
+          55,
+          69
+        ],
+        [
+          33024,
+          55,
+          66
+        ],
+        [
+          41216,
+          55,
+          62
+        ],
+        [
+          49408,
+          55,
+          78
+        ],
+        [
+          57600,
+          55,
+          75
+        ],
+        [
+          65792,
+          55,
+          85
+        ],
+        [
+          73984,
+          55,
+          87
+        ],
+        [
+          82176,
+          58,
+          76
+        ],
+        [
+          90368,
+          58,
+          68
+        ],
+        [
+          98560,
+          58,
+          78
+        ],
+        [
+          106752,
+          58,
+          80
+        ],
+        [
+          114944,
+          58,
+          81
+        ],
+        [
+          123136,
+          60,
+          50
+        ],
+        [
+          131328,
+          60,
+          49
+        ],
+        [
+          139520,
+          60,
+          61
+        ],
+        [
+          147712,
+          60,
+          52
+        ],
+        [
+          155904,
+          60,
+          43
+        ],
+        [
+          164096,
+          60,
+          58
+        ],
+        [
+          172288,
+          60,
+          51
+        ],
+        [
+          180480,
+          60,
+          54
+        ],
+        [
+          188672,
+          60,
+          51
+        ],
+        [
+          196864,
+          60,
+          58
+        ],
+        [
+          205056,
+          60,
+          60
+        ],
+        [
+          213248,
+          60,
+          47
+        ],
+        [
+          221440,
+          60,
+          57
+        ],
+        [
+          229632,
+          60,
+          59
+        ],
+        [
+          237824,
+          60,
+          57
+        ],
+        [
+          246016,
+          60,
+          66
+        ],
+        [
+          254208,
+          60,
+          64
+        ],
+        [
+          262400,
+          60,
+          49
+        ],
+        [
+          270592,
+          60,
+          54
+        ],
+        [
+          278784,
+          60,
+          52
+        ],
+        [
+          286976,
+          60,
+          49
+        ],
+        [
+          295168,
+          60,
+          50
+        ],
+        [
+          303360,
+          60,
+          40
+        ],
+        [
+          311552,
+          60,
+          45
+        ],
+        [
+          319744,
+          60,
+          54
+        ],
+        [
+          327936,
+          60,
+          53
+        ],
+        [
+          336128,
+          60,
+          57
+        ],
+        [
+          344320,
+          60,
+          53
+        ],
+        [
+          352512,
+          60,
+          53
+        ],
+        [
+          360704,
+          60,
+          56
+        ],
+        [
+          368896,
+          60,
+          43
+        ],
+        [
+          377088,
+          60,
+          57
+        ],
+        [
+          385280,
+          60,
+          45
+        ],
+        [
+          393472,
+          60,
+          52
+        ],
+        [
+          401664,
+          60,
+          43
+        ],
+        [
+          409856,
+          60,
+          45
+        ],
+        [
+          418048,
+          60,
+          54
+        ],
+        [
+          426240,
+          60,
+          59
+        ],
+        [
+          434432,
+          60,
+          53
+        ],
+        [
+          442624,
+          60,
+          50
+        ],
+        [
+          450816,
+          60,
+          42
+        ],
+        [
+          459008,
+          60,
+          59
+        ],
+        [
+          467200,
+          60,
+          53
+        ],
+        [
+          475392,
+          60,
+          66
+        ],
+        [
+          483584,
+          60,
+          58
+        ],
+        [
+          491776,
+          60,
+          59
+        ],
+        [
+          499968,
+          60,
+          61
+        ],
+        [
+          508160,
+          60,
+          61
+        ],
+        [
+          516352,
+          60,
+          52
+        ]
+      ],
+      "table_hash": "f4cff249cdf71488109c92c1ea7b085094869edd3e23041dee1b24a3263df8d6",
+      "initial_tokens_hash": "04387161188298d72f2b97c2150502bbbf8c126cc329d2a42426883c4eff3e2d",
+      "initial_source_hash": "f4cff249cdf71488109c92c1ea7b085094869edd3e23041dee1b24a3263df8d6",
+      "initial_reencoded": false,
+      "solver": null,
+      "phase": "timing",
+      "family": "PA",
+      "corpus": "PA1",
+      "block": 0,
+      "seed_ordinal": 0,
+      "operator": {
+        "eligible_children": 519938,
+        "edited_children": 103825,
+        "span_tokens": 369973,
+        "changed_tokens": 315806,
+        "changed_histogram": [
+          647,
+          6108,
+          18544,
+          49513,
+          22592,
+          4823,
+          1598
+        ],
+        "span_histogram": [
+          0,
+          0,
+          0,
+          58302,
+          35749,
+          6573,
+          3201
+        ],
+        "sampled_offspring": 64,
+        "sampled_inputs": 256,
+        "offspring_underflow": 648,
+        "offspring_wrong_type": 780,
+        "offspring_default_use": 1428
+      },
+      "external_verification_seconds": 0.00010074896272271872
+    }
+  ],
+  "timing_payload_hash": "f8d4eff8ab21fd7b320ce319feaba8b9cd0fc6199963709a338addecbd2ec21f",
+  "collection_wall_seconds": 95.67060529196169,
+  "collection_worker_seconds": 729.1439923775615
+}

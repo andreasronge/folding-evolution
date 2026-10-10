@@ -1,0 +1,14 @@
+{
+  "BE": [
+    "BE:S>F?M:S+m",
+    "BE:S>F?M:M+m",
+    "BE:S>F?m:M+m",
+    "BE:F>m?F:M+S"
+  ],
+  "PA": [
+    "PA:(S>F?M:S)+m",
+    "PA:(M>F?M:S)+m",
+    "PA:(F>S?M:m)+m",
+    "PA:(M>F?F:S)+m"
+  ]
+}

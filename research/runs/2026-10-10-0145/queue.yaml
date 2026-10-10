@@ -1,0 +1,91 @@
+runs:
+  - id: 2026-10-10-0145-source-replication-prepare
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-10-0145 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.source_replication_run
+      --prepare --workers 10 --deadline-seconds 2400
+    timeout_seconds: 2400
+    track: chem-tape
+    notes: >-
+      Complementary frozen comparison-gate development sources, four per family.
+      Sixteen independent builds, eight BE/eight PA. Fresh 512 G4 plus 256 adaptive
+      attempts: first 4/cell G4, intermediate C4+F4, adaptive 4/cell under own fit,
+      static 4/cell G4; refit first+adaptive A8 and first+static S8. Retain failures
+      and unchanged empty fallbacks. Fixed seed schedules precede collection.
+      Validate replacement membership, old-default 2033 BE1/block0 decoder/library,
+      two historical two-sum G4 replay rows, 2048 fallback and 10000 suffix edits.
+      Time 32 searches on all four disjoint two-sum timing cells and four builds.
+      Admission uses only timing: first both arms/4 seeds, then A8 only/4 seeds;
+      never reduce 16 builds. Projection*1.15 plus replay/report reserves must fit
+      score budget and finish by 07:12:10+02:00. Smoke cannot admit scoring.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - source_roster.json
+      - source_schedule.json
+      - candidate_schedules.json
+      - timing_schedule.json
+      - method_freeze.json
+      - historical_provenance.json
+      - historical_replay.jsonl
+      - first.jsonl
+      - continuation.jsonl
+      - seed_builds.json
+      - builds.json
+      - timing.jsonl
+      - validation.json
+      - preparation.json
+      - schedule.json
+      - progress.json
+
+  - id: 2026-10-10-0145-source-replication-score
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-10-0145 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.source_replication_run
+      --preparation "${RUN_DIR%/*}/2026-10-10-0145-source-replication-prepare/preparation.json"
+      --workers 10 --deadline-seconds 7200
+    timeout_seconds: 7200
+    track: chem-tape
+    notes: >-
+      Refuse failed/smoke/changed prepare or insufficient actual deadline. Check
+      all implementation/backend, bank, reference, schedule and artifact hashes,
+      replay all 32 timing rows scientifically, then score 16 builds x16 fixed
+      two-sum-v1 targets x4 seeds x2 arms=2048 searches (A8-only fallback 1024).
+      Pin and reuse 256 historical G4 rows with shared cell-stratified seed
+      uncertainty. Confirmation uses identical 2303 keys/training cases and maps
+      each new build's ordinal s to historical corpus j/block s with artifact
+      hashes. Primary u=G4/A8 penalized geometric evaluations (failures2cap),
+      8192 draws resampling builds within family and one shared G4 baseline per
+      draw. LB>1.5 useful replication; UB<1.5 misses usefulness bar; else unresolved.
+      Delta A8/historical A8 paired by keys with t df15 is historical roster
+      comparison; sigma S8/A8 secondary only. Report solves, per-family/cell,
+      failures1cap, source yields/fallback/library size, build spread, resolution
+      price, fitness/diversity plots and measured arithmetic A+N*S in evaluations
+      and worker-seconds with bootstrap break-even including never-repay draws.
+      Worker-time G4 calibration is approximate from two replay rows. Usefulness
+      margin does not guarantee repayment. All tasks are development data; return
+      to strategy whatever the result. Total timeouts160min, expected125min.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - source_roster.json
+      - source_schedule.json
+      - candidate_schedules.json
+      - timing_schedule.json
+      - historical_provenance.json
+      - method_freeze.json
+      - seed_builds.json
+      - builds.json
+      - preparation.json
+      - timing_replay.jsonl
+      - validation.json
+      - schedule.json
+      - historical_pairing.json
+      - progress.json
+      - search.jsonl
+      - result.json
+      - report.md
+      - diagnostics.png
+      - cost_curves.png

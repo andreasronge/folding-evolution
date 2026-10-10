@@ -1,0 +1,23 @@
+{
+  "task": "2026-10-10-0145",
+  "arguments": {
+    "prepare": false,
+    "smoke": true,
+    "preparation": null,
+    "workers": 10,
+    "deadline_seconds": 900
+  },
+  "seed_base": 206610100145,
+  "cap": 524288,
+  "population": 256,
+  "git_commit": "51148fe0b141f235c029b4be1475dcc8387967b5",
+  "recipe": "unchanged C alpha50/F, 4+4 per cell; complementary development sources",
+  "method": {
+    "selection": "lexicase",
+    "crossover": 0.7,
+    "mutation": 0.03,
+    "elites": 2,
+    "fragment_rate": 0.2,
+    "suffix": "preserved"
+  }
+}
