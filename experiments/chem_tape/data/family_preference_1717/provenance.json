@@ -1,0 +1,16 @@
+{
+  "source": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-10/2026-10-10-1536-independent-input-prepare",
+  "commit": "7244fa1651e0cb331a0e1dd47fbdad2f8e86f954",
+  "hashes": {
+    "builds.json": "a613c8847bbf413186401a22598aa49ec85b998fc8763cb637a36dbd4b1a7c8f",
+    "seed_builds.json": "70f34d256412f5b388c3d495f327ceefe601104ad4a99e2cc6968614785e70e0",
+    "first.jsonl": "4f5cf84833d167bb83c2c5d857835145dbf847d86111a48c46345d0b257d7ac3",
+    "adaptive.jsonl": "52fc876b6031f3495cca79a213bc14967ca5219210fba9395bec8d909d26156a",
+    "preparation.json": "78e7d479fd2ba125bb148266ace567fb0587af387647e90ff9aad336da313ee6",
+    "method_freeze.json": "95bc740e8628b5a8454c23006b117caf0e23d73fdb7d3997f6abdd443a3fd38f",
+    "source_schedule.json": "e2b38dcb00de093706f544c464a6ca8baf4d02b7536792e44f6ecb60dec1365c",
+    "schedule.json": "99a582a497290326aae1b5e592dc799a3187d490ce7d638f58df3b6a345b96ec",
+    "validation.json": "2f541abded879524b7d69a5f80d8257b5dec978e63c4e50bb6f354e7a7b58f81",
+    "config.json": "93fe7260ef32be1e11ab73a12fd6b9186bc45ce953ac43283eb5ee82c7bed184"
+  }
+}
