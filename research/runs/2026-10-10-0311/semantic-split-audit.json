@@ -1,0 +1,30 @@
+{
+  "predicate-domain-audit": {
+    "retained": 7,
+    "maximum_pairwise_separated": 6,
+    "number_of_maximum_sets": 2,
+    "example": [
+      "GA:(F+F)>S?M:m",
+      "GA:(F+F)>S?m:M",
+      "GA:(M+m)>F?F:S",
+      "GA:(M+m)>F?M:S",
+      "GA:(M+m)>F?S:M",
+      "GA:(M+m)>F?S:m"
+    ],
+    "required_for_unchanged_four_source_four_holdout_plan": 8,
+    "check": "Exhaustive enumeration of all subsets of retained behaviours; every pair must agree on fewer than 80% of domain inputs."
+  },
+  "double-predicate-audit": {
+    "retained": 8,
+    "maximum_pairwise_separated": 4,
+    "number_of_maximum_sets": 16,
+    "example": [
+      "DG:(F+F)>(M+S)?S:m",
+      "DG:(F+F)>(S+m)?M:m",
+      "DG:(F+F)>(S+m)?S:M",
+      "DG:(F+F)>(S+m)?m:M"
+    ],
+    "required_for_unchanged_four_source_four_holdout_plan": 8,
+    "check": "Exhaustive enumeration of all subsets of retained behaviours; every pair must agree on fewer than 80% of domain inputs."
+  }
+}

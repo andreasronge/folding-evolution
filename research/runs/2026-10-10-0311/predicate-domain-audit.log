@@ -1,0 +1,10 @@
+D2401 {'depth': 1, 'states': 8, 'output_only': False, 'distinct_outputs': 4, 'seconds': 1.0619332080241293, 'peak_rss_mb': 103.34375}
+D2401 {'depth': 2, 'states': 59, 'output_only': False, 'distinct_outputs': 9, 'seconds': 1.062639290932566, 'peak_rss_mb': 103.359375}
+D2401 {'depth': 3, 'states': 460, 'output_only': False, 'distinct_outputs': 18, 'seconds': 1.0640963750192896, 'peak_rss_mb': 103.75}
+D2401 {'depth': 4, 'states': 3612, 'output_only': False, 'distinct_outputs': 61, 'seconds': 1.0720381659921259, 'peak_rss_mb': 105.53125}
+D2401 {'depth': 5, 'states': 28532, 'output_only': False, 'distinct_outputs': 180, 'seconds': 1.1096134579274803, 'peak_rss_mb': 118.5}
+D2401 {'depth': 6, 'states': 225493, 'output_only': False, 'distinct_outputs': 534, 'seconds': 1.3478727079927921, 'peak_rss_mb': 192.8125}
+D2401 {'depth': 7, 'states': 1783302, 'output_only': False, 'distinct_outputs': 1778, 'seconds': 3.221407957957126, 'peak_rss_mb': 748.0}
+D2401 {'depth': 8, 'states': 14107559, 'output_only': False, 'distinct_outputs': 6207, 'seconds': 20.684754207963124, 'peak_rss_mb': 4566.734375}
+D2401 {'depth': 9, 'states': None, 'output_only': True, 'distinct_outputs': 18319, 'seconds': 109.83167524996679, 'peak_rss_mb': 5219.546875}
+{"code": "b6d19741d19781530e4f0a95a13a0c37bd095bef", "distinct_active": 120, "retained_count": 7, "retained_ids": ["GA:(F+F)>S?M:m", "GA:(F+F)>S?m:M", "GA:(M+m)>F?F:S", "GA:(M+m)>F?M:S", "GA:(M+m)>F?S:M", "GA:(M+m)>F?S:m", "GA:(M+m)>F?m:S"], "separated_ids": ["GA:(F+F)>S?m:M", "GA:(M+m)>F?S:m", "GA:(F+F)>S?M:m", "GA:(M+m)>F?S:M", "GA:(M+m)>F?F:S", "GA:(M+m)>F?M:S"], "wall_seconds": 110.32498504093383}
