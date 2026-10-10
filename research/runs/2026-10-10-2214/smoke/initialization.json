@@ -1,0 +1,141 @@
+{
+  "fixtures": [
+    {
+      "family": "DG",
+      "cell": "DG:(X0+X3)>(X1+X2)?X3:X0",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X0+X1)>(X2+X3)?X3:X2",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X1+X2)>(X0+X3)?X0:X2",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X1+X2)>(X0+X3)?X3:X1",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X1+X3)>(X0+X2)?X2:X0",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X1+X3)>(X0+X2)?X3:X1",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X1+X3)>(X0+X2)?X0:X2",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X0+X2)>(X1+X3)?X3:X2",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X0>X1?(X2+X3):(X1+X2)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X0>X1?(X2+X3):(X1+X3)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X0>X2?(X1+X3):(X2+X3)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X2>X1?(X0+X3):(X1+X3)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X2>X0?(X1+X3):(X0+X1)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X3>X2?(X0+X2):(X0+X1)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X3>X2?(X0+X1):(X0+X2)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X3>X0?(X1+X2):(X0+X2)",
+      "nodes": 10,
+      "tokens": 16
+    }
+  ],
+  "interpreter_rust_checks": 2000,
+  "validation_seconds": 1.3579170419834554,
+  "initialization": {
+    "passed": false,
+    "seed": 22160000,
+    "population": 256,
+    "error": "initialization cannot fill size-limited bin",
+    "seconds": 0.34732666693162173
+  },
+  "full_bins": [
+    {
+      "depth_edges": 2,
+      "draws": 10000,
+      "accepted": 10000,
+      "rejected": 0,
+      "min_tokens": 7,
+      "median_tokens": 11.0,
+      "max_tokens": 22,
+      "seconds": 0.06331554194912314
+    },
+    {
+      "depth_edges": 3,
+      "draws": 10000,
+      "accepted": 7182,
+      "rejected": 2818,
+      "min_tokens": 16,
+      "median_tokens": 27.0,
+      "max_tokens": 52,
+      "seconds": 0.14949195797089487
+    },
+    {
+      "depth_edges": 4,
+      "draws": 10000,
+      "accepted": 0,
+      "rejected": 10000,
+      "min_tokens": 35,
+      "median_tokens": 64.0,
+      "max_tokens": 130,
+      "seconds": 0.3488336249720305
+    }
+  ]
+}

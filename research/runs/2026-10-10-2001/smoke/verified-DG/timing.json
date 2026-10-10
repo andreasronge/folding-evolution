@@ -1,0 +1,9 @@
+{
+  "score": {
+    "wall_seconds": 1.085304583888501,
+    "jobs": 24,
+    "worker_seconds": 7.036257458035834,
+    "exact_check_seconds": 0.0005665420321747661,
+    "max_exact_check_seconds": 0.0003747090231627226
+  }
+}

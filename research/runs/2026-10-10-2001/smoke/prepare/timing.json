@@ -1,0 +1,23 @@
+{
+  "replay": {
+    "wall_seconds": 27.290604542009532,
+    "jobs": 16,
+    "worker_seconds": 103.6943907472305,
+    "exact_check_seconds": 0.06613128678873181,
+    "max_exact_check_seconds": 0.00043575000017881393
+  },
+  "DG": {
+    "wall_seconds": 0.5101413750089705,
+    "jobs": 12,
+    "worker_seconds": 3.7736792070791125,
+    "exact_check_seconds": 0.0,
+    "max_exact_check_seconds": 0.0
+  },
+  "TS": {
+    "wall_seconds": 0.4222768750041723,
+    "jobs": 12,
+    "worker_seconds": 3.039322790922597,
+    "exact_check_seconds": 0.0005946659948676825,
+    "max_exact_check_seconds": 0.00023354100994765759
+  }
+}

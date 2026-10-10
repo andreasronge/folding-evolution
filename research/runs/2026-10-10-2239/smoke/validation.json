@@ -1,0 +1,287 @@
+{
+  "task": "2026-10-10-2239",
+  "seed": 22160000,
+  "grammar": {
+    "terminals": [
+      "X0",
+      "X1",
+      "X2",
+      "X3",
+      "ANY",
+      "0",
+      "1",
+      "2",
+      "5"
+    ],
+    "functions": [
+      "ADD",
+      "GT",
+      "IF_GT"
+    ],
+    "arity": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      2,
+      3
+    ],
+    "tokens": [
+      [
+        1,
+        5
+      ],
+      [
+        1,
+        18
+      ],
+      [
+        1,
+        22
+      ],
+      [
+        1,
+        23
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        2
+      ],
+      [
+        3
+      ],
+      [
+        15
+      ],
+      [
+        16
+      ],
+      [
+        7
+      ],
+      [
+        8
+      ],
+      [
+        17
+      ]
+    ],
+    "max_tokens": 32,
+    "depths": [
+      1,
+      2,
+      3
+    ],
+    "initialization_function_root": true,
+    "mutation_function_root": false,
+    "grow_terminal_probability": 0.5,
+    "mutation_depth": 3,
+    "point_sampling": "uniform all nodes",
+    "offspring": "one into parent1",
+    "oversize": "revert parent1",
+    "initialization": "retry same bin, max10000"
+  },
+  "git_commit": "057479c921995488704c11d84ed91c2d266b010c",
+  "fixtures": [
+    {
+      "family": "DG",
+      "cell": "DG:(X0+X3)>(X1+X2)?X3:X0",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X0+X1)>(X2+X3)?X3:X2",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X1+X2)>(X0+X3)?X0:X2",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X1+X2)>(X0+X3)?X3:X1",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X1+X3)>(X0+X2)?X2:X0",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X1+X3)>(X0+X2)?X3:X1",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X1+X3)>(X0+X2)?X0:X2",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X0+X2)>(X1+X3)?X3:X2",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X0>X1?(X2+X3):(X1+X2)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X0>X1?(X2+X3):(X1+X3)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X0>X2?(X1+X3):(X2+X3)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X2>X1?(X0+X3):(X1+X3)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X2>X0?(X1+X3):(X0+X1)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X3>X2?(X0+X2):(X0+X1)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X3>X2?(X0+X1):(X0+X2)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X3>X0?(X1+X2):(X0+X2)",
+      "nodes": 10,
+      "tokens": 16
+    }
+  ],
+  "interpreter_python_rust_checks": 1998,
+  "overflow_fixture": true,
+  "initialization": {
+    "passed": true,
+    "stats": {
+      "attempts": 272,
+      "rejected": 16,
+      "bins": {
+        "1/True": {
+          "accepted": 43,
+          "attempts": 43,
+          "rejected": 0
+        },
+        "1/False": {
+          "accepted": 43,
+          "attempts": 43,
+          "rejected": 0
+        },
+        "2/True": {
+          "accepted": 43,
+          "attempts": 43,
+          "rejected": 0
+        },
+        "2/False": {
+          "accepted": 43,
+          "attempts": 43,
+          "rejected": 0
+        },
+        "3/True": {
+          "accepted": 42,
+          "attempts": 58,
+          "rejected": 16
+        },
+        "3/False": {
+          "accepted": 42,
+          "attempts": 42,
+          "rejected": 0
+        }
+      }
+    }
+  },
+  "full_bins": [
+    {
+      "depth_edges": 1,
+      "draws": 10000,
+      "accepted": 10000,
+      "rejected": 0,
+      "min_tokens": 3,
+      "median_tokens": 5.0,
+      "max_tokens": 7,
+      "seconds": 0.026207000017166138,
+      "exact_acceptance_probability": 1.0,
+      "expected_draws_per_accepted": 1.0,
+      "projected_seconds_per_accepted": 2.6207000017166137e-06,
+      "chance_accepted_within_10000": 1.0
+    },
+    {
+      "depth_edges": 2,
+      "draws": 10000,
+      "accepted": 10000,
+      "rejected": 0,
+      "min_tokens": 7,
+      "median_tokens": 11.0,
+      "max_tokens": 22,
+      "seconds": 0.062222791952081025,
+      "exact_acceptance_probability": 1.0,
+      "expected_draws_per_accepted": 1.0,
+      "projected_seconds_per_accepted": 6.222279195208102e-06,
+      "chance_accepted_within_10000": 1.0
+    },
+    {
+      "depth_edges": 3,
+      "draws": 10000,
+      "accepted": 7182,
+      "rejected": 2818,
+      "min_tokens": 16,
+      "median_tokens": 27.0,
+      "max_tokens": 52,
+      "seconds": 0.14635216700844467,
+      "exact_acceptance_probability": 0.7193480369709876,
+      "expected_draws_per_accepted": 1.390147673455501,
+      "projected_seconds_per_accepted": 2.0345112447196027e-05,
+      "chance_accepted_within_10000": 1.0
+    }
+  ],
+  "seconds": 1.6568520410219207,
+  "admitted": true,
+  "targets_scored": false,
+  "deferred": [
+    "calibration",
+    "native replay",
+    "search replay",
+    "scoring",
+    "inference and economics"
+  ]
+}

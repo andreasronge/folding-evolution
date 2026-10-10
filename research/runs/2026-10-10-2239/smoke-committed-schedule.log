@@ -1,0 +1,142 @@
+{
+  "task": "2026-10-10-2239",
+  "admitted": false,
+  "calibration_searches": 256,
+  "target_searches": 1792,
+  "calibration_unique_seeds": 128,
+  "target_unique_seeds": 1024,
+  "calibration_scoring_overlap": [
+    22150000,
+    22150001,
+    22150002,
+    22150003,
+    22150004,
+    22150005,
+    22150006,
+    22150007,
+    22151000,
+    22151001,
+    22151002,
+    22151003,
+    22151004,
+    22151005,
+    22151006,
+    22151007,
+    22152000,
+    22152001,
+    22152002,
+    22152003,
+    22152004,
+    22152005,
+    22152006,
+    22152007,
+    22153000,
+    22153001,
+    22153002,
+    22153003,
+    22153004,
+    22153005,
+    22153006,
+    22153007,
+    22154000,
+    22154001,
+    22154002,
+    22154003,
+    22154004,
+    22154005,
+    22154006,
+    22154007,
+    22155000,
+    22155001,
+    22155002,
+    22155003,
+    22155004,
+    22155005,
+    22155006,
+    22155007
+  ],
+  "smoke_scoring_overlap": [
+    22160000,
+    22161000
+  ],
+  "implicated_calibration_rows": 96,
+  "implicated_scoring_rows": 96,
+  "calibration_examples": [
+    {
+      "family": "TS",
+      "cell": "TS:X2>X3?(X0+X2):(X1+X3)",
+      "arm": "tree",
+      "repeat": 0,
+      "crossover": 0.9,
+      "phase": "calibration",
+      "seed": 22150000
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X2>X3?(X0+X2):(X1+X3)",
+      "arm": "tree",
+      "repeat": 0,
+      "crossover": 0.5,
+      "phase": "calibration",
+      "seed": 22150000
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X2>X3?(X0+X2):(X1+X3)",
+      "arm": "tree",
+      "repeat": 1,
+      "crossover": 0.9,
+      "phase": "calibration",
+      "seed": 22150001
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X2>X3?(X0+X2):(X1+X3)",
+      "arm": "tree",
+      "repeat": 1,
+      "crossover": 0.5,
+      "phase": "calibration",
+      "seed": 22150001
+    }
+  ],
+  "scoring_examples": [
+    {
+      "family": "DG",
+      "cell": "DG:(X0+X3)>(X1+X2)?X3:X0",
+      "arm": "A8",
+      "build": 0,
+      "repeat": 0,
+      "phase": "target",
+      "seed": 22150000
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X0+X3)>(X1+X2)?X3:X0",
+      "arm": "tree",
+      "build": 0,
+      "repeat": 0,
+      "phase": "target",
+      "seed": 22150000
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X0+X3)>(X1+X2)?X3:X0",
+      "arm": "A8",
+      "build": 0,
+      "repeat": 1,
+      "phase": "target",
+      "seed": 22150001
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X0+X3)>(X1+X2)?X3:X0",
+      "arm": "tree",
+      "build": 0,
+      "repeat": 1,
+      "phase": "target",
+      "seed": 22150001
+    }
+  ],
+  "targets_scored": false,
+  "git_commit": "6b40e16a6dbda084a8da7d70842ec41bb07cb1ed"
+}

@@ -1,0 +1,15 @@
+{
+  "arguments": {
+    "prepare": true,
+    "preparation": null,
+    "family": null,
+    "dg_score": null,
+    "smoke": true,
+    "workers": 10,
+    "deadline_seconds": 1800
+  },
+  "git_commit": "9a15cc91e6f7321924baca592214a14c4193c457",
+  "cap": 8192,
+  "population": 256,
+  "exact_inputs": 625
+}
