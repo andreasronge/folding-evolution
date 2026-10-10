@@ -2476,3 +2476,206 @@ acceptance (1.2 × 10⁻⁷ per draw)". "No TS library difference resolved (1.01
 1.25× excluded)" attaches one contrast's bound to both; it should read "no difference resolved in either
 within-table TS comparison (T table 1.01× [0.83, 1.25], D table 1.00× [0.79, 1.27])". question.md and the
 digest corrected.
+
+## 2026-10-11: run 2026-10-10-2254, frozen A8 versus closure-based subtree GP (slot 35; question 43)
+
+The retry with only the scoring seed base moved ran completely at commit `c32ff04` after one code-review repair
+(seed audit, 16 A8 replays, Stage 0 and timing gates all passed; 896 rows per family, every solver re-verified
+on D625). DG (primary): cost(tree)/cost(A8) 0.961× [0.683, 1.352] at 2 × cap, inside the [0.67, 1.5] margin;
+1 × cap 0.785× [0.583, 1.055], unresolved. A8 solved 314/384, tree 202/384, G4 19/128; tree GP solved fast
+(median 6 784 evaluations vs 57 088) but its failures crowded the 32-token cap. A8 saves 85 714 [47 278,
+123 791] arithmetic evaluations per DG search, repaying acquisition after about 146 [99, 269] searches per
+build. TS (descriptive): 0.175× [0.142, 0.217], tree solved 382/384, A8 372/384; A8 never repays. Both arms
+beat G4 by about 10× (DG) and 40× (TS). Development rosters, one frozen tree configuration, evaluations as the
+unit ([analysis](../../runs/2026-10-10-2254/analysis.md), [43 log](43-acquired-bias-vs-tree-gp/log.md)).
+
+Decision: close 43 and return to strategy because the comparison landed on the pre-registered "bounded
+geometric difference, positive savings" row, whose action is to redirect learning toward an increment over
+tree search, and root 10's 35-slot budget is spent.
+
+## 2026-10-11 — digest compression (steward task 2026-10-10-2254): former root-10 digest text moved here
+
+The digest was 3005 words, over its limit; the root-10 section was compressed from about 2000 to about 1880
+words. No belief changed. Moved out of the digest (all still in the verbatim text below): the comparison-gate
+bank's 37 BE / 56 PA behaviour counts; G/G-marg ranges per bank (2.6–20× on 11, 1.5–6.0× on 12 with 15/16
+cells resolved), now one range; "Supply overstates speed" folded into the contextual-grammar bullet; 13's
+200 seeds; 16's "all 20 maps make the same big moves"; 17's 20/20 maps; 18/19's "in token continuation";
+20's 31/32 corpora; 21's 32/32; 25/26's 16/16 training and 8/8 holdouts resolved; the K/Q/R30 labels in 29–31;
+32's 16/16 cells; 33's "E lacks F's `gt` joins (descriptive)"; 35/36's "estimated"; 37's "G4 solved 20%";
+40's 317/384 vs 63/384 solved and the 8 further cells (8.2× [6.0, 11.1]); 41's 8/8 cells and G4 first batch
+17% vs 63%; 42's fresh native gap 3.03× and the upper cost-ratio bounds 1.25 and 1.27 (still implied by the
+intervals); 43's tree 382/384 solved on TS; 27's "mostly by more runs solving within the cap". The "Overall"
+paragraph was reworded only. Former section; links are relative to `research/`:
+
+```
+## 10 Compositional map transfer (root open, budget 35, 35 used)
+
+[10](questions/10-compositional-map-transfer/question.md): can a decoder adapted across related
+tasks help fresh populations solve unseen operation combinations beyond a token-frequency bias?
+Stack tape `v2_rmin(_first)`, D1331 (length-3 lists over −5..5), P 256, lexicase on 64 cases with
+an exact domain check, 524k cap. G / G4: hand-set previous-token grammars (post-addition split;
+four-reducer bank); "-marg": the same token marginals without context. Sub-questions 11–43 closed.
+Every bank so far is a development bank. Unless stated, results are external fits frozen before
+scoring.
+
+**Banks.** Sign-gated banks could not support a symmetric two-family test; the four-reducer bank
+leaves headroom above the hand-set grammars ([11](questions/10-compositional-map-transfer/11-composition-bank/question.md),
+[12](questions/10-compositional-map-transfer/12-generic-grammar-headroom/question.md),
+[15](questions/10-compositional-map-transfer/15-four-reducer-family-bank/question.md)). **The
+comparison-gate bank gives a protected multi-holdout split with headroom**: branch-else (BE)
+`A>B ? C : D+E`, post-addition (PA) `(A>B ? C : D)+E`, 13 tokens, 37 BE / 56 PA behaviours after an
+exact ≤ 9-token screen (no 13-token minimality certificate); performance-blind 4 training and 4
+holdouts per family; G4 solves 68% of training searches. ([24](questions/10-compositional-map-transfer/24-comparison-gate-bank/question.md), [run 1246](runs/2026-10-08-1246/analysis.md))
+
+**Hand-set grammars** (11, 12, 15).
+- **Contextual grammars beat their own token marginals on all three banks**: G/G-marg 2.6–20× (11),
+  1.5–6.0× (12, 15/16 cells resolved); G4/G4-marg 4.4× [3.4, 5.6] BE, 3.3× [2.7, 4.0] PA (15). Not
+  a mechanism: G also emits far more exact solvers and changes more tokens per mutation.
+- **Supply overstates speed**: a token bias raises exact-solver sampling 11–82× but speed only
+  1.9–3.5× (11).
+- **A fixed decoder can express a family preference**: matched over swapped grammars 1.68× [1.39,
+  2.05] BE, 1.32× [1.12, 1.57] PA; against G4 only BE resolved a gain. Expressivity only. (15)
+
+**Token learning by outer-loop selection** (multipliers on the hand-set rows; 4+12 loop).
+- **Learned token weights transfer about 2–2.5× to withheld cells, on both setups.** G (PA, 200
+  seeds): 2.23× [1.82, 2.75] training, 2.06–2.25× (lower bounds ≥ 1.60) on two withheld cells,
+  unresolved on linear (1.08× [0.72, 1.57]) ([13](questions/10-compositional-map-transfer/13-post-addition-map-learning/question.md)).
+  G4: about 2.2× training, 2.0× BE and 2.5–2.6× PA withheld, all resolved ([16](questions/10-compositional-map-transfer/16-crossed-family-adaptation/question.md)).
+- **That gain is mostly generic; no family advantage resolved on withheld cells.** Cross-family
+  training gains 2.07×, 1.93×; all 20 maps make the same big moves. Matched over mismatched withheld
+  1.02× [0.84, 1.25] BE, 0.96× [0.79, 1.15] PA; a 1.1× preference not excluded. An in-sample
+  interaction (1.24× [1.09, 1.41]) hints at family information on trained cells, not separated from
+  repair of G4's weak spots. (16)
+- **The frozen maps help through both the starting programs and the search decoder,
+  sub-additively**: given the other, decoder 1.39× / 1.28× and start 1.30× / 1.33× (withheld /
+  training), both 2.29× / 2.44× (20/20 maps); not direct seeding. ([17](questions/10-compositional-map-transfer/17-decoder-initialization-variation/question.md))
+
+**Context learned by outer-loop selection: no resolved gain from four procedures.** Training: full
+552-weight learner from G 0.92× [0.78, 1.09] (13); row residuals versus continued token learning
+1.00× [0.90, 1.11], withheld unresolved and not replicated (13, [14](questions/10-compositional-map-transfer/14-saved-map-shape-shift/question.md));
+rank-one context steps in token continuation 0.967× [0.871, 1.073], a gain above about 1.07×
+excluded for this loop and these token-tuned starts ([18](questions/10-compositional-map-transfer/18-compact-context-learning/question.md),
+[19](questions/10-compositional-map-transfer/19-selection-calibrated-continuation/question.md)).
+Context learned jointly from G4 is untested.
+
+**Context fitted directly to solvers.**
+- **A previous-token table (C) fitted to exact G4 solver tapes beats a token-only fit (T) to the
+  same tapes, and the gain transfers.** Four-reducer bank: C/T 1.365× [1.288, 1.446] training
+  (31/32 corpora), 1.293× [1.213, 1.378] withheld; matching C's pooled frequencies does not
+  reproduce it (C/K 1.65×). No matched-family advantage resolved on withheld cells (BE 1.02× [0.91,
+  1.15]). One bank; the carrying structure is unknown. ([20](questions/10-compositional-map-transfer/20-solver-corpus-context/question.md))
+- **One feedback refit, to solvers found under C, speeds search further**: C2/C 1.404× [1.347,
+  1.464] training (32/32), 1.289× [1.204, 1.381] withheld. A fresh one-shot G4 refit is not resolved
+  from C (0.997×), so the gain is the collection procedure (yield, diversity and content bundled). A
+  second step is untested. ([21](questions/10-compositional-map-transfer/21-iterated-solver-corpus/question.md),
+  [22](questions/10-compositional-map-transfer/22-feedback-context-increment/question.md))
+- **On the comparison-gate bank C/T is larger, and frozen tables keep most of it on protected
+  holdouts and one fresh shape.** Training 3.11× [2.78, 3.48] (16/16; why above 1.37× unidentified);
+  holdouts 2.60× [2.31, 2.92], 8/8 resolved; then-addition-v1 (`A>B ? C+D : E`, 16 cells pinned
+  before any search) 2.12× [1.86, 2.41], 14/16 resolved. Shrinkage resolved across shape (0.68×
+  [0.57, 0.81]), not within (0.88× [0.72, 1.07]); cause unidentified. Family matching on holdouts
+  unresolved (1.10× [0.89, 1.35]). Scope: one fresh bank designed after v1 was seen, two tie-heavy
+  gates. ([25](questions/10-compositional-map-transfer/25-comparison-gate-transfer/question.md),
+  [26](questions/10-compositional-map-transfer/26-then-addition-fresh-bank/question.md), [run 1548](runs/2026-10-08-1548/analysis.md))
+- **On then-addition, frequency projections of C and random recoding to C's mutation width do not
+  reproduce its advantage**: C/K 2.48× [2.17, 2.83] (K: pooled marginals matched); C/Q 2.41× [2.11,
+  2.75] (Q: matched at each of 32 positions); recoding Q's rows to C's width slowed search, R30/Q
+  0.86× [0.80, 0.91]. C's conditional content and structured coupling not separated; a learned
+  positional map untested. ([29](questions/10-compositional-map-transfer/29-frequency-matched-transfer/question.md),
+  [30](questions/10-compositional-map-transfer/30-position-matched-replacement/question.md),
+  [31](questions/10-compositional-map-transfer/31-distribution-preserving-recoding/question.md))
+
+**Fragment block edits.** C's search unchanged; each non-elite child (p 0.2) gets one 3–6-token
+block, decoded suffix kept. F: a library of 32 knockout-active windows recurring in training
+solvers; B: the library's per-position marginals; W: blocks sampled from C's own chain.
+- **F speeds search beyond C on comparison-gate training cells and keeps that on the excluded
+  compositions tested.** F/C 1.57× [1.42, 1.75] training (leave-one-cell-out, 16/16), 1.47× [1.38,
+  1.56] then-addition, 1.75× [1.57, 1.95] holdouts; F/C's change from training unresolved (0.93×
+  [0.83, 1.05]), whereas C/T lost a third across the same shape. F/W 1.20–1.27× (lower bounds ≥
+  1.11), but above a worthwhile 1.10× not established. Scope: the libraries are the banks' shared
+  3–5-token syntax, which then-addition needs by construction: reuse of one fit across one shape
+  change, not modularity, fresh-bank transfer or acquisition; changed token supply not excluded.
+  ([32](questions/10-compositional-map-transfer/32-learned-fragment-operator/question.md), [runs 0843](runs/2026-10-09-0843/analysis.md), [1036](runs/2026-10-09-1036/analysis.md))
+- **Library-free chain blocks (W) also beat C, without needing suffix repair; marginal blocks (B)
+  showed no resolved gain.** W/C 1.23–1.38× on training, then-addition and holdouts (lower bounds ≥
+  1.15). B/C 0.98× [0.93, 1.04] at ~2.8 tokens per edit, so edit size alone does not explain F's or
+  W's gain. Without repair (then-addition): W/R 0.954× [0.903, 1.007] (a repair gain above 0.7%
+  excluded, a cost up to about 10% not). Not isolated from W's length law or token supply. (32,
+  [34](questions/10-compositional-map-transfer/34-chain-block-suffix-preservation/question.md), [run 1606](runs/2026-10-09-1606/analysis.md))
+- **The same extractor on pre-solve parents (E) gave no worthwhile gain over chain blocks on
+  then-addition**: E/W_E 0.981× [0.911, 1.057] (a gain above about 1.06× excluded); E/F 0.843×
+  [0.795, 0.892]. E lacks F's `gt` joins (descriptive). One source selection and extractor.
+  ([33](questions/10-compositional-map-transfer/33-pre-solve-fragment-source/question.md), [run 1350](runs/2026-10-09-1350/analysis.md))
+
+**Cheap acquisition (C+F rebuilt from few sources; failures charged).**
+- **Four sources per cell (C4+F4) lose about a third of full-pipeline speed on then-addition; four
+  more collected under that bias (A8) leave it unresolved from full speed.** (C4+F4)/F 0.679×
+  [0.614, 0.752]; F/A8 1.03× [0.95, 1.12] (an A8 slowdown above about 5% excluded); S8/A8 1.13×
+  [1.04, 1.22] (S8: four more under G4; unresolved against 1.10). A8's acquisition is about a tenth
+  of full F's; its estimated total cost is below S8's at every reported horizon (resolved through
+  1 024 searches). One source size, one update; yield, content, decoder and library bundled.
+  ([35](questions/10-compositional-map-transfer/35-small-source-acquisition/question.md),
+  [36](questions/10-compositional-map-transfer/36-sparse-source-feedback/question.md), [runs 1743](runs/2026-10-09-1743/analysis.md), [2033](runs/2026-10-09-2033/analysis.md))
+- **A8 was useful on a fresh output shape, then replicated from complementary sources on that
+  now-development bank.** `two-sum-v1` (`A>B ? C+D : E+F`, cells pinned before any search; G4
+  solved 20%): G4/A8 2.73× [2.36, 3.17]; S8/A8 1.17× [1.04, 1.33]; cost(A8)/cost(full F) 0.945×
+  [0.819, 1.092] (a 1.20× loss excluded). A8's total cost is below S8's and full F's at every
+  reported horizon through 4 096 searches; it repays G4 after about 47. Rebuilt from the former
+  holdout cells: G4/A8′ 2.50× [2.17, 2.85], unresolved from the original builds (1.09× [0.90, 1.32]).
+  One shape with familiar `+` joins, two source families.
+  ([37](questions/10-compositional-map-transfer/37-cheap-bias-fresh-transfer/question.md),
+  [38](questions/10-compositional-map-transfer/38-cheap-bias-source-replication/question.md), [runs 2303](runs/2026-10-09-2303/analysis.md), [0145](runs/2026-10-10-0145/analysis.md))
+- **With addition inside the predicate, fresh A8 builds were about 6–10× cheaper than the weak G4
+  prior on never-searched cells.** DG `(Xa+Xb)>(Xc+Xd) ? Xe:Xf` (alphabet `v2_x4`, D625; 24 builds
+  from four sparse sources). Eight protected cells: cost(G4)/cost(A8″) 10.1× [7.6, 13.1] at 2 × cap,
+  6.4× [5.0, 8.0] at 1 × cap (margin 1.5×); solved 317/384 vs 63/384; 8 further cells 8.2× [6.0,
+  11.1]. Capped cost against a weak prior; one bank; context, fragments and supply bundled.
+  ([39](questions/10-compositional-map-transfer/39-independent-input-family-bank/question.md), [40](questions/10-compositional-map-transfer/40-independent-input-protected-transfer/question.md), [run 1536](runs/2026-10-10-1536/analysis.md))
+- **On that alphabet, DG-acquired builds were about 3× cheaper on unseen DG cells than builds
+  acquired on a branch-sum family; the reverse is unresolved.** TS `Xa>Xb ? Xc+Xd : Xe+Xf`, 24 builds
+  and 8 never-searched cells per family. DG cells: TS-built ÷ DG-built cost 2.98× [2.07, 4.33] at
+  2 × cap, 2.40× [1.76, 3.30] at 1 × cap, 8/8 cells. TS cells: 1.29× [0.94, 1.78] the other way
+  (reciprocity not established). Every cohort beat G4 on both rosters (lowest 2.75×). Join content
+  versus learning on much harder sources (G4 first batch 17% vs 63%) not separated. One family pair,
+  capped cost. ([41](questions/10-compositional-map-transfer/41-same-alphabet-family-preference/question.md), [run 1717](runs/2026-10-10-1717/analysis.md))
+- **Both components carry that DG advantage: the DG table alone shows it, and the DG library also
+  speeds a TS-built table.** Saved builds crossed table × library (24 donor pairs, fresh seeds, 8 DG
+  cells, 2 × cap): without libraries the DG table is 3.26× [2.43, 4.30] cheaper than the TS table
+  (fresh native gap 3.03×); on the TS table the DG library beats no library 3.05× [2.32, 4.07] and
+  the TS library 1.95× [1.43, 2.66] (unresolved against 1.5×); that hybrid stays 1.55× [1.15, 2.09]
+  behind the native DG pair. No library was shown to need its own table (DG over TS library on the DG
+  table 1.35× [1.10, 1.68]); on TS cells no library difference was resolved in either within-table comparison
+  (T table 1.01× [0.83, 1.25], D table 1.00× [0.79, 1.27]; upper cost-ratio bounds 1.25 and 1.27,
+  equality not shown). One family pair; library content versus size not
+  separated; point estimates only for which component is larger.
+  ([42](questions/10-compositional-map-transfer/42-family-bias-component-transfer/question.md), [run 2001](runs/2026-10-10-2001/analysis.md))
+- **Against closure-based subtree GP with no learned prior, frozen A8 showed no worthwhile
+  search-cost advantage on DG cells; on TS cells tree GP was cheaper (descriptive).** Same 8 + 8
+  development cells and saved builds, one frozen untuned tree configuration, evaluations. DG
+  cost(tree)/cost(A8) 0.96× [0.68, 1.35] at 2 × cap (an A8 advantage of 1.5× excluded, a tree advantage
+  up to about 1.46× not); 1 × cap 0.79× [0.58, 1.06], unresolved. Not equality: A8 solved 314/384 vs
+  202/384, while tree GP was about 8× faster (medians) when it solved and its failures crowded the
+  32-token cap. A8 still saves arithmetic evaluations on DG, repaying acquisition after about 146 [99,
+  269] searches per build. TS 0.175× [0.142, 0.217] (tree solved 382/384). Tree GP is also about 10×
+  cheaper than G4 on DG, so the G4 ratios above do not measure A8's value against conventional GP.
+  ([43](questions/10-compositional-map-transfer/43-acquired-bias-vs-tree-gp/question.md), [run 2254](runs/2026-10-10-2254/analysis.md))
+
+**Context fitted to non-solving programs.** On comparison-gate training cells, a context fit to
+tapes from G4 searches that had not yet solved beat a token fit to the same tapes 1.28× [1.12, 1.45]
+and G4 1.62× [1.37, 1.90], mostly by more runs solving within the cap; the exact-solver fit stays
+3.7× faster for about 7.9× more source evaluations. Two further rounds under the updated fit beat
+equal G4 collection 1.18× [1.01, 1.37], resolved only on BE. Own training cells, one horizon.
+([27](questions/10-compositional-map-transfer/27-partial-program-context/question.md),
+[28](questions/10-compositional-map-transfer/28-partial-program-feedback/question.md))
+
+**Overall.** Solver-fitted context beyond token frequency transfers about 2× to withheld
+compositions and one fresh shape; fragment blocks add about 1.5× over it. Selection has not
+established a contextual gain; learned token biases transfer about 2× without resolved family
+specificity. A8 costs a tenth of full-F acquisition on the original sources, unresolved from full speed there; on one
+predicate-addition family it is 6–10× cheaper than G4 and about 3× cheaper than branch-sum-acquired
+builds (reverse unresolved), carried by both table and library, but not cheaper by a worthwhile margin than
+untuned subtree GP there (more reliable, slower when solving) and costlier on branch-sum cells. Not shown: that evolution reaches
+fitted context or fragments; what carries C's advantage over token fits; why the DG components are
+better (content, size or source difficulty); A8 on a fresh bank of a new family, against a tuned
+or size-aware tree GP, or from arbitrary sources; a learned bias that improves on tree GP; transfer beyond two fresh shapes.
+```

@@ -1,0 +1,317 @@
+{
+  "task": "2026-10-10-2254",
+  "seed": 22160000,
+  "grammar": {
+    "terminals": [
+      "X0",
+      "X1",
+      "X2",
+      "X3",
+      "ANY",
+      "0",
+      "1",
+      "2",
+      "5"
+    ],
+    "functions": [
+      "ADD",
+      "GT",
+      "IF_GT"
+    ],
+    "arity": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      2,
+      3
+    ],
+    "tokens": [
+      [
+        1,
+        5
+      ],
+      [
+        1,
+        18
+      ],
+      [
+        1,
+        22
+      ],
+      [
+        1,
+        23
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        2
+      ],
+      [
+        3
+      ],
+      [
+        15
+      ],
+      [
+        16
+      ],
+      [
+        7
+      ],
+      [
+        8
+      ],
+      [
+        17
+      ]
+    ],
+    "max_tokens": 32,
+    "depths": [
+      1,
+      2,
+      3
+    ],
+    "initialization_function_root": true,
+    "mutation_function_root": false,
+    "grow_terminal_probability": 0.5,
+    "mutation_depth": 3,
+    "point_sampling": "uniform all nodes",
+    "offspring": "one into parent1",
+    "oversize": "revert parent1",
+    "initialization": "retry same bin, max10000"
+  },
+  "git_commit": "c32ff04f4d3fae4f7b74fc0b137f872ccdd9a5df",
+  "fixtures": [
+    {
+      "family": "DG",
+      "cell": "DG:(X0+X3)>(X1+X2)?X3:X0",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X0+X1)>(X2+X3)?X3:X2",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X1+X2)>(X0+X3)?X0:X2",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X1+X2)>(X0+X3)?X3:X1",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X1+X3)>(X0+X2)?X2:X0",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X1+X3)>(X0+X2)?X3:X1",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X1+X3)>(X0+X2)?X0:X2",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X0+X2)>(X1+X3)?X3:X2",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X0>X1?(X2+X3):(X1+X2)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X0>X1?(X2+X3):(X1+X3)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X0>X2?(X1+X3):(X2+X3)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X2>X1?(X0+X3):(X1+X3)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X2>X0?(X1+X3):(X0+X1)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X3>X2?(X0+X2):(X0+X1)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X3>X2?(X0+X1):(X0+X2)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X3>X0?(X1+X2):(X0+X2)",
+      "nodes": 10,
+      "tokens": 16
+    }
+  ],
+  "interpreter_python_rust_checks": 1998,
+  "overflow_fixture": true,
+  "initialization": {
+    "passed": true,
+    "stats": {
+      "attempts": 272,
+      "rejected": 16,
+      "bins": {
+        "1/True": {
+          "accepted": 43,
+          "attempts": 43,
+          "rejected": 0
+        },
+        "1/False": {
+          "accepted": 43,
+          "attempts": 43,
+          "rejected": 0
+        },
+        "2/True": {
+          "accepted": 43,
+          "attempts": 43,
+          "rejected": 0
+        },
+        "2/False": {
+          "accepted": 43,
+          "attempts": 43,
+          "rejected": 0
+        },
+        "3/True": {
+          "accepted": 42,
+          "attempts": 58,
+          "rejected": 16
+        },
+        "3/False": {
+          "accepted": 42,
+          "attempts": 42,
+          "rejected": 0
+        }
+      }
+    }
+  },
+  "initialization_bins": [
+    {
+      "depth_edges": 1,
+      "full": true,
+      "draws": 20000,
+      "accepted": 20000,
+      "rejected": 0,
+      "min_tokens": 3,
+      "median_tokens": 5.0,
+      "max_tokens": 7,
+      "seconds": 0.0751391249941662,
+      "exact_acceptance_probability": 1.0
+    },
+    {
+      "depth_edges": 1,
+      "full": false,
+      "draws": 20000,
+      "accepted": 20000,
+      "rejected": 0,
+      "min_tokens": 3,
+      "median_tokens": 5.0,
+      "max_tokens": 7,
+      "seconds": 0.05760262499097735,
+      "exact_acceptance_probability": null
+    },
+    {
+      "depth_edges": 2,
+      "full": true,
+      "draws": 20000,
+      "accepted": 20000,
+      "rejected": 0,
+      "min_tokens": 7,
+      "median_tokens": 11.0,
+      "max_tokens": 21,
+      "seconds": 0.13368437497410923,
+      "exact_acceptance_probability": 1.0
+    },
+    {
+      "depth_edges": 2,
+      "full": false,
+      "draws": 20000,
+      "accepted": 20000,
+      "rejected": 0,
+      "min_tokens": 3,
+      "median_tokens": 8.0,
+      "max_tokens": 21,
+      "seconds": 0.11754366697277874,
+      "exact_acceptance_probability": null
+    },
+    {
+      "depth_edges": 3,
+      "full": true,
+      "draws": 20000,
+      "accepted": 14427,
+      "rejected": 5573,
+      "min_tokens": 15,
+      "median_tokens": 27.0,
+      "max_tokens": 55,
+      "seconds": 0.3107222910039127,
+      "exact_acceptance_probability": 0.7193480369709876
+    },
+    {
+      "depth_edges": 3,
+      "full": false,
+      "draws": 20000,
+      "accepted": 19891,
+      "rejected": 109,
+      "min_tokens": 3,
+      "median_tokens": 12.0,
+      "max_tokens": 44,
+      "seconds": 0.1538587911054492,
+      "exact_acceptance_probability": null
+    }
+  ],
+  "seconds": 2.25654404098168,
+  "admitted": true,
+  "targets_scored": false,
+  "deferred": [
+    "calibration",
+    "native replay",
+    "search replay",
+    "scoring",
+    "inference and economics"
+  ]
+}

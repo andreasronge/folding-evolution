@@ -1,0 +1,17 @@
+{
+  "replay": {
+    "wall_seconds": 27.1513006669702,
+    "jobs": 16,
+    "worker_seconds": 104.09324858279433
+  },
+  "DG": {
+    "wall_seconds": 0.26461654203012586,
+    "jobs": 2,
+    "worker_seconds": 0.3678854580502957
+  },
+  "TS": {
+    "wall_seconds": 0.31795199995394796,
+    "jobs": 2,
+    "worker_seconds": 0.353847665945068
+  }
+}

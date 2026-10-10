@@ -1,0 +1,6 @@
+{
+  "error": "Preparation gate failed; no targets. Return to strategy; DG <25% requires reviewer diagnostic.",
+  "phase": "score",
+  "targets_scored": false,
+  "next": "strategy"
+}

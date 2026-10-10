@@ -1,0 +1,228 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+______________ test_admitted_tail_preparation_reaches_scoring[DG] ______________
+
+tmp_path = PosixPath('/private/var/folders/dm/6qlgzkw133s_wvklhgxfbwh80000gn/T/pytest-of-andreas/pytest-203/test_admitted_tail_preparation0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1122b5640>
+family = 'DG'
+
+    @pytest.mark.parametrize("family", ["DG", "TS"])
+    def test_admitted_tail_preparation_reaches_scoring(tmp_path, monkeypatch, family):
+        """Replay real gates/file IO with synthetic rows; execute no target searches."""
+        from experiments.chem_tape import tree_gp_run as run
+        from experiments.chem_tape.component_transfer_run import load_saved
+    
+        saved, targets = load_saved()
+        calibration, schedule = run.schedules(saved["banks.json"], targets)
+        rows = []
+        template = calibration_rows()[0]
+        for meta in calibration:
+            row = copy.deepcopy(template)
+            row.update(meta, solved=True, evaluations=6144, worker_seconds=0.3)
+            rows.append(row)
+        rows.sort(key=lambda r: str(run.row_key(r)))
+        mix, _ = run.choose_mix(rows)
+        batches = {f: dict(worker_seconds=38.4, wall_seconds=4.5) for f in ("DG", "TS")}
+        replays = [dict(family=f, worker_seconds=2.0) for f in ("DG", "TS")]
+        tails, tail_batches = [], {}
+        rng = np.random.default_rng(22160200)
+        for fi, f in enumerate(("DG", "TS")):
+            for i, seconds in enumerate(rng.uniform(40, 60, 10)):
+                tails.append(
+                    dict(
+                        family=f,
+                        cell="development",
+                        arm="tree",
+                        repeat=i,
+                        crossover=mix,
+                        seed=22160200 + 1000 * fi + i,
+                        worker_seconds=float(seconds),
+                    )
+                )
+            tail_batches[f] = dict(worker_seconds=500.0, wall_seconds=60.0)
+            batches["tail_" + f] = tail_batches[f]
+        tails.sort(key=lambda r: str(run.row_key(r)))
+        projection = run.project(rows, batches, replays, tails, tail_batches, mix)
+        # Find a completion order that actually changes a floating-point reduction.
+        completion = None
+        for _ in range(100):
+            candidate = [tails[i] for i in rng.permutation(len(tails))]
+            if (
+                run.project(rows, batches, replays, candidate, tail_batches, mix)
+                != projection
+            ):
+                completion = candidate
+                break
+        assert completion is not None, "fixture must expose the reviewed order bug"
+        freeze = dict(targets=targets, synthetic_test=True)
+        prep = dict(
+            freeze=freeze,
+            smoke=False,
+            validation=dict(admitted=True),
+            seed_audit=run.audit_seeds(calibration, schedule, run.historical_seeds(saved)),
+            replay=dict(passed=True),
+            chosen_crossover=mix,
+            calibration_rows_hash=digest(rows),
+            replay_rows_hash=digest(replays),
+            tails_hash=digest(tails),
+            projection=projection,
+            batches=batches,
+            prepare_seconds=1000.0,
+            admitted=True,
+        )
+        prep["preparation_hash"] = digest(prep)
+        parent = tmp_path / "prepare"
+        parent.mkdir()
+        (parent / "preparation.json").write_text(json.dumps(prep))
+        (parent / "method_freeze.json").write_text(json.dumps(freeze))
+    
+        def write_rows(name, records):
+            (parent / name).write_text("".join(json.dumps(r) + "\n" for r in records))
+    
+        write_rows("replay.jsonl", replays)
+        for f in ("DG", "TS"):
+            write_rows("calibration_" + f + ".jsonl", [r for r in rows if r["family"] == f])
+            write_rows("tails_" + f + ".jsonl", [r for r in completion if r["family"] == f])
+    
+        # Search-semantic validation is tested separately with real searches. This
+        # fixture replaces only that boundary, leaving every admission check real.
+        def synthetic_validate(actual, metas, actual_saved, cap, *args):
+            assert metas == calibration and actual_saved is saved and cap == run.CAP
+            assert actual == rows
+            return actual
+    
+        monkeypatch.setattr(run, "validate_rows", synthetic_validate)
+        runner = run.Runner.__new__(run.Runner)
+        runner.args = SimpleNamespace(preparation=str(parent), family=family)
+        runner.freeze, runner.saved = freeze, saved
+        runner.calibration, runner.schedule = calibration, schedule
+        runner.out = tmp_path / "score"
+        runner.out.mkdir()
+        run.require_admission(prep)
+>       assert runner.load_preparation() == prep
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_tree_gp_report.py:288: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <experiments.chem_tape.tree_gp_run.Runner object at 0x114f23530>
+
+>   ???
+E   ValueError: timing/solve gate changed
+
+<string>:52: ValueError
+______________ test_admitted_tail_preparation_reaches_scoring[TS] ______________
+
+tmp_path = PosixPath('/private/var/folders/dm/6qlgzkw133s_wvklhgxfbwh80000gn/T/pytest-of-andreas/pytest-203/test_admitted_tail_preparation1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x11471e450>
+family = 'TS'
+
+    @pytest.mark.parametrize("family", ["DG", "TS"])
+    def test_admitted_tail_preparation_reaches_scoring(tmp_path, monkeypatch, family):
+        """Replay real gates/file IO with synthetic rows; execute no target searches."""
+        from experiments.chem_tape import tree_gp_run as run
+        from experiments.chem_tape.component_transfer_run import load_saved
+    
+        saved, targets = load_saved()
+        calibration, schedule = run.schedules(saved["banks.json"], targets)
+        rows = []
+        template = calibration_rows()[0]
+        for meta in calibration:
+            row = copy.deepcopy(template)
+            row.update(meta, solved=True, evaluations=6144, worker_seconds=0.3)
+            rows.append(row)
+        rows.sort(key=lambda r: str(run.row_key(r)))
+        mix, _ = run.choose_mix(rows)
+        batches = {f: dict(worker_seconds=38.4, wall_seconds=4.5) for f in ("DG", "TS")}
+        replays = [dict(family=f, worker_seconds=2.0) for f in ("DG", "TS")]
+        tails, tail_batches = [], {}
+        rng = np.random.default_rng(22160200)
+        for fi, f in enumerate(("DG", "TS")):
+            for i, seconds in enumerate(rng.uniform(40, 60, 10)):
+                tails.append(
+                    dict(
+                        family=f,
+                        cell="development",
+                        arm="tree",
+                        repeat=i,
+                        crossover=mix,
+                        seed=22160200 + 1000 * fi + i,
+                        worker_seconds=float(seconds),
+                    )
+                )
+            tail_batches[f] = dict(worker_seconds=500.0, wall_seconds=60.0)
+            batches["tail_" + f] = tail_batches[f]
+        tails.sort(key=lambda r: str(run.row_key(r)))
+        projection = run.project(rows, batches, replays, tails, tail_batches, mix)
+        # Find a completion order that actually changes a floating-point reduction.
+        completion = None
+        for _ in range(100):
+            candidate = [tails[i] for i in rng.permutation(len(tails))]
+            if (
+                run.project(rows, batches, replays, candidate, tail_batches, mix)
+                != projection
+            ):
+                completion = candidate
+                break
+        assert completion is not None, "fixture must expose the reviewed order bug"
+        freeze = dict(targets=targets, synthetic_test=True)
+        prep = dict(
+            freeze=freeze,
+            smoke=False,
+            validation=dict(admitted=True),
+            seed_audit=run.audit_seeds(calibration, schedule, run.historical_seeds(saved)),
+            replay=dict(passed=True),
+            chosen_crossover=mix,
+            calibration_rows_hash=digest(rows),
+            replay_rows_hash=digest(replays),
+            tails_hash=digest(tails),
+            projection=projection,
+            batches=batches,
+            prepare_seconds=1000.0,
+            admitted=True,
+        )
+        prep["preparation_hash"] = digest(prep)
+        parent = tmp_path / "prepare"
+        parent.mkdir()
+        (parent / "preparation.json").write_text(json.dumps(prep))
+        (parent / "method_freeze.json").write_text(json.dumps(freeze))
+    
+        def write_rows(name, records):
+            (parent / name).write_text("".join(json.dumps(r) + "\n" for r in records))
+    
+        write_rows("replay.jsonl", replays)
+        for f in ("DG", "TS"):
+            write_rows("calibration_" + f + ".jsonl", [r for r in rows if r["family"] == f])
+            write_rows("tails_" + f + ".jsonl", [r for r in completion if r["family"] == f])
+    
+        # Search-semantic validation is tested separately with real searches. This
+        # fixture replaces only that boundary, leaving every admission check real.
+        def synthetic_validate(actual, metas, actual_saved, cap, *args):
+            assert metas == calibration and actual_saved is saved and cap == run.CAP
+            assert actual == rows
+            return actual
+    
+        monkeypatch.setattr(run, "validate_rows", synthetic_validate)
+        runner = run.Runner.__new__(run.Runner)
+        runner.args = SimpleNamespace(preparation=str(parent), family=family)
+        runner.freeze, runner.saved = freeze, saved
+        runner.calibration, runner.schedule = calibration, schedule
+        runner.out = tmp_path / "score"
+        runner.out.mkdir()
+        run.require_admission(prep)
+>       assert runner.load_preparation() == prep
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_tree_gp_report.py:288: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <experiments.chem_tape.tree_gp_run.Runner object at 0x1139d3950>
+
+>   ???
+E   ValueError: timing/solve gate changed
+
+<string>:52: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_tree_gp_report.py::test_admitted_tail_preparation_reaches_scoring[DG]
+FAILED tests/test_tree_gp_report.py::test_admitted_tail_preparation_reaches_scoring[TS]
+2 failed in 4.87s
