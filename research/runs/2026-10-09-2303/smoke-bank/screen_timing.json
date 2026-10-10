@@ -1,0 +1,78 @@
+{
+  "levels": [
+    {
+      "depth": 1,
+      "states": 8,
+      "output_only": false,
+      "distinct_outputs": 4,
+      "seconds": 0.047054957947693765,
+      "peak_rss_mb": 185.8125
+    },
+    {
+      "depth": 2,
+      "states": 59,
+      "output_only": false,
+      "distinct_outputs": 9,
+      "seconds": 0.04780408297665417,
+      "peak_rss_mb": 185.8125
+    },
+    {
+      "depth": 3,
+      "states": 460,
+      "output_only": false,
+      "distinct_outputs": 18,
+      "seconds": 0.04934525000862777,
+      "peak_rss_mb": 185.8125
+    },
+    {
+      "depth": 4,
+      "states": 3615,
+      "output_only": false,
+      "distinct_outputs": 64,
+      "seconds": 0.058193375007249415,
+      "peak_rss_mb": 186.328125
+    },
+    {
+      "depth": 5,
+      "states": 28580,
+      "output_only": false,
+      "distinct_outputs": 183,
+      "seconds": 0.0966968749416992,
+      "peak_rss_mb": 191.125
+    },
+    {
+      "depth": 6,
+      "states": 226078,
+      "output_only": false,
+      "distinct_outputs": 570,
+      "seconds": 0.35032512503676116,
+      "peak_rss_mb": 257.375
+    },
+    {
+      "depth": 7,
+      "states": 1789727,
+      "output_only": false,
+      "distinct_outputs": 1930,
+      "seconds": 2.250824582995847,
+      "peak_rss_mb": 795.46875
+    },
+    {
+      "depth": 8,
+      "states": 14172986,
+      "output_only": false,
+      "distinct_outputs": 6836,
+      "seconds": 18.549814375001006,
+      "peak_rss_mb": 5030.609375
+    },
+    {
+      "depth": 9,
+      "states": null,
+      "output_only": true,
+      "distinct_outputs": 20752,
+      "seconds": 108.70676650002133,
+      "peak_rss_mb": 5380.0625
+    }
+  ],
+  "screen_seconds": 108.73095037497114,
+  "total_seconds": 111.4033198331017
+}

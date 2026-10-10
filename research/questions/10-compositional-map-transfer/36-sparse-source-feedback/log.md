@@ -46,3 +46,6 @@ on cost and speed together adaptive collection is the better of the two policies
 σ clears 1.10; resolving that bar would take about ten times the corpora and would change no policy
 choice. Root 10's 28 slots are used and the strategy routed every outcome back to review, so the
 next step is `next: strategy`. ([decision](../../../runs/2026-10-09-2033/decision.md))
+
+2026-10-10 (steward, run 2303 decide; wording correction from [critique 2303](../../../runs/2026-10-09-2303/critique.md) notes 7–9, no new data): the decision above says A8 is "level with the 48-attempt pipeline within about 5%". The interval cost(full F)/cost(A8) 1.031× [0.951, 1.117] is one-sided evidence: A8 is not resolved from full F, an A8 slowdown above about 5% is excluded, and an A8 gain of about 10% remains possible. "Every horizon" means lower estimated total evaluation cost at every reported horizon, resolved through 1 024 searches (worker-seconds through 256). "No lock-in" means none observed on this one update and development roster. The summary in question.md now uses these readings. Fresh-bank follow-up: [37](../37-cheap-bias-fresh-transfer/log.md).
+Decision: keep 36 closed because the correction narrows wording only and changes no decision.

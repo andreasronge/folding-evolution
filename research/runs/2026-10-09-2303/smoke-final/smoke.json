@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "admitted": false,
+  "rows": 28,
+  "cap": 8192,
+  "validation": {
+    "empty_fallback": {
+      "passed": true,
+      "forced_edits": 2048,
+      "identical_F_W": true
+    },
+    "suffix_edits": {
+      "F": {
+        "passed": true,
+        "edits": 10000,
+        "tape_start": 2771,
+        "tape_end": 2670
+      }
+    },
+    "passed": true,
+    "historical_rows": 50,
+    "historical_worker_seconds": 157.98112162505277,
+    "calibration": {
+      "A8": 0.8267050849371193,
+      "S8": 0.9173837702878008,
+      "full_F": 0.9145336929146924,
+      "G4": 0.9337621947415569
+    }
+  },
+  "full_cap_rows": 10,
+  "full_cap_mean_seconds": {
+    "A8": 9.81029568030499,
+    "S8": 21.119277027707238,
+    "full_F": 16.021188125285942,
+    "G4": 20.097963917069137
+  }
+}

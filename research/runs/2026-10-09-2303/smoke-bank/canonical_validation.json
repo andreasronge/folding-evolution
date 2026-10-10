@@ -1,0 +1,9 @@
+{
+  "programs": 444,
+  "inputs_per_program": 1331,
+  "Python": true,
+  "Rust": true,
+  "python_mismatches": 0,
+  "rust_mismatches": 0,
+  "seconds": 2.353391458047554
+}

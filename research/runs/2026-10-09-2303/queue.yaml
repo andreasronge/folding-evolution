@@ -1,0 +1,95 @@
+runs:
+  - id: 2026-10-09-2303-two-sum-prepare
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-09-2303 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.two_sum_run
+      --prepare --workers 10 --deadline-seconds 2580
+    timeout_seconds: 2700
+    track: chem-tape
+    notes: >-
+      Pinned two-sum-v1:333 nonconstant assignments,289 distinct behaviours,
+      76 eligible; full-domain Python/Rust canonical agreement, unchanged
+      nine-token screen, <80pct agreement to all306 old behaviours; greedy
+      SHA256 split16 confirmation+4 timing cells, <=4 per unordered gate pair
+      and mutual agreement<80pct across all20. No minimality claim beyond
+      the <=9 screen. Saved final2033 A8/S8 builds64 each and full1036 C+F
+      builds16, plus G4. No new acquisition or fitting. Freeze bank, method,
+      artifacts, acquisition costs, implementation/backend and all seed
+      schedules before timing. Audit10000 F suffix edits and2048 empty-fallback
+      edits; replay16 A8,16 S8,16 fullF and2 G4 historical rows scientifically.
+      Time112 reserved-cell searches at10 processes/Rayon1:32 per fitted arm
+      covering BE1/PA1 and all4 blocks plus16 G4. Timing-only selection in
+      order8 seeds/all,4/all,4/no-S8; each projection includes unchanged256
+      G4 searches and15pct margin. Require <=150min search projection,
+      replay/report reserves <=3h score budget and finish by07:12:10+02:00,
+      leaving1h analysis before08:12:10 deadline. Failure returns to strategy;
+      no replacement bank or performance filtering.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - builds.json
+      - accounting.json
+      - method_freeze.json
+      - candidate_schedules.json
+      - timing_schedule.json
+      - replay_schedule.json
+      - historical_replay.jsonl
+      - timing.jsonl
+      - validation.json
+      - preparation.json
+      - schedule.json
+      - progress.json
+
+  - id: 2026-10-09-2303-two-sum-score
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-09-2303 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.two_sum_run
+      --preparation "${RUN_DIR%/*}/2026-10-09-2303-two-sum-prepare/preparation.json"
+      --workers 10 --deadline-seconds 10680
+    timeout_seconds: 10800
+    track: chem-tape
+    notes: >-
+      Verify admitted handoff, every frozen method/backend/artifact/schedule
+      hash and actual remaining deadline; replay all112 timing rows before
+      confirmation. Fixed16 corpus units x16 cells x8 seeds (2 per block)
+      x3 fitted arms plus256 G4=6400;4-seed fallback3328;4/no-S8 fallback2304.
+      FullF uses same paired keys/cases and unchanged per-corpus table/library
+      across blocks. cap524288,P256,lexicase,crossover.7,mutation.03,two untouched
+      elites,fragment rate.2,suffix preserved. Primary rho=A8/fullF capped
+      evaluation cost:failed searches2cap,equal cells/seeds then equal blocks,
+      paired16 corpus log contrasts,95pct t df15. Useful retention needs
+      rhoUB<1.20,G4/A8LB>1 and fullF solve fraction>=.25. G4 uncertainty is
+      independently resampled within each fixed cell and shared across all
+      corpus comparisons; fitted corpus bootstrap stratified by BE/PA.
+      All intervals condition on selected targets. rhoLB>1.20 is material
+      relative loss; LB>1 and UB>=1.20 resolved loss of unknown materiality;
+      otherwise unresolved or bounded retention with usefulness/guard failures
+      reported separately. Full acquisition earns deployment only additionally
+      with usefulness against G4 and A+N*S at a stated horizon. Report sigma
+      S8/A8 if present,fullF/G4,per-cell/source-family solves,1cap,both-solved,
+      fitness/diversity/edit diagnostics,resolution price,fully charged
+      arithmetic acquisition+search curves N0,1,4,16,64,256,1024,4096 in
+      evaluations and currently calibrated worker seconds. Acquisition timing
+      calibration approximate; not acquisition remeasurement. Return to
+      strategy for every outcome. Total timeouts2700+10800=225min=3.75h.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - builds.json
+      - accounting.json
+      - method_freeze.json
+      - candidate_schedules.json
+      - timing_schedule.json
+      - replay_schedule.json
+      - timing_replay.jsonl
+      - validation.json
+      - preparation.json
+      - schedule.json
+      - progress.json
+      - search.jsonl
+      - result.json
+      - report.md
+      - diagnostics.png
+      - cost_curves.png

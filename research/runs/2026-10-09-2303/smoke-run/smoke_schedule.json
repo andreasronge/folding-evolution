@@ -1,0 +1,82 @@
+[
+  {
+    "phase": "timing",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "TB:F>m?m+m:M+S",
+    "block": 0,
+    "seed_ordinal": 0,
+    "arm": "A8",
+    "seed": 206611092303
+  },
+  {
+    "phase": "timing",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "TB:F>m?m+m:M+S",
+    "block": 0,
+    "seed_ordinal": 0,
+    "arm": "S8",
+    "seed": 206611092303
+  },
+  {
+    "phase": "timing",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "TB:F>m?m+m:M+S",
+    "block": 0,
+    "seed_ordinal": 0,
+    "arm": "full_F",
+    "seed": 206611092303
+  },
+  {
+    "phase": "timing",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "TB:F>m?m+m:M+S",
+    "block": 1,
+    "seed_ordinal": 1,
+    "arm": "A8",
+    "seed": 206611092304
+  },
+  {
+    "phase": "timing",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "TB:F>m?m+m:M+S",
+    "block": 1,
+    "seed_ordinal": 1,
+    "arm": "S8",
+    "seed": 206611092304
+  },
+  {
+    "phase": "timing",
+    "family": "BE",
+    "corpus": "BE1",
+    "cell": "TB:F>m?m+m:M+S",
+    "block": 1,
+    "seed_ordinal": 1,
+    "arm": "full_F",
+    "seed": 206611092304
+  },
+  {
+    "phase": "timing",
+    "family": "G4",
+    "corpus": "G4",
+    "cell": "TB:M>S?M+M:F+m",
+    "block": 2,
+    "seed_ordinal": 2,
+    "arm": "G4",
+    "seed": 206612092605
+  },
+  {
+    "phase": "timing",
+    "family": "G4",
+    "corpus": "G4",
+    "cell": "TB:M>S?M+M:F+m",
+    "block": 3,
+    "seed_ordinal": 3,
+    "arm": "G4",
+    "seed": 206612092606
+  }
+]
