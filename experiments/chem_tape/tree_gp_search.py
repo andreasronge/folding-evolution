@@ -156,6 +156,7 @@ def search(job, *, force_cap=False):
     selection = FastRandom(seed + 100000000)
     stats = dict(crossover=0, mutation=0, rejected_crossover=0, rejected_mutation=0)
     checked, curve, budget_times = {}, [], {}
+    phenotype_curve = []
     shortcuts = unique_shortcuts = perfect_count = 0
     exact_seconds = exact_max = variation_seconds = compile_seconds = 0.0
     total_length = total_nodes = 0
@@ -198,6 +199,7 @@ def search(job, *, force_cap=False):
         if generation % 32 == 0 or solved_at is not None or evaluations == cap:
             curve.append([evaluations, int(scores.max()), len(np.unique(correct, axis=0)),
                           float(np.mean(lengths))])
+            phenotype_curve.append([evaluations, len(np.unique(observed, axis=0))])
         if solved_at is not None or evaluations == cap:
             break
         tick = time.monotonic()
@@ -232,7 +234,10 @@ def search(job, *, force_cap=False):
                 crossover=crossover, solved=solved_at is not None, evaluations=evaluations,
                 seconds=seconds, budget_seconds=budget_times, generations=generation + 1,
                 solver=solver, solver_tree=solver_tree, training_indices=indices.tolist(),
-                curve=curve, initial_tokens_hash=initial_hash, initialization=initialization,
+                curve=curve, phenotype_diversity_curve=phenotype_curve,
+                phenotype_diversity_scope="distinct output vectors on 64 fixed training cases; lower bound on D625 phenotype diversity",
+                compile_seconds_scope="cached program collection; construction compilation included in variation_seconds",
+                initial_tokens_hash=initial_hash, initialization=initialization,
                 operator=stats, compiled_length_histogram=length_histogram.tolist(),
                 compiled_tokens_evaluated=total_length, tree_nodes_evaluated=total_nodes,
                 primitive_case_work=total_length * 64, max_compiled_length=max_length,

@@ -1,4 +1,4 @@
-"""Bounded 2239 semantic/initialization smoke; never calibrates or scores targets.
+"""Bounded 2254 semantic/initialization smoke; never calibrates or scores targets.
 
 Usage: RUN_DIR=... RAYON_NUM_THREADS=1 .venv/bin/python -m
 experiments.chem_tape.tree_gp_validate. Initialization failure is reported as admitted=false; the frozen design is never
@@ -117,7 +117,7 @@ def validate():
                              min_tokens=min(lengths), median_tokens=float(np.median(lengths)),
                              max_tokens=max(lengths), seconds=time.monotonic() - tick,
                              exact_acceptance_probability=full_acceptance_probability(depth) if full else None))
-    return dict(task="2026-10-10-2239", seed=SEED, grammar=GRAMMAR,
+    return dict(task="2026-10-10-2254", seed=SEED, grammar=GRAMMAR,
                 git_commit=subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
                 fixtures=fixtures, interpreter_python_rust_checks=checks,
                 overflow_fixture=True, initialization=initialization,
