@@ -308,6 +308,31 @@ def load_training(path=DATA):
     }
 
 
+def load_replacement_sources(path=DATA):
+    """Explicit development-source loader; preserve load_training's old contract."""
+    bank, _ = load_training(path)  # includes byte hash, split and domain validation
+    roster = bank["split"]["holdouts"]
+    by = {c["id"]: c for c in bank["cells"]}
+    ids = sum(roster.values(), [])
+    if (
+        set(roster) != set(TRAINING)
+        or len(ids) != 8
+        or len(set(ids)) != 8
+        or set(ids) & set(sum(TRAINING.values(), []))
+        or any(
+            len(cs) != 4 or any(not c.startswith(f + ":") for c in cs)
+            for f, cs in roster.items()
+        )
+        or any(
+            hashlib.sha256(np.asarray(by[c]["labels"], dtype="<i8").tobytes()).hexdigest()
+            != by[c]["label_hash"]
+            for c in ids
+        )
+    ):
+        raise ValueError("replacement source membership/labels changed")
+    return bank, {c: dict(id=c, labels=by[c]["labels"]) for c in ids}
+
+
 def main():
     argparse.ArgumentParser(description=__doc__).parse_args()
     out = Path(os.environ["RUN_DIR"])

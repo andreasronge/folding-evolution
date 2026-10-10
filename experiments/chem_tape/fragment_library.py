@@ -28,9 +28,12 @@ def extract_corpus(envelope):
     return result
 
 
-def extract_windows(tid, sources, inputs, cells, indices, *, partial=False):
+def extract_windows(tid, sources, inputs, cells, indices, *, partial=False, source_cells=None):
     """Common 0843 rule; caller validates the explicit source interface."""
     started = time.monotonic()
+    source_cells = TRAINING[tid[:2]] if source_cells is None else source_cells
+    if len(source_cells) != len(set(source_cells)) or any(r['cell'] not in source_cells for r in sources):
+        raise ValueError('non-training fragment source or duplicate roster')
     sampled = [inputs[i] for i in indices]
     diagnostic_inputs = sampled[:4]
     candidates = defaultdict(list)
@@ -66,7 +69,7 @@ def extract_windows(tid, sources, inputs, cells, indices, *, partial=False):
     @lru_cache(maxsize=None)
     def padded_solves(f):
         values = outputs([list(f) + [0] * (32 - len(f))], inputs, 'v2_rmin_first')[0]
-        return [c for c in TRAINING[tid[:2]] if np.array_equal(values, cells[c]['labels'])]
+        return [c for c in source_cells if np.array_equal(values, cells[c]['labels'])]
 
     @lru_cache(maxsize=None)
     def standalone(f):
@@ -108,7 +111,7 @@ def extract_windows(tid, sources, inputs, cells, indices, *, partial=False):
                                     else 'NOP knockout contribution in the original source program on 96 inputs'),
                     stack_scope='standalone empty-stack effect on 96 inputs; source-context use on first four of those inputs')
 
-    libraries = {} if partial else {tid + '|' + held: library(held) for held in TRAINING[tid[:2]]}
+    libraries = {} if partial else {tid + '|' + held: library(held) for held in source_cells}
     whole_started = time.monotonic()
     whole = library(None)
     return dict(corpus=tid, libraries=libraries, whole_corpus=whole, activity=activity,

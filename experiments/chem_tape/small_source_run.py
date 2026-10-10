@@ -123,7 +123,12 @@ def smoke_roster(ids):
 
 
 def build_source(envelope):
-    tid, block, rows, inputs, cells, indices = envelope
+    tid, block, rows, inputs, cells, indices, *extra = envelope
+    source_cells = extra[0] if extra else TRAINING[tid[:2]]
+    if len(extra) > 1 or len(source_cells) != len(set(source_cells)):
+        raise ValueError("invalid source roster")
+    if any(r["cell"] not in source_cells for r in rows):
+        raise ValueError("non-training source")
     tick = time.monotonic()
     solved = [r for r in rows if r["solved"]]
     if solved:
@@ -135,13 +140,15 @@ def build_source(envelope):
             raise ValueError("source exact solver mismatch")
     verification_seconds = time.monotonic() - tick
     tick = time.monotonic()
-    counts, yields = small_source_counts(rows, TRAINING[tid[:2]])
+    counts, yields = small_source_counts(rows, source_cells)
     table = fit_context(counts)
     sha = validate_table(table)
     fit_seconds = time.monotonic() - tick
     tick = time.monotonic()
     sources = [dict(cell=r["cell"], seed=r["seed"], tape=r["solver"]) for r in solved]
-    extracted = extract_windows(tid, sources, inputs, cells, indices)
+    extracted = extract_windows(
+        tid, sources, inputs, cells, indices, source_cells=source_cells
+    )
     extraction_seconds = time.monotonic() - tick
     return dict(
         corpus=tid,
