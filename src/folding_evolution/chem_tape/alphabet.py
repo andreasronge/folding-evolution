@@ -83,6 +83,8 @@ IMAX = 22
 # v2-rmin: generic list minimum (distinct from integer MIN).
 REDUCE_MIN = 22
 
+# v2_x4 uses 5/11 -> X0, 18 -> X1, 22 -> X2, 23 -> X3.
+# Readouts consume an intlist; missing indices yield zero.
 # v2_rmin_first adds a generic first-element reducer.
 FIRST = 23
 
@@ -195,7 +197,7 @@ def masks_for(alphabet_name: str) -> dict[str, np.ndarray]:
             "transparent": TRANSPARENT_MASK_V2,
             "non_separator": NON_SEPARATOR_MASK_V2,
         }
-    if alphabet_name in ("v2_split", "v2_rmin_first"):
+    if alphabet_name in ("v2_split", "v2_rmin_first", "v2_x4"):
         return {
             "active": ACTIVE_MASK_V2_SPLIT,
             "separator": SEPARATOR_MASK_V2_SPLIT,
@@ -218,7 +220,7 @@ def masks_for(alphabet_name: str) -> dict[str, np.ndarray]:
 
 
 def is_active(tid: int, alphabet_name: str = "v1") -> bool:
-    if alphabet_name in ("v2_split", "v2_rmin_first"):
+    if alphabet_name in ("v2_split", "v2_rmin_first", "v2_x4"):
         return (1 <= tid <= 19) or (22 <= tid <= 23)
     if alphabet_name in ("v2_min", "v2_imax", "v2_rmin"):
         return (1 <= tid <= 19) or tid == 22
@@ -228,7 +230,7 @@ def is_active(tid: int, alphabet_name: str = "v1") -> bool:
 
 
 def is_separator(tid: int, alphabet_name: str = "v1") -> bool:
-    if alphabet_name in ("v2_probe", "v2_split", "v2_min", "v2_imax", "v2_rmin", "v2_rmin_first"):
+    if alphabet_name in ("v2_probe", "v2_split", "v2_min", "v2_imax", "v2_rmin", "v2_rmin_first", "v2_x4"):
         return tid in (20, 21)
     return tid in (14, 15)
 

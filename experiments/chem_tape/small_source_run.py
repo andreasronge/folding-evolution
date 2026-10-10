@@ -125,14 +125,15 @@ def smoke_roster(ids):
 def build_source(envelope):
     tid, block, rows, inputs, cells, indices, *extra = envelope
     source_cells = extra[0] if extra else TRAINING[tid[:2]]
-    if len(extra) > 1 or len(source_cells) != len(set(source_cells)):
+    alphabet = extra[1] if len(extra) > 1 else "v2_rmin_first"
+    if len(extra) > 2 or len(source_cells) != len(set(source_cells)):
         raise ValueError("invalid source roster")
     if any(r["cell"] not in source_cells for r in rows):
         raise ValueError("non-training source")
     tick = time.monotonic()
     solved = [r for r in rows if r["solved"]]
     if solved:
-        observed = outputs([r["solver"] for r in solved], inputs, "v2_rmin_first")
+        observed = outputs([r["solver"] for r in solved], inputs, alphabet)
         if any(
             not np.array_equal(value, cells[r["cell"]]["labels"])
             for value, r in zip(observed, solved)
@@ -147,7 +148,7 @@ def build_source(envelope):
     tick = time.monotonic()
     sources = [dict(cell=r["cell"], seed=r["seed"], tape=r["solver"]) for r in solved]
     extracted = extract_windows(
-        tid, sources, inputs, cells, indices, source_cells=source_cells
+        tid, sources, inputs, cells, indices, source_cells=source_cells, alphabet=alphabet
     )
     extraction_seconds = time.monotonic() - tick
     return dict(

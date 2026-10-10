@@ -131,7 +131,7 @@ def outputs(programs, inputs, alphabet="v2_rmin"):
 
 
 def search(job, *, return_solver=False, collector=None, decoder_factory=Decoder,
-           initial_transform=None, child_transform=None):
+           initial_transform=None, child_transform=None, measure_exact=False):
     cell, arm, table, seed, cap, pop_size = job[:6]
     inputs = job[6] if len(job) >= 7 else INPUTS
     alphabet = job[7] if len(job) >= 8 else "v2_rmin"
@@ -176,6 +176,8 @@ def search(job, *, return_solver=False, collector=None, decoder_factory=Decoder,
     training_perfect_individuals = 0
     checked = {}
     decode_seconds = 0.0
+    exact_check_seconds = 0.0
+    exact_check_max_seconds = 0.0
     curve = []
     budget_times = {}
     solved_at = None
@@ -195,11 +197,15 @@ def search(job, *, return_solver=False, collector=None, decoder_factory=Decoder,
             training_perfect_individuals += 1
             key = programs[i].tobytes()
             if key not in checked:
+                exact_tick = time.monotonic()
                 checked[key] = bool(
                     np.array_equal(
                         outputs(programs[i : i + 1], inputs, alphabet)[0], label
                     )
                 )
+                exact_elapsed = time.monotonic() - exact_tick
+                exact_check_seconds += exact_elapsed
+                exact_check_max_seconds = max(exact_check_max_seconds, exact_elapsed)
                 if not checked[key]:
                     unique_shortcuts += 1
             if not checked[key]:
@@ -282,6 +288,10 @@ def search(job, *, return_solver=False, collector=None, decoder_factory=Decoder,
         initial_source_hash=source.hash(),
         initial_reencoded=reencoded,
     )
+    if measure_exact:
+        result.update(exact_check_seconds=exact_check_seconds,
+                      exact_check_max_seconds=exact_check_max_seconds,
+                      exact_checks=len(checked))
     if return_solver:
         result["solver"] = solver
     return result

@@ -28,7 +28,7 @@ def extract_corpus(envelope):
     return result
 
 
-def extract_windows(tid, sources, inputs, cells, indices, *, partial=False, source_cells=None):
+def extract_windows(tid, sources, inputs, cells, indices, *, partial=False, source_cells=None, alphabet="v2_rmin_first"):
     """Common 0843 rule; caller validates the explicit source interface."""
     started = time.monotonic()
     source_cells = TRAINING[tid[:2]] if source_cells is None else source_cells
@@ -42,11 +42,11 @@ def extract_windows(tid, sources, inputs, cells, indices, *, partial=False, sour
         tape = row['tape']
         mutants = np.tile(tape, (33, 1))
         mutants[np.arange(32) + 1, np.arange(32)] = 0
-        observed = outputs(mutants, sampled, 'v2_rmin_first')
+        observed = outputs(mutants, sampled, alphabet)
         active = np.any(observed[1:] != observed[0], axis=1)
         activity.append(dict(cell=row['cell'], seed=row['seed'], active=active.tolist(),
                              **({'checkpoint': row['checkpoint'], 'slot': row['slot']} if partial else {})))
-        context = trace(tape, diagnostic_inputs)
+        context = trace(tape, diagnostic_inputs, alphabet)
         if [r['output'] for r in context['executions']] != observed[0, :4].tolist():
             raise ValueError('Python/Rust trace mismatch on source')
         for L in range(3, 7):
@@ -68,13 +68,13 @@ def extract_windows(tid, sources, inputs, cells, indices, *, partial=False, sour
 
     @lru_cache(maxsize=None)
     def padded_solves(f):
-        values = outputs([list(f) + [0] * (32 - len(f))], inputs, 'v2_rmin_first')[0]
+        values = outputs([list(f) + [0] * (32 - len(f))], inputs, alphabet)[0]
         return [c for c in source_cells if np.array_equal(values, cells[c]['labels'])]
 
     @lru_cache(maxsize=None)
     def standalone(f):
-        result = trace(f, sampled)
-        if [r['output'] for r in result['executions']] != outputs([list(f)], sampled, 'v2_rmin_first')[0].tolist():
+        result = trace(f, sampled, alphabet)
+        if [r['output'] for r in result['executions']] != outputs([list(f)], sampled, alphabet)[0].tolist():
             raise ValueError('Python/Rust trace mismatch on fragment')
         return dict(inputs=96, totals=result['totals'],
                     stack_effects=dict(Counter(str(r['stack_delta']) for r in result['executions'])),
@@ -97,7 +97,7 @@ def extract_windows(tid, sources, inputs, cells, indices, *, partial=False, sour
             totals = Counter()
             for p in sources:
                 totals.update(p['context_totals'])
-            retained.append(dict(tokens=list(f), names=[resolve_op(t, TA, 'v2_rmin_first').__name__ for t in f],
+            retained.append(dict(tokens=list(f), names=[resolve_op(t, TA, alphabet).__name__ for t in f],
                                  length=len(f), source_cells=source_cells, count=len(sources),
                                  provenance=sources, standalone=standalone(f),
                                  source_context_totals=dict(totals), padded_solves=solves))

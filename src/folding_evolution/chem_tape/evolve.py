@@ -164,7 +164,7 @@ def _token_max(cfg: ChemTapeConfig) -> int:
     Separators are part of the representation (they break bonded runs under
     every arm), so the mutation range includes them — same shape as v1.
     """
-    if cfg.alphabet in ("v2_split", "v2_rmin_first"):
+    if cfg.alphabet in ("v2_split", "v2_rmin_first", "v2_x4"):
         return 23
     if cfg.alphabet in ("v2_min", "v2_imax", "v2_rmin"):
         return 22

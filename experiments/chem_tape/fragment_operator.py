@@ -12,7 +12,7 @@ ARMS = ('C', 'F', 'B', 'W')  # historical rosters remain unchanged
 RATE = .2
 
 
-def trace(tokens, inputs):
+def trace(tokens, inputs, alphabet="v2_rmin_first"):
     """Actual preserve-on-mismatch execution; include DUP/SWAP's inline defaults.
 
     Stack effects are empirical from an empty stack, not a context-free type signature.
@@ -39,7 +39,7 @@ def trace(tokens, inputs):
             vm.safe_pop = counted
             for token in tokens:
                 current = Counter()
-                op = vm.resolve_op(int(token), TA, 'v2_rmin_first')
+                op = vm.resolve_op(int(token), TA, alphabet)
                 if op is vm._op_dup and not stack:
                     current['underflow'] += 1
                 elif op is vm._op_swap:
@@ -60,9 +60,10 @@ def trace(tokens, inputs):
 
 
 class BlockOperator:
-    def __init__(self, arm, library, seed, diagnostic_inputs=(), *, empty_fallback=False):
+    def __init__(self, arm, library, seed, diagnostic_inputs=(), *, empty_fallback=False, alphabet="v2_rmin_first"):
         if arm not in (*ARMS, 'R'):
             raise ValueError('unknown block arm')
+        self.alphabet = alphabet
         self.arm = arm
         self.rng = np.random.default_rng([seed, 4])
         if not library and empty_fallback and arm in ('F', 'W'):
@@ -156,7 +157,7 @@ class BlockOperator:
         # Deterministic sparse diagnostic sample; consumes no search/operator draws.
         if self.inputs and generation % 32 == 0:
             sample = decoder.decode(child[:1])[0]
-            measured = trace(sample, self.inputs)
+            measured = trace(sample, self.inputs, self.alphabet)
             self.stats['sampled_offspring'] += 1
             self.stats['sampled_inputs'] += len(self.inputs)
             for key in ('underflow', 'wrong_type', 'default_use'):

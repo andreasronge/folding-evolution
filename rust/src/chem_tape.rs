@@ -237,6 +237,7 @@ enum Alphabet {
     V2IMax,
     V2RMin,
     V2RMinFirst,
+    V2X4,
 }
 
 impl Alphabet {
@@ -492,6 +493,14 @@ fn resolve_slot_op(name: &str) -> OpFn {
 
 // ---------- Core execution ----------
 
+fn op_indexed(stack: &mut Vec<Value>, ctx: &ExecCtx<'_>, index: usize) {
+    let xs = match safe_pop(stack, TypeTag::IntList, ctx.safe_pop_consume) {
+        Value::IntList(xs) => xs,
+        _ => unreachable!(),
+    };
+    stack.push(Value::Int(xs.get(index).copied().unwrap_or(0)));
+}
+
 fn execute_inner(tokens: &[u8], ctx: &ExecCtx<'_>) -> i64 {
     let mut stack: Vec<Value> = Vec::with_capacity(32);
     let mut ops_run = 0usize;
@@ -506,6 +515,10 @@ fn execute_inner(tokens: &[u8], ctx: &ExecCtx<'_>) -> i64 {
             (CONST_0, _) => op_const_0(&mut stack, ctx),
             (CONST_1, _) => op_const_1(&mut stack, ctx),
             (CHARS, _) => op_chars(&mut stack, ctx),
+            (SUM | REDUCE_ADD, Alphabet::V2X4) => op_indexed(&mut stack, ctx, 0),
+            (REDUCE_MAX, Alphabet::V2X4) => op_indexed(&mut stack, ctx, 1),
+            (REDUCE_MIN, Alphabet::V2X4) => op_indexed(&mut stack, ctx, 2),
+            (FIRST, Alphabet::V2X4) => op_indexed(&mut stack, ctx, 3),
             (SUM, _) => op_sum(&mut stack, ctx),
             (ANY, _) => op_any(&mut stack, ctx),
             (ADD, _) => op_add(&mut stack, ctx),
@@ -553,6 +566,7 @@ fn parse_alphabet(name: Option<&str>) -> Alphabet {
         "v2_imax" => Alphabet::V2IMax,
         "v2_rmin" => Alphabet::V2RMin,
         "v2_rmin_first" => Alphabet::V2RMinFirst,
+        "v2_x4" => Alphabet::V2X4,
         _ => Alphabet::V1,
     }
 }

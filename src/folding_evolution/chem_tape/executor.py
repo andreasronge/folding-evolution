@@ -311,6 +311,25 @@ def _op_first(stack: list, inp_value, inp_type: str, ta: alph.TaskAlphabet) -> N
 _OPS_V2_RMIN: dict[int, OpFn] = {**_OPS_V2, alph.REDUCE_MIN: _op_reduce_min}
 _OPS_V2_RMIN_FIRST: dict[int, OpFn] = {**_OPS_V2_RMIN, alph.FIRST: _op_first}
 
+def _indexed_readout(index: int) -> OpFn:
+    def read(stack, inp_value, inp_type, ta):
+        xs = safe_pop(stack, "intlist")
+        push_int(stack, xs[index] if len(xs) > index else 0)
+    read.__name__ = f"_op_x{index}"
+    return read
+
+
+_X0 = _indexed_readout(0)
+_OPS_V2_X4: dict[int, OpFn] = {
+    **_OPS_V2,
+    alph.SUM: _X0,
+    alph.REDUCE_ADD: _X0,
+    alph.REDUCE_MAX: _indexed_readout(1),
+    alph.REDUCE_MIN: _indexed_readout(2),
+    alph.FIRST: _indexed_readout(3),
+}
+
+
 # v2-min dispatch: integer MIN (map-bias notebook §3).
 _OPS_V2_MIN: dict[int, OpFn] = {**_OPS_V2, alph.MIN: _op_min}
 
@@ -338,6 +357,8 @@ _SLOT_OPS: dict[str, OpFn] = {
 
 
 def _dispatch_table(alphabet_name: str) -> dict[int, OpFn]:
+    if alphabet_name == "v2_x4":
+        return _OPS_V2_X4
     if alphabet_name == "v2_split":
         return _OPS_V2_SPLIT
     if alphabet_name == "v2_rmin_first":
