@@ -12,7 +12,7 @@ you want to reference this project, please use the citation metadata in
 [`CITATION.cff`](CITATION.cff). If you want permission to reuse material from
 the repository, please contact the author or open an issue first.
 
-**Active tracks:** chem-tape v2 probe wrapping up (§v2.5-plasticity-2d primary cell). CA developmental revival starting — shifting from "can the CA compute?" to "is the CA actually developing?" See [Plans/ca-developmental-revival.md](Plans/ca-developmental-revival.md).
+**Active work:** an autonomous research loop ([research/](research/README.md), driven by `scripts/research.py`) works on the core question below. Current beliefs: [research/digest.md](research/digest.md).
 
 ## Core Question
 
@@ -22,6 +22,32 @@ Two parts:
 
 1. **Measure the bias.** Sample random genomes, count how often each program behaviour appears, and check whether that frequency predicts what evolution actually finds ("arrival of the frequent", Schaper & Louis 2014; simplicity bias, Dingle, Camargo & Louis 2018). Folding, chem-tape, direct encoding and tree GP are all just different maps to measure.
 2. **Evolve the bias.** Let the map itself (chemistry, decoder) evolve across related tasks, and check whether its bias shifts toward that family and transfers to unseen members (Kashtan & Alon 2005; Watson & Szathmáry 2016).
+
+**Why.** Evolution can find programs that are exact, tiny, fast and readable,
+but finding them is slow. LLM-guided evolution speeds this up with a prior
+learned from human code. We ask whether evolution can grow its own small prior
+from the tasks it solves: no human code, almost free to use, fitted to a family
+of tasks. That would help where no code exists to learn from, such as new
+instruction sets, unusual hardware, or new chemistries like chem-tape.
+
+**Goal.** A map that, after a few tasks of one kind, makes new tasks of that
+kind much faster to solve; ideally a map that evolves this bias itself rather
+than having it fitted from outside. Beating neural nets at prediction is not
+the aim: evolved programs win on speed, size, exactness and readability;
+neural nets win on messy data like images and text.
+
+**Steps.**
+1. Toy tasks of one shape. Done: a learned map makes search about 2.5× faster
+   on unseen tasks.
+2. A new task shape: does the map learn what that shape needs? (Next.)
+3. A real benchmark ([PSB2](Plans/psb2-sanity-probe.md)): learn on some
+   puzzles, help on others.
+4. Only then broader data.
+
+**Closest relatives.** PIPE and other estimation-of-distribution GP (learned
+op probabilities), DreamCoder (learned building blocks), and LLM-guided
+evolution (FunSearch, AlphaEvolve). What is different here: the prior comes
+from evolution itself, is cheap, and needs no human code.
 
 Earlier framing, kept for history: *"Does a developmental encoding enable qualitatively different evolutionary dynamics than direct encoding — specifically, the ability to discover and propagate rare compositional structures that direct GP cannot reach?"* It was dropped because "cannot reach" is almost never literally true (what differs is how *likely* a structure is to appear), and "folding vs direct" is a comparison the indirect-encoding literature has already mostly answered ("it depends on problem regularity").
 
@@ -58,11 +84,14 @@ Active lab notebook: [docs/chem-tape/experiments-v2.md](docs/chem-tape/experimen
 
 | Track | Status | Architecture | Experiments |
 |---|---|---|---|
-| **Chem-tape** | Active (v2 wrapping) | [architecture-v2.md](docs/chem-tape/architecture-v2.md) | [experiments-v2.md](docs/chem-tape/experiments-v2.md) |
+| **Chem-tape** | Active (the research loop's map) | [architecture-v2.md](docs/chem-tape/architecture-v2.md) | [experiments-v2.md](docs/chem-tape/experiments-v2.md) |
 | Folding | Complete | [architecture.md](docs/folding/architecture.md) | [findings.md](docs/folding/findings.md) |
-| **CA** | **Reviving (developmental probe)** | [architecture.md](docs/ca/architecture.md) | [experiments.md](docs/ca/experiments.md) |
+| CA | Paused (developmental probe planned) | [architecture.md](docs/ca/architecture.md) | [experiments.md](docs/ca/experiments.md) |
 
 ## Next Direction
+
+The research loop picks the next experiments (see Steps above and
+[research/digest.md](research/digest.md)). Paused plans:
 
 **CA developmental revival** — the CA track already has two ceiling-breakers on 8-bit parity (banded_3 at 0.969 max, phased_2 at 0.961 max; §11.a, §11.b). Zero existing sweeps test whether those dynamics actually *develop* — canalize, self-repair, redeploy under perturbed I/O. The plan: visuals first (atlas of evolved trajectories across all 256 inputs), damage assay second (Hamming-scar curves on mid-development perturbation), I/O-shift probe third. Rule surgery, fate maps, failure galleries, and attractor portraits follow. Dashboard grows organically around whichever visual you keep rewatching. Full plan: [Plans/ca-developmental-revival.md](Plans/ca-developmental-revival.md).
 
