@@ -1,0 +1,71 @@
+{
+  "first_solved": 4,
+  "adaptive_solved": 16,
+  "mean_G4_worker_seconds": 25.46965909365099,
+  "mean_adaptive_worker_seconds": 21.112315748621768,
+  "O_fullcap_proxy_worker_seconds": 27.71863558066206,
+  "prepare_seconds": 178.01789020793512,
+  "effective_workers": 8.374773743689673,
+  "acquisition_mean_worker_seconds": 745.5977387053426,
+  "full_scoring_projection_seconds": 3417.3857485262406,
+  "projected_24_build_prepare_seconds": 2136.2146824952215,
+  "source_builds": {
+    "0": {
+      "first_yield": 1,
+      "adaptive_yield": 7,
+      "intermediate_empty_cells": [
+        "DG:(X2+X3)>(X0+X1)?X0:X2",
+        "DG:(X2+X3)>(X0+X1)?X1:X0",
+        "DG:(X0+X1)>(X2+X3)?X3:X0"
+      ],
+      "final_empty_cells": [],
+      "intermediate_empty_corpus": false,
+      "final_empty_corpus": false,
+      "intermediate_empty_library": true,
+      "final_empty_library": false,
+      "library_size": 32,
+      "acquisition": {
+        "evaluations": 14210560,
+        "source_worker_seconds": 791.7494254555786,
+        "verification_seconds": 0.0009297910146415234,
+        "fit_seconds": 0.12364358291961253,
+        "extraction_seconds": 0.03709799994248897
+      },
+      "intermediate_fitting": {
+        "evaluations": 8022528,
+        "source_worker_seconds": 435.07195991568733,
+        "verification_seconds": 0.00020837504416704178,
+        "fit_seconds": 0.11983262503053993,
+        "extraction_seconds": 0.00128604203928262
+      }
+    },
+    "1": {
+      "first_yield": 3,
+      "adaptive_yield": 9,
+      "intermediate_empty_cells": [
+        "DG:(X2+X3)>(X0+X1)?X0:X2",
+        "DG:(X2+X3)>(X0+X1)?X1:X0"
+      ],
+      "final_empty_cells": [],
+      "intermediate_empty_corpus": false,
+      "final_empty_corpus": false,
+      "intermediate_empty_library": false,
+      "final_empty_library": false,
+      "library_size": 32,
+      "acquisition": {
+        "evaluations": 13389824,
+        "source_worker_seconds": 698.8737694971496,
+        "verification_seconds": 0.0014091669581830502,
+        "fit_seconds": 0.12305841594934464,
+        "extraction_seconds": 0.0409146670717746
+      },
+      "intermediate_fitting": {
+        "evaluations": 7345920,
+        "source_worker_seconds": 379.9571310811443,
+        "verification_seconds": 0.00039304199162870646,
+        "fit_seconds": 0.11991666699759662,
+        "extraction_seconds": 0.0035920829977840185
+      }
+    }
+  }
+}

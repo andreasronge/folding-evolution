@@ -1900,3 +1900,43 @@ required a review after this stage; the stage-2 design is the steward's suggesti
 Note 7 of [critique 0311](../../runs/2026-10-10-0311/critique.md): 38's log and decision 0145 said scoring S8′
 "would place the PA deficit". It could help distinguish an adaptive-step effect from source/build
 variation but may not locate the deficit. Corrected in [38's log](38-cheap-bias-source-replication/log.md).
+
+## 2026-10-10: run 2026-10-10-1536 (40), fresh A8 builds on the independent-input family's protected cells — ran
+
+Slot 32 (strategy 1536 raised the budget 31 → 32). Run 1536 (commit `7244fa1`, code review pass,
+[analysis](../../runs/2026-10-10-1536/analysis.md)), details in [40](40-independent-input-protected-transfer/log.md).
+24 fresh A8″ builds from the four source cells of `x4-double-gate-v1` (`v2_x4`, D625), scored with G4 on
+the eight protected cells (never searched before), 48 shared seeds per cell; O (eight reinterpreted
+old-family builds) descriptive. cost(G4)/cost(A8″) 10.1× [7.6, 13.1] at 2 × cap, 6.4× [5.0, 8.0] at 1 × cap,
+against a pre-set 1.5× margin; solved A8″ 317/384, G4 63/384 (321 capped), O 58/128. All 8 cells and all 24
+builds favour A8″ (build 16 at 1.5× at 1 × cap). Unseen-pairing cells 6.8× [4.9, 9.2] vs seen 12.8× [9.0, 17.8]
+(descriptive). O/A8″ 4.3× [2.7, 6.6]. Sparse discovery again (64/384 first batch; 8/24 empty intermediate
+libraries) without defeating any build. Repays G4 after about 40 searches in evaluations.
+
+Decision: close 40 and return to strategy (`next: strategy`) because the rule fired with a wide margin under
+both failure charges, answering the question at this scope (within-bank protected replication relative to G4
+at this cap); root 10's 32 slots are used and strategy 1536 asked for a review after this comparison. The
+belief enters the digest. Critique 1536 notes 6–7 fixed: 39's censoring wording and 40's `fresh-transfer` tag.
+([decision](../../runs/2026-10-10-1536/decision.md))
+
+## 2026-10-10 — digest condensing (steward task 2026-10-10-1536): former digest text moved here
+
+The digest's two partial-program bullets (27, 28) were condensed to one paragraph to make room for 40. Former text:
+
+```
+**Context fitted to non-solving programs (external fitting, before any exact solve).**
+- **Tapes from G4 searches that had not yet solved teach a context fit (C_S) that beats a token fit
+  to the same tapes, and G4, on the comparison-gate training cells, mostly by more runs solving
+  within the cap.** Parents stopped at first solve or 65k evaluations: C_S/T_S 1.28× [1.12, 1.45]
+  (both-solved 1.05× [0.88, 1.24]; PA unresolved); C_S/G4 1.62× [1.37, 1.90], again on fresh
+  seeds. Selected parents not resolved from uniform population samples (1.04× [0.92, 1.16]). The
+  exact-solver fit stays 3.7× faster for about 7.9× more source evaluations. Scope: own training
+  cells, one collection horizon. ([27](questions/10-compositional-map-transfer/27-partial-program-context/question.md), [run 1831](runs/2026-10-08-1831/analysis.md))
+- **Collecting further under that partial fit beat collecting the same allocation under G4, by a
+  small margin resolved only on BE.** Two rounds under the updated fit against one fit to
+  G4-collected tapes, 96 sources per cell per arm: 1.18× [1.01, 1.37] (BE 1.42×, PA 0.98× [0.83,
+  1.16]); over keeping the first fit unresolved (1.16× [0.99, 1.36]); far below the exact-solver
+  fit (0.31×). Scope: 27's training cells, three rounds; yield and tape content bundled.
+  ([28](questions/10-compositional-map-transfer/28-partial-program-feedback/question.md), [run 2116](runs/2026-10-08-2116/analysis.md))
+
+```

@@ -1,0 +1,549 @@
+{
+  "status": "smoke",
+  "protected_performance_scored": false,
+  "bank": "x4-double-gate-v1",
+  "alphabet": "v2_x4",
+  "summary": {
+    "ratios": {
+      "G4/A8": {
+        "point": 1.0,
+        "interval95": [
+          1.0,
+          1.0
+        ]
+      },
+      "G4/O": {
+        "point": 1.0,
+        "interval95": [
+          1.0,
+          1.0
+        ]
+      },
+      "O/A8": {
+        "point": 1.0,
+        "interval95": [
+          1.0,
+          1.0
+        ]
+      }
+    },
+    "decision": "not worthwhile at this margin",
+    "margin": 1.5,
+    "failure_penalty": 2,
+    "bootstrap": {
+      "draws": 512,
+      "seed": 730000,
+      "unit": "fresh acquisition build / old artifact",
+      "G4": "one shared cell-stratified baseline seed draw per replicate",
+      "O": "four BE plus four PA artifacts resampled within strata",
+      "targets": "fixed cells/source roster/family; two seeds resampled within selected build and cell"
+    },
+    "solve_counts": {
+      "G4": {
+        "solved": 0,
+        "attempts": 16,
+        "fraction": 0.0,
+        "descriptive_Wilson95": [
+          0.0,
+          0.1936076805344365
+        ]
+      },
+      "A8": {
+        "solved": 0,
+        "attempts": 16,
+        "fraction": 0.0,
+        "descriptive_Wilson95": [
+          0.0,
+          0.1936076805344365
+        ]
+      },
+      "O": {
+        "solved": 0,
+        "attempts": 16,
+        "fraction": 0.0,
+        "descriptive_Wilson95": [
+          0.0,
+          0.1936076805344365
+        ]
+      }
+    },
+    "solve_interval_scope": "descriptive Wilson intervals; shared fitted builds are not independent acquisition replicates",
+    "build_log_sd": {
+      "A8": 0.0,
+      "O": 0.0
+    },
+    "build_mean_log_costs": {
+      "A8": [
+        9.704060527839234,
+        9.704060527839234
+      ],
+      "O": [
+        9.704060527839234,
+        9.704060527839234
+      ]
+    },
+    "per_cell": {
+      "DG:(X0+X3)>(X1+X2)?X1:X2": {
+        "G4": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        },
+        "A8": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        },
+        "O": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        }
+      },
+      "DG:(X1+X2)>(X0+X3)?X0:X1": {
+        "G4": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        },
+        "A8": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        },
+        "O": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        }
+      },
+      "DG:(X1+X3)>(X0+X2)?X2:X1": {
+        "G4": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        },
+        "A8": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        },
+        "O": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        }
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X3": {
+        "G4": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        },
+        "A8": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        },
+        "O": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        }
+      }
+    }
+  },
+  "sensitivity_1cap": {
+    "ratios": {
+      "G4/A8": {
+        "point": 1.0,
+        "interval95": [
+          1.0,
+          1.0
+        ]
+      },
+      "G4/O": {
+        "point": 1.0,
+        "interval95": [
+          1.0,
+          1.0
+        ]
+      },
+      "O/A8": {
+        "point": 1.0,
+        "interval95": [
+          1.0,
+          1.0
+        ]
+      }
+    },
+    "decision": "not worthwhile at this margin",
+    "margin": 1.5,
+    "failure_penalty": 1,
+    "bootstrap": {
+      "draws": 512,
+      "seed": 730000,
+      "unit": "fresh acquisition build / old artifact",
+      "G4": "one shared cell-stratified baseline seed draw per replicate",
+      "O": "four BE plus four PA artifacts resampled within strata",
+      "targets": "fixed cells/source roster/family; two seeds resampled within selected build and cell"
+    },
+    "solve_counts": {
+      "G4": {
+        "solved": 0,
+        "attempts": 16,
+        "fraction": 0.0,
+        "descriptive_Wilson95": [
+          0.0,
+          0.1936076805344365
+        ]
+      },
+      "A8": {
+        "solved": 0,
+        "attempts": 16,
+        "fraction": 0.0,
+        "descriptive_Wilson95": [
+          0.0,
+          0.1936076805344365
+        ]
+      },
+      "O": {
+        "solved": 0,
+        "attempts": 16,
+        "fraction": 0.0,
+        "descriptive_Wilson95": [
+          0.0,
+          0.1936076805344365
+        ]
+      }
+    },
+    "solve_interval_scope": "descriptive Wilson intervals; shared fitted builds are not independent acquisition replicates",
+    "build_log_sd": {
+      "A8": 0.0,
+      "O": 0.0
+    },
+    "build_mean_log_costs": {
+      "A8": [
+        9.010913347279288,
+        9.010913347279288
+      ],
+      "O": [
+        9.010913347279288,
+        9.010913347279288
+      ]
+    },
+    "per_cell": {
+      "DG:(X0+X3)>(X1+X2)?X1:X2": {
+        "G4": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 8191.9999999999945
+        },
+        "A8": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 8191.9999999999945
+        },
+        "O": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 8191.9999999999945
+        }
+      },
+      "DG:(X1+X2)>(X0+X3)?X0:X1": {
+        "G4": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 8191.9999999999945
+        },
+        "A8": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 8191.9999999999945
+        },
+        "O": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 8191.9999999999945
+        }
+      },
+      "DG:(X1+X3)>(X0+X2)?X2:X1": {
+        "G4": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 8191.9999999999945
+        },
+        "A8": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 8191.9999999999945
+        },
+        "O": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 8191.9999999999945
+        }
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X3": {
+        "G4": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 8191.9999999999945
+        },
+        "A8": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 8191.9999999999945
+        },
+        "O": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 8191.9999999999945
+        }
+      }
+    }
+  },
+  "penalty_sensitive": false,
+  "subgroups": {
+    "unseen_pairing": {
+      "cells": [
+        "DG:(X1+X3)>(X0+X2)?X2:X1"
+      ],
+      "ratios": {
+        "G4/A8": {
+          "point": 1.0,
+          "interval95": [
+            1.0,
+            1.0
+          ]
+        },
+        "G4/O": {
+          "point": 1.0,
+          "interval95": [
+            1.0,
+            1.0
+          ]
+        },
+        "O/A8": {
+          "point": 1.0,
+          "interval95": [
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "solve_counts": {
+        "G4": {
+          "solved": 0,
+          "attempts": 4,
+          "fraction": 0.0,
+          "descriptive_Wilson95": [
+            0.0,
+            0.4898908364545973
+          ]
+        },
+        "A8": {
+          "solved": 0,
+          "attempts": 4,
+          "fraction": 0.0,
+          "descriptive_Wilson95": [
+            0.0,
+            0.4898908364545973
+          ]
+        },
+        "O": {
+          "solved": 0,
+          "attempts": 4,
+          "fraction": 0.0,
+          "descriptive_Wilson95": [
+            0.0,
+            0.4898908364545973
+          ]
+        }
+      },
+      "scope": "descriptive; no subgroup decision"
+    },
+    "source_seen_pairing": {
+      "cells": [
+        "DG:(X0+X3)>(X1+X2)?X1:X2",
+        "DG:(X1+X2)>(X0+X3)?X0:X1",
+        "DG:(X2+X3)>(X0+X1)?X1:X3"
+      ],
+      "ratios": {
+        "G4/A8": {
+          "point": 1.0,
+          "interval95": [
+            1.0,
+            1.0
+          ]
+        },
+        "G4/O": {
+          "point": 1.0,
+          "interval95": [
+            1.0,
+            1.0
+          ]
+        },
+        "O/A8": {
+          "point": 1.0,
+          "interval95": [
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "solve_counts": {
+        "G4": {
+          "solved": 0,
+          "attempts": 12,
+          "fraction": 0.0,
+          "descriptive_Wilson95": [
+            2.7755575615628914e-17,
+            0.24249400665524085
+          ]
+        },
+        "A8": {
+          "solved": 0,
+          "attempts": 12,
+          "fraction": 0.0,
+          "descriptive_Wilson95": [
+            2.7755575615628914e-17,
+            0.24249400665524085
+          ]
+        },
+        "O": {
+          "solved": 0,
+          "attempts": 12,
+          "fraction": 0.0,
+          "descriptive_Wilson95": [
+            2.7755575615628914e-17,
+            0.24249400665524085
+          ]
+        }
+      },
+      "scope": "descriptive; no subgroup decision"
+    }
+  },
+  "economics": {
+    "acquisition": {
+      "0": {
+        "evaluations": 262144,
+        "worker_seconds": 8.682774752378464
+      },
+      "1": {
+        "evaluations": 262144,
+        "worker_seconds": 8.469885123660788
+      }
+    },
+    "per_build": {
+      "0": {
+        "acquisition": {
+          "evaluations": 262144,
+          "worker_seconds": 8.682774752378464
+        },
+        "target_searches": 8,
+        "A8_acquisition_plus_search_evaluations": 327680,
+        "matched_G4_search_evaluations": 65536,
+        "mean_evaluation_saving_per_search": 0.0,
+        "repayment_searches": null
+      },
+      "1": {
+        "acquisition": {
+          "evaluations": 262144,
+          "worker_seconds": 8.469885123660788
+        },
+        "target_searches": 8,
+        "A8_acquisition_plus_search_evaluations": 327680,
+        "matched_G4_search_evaluations": 65536,
+        "mean_evaluation_saving_per_search": 0.0,
+        "repayment_searches": null
+      }
+    },
+    "acquisition_mean_evaluations": 262144.0,
+    "acquisition_total_evaluations": 524288,
+    "acquisition_mean_worker_seconds": 8.576329938019626,
+    "mean_search_evaluations": {
+      "G4": 8192.0,
+      "A8": 8192.0,
+      "O": 8192.0
+    },
+    "mean_search_worker_seconds": {
+      "G4": 0.2598134451400256,
+      "A8": 0.26328339330939343,
+      "O": 0.3164642654446652
+    },
+    "scoring_total_evaluations": 393216,
+    "arithmetic_saving_per_search": 0.0,
+    "repayment_searches": null,
+    "repayment_scope": "arithmetic evaluations actually spent, failures charged cap; acquisition once per deployed build; no finite repayment if savings<=0; no wall-time claim",
+    "first_yield_target_log_cost_spearman": null,
+    "empty_intermediate_target_geometric_cost": {
+      "True": 16383.99999999999
+    },
+    "association_scope": "descriptive build-level acquisition yield/fallback association, not causal attribution"
+  },
+  "resolution_price": {
+    "needed": false,
+    "scenarios": [
+      {
+        "mode": "baseline_grows_with_builds",
+        "achievable_within512_builds": true,
+        "scenario": {
+          "fresh_builds": 24,
+          "baseline_seeds_per_cell": 48,
+          "jobs": {
+            "acquisition": 768,
+            "A8": 192,
+            "G4": 192
+          },
+          "half_width_factor": 1.0,
+          "total_evaluations": 9437184.0,
+          "total_worker_seconds": 306.26651149475947
+        }
+      },
+      {
+        "mode": "baseline_fixed48_per_cell",
+        "achievable_within512_builds": true,
+        "scenario": {
+          "fresh_builds": 24,
+          "baseline_seeds_per_cell": 48,
+          "jobs": {
+            "acquisition": 768,
+            "A8": 192,
+            "G4": 192
+          },
+          "half_width_factor": 1.0,
+          "total_evaluations": 9437184.0,
+          "total_worker_seconds": 306.26651149475947
+        }
+      }
+    ],
+    "observed_build_variance": 0.0,
+    "observed_G4_seed_variance": 0.0,
+    "baseline_fixed48_floor_factor": 1.0,
+    "scope": "conditional resolution at observed point and capped-cost variances; independent new run would need approval; no power guarantee; all-capped or mostly-capped data cannot price uncapped difficulty"
+  },
+  "preparation_seconds": 6.398359249928035,
+  "score_timing": {
+    "jobs": 48,
+    "wall_seconds": 2.806943624978885,
+    "worker_seconds": 13.432977662305348,
+    "effective_workers": 4.785624314918827,
+    "exact_check_seconds": 0.0,
+    "max_exact_check_seconds": 0.0
+  },
+  "old_identities": [
+    "BE1|A8",
+    "BE2|A8",
+    "BE3|A8",
+    "BE4|A8",
+    "PA1|A8",
+    "PA2|A8",
+    "PA3|A8",
+    "PA4|A8"
+  ],
+  "readings": [
+    "All arms mostly cap; a ratio near one says little about uncapped difficulty or why acquisition failed."
+  ],
+  "scope": "protected within-development-bank confirmation relative to supplied G4 at this cap; fixed family/cells/roster; no fresh-bank transfer, general portability, inheritance, predicate-placement isolation, or context/fragment/supply attribution; O token reinterpretation prevents family-specificity inference"
+}

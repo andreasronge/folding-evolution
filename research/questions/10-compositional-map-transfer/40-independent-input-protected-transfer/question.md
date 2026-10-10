@@ -1,41 +1,48 @@
 ---
-status: open
-tags: [compositional-transfer, new-family, fresh-transfer, acquisition-cost, external-fitting, independent-inputs]
+status: closed
+tags: [compositional-transfer, new-family, protected-replication, acquisition-cost, external-fitting, independent-inputs]
 budget: {experiments: 1, used: 0}
 ---
 # Does the unchanged A8 recipe, rebuilt on the independent-input double-gate family, help fresh search on its protected cells?
 
-Current summary: **open, awaiting allocation (stage 2 suggested to strategy).** Every useful A8
-result so far came from branch-else/post-addition sources with output-addition targets. On the
-independent-input bank ([39](../39-independent-input-family-bank/question.md)), a pilot of eight
-builds was far cheaper than G4 on four development cells (G4/A8 12.2× [6.7, 20.7], penalty-inflated;
-A8 solved 55/64 against G4's 7/64). That is a probe observation on development cells. This question
-asks whether independently rebuilt A8 artifacts, frozen with the method, beat contemporaneous G4 by a
-worthwhile margin (pre-set 1.5×) on the eight protected cells, three of which use a predicate pairing
-({02|13}) that no source cell has.
+Current summary: **closed (answered at this scope: useful protected-cell replication on
+`x4-double-gate-v1`, relative to G4 at this cap).** Every earlier useful A8 result came from
+branch-else/post-addition sources with output-addition targets. On the independent-input bank
+([39](../39-independent-input-family-bank/question.md)), `(Xa+Xb)>(Xc+Xd) ? Xe:Xf` with addition inside
+the predicate, 24 fresh A8″ builds from the four source cells were scored against the fixed G4 prior on
+the eight protected cells, which had never been searched (run
+[1536](../../../runs/2026-10-10-1536/analysis.md)): cost(G4)/cost(A8″) **10.1× [7.6, 13.1]** with failures
+charged at 2 × cap, **6.4× [5.0, 8.0]** at 1 × cap, against a pre-set 1.5× margin. A8″ solved 317/384
+searches, G4 63/384 (321 G4 searches capped), so the magnitude is a capped-cost ratio against a weak
+baseline, not a time-to-solution ratio. Every build beat pooled G4 by more than 1.5× at 2 × cap, despite
+sparse first-batch discovery (64/384) and eight builds with an empty intermediate library. On the three
+cells whose predicate pairing {02|13} no source has, the advantage was smaller but large (6.8× [4.9, 9.2],
+descriptive). Eight reinterpreted old-family builds (O) were in between (O/A8″ 4.3× [2.7, 6.6]). One build
+repays its acquisition after about 40 searches in evaluations.
 
-Competing explanations for a gain:
+Competing explanations for the gain, none separated here:
 - (a) the recipe learns the new double-sum assembly from its own sources (context plus fragments);
-- (b) generic push/ADD/GT syntax shared with older families carries it: eight reinterpreted
-  old-family builds (O) scored as a descriptive arm;
-- (c) supply only (readout and ADD frequency): not separated here; earlier frequency replacements
-  did not reproduce C on the old banks, but that is not tested on this family.
+- (b) generic push/ADD/GT syntax shared with older families: O helps much less than fresh builds, which
+  bounds this for those eight reinterpreted artifacts only (token reinterpretation confounds it);
+- (c) supply only (readout and ADD frequency): untested on this family.
 
-Competing explanations for no gain: sparse first-batch discovery (median 2.5/16 per build in the
-pilot) leaves some builds with thin fits; or the protected cells, especially the unseen pairing,
-need assembly the sources do not teach.
-
-Scope: one family, alphabet `v2_x4`, D625, 8 protected cells of bank `x4-double-gate-v1` (frozen by
-SHA before any search, never scored); external fitting, not inheritance; decoder, library, yield and
-content bundled.
+Scope: one family, alphabet `v2_x4`, D625, the 8 protected cells of development bank `x4-double-gate-v1`
+(within-bank confirmation, not fresh-bank transfer or general portability); G4 is a supplied prior, not
+a demonstrated competitive baseline here; decoder, library, yield and content bundled; alphabet, domain
+and predicate placement changed together relative to the output-addition banks; external fitting, not
+inheritance.
 
 Opened 2026-10-10 (steward, run 2026-10-10-0311) after [39](../39-independent-input-family-bank/question.md)'s
-pilot; follows the [plan](../../../plans/independent-input-family-acquisition.md)'s second stage, which
-needs its own allocation. Budget 1, counted against root 10 (31 of 31 used at opening).
+pilot. Slot 32 of root 10 (strategy 1536 raised the budget 31 → 32). Closed 2026-10-10 after run 1536.
 
 Related: [39](../39-independent-input-family-bank/question.md), [38](../38-cheap-bias-source-replication/question.md),
 [37](../37-cheap-bias-fresh-transfer/question.md), [run 0311 analysis](../../../runs/2026-10-10-0311/analysis.md),
-[run 0311 decision](../../../runs/2026-10-10-0311/decision.md), [log](log.md).
+[run 1536 proposal](../../../runs/2026-10-10-1536/proposal.md),
+[run 1536 analysis](../../../runs/2026-10-10-1536/analysis.md),
+[run 1536 decision](../../../runs/2026-10-10-1536/decision.md),
+[plan](../../../plans/independent-input-family-acquisition.md), [log](log.md).
 
-Reopen if: (not closed). If strategy declines the allocation, park with reopen condition: a decision
-comes to depend on whether external acquisition extends beyond output-addition families.
+Reopen if: a decision comes to depend on a quantity this design left open that its saved artifacts can
+answer without new acquisition, e.g. A8″ against a stronger uninformed baseline on these cells, or
+per-build attribution (context table alone against context plus library) using the 24 frozen builds.
+Family specificity, fresh-bank transfer and inheritance belong in new questions.

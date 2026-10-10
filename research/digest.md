@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-10, after run 2026-10-10-0311 (commit `09c850d`). Core question since the
+As of 2026-10-10, after run 2026-10-10-1536 (commit `7244fa1`). Core question since the
 2026-09-25 reframe: *how does the genotype→program map bias what evolution finds and keeps
 ("arrival of the frequent"), and can that bias be adapted to a task family?* History and
 superseded numbers are in the questions' `log.md` files.
@@ -74,15 +74,15 @@ P 1024, L 64). Fairly sure for these layouts; nothing beyond them.
   (≤ 1.2e-7). 100 insertions cannot tell drift from a disadvantage.
   ([07](questions/01-map-bias/07-shared-arrival/question.md), parked; [03](questions/01-map-bias/03-rare-shared-establishment/question.md) closed)
 
-## 10 Compositional map transfer (root open, 31 of 31 used)
+## 10 Compositional map transfer (root open, 32 of 32 used)
 
 [10](questions/10-compositional-map-transfer/question.md): can a decoder adapted across related
 tasks help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 Stack tape `v2_rmin(_first)`, D1331 (length-3 lists over −5..5; only 11's first bank used length-4
 lists), P 256, lexicase on 64 cases with an exact domain check, 524k cap. G / G4: hand-set
 previous-token grammars (post-addition split; four-reducer bank); "-marg": the same token
-marginals without context. Sub-questions 11–39 closed; 40 open. Every bank, including then-addition-v1 (26)
-and two-sum-v1 (37), each fresh when first scored, is now a development bank.
+marginals without context. Sub-questions 11–40 closed. Every bank, including then-addition-v1 (26),
+two-sum-v1 (37) and x4-double-gate-v1 (39–40), is now a development bank.
 
 **Banks.** Sign-gated banks could not support a symmetric two-family test (these shapes and rules;
 [11](questions/10-compositional-map-transfer/11-composition-bank/question.md),
@@ -227,32 +227,36 @@ marginals) and W (blocks sampled from C's own chain), same length and start laws
   unscored). Acquisition 4.5 M evaluations, repaying G4 after about 35 searches in evaluations.
   Scope: one alternative roster in the same two families; development data on both sides.
   ([38](questions/10-compositional-map-transfer/38-cheap-bias-source-replication/question.md), [run 0145](runs/2026-10-10-0145/analysis.md))
+- **On one family with addition inside the predicate, fresh A8 builds were about 6–10× cheaper than
+  the weak G4 prior on its eight protected cells.** `(Xa+Xb)>(Xc+Xd) ? Xe:Xf` over four independent
+  readouts (alphabet `v2_x4`, D625); 24 builds from four sparse sources (first batch 64/384 solved).
+  cost(G4)/cost(A8″) 10.1× [7.6, 13.1] with failures at 2 × cap, 6.4× [5.0, 8.0] at 1 × cap (margin
+  1.5×); solved 317/384 against 63/384; every build above 1.5× at 2 × cap; three cells with a predicate
+  pairing no source has 6.8× [4.9, 9.2] (descriptive). Reinterpreted old-family builds were clearly
+  weaker (O/A8″ 4.3× [2.7, 6.6]; token reinterpretation, so not a specificity test). Scope: capped-cost
+  ratio (321/384 G4 capped); within-bank protected cells, not a fresh bank; alphabet, domain and
+  predicate placement changed together; context, fragments and supply bundled.
+  ([39](questions/10-compositional-map-transfer/39-independent-input-family-bank/question.md),
+  [40](questions/10-compositional-map-transfer/40-independent-input-protected-transfer/question.md), [run 1536](runs/2026-10-10-1536/analysis.md))
 
-**Context fitted to non-solving programs (external fitting, before any exact solve).**
-- **Tapes from G4 searches that had not yet solved teach a context fit (C_S) that beats a token fit
-  to the same tapes, and G4, on the comparison-gate training cells, mostly by more runs solving
-  within the cap.** Parents stopped at first solve or 65k evaluations: C_S/T_S 1.28× [1.12, 1.45]
-  (both-solved 1.05× [0.88, 1.24]; PA unresolved); C_S/G4 1.62× [1.37, 1.90], again on fresh
-  seeds. Selected parents not resolved from uniform population samples (1.04× [0.92, 1.16]). The
-  exact-solver fit stays 3.7× faster for about 7.9× more source evaluations. Scope: own training
-  cells, one collection horizon. ([27](questions/10-compositional-map-transfer/27-partial-program-context/question.md), [run 1831](runs/2026-10-08-1831/analysis.md))
-- **Collecting further under that partial fit beat collecting the same allocation under G4, by a
-  small margin resolved only on BE.** Two rounds under the updated fit against one fit to
-  G4-collected tapes, 96 sources per cell per arm: 1.18× [1.01, 1.37] (BE 1.42×, PA 0.98× [0.83,
-  1.16]); over keeping the first fit unresolved (1.16× [0.99, 1.36]); far below the exact-solver
-  fit (0.31×). Scope: 27's training cells, three rounds; yield and tape content bundled.
-  ([28](questions/10-compositional-map-transfer/28-partial-program-feedback/question.md), [run 2116](runs/2026-10-08-2116/analysis.md))
+**Context fitted to non-solving programs (external fitting, before any exact solve).** On the
+comparison-gate training cells, a context fit to tapes from G4 searches that had not yet solved beat
+a token fit to the same tapes 1.28× [1.12, 1.45] and G4 1.62× [1.37, 1.90], mostly by more runs
+solving within the cap; the exact-solver fit stays 3.7× faster for about 7.9× more source
+evaluations. Two further collection rounds under the updated fit beat equal G4 collection 1.18×
+[1.01, 1.37], resolved only on BE. Scope: own training cells, one horizon.
+([27](questions/10-compositional-map-transfer/27-partial-program-context/question.md),
+[28](questions/10-compositional-map-transfer/28-partial-program-feedback/question.md))
 
 **Overall.** Solver-fitted context beyond token frequency transfers about 2× to withheld
 compositions and one fresh shape; tested projections and recodings do not reproduce it. Fragment
-block edits add about 1.5× over C (about 1.2× beyond C's own chain blocks). Four source attempts
-per cell instead of 48 cost a third of the speed; one adaptive batch of four more (A8) is
-unresolved from full speed at a tenth of the acquisition, not materially slower on one fresh shape
-(a 1.20× loss excluded), and about 2.5× faster than G4 when rebuilt from another source roster in
-these families. Selection has not established a contextual gain; learned token biases transfer
-about 2× without resolved family specificity. Not shown: that evolution reaches fitted context or
-fragments; what in C carries its advantage; the cheap recipe on a new family (one probe pending protected confirmation, [40](questions/10-compositional-map-transfer/40-independent-input-protected-transfer/question.md)) or arbitrary sources;
-transfer beyond two fresh output shapes.
+block edits add about 1.5× over C. The cheap A8 recipe (a tenth of the acquisition) is unresolved
+from full speed, about 2.5× faster than G4 when rebuilt from another roster, and 6–10× cheaper in
+capped cost than G4 on protected cells of one predicate-addition family. Selection has not established a contextual gain;
+learned token biases transfer about 2× without resolved family specificity. Not shown: that
+evolution reaches fitted context or fragments; what in C or A8 carries the advantage; whether A8
+builds are family-specific; A8 on a fresh bank of a new family, against a strong baseline, or from
+arbitrary sources; transfer beyond two fresh output shapes.
 
 ## 23 Heritable variation bias (root parked, budget 2, 2 used)
 

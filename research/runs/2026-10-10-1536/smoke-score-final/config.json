@@ -1,0 +1,28 @@
+{
+  "task": "2026-10-10-1536",
+  "alphabet": "v2_x4",
+  "bank": "x4-double-gate-v1",
+  "smoke": true,
+  "arguments": {
+    "prepare": false,
+    "preparation": "/Users/andreas/developer/folding-evolution/research/runs/2026-10-10-1536/smoke-prepare-final/preparation.json",
+    "smoke": true,
+    "protected": true,
+    "workers": 10,
+    "deadline_seconds": 180
+  },
+  "cap": 8192,
+  "population": 256,
+  "lexicase_cases": 64,
+  "git_commit": "2b4b8d0f0d19db46c504cc63a301d9e0cdabbdae",
+  "recipe": "unchanged G4; 4+4/cell; alpha50 C; active recurrent3..6 windows, max32; F rate0.2 suffix preserved",
+  "method": {
+    "tape_length": 32,
+    "crossover": 0.7,
+    "mutation": 0.03,
+    "elites": 2
+  },
+  "reinterpretation": "O token ids unchanged; reducers explicitly reinterpreted as X0..X3",
+  "protected_performance_scored": false,
+  "target_partition": "development"
+}

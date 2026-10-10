@@ -13,8 +13,9 @@ Python, Rust and the semantic machine. Source discovery under the unchanged G4 p
 (first batch 22/128, 17% [12, 25]; per-build median 2.5/16, below the pre-stated 4/16 reading), yet
 the unchanged A8 recipe completed all eight pilot builds, its adaptive batch solving 81/128. On the
 four development cells (16 shared seeds per arm) the pilot observed G4 7/64, A8 55/64, old-family
-A8′ reinterpreted (O) 22/64 solved; G4/A8 12.2× [6.7, 20.7], O/A8 6.7× [3.5, 12.5], magnitudes inflated
-by 57/64 G4 searches at the cap. These are probe observations on hash-chosen development cells, not
+A8′ reinterpreted (O) 22/64 solved; G4/A8 12.2× [6.7, 20.7], O/A8 6.7× [3.5, 12.5]. Both ratios are
+sensitive to failure charges: G4/A8 falls from 12.2× to 7.3× (57/64 G4 searches capped) and O/A8 from
+6.7× to 4.7× (42/64 O searches capped) at 1 × cap. These are probe observations on hash-chosen development cells, not
 beliefs; the protected comparison is [40](../40-independent-input-protected-transfer/question.md).
 Pilot run: [analysis](../../../runs/2026-10-10-0311/analysis.md).
 
@@ -50,6 +51,9 @@ Related: [38](../38-cheap-bias-source-replication/question.md), [37](../37-cheap
 [40](../40-independent-input-protected-transfer/question.md),
 [proposal](../../../runs/2026-10-10-0311/proposal.md), [analysis](../../../runs/2026-10-10-0311/analysis.md),
 [decision](../../../runs/2026-10-10-0311/decision.md), [log](log.md).
+
+The protected comparison ran in [40](../40-independent-input-protected-transfer/question.md) (run 1536):
+24 fresh builds, G4/A8″ 10.1× [7.6, 13.1] on the eight protected cells.
 
 Reopen if: the protected comparison (40) needs a different split or more cells (8 separated cells are
 spare in the frozen clique, already screened and validated but unscored), or a decision comes to

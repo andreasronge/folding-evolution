@@ -51,3 +51,9 @@ signal (A8 ≫ G4, O ≪ A8 on four development cells) motivates the protected-c
 as [40](../40-independent-input-protected-transfer/question.md); it is not a belief and does not
 enter the digest. Strategy 0311 asked for a return to strategy after this stage, so the decision goes
 to strategy with the stage-2 design as the steward's suggestion.
+
+2026-10-10 (steward, run 2026-10-10-1536): wording correction from critique 1536 note 6, no new data. The
+entry above says the magnitudes are penalty-driven because 57/64 G4 searches hit the cap; G4 censoring cannot
+affect O/A8. Both ratios are failure-charge sensitive: G4/A8 12.2× → 7.3× and O/A8 6.7× → 4.7× (42/64 O
+searches capped) at 1 × cap. question.md corrected. The protected comparison ran as
+[40](../40-independent-input-protected-transfer/log.md).

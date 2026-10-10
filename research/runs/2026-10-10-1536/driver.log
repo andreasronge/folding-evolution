@@ -1,0 +1,19 @@
+2026-10-10 15:41:44 cycle 2026-10-10-0311 done; brief: /Users/andreas/developer/folding-evolution/research/briefs/2026-10-10-2026-10-10-0311.md
+2026-10-10 15:41:44 strategist (codex/gpt-6-astra) → strategy [herdr]
+2026-10-10 15:44:49 phase → propose
+2026-10-10 15:44:49 steward (claude/claude-opus-5-5) → propose [herdr]
+2026-10-10 15:47:33 phase → accept
+2026-10-10 15:47:33 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-10 15:49:25 phase → awaiting_approval
+2026-10-10 15:49:25 proposal: Fresh A8 builds on the independent-input double-gate family, scored on its protected cells (stage 2) [questions/10-compositional-map-transfer/40-independent-input-protected-transfer] — budget left: 1. Approve with `research.py approve`.
+2026-10-10 15:49:25 auto-approved (critic: approve_with_notes, revisions: 0)
+2026-10-10 15:49:25 phase → prepare
+2026-10-10 15:49:44 researcher (codex/gpt-6.1-sol) → prepare [herdr]
+2026-10-10 16:01:46 phase → review_code
+2026-10-10 16:01:46 reviewer (claude/claude-fable-5-1) → review_code [herdr]
+2026-10-10 16:06:22 phase → execute
+2026-10-10 16:06:22 running queue (2 entries)
+2026-10-10 17:09:40 phase → analyse
+2026-10-10 17:09:40 reviewer (claude/claude-fable-5-1) → analyse [herdr]
+2026-10-10 17:17:42 phase → decide
+2026-10-10 17:17:42 steward (claude/claude-opus-5-5) → decide [herdr]
