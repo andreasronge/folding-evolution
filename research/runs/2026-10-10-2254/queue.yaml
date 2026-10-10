@@ -1,0 +1,63 @@
+runs:
+  - id: 2026-10-10-2254-prepare
+    cmd: >-
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.tree_gp_run
+      --prepare --workers 10 --deadline-seconds 1800
+    timeout_seconds: 1800
+    track: chem-tape
+    expect_outputs:
+      - preparation.json
+      - schedule_audit.json
+      - method_freeze.json
+      - calibration_schedule.json
+      - target_schedule.json
+      - validation.json
+      - replay.jsonl
+      - calibration_DG.jsonl
+      - calibration_TS.jsonl
+      - timing.json
+    notes: >-
+      No fresh target scoring. Audit seeds/provenance, replay 16 native A8 searches,
+      run 256 fixed source/development calibrations, freeze one mix, measure
+      sustained concurrency/full-cap tails/precision, require 80% scoring admission.
+      DG solve fraction below 25% blocks scoring and returns to reviewer/strategy.
+  - id: 2026-10-10-2254-dg
+    cmd: >-
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.tree_gp_run
+      --family DG --workers 10 --deadline-seconds 7200
+      --preparation "$RUN_DIR/../2026-10-10-2254-prepare"
+    timeout_seconds: 7200
+    track: chem-tape
+    expect_outputs:
+      - search.jsonl
+      - preparation.json
+      - method_freeze.json
+      - result.json
+      - report.md
+      - dynamics.png
+      - timing.json
+    notes: >-
+      Requires admitted unchanged production preparation. DG fixed eight-cell
+      roster: 384 native A8, 384 independent tree searches on the same cell/seeds,
+      128 G4 references. Primary paired 24-block bootstrap and separate repayment.
+  - id: 2026-10-10-2254-ts
+    cmd: >-
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.tree_gp_run
+      --family TS --workers 10 --deadline-seconds 5400
+      --preparation "$RUN_DIR/../2026-10-10-2254-prepare"
+      --dg-score "$RUN_DIR/../2026-10-10-2254-dg"
+    timeout_seconds: 5400
+    track: chem-tape
+    expect_outputs:
+      - search.jsonl
+      - preparation.json
+      - method_freeze.json
+      - result.json
+      - report.md
+      - dynamics.png
+      - timing.json
+    notes: >-
+      Requires production preparation and validates completed DG rows before TS
+      scoring. TS has the same 384/384/128 counts. Final report combines both
+      rosters, keeps TS descriptive, reports acquisition accounting and resolution
+      price, and returns to strategy with no tuning or top-up.

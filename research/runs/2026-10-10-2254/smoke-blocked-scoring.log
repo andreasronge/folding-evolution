@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-10-2254/experiments/chem_tape/tree_gp_run.py", line 843, in <module>
+    main()
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-10-2254/experiments/chem_tape/tree_gp_run.py", line 839, in main
+    Runner(args).run()
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-10-2254/experiments/chem_tape/tree_gp_run.py", line 774, in run
+    self.prepare() if self.args.prepare else self.score()
+                                             ^^^^^^^^^^^^
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-10-2254/experiments/chem_tape/tree_gp_run.py", line 730, in score
+    p = self.load_preparation()
+        ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-10-2254/experiments/chem_tape/tree_gp_run.py", line 676, in load_preparation
+    require_admission(p)
+  File "/Users/andreas/developer/folding-evolution-research/2026-10-10-2254/experiments/chem_tape/tree_gp_run.py", line 436, in require_admission
+    and p["projection"]["DG"]["chosen_solve_fraction"] >= 0.25
+        ~~~~~~~~~~~~~~~^^^^^^
+KeyError: 'DG'

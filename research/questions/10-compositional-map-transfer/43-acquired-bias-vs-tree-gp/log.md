@@ -69,3 +69,42 @@ obstacle is an error in the pre-registration's seed arithmetic, not a measured p
 of validity or of price; everything measured was in line with the plan. This departs from the letter of
 proposal 2239's exit clause ("any later gate fails → park and strategy"); that clause was written for
 obstacles that say something about the baseline or the cost. Any further gate failure parks 43.
+
+2026-10-11 (steward, run 2026-10-10-2254): critic approved with notes; one code-review repair (tail-timing
+reload order); queue at commit `c32ff04` (branch `research/2026-10-10-2254`), all three entries exit 0, 2 896 s
+of 14 400 s timeouts ([execution](../../../runs/2026-10-10-2254/execution.md),
+[analysis](../../../runs/2026-10-10-2254/analysis.md)). The slot is used.
+- Gates: seed audit admitted (zero overlaps with calibration, smoke, 1 544 saved seeds); 16/16 A8 replays
+  matched; Stage 0 chose mix 0.5 for both families (DG calibration 33/64 solved, TS 64/64); projected DG
+  2 907 s and TS 1 466 s, admitted. Complete: 896 rows per family, pairing intact, every solver re-verified
+  on D625.
+- **DG (primary), Q = cost(tree) ÷ cost(A8), 2 × cap: 0.961 [0.683, 1.352]**, inside [0.67, 1.5] (lower end
+  0.013 above the boundary): an A8 advantage of 1.5× is excluded; a tree advantage up to about 1.46× is not.
+  1 × cap sensitivity 0.785 [0.583, 1.055], unresolved; the runner flags the result penalty-sensitive.
+- The ratio near 1 hides two opposite effects. Solved: A8 314/384, tree 202/384, G4 19/128. Paired: both 165,
+  A8 only 149, tree only 37, neither 33. When tree GP solved it was fast (median 6 784 evaluations against
+  A8's 57 088; faster in 134/165 pairs both solved). Of 182 failed tree searches, 92 never reached a
+  training-perfect program and 90 found only D625 shortcuts; failed searches had about half their evaluated
+  programs at the 32-token cap and 35–42% of offspring rejected as oversize (solved searches 9%, 20–27%).
+  Every per-cell interval straddles 1.
+- Arithmetic (actual evaluations, failures at cap): A8 saves 85 714 [47 278, 123 791] evaluations per DG
+  search, repaying its 12.5 M acquisition after about 146 [99, 269] searches per build (47 [38, 61] in worker
+  seconds). Tree GP is about 1.6× slower per evaluation; per search in worker time it cost more on DG (28.2 s
+  vs 11.8 s).
+- **TS (descriptive by pre-registration): Q 0.175 [0.142, 0.217]**, all eight cells below 0.67 at their
+  point and all but one by upper bound; solved tree 382/384, A8 372/384; A8 never repays on TS
+  (saving −49 230 [−64 704, −34 126] evaluations per search).
+- Both arms far cheaper than G4 (tree ÷ G4 0.105 [0.075, 0.147] DG, 0.024 TS). A8 and G4 solve rates matched
+  their historical values (A8 DG 314 vs 312/384; G4 DG 14.8% vs 15.4%).
+- Scope: development rosters, saved 1717 builds, one frozen tree configuration (closure grammar with exactly
+  the families' primitives, 32-token cap, no tuning), evaluations as the unit. Not a causal test of learning,
+  not equality on DG, not a transfer claim.
+
+Against the explanations: (a) A8 cheaper by > 1.5× on DG is not supported (upper bound 1.35); (b) holds on
+TS and is not excluded on DG; (c) holds only as reliability on DG (A8 solves more, so it wins in arithmetic
+evaluations) while geometric cost is unresolved within the margin.
+
+Decision: close 43 and return to strategy because the pre-registered comparison ran completely and landed on
+the plan's "PASS partial, bounded geometric difference / positive savings" row, whose action is to redirect
+learning toward an increment over tree search (a smaller saving can still repay) rather than price a
+fresh-bank A8 test; the plan forbade tuning or top-ups, and root 10's budget (35 of 35) is spent.

@@ -1,0 +1,19 @@
+{
+  "git_commit": "3f60bd9f52e107fb05fffc4a857a12e8abe67e3b",
+  "projections": {
+    "DG": {
+      "planning_seconds": 4067.771226044385,
+      "limit_seconds": 5760,
+      "effective_workers": 9.220334343327314,
+      "native_seconds": 11.712199349000002
+    },
+    "TS": {
+      "planning_seconds": 3202.9309618083103,
+      "limit_seconds": 4320,
+      "effective_workers": 9.21663948360921,
+      "native_seconds": 3.6
+    }
+  },
+  "admission": false,
+  "scope": "full-cap development smoke at mix0.9; actual admission deferred to queued Stage0"
+}

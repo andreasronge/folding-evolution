@@ -1,0 +1,13 @@
+{
+  "arguments": {
+    "audit_only": false,
+    "prepare": false,
+    "preparation": "/Users/andreas/developer/folding-evolution/research/runs/2026-10-10-2254/smoke-review-repair",
+    "family": "DG",
+    "dg_score": null,
+    "smoke": false,
+    "workers": 10,
+    "deadline_seconds": 7200
+  },
+  "git_commit": "c32ff04f4d3fae4f7b74fc0b137f872ccdd9a5df"
+}
