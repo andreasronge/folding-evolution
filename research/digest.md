@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-10, after run 2026-10-10-2001 (commit `6dabda8`). Core question since the
+As of 2026-10-10, after run 2026-10-10-2214 (stopped before scoring, no new beliefs; latest evidence from commit `6dabda8`). Core question since the
 2026-09-25 reframe: *how does the genotype→program map bias what evolution finds and keeps
 ("arrival of the frequent"), and can that bias be adapted to a task family?* History, superseded
 numbers and secondary contrasts are in the questions' `log.md` files.
@@ -70,7 +70,7 @@ L 64). Fairly sure for these layouts; nothing beyond them.
   (≤ 1.2e-7). 100 insertions cannot tell drift from a disadvantage.
   ([07](questions/01-map-bias/07-shared-arrival/question.md), [03](questions/01-map-bias/03-rare-shared-establishment/question.md))
 
-## 10 Compositional map transfer (root open, 34 of 34 used)
+## 10 Compositional map transfer (root open, budget 35, 34 used)
 
 [10](questions/10-compositional-map-transfer/question.md): can a decoder adapted across related
 tasks help fresh populations solve unseen operation combinations beyond a token-frequency bias?
@@ -206,8 +206,9 @@ solvers; B: the library's per-position marginals; W: blocks sampled from C's own
   (fresh native gap 3.03×); on the TS table the DG library beats no library 3.05× [2.32, 4.07] and
   the TS library 1.95× [1.43, 2.66] (unresolved against 1.5×); that hybrid stays 1.55× [1.15, 2.09]
   behind the native DG pair. No library was shown to need its own table (DG over TS library on the DG
-  table 1.35× [1.10, 1.68]); on TS cells the libraries are interchangeable (1.01× [0.83, 1.25]). One
-  family pair; library content versus size not separated.
+  table 1.35× [1.10, 1.68]); on TS cells no library difference was resolved (1.01× [0.83, 1.25]: a
+  loss above 1.25× excluded, equality not shown). One family pair; library content versus size not
+  separated; point estimates only for which component is larger.
   ([42](questions/10-compositional-map-transfer/42-family-bias-component-transfer/question.md), [run 2001](runs/2026-10-10-2001/analysis.md))
 
 **Context fitted to non-solving programs.** On comparison-gate training cells, a context fit to
@@ -226,7 +227,7 @@ predicate-addition family it is 6–10× cheaper than G4 and about 3× cheaper t
 builds (reverse unresolved), carried by both table and library. Not shown: that evolution reaches
 fitted context or fragments; what carries C's advantage over token fits; why the DG components are
 better (content, size or source difficulty); A8 on a fresh bank of a new family, against a strong
-baseline, or from arbitrary sources; transfer beyond two fresh shapes.
+baseline (a subtree-GP comparison, 43, stopped before scoring), or from arbitrary sources; transfer beyond two fresh shapes.
 
 ## 23 Heritable variation bias (root parked, budget 2, 2 used)
 

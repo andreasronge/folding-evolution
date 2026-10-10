@@ -2434,3 +2434,23 @@ fits; why the DG components are better (content, size or source difficulty); A8 
 a new family, against a strong baseline, or from arbitrary sources; transfer beyond two fresh shapes.
 
 ```
+
+## 2026-10-10: run 2026-10-10-2214, A8 versus subtree GP (slot 35; question 43) — stopped before scoring
+
+Strategy 2214 raised the budget 34 → 35 for one comparison of frozen native A8 with family-blind
+closure-based subtree GP on the DG and TS development rosters (question 43). Critic approved with notes.
+The researcher built and validated the tree representation (commit `3e961ad`; 16 canonicals and 1 998 random
+trees agree across independent interpreter, Python and Rust VMs) but the pre-registered initializer
+(ramped half-and-half, depth 2–4 counted in edges) cannot fill its full-depth-4 bin under the 32-token cap
+(0/10 000 accepted; exact acceptance 1.2 × 10⁻⁷). Nothing was searched; no slot used
+([infeasible](../../runs/2026-10-10-2214/infeasible.md), [43 log](43-acquired-bias-vs-tree-gp/log.md)).
+
+Decision: re-propose 43 with depth 1–3 edges and a function root in grow (Koza), otherwise unchanged ([proposal 2239](../../runs/2026-10-10-2239/proposal.md)),
+because the obstruction is a convention choice with a measured fix and does not change the question or price.
+
+Wording corrections from critique 2214 notes 7–8 (entries above left as written): in the slot-34 entry "the
+four library arms are within 1.01× of each other" should read "four TS point costs span about 1.09×;
+within-table library contrasts are about 1.00–1.01×, directions unresolved"; "without native-table dependence"
+should read "the D library's usefulness is not restricted to its native table" (interaction not tested for
+absence). The digest snapshots above that say "libraries are interchangeable" on TS should read "no TS
+library difference resolved (1.01× [0.83, 1.25])". question.md, 42 and the digest corrected.

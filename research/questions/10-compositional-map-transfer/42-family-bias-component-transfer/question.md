@@ -13,7 +13,7 @@ of the saved builds (24 frozen donor pairs, fresh seeds, arms table/library; ∅
 [analysis](../../../runs/2026-10-10-2001/analysis.md)). On the DG cells, failures at 2 × cap:
 
 - **The fresh native gap reproduced:** T/T ÷ D/D 3.03× [2.28, 3.97] (1717: 2.98×).
-- **Without libraries the D table is as far ahead as the native pair** (point estimates): T/∅ ÷ D/∅
+- **Without libraries the D table's point gap is similar to the native pair's**: T/∅ ÷ D/∅
   **3.26× [2.43, 4.30]**, 23/24 pairs, 8/8 cells.
 - **The D library helps the T table:** 3.05× [2.32, 4.07] over no library (24/24 pairs). Its gain over the
   T table's own library, the primary R = T/T ÷ T/D, is **1.95× [1.43, 2.66]**: unresolved against the
@@ -22,18 +22,20 @@ of the saved builds (24 frozen donor pairs, fresh seeds, arms table/library; ∅
   unresolved.
 - **No native-pair dependence shown:** the D library beats the T library under the D table too (D/T ÷ D/D
   1.35× [1.10, 1.68]); the T library gives the D table no resolved gain (1.08× [0.86, 1.35]).
-- **On TS cells the libraries are interchangeable:** T/D ÷ T/T 1.01× [0.83, 1.25]; D/T ÷ D/D 1.00×.
+- **On TS cells no library difference was resolved:** T/D ÷ T/T 1.01× [0.83, 1.25]; D/T ÷ D/D 1.00× [0.79, 1.27];
+  losses above about 1.25–1.27× excluded at this scope, equality and zero cost not established.
   The bare T table is cheaper than the bare D table there only at 2 × cap (1.43× [1.01, 2.00]; 1 × cap
   1.39× [0.98, 1.96]).
 
 Competing explanations, after 2001:
-- (a) portable D library: **partly** — active on a foreign table and free on TS, but its replacement value
+- (a) portable D library: **partly** — active on a foreign table, with no resolved TS cost, but its replacement value
   is unresolved against 1.5× and it does not recover all of D's advantage;
-- (b) the D table carries it: **supported** (the bare D table alone shows a gap as large as the native
-  one), but "transplanted libraries add little" is refuted; which component is larger depends on the order
+- (b) the D table carries it: **supported** (the bare D table alone shows a point gap similar to the
+  native one), but "transplanted libraries add little" is refuted; which component is larger depends on the order
   of swaps (library first 1.95×, then table 1.55×; table first 2.24×, then library 1.35×; point estimates);
 - (c) native combination: **not supported** — no evidence that a library needs the table it was fitted with;
-- (d) both contribute: **best fit**, sub-additively (table effect 3.26× bare, 2.24× with the T library,
+- (d) both contribute: **best fit**; point estimates suggest diminishing increments, no interval for the
+  interaction (table effect 3.26× bare, 2.24× with the T library,
   1.55× with the D library).
 
 Not separable here: library content versus size and diversity (D libraries 7–32 fragments, no visible size

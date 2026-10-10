@@ -63,3 +63,13 @@ table 1.55×, table first 2.24× then library 1.35×). Whether
 that increment exceeds 1.5× is unresolved, but resolving it would not change which components a learner
 must acquire (both). Root 10's 34 slots are used and the strategy asked for a review after this result.
 ([decision](../../../runs/2026-10-10-2001/decision.md))
+
+2026-10-10 (steward, run 2026-10-10-2214): wording corrections from critique 2214 notes 6, 8, 9 (entries
+above left as written). "Costs nothing on TS" / "free on TS" should read "no TS library difference
+resolved; T/D ÷ T/T 1.01× [0.83, 1.25] and D/T ÷ D/D 1.00× [0.79, 1.27] exclude losses above about
+1.25–1.27× at this scope" — equality and zero cost are not established. "Sub-additively" and "a gap as large
+as the native one" compare point estimates; read "point estimates suggest diminishing increments" and
+"similar-sized point gaps" (no interval for the interaction). The Decision's "must acquire (both)" and "does
+not depend on its native table" should read "both components merit retaining in this frozen procedure; the
+D library's usefulness is not restricted to its native table" — separate acquisition recipes and absence of
+table–library interaction were not tested. question.md corrected.
