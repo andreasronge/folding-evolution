@@ -44,12 +44,45 @@ def test_subtree_exchange_and_oversize_revert():
             assert interpret(child, x) == python_output(child, x)
 
 
-def test_frozen_initializer_fails_in_full_depth4_bin():
-    with pytest.raises(ValueError, match="depth=4, full=True, draws=10000"):
-        initialize(np.random.default_rng([22160000, 1]), 256)
+def test_corrected_initializer_and_mutation_root():
+    pop, stats = initialize(np.random.default_rng([22160000, 1]), 256)
+    assert all(t.prefix[0] >= 9 and len(t.program) <= 32 for t in pop)
+    assert set(stats["bins"]) == {f"{d}/{f}" for d in (1, 2, 3) for f in (True, False)}
+    counts = [v["accepted"] for v in stats["bins"].values()]
+    assert sum(counts) == 256 and max(counts) - min(counts) == 1
+    rng = np.random.default_rng(22160001)
+    roots = [random_tree(rng, 3).prefix[0] for _ in range(1000)]
+    assert 400 < sum(x < 9 for x in roots) < 600
+    assert all(random_tree(rng, 3, function_root=True).prefix[0] >= 9 for _ in range(1000))
     assert full_acceptance_probability(2) == pytest.approx(1)
     assert full_acceptance_probability(3) > 0.7
     # All-binary 31-node constant trees; length32 also admits one readout
     # or one deepest-level IF_GT (one extra constant leaf).
     exact = (2 / 3)**15 * (4 / 9)**16 * (1 + 16 * 5 / 4 + 8 * 0.5 * 4 / 9)
     assert full_acceptance_probability(4) == pytest.approx(exact)
+
+
+def test_frozen_schedule_size_pairing_and_seed_collision_gate():
+    from experiments.chem_tape.component_transfer_run import load_saved
+    from experiments.chem_tape.tree_gp_run import schedules
+    saved, targets = load_saved()
+    calibration, score = schedules(saved['banks.json'], targets)
+    assert len(calibration) == 256 and len(score) == 1792
+    overlap = {r['seed'] for r in calibration} & {r['seed'] for r in score}
+    assert len(overlap) == 48
+    assert min(overlap) == 22150000 and max(overlap) == 22155007
+    assert {22160000, 22161000} <= {r['seed'] for r in score}
+    from experiments.chem_tape.tree_gp_run import audit_seeds
+    audit = audit_seeds(calibration, score)
+    assert not audit['admitted'] and not audit['targets_scored']
+    assert audit['calibration_scoring_overlap'] == sorted(overlap)
+    assert audit['smoke_scoring_overlap'] == [22160000, 22161000]
+    assert audit['implicated_calibration_rows'] == audit['implicated_scoring_rows'] == 96
+    for f in ('DG', 'TS'):
+        assert sum(r['family'] == f for r in calibration) == 128
+        for a, n in (('A8', 384), ('tree', 384), ('G4', 128)):
+            assert sum(r['family'] == f and r['arm'] == a for r in score) == n
+        assert not {r['cell'] for r in calibration if r['family'] == f} & set(targets[f])
+        tree = {(r['cell'], r['build'], r['repeat']): r['seed'] for r in score if r['family'] == f and r['arm'] == 'tree'}
+        native = {(r['cell'], r['build'], r['repeat']): r['seed'] for r in score if r['family'] == f and r['arm'] == 'A8'}
+        assert tree == native and len(set(tree.values())) == 384
