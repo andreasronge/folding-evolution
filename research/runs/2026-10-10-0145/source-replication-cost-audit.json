@@ -1,0 +1,125 @@
+{
+  "kind": "read-only historical cost audit; no new experiment or timing run",
+  "source_files": {
+    "experiments/output/2026-10-08/2026-10-08-1548-development-holdouts/search.jsonl": "78f76c3b52c9c877b419a8e462ac314bf613829ea5a5232ab4e999cf9a69e894",
+    "experiments/output/2026-10-08/2026-10-08-1246-comparison-gate-training/bank.json": "df3476d0823cff5eaed57fccf19f01e6a2699442be3139b5f05cb56e5f7aa15d",
+    "experiments/output/2026-10-09/2026-10-09-2303-two-sum-score/search.jsonl": "f9c8eccc76637529bab263fa730e7c4e8d2933ce5401af0701dc7e0f3ddb2648"
+  },
+  "replacement_source_roster": {
+    "BE": [
+      "BE:S>F?M:S+m",
+      "BE:S>F?M:M+m",
+      "BE:S>F?m:M+m",
+      "BE:F>m?F:M+S"
+    ],
+    "PA": [
+      "PA:(S>F?M:S)+m",
+      "PA:(M>F?M:S)+m",
+      "PA:(F>S?M:m)+m",
+      "PA:(M>F?F:S)+m"
+    ]
+  },
+  "original_source_roster": {
+    "BE": [
+      "BE:F>S?F:M+m",
+      "BE:F>m?S:F+M",
+      "BE:S>F?M:F+m",
+      "BE:S>F?m:M+S"
+    ],
+    "PA": [
+      "PA:(F>S?F:m)+M",
+      "PA:(F>S?m:M)+F",
+      "PA:(M>F?m:S)+S",
+      "PA:(S>F?M:m)+m"
+    ]
+  },
+  "source_G4": {
+    "n": 256,
+    "solved": 196,
+    "mean_evaluations": 247318,
+    "mean_worker_seconds": 12.028684804370641
+  },
+  "source_G4_by_cell": {
+    "BE:F>m?F:M+S": {
+      "n": 32,
+      "solved": 24,
+      "mean_evaluations": 267240,
+      "mean_worker_seconds": 13.296390951913054
+    },
+    "BE:S>F?M:M+m": {
+      "n": 32,
+      "solved": 29,
+      "mean_evaluations": 180368,
+      "mean_worker_seconds": 9.042485212270549
+    },
+    "BE:S>F?M:S+m": {
+      "n": 32,
+      "solved": 19,
+      "mean_evaluations": 330472,
+      "mean_worker_seconds": 14.87938145838416
+    },
+    "BE:S>F?m:M+m": {
+      "n": 32,
+      "solved": 26,
+      "mean_evaluations": 144680,
+      "mean_worker_seconds": 9.485294734371564
+    },
+    "PA:(F>S?M:m)+m": {
+      "n": 32,
+      "solved": 26,
+      "mean_evaluations": 279232,
+      "mean_worker_seconds": 13.878257734340878
+    },
+    "PA:(M>F?F:S)+m": {
+      "n": 32,
+      "solved": 24,
+      "mean_evaluations": 236608,
+      "mean_worker_seconds": 10.345193638066121
+    },
+    "PA:(M>F?M:S)+m": {
+      "n": 32,
+      "solved": 27,
+      "mean_evaluations": 225088,
+      "mean_worker_seconds": 10.180312249900453
+    },
+    "PA:(S>F?M:S)+m": {
+      "n": 32,
+      "solved": 21,
+      "mean_evaluations": 314856,
+      "mean_worker_seconds": 15.122162455718353
+    }
+  },
+  "target_by_arm": {
+    "A8": {
+      "n": 1024,
+      "solved": 521,
+      "mean_evaluations": 321232.25,
+      "mean_worker_seconds": 17.002931716298008
+    },
+    "G4": {
+      "n": 256,
+      "solved": 51,
+      "mean_evaluations": 460045,
+      "mean_worker_seconds": 22.577644937792684
+    },
+    "S8": {
+      "n": 1024,
+      "solved": 482,
+      "mean_evaluations": 341551,
+      "mean_worker_seconds": 18.06781048369885
+    },
+    "full_F": {
+      "n": 1024,
+      "solved": 502,
+      "mean_evaluations": 328961.75,
+      "mean_worker_seconds": 17.727656724276358
+    }
+  },
+  "notes": [
+    "All source and target tasks are development data at this review.",
+    "New acquisitions must use fresh searches, not these historical solver tapes.",
+    "Historical rates do not measure new adaptive source maps or their target performance.",
+    "Sixteen independent new acquisitions, eight per family, give 512 A8 source attempts; paired S8 adds 256 G4 attempts.",
+    "Two fitted arms x sixteen acquisitions x sixteen targets x four seeds = 2048 scoring searches; 256 shared G4 rows additional if rerun."
+  ]
+}

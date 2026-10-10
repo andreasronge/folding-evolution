@@ -1,0 +1,8 @@
+{
+  "target_origin": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-09/2026-10-09-2303-two-sum-score/search.jsonl",
+  "target_raw_sha256": "f9c8eccc76637529bab263fa730e7c4e8d2933ce5401af0701dc7e0f3ddb2648",
+  "payload_sha256": "f9c139de1b4e1ca623a3fcf9a5d363c483545c7067144df9532149129d43b861",
+  "adaptive_origin": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-09/2026-10-09-2033-sparse-feedback-prepare/collection.jsonl",
+  "adaptive_raw_sha256": "ba7d7e24ef41e1ad38d917d5e4255cbe3bf5109a21f16158f1d25efb6c7230c2",
+  "notes": "Target references only; legacy source rows for exact replay only, never new fitting."
+}

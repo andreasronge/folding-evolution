@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "legacy_build": "BE1|0|A8",
+  "legacy_table_hash": "2a10e2b2b2ad20404a8030e48d151e23bcd62dd8c2ec85c3dffcd1961781fc44",
+  "legacy_library_hash": "24414c4d0998058459710aca852fa9f9184dd782dc8f6dc0a5d3d62a73565cea",
+  "empty_fallback": {
+    "passed": true,
+    "forced_edits": 2048,
+    "identical_F_W": true
+  },
+  "historical_replay_rows": 2,
+  "G4_time_calibration": 0.5558927158453746,
+  "edits": {
+    "F": {
+      "passed": true,
+      "edits": 10000,
+      "tape_start": 2661,
+      "tape_end": 2667
+    }
+  }
+}
