@@ -1,0 +1,25 @@
+{
+  "commit": "c32ff04f4d3fae4f7b74fc0b137f872ccdd9a5df",
+  "files": {
+    "DG.jsonl": {
+      "sha256": "3202489dad47b32a100544de8e00409c76a4bd6df7f1845ce22017b827357a96",
+      "source": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-10/2026-10-10-2254-dg/search.jsonl"
+    },
+    "TS.jsonl": {
+      "sha256": "b23412b74b3573f036283c926151719c63003252e12e7d31b3802b8a50058604",
+      "source": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-10/2026-10-10-2254-ts/search.jsonl"
+    },
+    "observed_seeds.json": {
+      "sha256": "7cc82a7cb48ab2bdd49b13a8fa61ffb7bbffe7701a8c9db4707575b37a53ab3e",
+      "source": "all JSON/JSONL task artifacts for 2214, 2239, 2254 and 2254 production preparation"
+    }
+  },
+  "frozen_search_hashes": {
+    "experiments/chem_tape/tree_gp_search.py": "a2cca0b5d380a2e9ae3fd2faf91a815fac38439112859c1403d4c022000f1548",
+    "experiments/chem_tape/tree_gp_run.py": "7b8edffe4774a9d4e75856aeb4ca16113c2d4e0a37dc05b6aa628b6b0b54ca37",
+    "experiments/chem_tape/composition_search.py": "45712dd2158332913b429addfbca2b0333d17d1bcc06303c1317777e6fa4a8cc",
+    "experiments/chem_tape/component_transfer_run.py": "5f099360b23acfd9335848cc05954ba5ae1be686003f9c7422be6f7c3f2788ac",
+    "experiments/chem_tape/fragment_operator.py": "81ba8de7079145b90f3fd37b4f163c9264fd4981718276449c5887ca0f04a5a9",
+    "src/folding_evolution/chem_tape/evolve.py": "55740a094390fc7fe989bd16fa503f82aa5122b61a05e079cd038b879c4f78b3"
+  }
+}
