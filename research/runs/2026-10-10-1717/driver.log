@@ -1,0 +1,21 @@
+2026-10-10 17:21:15 cycle 2026-10-10-1536 done; brief: /Users/andreas/developer/folding-evolution/research/briefs/2026-10-10-2026-10-10-1536.md
+2026-10-10 17:21:15 strategist (codex/gpt-6-astra) → strategy [herdr]
+2026-10-10 17:26:27 phase → propose
+2026-10-10 17:26:27 steward (claude/claude-opus-5-5) → propose [herdr]
+2026-10-10 18:08:56 phase → accept
+2026-10-10 18:08:56 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-10 18:12:41 phase → awaiting_approval
+2026-10-10 18:12:41 proposal: Crossed family preference on one alphabet — double-gate vs branch-sum A8 builds [questions/10-compositional-map-transfer/41-same-alphabet-family-preference] — budget left: 1. Approve with `research.py approve`.
+2026-10-10 18:12:41 auto-approved (critic: approve_with_notes, revisions: 0)
+2026-10-10 18:12:41 phase → prepare
+2026-10-10 18:13:04 researcher (codex/gpt-6.1-sol) → prepare [herdr]
+2026-10-10 18:31:35 phase → review_code
+2026-10-10 18:31:35 reviewer (claude/claude-fable-5-1) → review_code [herdr]
+2026-10-10 18:39:05 phase → execute
+2026-10-10 18:39:05 running queue (2 entries)
+2026-10-10 19:54:01 phase → analyse
+2026-10-10 19:54:01 reviewer (claude/claude-fable-5-1) → analyse [herdr]
+2026-10-10 20:01:06 phase → decide
+2026-10-10 20:01:06 steward (claude/claude-opus-5-5) → decide [herdr]
+2026-10-10 20:04:25 steward (claude/claude-opus-5-5) → condense [herdr]
+2026-10-10 20:08:56 digest condensed: 3014 → 2887 words

@@ -1,0 +1,21 @@
+{
+  "task": "2026-10-10-1717",
+  "smoke": false,
+  "arguments": {
+    "prepare": true,
+    "preparation": null,
+    "bank": "/tmp/family-preference-1717-bank/bank.json",
+    "smoke": false,
+    "pilot": true,
+    "workers": 10,
+    "deadline_seconds": 1200
+  },
+  "cap": 524288,
+  "alphabet": "v2_x4",
+  "population": 256,
+  "lexicase_cases": 64,
+  "exact_inputs": 625,
+  "git_commit": "7cd049e1388a4addb4da875137e24bcb2bfa26cf",
+  "recipe": "unchanged 7244fa1 A8 external fit + literal fragments",
+  "target_performance_scored": false
+}

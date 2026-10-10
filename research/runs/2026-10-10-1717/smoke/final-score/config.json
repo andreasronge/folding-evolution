@@ -1,0 +1,21 @@
+{
+  "task": "2026-10-10-1717",
+  "smoke": true,
+  "arguments": {
+    "prepare": false,
+    "preparation": "/tmp/family-preference-1717-checked-smoke-prepare/preparation.json",
+    "bank": null,
+    "smoke": true,
+    "pilot": false,
+    "workers": 10,
+    "deadline_seconds": 600
+  },
+  "cap": 8192,
+  "alphabet": "v2_x4",
+  "population": 256,
+  "lexicase_cases": 64,
+  "exact_inputs": 625,
+  "git_commit": "7cd049e1388a4addb4da875137e24bcb2bfa26cf",
+  "recipe": "unchanged 7244fa1 A8 external fit + literal fragments",
+  "target_performance_scored": false
+}

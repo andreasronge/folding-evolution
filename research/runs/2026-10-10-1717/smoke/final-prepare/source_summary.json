@@ -1,0 +1,846 @@
+{
+  "D": {
+    "alphabet": "v2_x4",
+    "median_first_yield": 2.0,
+    "discovery_obstacle": true,
+    "phases": {
+      "first_G4": {
+        "DG:(X0+X1)>(X2+X3)?X3:X0": {
+          "attempts": 96,
+          "solved": 15
+        },
+        "DG:(X0+X3)>(X1+X2)?X2:X3": {
+          "attempts": 96,
+          "solved": 19
+        },
+        "DG:(X2+X3)>(X0+X1)?X0:X2": {
+          "attempts": 96,
+          "solved": 14
+        },
+        "DG:(X2+X3)>(X0+X1)?X1:X0": {
+          "attempts": 96,
+          "solved": 16
+        }
+      },
+      "adaptive": {
+        "DG:(X0+X1)>(X2+X3)?X3:X0": {
+          "attempts": 96,
+          "solved": 61
+        },
+        "DG:(X0+X3)>(X1+X2)?X2:X3": {
+          "attempts": 96,
+          "solved": 51
+        },
+        "DG:(X2+X3)>(X0+X1)?X0:X2": {
+          "attempts": 96,
+          "solved": 58
+        },
+        "DG:(X2+X3)>(X0+X1)?X1:X0": {
+          "attempts": 96,
+          "solved": 48
+        }
+      }
+    },
+    "builds": {
+      "3": {
+        "first_yield": 1,
+        "adaptive_yield": 3,
+        "intermediate_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0",
+          "DG:(X0+X1)>(X2+X3)?X3:X0"
+        ],
+        "final_empty_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0"
+        ],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": true,
+        "final_empty_library": false,
+        "library_size": 13,
+        "acquisition": {
+          "evaluations": 15808768,
+          "source_worker_seconds": 941.0050669570919,
+          "verification_seconds": 0.0005240830359980464,
+          "fit_seconds": 0.143462875043042,
+          "extraction_seconds": 0.019062999985180795
+        },
+        "intermediate_fitting": {
+          "evaluations": 8174592,
+          "source_worker_seconds": 467.42125408304855,
+          "verification_seconds": 0.0002068330068141222,
+          "fit_seconds": 0.1386175419902429,
+          "extraction_seconds": 0.0015007080510258675
+        }
+      },
+      "0": {
+        "first_yield": 1,
+        "adaptive_yield": 7,
+        "intermediate_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "final_empty_cells": [],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": true,
+        "final_empty_library": false,
+        "library_size": 22,
+        "acquisition": {
+          "evaluations": 13895680,
+          "source_worker_seconds": 841.8765681301011,
+          "verification_seconds": 0.0009791250340640545,
+          "fit_seconds": 0.13057587493676692,
+          "extraction_seconds": 0.0423711669864133
+        },
+        "intermediate_fitting": {
+          "evaluations": 8017920,
+          "source_worker_seconds": 473.8175845433725,
+          "verification_seconds": 0.00016495899762958288,
+          "fit_seconds": 0.13833845790941268,
+          "extraction_seconds": 0.0024183340137824416
+        }
+      },
+      "4": {
+        "first_yield": 1,
+        "adaptive_yield": 5,
+        "intermediate_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X1:X0",
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "final_empty_cells": [],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": true,
+        "final_empty_library": false,
+        "library_size": 31,
+        "acquisition": {
+          "evaluations": 15278336,
+          "source_worker_seconds": 898.5376388749573,
+          "verification_seconds": 0.0008961670100688934,
+          "fit_seconds": 0.14232487499248236,
+          "extraction_seconds": 0.04131887492258102
+        },
+        "intermediate_fitting": {
+          "evaluations": 7989248,
+          "source_worker_seconds": 459.6606213324703,
+          "verification_seconds": 0.00019112508744001389,
+          "fit_seconds": 0.14137479197233915,
+          "extraction_seconds": 0.0027824589051306248
+        }
+      },
+      "5": {
+        "first_yield": 1,
+        "adaptive_yield": 6,
+        "intermediate_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X1:X0",
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "final_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X1:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": true,
+        "final_empty_library": false,
+        "library_size": 32,
+        "acquisition": {
+          "evaluations": 14042880,
+          "source_worker_seconds": 849.1811903328635,
+          "verification_seconds": 0.0010025000665336847,
+          "fit_seconds": 0.152684084023349,
+          "extraction_seconds": 0.047137416899204254
+        },
+        "intermediate_fitting": {
+          "evaluations": 7923968,
+          "source_worker_seconds": 473.4472870399477,
+          "verification_seconds": 0.00022325001191347837,
+          "fit_seconds": 0.14180183399003,
+          "extraction_seconds": 0.0024713329039514065
+        }
+      },
+      "2": {
+        "first_yield": 1,
+        "adaptive_yield": 10,
+        "intermediate_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "final_empty_cells": [],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": true,
+        "final_empty_library": false,
+        "library_size": 32,
+        "acquisition": {
+          "evaluations": 13102592,
+          "source_worker_seconds": 782.4262714128708,
+          "verification_seconds": 0.0012278750073164701,
+          "fit_seconds": 0.14342954196035862,
+          "extraction_seconds": 0.07117112504784018
+        },
+        "intermediate_fitting": {
+          "evaluations": 8132608,
+          "source_worker_seconds": 458.28001320618205,
+          "verification_seconds": 0.00015170802362263203,
+          "fit_seconds": 0.14962420798838139,
+          "extraction_seconds": 0.0011871249880641699
+        }
+      },
+      "9": {
+        "first_yield": 1,
+        "adaptive_yield": 6,
+        "intermediate_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "final_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": true,
+        "final_empty_library": false,
+        "library_size": 27,
+        "acquisition": {
+          "evaluations": 14579712,
+          "source_worker_seconds": 893.5032301209867,
+          "verification_seconds": 0.0011074170470237732,
+          "fit_seconds": 0.15051145805045962,
+          "extraction_seconds": 0.05028808303177357
+        },
+        "intermediate_fitting": {
+          "evaluations": 7924736,
+          "source_worker_seconds": 477.55353566480335,
+          "verification_seconds": 0.00020237499848008156,
+          "fit_seconds": 0.1482725830283016,
+          "extraction_seconds": 0.0010209170868620276
+        }
+      },
+      "8": {
+        "first_yield": 3,
+        "adaptive_yield": 12,
+        "intermediate_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X0+X1)>(X2+X3)?X3:X0"
+        ],
+        "final_empty_cells": [],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": false,
+        "final_empty_library": false,
+        "library_size": 32,
+        "acquisition": {
+          "evaluations": 11061760,
+          "source_worker_seconds": 650.3956837513251,
+          "verification_seconds": 0.003610040992498398,
+          "fit_seconds": 0.13353337498847395,
+          "extraction_seconds": 0.07811949995812029
+        },
+        "intermediate_fitting": {
+          "evaluations": 7464448,
+          "source_worker_seconds": 430.0686690832954,
+          "verification_seconds": 0.000540041015483439,
+          "fit_seconds": 0.1476578750880435,
+          "extraction_seconds": 0.017793625011108816
+        }
+      },
+      "7": {
+        "first_yield": 4,
+        "adaptive_yield": 12,
+        "intermediate_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "final_empty_cells": [],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": false,
+        "final_empty_library": false,
+        "library_size": 32,
+        "acquisition": {
+          "evaluations": 10285312,
+          "source_worker_seconds": 610.1385306662414,
+          "verification_seconds": 0.0027896660612896085,
+          "fit_seconds": 0.1455130409449339,
+          "extraction_seconds": 0.0831346670165658
+        },
+        "intermediate_fitting": {
+          "evaluations": 7611648,
+          "source_worker_seconds": 446.4080512491055,
+          "verification_seconds": 0.0006490419618785381,
+          "fit_seconds": 0.14320295804645866,
+          "extraction_seconds": 0.02383283304516226
+        }
+      },
+      "6": {
+        "first_yield": 2,
+        "adaptive_yield": 12,
+        "intermediate_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "final_empty_cells": [],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": false,
+        "final_empty_library": false,
+        "library_size": 32,
+        "acquisition": {
+          "evaluations": 11580928,
+          "source_worker_seconds": 703.4960373719223,
+          "verification_seconds": 0.00323216593824327,
+          "fit_seconds": 0.14908208302222192,
+          "extraction_seconds": 0.07769937498960644
+        },
+        "intermediate_fitting": {
+          "evaluations": 7649792,
+          "source_worker_seconds": 452.7625513317762,
+          "verification_seconds": 0.0006133330753073096,
+          "fit_seconds": 0.14887162495870143,
+          "extraction_seconds": 0.008213166962377727
+        }
+      },
+      "1": {
+        "first_yield": 5,
+        "adaptive_yield": 10,
+        "intermediate_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X1:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "final_empty_cells": [],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": false,
+        "final_empty_library": false,
+        "library_size": 32,
+        "acquisition": {
+          "evaluations": 10355712,
+          "source_worker_seconds": 621.2472333742771,
+          "verification_seconds": 0.0017377919284626842,
+          "fit_seconds": 0.14920545800123364,
+          "extraction_seconds": 0.10078099998645484
+        },
+        "intermediate_fitting": {
+          "evaluations": 6468608,
+          "source_worker_seconds": 362.87452412501443,
+          "verification_seconds": 0.0007220420520752668,
+          "fit_seconds": 0.1460033330367878,
+          "extraction_seconds": 0.01942470797803253
+        }
+      },
+      "11": {
+        "first_yield": 3,
+        "adaptive_yield": 11,
+        "intermediate_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X0+X1)>(X2+X3)?X3:X0"
+        ],
+        "final_empty_cells": [],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": false,
+        "final_empty_library": false,
+        "library_size": 32,
+        "acquisition": {
+          "evaluations": 12672512,
+          "source_worker_seconds": 811.6690521279816,
+          "verification_seconds": 0.0022484579822048545,
+          "fit_seconds": 0.1439252080162987,
+          "extraction_seconds": 0.07363820797763765
+        },
+        "intermediate_fitting": {
+          "evaluations": 7803648,
+          "source_worker_seconds": 482.01764912507497,
+          "verification_seconds": 0.000767334015108645,
+          "fit_seconds": 0.1465079999761656,
+          "extraction_seconds": 0.006413709023036063
+        }
+      },
+      "10": {
+        "first_yield": 2,
+        "adaptive_yield": 10,
+        "intermediate_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "final_empty_cells": [],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": false,
+        "final_empty_library": false,
+        "library_size": 32,
+        "acquisition": {
+          "evaluations": 11809536,
+          "source_worker_seconds": 753.4390520867892,
+          "verification_seconds": 0.001709582982584834,
+          "fit_seconds": 0.15183975000400096,
+          "extraction_seconds": 0.07470200001262128
+        },
+        "intermediate_fitting": {
+          "evaluations": 7860736,
+          "source_worker_seconds": 501.576588459895,
+          "verification_seconds": 0.0005478750681504607,
+          "fit_seconds": 0.15172758302651346,
+          "extraction_seconds": 0.0068559590727090836
+        }
+      },
+      "16": {
+        "first_yield": 1,
+        "adaptive_yield": 3,
+        "intermediate_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0",
+          "DG:(X0+X1)>(X2+X3)?X3:X0"
+        ],
+        "final_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": true,
+        "final_empty_library": false,
+        "library_size": 17,
+        "acquisition": {
+          "evaluations": 15507712,
+          "source_worker_seconds": 991.5560021261917,
+          "verification_seconds": 0.0010520840296521783,
+          "fit_seconds": 0.14210370799992234,
+          "extraction_seconds": 0.02062654192559421
+        },
+        "intermediate_fitting": {
+          "evaluations": 8077568,
+          "source_worker_seconds": 495.95399895927403,
+          "verification_seconds": 0.00036708300467580557,
+          "fit_seconds": 0.1361953750019893,
+          "extraction_seconds": 0.0011136250104755163
+        }
+      },
+      "12": {
+        "first_yield": 2,
+        "adaptive_yield": 12,
+        "intermediate_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "final_empty_cells": [],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": false,
+        "final_empty_library": false,
+        "library_size": 32,
+        "acquisition": {
+          "evaluations": 11809024,
+          "source_worker_seconds": 716.2477197077824,
+          "verification_seconds": 0.0015784170245751739,
+          "fit_seconds": 0.14484529197216034,
+          "extraction_seconds": 0.08533120795618743
+        },
+        "intermediate_fitting": {
+          "evaluations": 7565312,
+          "source_worker_seconds": 456.07805079082027,
+          "verification_seconds": 0.00042395805940032005,
+          "fit_seconds": 0.15259458299260587,
+          "extraction_seconds": 0.010204624966718256
+        }
+      },
+      "13": {
+        "first_yield": 4,
+        "adaptive_yield": 12,
+        "intermediate_empty_cells": [],
+        "final_empty_cells": [],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": false,
+        "final_empty_library": false,
+        "library_size": 32,
+        "acquisition": {
+          "evaluations": 10946816,
+          "source_worker_seconds": 700.5004049167037,
+          "verification_seconds": 0.00216299993917346,
+          "fit_seconds": 0.1523957090685144,
+          "extraction_seconds": 0.07235120795667171
+        },
+        "intermediate_fitting": {
+          "evaluations": 7415552,
+          "source_worker_seconds": 457.9166427067248,
+          "verification_seconds": 0.000689874985255301,
+          "fit_seconds": 0.15476308297365904,
+          "extraction_seconds": 0.029920583008788526
+        }
+      },
+      "17": {
+        "first_yield": 3,
+        "adaptive_yield": 7,
+        "intermediate_empty_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "final_empty_cells": [],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": false,
+        "final_empty_library": false,
+        "library_size": 32,
+        "acquisition": {
+          "evaluations": 13525760,
+          "source_worker_seconds": 907.4654646251583,
+          "verification_seconds": 0.0011781250359490514,
+          "fit_seconds": 0.1428902909392491,
+          "extraction_seconds": 0.045290500042028725
+        },
+        "intermediate_fitting": {
+          "evaluations": 7711232,
+          "source_worker_seconds": 488.77113454195205,
+          "verification_seconds": 0.0004600409884005785,
+          "fit_seconds": 0.14103762491140515,
+          "extraction_seconds": 0.012610999983735383
+        }
+      },
+      "14": {
+        "first_yield": 2,
+        "adaptive_yield": 10,
+        "intermediate_empty_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "final_empty_cells": [],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": false,
+        "final_empty_library": false,
+        "library_size": 32,
+        "acquisition": {
+          "evaluations": 13058816,
+          "source_worker_seconds": 800.47215387295,
+          "verification_seconds": 0.001816708012484014,
+          "fit_seconds": 0.13777391705662012,
+          "extraction_seconds": 0.08483212511055171
+        },
+        "intermediate_fitting": {
+          "evaluations": 7906304,
+          "source_worker_seconds": 477.302102582762,
+          "verification_seconds": 0.0005738330073654652,
+          "fit_seconds": 0.15126116701867431,
+          "extraction_seconds": 0.008758792071603239
+        }
+      },
+      "15": {
+        "first_yield": 4,
+        "adaptive_yield": 13,
+        "intermediate_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "final_empty_cells": [],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": false,
+        "final_empty_library": false,
+        "library_size": 32,
+        "acquisition": {
+          "evaluations": 9972224,
+          "source_worker_seconds": 625.7813842904288,
+          "verification_seconds": 0.004615209065377712,
+          "fit_seconds": 0.14860008307732642,
+          "extraction_seconds": 0.09403375000692904
+        },
+        "intermediate_fitting": {
+          "evaluations": 7429120,
+          "source_worker_seconds": 470.65781962207984,
+          "verification_seconds": 0.0005968339974060655,
+          "fit_seconds": 0.14504879200831056,
+          "extraction_seconds": 0.012784416903741658
+        }
+      },
+      "18": {
+        "first_yield": 2,
+        "adaptive_yield": 8,
+        "intermediate_empty_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "final_empty_cells": [],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": false,
+        "final_empty_library": false,
+        "library_size": 32,
+        "acquisition": {
+          "evaluations": 13247488,
+          "source_worker_seconds": 824.9250325809699,
+          "verification_seconds": 0.002438124967738986,
+          "fit_seconds": 0.1475521670654416,
+          "extraction_seconds": 0.06983112508896738
+        },
+        "intermediate_fitting": {
+          "evaluations": 8148480,
+          "source_worker_seconds": 499.65654637513217,
+          "verification_seconds": 0.0005767080001533031,
+          "fit_seconds": 0.1482582500902936,
+          "extraction_seconds": 0.007296042051166296
+        }
+      },
+      "19": {
+        "first_yield": 6,
+        "adaptive_yield": 15,
+        "intermediate_empty_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0"
+        ],
+        "final_empty_cells": [],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": false,
+        "final_empty_library": false,
+        "library_size": 32,
+        "acquisition": {
+          "evaluations": 8525568,
+          "source_worker_seconds": 528.1600143348332,
+          "verification_seconds": 0.0051806659903377295,
+          "fit_seconds": 0.1393426670692861,
+          "extraction_seconds": 0.07961549994070083
+        },
+        "intermediate_fitting": {
+          "evaluations": 6647040,
+          "source_worker_seconds": 407.8522353778826,
+          "verification_seconds": 0.0014689159579575062,
+          "fit_seconds": 0.14263575000222772,
+          "extraction_seconds": 0.018827500054612756
+        }
+      },
+      "23": {
+        "first_yield": 1,
+        "adaptive_yield": 3,
+        "intermediate_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "final_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": true,
+        "final_empty_library": false,
+        "library_size": 7,
+        "acquisition": {
+          "evaluations": 15026944,
+          "source_worker_seconds": 889.7993210845161,
+          "verification_seconds": 0.000933125033043325,
+          "fit_seconds": 0.13268345803953707,
+          "extraction_seconds": 0.009633917012251914
+        },
+        "intermediate_fitting": {
+          "evaluations": 8084480,
+          "source_worker_seconds": 463.97749625029974,
+          "verification_seconds": 0.0002951670903712511,
+          "fit_seconds": 0.12700270803179592,
+          "extraction_seconds": 0.0010825409553945065
+        }
+      },
+      "22": {
+        "first_yield": 4,
+        "adaptive_yield": 8,
+        "intermediate_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "final_empty_cells": [],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": false,
+        "final_empty_library": false,
+        "library_size": 32,
+        "acquisition": {
+          "evaluations": 12763648,
+          "source_worker_seconds": 798.4055780859198,
+          "verification_seconds": 0.001457249978557229,
+          "fit_seconds": 0.13201866601593792,
+          "extraction_seconds": 0.048330958001315594
+        },
+        "intermediate_fitting": {
+          "evaluations": 7301632,
+          "source_worker_seconds": 443.47362846089527,
+          "verification_seconds": 0.0009928749641403556,
+          "fit_seconds": 0.1276737079024315,
+          "extraction_seconds": 0.009932540939189494
+        }
+      },
+      "21": {
+        "first_yield": 5,
+        "adaptive_yield": 12,
+        "intermediate_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "final_empty_cells": [],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": false,
+        "final_empty_library": false,
+        "library_size": 32,
+        "acquisition": {
+          "evaluations": 10806016,
+          "source_worker_seconds": 667.7875633334043,
+          "verification_seconds": 0.0024439579574391246,
+          "fit_seconds": 0.13550204201601446,
+          "extraction_seconds": 0.05344616691581905
+        },
+        "intermediate_fitting": {
+          "evaluations": 7568384,
+          "source_worker_seconds": 451.69976058159955,
+          "verification_seconds": 0.0005662910407409072,
+          "fit_seconds": 0.1280876249074936,
+          "extraction_seconds": 0.014573166030459106
+        }
+      },
+      "20": {
+        "first_yield": 5,
+        "adaptive_yield": 11,
+        "intermediate_empty_cells": [
+          "DG:(X2+X3)>(X0+X1)?X1:X0",
+          "DG:(X0+X1)>(X2+X3)?X3:X0"
+        ],
+        "final_empty_cells": [],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": false,
+        "final_empty_library": false,
+        "library_size": 32,
+        "acquisition": {
+          "evaluations": 11267840,
+          "source_worker_seconds": 704.2193205383373,
+          "verification_seconds": 0.002231416990980506,
+          "fit_seconds": 0.14021220803260803,
+          "extraction_seconds": 0.05466120794881135
+        },
+        "intermediate_fitting": {
+          "evaluations": 7330560,
+          "source_worker_seconds": 440.4092563726008,
+          "verification_seconds": 0.0012507090577855706,
+          "fit_seconds": 0.12736220902297646,
+          "extraction_seconds": 0.016860791947692633
+        }
+      }
+    }
+  },
+  "T": {
+    "alphabet": "v2_x4",
+    "median_first_yield": 0.5,
+    "discovery_obstacle": true,
+    "phases": {
+      "first_G4": {
+        "TS:X0>X1?(X0+X2):(X0+X3)": {
+          "attempts": 8,
+          "solved": 0
+        },
+        "TS:X0>X3?(X2+X3):(X1+X2)": {
+          "attempts": 8,
+          "solved": 1
+        },
+        "TS:X2>X3?(X0+X2):(X1+X3)": {
+          "attempts": 8,
+          "solved": 0
+        },
+        "TS:X3>X1?(X0+X1):(X1+X2)": {
+          "attempts": 8,
+          "solved": 0
+        }
+      },
+      "adaptive": {
+        "TS:X0>X1?(X0+X2):(X0+X3)": {
+          "attempts": 8,
+          "solved": 0
+        },
+        "TS:X0>X3?(X2+X3):(X1+X2)": {
+          "attempts": 8,
+          "solved": 0
+        },
+        "TS:X2>X3?(X0+X2):(X1+X3)": {
+          "attempts": 8,
+          "solved": 0
+        },
+        "TS:X3>X1?(X0+X1):(X1+X2)": {
+          "attempts": 8,
+          "solved": 0
+        }
+      }
+    },
+    "builds": {
+      "0": {
+        "first_yield": 1,
+        "adaptive_yield": 0,
+        "intermediate_empty_cells": [
+          "TS:X0>X1?(X0+X2):(X0+X3)",
+          "TS:X2>X3?(X0+X2):(X1+X3)",
+          "TS:X3>X1?(X0+X1):(X1+X2)"
+        ],
+        "final_empty_cells": [
+          "TS:X0>X1?(X0+X2):(X0+X3)",
+          "TS:X2>X3?(X0+X2):(X1+X3)",
+          "TS:X3>X1?(X0+X1):(X1+X2)"
+        ],
+        "intermediate_empty_corpus": false,
+        "final_empty_corpus": false,
+        "intermediate_empty_library": true,
+        "final_empty_library": true,
+        "library_size": 0,
+        "acquisition": {
+          "evaluations": 259328,
+          "source_worker_seconds": 8.40272650111001,
+          "verification_seconds": 0.00018462503794580698,
+          "fit_seconds": 0.11901299993041903,
+          "extraction_seconds": 0.0009284999687224627
+        },
+        "intermediate_fitting": {
+          "evaluations": 128256,
+          "source_worker_seconds": 4.029896542313509,
+          "verification_seconds": 0.00018737500067800283,
+          "fit_seconds": 0.11854754202067852,
+          "extraction_seconds": 0.0009451250080019236
+        }
+      },
+      "1": {
+        "first_yield": 0,
+        "adaptive_yield": 0,
+        "intermediate_empty_cells": [
+          "TS:X0>X1?(X0+X2):(X0+X3)",
+          "TS:X0>X3?(X2+X3):(X1+X2)",
+          "TS:X2>X3?(X0+X2):(X1+X3)",
+          "TS:X3>X1?(X0+X1):(X1+X2)"
+        ],
+        "final_empty_cells": [
+          "TS:X0>X1?(X0+X2):(X0+X3)",
+          "TS:X0>X3?(X2+X3):(X1+X2)",
+          "TS:X2>X3?(X0+X2):(X1+X3)",
+          "TS:X3>X1?(X0+X1):(X1+X2)"
+        ],
+        "intermediate_empty_corpus": true,
+        "final_empty_corpus": true,
+        "intermediate_empty_library": true,
+        "final_empty_library": true,
+        "library_size": 0,
+        "acquisition": {
+          "evaluations": 262144,
+          "source_worker_seconds": 8.179936375003308,
+          "verification_seconds": 8.749775588512421e-07,
+          "fit_seconds": 0.11915154196321964,
+          "extraction_seconds": 3.5415985621511936e-05
+        },
+        "intermediate_fitting": {
+          "evaluations": 131072,
+          "source_worker_seconds": 3.9663669160800055,
+          "verification_seconds": 4.998873919248581e-07,
+          "fit_seconds": 0.1190242919838056,
+          "extraction_seconds": 4.066701512783766e-05
+        }
+      }
+    }
+  }
+}
