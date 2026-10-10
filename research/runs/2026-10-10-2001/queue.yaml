@@ -1,0 +1,91 @@
+runs:
+  - id: 2026-10-10-2001-component-prepare
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-10-2001 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.component_transfer_run
+      --prepare --workers 10 --deadline-seconds 1800
+    timeout_seconds: 1800
+    track: chem-tape
+    notes: >-
+      Reuse all48 saved1717 builds, no refit/acquisition/bank construction.
+      Verify raw provenance, both source memberships, production Python/Rust/backend
+      freeze, table/library hashes, D625 semantic verifier. Replay16 native historical
+      rows bit-exact excluding timing. Freeze permutation default_rng2001, explicit
+      table-owner/library-owner/operator-mode and all4608 target jobs.
+      Full-cap96-job development-only calibration:4cells/family x pairs0,12 x
+      sixarms; seeds2200000+1000(8family+cell)+pair. Ten sustained workers,
+      Rayon1. Both family projections use measured wall/worker throughput with
+      30percent reserve plus120s overhead and must fit8970s/3570s before any target
+      search. Fail admission without dropping arms. Outputs underRUN_DIR.
+    expect_outputs:
+      - config.json
+      - method_freeze.json
+      - schedule.json
+      - calibration_schedule.json
+      - replay.jsonl
+      - calibration_DG.jsonl
+      - calibration_TS.jsonl
+      - preparation.json
+      - timing.json
+      - progress.json
+
+  - id: 2026-10-10-2001-component-DG
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-10-2001 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.component_transfer_run
+      --preparation "${RUN_DIR%/*}/2026-10-10-2001-component-prepare/preparation.json"
+      --family DG --workers 10 --deadline-seconds 9000
+    timeout_seconds: 9000
+    track: chem-tape
+    notes: >-
+      Revalidate frozen method/artifacts/assignment and recompute both costing gates.
+      Exactly2304 DG searches:8 saved1717 spare development-bank targets x24
+      donor pairs x2 fresh seeds x6 arms D/D,T/T,T/D,D/T,D/none,T/none.
+      Seeds2100000+1000cell+2pair+repeat. Same-table initialization hashes equal;
+      ordinary variation and block RNGs separate; explicit off mode uses fitted
+      table with zero block events. Unchanged cap524288/pop256/64cases/exact625,
+      v2_x4 and literal0.2 block/suffix law. Report preliminary DG contrasts,
+      bootstrap pair-block intervals, solves,1cap sensitivity, economics and curves.
+      Admission failure writes feasibility_stop without scoring.
+    expect_outputs:
+      - config.json
+      - method_freeze.json
+      - schedule.json
+      - calibration_schedule.json
+      - result.json
+      - report.md
+
+  - id: 2026-10-10-2001-component-TS
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-10-2001 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.component_transfer_run
+      --preparation "${RUN_DIR%/*}/2026-10-10-2001-component-prepare/preparation.json"
+      --family TS
+      --dg-score "${RUN_DIR%/*}/2026-10-10-2001-component-DG"
+      --workers 10 --deadline-seconds 3600
+    timeout_seconds: 3600
+    track: chem-tape
+    notes: >-
+      Exactly2304 TS searches on8 saved1717 protected targets, same24 pairs/two
+      seeds/sixarms; seeds2100000+1000(8+cell)+2pair+repeat. Validate complete DG
+      row hash/freeze before combined analysis. Final combined4608-row report
+      resamples24 frozen donor pairs jointly across all6 arms/both rosters;
+      two repeats jointly within pair-cell, fixed cells,8192 draws seed2001000.
+      Primary R=T/T over T/D onDG with1.5 replacement margin; residualG=T/D overD/D,
+      bareB,portable activity and D-library-identity contrast interpreted nonexclusively.
+      Full2x3 table, per-cell/pair costs, solves,1cap sensitivity, TS retention,
+      arithmetic acquisition-plus-search costs charging hybrids both acquisitions,
+      resolution price and fitness/diversity/exact-verifier plots. Development data,
+      frozen external fits, no fresh-bank/inheritance/coadaptation claim.
+      Exit to strategy regardless of outcome. Total timeout240minutes; no full
+      target execution in the researcher turn.
+    expect_outputs:
+      - config.json
+      - method_freeze.json
+      - schedule.json
+      - calibration_schedule.json
+      - result.json
+      - report.md

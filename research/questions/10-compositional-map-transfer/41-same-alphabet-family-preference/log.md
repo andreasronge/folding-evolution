@@ -48,3 +48,13 @@ same roster would mostly buy precision on a compressed contrast. Whether the DG 
 or a harder, richer-in-structure source corpus is a new mechanism question, left to the strategist with the
 saved-build attribution option; root 10's 33 slots are used, so `next: strategy`.
 ([decision](../../../runs/2026-10-10-1717/decision.md))
+
+2026-10-10 (steward, run 2026-10-10-2001): wording corrections from [critique 2001](../../../runs/2026-10-10-2001/critique.md)
+notes 8–9 (entries above are left as written). "Not reciprocal" should read "reciprocity not established";
+"no dominant bias" should read "no cohort resolved better on both rosters" (the TS interval [0.94, 1.78]
+allows a small D advantage or a T advantage). "The TS roster had little power" / "lacks the headroom to
+resolve it" overstate what was measured: the sample did not resolve the TS cost direction; a harder roster may
+be more informative per run, but more independent builds could also narrow the interval. question.md updated.
+Follow-up [42](../42-family-bias-component-transfer/question.md) (run 2001): bare tables on TS cells give the
+T table a 1.43× [1.01, 2.00] advantage at 2 × cap only (1 × cap [0.98, 1.96]); this weakly touches this
+question's second reopen clause but stays below 1.5× and penalty-sensitive, so 41 stays closed.

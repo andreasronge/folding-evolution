@@ -1,0 +1,253 @@
+{
+  "task": "2026-10-10-2214",
+  "seed": 22160000,
+  "grammar": {
+    "terminals": [
+      "X0",
+      "X1",
+      "X2",
+      "X3",
+      "ANY",
+      "0",
+      "1",
+      "2",
+      "5"
+    ],
+    "functions": [
+      "ADD",
+      "GT",
+      "IF_GT"
+    ],
+    "arity": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      2,
+      3
+    ],
+    "tokens": [
+      [
+        1,
+        5
+      ],
+      [
+        1,
+        18
+      ],
+      [
+        1,
+        22
+      ],
+      [
+        1,
+        23
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        2
+      ],
+      [
+        3
+      ],
+      [
+        15
+      ],
+      [
+        16
+      ],
+      [
+        7
+      ],
+      [
+        8
+      ],
+      [
+        17
+      ]
+    ],
+    "max_tokens": 32,
+    "depths": [
+      2,
+      3,
+      4
+    ],
+    "grow_terminal_probability": 0.5,
+    "mutation_depth": 3,
+    "point_sampling": "uniform all nodes",
+    "offspring": "one into parent1",
+    "oversize": "revert parent1",
+    "initialization": "retry same bin, max10000"
+  },
+  "git_commit": "3e961ad352f1697913bc945faa46e0000ae47ac5",
+  "fixtures": [
+    {
+      "family": "DG",
+      "cell": "DG:(X0+X3)>(X1+X2)?X3:X0",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X0+X1)>(X2+X3)?X3:X2",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X1+X2)>(X0+X3)?X0:X2",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X1+X2)>(X0+X3)?X3:X1",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X1+X3)>(X0+X2)?X2:X0",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X1+X3)>(X0+X2)?X3:X1",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X1+X3)>(X0+X2)?X0:X2",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "DG",
+      "cell": "DG:(X0+X2)>(X1+X3)?X3:X2",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X0>X1?(X2+X3):(X1+X2)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X0>X1?(X2+X3):(X1+X3)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X0>X2?(X1+X3):(X2+X3)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X2>X1?(X0+X3):(X1+X3)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X2>X0?(X1+X3):(X0+X1)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X3>X2?(X0+X2):(X0+X1)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X3>X2?(X0+X1):(X0+X2)",
+      "nodes": 10,
+      "tokens": 16
+    },
+    {
+      "family": "TS",
+      "cell": "TS:X3>X0?(X1+X2):(X0+X2)",
+      "nodes": 10,
+      "tokens": 16
+    }
+  ],
+  "interpreter_python_rust_checks": 1998,
+  "overflow_fixture": true,
+  "initialization": {
+    "passed": false,
+    "seed": 22160000,
+    "population": 256,
+    "error": "initialization cannot fill size-limited bin: depth=4, full=True, draws=10000",
+    "seconds": 0.3400604169582948
+  },
+  "full_bins": [
+    {
+      "depth_edges": 2,
+      "draws": 10000,
+      "accepted": 10000,
+      "rejected": 0,
+      "min_tokens": 7,
+      "median_tokens": 11.0,
+      "max_tokens": 22,
+      "seconds": 0.06125675002112985,
+      "exact_acceptance_probability": 1.0,
+      "expected_draws_per_accepted": 1.0,
+      "projected_seconds_per_accepted": 6.125675002112984e-06,
+      "chance_accepted_within_10000": 1.0
+    },
+    {
+      "depth_edges": 3,
+      "draws": 10000,
+      "accepted": 7182,
+      "rejected": 2818,
+      "min_tokens": 16,
+      "median_tokens": 27.0,
+      "max_tokens": 52,
+      "seconds": 0.1506132499780506,
+      "exact_acceptance_probability": 0.7193480369709876,
+      "expected_draws_per_accepted": 1.390147673455501,
+      "projected_seconds_per_accepted": 2.093746590485588e-05,
+      "chance_accepted_within_10000": 1.0
+    },
+    {
+      "depth_edges": 4,
+      "draws": 10000,
+      "accepted": 0,
+      "rejected": 10000,
+      "min_tokens": 35,
+      "median_tokens": 64.0,
+      "max_tokens": 130,
+      "seconds": 0.34235833294223994,
+      "exact_acceptance_probability": 1.2056525693407918e-07,
+      "expected_draws_per_accepted": 8294263.41741854,
+      "projected_seconds_per_accepted": 283.96101965712177,
+      "chance_accepted_within_10000": 0.0012049261348751833
+    }
+  ],
+  "seconds": 2.297461749985814,
+  "admitted": false,
+  "targets_scored": false,
+  "deferred": [
+    "calibration",
+    "native replay",
+    "search replay",
+    "scoring",
+    "inference and economics"
+  ]
+}
