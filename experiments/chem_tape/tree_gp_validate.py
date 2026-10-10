@@ -1,8 +1,8 @@
-"""Bounded 2214 semantic/initialization smoke; never calibrates or scores targets.
+"""Bounded 2239 semantic/initialization smoke; never calibrates or scores targets.
 
 Usage: RUN_DIR=... RAYON_NUM_THREADS=1 .venv/bin/python -m
-experiments.chem_tape.tree_gp_validate. Expected failed initialization is reported
-as admitted=false, not converted into a different initialization procedure.
+experiments.chem_tape.tree_gp_validate. Initialization failure is reported as admitted=false; the frozen design is never
+replaced after a failed check.
 """
 
 import json
@@ -98,30 +98,30 @@ def validate():
         raise ValueError("overflow fixture failed")
     tick = time.monotonic()
     try:
-        _, stats = initialize(np.random.default_rng([SEED, 1]), 256)
-        initialization = dict(passed=True, stats=stats)
+        population, stats = initialize(np.random.default_rng([SEED, 1]), 256)
+        initialization = dict(passed=all(t.prefix[0] >= 9 for t in population), stats=stats)
     except ValueError as exc:
         initialization = dict(passed=False, seed=SEED, population=256,
                               error=str(exc), seconds=time.monotonic() - tick)
     bins = []
-    for depth in (2, 3, 4):
-        gen = np.random.default_rng([SEED, depth, 9])
-        tick = time.monotonic()
-        lengths = [len(random_tree(gen, depth, full=True).program) for _ in range(10000)]
-        seconds = time.monotonic() - tick
-        p = full_acceptance_probability(depth)
-        bins.append(dict(depth_edges=depth, draws=len(lengths),
-                         accepted=sum(x <= 32 for x in lengths), rejected=sum(x > 32 for x in lengths),
-                         min_tokens=min(lengths), median_tokens=float(np.median(lengths)), max_tokens=max(lengths),
-                         seconds=seconds, exact_acceptance_probability=p,
-                         expected_draws_per_accepted=1 / p,
-                         projected_seconds_per_accepted=seconds / len(lengths) / p,
-                         chance_accepted_within_10000=float(-np.expm1(10000 * np.log1p(-p))) if p < 1 else 1.0))
-    return dict(task="2026-10-10-2214", seed=SEED, grammar=GRAMMAR,
+    for depth in (1, 2, 3):
+        for full in (True, False):
+            gen = np.random.default_rng([SEED, depth, int(full), 9])
+            tick = time.monotonic()
+            trees = [random_tree(gen, depth, full=full, function_root=True) for _ in range(20000)]
+            lengths = [len(t.program) for t in trees]
+            if not all(t.prefix[0] >= 9 for t in trees):
+                raise ValueError("initialization root was a terminal")
+            bins.append(dict(depth_edges=depth, full=full, draws=len(lengths),
+                             accepted=sum(x <= 32 for x in lengths), rejected=sum(x > 32 for x in lengths),
+                             min_tokens=min(lengths), median_tokens=float(np.median(lengths)),
+                             max_tokens=max(lengths), seconds=time.monotonic() - tick,
+                             exact_acceptance_probability=full_acceptance_probability(depth) if full else None))
+    return dict(task="2026-10-10-2239", seed=SEED, grammar=GRAMMAR,
                 git_commit=subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
                 fixtures=fixtures, interpreter_python_rust_checks=checks,
                 overflow_fixture=True, initialization=initialization,
-                full_bins=bins, seconds=time.monotonic() - start,
+                initialization_bins=bins, seconds=time.monotonic() - start,
                 admitted=initialization["passed"], targets_scored=False,
                 deferred=["calibration", "native replay", "search replay", "scoring", "inference and economics"])
 

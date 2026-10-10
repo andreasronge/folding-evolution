@@ -22,7 +22,8 @@ TOKENS = ((1, 5), (1, 18), (1, 22), (1, 23), (1, 6),
 MAX_TOKENS = 32
 MIXES = (0.9, 0.5)
 GRAMMAR = dict(terminals=TERMINALS, functions=FUNCTIONS, arity=ARITY,
-               tokens=TOKENS, max_tokens=MAX_TOKENS, depths=[2, 3, 4],
+               tokens=TOKENS, max_tokens=MAX_TOKENS, depths=[1, 2, 3],
+               initialization_function_root=True, mutation_function_root=False,
                grow_terminal_probability=0.5, mutation_depth=3,
                point_sampling="uniform all nodes", offspring="one into parent1",
                oversize="revert parent1", initialization="retry same bin, max10000")
@@ -60,17 +61,17 @@ class Tree:
         return (self if rejected else candidate), rejected
 
 
-def random_tree(rng, depth, full=False):
-    def draw(remaining):
-        if remaining == 0 or (not full and rng.random() < 0.5):
+def random_tree(rng, depth, full=False, *, function_root=False):
+    def draw(remaining, root=False):
+        if remaining == 0 or (not full and not (root and function_root) and rng.random() < 0.5):
             return (int(rng.integers(9)),)
         op = int(rng.integers(9, 12))
         return (op,) + sum((draw(remaining - 1) for _ in range(ARITY[op])), ())
-    return Tree(draw(depth))
+    return Tree(draw(depth, root=True))
 
 
 def initialize(rng, size):
-    bins = [(d, full) for d in (2, 3, 4) for full in (True, False)]
+    bins = [(d, full) for d in (1, 2, 3) for full in (True, False)]
     allocation = [bins[i % len(bins)] for i in range(size)]
     rng.shuffle(allocation)
     pop, attempts, rejected = [], 0, 0
@@ -78,7 +79,7 @@ def initialize(rng, size):
     for d, full in allocation:
         rec = per_bin[f"{d}/{full}"]
         for _ in range(10000):
-            tree = random_tree(rng, d, full)
+            tree = random_tree(rng, d, full, function_root=True)
             attempts += 1
             rec["attempts"] += 1
             if len(tree.program) <= MAX_TOKENS:
