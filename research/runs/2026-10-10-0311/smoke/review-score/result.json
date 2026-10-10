@@ -1,0 +1,225 @@
+{
+  "status": "smoke",
+  "alphabet": "v2_x4",
+  "summary": {
+    "ratios": {
+      "G4/A8": {
+        "point": 1.0,
+        "interval95": [
+          1.0,
+          1.0
+        ]
+      },
+      "G4/O": {
+        "point": 1.0,
+        "interval95": [
+          1.0,
+          1.0
+        ]
+      },
+      "O/A8": {
+        "point": 1.0,
+        "interval95": [
+          1.0,
+          1.0
+        ]
+      }
+    },
+    "bootstrap": {
+      "draws": 512,
+      "seed": 340000,
+      "unit": "independent acquisition build / old artifact",
+      "G4": "one shared cell-stratified baseline seed resample per draw",
+      "targets": "fixed development cells; seeds resampled inside fitted build/cell; A8 and O builds independently resampled"
+    },
+    "build_log_sd": {
+      "A8": 0.0,
+      "O": 0.0
+    },
+    "build_mean_log_costs": {
+      "A8": [
+        9.704060527839234,
+        9.704060527839234
+      ],
+      "O": [
+        9.704060527839234,
+        9.704060527839234
+      ]
+    },
+    "solve_counts": {
+      "G4": {
+        "solved": 0,
+        "attempts": 16
+      },
+      "A8": {
+        "solved": 0,
+        "attempts": 16
+      },
+      "O": {
+        "solved": 0,
+        "attempts": 16
+      }
+    },
+    "per_cell": {
+      "DG:(X0+X3)>(X1+X2)?X1:X2": {
+        "G4": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        },
+        "A8": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        },
+        "O": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        }
+      },
+      "DG:(X1+X2)>(X0+X3)?X0:X1": {
+        "G4": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        },
+        "A8": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        },
+        "O": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        }
+      },
+      "DG:(X1+X3)>(X0+X2)?X2:X1": {
+        "G4": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        },
+        "A8": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        },
+        "O": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        }
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X3": {
+        "G4": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        },
+        "A8": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        },
+        "O": {
+          "solved": 0,
+          "attempts": 4,
+          "geometric_cost": 16383.99999999999
+        }
+      }
+    },
+    "failure_penalty": "2cap; unsolved rows are capped search failures, not observed solution times"
+  },
+  "score_timing": {
+    "jobs": 48,
+    "wall_seconds": 2.801257749903016,
+    "worker_seconds": 13.785092413774692,
+    "effective_workers": 4.9210367786584275,
+    "exact_check_seconds": 0.0,
+    "max_exact_check_seconds": 0.0
+  },
+  "stage2_price": {
+    "precision_scenarios_informative": false,
+    "precision_warning": "all-capped/low-headroom estimates describe the censored cost distribution and cannot price latent solve ability",
+    "goal_half_width_factor": 1.25,
+    "baseline_fixed16_floor_factor": 1.0,
+    "observed_build_variance": 0.0,
+    "observed_G4_within_cell_seed_variance": 0.0,
+    "effective_workers": 2.812624769034104,
+    "acquisition_mean_worker_seconds": 8.472821292758454,
+    "acquisition_mean_evaluations": 262144.0,
+    "mean_score_worker_seconds": {
+      "G4": 0.26918326811573934,
+      "A8": 0.26644375262549147,
+      "O": 0.3259412551196874
+    },
+    "mean_score_evaluations": {
+      "G4": 8192.0,
+      "A8": 8192.0,
+      "O": 8192.0
+    },
+    "scenarios": [
+      {
+        "mode": "baseline_grows_with_builds",
+        "fresh_builds": 8,
+        "protected_cells": 8,
+        "fitted_target_seeds_per_build_cell": 2,
+        "G4_seeds_per_protected_cell": 16,
+        "half_width_factor": 1.0,
+        "jobs": {
+          "acquisition": 256,
+          "G4": 128,
+          "A8": 128,
+          "O": 128
+        },
+        "acquisition_plus_G4_A8_evaluations": 4194304.0,
+        "acquisition_plus_G4_A8_worker_seconds": 136.34282899694517,
+        "projected_compute_wall_seconds": 48.47529983310474,
+        "optional_O_additional_worker_seconds": 41.72048065531999,
+        "optional_O_additional_evaluations": 1048576.0,
+        "caveat": "conditional scenario; development build variance held constant, not divided by number of protected cells; O artifact supply/confirmation design requires separate approval"
+      },
+      {
+        "mode": "baseline_fixed16_per_cell",
+        "fresh_builds": 8,
+        "protected_cells": 8,
+        "fitted_target_seeds_per_build_cell": 2,
+        "G4_seeds_per_protected_cell": 16,
+        "half_width_factor": 1.0,
+        "jobs": {
+          "acquisition": 256,
+          "G4": 128,
+          "A8": 128,
+          "O": 128
+        },
+        "acquisition_plus_G4_A8_evaluations": 4194304.0,
+        "acquisition_plus_G4_A8_worker_seconds": 136.34282899694517,
+        "projected_compute_wall_seconds": 48.47529983310474,
+        "optional_O_additional_worker_seconds": 41.72048065531999,
+        "optional_O_additional_evaluations": 1048576.0,
+        "caveat": "conditional scenario; development build variance held constant, not divided by number of protected cells; O artifact supply/confirmation design requires separate approval"
+      }
+    ],
+    "scope": "planning scenario conditional on four development cells/eight pilot builds; fresh independent confirmation builds required; protected performance untouched",
+    "costing": "measured worker costs include failed searches, intermediate/final fitting/extraction and exact verification; wall estimate uses sustained measured concurrency, excludes future agent time and scheduling overhead"
+  },
+  "readings": [
+    "G4 development headroom is outside10\u201380%; pilot contrast may be uninformative.",
+    "All arms mostly fail at the cap; ratios near1 provide little evidence about relative ability.",
+    "O/A8 is unresolved; this does not establish equality or that old syntax carries useful help."
+  ],
+  "old_identities": [
+    "BE1|A8",
+    "BE2|A8",
+    "BE3|A8",
+    "BE4|A8",
+    "PA1|A8",
+    "PA2|A8",
+    "PA3|A8",
+    "PA4|A8"
+  ],
+  "protected_performance_scored": false,
+  "scope": "external fitting plus literal fragments; alphabet/domain changed; development only; no confirmatory claims, inherited evolution or isolated predicate-placement inference"
+}

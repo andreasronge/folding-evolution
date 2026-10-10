@@ -1,0 +1,10 @@
+{
+  "alphabet": "v2_x4",
+  "attempts": 4,
+  "solved": 4,
+  "wall_seconds": 9.824150749947876,
+  "worker_seconds": 21.646756082889624,
+  "exact_check_seconds": 0.0007685830350965261,
+  "max_exact_check_seconds": 0.00023758294992148876,
+  "scope": "small-scale timing only; queue acquisition batches determine sustained load"
+}

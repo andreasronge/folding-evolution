@@ -1,0 +1,10 @@
+{
+  "development": {
+    "jobs": 48,
+    "wall_seconds": 4.66098216699902,
+    "worker_seconds": 25.55685058515519,
+    "effective_workers": 5.4831470427208275,
+    "exact_check_seconds": 0.0,
+    "max_exact_check_seconds": 0.0
+  }
+}

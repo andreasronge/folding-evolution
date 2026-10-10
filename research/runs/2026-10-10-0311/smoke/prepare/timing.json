@@ -1,0 +1,28 @@
+{
+  "first_G4": {
+    "jobs": 32,
+    "wall_seconds": 2.875629208981991,
+    "worker_seconds": 8.148034704267047,
+    "effective_workers": 2.8334789057006255,
+    "exact_check_seconds": 0.0,
+    "max_exact_check_seconds": 0.0
+  },
+  "intermediate_fit": {
+    "wall_seconds": 0.13784845802001655,
+    "jobs": 2,
+    "worker_seconds": 0.23815716709941626
+  },
+  "adaptive": {
+    "jobs": 32,
+    "wall_seconds": 1.180687417043373,
+    "worker_seconds": 8.255868292530067,
+    "effective_workers": 6.992425068104867,
+    "exact_check_seconds": 0.0,
+    "max_exact_check_seconds": 0.0
+  },
+  "final_fit": {
+    "wall_seconds": 0.1378850839100778,
+    "jobs": 2,
+    "worker_seconds": 0.2379864170216024
+  }
+}

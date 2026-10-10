@@ -1,164 +1,165 @@
 ---
-next: stop
+next: proposal
 ---
 
-Stop this autonomous run at **17/40 experiments**. Keep the remaining **23 slots
-unallocated** and open no new root. The useful cheap-acquisition result is worth
-carrying forward; another complete candidate does not earn its cost in the roughly
-five hours left before **2026-10-10T08:12:10 Europe/Stockholm**. This is a value and
-readiness decision, not a consequence of the exhausted root allocations.
+Continue with **cheap acquisition on a different assembly family**, under root 10.
+The [previous stop decision](strategy-prior-run.md) concerned the final five hours
+of autonomous run 2026-10-08-0812. This review concerns **2026-10-10-1419**:
+`uv run python scripts/research.py status` reports **0/40 experiments**, with the
+window ending **2026-10-12T14:19:15 Europe/Stockholm**. The substantive new-family
+question has a provisional 7–10-hour complete price and now merits its first stage.
+The new window changes the cost decision, not the evidence.
 
-The review follows the [core question](../../../README.md#core-question),
-[digest](../../digest.md), question tree and reopening conditions,
-[plans and owner note](../../plans/), latest decisions and
-[recent ledger](../../briefs/2026-10-08-0812-ledger.md).
-`uv run python scripts/research.py status` confirms the run count and deadline:
-roots 01 and 10 have no allocation left, and 23 is parked with its two slots used.
-No existing question, budget, digest or historical brief is changed here.
+This review covers the [core question](../../../README.md#core-question),
+[digest](../../digest.md), all three roots and their children/reopening conditions,
+[plans](../../plans/), owner note, recent decisions and
+[previous run's ledger](../../briefs/2026-10-08-0812-ledger.md) and briefs.
 
-**What the program has learned.**
+**What we have learned.**
 
-- **Program supply, discovery and persistence are different bottlenecks.** Random
+- **A map affects arrival and persistence separately.** Root 01 found that random
   frequency predicts easy tasks better than hard evolutionary discoveries. Cheap
-  joins explained the tested composition advantage. Mixing between lineages blocked
-  rare seeded shared forms; self-mating relieved that barrier. Natural B-helper
-  arrival and single-copy fate remain unresolved. The older folding/regime-shift
-  and CA work supplies context, not evidence of learned transferable map bias
+  joins explained the tested composition advantage; mixing between lineages blocked
+  rare shared forms, and self-mating relieved it. Neither these results nor the
+  older folding/regime-shift findings establish learned, transferable map bias.
+  Natural B-helper arrival and single-copy establishment remain unresolved
   ([root 01](../../questions/01-map-bias/question.md)).
-- **Selection can learn useful token bias.** Outer-selected token maps transfer
-  roughly 2× gains after programs are discarded; both initialization and ongoing
-  decoder use contribute. Family specificity remains unresolved. The tested
-  contextual selection procedures have not established an additional useful gain
-  ([root 10](../../questions/10-compositional-map-transfer/question.md)).
-- **External fitting finds useful structure that those learners did not.** Solver
-  context beat token fitting about 2.12× on then-addition when fresh. Pooled and
-  positional frequency projections failed to reproduce it; random mutation-width
-  recoding hurt at fixed random-program supply. Literal fragments added about
-  1.47× over C and 1.20× over C-chain blocks. Suffix preservation was unnecessary
-  at the tested resolution. Partial-program fitting helped modestly, while the
-  tested pre-solve fragment extractor added no worthwhile increment. These are
-  bounded interventions, not a complete explanation of C or semantic modularity
-  ([digest and linked studies](../../digest.md)).
-- **The cheap recipe, not just the original artifacts, is now credible within
-  these families.** Four initial attempts per cell followed by four under the
-  resulting C4+F4 bias produces A8. Its original acquisition used about 6.5 M
-  evaluations versus 61 M for full F. On fresh two-sum-v1, A8/full-F cost was
-  **0.945 [0.819, 1.092]**: a 20% loss excluded, equality unproved. Rebuilding from
-  complementary sources gave **G4/A8′ 2.50× [2.17, 2.85]**, clearing the 1.5×
-  usefulness bar in both families. It repays acquisition after about 35 searches
-  in evaluations on that target roster. These are capped costs; wall-time repayment
-  is unsettled because the historical calibration was defective
-  ([2303](../2026-10-09-2303/analysis.md), [0145](../2026-10-10-0145/analysis.md)).
-- **Inherited bias remains the central missing mechanism.** Root 23's one
-  frequency-inheritance procedure failed frozen usefulness: worse than uniform
-  on sum, with a max gain above 1.06× excluded. Linkage helped relative to shuffled
-  ancestry on max without making the acquired map useful. This limits one rule
-  and schedule, not self-adaptation
-  ([root 23](../../questions/23-heritable-variation-bias/question.md)).
+- **Useful bias can be acquired and reused after programs are discarded.** Outer
+  selection learned token multipliers giving roughly 2× transfer; both initialization
+  and ongoing decoder use contribute. Family preference remains unresolved. The
+  tested contextual selection procedures added no established increment. External
+  fitting to solver tapes did: C/T was **2.12× [1.86, 2.41]** on then-addition when
+  fresh. Pooled/positional frequency replacements did not reproduce C; matching
+  mutation width by random recoding hurt. These interventions leave conditional
+  content versus structured variation unresolved ([root 10](../../questions/10-compositional-map-transfer/question.md)).
+- **Literal fragments add useful search bias, but not demonstrated semantic modules.**
+  F/C was **1.47× [1.38, 1.56]**, F/chain-blocks **1.20× [1.11, 1.29]** on
+  then-addition. The tested pre-solve fragment source added no worthwhile benefit;
+  suffix preservation was unnecessary at the measured resolution. Partial-program
+  context fitting helped modestly. None identifies the full mechanism of C or F
+  ([digest, studies 27–34](../../digest.md)).
+- **A cheap recipe now works beyond its original artifacts.** A8 uses four source
+  attempts per cell, fits context and fragments, collects four more under that bias,
+  then refits. On fresh two-sum-v1, cost(A8)/cost(full F) was
+  **0.945 [0.819, 1.092]**, excluding a 20% loss, with G4/A8 **2.73×**.
+  Rebuilt from complementary sources, G4/A8′ was **2.50× [2.17, 2.85]**, useful
+  in both source families. Acquisition repaid G4 after about **35 searches in
+  evaluations** on that roster. Equality with historical builds and wall-time
+  repayment remain unresolved. This is one alternative roster inside the same two
+  families; all scored banks are now development data
+  ([37 decision](../2026-10-09-2303/decision.md), [38 analysis](../2026-10-10-0145/analysis.md)).
+- **Inherited learning is still missing.** The one inherited-frequency procedure
+  produced worse frozen search than uniform on sum; on max, a gain above 1.06× was
+  excluded. Persistent ancestry helped relative to shuffled ancestry on max without
+  establishing useful bias. This bounds one rule and exposure schedule, not
+  self-adaptation ([root 23](../../questions/23-heritable-variation-bias/question.md)).
 
-Every scored bank is now development data. Acquisition still uses the same two
-output-addition families; a complementary source roster is not a new family.
-The latest PA deficit and A8′/historical-A8 uncertainty do not overturn useful
-replication or select a different acquisition policy.
-
-**Root priorities now.** Root **10** has the strongest actionable connection to
-the core question: take the successful recipe to different assembly requirements,
-then use an observed limit to choose richer acquisition or representation. Root
-**23** has the highest long-term mechanism importance: useful bias inherited and
-selected through descendants would answer something external fitting cannot.
-Its measured-signal reopening condition is not met. Root **01** remains valuable
-background, but no new helper evidence or decision requiring a finer supply/fate
-estimate justifies reopening its parked children. Another root would reorganize
-these gaps without resolving them.
+**Which roots matter now.** Root **10** is the immediate priority: whether the
+recipe learns different assembly requirements determines how far the practical
+answer to the core question extends. Root **23** is the largest unresolved
+mechanistic gap, because descendant-mediated inheritance would establish something
+external fitting cannot. Its reopening condition has no new supporting evidence.
+Root **01** supplies essential distinctions between supply, discovery and retention,
+but its parked children do not currently change the acquisition decision. Keep
+its budget unchanged. No new root is needed; root 10 already covers the next question.
+Both new-root allowances remain available.
 
 **Current line against different mechanisms.** I searched the literature for this
 review. [Salustowicz and Schmidhuber, *Probabilistic incremental program evolution*
-(1997)](https://pubmed.ncbi.nlm.nih.gov/10021756/) updates a program-generating
-distribution from successful search. A8 belongs to this broad external-fitting
-tradition, with different corpus, fragment and frozen-reuse rules.
+(1997)](https://pubmed.ncbi.nlm.nih.gov/10021756/) updates a program distribution
+from successful search. A8 belongs to that broad external-fitting tradition, with
+its own corpus, fragment and frozen-reuse rules. Its strongest case is empirical:
+useful transfer, replicated acquisition, and a bounded next portability test.
 
-The owner's alternative gives the variation parameters credit through descendant
-success. [Stephens et al., *Self-adaptation in evolving systems*
+The owner's alternative gives variation parameters credit through descendants.
+[Stephens et al., *Self-adaptation in evolving systems*
 (1998)](https://pubmed.ncbi.nlm.nih.gov/9847423/) studies genetically encoded
-mutation/crossover probabilities without a direct fitness reward for those
-parameters. That mechanism differs from estimating counts in solver tapes.
-Our negative inherited-frequency result makes another unchanged modifier run poor
-value; it does not license replacing inheritance by fitting and calling the gap closed.
+mutation/crossover probabilities without directly rewarding those parameters.
+A changed exposure rule preserving linked program/map lineages across related goal
+switches is a concrete alternative to our resets. [Kashtan and Alon,
+*Spontaneous evolution of modularity and network motifs*
+(2005)](https://pmc.ncbi.nlm.nih.gov/articles/PMC1236541/) found modular structures
+under modularly varying goals in model networks. My inference is that changed
+exposure could create different selection opportunities here; neither paper proves
+useful inherited decoders or frozen transfer in this executor. Resident-program
+improvement alone would be insufficient. The old procedure has a bounded negative
+result, and the revised one lacks a measured signal and complete price. It ranks
+behind the new-family test, despite greater long-term importance. Reconsider when
+a specific revised rule meets root 23's signal condition; do not repeat its noise
+scale or sweep curricula simply because 48 hours are available.
 
-A related biological candidate is persistent lineages under changing related goals.
-[Kashtan and Alon, *Spontaneous evolution of modularity and network motifs*
-(2005)](https://pmc.ncbi.nlm.nih.gov/articles/PMC1236541/) found modular organization
-under modularly varying goals in their model networks. My inference is that
-maintaining linked program/map lineages across switches could expose a different
-selection opportunity than our repeated program resets. Their result does not
-establish map inheritance, frozen-map transfer or a benefit in this executor.
-A resident-program advantage alone would not answer our core question. This remains
-a candidate for a changed exposure/credit study, rather than grounds for an immediate
-mutation-scale or curriculum sweep.
+A second alternative is learning **parameterized callable abstractions**, rather
+than copying literal windows. [Ellis et al., *DreamCoder* (PLDI 2021)](https://people.csail.mit.edu/asolar/papers/EllisWNSMHCST21.pdf)
+learns a library of abstractions together with a search policy. Such abstractions
+could reuse computations across changed inputs where literal syntax fails. That
+is a hypothesis, not an explanation established by our fragment results. It needs
+an extractor, call semantics and validation beyond the existing operator, with no
+measured full price. Defer until a new-family failure leaves a specific binding or
+representation limitation that this added machinery would test. Neither candidate
+justifies displacing the priced portability question today.
 
-**Why the next substantive question needs a new window.** The question for the
-steward is: *can the unchanged cheap acquisition recipe learn a useful bias for
-composite predicates and transfer to excluded members, once the source family no
-longer places addition in the output?* A success extends the recipe's scope; a
-well-resolved failure supplies a concrete boundary for acquisition or representation.
+**The steward's next question.** *Can the unchanged four-plus-four acquisition
+recipe learn a useful frozen bias for composite predicates over independent scalar
+inputs, and help fresh populations on excluded compositions?* Success would extend
+acquisition beyond the familiar output-addition sources; a resolved failure would
+bound portability and guide the next acquisition or representation choice.
 
-I tested the two smallest semantic alternatives before deferring this direction.
-These were deterministic bank audits, not evolutionary experiments:
+Use the updated [independent-input plan](../../plans/independent-input-family-acquisition.md).
+The immediate proposal asks whether its one candidate bank supplies a valid
+protected split, source discovery and headroom at a price that can answer the full
+question. Previous [semantic audits](semantic-split-audit.json) found at most six
+or four mutually separated behaviours in two reducer-based alternatives, too few
+for four sources plus four holdouts. Independent indexed inputs remove those
+reducer dependencies; whether they yield the required bank is untested.
+Changing inputs/alphabet makes this a new setting, not an isolated causal test of
+predicate placement. Canonicals validate semantics only; they must not teach the
+learned maps. Keep acquisition and target scoring separate, with only frozen
+artifacts transferred. A useful complete recipe would still leave frequency versus
+context versus fragments, family specificity, and inheritance unseparated.
 
-| Candidate | Semantic result |
+**Allocation and exit.** Raise only root 10's frontmatter `budget.experiments`
+**30 → 31**: one first-stage experiment through the next strategy review. Expect
+**3–4 hours total**, including build, validation, queue and agent review; preparation
+at most 120 minutes. A descriptive feasibility probe must use fixed seeds and at
+most 60 minutes summed queue timeouts. Return to strategy after this stage, or
+sooner on a semantic, build or full-cost obstacle.
+
+The steward should open the next numbered sub-question under root 10 for this
+bank stage; the allocation does not reopen the closed earlier studies.
+
+The exit deliverable is a validated performance-blind split, measured source and
+fitted-search feasibility on development cells, and an informative confirmation
+size with its full cost; or the specific reason this candidate cannot supply them.
+Protected targets remain unscored. The complete two-stage candidate is provisionally
+**7–10 hours**, including **4–6 additional hours** for independently replicated
+acquisition and transfer; that second stage is conditional and unallocated.
+Replace estimates with measurements before funding it. Correct the known timing
+admission/calibration problems in [decision 0145](../2026-10-10-0145/decision.md)
+as part of that pricing. Feasibility alone does not earn continuation. The other
+39 run slots remain unallocated; no experiments were executed in this review.
+
+**Owner note disposition.** The sole [owner-heritable-map.md](../../plans/owner-heritable-map.md)
+is unchanged since [strategy 0145](../2026-10-10-0145/strategy.md) and the archived
+prior review: SHA-256 `439bf7393e478eecebe519357bbcb314b90720df3de73fd0f482a0e715e7bba8`.
+There are no new or changed unanswered notes. Its directions remain explicit:
+
+| Direction | Disposition, reason, and reconsideration |
 |---|---|
-| Single-sum predicate on D2401, retaining the existing executor | 120 active distinct behaviours; seven survive the ≤9-token/80% screen; at most six mutually separated, even before old-bank exclusions. |
-| Two-sum predicate on D1331, retaining the existing executor | 272 active distinct behaviours; eight survive both the short-program screen and old-roster exclusion; at most four mutually separated. |
+| Inherited op frequencies | **Pursued** at root 23's tested scope; continuation **deferred** because frozen usefulness failed. Reconsider a changed rule with measured selectable signal, a new bank where frequency learning improves on the hand scaffold, or a necessary inherited-decoder control. |
+| Capture and synonyms | **Deferred.** The owner's prerequisite of useful inherited learning is unmet. Reconsider after that evidence and a specific reassignment limitation; validate engine changes separately. |
+| Population-level maps | **Pursued** for token selection; further context work **deferred**. Reconsider joint learning from G4 or a changed representation/ranking signal with a complete, informative learning-and-transfer price. |
+| Free table mutation; ambiguous intermediates | **Declined for this block.** Reconsider only a necessary contrast or specific gap in a justified reassignment study, respecting the owner's ordering. |
 
-The [full audits](predicate_domain_audit.py),
-[domain result](predicate-domain-audit.json),
-[two-sum result](double-predicate-audit.json) and
-[exhaustive subset check](semantic-split-audit.json) are retained here. Both screens
-completed in about 111 seconds using exported `b6d1974` code and Python canonical/
-witness validation. Neither supplies the planned four-source/four-holdout split.
-This is not a proof that smaller studies or other banks are impossible; shrinking
-the source recipe or weakening separation would change the question being funded.
-Rust validation and search feasibility were not measured.
+External A8 feedback does not satisfy the prerequisite for the owner's step 2.
+Uniform, the hand scaffold and acquisition accounting remain necessary references
+for any return to inherited frequencies.
 
-The promising direction now has a [concrete plan](../../plans/independent-input-family-acquisition.md):
-use independent indexed scalar inputs to remove the reducer correlations, build and
-validate the separate alphabet/bank, then acquire and freeze A8 on a protected split.
-Its provisional full cost is **7–10 hours**, including both stages and agent work.
-That is a planning judgment, not a measured runtime lower bound. Only its bank stage
-plausibly fits now; that stage alone would not change which acquisition procedure
-we carry forward. Stop because the complete question is not ready at an adequate
-price, rather than because the direction lacked a plan.
-
-| Other candidate | Full-cost/value judgment for this window |
-|---|---|
-| Score saved S8′ to place the PA deficit | About 35 queue minutes, roughly 1.5 hours total. Feasible, but neither source-roster usefulness nor the carried recipe depends on the answer. Defer until a source failure or policy choice needs it. |
-| More A8/full-F or A8/S8 precision, another feedback round, bare-C8 or fragment ablations | Would mainly refine development-bank detail. No deployment horizon, component choice or observed failure makes that increment consequential now. |
-| Joint contextual selection from G4 | Still mechanistically relevant. The calibrated continuation precedent alone took 4.63 queue hours, before build/review/analysis; a new learner plus informative frozen evaluation has no credible complete price here. Do not buy another under-sized pilot. |
-| Changed inherited exposure or credit | Potentially more important than another external-fit increment, but no measured selectable signal or validated revised procedure currently favors it. Preserve root 23's reopening test; do not rerun the failed law merely because its harness is cheap. |
-
-**Owner note disposition.** The only `owner-*.md` is
-[owner-heritable-map.md](../../plans/owner-heritable-map.md). Its SHA-256 is still
-`439bf7393e478eecebe519357bbcb314b90720df3de73fd0f482a0e715e7bba8`, matching
-[strategy 0145](../2026-10-10-0145/strategy.md); no new or changed note is unanswered.
-For the handoff:
-
-- **Pursued at tested scope; further work deferred:** inherited frequencies.
-  Reconsider a changed rule with a measured selection signal and informative frozen
-  usefulness comparison, or a necessary frequency-only control for inherited decoding.
-- **Deferred:** capture and synonyms. The owner's prerequisite of useful inherited
-  learning remains unmet. Reconsider after that evidence and a specific reassignment
-  limitation; price engine validation separately.
-- **Deferred:** optional population-level maps. Token selection worked; contextual
-  selection has not established its increment. Reconsider a changed representation/
-  ranking signal with a complete learning and transfer price.
-- **Declined for this run:** free table mutation and ambiguous intermediates.
-  Reconsider only as necessary contrasts in a justified reassignment study, respecting
-  the owner's ordering. External A8 feedback does not satisfy step 1.
-
-**What to stop.** End the current output-family acquisition series at its supported
-scope. Stop automatic feedback rounds, source-size sweeps, precision top-ups without
-a decision, the unchanged pre-solve extractor, finer suffix/recoding tests and blind
-contextual optimizer retries. Keep helper, CA and token-reassignment expansion parked.
-Carry forward A8, its measured limits and the new bank plan; keep external fitting,
-outer selection and per-individual inheritance distinct. No experiment or budget
-increase is authorized by this stop decision.
+**What to stop.** End the current output-family refinement series: no automatic
+feedback rounds, source-size sweeps, full-F parity top-ups, unchanged pre-solve
+extractor, or finer suffix/recoding tests. The unscored S8′ arm could place the PA
+deficit, but its roughly 1.5-hour full cycle changes no current choice; reconsider
+if a source failure makes static versus adaptive collection consequential. Keep
+blind contextual optimizer retries, helper and CA expansion parked. Defer PSB2
+until the bounded new-family result guides what acquisition recipe deserves that
+larger interface and benchmark cost. If this candidate fails, review alternatives
+at their complete price rather than relaxing the bank or consuming the 40-slot cap.

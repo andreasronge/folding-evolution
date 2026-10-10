@@ -1,0 +1,514 @@
+[
+  {
+    "phase": "first_G4",
+    "build": 0,
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "G4",
+    "attempt": 0,
+    "seed": 390000
+  },
+  {
+    "phase": "first_G4",
+    "build": 0,
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "G4",
+    "attempt": 1,
+    "seed": 390001
+  },
+  {
+    "phase": "first_G4",
+    "build": 0,
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "G4",
+    "attempt": 2,
+    "seed": 390002
+  },
+  {
+    "phase": "first_G4",
+    "build": 0,
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "G4",
+    "attempt": 3,
+    "seed": 390003
+  },
+  {
+    "phase": "first_G4",
+    "build": 0,
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "G4",
+    "attempt": 0,
+    "seed": 390010
+  },
+  {
+    "phase": "first_G4",
+    "build": 0,
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "G4",
+    "attempt": 1,
+    "seed": 390011
+  },
+  {
+    "phase": "first_G4",
+    "build": 0,
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "G4",
+    "attempt": 2,
+    "seed": 390012
+  },
+  {
+    "phase": "first_G4",
+    "build": 0,
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "G4",
+    "attempt": 3,
+    "seed": 390013
+  },
+  {
+    "phase": "first_G4",
+    "build": 0,
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "G4",
+    "attempt": 0,
+    "seed": 390020
+  },
+  {
+    "phase": "first_G4",
+    "build": 0,
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "G4",
+    "attempt": 1,
+    "seed": 390021
+  },
+  {
+    "phase": "first_G4",
+    "build": 0,
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "G4",
+    "attempt": 2,
+    "seed": 390022
+  },
+  {
+    "phase": "first_G4",
+    "build": 0,
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "G4",
+    "attempt": 3,
+    "seed": 390023
+  },
+  {
+    "phase": "first_G4",
+    "build": 0,
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "G4",
+    "attempt": 0,
+    "seed": 390030
+  },
+  {
+    "phase": "first_G4",
+    "build": 0,
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "G4",
+    "attempt": 1,
+    "seed": 390031
+  },
+  {
+    "phase": "first_G4",
+    "build": 0,
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "G4",
+    "attempt": 2,
+    "seed": 390032
+  },
+  {
+    "phase": "first_G4",
+    "build": 0,
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "G4",
+    "attempt": 3,
+    "seed": 390033
+  },
+  {
+    "phase": "first_G4",
+    "build": 1,
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "G4",
+    "attempt": 0,
+    "seed": 391000
+  },
+  {
+    "phase": "first_G4",
+    "build": 1,
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "G4",
+    "attempt": 1,
+    "seed": 391001
+  },
+  {
+    "phase": "first_G4",
+    "build": 1,
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "G4",
+    "attempt": 2,
+    "seed": 391002
+  },
+  {
+    "phase": "first_G4",
+    "build": 1,
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "G4",
+    "attempt": 3,
+    "seed": 391003
+  },
+  {
+    "phase": "first_G4",
+    "build": 1,
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "G4",
+    "attempt": 0,
+    "seed": 391010
+  },
+  {
+    "phase": "first_G4",
+    "build": 1,
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "G4",
+    "attempt": 1,
+    "seed": 391011
+  },
+  {
+    "phase": "first_G4",
+    "build": 1,
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "G4",
+    "attempt": 2,
+    "seed": 391012
+  },
+  {
+    "phase": "first_G4",
+    "build": 1,
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "G4",
+    "attempt": 3,
+    "seed": 391013
+  },
+  {
+    "phase": "first_G4",
+    "build": 1,
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "G4",
+    "attempt": 0,
+    "seed": 391020
+  },
+  {
+    "phase": "first_G4",
+    "build": 1,
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "G4",
+    "attempt": 1,
+    "seed": 391021
+  },
+  {
+    "phase": "first_G4",
+    "build": 1,
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "G4",
+    "attempt": 2,
+    "seed": 391022
+  },
+  {
+    "phase": "first_G4",
+    "build": 1,
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "G4",
+    "attempt": 3,
+    "seed": 391023
+  },
+  {
+    "phase": "first_G4",
+    "build": 1,
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "G4",
+    "attempt": 0,
+    "seed": 391030
+  },
+  {
+    "phase": "first_G4",
+    "build": 1,
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "G4",
+    "attempt": 1,
+    "seed": 391031
+  },
+  {
+    "phase": "first_G4",
+    "build": 1,
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "G4",
+    "attempt": 2,
+    "seed": 391032
+  },
+  {
+    "phase": "first_G4",
+    "build": 1,
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "G4",
+    "attempt": 3,
+    "seed": 391033
+  },
+  {
+    "phase": "adaptive",
+    "build": 0,
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "A8",
+    "attempt": 0,
+    "seed": 400000
+  },
+  {
+    "phase": "adaptive",
+    "build": 0,
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "A8",
+    "attempt": 1,
+    "seed": 400001
+  },
+  {
+    "phase": "adaptive",
+    "build": 0,
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "A8",
+    "attempt": 2,
+    "seed": 400002
+  },
+  {
+    "phase": "adaptive",
+    "build": 0,
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "A8",
+    "attempt": 3,
+    "seed": 400003
+  },
+  {
+    "phase": "adaptive",
+    "build": 0,
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "A8",
+    "attempt": 0,
+    "seed": 400010
+  },
+  {
+    "phase": "adaptive",
+    "build": 0,
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "A8",
+    "attempt": 1,
+    "seed": 400011
+  },
+  {
+    "phase": "adaptive",
+    "build": 0,
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "A8",
+    "attempt": 2,
+    "seed": 400012
+  },
+  {
+    "phase": "adaptive",
+    "build": 0,
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "A8",
+    "attempt": 3,
+    "seed": 400013
+  },
+  {
+    "phase": "adaptive",
+    "build": 0,
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "A8",
+    "attempt": 0,
+    "seed": 400020
+  },
+  {
+    "phase": "adaptive",
+    "build": 0,
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "A8",
+    "attempt": 1,
+    "seed": 400021
+  },
+  {
+    "phase": "adaptive",
+    "build": 0,
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "A8",
+    "attempt": 2,
+    "seed": 400022
+  },
+  {
+    "phase": "adaptive",
+    "build": 0,
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "A8",
+    "attempt": 3,
+    "seed": 400023
+  },
+  {
+    "phase": "adaptive",
+    "build": 0,
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "A8",
+    "attempt": 0,
+    "seed": 400030
+  },
+  {
+    "phase": "adaptive",
+    "build": 0,
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "A8",
+    "attempt": 1,
+    "seed": 400031
+  },
+  {
+    "phase": "adaptive",
+    "build": 0,
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "A8",
+    "attempt": 2,
+    "seed": 400032
+  },
+  {
+    "phase": "adaptive",
+    "build": 0,
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "A8",
+    "attempt": 3,
+    "seed": 400033
+  },
+  {
+    "phase": "adaptive",
+    "build": 1,
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "A8",
+    "attempt": 0,
+    "seed": 401000
+  },
+  {
+    "phase": "adaptive",
+    "build": 1,
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "A8",
+    "attempt": 1,
+    "seed": 401001
+  },
+  {
+    "phase": "adaptive",
+    "build": 1,
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "A8",
+    "attempt": 2,
+    "seed": 401002
+  },
+  {
+    "phase": "adaptive",
+    "build": 1,
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "A8",
+    "attempt": 3,
+    "seed": 401003
+  },
+  {
+    "phase": "adaptive",
+    "build": 1,
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "A8",
+    "attempt": 0,
+    "seed": 401010
+  },
+  {
+    "phase": "adaptive",
+    "build": 1,
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "A8",
+    "attempt": 1,
+    "seed": 401011
+  },
+  {
+    "phase": "adaptive",
+    "build": 1,
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "A8",
+    "attempt": 2,
+    "seed": 401012
+  },
+  {
+    "phase": "adaptive",
+    "build": 1,
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "A8",
+    "attempt": 3,
+    "seed": 401013
+  },
+  {
+    "phase": "adaptive",
+    "build": 1,
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "A8",
+    "attempt": 0,
+    "seed": 401020
+  },
+  {
+    "phase": "adaptive",
+    "build": 1,
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "A8",
+    "attempt": 1,
+    "seed": 401021
+  },
+  {
+    "phase": "adaptive",
+    "build": 1,
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "A8",
+    "attempt": 2,
+    "seed": 401022
+  },
+  {
+    "phase": "adaptive",
+    "build": 1,
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "A8",
+    "attempt": 3,
+    "seed": 401023
+  },
+  {
+    "phase": "adaptive",
+    "build": 1,
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "A8",
+    "attempt": 0,
+    "seed": 401030
+  },
+  {
+    "phase": "adaptive",
+    "build": 1,
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "A8",
+    "attempt": 1,
+    "seed": 401031
+  },
+  {
+    "phase": "adaptive",
+    "build": 1,
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "A8",
+    "attempt": 2,
+    "seed": 401032
+  },
+  {
+    "phase": "adaptive",
+    "build": 1,
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "A8",
+    "attempt": 3,
+    "seed": 401033
+  }
+]

@@ -1,0 +1,113 @@
+{
+  "alphabet": "v2_x4",
+  "phases": {
+    "first_G4": {
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "attempts": 8,
+        "solved": 0
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "attempts": 8,
+        "solved": 0
+      },
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "attempts": 8,
+        "solved": 0
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "attempts": 8,
+        "solved": 0
+      }
+    },
+    "adaptive": {
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "attempts": 8,
+        "solved": 0
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "attempts": 8,
+        "solved": 0
+      },
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "attempts": 8,
+        "solved": 0
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "attempts": 8,
+        "solved": 0
+      }
+    }
+  },
+  "builds": {
+    "0": {
+      "first_yield": 0,
+      "adaptive_yield": 0,
+      "intermediate_empty_cells": [
+        "DG:(X2+X3)>(X0+X1)?X0:X2",
+        "DG:(X2+X3)>(X0+X1)?X1:X0",
+        "DG:(X0+X1)>(X2+X3)?X3:X0",
+        "DG:(X0+X3)>(X1+X2)?X2:X3"
+      ],
+      "final_empty_cells": [
+        "DG:(X2+X3)>(X0+X1)?X0:X2",
+        "DG:(X2+X3)>(X0+X1)?X1:X0",
+        "DG:(X0+X1)>(X2+X3)?X3:X0",
+        "DG:(X0+X3)>(X1+X2)?X2:X3"
+      ],
+      "intermediate_empty_corpus": true,
+      "final_empty_corpus": true,
+      "intermediate_empty_library": true,
+      "final_empty_library": true,
+      "library_size": 0,
+      "acquisition": {
+        "evaluations": 262144,
+        "source_worker_seconds": 8.74267395795323,
+        "verification_seconds": 5.420297384262085e-07,
+        "fit_seconds": 0.12462600006256253,
+        "extraction_seconds": 5.27920201420784e-05
+      },
+      "intermediate_fitting": {
+        "evaluations": 131072,
+        "source_worker_seconds": 4.30689174903091,
+        "verification_seconds": 7.50063918530941e-07,
+        "fit_seconds": 0.12515662494115531,
+        "extraction_seconds": 5.704199429601431e-05
+      }
+    },
+    "1": {
+      "first_yield": 0,
+      "adaptive_yield": 0,
+      "intermediate_empty_cells": [
+        "DG:(X2+X3)>(X0+X1)?X0:X2",
+        "DG:(X2+X3)>(X0+X1)?X1:X0",
+        "DG:(X0+X1)>(X2+X3)?X3:X0",
+        "DG:(X0+X3)>(X1+X2)?X2:X3"
+      ],
+      "final_empty_cells": [
+        "DG:(X2+X3)>(X0+X1)?X0:X2",
+        "DG:(X2+X3)>(X0+X1)?X1:X0",
+        "DG:(X0+X1)>(X2+X3)?X3:X0",
+        "DG:(X0+X3)>(X1+X2)?X2:X3"
+      ],
+      "intermediate_empty_corpus": true,
+      "final_empty_corpus": true,
+      "intermediate_empty_library": true,
+      "final_empty_library": true,
+      "library_size": 0,
+      "acquisition": {
+        "evaluations": 262144,
+        "source_worker_seconds": 8.593737376504578,
+        "verification_seconds": 1.0830117389559746e-06,
+        "fit_seconds": 0.1249256250448525,
+        "extraction_seconds": 3.63329891115427e-05
+      },
+      "intermediate_fitting": {
+        "evaluations": 131072,
+        "source_worker_seconds": 4.312931835069321,
+        "verification_seconds": 7.50063918530941e-07,
+        "fit_seconds": 0.12507483398076147,
+        "extraction_seconds": 4.645809531211853e-05
+      }
+    }
+  }
+}

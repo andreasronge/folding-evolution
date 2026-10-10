@@ -1878,3 +1878,25 @@ specificity. Not shown: that evolution reaches fitted context or fragments; what
 advantage; the cheap recipe on a new family or arbitrary sources; transfer beyond two fresh output
 shapes.
 ```
+
+## 2026-10-10: run 2026-10-10-0311 (39), independent-input double-gate bank and pilot acquisition — probe
+
+Slot 31 (strategy 0311 raised the budget 30 → 31). Run 0311 (commit `09c850d`,
+[analysis](../../runs/2026-10-10-0311/analysis.md)), details in [39](39-independent-input-family-bank/log.md).
+New alphabet `v2_x4` (four indexed readouts X0–X3 on D625) and bank `x4-double-gate-v1`
+(`(Xa+Xb)>(Xc+Xd) ? Xe:Xf`): 24 separated cells, frozen 4 source / 4 development / 8 protected split,
+three executors agree. Eight pilot A8 builds: first-batch G4 discovery 22/128 (median 2.5/16 per build,
+below the 4/16 reading), adaptive batch 81/128, all final libraries full. Development cells (16 shared
+seeds per arm): G4/A8 12.2× [6.7, 20.7] (57/64 G4 capped; 1× cap 7.3×), G4/O 1.8× [1.3, 2.5],
+O/A8 6.7× [3.5, 12.5]. 448 searches, 17 min of queue. Probe observations, not beliefs.
+
+Decision: close 39 and open [40](40-independent-input-protected-transfer/question.md) for the protected
+comparison, returning to strategy (`next: strategy`) because root 10's 31 slots are used and strategy 0311
+required a review after this stage; the stage-2 design is the steward's suggestion.
+([decision](../../runs/2026-10-10-0311/decision.md))
+
+## 2026-10-10: wording correction from critique 0311 (digest check), no new data
+
+Note 7 of [critique 0311](../../runs/2026-10-10-0311/critique.md): 38's log and decision 0145 said scoring S8′
+"would place the PA deficit". It could help distinguish an adaptive-step effect from source/build
+variation but may not locate the deficit. Corrected in [38's log](38-cheap-bias-source-replication/log.md).
