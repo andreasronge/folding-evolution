@@ -1,0 +1,81 @@
+runs:
+  - id: 2026-10-10-1536-independent-input-prepare
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-10-1536 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.independent_input_run
+      --protected --prepare --workers 10 --deadline-seconds 3000
+    timeout_seconds: 3000
+    track: chem-tape
+    notes: >-
+      Protected within-development-bank confirmation, x4-double-gate-v1/v2_x4.
+      Reuse the SHA-frozen 0311 split and eight reinterpreted BE/PA O artifacts.
+      Validate production Python/Rust semantics; freeze method/backend, bank,
+      sources, protected scoring schedule and O identities before acquisition.
+      Exactly 24 fresh builds, 384 G4 first attempts and384 adaptive attempts:
+      four+four per source cell, unchanged C4+F4 fits, cap524288/pop256/64 cases/
+      exact625 inputs. Seeds500000/600000+1000build+10cell+attempt. Keep every
+      failure and empty cell/corpus/library fallback; never replace weak builds.
+      No protected search in preparation. Runtime-only admission:2970s prep,
+      full896-search price plus30%reserve and90s reporting <=4170s. Record
+      full source yields, fallback incidence, fitting/verification/exact tails,
+      acquisition evaluations and sustained ten-worker batch measurements.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - old_builds.json
+      - source_schedule.json
+      - schedule.json
+      - method_freeze.json
+      - validation.json
+      - first.jsonl
+      - adaptive.jsonl
+      - seed_builds.json
+      - builds.json
+      - timing.json
+      - source_summary.json
+      - preparation.json
+      - progress.json
+
+  - id: 2026-10-10-1536-independent-input-score
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-10-1536 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.independent_input_run
+      --protected
+      --preparation "${RUN_DIR%/*}/2026-10-10-1536-independent-input-prepare/preparation.json"
+      --workers 10 --deadline-seconds 4200
+    timeout_seconds: 4200
+    track: chem-tape
+    notes: >-
+      Verify frozen method/backend, roster/seeds/O identities, source rows,
+      all24 fresh builds, validation, admission hash and runtime limits before
+      protected scoring; feasibility_stop emits result/report without search.
+      Exactly896 searches:8 protected cells x48 shared seeds xG4/A8 plus8x16 O.
+      Seeds700000+1000cell+ordinal; A8 buildordinal//2 (two seeds/build/cell),
+      O same eight BE1..4/PA1..4 A8-prime artifacts from0311/0145 (first16 seeds).
+      Primary fixed-cell geometric capped-evaluation G4/A8 ratio, failures2cap,
+      8192 build/within-build-seed bootstrap draws with one shared cell-stratified
+      G4 resample; margin1.5. Useful label only protected-cell replication on
+      this development bank relative to G4 at this cap; no fresh-bank transfer.
+      Repeat1cap label and mark penalty sensitivity. Descriptive Wilson solves,
+      per-cell costs, three unseen-pairing versus otherfive subgroup results,
+      stratified old-artifact G4/O and O/A8, yield/fallback-target association,
+      arithmetic acquisition-plus-search repayment charged once/build,
+      conditional resolution price, fitness/diversity and exact-check plots.
+      No inheritance, family-specificity or wall-time-savings claims. Return
+      to strategy for every outcome. Summed timeouts120min, no full run here.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - old_builds.json
+      - source_schedule.json
+      - schedule.json
+      - method_freeze.json
+      - validation.json
+      - seed_builds.json
+      - builds.json
+      - source_summary.json
+      - preparation.json
+      - result.json
+      - report.md
