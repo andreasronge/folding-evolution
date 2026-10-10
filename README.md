@@ -23,31 +23,32 @@ Two parts:
 1. **Measure the bias.** Sample random genomes, count how often each program behaviour appears, and check whether that frequency predicts what evolution actually finds ("arrival of the frequent", Schaper & Louis 2014; simplicity bias, Dingle, Camargo & Louis 2018). Folding, chem-tape, direct encoding and tree GP are all just different maps to measure.
 2. **Evolve the bias.** Let the map itself (chemistry, decoder) evolve across related tasks, and check whether its bias shifts toward that family and transfers to unseen members (Kashtan & Alon 2005; Watson & Szathmáry 2016).
 
-**Why.** Evolution can find programs that are exact, tiny, fast and readable,
-but finding them is slow. LLM-guided evolution speeds this up with a prior
-learned from human code. We ask whether evolution can grow its own small prior
-from the tasks it solves: no human code, almost free to use, fitted to a family
-of tasks. That would help where no code exists to learn from, such as new
-instruction sets, unusual hardware, or new chemistries like chem-tape.
+**Why.** Evolution can find small, exact, fast programs, but the search is
+slow. Can it learn, from the programs it has already found, how to search
+better next time, without training on human-written code? That would help
+where no such code exists, such as new instruction sets or chemistries like
+chem-tape.
 
-**Goal.** A map that, after a few tasks of one kind, makes new tasks of that
-kind much faster to solve; ideally a map that evolves this bias itself rather
-than having it fitted from outside. Beating neural nets at prediction is not
-the aim: evolved programs win on speed, size, exactness and readability;
-neural nets win on messy data like images and text.
+**Goal.** A decoder (the rules that turn a genome into a program) that makes
+new, related tasks cheaper to solve. The long-term aim is a decoder that
+evolves and is inherited. Today's best recipe is fitted from outside, from
+programs evolution found; inherited learning is not yet shown to work.
 
 **Steps.**
-1. Toy tasks of one shape. Done: a learned map makes search about 2.5× faster
-   on unseen tasks.
-2. A new task shape: does the map learn what that shape needs? (Next.)
-3. A real benchmark ([PSB2](Plans/psb2-sanity-probe.md)): learn on some
-   puzzles, help on others.
-4. Only then broader data.
+1. Small related tasks: a fitted decoder plus reusable program pieces makes
+   search about 2.5× cheaper on held-out tasks (not counting the cost of
+   learning it). Done, but those tasks are now used up for testing.
+2. Next: tasks that need different combinations of operations, tested on
+   tasks never looked at before. Transfer to new tasks matters more than
+   tuning old results.
+3. A real benchmark ([PSB2](Plans/psb2-sanity-probe.md)): learn from some
+   puzzles, test on others.
+4. Broader problems only after transfer works.
 
-**Closest relatives.** PIPE and other estimation-of-distribution GP (learned
-op probabilities), DreamCoder (learned building blocks), and LLM-guided
-evolution (FunSearch, AlphaEvolve). What is different here: the prior comes
-from evolution itself, is cheap, and needs no human code.
+**Closest relatives.** PIPE and similar GP methods learn how to generate
+programs. DreamCoder learns reusable building blocks. FunSearch and
+AlphaEvolve use language models to propose program changes. Our focus: cheap
+reuse across tasks, and eventually decoders that evolve by inheritance.
 
 Earlier framing, kept for history: *"Does a developmental encoding enable qualitatively different evolutionary dynamics than direct encoding — specifically, the ability to discover and propagate rare compositional structures that direct GP cannot reach?"* It was dropped because "cannot reach" is almost never literally true (what differs is how *likely* a structure is to appear), and "folding vs direct" is a comparison the indirect-encoding literature has already mostly answered ("it depends on problem regularity").
 
@@ -90,12 +91,12 @@ Active lab notebook: [docs/chem-tape/experiments-v2.md](docs/chem-tape/experimen
 
 ## Next Direction
 
-The research loop picks the next experiments (see Steps above and
-[research/digest.md](research/digest.md)). Paused plans:
+The research loop follows the Steps above and the current evidence in
+[research/digest.md](research/digest.md). Paused plans:
 
 **CA developmental revival** — the CA track already has two ceiling-breakers on 8-bit parity (banded_3 at 0.969 max, phased_2 at 0.961 max; §11.a, §11.b). Zero existing sweeps test whether those dynamics actually *develop* — canalize, self-repair, redeploy under perturbed I/O. The plan: visuals first (atlas of evolved trajectories across all 256 inputs), damage assay second (Hamming-scar curves on mid-development perturbation), I/O-shift probe third. Rule surgery, fate maps, failure galleries, and attractor portraits follow. Dashboard grows organically around whichever visual you keep rewatching. Full plan: [Plans/ca-developmental-revival.md](Plans/ca-developmental-revival.md).
 
-**Runtime plasticity (deferred).** Rank-1 operator-threshold plasticity tested at §v2.5-plasticity-1a returned a NULL on Arm A's narrow plateau (`plasticity-narrow-plateau` finding). Higher-rank plasticity and the meta-learning framing remain on the roadmap but are deprioritized while the CA probe runs. Design note preserved: [docs/chem-tape/runtime-plasticity-direction.md](docs/chem-tape/runtime-plasticity-direction.md).
+**Runtime plasticity (deferred).** Rank-1 operator-threshold plasticity tested at §v2.5-plasticity-1a returned a NULL on Arm A's narrow plateau (`plasticity-narrow-plateau` finding). Higher-rank plasticity and the meta-learning framing remain on the roadmap but are deprioritized during the current decoder-learning work. Design note preserved: [docs/chem-tape/runtime-plasticity-direction.md](docs/chem-tape/runtime-plasticity-direction.md).
 
 ## Performance Notes
 
