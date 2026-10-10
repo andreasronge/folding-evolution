@@ -433,7 +433,7 @@ def require_admission(p):
         and p["seed_audit"]["admitted"]
         and p["replay"]["passed"]
         and all(v["admitted"] for v in p["projection"].values())
-        and p["projection"]["DG"]["chosen_solve_fraction"] >= 0.25
+        and p["projection"].get("DG", {}).get("chosen_solve_fraction", 0) >= 0.25
         and p["prepare_seconds"] <= 1770
     )
     if p["admitted"] != admitted or not admitted or p["smoke"]:
@@ -702,10 +702,9 @@ class Runner:
             path = parent / ("tails_" + f + ".jsonl")
             if path.exists():
                 tails += [json.loads(x) for x in path.read_text().splitlines()]
-        if (
-            digest(replays) != p["replay_rows_hash"]
-            or digest(sorted(tails, key=lambda r: str(row_key(r)))) != p["tails_hash"]
-        ):
+        # Match preparation's canonical order for hashing AND float reductions.
+        tails = sorted(tails, key=lambda r: str(row_key(r)))
+        if digest(replays) != p["replay_rows_hash"] or digest(tails) != p["tails_hash"]:
             raise ValueError("replay/tail evidence changed")
         if (
             audit_seeds(self.calibration, self.schedule, historical_seeds(self.saved))

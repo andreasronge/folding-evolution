@@ -1,6 +1,8 @@
 """Scientific pairing, failure penalties, admission gates and repayment bounds."""
 
 import copy
+import json
+from types import SimpleNamespace
 import numpy as np
 import pytest
 
@@ -182,6 +184,149 @@ def test_mix_ties_admission_projection_and_low_solve_block():
     bad["preparation_hash"] = digest(bad)
     with pytest.raises(ValueError, match="gate failed"):
         require_admission(bad)
+    bad = copy.deepcopy(prep)
+    bad.update(smoke=True, admitted=False, projection={})
+    bad.pop("preparation_hash")
+    bad["preparation_hash"] = digest(bad)
+    with pytest.raises(ValueError, match="gate failed"):
+        require_admission(bad)
+
+
+@pytest.mark.parametrize("family", ["DG", "TS"])
+def test_admitted_tail_preparation_reaches_scoring(tmp_path, monkeypatch, family):
+    """Replay real gates/file IO with synthetic rows; execute no target searches."""
+    from experiments.chem_tape import tree_gp_run as run
+    from experiments.chem_tape.component_transfer_run import load_saved
+
+    saved, targets = load_saved()
+    calibration, schedule = run.schedules(saved["banks.json"], targets)
+    rows = []
+    template = calibration_rows()[0]
+    for meta in calibration:
+        row = copy.deepcopy(template)
+        row.update(meta, solved=True, evaluations=6144, worker_seconds=0.3)
+        rows.append(row)
+    rows.sort(key=lambda r: str(run.row_key(r)))
+    mix, _ = run.choose_mix(rows)
+    batches = {f: dict(worker_seconds=38.4, wall_seconds=4.5) for f in ("DG", "TS")}
+    replays = [dict(family=f, worker_seconds=2.0) for f in ("DG", "TS")]
+    tails, tail_batches = [], {}
+    rng = np.random.default_rng(22160200)
+    for fi, f in enumerate(("DG", "TS")):
+        for i, seconds in enumerate(rng.uniform(40, 60, 10)):
+            tails.append(
+                dict(
+                    family=f,
+                    cell="development",
+                    arm="tree",
+                    repeat=i,
+                    crossover=mix,
+                    seed=22160200 + 1000 * fi + i,
+                    worker_seconds=float(seconds),
+                )
+            )
+        tail_batches[f] = dict(worker_seconds=500.0, wall_seconds=60.0)
+        batches["tail_" + f] = tail_batches[f]
+    tails.sort(key=lambda r: str(run.row_key(r)))
+    projection = run.project(rows, batches, replays, tails, tail_batches, mix)
+    # Find a completion order that actually changes a floating-point reduction.
+    completion = None
+    for _ in range(100):
+        candidate = [tails[i] for i in rng.permutation(len(tails))]
+        if (
+            run.project(rows, batches, replays, candidate, tail_batches, mix)
+            != projection
+        ):
+            completion = candidate
+            break
+    assert completion is not None, "fixture must expose the reviewed order bug"
+    freeze = dict(targets=targets, synthetic_test=True)
+    prep = dict(
+        freeze=freeze,
+        smoke=False,
+        validation=dict(admitted=True),
+        seed_audit=run.audit_seeds(calibration, schedule, run.historical_seeds(saved)),
+        replay=dict(passed=True),
+        chosen_crossover=mix,
+        calibration_rows_hash=digest(rows),
+        replay_rows_hash=digest(replays),
+        tails_hash=digest(tails),
+        projection=projection,
+        batches=batches,
+        prepare_seconds=1000.0,
+        admitted=True,
+    )
+    prep["preparation_hash"] = digest(prep)
+    parent = tmp_path / "prepare"
+    parent.mkdir()
+    (parent / "preparation.json").write_text(json.dumps(prep))
+    (parent / "method_freeze.json").write_text(json.dumps(freeze))
+
+    def write_rows(name, records):
+        (parent / name).write_text("".join(json.dumps(r) + "\n" for r in records))
+
+    write_rows("replay.jsonl", replays)
+    for f in ("DG", "TS"):
+        write_rows("calibration_" + f + ".jsonl", [r for r in rows if r["family"] == f])
+        write_rows("tails_" + f + ".jsonl", [r for r in completion if r["family"] == f])
+
+    # Search-semantic validation is tested separately with real searches. This
+    # fixture replaces only that boundary, leaving every admission check real.
+    def synthetic_validate(actual, metas, actual_saved, cap, *args):
+        assert metas == calibration and actual_saved is saved and cap == run.CAP
+        assert actual == rows
+        return actual
+
+    monkeypatch.setattr(run, "validate_rows", synthetic_validate)
+    runner = run.Runner.__new__(run.Runner)
+    runner.args = SimpleNamespace(preparation=str(parent), family=family)
+    runner.freeze, runner.saved = freeze, saved
+    runner.calibration, runner.schedule = calibration, schedule
+    runner.out = tmp_path / "score"
+    runner.out.mkdir()
+    run.require_admission(prep)
+    assert runner.load_preparation() == prep
+
+    if family == "TS":
+        dg = tmp_path / "dg"
+        dg.mkdir()
+        (dg / "method_freeze.json").write_text(json.dumps(freeze))
+        (dg / "preparation.json").write_text(json.dumps(prep))
+        (dg / "search.jsonl").write_text("")
+        (dg / "result.json").write_text(json.dumps(dict(search_rows_hash=digest([]))))
+        runner.args.dg_score = str(dg)
+
+        def with_synthetic_dg(actual, metas, actual_saved, cap, *args):
+            if metas == calibration:
+                return synthetic_validate(actual, metas, actual_saved, cap, *args)
+            assert metas == [m for m in schedule if m["family"] == "DG"]
+            assert actual == [] and args == (mix,)
+            return actual
+
+        monkeypatch.setattr(run, "validate_rows", with_synthetic_dg)
+
+    class ScoringReached(Exception):
+        pass
+
+    def stop_before_targets(metas, name, phase, crossover):
+        assert metas == [m for m in schedule if m["family"] == family]
+        assert len(metas) == 896 and (name, phase, crossover) == (
+            "search.jsonl",
+            "score",
+            mix,
+        )
+        raise ScoringReached
+
+    runner.jobs = stop_before_targets
+    with pytest.raises(ScoringReached):
+        runner.score()
+    assert not (runner.out / "search.jsonl").exists()
+
+    altered = [r.copy() for r in completion if r["family"] == family]
+    altered[0]["worker_seconds"] += 1
+    write_rows("tails_" + family + ".jsonl", altered)
+    with pytest.raises(ValueError, match="replay/tail evidence changed"):
+        runner.load_preparation()
 
 
 def test_report_artifacts_use_complete_synthetic_grid(tmp_path):
