@@ -1,0 +1,14 @@
+{
+  "source": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare",
+  "commit": "b5697a125347a91773db2ffc9f34d05e03b8f898",
+  "hashes": {
+    "builds.json": "5aa116c9804dcfad6ddccf59ccc8affee1205726b994640327227559988d8f22",
+    "seed_builds.json": "f3af39d06bfda8354c146004063c6cbacdf89755fecb64e8a4fdd0080e586dac",
+    "banks.json": "e8e72b9d7a9eacee7c09fa3aee59a7c49d373010d3b3483d713094556559c8c3",
+    "source_schedule.json": "b624f56b4ff2bd7577aa3daba0d50b69b87d4bad4d9d72417541f19ba3dc9df0",
+    "first.jsonl": "c044f6392d44c3f51f5590c32101c1f5a06f97a89dff69a2f81d3c8b72760ac8",
+    "adaptive.jsonl": "2d3efd5baa51cfed4fbdbdf767060a39c15a5c973cf47f8a1e6c0241ba4d8d3d",
+    "preparation.json": "44bf16890289766a7c45677886d420c932234a9a1758a0344018a22d24fa202e",
+    "replay.json": "f250ba147bb9afaefaf6e87d4503218a440ea90c3ea7183db51fca1f74e3e168"
+  }
+}
