@@ -310,7 +310,7 @@ def report(out, rows, builds, old, preparation, timing, smoke=False):
     plot(out, rows)
 
 
-def plot(out, rows):
+def plot(out, rows, title="v2_x4 · development only (correctness-pattern diversity)"):
     import matplotlib
 
     matplotlib.use("Agg")
@@ -353,7 +353,7 @@ def plot(out, rows):
     for ax in axes:
         ax.legend()
         ax.grid(alpha=0.2)
-    fig.suptitle("v2_x4 · development only (correctness-pattern diversity)")
+    fig.suptitle(title)
     fig.tight_layout()
     fig.savefig(out / "diagnostics.png", dpi=140)
     plt.close(fig)

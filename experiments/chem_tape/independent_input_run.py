@@ -1,4 +1,4 @@
-"""0311 stage-1 bank/source/development probe; protected cells never searched."""
+"""0311 development probe or 1536 protected confirmation of the same A8 recipe."""
 
 import argparse
 import gzip
@@ -94,9 +94,14 @@ def validate_bank(bank):
             raise ValueError("label hash changed")
 
 
-def schedules(bank, smoke=False):
-    nbuild = 2 if smoke else 8
-    base = 390000 if smoke else 310000
+def schedules(bank, smoke=False, protected=False):
+    nbuild = 2 if smoke else (24 if protected else 8)
+    base = (
+        (800000 if protected else 390000)
+        if smoke
+        else (500000 if protected else 310000)
+    )
+    adaptive_gap = 100000 if protected and not smoke else 10000
     sources = [
         dict(
             alphabet=ALPHABET,
@@ -105,34 +110,54 @@ def schedules(bank, smoke=False):
             cell=cid,
             arm="G4" if p == 0 else "A8",
             attempt=a,
-            seed=base + 10000 * p + 1000 * b + 10 * ci + a,
+            seed=base + adaptive_gap * p + 1000 * b + 10 * ci + a,
         )
         for p, phase in enumerate(("first_G4", "adaptive"))
         for b in range(nbuild)
         for ci, cid in enumerate(bank["split"]["source"])
         for a in range(4)
     ]
-    development = [
+    target_part = "protected" if protected and not smoke else "development"
+    score_base = (
+        (820000 if protected else 420000)
+        if smoke
+        else (700000 if protected else 330000)
+    )
+    target = [
         dict(
             alphabet=ALPHABET,
-            phase="development",
+            phase=target_part,
             cell=cid,
             arm=arm,
             build=ordinal // 2,
             ordinal=ordinal,
-            seed=(420000 if smoke else 330000) + 1000 * ci + ordinal,
+            seed=score_base + 1000 * ci + ordinal,
         )
-        for ci, cid in enumerate(bank["split"]["development"])
+        for ci, cid in enumerate(bank["split"][target_part])
         for ordinal in range(2 * nbuild)
         for arm in ("G4", "A8", "O")
+        if arm != "O" or ordinal < 2 * min(nbuild, 8)
     ]
     if len({r["seed"] for r in sources}) != len(sources) or {
         r["seed"] for r in sources
-    } & {r["seed"] for r in development}:
+    } & {r["seed"] for r in target}:
         raise ValueError("seed overlap")
-    if any(r["cell"] in bank["split"]["protected"] for r in sources + development):
-        raise ValueError("protected performance exposure")
-    return sources, development
+    if any(r["cell"] in bank["split"]["protected"] for r in sources):
+        raise ValueError("protected source exposure")
+    if target_part != "protected" and any(
+        r["cell"] in bank["split"]["protected"] for r in target
+    ):
+        raise ValueError("protected smoke/development exposure")
+    return sources, target
+
+
+def runtime_limits(protected=False):
+    return (2970, 4170) if protected else (1470, 1770)
+
+
+def score_projection(schedule, mean_g4, mean_a8, mean_o, effective):
+    means = dict(G4=mean_g4, A8=mean_a8, O=mean_o)
+    return 1.3 * sum(means[r["arm"]] for r in schedule) / effective + 90
 
 
 def method_hashes():
@@ -193,11 +218,15 @@ class Runner:
         self.cells = {c["id"]: c for c in self.bank["screen"]["cells"]}
         self.indices = np.random.default_rng(0).choice(625, 96, replace=False).tolist()
         self.diagnostic = [self.bank["inputs"][i] for i in self.indices[:4]]
-        self.source_schedule, self.score_schedule = schedules(self.bank, args.smoke)
+        self.protected = getattr(args, "protected", False)
+        self.nbuild = 2 if args.smoke else (24 if self.protected else 8)
+        self.source_schedule, self.score_schedule = schedules(
+            self.bank, args.smoke, self.protected
+        )
         self.cap = 8192 if args.smoke else CAP
         self.hashes = method_hashes()
         self.config = dict(
-            task="2026-10-10-0311",
+            task="2026-10-10-1536" if self.protected else "2026-10-10-0311",
             alphabet=ALPHABET,
             bank=BANK,
             smoke=args.smoke,
@@ -212,6 +241,9 @@ class Runner:
             method=dict(tape_length=32, crossover=0.7, mutation=0.03, elites=2),
             reinterpretation="O token ids unchanged; reducers explicitly reinterpreted as X0..X3",
             protected_performance_scored=False,
+            target_partition="protected"
+            if self.protected and not args.smoke
+            else "development",
         )
         self.freeze = dict(
             alphabet=ALPHABET,
@@ -223,6 +255,7 @@ class Runner:
             smoke=args.smoke,
             workers=args.workers,
             frozen_before_search=True,
+            protected_mode=self.protected,
             fragment_indices=self.indices,
         )
         self.builds, self.seed_builds, self.batches = {}, {}, {}
@@ -336,7 +369,7 @@ class Runner:
 
     def rebuild(self, rows, phase):
         tick = time.monotonic()
-        nbuild = 2 if self.args.smoke else 8
+        nbuild = self.nbuild
         sources = self.bank["split"]["source"]
         # Stable schedule order, independent of worker completion order.
         index = {(r["cell"], r["seed"]): r for r in rows}
@@ -460,22 +493,23 @@ class Runner:
             np.mean([r["seconds"] * self.cap / r["evaluations"] for r in first])
         )
         mean_o_proxy = max(mean_g4, mean_a8, fullcap_g4)
-        score_projection = (
-            1.3 * 64 * (mean_g4 + mean_a8 + mean_o_proxy) / effective + 90
+        projected = score_projection(
+            self.score_schedule, mean_g4, mean_a8, mean_o_proxy, effective
         )
+        prepare_limit, score_limit = runtime_limits(self.protected)
         prepare_seconds = time.monotonic() - self.started
-        admitted = score_projection <= 1770 and prepare_seconds <= 1470
+        admitted = projected <= score_limit and prepare_seconds <= prepare_limit
         reasons = []
         if median < 4:
             reasons.append(
-                "discovery obstacle: median first-batch yield below4/16; continue pilot scoring with unchanged fallbacks and no attempt increase"
+                "discovery obstacle: median first-batch yield below4/16; continue scoring with unchanged fallbacks and no attempt increase"
             )
-        if score_projection > 1770:
+        if projected > score_limit:
             reasons.append(
-                "measured source-load price cannot admit192 pilot searches in30min"
+                f"measured source-load price cannot admit{len(self.score_schedule)} searches in{score_limit + 30}s"
             )
-        if prepare_seconds > 1470:
-            reasons.append("preparation exceeds25min allowance")
+        if prepare_seconds > prepare_limit:
+            reasons.append(f"preparation exceeds{prepare_limit + 30}s allowance")
         p = dict(
             alphabet=ALPHABET,
             admitted=admitted,
@@ -485,7 +519,7 @@ class Runner:
             median_first_yield=median,
             batches=self.batches,
             effective_workers=effective,
-            score_projected_seconds=score_projection,
+            score_projected_seconds=projected,
             timing_caveat="O is not yet measured; source-load projection includes conservative fullcap proxy and30%reserve",
             freeze=self.freeze,
             builds_hash=digest(self.builds),
@@ -510,7 +544,7 @@ class Runner:
                 dict(
                     admitted=admitted,
                     median_first_yield=median,
-                    projected_score_seconds=score_projection,
+                    projected_score_seconds=projected,
                     smoke=self.args.smoke,
                 )
             ),
@@ -563,13 +597,20 @@ class Runner:
             np.median(
                 [
                     sum(r["solved"] for r in first if r["build"] == b)
-                    for b in range(2 if self.args.smoke else 8)
+                    for b in range(
+                        2
+                        if self.args.smoke
+                        else (24 if getattr(self.args, "protected", False) else 8)
+                    )
                 ]
             )
         )
+        prepare_limit, score_limit = runtime_limits(
+            getattr(self.args, "protected", False)
+        )
         if measured_median != p["median_first_yield"] or p["admitted"] != (
-            p["score_projected_seconds"] <= 1770
-            and p["prepare_seconds"] <= 1470
+            p["score_projected_seconds"] <= score_limit
+            and p["prepare_seconds"] <= prepare_limit
         ):
             raise ValueError(
                 "preparation admission disagrees with recorded data/limits"
@@ -592,23 +633,36 @@ class Runner:
                 reasons=p["reasons"],
                 protected_performance_scored=False,
                 preparation=p,
-                scope="descriptive probe; core transfer question unanswered",
+                scope="runtime obstacle; protected confirmation unanswered",
             )
             write_json(self.out, "result.json", result)
             (self.out / "report.md").write_text(
-                "Feasibility stop before development scoring.\n\n"
+                "Feasibility stop before target scoring.\n\n"
                 + "\n".join(p["reasons"])
                 + "\n\nProtected cells remain unscored. Return to strategy.\n"
             )
             return
-        rows = self.jobs(self.score_schedule, "search.jsonl", "development")
-        report(
+        phase = (
+            "protected"
+            if getattr(self.args, "protected", False) and not self.args.smoke
+            else "development"
+        )
+        rows = self.jobs(self.score_schedule, "search.jsonl", phase)
+        if phase == "protected":
+            self.config["protected_performance_scored"] = True
+            write_json(self.out, "config.json", self.config)
+        reporter = report
+        if getattr(self.args, "protected", False):
+            from experiments.chem_tape.independent_input_protected_report import (
+                report as reporter,
+            )
+        reporter(
             self.out,
             rows,
             self.builds,
             self.old,
             p,
-            self.batches["development"],
+            self.batches[phase],
             self.args.smoke,
         )
 
@@ -682,6 +736,11 @@ def main():
     parser.add_argument("--prepare", action="store_true")
     parser.add_argument("--preparation")
     parser.add_argument("--smoke", action="store_true")
+    parser.add_argument(
+        "--protected",
+        action="store_true",
+        help="1536 confirmation; smoke still searches only development cells",
+    )
     parser.add_argument("--workers", type=int, default=WORKERS)
     parser.add_argument("--deadline-seconds", type=int, default=1500)
     args = parser.parse_args()

@@ -284,6 +284,7 @@ def test_source_provenance_requires_complete_frozen_attempts():
             validate_source_rows(changed, schedule, CAP)
 
 
+@pytest.mark.parametrize("protected", [False, True])
 @pytest.mark.parametrize(
     "first_yield, projection, elapsed, admitted",
     [
@@ -294,7 +295,7 @@ def test_source_provenance_requires_complete_frozen_attempts():
     ],
 )
 def test_full_admission_reports_sparse_yield_and_stops_only_for_runtime(
-    tmp_path, monkeypatch, first_yield, projection, elapsed, admitted
+    tmp_path, monkeypatch, first_yield, projection, elapsed, admitted, protected
 ):
     import argparse
     import json
@@ -306,14 +307,23 @@ def test_full_admission_reports_sparse_yield_and_stops_only_for_runtime(
         CAP,
     )
 
+    if protected:
+        if projection >= 1770:
+            projection += 2400
+        if elapsed >= 1470:
+            elapsed += 1500
     bank, _ = load_frozen()
-    schedule, development = schedules(bank)
+    schedule, development = schedules(bank, protected=protected)
+    nbuild = 24 if protected else 8
     rows = [dict(r, cap=CAP, pop_size=256, solver=None, solved=False) for r in schedule]
-    for b in range(8):
+    for b in range(nbuild):
         selected = [r for r in rows if r["build"] == b and r["phase"] == "first_G4"]
         for row in selected[:first_yield]:
             row.update(solved=True, solver=[1])
-    order = lambda r: (r["build"], r["cell"], r["seed"], r["arm"])
+
+    def order(r):
+        return (r["build"], r["cell"], r["seed"], r["arm"])
+
     first = sorted([r for r in rows if r["phase"] == "first_G4"], key=order)
     adaptive = sorted([r for r in rows if r["phase"] == "adaptive"], key=order)
     builds = {
@@ -323,7 +333,7 @@ def test_full_admission_reports_sparse_yield_and_stops_only_for_runtime(
             library=dict(fragments=[]),
             acquisition={},
         )
-        for b in range(8)
+        for b in range(nbuild)
     }
     source = tmp_path / "source"
     source.mkdir()
@@ -354,18 +364,23 @@ def test_full_admission_reports_sparse_yield_and_stops_only_for_runtime(
     path = source / "preparation.json"
     path.write_text(json.dumps(p))
     runner = Runner.__new__(Runner)
-    runner.args = argparse.Namespace(preparation=str(path), smoke=False)
+    runner.args = argparse.Namespace(
+        preparation=str(path), smoke=False, protected=protected
+    )
     runner.out = out
     runner.freeze = freeze
     runner.source_schedule = schedule
     runner.score_schedule = development
     runner.cap = CAP
+    runner.config = {}
     if admitted:
         # Exercise the full scoring dispatch without paying for 192 searches.
         def jobs(actual, filename, phase):
-            assert actual == development and len(actual) == 192
-            assert filename == "search.jsonl" and phase == "development"
-            runner.batches = {"development": {}}
+            assert actual == development and len(actual) == (896 if protected else 192)
+            assert filename == "search.jsonl" and phase == (
+                "protected" if protected else "development"
+            )
+            runner.batches = {phase: {}}
             return actual
 
         def report(actual_out, actual_rows, *args):
@@ -374,7 +389,12 @@ def test_full_admission_reports_sparse_yield_and_stops_only_for_runtime(
 
         runner.jobs = jobs
         runner.old = {}
-        monkeypatch.setattr("experiments.chem_tape.independent_input_run.report", report)
+        monkeypatch.setattr(
+            "experiments.chem_tape.independent_input_protected_report.report"
+            if protected
+            else "experiments.chem_tape.independent_input_run.report",
+            report,
+        )
     # A rejected preparation has no pool/jobs: any search would fail.
     runner.score()
     summary = json.loads((out / "source_summary.json").read_text())
