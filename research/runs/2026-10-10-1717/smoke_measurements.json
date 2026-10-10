@@ -1,0 +1,29 @@
+{
+  "screen_seconds": 106.79400979191996,
+  "bank_seconds": 125.26470979105216,
+  "retained": 192,
+  "maximum_clique": 108,
+  "pilot_source_yields": {
+    "first": 23,
+    "adaptive": 32,
+    "attempts_per_phase": 32
+  },
+  "rates": {
+    "DG": {
+      "G4": 30.263778143380478,
+      "D": 15.834039458321058,
+      "T": 25.2204045207327
+    },
+    "TS": {
+      "G4": 11.718025664180459,
+      "D": 3.91441345581552,
+      "T": 2.4031293749940232
+    }
+  },
+  "effective_workers": 9.154096475203369,
+  "full_score_projected_seconds": 4962.726914889459,
+  "full_prepare_projected_seconds": 1055.4868717456702,
+  "full_prepare_with30percent_reserve_seconds": 1372.1329332693713,
+  "projected_queue_minutes": 105.58099746931384,
+  "price_scope": "two separate TS pilot acquisitions; DG first2; development only, no target scoring; full preparation recalibrates all24 confirmation builds; small-batch acquisition wall scaled12x conservatively"
+}

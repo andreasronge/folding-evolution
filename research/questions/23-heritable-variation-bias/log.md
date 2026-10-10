@@ -346,3 +346,30 @@ once frozen? TAG threshold tasks (sum/max > 1, 5), development bank `tag-thresho
   ([log](questions/23-heritable-variation-bias/log.md))
 
 ```
+
+## 2026-10-10 — digest condensing (steward task 2026-10-10-1717, second pass): former digest text moved here
+
+The digest was rewritten under its word limit (3014 → about 2890 words); no belief changed. In this
+root's section only "about" before "2×" (the max loss bound) was dropped and two sentences joined.
+The section as it stood before the rewrite, verbatim; links are relative to `research/`:
+
+```
+## 23 Heritable variation bias (root parked, budget 2, 2 used)
+
+[23](questions/23-heritable-variation-bias/question.md): can a token-frequency vector inherited
+with each program learn a useful bias through program selection alone, and help fresh populations
+once frozen? TAG threshold tasks (sum/max > 1, 5), development bank `tag-threshold-v1`.
+
+- **Under the one procedure tested, inherited frequencies gave fresh populations no useful bias
+  (the registered 1.5× gain over uniform) on their training targets.** Pre-registered, 20
+  acquisitions per family × arm (σ = 0.03), each frozen vector scored on 16 seeds per target.
+  Uniform ÷ inherited cost: sum 0.33× [0.21, 0.53] (inherited resolved worse), max 0.73× [0.50,
+  1.06] (a gain above 1.06× excluded, a loss up to about 2× not). The hand scaffold is 11.9× and
+  5.75× cheaper. Fairly sure for this σ, schedule and inheritance rule; not a verdict on
+  self-adaptation, silent on transfer. ([run 1046](runs/2026-10-08-1046/analysis.md))
+- **Persistent ancestry made the max vectors less costly than shuffled ancestry; no gain over
+  uniform was established.** Broken ÷ inherited 1.58× [1.04, 2.36] on max; unresolved on sum,
+  1.00× [0.69, 1.41]. Drift versus selection not isolated (no mutation-only control).
+  ([log](questions/23-heritable-variation-bias/log.md))
+
+```

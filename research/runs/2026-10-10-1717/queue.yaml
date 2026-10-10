@@ -1,0 +1,75 @@
+runs:
+  - id: 2026-10-10-1717-family-preference-prepare
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-10-1717 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.family_preference_run
+      --prepare --workers 10 --deadline-seconds 4800
+    timeout_seconds: 4800
+    track: chem-tape
+    notes: >-
+      Performance-blind TS real-token9 screen, strict80percent rule, exact maximum
+      clique and covered4/4/8 split, bounded together to1200s. Reproduce frozen
+      semantic roster. Verify complete24 DG builds and unchanged production method.
+      Acquire24 fresh TS builds with unchanged4G4+4adaptive attempts per4sources:
+      seeds900000/1000000+1000build+10cell+attempt, cap524288/pop256/64cases/exact625.
+      Retain all failures/builds/fallbacks.96 full-cap calibration searches across
+      G4/D/T on both development rosters, cycling all24 builds; seeds1100000+1000(8family+cell)+ordinal.
+      Freeze both target rosters, cohorts, method/seeds/admission before scoring.
+      Preparation4770s; projected2304 searches with30percent reserve+90s reporting
+      must fit8370s. Admission is validity/price only; no yield or outcome gate.
+      No target search in preparation. All outputs underRUN_DIR.
+    expect_outputs:
+      - config.json
+      - banks.json
+      - source_schedule.json
+      - calibration_schedule.json
+      - schedule.json
+      - method_freeze.json
+      - validation.json
+      - first.jsonl
+      - adaptive.jsonl
+      - calibration.jsonl
+      - seed_builds.json
+      - builds.json
+      - timing.json
+      - source_summary.json
+      - preparation.json
+      - progress.json
+
+  - id: 2026-10-10-1717-family-preference-score
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-10-1717 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.family_preference_run
+      --preparation "${RUN_DIR%/*}/2026-10-10-1717-family-preference-prepare/preparation.json"
+      --workers 10 --deadline-seconds 8400
+    timeout_seconds: 8400
+    track: chem-tape
+    notes: >-
+      Verify raw DG provenance, frozen method/backend, bank/rosters/builds/seeds,
+      source/calibration rows and recomputed measured-cost admission before search.
+      Failed admission writes feasibility_stop result/report without target search.
+      Exactly2304 searches:8 unusedDG+8 TS targets x48 common seeds xG4/D/T.
+      Confirmation seeds1200000+1000(8family+cell)+ordinal; buildordinal//2,
+      two seeds/build/cell. Independently acquired24-build D and T cohorts.
+      PrimaryP_DG=T/D onDG, P_TS=D/T onTS, I=sqrt(P_DG*P_TS), failures2cap,
+      fixed-cell geometric cost,95percent8192-draw hierarchical bootstrap keeping
+      each build across both rosters; common within-build/cell ordinal draws,
+      independent cohort build draws; single shared G4 baseline draw.1cap sensitivity.
+      Directional/usefulness intervals accompany interaction; domination remains
+      possible with materialI; unresolved direction is never proven specificity.
+      Solves, per-cell/build costs, arithmetic acquisition-plus-search economics,
+      conditional resolution price and logged fitness/diversity/exact-check plot.
+      DG development bank, relativeG4 at thiscap, external fit/literal fragments;
+      no broad generality, pureADD-placement, inheritance or competitive claim.
+      Return to strategy in every case. Sum220minute timeouts; no full run here.
+    expect_outputs:
+      - config.json
+      - banks.json
+      - source_schedule.json
+      - calibration_schedule.json
+      - schedule.json
+      - method_freeze.json
+      - result.json
+      - report.md

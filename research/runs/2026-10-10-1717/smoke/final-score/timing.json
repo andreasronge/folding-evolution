@@ -1,0 +1,13 @@
+{
+  "alphabet": "v2_x4",
+  "batches": {
+    "score": {
+      "jobs": 96,
+      "wall_seconds": 5.252006125054322,
+      "worker_seconds": 26.269764667376876,
+      "effective_workers": 5.001853395040579,
+      "exact_check_seconds": 0.0014544168952852488,
+      "max_exact_check_seconds": 0.0004040419589728117
+    }
+  }
+}

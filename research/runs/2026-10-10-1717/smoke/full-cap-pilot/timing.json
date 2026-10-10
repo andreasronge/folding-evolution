@@ -1,0 +1,39 @@
+{
+  "alphabet": "v2_x4",
+  "batches": {
+    "first_G4": {
+      "jobs": 32,
+      "wall_seconds": 53.546679624938406,
+      "worker_seconds": 398.95755816809833,
+      "effective_workers": 7.450649806160735,
+      "exact_check_seconds": 0.009353417088277638,
+      "max_exact_check_seconds": 0.00039966602344065905
+    },
+    "intermediate_fit": {
+      "jobs": 2,
+      "wall_seconds": 0.17083275003824383,
+      "worker_seconds": 0.3010377502068877
+    },
+    "adaptive": {
+      "jobs": 32,
+      "wall_seconds": 10.264188708039,
+      "worker_seconds": 48.629939670092426,
+      "effective_workers": 4.737825955207257,
+      "exact_check_seconds": 0.007884459802880883,
+      "max_exact_check_seconds": 0.0005278750322759151
+    },
+    "final_fit": {
+      "jobs": 2,
+      "wall_seconds": 0.20449887495487928,
+      "worker_seconds": 0.3629735398571938
+    },
+    "calibration": {
+      "jobs": 96,
+      "wall_seconds": 156.17714470799547,
+      "worker_seconds": 1429.6606498787878,
+      "effective_workers": 9.154096475203369,
+      "exact_check_seconds": 0.07196537428535521,
+      "max_exact_check_seconds": 0.0005093750078231096
+    }
+  }
+}
