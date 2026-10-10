@@ -183,12 +183,20 @@ def build(deadline=None):
 
 
 def validate(cells=(), random_count=10000, depth=3):
+    consume = vm._SAFE_POP_CONSUME
+    try:
+        vm._SAFE_POP_CONSUME = False
+        return _validate(cells, random_count, depth)
+    finally:
+        vm._SAFE_POP_CONSUME = consume
+
+
+def _validate(cells, random_count, depth):
     started = time.monotonic()
     inputs = [[], [9], [9, -7], [9, -7, 4], [9, -7, 4, -3]]
     machine = XMachine(inputs)
     raw_states, raw_outputs = set(), set()
     count = 0
-    vm._SAFE_POP_CONSUME = False
     for d in range(depth + 1):
         for program in itertools.product(EXECUTABLE, repeat=d):
             state = ()

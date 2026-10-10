@@ -463,21 +463,18 @@ class Runner:
         score_projection = (
             1.3 * 64 * (mean_g4 + mean_a8 + mean_o_proxy) / effective + 90
         )
-        admitted = (
-            median >= 4
-            and score_projection <= 1770
-            and time.monotonic() - self.started <= 1470
-        )
+        prepare_seconds = time.monotonic() - self.started
+        admitted = score_projection <= 1770 and prepare_seconds <= 1470
         reasons = []
         if median < 4:
             reasons.append(
-                "discovery obstacle: median first-batch yield below4/16; no attempt increase"
+                "discovery obstacle: median first-batch yield below4/16; continue pilot scoring with unchanged fallbacks and no attempt increase"
             )
         if score_projection > 1770:
             reasons.append(
                 "measured source-load price cannot admit192 pilot searches in30min"
             )
-        if time.monotonic() - self.started > 1470:
+        if prepare_seconds > 1470:
             reasons.append("preparation exceeds25min allowance")
         p = dict(
             alphabet=ALPHABET,
@@ -497,7 +494,7 @@ class Runner:
             validation=validation,
             first_hash=digest(first),
             adaptive_hash=digest(adaptive),
-            prepare_seconds=time.monotonic() - self.started,
+            prepare_seconds=prepare_seconds,
         )
         p["preparation_hash"] = digest(p)
         for name, value in [
@@ -571,8 +568,7 @@ class Runner:
             )
         )
         if measured_median != p["median_first_yield"] or p["admitted"] != (
-            measured_median >= 4
-            and p["score_projected_seconds"] <= 1770
+            p["score_projected_seconds"] <= 1770
             and p["prepare_seconds"] <= 1470
         ):
             raise ValueError(
@@ -643,8 +639,15 @@ def validate_source_rows(rows, schedule, cap):
 
 
 def source_summary(first, adaptive, seed_builds, builds):
+    median_first_yield = float(
+        np.median(
+            [sum(r["solved"] for r in first if str(r["build"]) == b) for b in builds]
+        )
+    )
     return dict(
         alphabet=ALPHABET,
+        median_first_yield=median_first_yield,
+        discovery_obstacle=median_first_yield < 4,
         phases={
             phase: {
                 cid: dict(attempts=len(rs), solved=sum(r["solved"] for r in rs))

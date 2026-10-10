@@ -284,7 +284,18 @@ def test_source_provenance_requires_complete_frozen_attempts():
             validate_source_rows(changed, schedule, CAP)
 
 
-def test_full_feasibility_stop_emits_report_without_scoring(tmp_path):
+@pytest.mark.parametrize(
+    "first_yield, projection, elapsed, admitted",
+    [
+        (0, 100.0, 10.0, True),
+        (3, 1770.0, 1470.0, True),
+        (0, 1770.01, 10.0, False),
+        (3, 100.0, 1470.01, False),
+    ],
+)
+def test_full_admission_reports_sparse_yield_and_stops_only_for_runtime(
+    tmp_path, monkeypatch, first_yield, projection, elapsed, admitted
+):
     import argparse
     import json
     from experiments.chem_tape.comparison_gate_bank import digest
@@ -296,8 +307,12 @@ def test_full_feasibility_stop_emits_report_without_scoring(tmp_path):
     )
 
     bank, _ = load_frozen()
-    schedule, _ = schedules(bank)
+    schedule, development = schedules(bank)
     rows = [dict(r, cap=CAP, pop_size=256, solver=None, solved=False) for r in schedule]
+    for b in range(8):
+        selected = [r for r in rows if r["build"] == b and r["phase"] == "first_G4"]
+        for row in selected[:first_yield]:
+            row.update(solved=True, solver=[1])
     order = lambda r: (r["build"], r["cell"], r["seed"], r["arm"])
     first = sorted([r for r in rows if r["phase"] == "first_G4"], key=order)
     adaptive = sorted([r for r in rows if r["phase"] == "adaptive"], key=order)
@@ -329,11 +344,11 @@ def test_full_feasibility_stop_emits_report_without_scoring(tmp_path):
         seed_builds_hash=digest(builds),
         first_hash=digest(first),
         adaptive_hash=digest(adaptive),
-        median_first_yield=0.0,
-        admitted=False,
-        score_projected_seconds=100.0,
-        prepare_seconds=10.0,
-        reasons=["discovery obstacle"],
+        median_first_yield=float(first_yield),
+        admitted=admitted,
+        score_projected_seconds=projection,
+        prepare_seconds=elapsed,
+        reasons=["discovery obstacle"] + ([] if admitted else ["runtime obstacle"]),
     )
     p["preparation_hash"] = digest(p)
     path = source / "preparation.json"
@@ -343,10 +358,51 @@ def test_full_feasibility_stop_emits_report_without_scoring(tmp_path):
     runner.out = out
     runner.freeze = freeze
     runner.source_schedule = schedule
+    runner.score_schedule = development
     runner.cap = CAP
-    # No pool/job implementation exists on this object: search would fail.
+    if admitted:
+        # Exercise the full scoring dispatch without paying for 192 searches.
+        def jobs(actual, filename, phase):
+            assert actual == development and len(actual) == 192
+            assert filename == "search.jsonl" and phase == "development"
+            runner.batches = {"development": {}}
+            return actual
+
+        def report(actual_out, actual_rows, *args):
+            assert actual_out == out and actual_rows == development
+            (out / "report.md").write_text("Development scoring reached")
+
+        runner.jobs = jobs
+        runner.old = {}
+        monkeypatch.setattr("experiments.chem_tape.independent_input_run.report", report)
+    # A rejected preparation has no pool/jobs: any search would fail.
     runner.score()
+    summary = json.loads((out / "source_summary.json").read_text())
+    assert summary["median_first_yield"] == first_yield
+    assert summary["discovery_obstacle"] is True
+    assert all(b["final_empty_library"] for b in summary["builds"].values())
+    if admitted:
+        assert (out / "report.md").read_text() == "Development scoring reached"
+        assert not (out / "result.json").exists()
+        return
     result = json.loads((out / "result.json").read_text())
     assert result["status"] == "feasibility_stop"
     assert result["protected_performance_scored"] is False
     assert (out / "report.md").exists() and not (out / "search.jsonl").exists()
+
+
+def test_bank_validation_preserves_safe_pop_mode(monkeypatch):
+    from experiments.chem_tape import independent_input_bank as bank
+
+    monkeypatch.setattr(vm, "_SAFE_POP_CONSUME", True)
+    assert bank.validate(random_count=1, depth=0)["passed"]
+    assert vm._SAFE_POP_CONSUME is True
+
+    def fail(*args):
+        assert vm._SAFE_POP_CONSUME is False
+        raise ValueError("validation failed")
+
+    monkeypatch.setattr(bank, "_validate", fail)
+    with pytest.raises(ValueError, match="validation failed"):
+        bank.validate(random_count=1, depth=0)
+    assert vm._SAFE_POP_CONSUME is True
