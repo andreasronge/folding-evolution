@@ -1,0 +1,79 @@
+runs:
+  - id: 2026-10-11-0024-prepare
+    cmd: >-
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.restart_gp_run
+      --prepare --workers 10 --deadline-seconds 1800
+    timeout_seconds: 1800
+    track: chem-tape
+    expect_outputs:
+      - config.json
+      - method_freeze.json
+      - target_schedule.json
+      - stage0_schedule.json
+      - validation_schedule.json
+      - schedule_audit.json
+      - validation.json
+      - validation_search.jsonl
+      - replay.json
+      - replay.jsonl
+      - historical_sensitivity.json
+      - stage0.jsonl
+      - timing.json
+      - preparation.json
+    notes: >-
+      Publish and audit all attempt/full/stage/validation/historical seed sets.
+      Frozen mix 0.5, semantic checks, capped first-attempt equivalence and job
+      replay for both engines, all sixteen saved native A8 replays, build-aware
+      historical sensitivity. Time 64 sustained DG jobs per restarted arm on
+      source/development cells; refuse projected DG wall above 75 minutes.
+      No fresh target scoring; smoke artifacts can never admit scoring.
+  - id: 2026-10-11-0024-dg
+    cmd: >-
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.restart_gp_run
+      --family DG --workers 10 --deadline-seconds 5400
+      --preparation "$RUN_DIR/../2026-10-11-0024-prepare"
+    timeout_seconds: 5400
+    track: chem-tape
+    expect_outputs:
+      - config.json
+      - preparation.json
+      - method_freeze.json
+      - schedule_audit.json
+      - search.jsonl
+      - result.json
+      - report.md
+      - dynamics.png
+      - economics.png
+      - timing.json
+    notes: >-
+      Requires admitted unchanged full preparation. Eight DG cells, all 24
+      builds: 768 R-tree jobs, 768 R-A8 jobs, 384 secondary full-cap A8 jobs.
+      Restarts stop at first exact solve, 8x65536 maximum total evaluations.
+      Primary arithmetic evaluation ratio with paired 24-build bootstrap and
+      three-percentage-point solve-reliability guard. Complete grid asserted;
+      costs/acquisition curves in evaluations and worker seconds separately.
+  - id: 2026-10-11-0024-ts
+    cmd: >-
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.restart_gp_run
+      --family TS --workers 10 --deadline-seconds 1800
+      --preparation "$RUN_DIR/../2026-10-11-0024-prepare"
+      --dg-score "$RUN_DIR/../2026-10-11-0024-dg"
+    timeout_seconds: 1800
+    track: chem-tape
+    expect_outputs:
+      - config.json
+      - preparation.json
+      - method_freeze.json
+      - schedule_audit.json
+      - search.jsonl
+      - result.json
+      - report.md
+      - dynamics.png
+      - economics.png
+      - timing.json
+    notes: >-
+      Validate completed DG rows and matching preparation before TS. Same
+      768/768/384 counts on all eight TS cells; separate descriptive contrasts,
+      never pooled with DG. Final report retains both complete family grids,
+      historical reference labels, build uncertainty and resolution price.
+      Return to strategy without tuning, sample expansion or automatic follow-up.

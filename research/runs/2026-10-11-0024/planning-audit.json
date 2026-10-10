@@ -1,0 +1,732 @@
+{
+  "scope": "Read-only post hoc planning audit of saved development data. No searches, no efficacy result, no uncertainty intervals.",
+  "sources": {
+    "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/builds.json": {
+      "sha256": "5aa116c9804dcfad6ddccf59ccc8affee1205726b994640327227559988d8f22"
+    },
+    "experiments/output/2026-10-10/2026-10-10-2254-dg/search.jsonl": {
+      "sha256": "3202489dad47b32a100544de8e00409c76a4bd6df7f1845ce22017b827357a96"
+    },
+    "experiments/output/2026-10-10/2026-10-10-2254-ts/search.jsonl": {
+      "sha256": "b23412b74b3573f036283c926151719c63003252e12e7d31b3802b8a50058604"
+    }
+  },
+  "closed_fragment_audit": {
+    "D": {
+      "builds": [
+        {
+          "build": "0",
+          "total": 22,
+          "strict_closed": 2,
+          "closed_tokens": [
+            [
+              1,
+              5,
+              1,
+              18,
+              7
+            ],
+            [
+              1,
+              23,
+              1,
+              22,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "1",
+          "total": 32,
+          "strict_closed": 2,
+          "closed_tokens": [
+            [
+              1,
+              22,
+              1,
+              23,
+              7
+            ],
+            [
+              1,
+              23,
+              1,
+              22,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "2",
+          "total": 32,
+          "strict_closed": 2,
+          "closed_tokens": [
+            [
+              1,
+              23,
+              1,
+              22,
+              7
+            ],
+            [
+              1,
+              5,
+              1,
+              18,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "3",
+          "total": 13,
+          "strict_closed": 1,
+          "closed_tokens": [
+            [
+              1,
+              22,
+              1,
+              23,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "4",
+          "total": 31,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "5",
+          "total": 32,
+          "strict_closed": 3,
+          "closed_tokens": [
+            [
+              1,
+              22,
+              1,
+              23,
+              7
+            ],
+            [
+              1,
+              23,
+              1,
+              22,
+              7
+            ],
+            [
+              1,
+              18,
+              1,
+              5,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "6",
+          "total": 32,
+          "strict_closed": 2,
+          "closed_tokens": [
+            [
+              1,
+              22,
+              1,
+              23,
+              7
+            ],
+            [
+              1,
+              18,
+              1,
+              5,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "7",
+          "total": 32,
+          "strict_closed": 1,
+          "closed_tokens": [
+            [
+              1,
+              22,
+              1,
+              23,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "8",
+          "total": 32,
+          "strict_closed": 2,
+          "closed_tokens": [
+            [
+              1,
+              22,
+              1,
+              23,
+              7
+            ],
+            [
+              1,
+              5,
+              1,
+              18,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "9",
+          "total": 27,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "10",
+          "total": 32,
+          "strict_closed": 1,
+          "closed_tokens": [
+            [
+              1,
+              22,
+              1,
+              23,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "11",
+          "total": 32,
+          "strict_closed": 2,
+          "closed_tokens": [
+            [
+              1,
+              5,
+              1,
+              18,
+              7
+            ],
+            [
+              1,
+              23,
+              1,
+              22,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "12",
+          "total": 32,
+          "strict_closed": 1,
+          "closed_tokens": [
+            [
+              1,
+              22,
+              1,
+              23,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "13",
+          "total": 32,
+          "strict_closed": 1,
+          "closed_tokens": [
+            [
+              1,
+              23,
+              1,
+              22,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "14",
+          "total": 32,
+          "strict_closed": 2,
+          "closed_tokens": [
+            [
+              1,
+              22,
+              1,
+              23,
+              7
+            ],
+            [
+              1,
+              23,
+              1,
+              22,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "15",
+          "total": 32,
+          "strict_closed": 1,
+          "closed_tokens": [
+            [
+              1,
+              23,
+              1,
+              22,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "16",
+          "total": 17,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "17",
+          "total": 32,
+          "strict_closed": 1,
+          "closed_tokens": [
+            [
+              1,
+              23,
+              1,
+              22,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "18",
+          "total": 32,
+          "strict_closed": 1,
+          "closed_tokens": [
+            [
+              1,
+              23,
+              1,
+              22,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "19",
+          "total": 32,
+          "strict_closed": 1,
+          "closed_tokens": [
+            [
+              1,
+              22,
+              1,
+              23,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "20",
+          "total": 32,
+          "strict_closed": 1,
+          "closed_tokens": [
+            [
+              1,
+              22,
+              1,
+              23,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "21",
+          "total": 32,
+          "strict_closed": 2,
+          "closed_tokens": [
+            [
+              1,
+              23,
+              1,
+              22,
+              7
+            ],
+            [
+              1,
+              18,
+              1,
+              5,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "22",
+          "total": 32,
+          "strict_closed": 1,
+          "closed_tokens": [
+            [
+              1,
+              23,
+              1,
+              22,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "23",
+          "total": 7,
+          "strict_closed": 0,
+          "closed_tokens": []
+        }
+      ],
+      "total": 693,
+      "strict_closed": 30,
+      "empty_after_filter": 4
+    },
+    "T": {
+      "builds": [
+        {
+          "build": "0",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "1",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "2",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "3",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "4",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "5",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "6",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "7",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "8",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "9",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "10",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "11",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "12",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "13",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "14",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "15",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "16",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "17",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "18",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "19",
+          "total": 32,
+          "strict_closed": 1,
+          "closed_tokens": [
+            [
+              1,
+              18,
+              1,
+              22,
+              7
+            ]
+          ]
+        },
+        {
+          "build": "20",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "21",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "22",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        },
+        {
+          "build": "23",
+          "total": 32,
+          "strict_closed": 0,
+          "closed_tokens": []
+        }
+      ],
+      "total": 768,
+      "strict_closed": 1,
+      "empty_after_filter": 23
+    }
+  },
+  "restart_projection": {
+    "dg": {
+      "cutoff": 65536,
+      "max_attempts": 8,
+      "total_cap": 524288,
+      "formula": "For each fixed cell: p=hits/n; m=mean(min(evaluations,t)); capped cost=m*sum((1-p)**j for j=0..7); success=1-(1-p)**8. Mean equally over cells, never pool their success probabilities. Assumes independent identically distributed restarts including newly drawn training cases, excludes restart overhead. Post hoc empirical plug-in, not measured restarted performance.",
+      "cells": [
+        {
+          "cell": "DG:(X0+X1)>(X2+X3)?X3:X2",
+          "n": 48,
+          "hits_at_cutoff": 20,
+          "p": 0.4166666666666667,
+          "attempt_mean_evals": 42682.666666666664,
+          "projected_capped_total_evals": 101064.99969888949,
+          "projected_solve_fraction": 0.986592915341215
+        },
+        {
+          "cell": "DG:(X0+X2)>(X1+X3)?X3:X2",
+          "n": 48,
+          "hits_at_cutoff": 17,
+          "p": 0.3541666666666667,
+          "attempt_mean_evals": 44981.333333333336,
+          "projected_capped_total_evals": 123162.07415865017,
+          "projected_solve_fraction": 0.9697333989919212
+        },
+        {
+          "cell": "DG:(X0+X3)>(X1+X2)?X3:X0",
+          "n": 48,
+          "hits_at_cutoff": 25,
+          "p": 0.5208333333333334,
+          "attempt_mean_evals": 37733.333333333336,
+          "projected_capped_total_evals": 72246.66504129083,
+          "projected_solve_fraction": 0.9972209728535065
+        },
+        {
+          "cell": "DG:(X1+X2)>(X0+X3)?X0:X2",
+          "n": 48,
+          "hits_at_cutoff": 19,
+          "p": 0.3958333333333333,
+          "attempt_mean_evals": 42298.666666666664,
+          "projected_capped_total_evals": 104962.7848106816,
+          "projected_solve_fraction": 0.9822477222503812
+        },
+        {
+          "cell": "DG:(X1+X2)>(X0+X3)?X3:X1",
+          "n": 48,
+          "hits_at_cutoff": 23,
+          "p": 0.4791666666666667,
+          "attempt_mean_evals": 37861.333333333336,
+          "projected_capped_total_evals": 78587.09869996713,
+          "projected_solve_fraction": 0.9945851033702172
+        },
+        {
+          "cell": "DG:(X1+X3)>(X0+X2)?X0:X2",
+          "n": 48,
+          "hits_at_cutoff": 26,
+          "p": 0.5416666666666666,
+          "attempt_mean_evals": 34864.0,
+          "projected_capped_total_evals": 64238.96568373343,
+          "projected_solve_fraction": 0.998052616223677
+        },
+        {
+          "cell": "DG:(X1+X3)>(X0+X2)?X2:X0",
+          "n": 48,
+          "hits_at_cutoff": 28,
+          "p": 0.5833333333333334,
+          "attempt_mean_evals": 34944.0,
+          "projected_capped_total_evals": 59849.57907878944,
+          "projected_solve_fraction": 0.9990915310962446
+        },
+        {
+          "cell": "DG:(X1+X3)>(X0+X2)?X3:X1",
+          "n": 48,
+          "hits_at_cutoff": 21,
+          "p": 0.4375,
+          "attempt_mean_evals": 41717.333333333336,
+          "projected_capped_total_evals": 94398.21112056574,
+          "projected_solve_fraction": 0.9899774042423815
+        }
+      ],
+      "projected_equal_cell_mean_evals": 87313.79728657097,
+      "projected_equal_cell_solve_fraction": 0.989687708046193,
+      "observed_tree_mean_evals": 263353.3333333333,
+      "observed_tree_solve_fraction": 0.5260416666666666,
+      "observed_A8_mean_evals": 177639.33333333334,
+      "observed_A8_solve_fraction": 0.8177083333333334
+    },
+    "ts": {
+      "cutoff": 65536,
+      "max_attempts": 8,
+      "total_cap": 524288,
+      "formula": "For each fixed cell: p=hits/n; m=mean(min(evaluations,t)); capped cost=m*sum((1-p)**j for j=0..7); success=1-(1-p)**8. Mean equally over cells, never pool their success probabilities. Assumes independent identically distributed restarts including newly drawn training cases, excludes restart overhead. Post hoc empirical plug-in, not measured restarted performance.",
+      "cells": [
+        {
+          "cell": "TS:X0>X1?(X2+X3):(X1+X2)",
+          "n": 48,
+          "hits_at_cutoff": 46,
+          "p": 0.9583333333333334,
+          "attempt_mean_evals": 6442.666666666667,
+          "projected_capped_total_evals": 6722.782608634578,
+          "projected_solve_fraction": 0.9999999999909153
+        },
+        {
+          "cell": "TS:X0>X1?(X2+X3):(X1+X3)",
+          "n": 48,
+          "hits_at_cutoff": 47,
+          "p": 0.9791666666666666,
+          "attempt_mean_evals": 7392.0,
+          "projected_capped_total_evals": 7549.276595744413,
+          "projected_solve_fraction": 0.9999999999999645
+        },
+        {
+          "cell": "TS:X0>X2?(X1+X3):(X2+X3)",
+          "n": 48,
+          "hits_at_cutoff": 48,
+          "p": 1.0,
+          "attempt_mean_evals": 5466.666666666667,
+          "projected_capped_total_evals": 5466.666666666667,
+          "projected_solve_fraction": 1.0
+        },
+        {
+          "cell": "TS:X2>X0?(X1+X3):(X0+X1)",
+          "n": 48,
+          "hits_at_cutoff": 47,
+          "p": 0.9791666666666666,
+          "attempt_mean_evals": 5840.0,
+          "projected_capped_total_evals": 5964.255319148724,
+          "projected_solve_fraction": 0.9999999999999645
+        },
+        {
+          "cell": "TS:X2>X1?(X0+X3):(X1+X3)",
+          "n": 48,
+          "hits_at_cutoff": 47,
+          "p": 0.9791666666666666,
+          "attempt_mean_evals": 6752.0,
+          "projected_capped_total_evals": 6895.65957446784,
+          "projected_solve_fraction": 0.9999999999999645
+        },
+        {
+          "cell": "TS:X3>X0?(X1+X2):(X0+X2)",
+          "n": 48,
+          "hits_at_cutoff": 44,
+          "p": 0.9166666666666666,
+          "attempt_mean_evals": 8896.0,
+          "projected_capped_total_evals": 9704.727250157179,
+          "projected_solve_fraction": 0.9999999976743196
+        },
+        {
+          "cell": "TS:X3>X2?(X0+X1):(X0+X2)",
+          "n": 48,
+          "hits_at_cutoff": 47,
+          "p": 0.9791666666666666,
+          "attempt_mean_evals": 6970.666666666667,
+          "projected_capped_total_evals": 7118.978723404003,
+          "projected_solve_fraction": 0.9999999999999645
+        },
+        {
+          "cell": "TS:X3>X2?(X0+X2):(X0+X1)",
+          "n": 48,
+          "hits_at_cutoff": 45,
+          "p": 0.9375,
+          "attempt_mean_evals": 10357.333333333334,
+          "projected_capped_total_evals": 11047.822219649952,
+          "projected_solve_fraction": 0.9999999997671694
+        }
+      ],
+      "projected_equal_cell_mean_evals": 7558.77111973417,
+      "projected_equal_cell_solve_fraction": 0.9999999996790327,
+      "observed_tree_mean_evals": 11496.0,
+      "observed_tree_solve_fraction": 0.9947916666666666,
+      "observed_A8_mean_evals": 60726.0,
+      "observed_A8_solve_fraction": 0.96875
+    }
+  },
+  "closed_fragment_criterion": "Strict syntactic parse into one expression of c32ff04 tree_gp_search.py: INPUT followed by X0/X1/X2/X3/ANY is a leaf; constants 0/1/2/5 are leaves; ADD and GT are binary, IF_GT ternary. Reject unsupported tokens, operand underflow and leftover expressions. No rewriting or semantic simplification. Counts include repeated entries across independent builds.",
+  "code_reference": "c32ff04f4d3fae4f7b74fc0b137f872ccdd9a5df:experiments/chem_tape/tree_gp_search.py"
+}

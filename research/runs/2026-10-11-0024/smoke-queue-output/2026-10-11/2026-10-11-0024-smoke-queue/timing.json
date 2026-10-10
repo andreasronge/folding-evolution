@@ -1,0 +1,17 @@
+{
+  "validation_search": {
+    "wall_seconds": 0.6726429580012336,
+    "jobs": 8,
+    "worker_seconds": 3.263017834047787
+  },
+  "replay": {
+    "wall_seconds": 27.588944625109434,
+    "jobs": 16,
+    "worker_seconds": 107.24989212222863
+  },
+  "stage0": {
+    "wall_seconds": 0.5845122500322759,
+    "jobs": 4,
+    "worker_seconds": 2.0903073338558897
+  }
+}

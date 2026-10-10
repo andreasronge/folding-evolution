@@ -5,9 +5,13 @@ budget: {experiments: 1, used: 0}
 ---
 # Does frozen A8 beat family-blind closure-based subtree GP on the independent-input families, after paying for acquisition?
 
-Current summary: **closed (run 2026-10-10-2254, commit `c32ff04`): on DG cells frozen A8 showed no worthwhile
-search-cost advantage over this frozen closure-based subtree GP; on TS cells tree GP was much cheaper
-(descriptive).** Development rosters, evaluations as the unit, one untuned tree configuration.
+Current summary: **closed (run 2026-10-10-2254, commit `c32ff04`): on DG cells frozen A8 showed no ≥ 1.5×
+geometric advantage (failures charged at 2 × cap) over this frozen closure-based subtree GP, while keeping
+positive arithmetic savings; on TS cells tree GP was much cheaper (descriptive).** Development rosters,
+evaluations as the unit, one tree configuration (crossover mix 0.5 selected on source/development cells,
+frozen before target scoring). *Superseded in part by [44](../44-restarted-tree-vs-a8/question.md): with both
+procedures restarted at 65,536 evaluations, A8's reliability lead and arithmetic saving disappeared (R-tree ÷
+R-A8 0.792 [0.682, 0.915] in evaluations), though A8 remained cheaper in worker seconds.*
 - **DG (primary)**, Q = cost(tree) ÷ cost(A8) at 2 × cap: **0.961 [0.683, 1.352]**, inside the [0.67, 1.5]
   margin (lower end 0.013 above it). An A8 advantage of 1.5× is excluded; a tree advantage up to about 1.46×
   is not. At 1 × cap 0.785 [0.583, 1.055], unresolved. Not equality: the ratio hides two opposite effects.

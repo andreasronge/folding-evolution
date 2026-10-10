@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-11, after run 2026-10-10-2254 (frozen A8 against closure-based subtree GP; latest evidence from commit `c32ff04`). Core question since the
+As of 2026-10-11, after run 2026-10-11-0024 (restarted subtree GP against restarted A8; latest evidence from commit `1773d11`). Core question since the
 2026-09-25 reframe: *how does the genotype→program map bias what evolution finds and keeps
 ("arrival of the frequent"), and can that bias be adapted to a task family?* History, superseded
 numbers and secondary contrasts are in the questions' `log.md` files.
@@ -70,13 +70,13 @@ L 64). Fairly sure for these layouts; nothing beyond them.
   100 insertions cannot tell drift from a disadvantage.
   ([07](questions/01-map-bias/07-shared-arrival/question.md), [03](questions/01-map-bias/03-rare-shared-establishment/question.md))
 
-## 10 Compositional map transfer (root open, budget 35, 35 used)
+## 10 Compositional map transfer (root open, budget 36, 36 used)
 
 [10](questions/10-compositional-map-transfer/question.md): can a decoder adapted across related
 tasks help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 Stack tape `v2_rmin(_first)`, D1331 (length-3 lists over −5..5), P 256, lexicase on 64 cases with
 an exact domain check, 524k cap. G / G4: hand-set previous-token grammars (post-addition split;
-four-reducer bank); "-marg": the same token marginals without context. Sub-questions 11–43 closed.
+four-reducer bank); "-marg": the same token marginals without context. Sub-questions 11–44 closed.
 Every bank so far is a development bank. Unless stated, results are external fits frozen before
 scoring.
 
@@ -173,7 +173,7 @@ per-position marginals; W: blocks sampled from C's own chain.
   more collected under that bias (A8) leave it unresolved from full speed.** (C4+F4)/F 0.679×
   [0.614, 0.752]; F/A8 1.03× [0.95, 1.12] (an A8 slowdown above about 5% excluded); S8/A8 1.13×
   [1.04, 1.22] (S8: four more under G4; unresolved against 1.10). A8's acquisition is about a tenth
-  of full F's; its total cost is below S8's at every reported horizon (resolved through 1 024
+  of full F's; its estimated total cost is below S8's at every reported horizon (resolved through 1 024
   searches). One source size, one update; yield, content, decoder and library bundled.
   ([35](questions/10-compositional-map-transfer/35-small-source-acquisition/question.md),
   [36](questions/10-compositional-map-transfer/36-sparse-source-feedback/question.md), [runs 1743](runs/2026-10-09-1743/analysis.md), [2033](runs/2026-10-09-2033/analysis.md))
@@ -208,16 +208,19 @@ per-position marginals; W: blocks sampled from C's own chain.
   [0.79, 1.27]; equality not shown). One family pair; library content versus size not separated;
   point estimates only for which component is larger.
   ([42](questions/10-compositional-map-transfer/42-family-bias-component-transfer/question.md), [run 2001](runs/2026-10-10-2001/analysis.md))
-- **Against closure-based subtree GP with no learned prior, frozen A8 showed no worthwhile
-  search-cost advantage on DG cells; on TS cells tree GP was cheaper (descriptive).** Same 8 + 8
-  development cells and saved builds, one frozen untuned tree configuration, evaluations. DG
-  cost(tree)/cost(A8) 0.96× [0.68, 1.35] at 2 × cap (an A8 advantage of 1.5× excluded, a tree
-  advantage up to about 1.46× not); 1 × cap 0.79× [0.58, 1.06], unresolved. Not equality: A8 solved
-  314/384 vs 202/384, while tree GP was about 8× faster (medians) when it solved and its failures
-  crowded the 32-token cap. A8 still saves arithmetic evaluations on DG, repaying acquisition after
-  about 146 [99, 269] searches per build. TS 0.175× [0.142, 0.217]. Tree GP is about 10× cheaper
-  than G4 on DG, so the G4 ratios above do not measure A8's value against conventional GP.
-  ([43](questions/10-compositional-map-transfer/43-acquired-bias-vs-tree-gp/question.md), [run 2254](runs/2026-10-10-2254/analysis.md))
+- **Against closure-based subtree GP with no learned prior, A8 kept no DG evaluation advantage once
+  both were restarted; it stayed cheaper in worker seconds.** Same 8 + 8 development cells and saved
+  builds; one tree configuration (crossover mix selected on development cells, frozen before target
+  scoring). At full cap A8 solved 314/384 vs 202/384, and DG cost(tree)/cost(A8) was 0.96× [0.68, 1.35]
+  at 2 × cap (a ≥ 1.5× geometric A8 advantage excluded; arithmetic savings remained) (43). Restarting
+  both at 65,536 evaluations (up to 8 attempts, same 524k total) lifted both to 98–100% solved: mean
+  evaluations R-tree/R-A8 0.79× [0.68, 0.92], solve difference +0.014 [0.000, 0.034] (within 3 points,
+  equality not shown); restarts cut A8's own cost 0.73×, so its full-cap reliability lead was mainly the
+  schedule. Tree GP costs 1.75× more per evaluation: in worker seconds R-tree/R-A8 is 1.39× [1.20, 1.60],
+  and A8's acquisition repays after about 312 [211, 579] searches per build (44). TS, descriptive:
+  restarted tree 0.18× [0.16, 0.20]. Tree GP beats G4 about 10× on DG, so G4 ratios do not measure A8
+  against conventional GP. One cutoff; training-case redraw versus population reset not separated.
+  ([43](questions/10-compositional-map-transfer/43-acquired-bias-vs-tree-gp/question.md), [44](questions/10-compositional-map-transfer/44-restarted-tree-vs-a8/question.md), [run 2254](runs/2026-10-10-2254/analysis.md), [run 0024](runs/2026-10-11-0024/analysis.md))
 
 **Context fitted to non-solving programs.** On comparison-gate training cells, a context fit to
 tapes from unsolved G4 searches beat a token fit to the same tapes 1.28× [1.12, 1.45] and G4 1.62×
@@ -232,12 +235,13 @@ compositions and one fresh shape; fragment blocks add about 1.5×. Selection has
 contextual gain; learned token biases transfer about 2× without resolved family specificity. A8
 costs a tenth of full-F acquisition, unresolved from full speed on the original sources; on one
 predicate-addition family it beats G4 6–10× and branch-sum-acquired builds about 3× (reverse
-unresolved), through table and library, but not untuned subtree GP by a worthwhile margin (more
-reliable, slower when solving), which is cheaper on branch-sum cells. Not shown: that evolution
+unresolved), through table and library. Under a common restart schedule plain subtree GP needs about
+a fifth fewer evaluations than A8 on that family (A8 cheaper in worker time) and about 5× fewer on
+branch-sum cells. Not shown: that evolution
 reaches fitted context or fragments; what carries C's advantage over token fits; why the DG
 components are better (content, size or source difficulty); A8 on a fresh bank of a new family,
 against a tuned or size-aware tree GP, or from arbitrary sources; a learned bias that improves on
-tree GP; transfer beyond two fresh shapes.
+restarted tree GP; transfer beyond two fresh shapes.
 
 ## 23 Heritable variation bias (root parked, budget 2, 2 used)
 

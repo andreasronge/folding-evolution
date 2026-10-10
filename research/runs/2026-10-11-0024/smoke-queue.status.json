@@ -1,0 +1,10 @@
+{
+  "2026-10-11-0024-smoke-queue": {
+    "ended_at": "2026-10-10T22:55:24.103144+00:00",
+    "exit_code": 0,
+    "run_dir": "/Users/andreas/developer/folding-evolution/research/runs/2026-10-11-0024/smoke-queue-output/2026-10-11/2026-10-11-0024-smoke-queue",
+    "started_at": "2026-10-10T22:54:10.269011+00:00",
+    "status": "done",
+    "wall_seconds": 73.834
+  }
+}
