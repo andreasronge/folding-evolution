@@ -1,0 +1,120 @@
+{
+  "commit": "6dabda8",
+  "preparation_seconds": 141.57477454200853,
+  "replay": {
+    "rows": 16,
+    "passed": true,
+    "excluded_timing_fields": [
+      "budget_seconds",
+      "decode_seconds",
+      "exact_check_max_seconds",
+      "exact_check_seconds",
+      "seconds"
+    ]
+  },
+  "validation": {
+    "passed": true,
+    "raw_programs": 7240,
+    "depth": 3,
+    "random_programs": 10000,
+    "typed_state_dedup": true,
+    "canonical_and_witness_cells": 708,
+    "seconds": 2.4494934580288827
+  },
+  "projection": {
+    "DG": {
+      "rates": {
+        "D/D": 11.317447989626089,
+        "T/T": 20.356142624936183,
+        "T/D": 12.462169364735018,
+        "D/T": 11.973165088391397,
+        "D/none": 16.96432653637021,
+        "T/none": 17.282562479391345
+      },
+      "effective_workers": 8.585587603286566,
+      "projected_seconds": 5373.64418542441,
+      "limit_seconds": 8970,
+      "admitted": true,
+      "solved": {
+        "D/D": 7,
+        "T/T": 4,
+        "T/D": 6,
+        "D/T": 6,
+        "D/none": 5,
+        "T/none": 4
+      },
+      "max_search_seconds": 40.96602825005539,
+      "max_exact_check_seconds": 0.0003994579892605543
+    },
+    "TS": {
+      "rates": {
+        "D/D": 3.609626739664236,
+        "T/T": 0.6919802448537666,
+        "T/D": 1.4825823958672117,
+        "D/T": 2.931213724135887,
+        "D/none": 0.961146260247915,
+        "T/none": 5.71888944262173
+      },
+      "effective_workers": 4.8667846653752225,
+      "projected_seconds": 1699.1541194183753,
+      "limit_seconds": 3570,
+      "admitted": true,
+      "solved": {
+        "D/D": 7,
+        "T/T": 8,
+        "T/D": 8,
+        "D/T": 7,
+        "D/none": 8,
+        "T/none": 7
+      },
+      "max_search_seconds": 23.828605958027765,
+      "max_exact_check_seconds": 0.00039483397267758846
+    }
+  },
+  "batches": {
+    "replay": {
+      "wall_seconds": 27.565228375024162,
+      "jobs": 16,
+      "worker_seconds": 103.46038524992764,
+      "exact_check_seconds": 0.0658406539587304,
+      "max_exact_check_seconds": 0.00035562494304031134
+    },
+    "DG": {
+      "wall_seconds": 84.19301579205785,
+      "jobs": 48,
+      "worker_seconds": 722.8465126676019,
+      "exact_check_seconds": 0.06240041146520525,
+      "max_exact_check_seconds": 0.0003994579892605543
+    },
+    "TS": {
+      "wall_seconds": 25.30695704196114,
+      "jobs": 48,
+      "worker_seconds": 123.16351045912597,
+      "exact_check_seconds": 0.011194247868843377,
+      "max_exact_check_seconds": 0.00039483397267758846
+    }
+  },
+  "admitted": true,
+  "target_performance_scored": false,
+  "tests": "13 passed; ruff check passed",
+  "end_to_end_smoke": {
+    "DG": {
+      "rows": 24,
+      "report": true,
+      "plot": true,
+      "combined_complete": false
+    },
+    "TS": {
+      "rows": 24,
+      "report": true,
+      "plot": true,
+      "combined_complete": true
+    }
+  },
+  "queue_validation": {
+    "entries": 3,
+    "timeout_seconds": 14400,
+    "shell_syntax_passed": true
+  },
+  "plot_visual_inspection": "Combined smoke plot inspected; legends, labels and both family rows visible."
+}
