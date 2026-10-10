@@ -1,0 +1,15 @@
+{
+  "arguments": {
+    "prepare": false,
+    "preparation": "/Users/andreas/developer/folding-evolution/research/runs/2026-10-10-2001/smoke/verified-prepare/preparation.json",
+    "family": "TS",
+    "dg_score": "/Users/andreas/developer/folding-evolution/research/runs/2026-10-10-2001/smoke/verified-DG",
+    "smoke": true,
+    "workers": 10,
+    "deadline_seconds": 1800
+  },
+  "git_commit": "6dabda8496453ed00b00f55694dd2bfc841a8db5",
+  "cap": 8192,
+  "population": 256,
+  "exact_inputs": 625
+}
