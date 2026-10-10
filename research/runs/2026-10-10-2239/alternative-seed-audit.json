@@ -1,0 +1,10 @@
+{
+  "status": "prospective steward option only; not used by runner",
+  "scoring_base": 22180000,
+  "scoring_min": 22180000,
+  "scoring_max": 22195115,
+  "calibration_min": 22140000,
+  "calibration_max": 22155007,
+  "historical_source_replay_seed_count": 1544,
+  "measured_overlaps": 0
+}

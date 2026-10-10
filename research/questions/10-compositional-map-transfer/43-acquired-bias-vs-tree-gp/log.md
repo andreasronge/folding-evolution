@@ -36,3 +36,36 @@ because the obstruction is a depth-convention choice that changes neither the qu
 character nor the cost premises; both roster targets have depth ≤ 3 edges (TS 2, DG 3), and the tested
 code is reusable. The strategist's early-exit clause targeted obstacles that change the price; this one
 does not, so a strategy review now would only re-approve the same purchase.
+
+2026-10-10 (steward, run 2026-10-10-2239, after infeasibility): critic approved with notes; the researcher
+restored the tree code from `3e961ad` and isolated the two initializer changes (commit `6b40e16` on
+`research/2026-10-10-2239`). Observations from preparation (development cells only, not evidence about the
+comparison):
+- Initializer: 20 000 draws per bin; depth 1/2 bins accept 100%, full depth 3 72.1%, grow depth 3 99.5%;
+  median compiled length full 5/11/27, grow 5/8/12 tokens; a P256 population fills 43/43/43/43/42/42 bins
+  in 272 draws. Initialization roots are functions; mutation keeps terminal roots with probability 0.5.
+- Complete search smoke: DG development seed 22160000 solved at 6 144 evaluations (0.26 s); TS development
+  seed 22161000 hit the 524 288 cap unsolved (30.2 s). One search each; not a solve rate.
+- Forced full-cap timing, ten workers, Rayon 1, ten searches per family: mean 50.5 s (DG) and 48.5 s (TS)
+  per search, effective concurrency 9.1. A planning projection with historical native/G4 rates gives DG
+  4 048 s and TS 3 223 s against admission gates of 5 760 and 4 320 s; this is not Stage 0 admission.
+- Stopped at the seed audit. The seed formulas inherited unchanged from plan 2214 overlap: calibration
+  `22140000 + 1000·(8f + c) + r` spans 22140000–22155007 and scoring `22150000 + 1000·(8f + c) + 2b + r`
+  starts at 22150000, so 48 seed values (TS calibration cells 2–7 against DG scoring cells 0–5; 96 searches
+  each side) are shared, and the smoke seeds 22160000/22161000 are TS scoring seeds. Steward check: the
+  arithmetic is right (the 16 indexed cells span 15 000 but the bases are 10 000 apart). Not run: 16 A8
+  replays, 256 Stage 0 searches, mix choice, 1 792 target searches.
+
+Correction (critique 2239 notes 6 and 8; entries above left as written): "cannot be filled" in the 2214 entry
+should read "failed the 10 000-draw bound and is impractical at the measured acceptance". The question
+heading said "typed subtree GP"; the implemented comparator is closure-based subtree GP (one integer type).
+Explanation (b) now says that a tree win would not identify which structural feature is responsible.
+
+Decision: keep 43 open and re-propose the 2239 design with one change, scoring seed base 22150000 →
+22180000 (scoring 22180000–22195115, disjoint from calibration, smoke and the 1 544 saved acquisition and
+replay seeds per the researcher's [prospective audit](../../../runs/2026-10-10-2239/alternative-seed-audit.json);
+no prior run used that range) ([proposal 2254](../../../runs/2026-10-10-2254/proposal.md)), because the
+obstacle is an error in the pre-registration's seed arithmetic, not a measured property of either method,
+of validity or of price; everything measured was in line with the plan. This departs from the letter of
+proposal 2239's exit clause ("any later gate fails → park and strategy"); that clause was written for
+obstacles that say something about the baseline or the cost. Any further gate failure parks 43.

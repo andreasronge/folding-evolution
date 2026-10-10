@@ -1,0 +1,10 @@
+2026-10-10 22:44:11 cycle 2026-10-10-2214 done; brief: /Users/andreas/developer/folding-evolution/research/briefs/2026-10-10-2026-10-10-2214.md
+2026-10-10 22:44:11 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-10 22:45:28 phase → awaiting_approval
+2026-10-10 22:45:28 proposal: Frozen A8 versus family-blind subtree GP on the DG and TS rosters (retry, corrected initializer) [questions/10-compositional-map-transfer/43-acquired-bias-vs-tree-gp] — budget left: 1. Approve with `research.py approve`.
+2026-10-10 22:45:28 auto-approved (critic: approve_with_notes, revisions: 0)
+2026-10-10 22:45:28 phase → prepare
+2026-10-10 22:45:46 researcher (codex/gpt-6.1-sol) → prepare [herdr]
+2026-10-10 22:54:38 blocked: the researcher found the approved design infeasible; see infeasible.md
+2026-10-10 22:54:38 phase → decide
+2026-10-10 22:54:38 steward (claude/claude-opus-5-5) → decide [herdr]

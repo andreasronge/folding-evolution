@@ -1,0 +1,2306 @@
+[
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22140000
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22140000
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22140001
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22140001
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22140002
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22140002
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22140003
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22140003
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22140004
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22140004
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22140005
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22140005
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22140006
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22140006
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22140007
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22140007
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22141000
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22141000
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22141001
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22141001
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22141002
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22141002
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22141003
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22141003
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22141004
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22141004
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22141005
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22141005
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22141006
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22141006
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22141007
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22141007
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22142000
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22142000
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22142001
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22142001
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22142002
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22142002
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22142003
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22142003
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22142004
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22142004
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22142005
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22142005
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22142006
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22142006
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22142007
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X1)>(X2+X3)?X3:X0",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22142007
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22143000
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22143000
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22143001
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22143001
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22143002
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22143002
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22143003
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22143003
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22143004
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22143004
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22143005
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22143005
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22143006
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22143006
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22143007
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22143007
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22144000
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22144000
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22144001
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22144001
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22144002
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22144002
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22144003
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22144003
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22144004
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22144004
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22144005
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22144005
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22144006
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22144006
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22144007
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22144007
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22145000
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22145000
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22145001
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22145001
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22145002
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22145002
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22145003
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22145003
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22145004
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22145004
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22145005
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22145005
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22145006
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22145006
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22145007
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22145007
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22146000
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22146000
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22146001
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22146001
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22146002
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22146002
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22146003
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22146003
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22146004
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22146004
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22146005
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22146005
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22146006
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22146006
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22146007
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22146007
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22147000
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22147000
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22147001
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22147001
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22147002
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22147002
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22147003
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22147003
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22147004
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22147004
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22147005
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22147005
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22147006
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22147006
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22147007
+  },
+  {
+    "family": "DG",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22147007
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X0+X2):(X0+X3)",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22148000
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X0+X2):(X0+X3)",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22148000
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X0+X2):(X0+X3)",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22148001
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X0+X2):(X0+X3)",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22148001
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X0+X2):(X0+X3)",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22148002
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X0+X2):(X0+X3)",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22148002
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X0+X2):(X0+X3)",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22148003
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X0+X2):(X0+X3)",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22148003
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X0+X2):(X0+X3)",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22148004
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X0+X2):(X0+X3)",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22148004
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X0+X2):(X0+X3)",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22148005
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X0+X2):(X0+X3)",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22148005
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X0+X2):(X0+X3)",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22148006
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X0+X2):(X0+X3)",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22148006
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X0+X2):(X0+X3)",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22148007
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X0+X2):(X0+X3)",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22148007
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X3?(X2+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22149000
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X3?(X2+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22149000
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X3?(X2+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22149001
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X3?(X2+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22149001
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X3?(X2+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22149002
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X3?(X2+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22149002
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X3?(X2+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22149003
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X3?(X2+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22149003
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X3?(X2+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22149004
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X3?(X2+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22149004
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X3?(X2+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22149005
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X3?(X2+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22149005
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X3?(X2+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22149006
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X3?(X2+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22149006
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X3?(X2+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22149007
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X3?(X2+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22149007
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X3?(X0+X2):(X1+X3)",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22150000
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X3?(X0+X2):(X1+X3)",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22150000
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X3?(X0+X2):(X1+X3)",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22150001
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X3?(X0+X2):(X1+X3)",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22150001
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X3?(X0+X2):(X1+X3)",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22150002
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X3?(X0+X2):(X1+X3)",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22150002
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X3?(X0+X2):(X1+X3)",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22150003
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X3?(X0+X2):(X1+X3)",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22150003
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X3?(X0+X2):(X1+X3)",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22150004
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X3?(X0+X2):(X1+X3)",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22150004
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X3?(X0+X2):(X1+X3)",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22150005
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X3?(X0+X2):(X1+X3)",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22150005
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X3?(X0+X2):(X1+X3)",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22150006
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X3?(X0+X2):(X1+X3)",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22150006
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X3?(X0+X2):(X1+X3)",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22150007
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X3?(X0+X2):(X1+X3)",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22150007
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X3>X1?(X0+X1):(X1+X2)",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22151000
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X3>X1?(X0+X1):(X1+X2)",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22151000
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X3>X1?(X0+X1):(X1+X2)",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22151001
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X3>X1?(X0+X1):(X1+X2)",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22151001
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X3>X1?(X0+X1):(X1+X2)",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22151002
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X3>X1?(X0+X1):(X1+X2)",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22151002
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X3>X1?(X0+X1):(X1+X2)",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22151003
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X3>X1?(X0+X1):(X1+X2)",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22151003
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X3>X1?(X0+X1):(X1+X2)",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22151004
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X3>X1?(X0+X1):(X1+X2)",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22151004
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X3>X1?(X0+X1):(X1+X2)",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22151005
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X3>X1?(X0+X1):(X1+X2)",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22151005
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X3>X1?(X0+X1):(X1+X2)",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22151006
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X3>X1?(X0+X1):(X1+X2)",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22151006
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X3>X1?(X0+X1):(X1+X2)",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22151007
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X3>X1?(X0+X1):(X1+X2)",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22151007
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X3):(X0+X1)",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22152000
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X3):(X0+X1)",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22152000
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X3):(X0+X1)",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22152001
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X3):(X0+X1)",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22152001
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X3):(X0+X1)",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22152002
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X3):(X0+X1)",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22152002
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X3):(X0+X1)",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22152003
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X3):(X0+X1)",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22152003
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X3):(X0+X1)",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22152004
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X3):(X0+X1)",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22152004
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X3):(X0+X1)",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22152005
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X3):(X0+X1)",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22152005
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X3):(X0+X1)",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22152006
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X3):(X0+X1)",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22152006
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X3):(X0+X1)",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22152007
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X3):(X0+X1)",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22152007
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X2):(X2+X3)",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22153000
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X2):(X2+X3)",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22153000
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X2):(X2+X3)",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22153001
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X2):(X2+X3)",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22153001
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X2):(X2+X3)",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22153002
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X2):(X2+X3)",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22153002
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X2):(X2+X3)",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22153003
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X2):(X2+X3)",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22153003
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X2):(X2+X3)",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22153004
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X2):(X2+X3)",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22153004
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X2):(X2+X3)",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22153005
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X2):(X2+X3)",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22153005
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X2):(X2+X3)",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22153006
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X2):(X2+X3)",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22153006
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X2):(X2+X3)",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22153007
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X2>X1?(X0+X2):(X2+X3)",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22153007
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X1+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22154000
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X1+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22154000
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X1+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22154001
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X1+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22154001
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X1+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22154002
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X1+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22154002
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X1+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22154003
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X1+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22154003
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X1+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22154004
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X1+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22154004
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X1+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22154005
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X1+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22154005
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X1+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22154006
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X1+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22154006
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X1+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22154007
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X0>X1?(X1+X3):(X1+X2)",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22154007
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X1>X2?(X0+X3):(X0+X2)",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22155000
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X1>X2?(X0+X3):(X0+X2)",
+    "arm": "tree",
+    "repeat": 0,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22155000
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X1>X2?(X0+X3):(X0+X2)",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22155001
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X1>X2?(X0+X3):(X0+X2)",
+    "arm": "tree",
+    "repeat": 1,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22155001
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X1>X2?(X0+X3):(X0+X2)",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22155002
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X1>X2?(X0+X3):(X0+X2)",
+    "arm": "tree",
+    "repeat": 2,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22155002
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X1>X2?(X0+X3):(X0+X2)",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22155003
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X1>X2?(X0+X3):(X0+X2)",
+    "arm": "tree",
+    "repeat": 3,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22155003
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X1>X2?(X0+X3):(X0+X2)",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22155004
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X1>X2?(X0+X3):(X0+X2)",
+    "arm": "tree",
+    "repeat": 4,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22155004
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X1>X2?(X0+X3):(X0+X2)",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22155005
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X1>X2?(X0+X3):(X0+X2)",
+    "arm": "tree",
+    "repeat": 5,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22155005
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X1>X2?(X0+X3):(X0+X2)",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22155006
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X1>X2?(X0+X3):(X0+X2)",
+    "arm": "tree",
+    "repeat": 6,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22155006
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X1>X2?(X0+X3):(X0+X2)",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.9,
+    "phase": "calibration",
+    "seed": 22155007
+  },
+  {
+    "family": "TS",
+    "cell": "TS:X1>X2?(X0+X3):(X0+X2)",
+    "arm": "tree",
+    "repeat": 7,
+    "crossover": 0.5,
+    "phase": "calibration",
+    "seed": 22155007
+  }
+]

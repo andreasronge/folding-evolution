@@ -2454,3 +2454,25 @@ within-table library contrasts are about 1.00–1.01×, directions unresolved"; 
 should read "the D library's usefulness is not restricted to its native table" (interaction not tested for
 absence). The digest snapshots above that say "libraries are interchangeable" on TS should read "no TS
 library difference resolved (1.01× [0.83, 1.25])". question.md, 42 and the digest corrected.
+
+## 2026-10-10: run 2026-10-10-2239, A8 versus subtree GP retry (slot 35; question 43) — stopped before scoring
+
+The retry with ramped half-and-half over depths 1–3 edges and a function root for initialization was
+approved with notes. The researcher restored the tree code and isolated the two initializer changes (commit
+`6b40e16`, branch `research/2026-10-10-2239`). Initializer validation, a complete development-cell search smoke
+and a ten-worker forced-cap timing diagnostic passed (about 50 s per full-cap tree search, effective
+concurrency 9.1). The run then stopped at the plan's seed audit: the seed formulas carried over unchanged from
+plan 2214 put 48 seed values in both calibration and scoring (96 searches on each side), and both smoke seeds
+are also TS scoring seeds. Nothing was searched on target cells; no slot used
+([infeasible](../../runs/2026-10-10-2239/infeasible.md), [43 log](43-acquired-bias-vs-tree-gp/log.md)).
+
+Decision: re-propose 43 with only the scoring seed base moved (22150000 → 22180000) ([proposal 2254](../../runs/2026-10-10-2254/proposal.md)),
+because the obstacle is a bookkeeping error in the pre-registration, not a property of either method or of
+the price; everything that was measured so far was in line with the plan.
+
+Wording correction from critique 2239 notes 6–7 (entries above left as written): "cannot fill its
+full-depth-4 bin" (slot-35 entry) should read "failed the 10 000-draw bound and is impractical at the measured
+acceptance (1.2 × 10⁻⁷ per draw)". "No TS library difference resolved (1.01× [0.83, 1.25]; a loss above
+1.25× excluded)" attaches one contrast's bound to both; it should read "no difference resolved in either
+within-table TS comparison (T table 1.01× [0.83, 1.25], D table 1.00× [0.79, 1.27])". question.md and the
+digest corrected.
