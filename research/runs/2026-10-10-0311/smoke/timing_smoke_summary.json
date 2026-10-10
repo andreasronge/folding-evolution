@@ -1,0 +1,9 @@
+{
+  "solved": 3,
+  "attempts": 16,
+  "wall_seconds": 54.304252541973256,
+  "worker_seconds": 422.7357883749064,
+  "exact_check_seconds": 0.0007366250501945615,
+  "max_exact_check_seconds": 0.000338125042617321,
+  "scope": "small-scale timing only; sustained-load admission uses queued128-job batches"
+}

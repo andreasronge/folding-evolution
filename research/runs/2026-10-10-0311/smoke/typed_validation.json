@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "raw_programs": 7240,
+  "depth": 3,
+  "random_programs": 1000,
+  "typed_state_dedup": true,
+  "canonical_and_witness_cells": 0,
+  "seconds": 0.06646870903205127
+}

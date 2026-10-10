@@ -34,3 +34,10 @@ genuinely new family. Not shown: equality with historical A8 (δ allows 10% chea
 robustness to arbitrary source sets or other families, or where the weaker PA builds come from (S8′ unscored);
 both rosters are development data. Scoring the already-built S8′ would place the PA deficit but would not
 change the carry-the-recipe choice, so no top-up.
+
+2026-10-10 (steward, run 2026-10-10-0311, correction from critique 0311 digest check note 7): the entry
+above overstates what S8′ scoring could do. Corrected wording: scoring S8′ could help distinguish an
+adaptive-step effect from source/build variation; it may not locate the PA deficit (analysis 0145
+§§4, 9 leave roster, acquisition noise and adaptive-step explanations open). The same sentence in
+[decision 0145](../../../runs/2026-10-10-0145/decision.md) carries the same overstatement. The decision
+not to score S8′ is unchanged.

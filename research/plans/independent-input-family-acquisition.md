@@ -1,8 +1,9 @@
 # Can cheap acquisition learn a family beyond reducer/output syntax?
 
-Future concept plan for [root 10](../questions/10-compositional-map-transfer/question.md),
-from [strategy 0311](../runs/2026-10-10-0311/strategy.md). **Not allocated in the current
-run.** No new root is needed. This is a direction and staged cost envelope, not an
+Concept plan for [root 10](../questions/10-compositional-map-transfer/question.md),
+from the [prior strategy 0311](../runs/2026-10-10-0311/strategy-prior-run.md).
+**First stage allocated in autonomous run 2026-10-10-1419; transfer requires the
+next strategy review.** No new root is needed. This is a direction and staged cost envelope, not an
 experiment registration; the steward supplies the proposal and decision rules.
 
 The question is whether the unchanged four-plus-four acquisition recipe can learn
@@ -113,7 +114,43 @@ For scale, 0145 completed 768 source attempts plus preparation in 12.6 minutes a
 1,024 scoring searches in 31.5 minutes. Those figures make search affordable on
 its old bank; they do not price a new alphabet, new source yield or new verifier
 tails. The decisive missing work is the valid bank and its complete comparison,
-not a large source-corpus bill. With under five hours left now, funding only the
-bank stage would leave the substantive portability question unfinished. Reconsider
-this plan in the next full window, or if a validated bank and measured complete
-price reduce that uncertainty enough to fit a shorter allocation.
+not a large source-corpus bill. The prior review had under five hours left and
+deferred this plan. The new 48-hour window removes that scheduling objection;
+the build, bank and scientific-value uncertainties remain.
+
+**Allocation update, 2026-10-10, autonomous run 2026-10-10-1419.**
+[Current strategy](../runs/2026-10-10-0311/strategy.md) raises root 10 from 30 to
+31 experiments for one first-stage cycle, through the next strategy review.
+Expected total first-stage time remains **3–4 hours**, including preparation,
+validation, queue and agent review; preparation at most 120 minutes. If proposed
+as a probe, use fixed seeds, descriptive output, no outcome table and at most
+60 minutes summed queue timeouts. This run has its initial probe allowance.
+No protected target performance may be inspected during this stage.
+
+Use one fixed candidate: `(A+B)>(C+D) ? E:F` with roles drawn from X0–X3 on
+the 625 independent inputs above. The output-addition family is an optional later
+contrast, not a second bank to search if this candidate fails. Preserve the
+four-source/at-least-four-holdout split, semantic separation and short-program
+screen. Confirm source coverage of all four readouts and multiple predicates.
+Develop and time on source/development cells only. The first stage must also
+measure enough of the fitted search path on those cells to price independent
+acquisition and protected scoring; merely timing the fixed prior is insufficient.
+Any pilot fits remain development artifacts and cannot stand in for independent
+confirmation builds.
+
+The exit is a validated, performance-blind split with usable source discovery,
+headroom and a measured price/precision scenario for the complete usefulness
+comparison, or a specific semantic, build or cost obstacle. Return to strategy
+after this stage in either case; do not relax the screen or add an alphabet/domain
+sweep. A descriptive no-hit result is a bound, not proof of impossibility.
+
+The complete candidate still has a provisional **7–10-hour** price: this stage
+plus **4–6 hours** for a separately approved acquisition/transfer cycle. It is
+worth funding because success would extend the recipe to different assembly
+requirements and a resolved failure would locate a portability limit. Neither
+code completion nor available time automatically earns stage two. Replace these
+allowances with measured full costs before allocating confirmation; reassess
+against the current run deadline, **2026-10-12T14:19:15 Europe/Stockholm**.
+Use representative timing under sustained intended concurrency (at least 64 jobs
+or the collection batches), and contemporaneous baseline measurements for any
+wall-time economics. The defective two-row calibration in 0145 is not reusable.

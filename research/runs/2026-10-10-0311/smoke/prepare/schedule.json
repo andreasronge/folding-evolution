@@ -1,0 +1,386 @@
+[
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "G4",
+    "build": 0,
+    "ordinal": 0,
+    "seed": 420000
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "A8",
+    "build": 0,
+    "ordinal": 0,
+    "seed": 420000
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "O",
+    "build": 0,
+    "ordinal": 0,
+    "seed": 420000
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "G4",
+    "build": 0,
+    "ordinal": 1,
+    "seed": 420001
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "A8",
+    "build": 0,
+    "ordinal": 1,
+    "seed": 420001
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "O",
+    "build": 0,
+    "ordinal": 1,
+    "seed": 420001
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "G4",
+    "build": 1,
+    "ordinal": 2,
+    "seed": 420002
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "A8",
+    "build": 1,
+    "ordinal": 2,
+    "seed": 420002
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "O",
+    "build": 1,
+    "ordinal": 2,
+    "seed": 420002
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "G4",
+    "build": 1,
+    "ordinal": 3,
+    "seed": 420003
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "A8",
+    "build": 1,
+    "ordinal": 3,
+    "seed": 420003
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X3)>(X0+X2)?X2:X1",
+    "arm": "O",
+    "build": 1,
+    "ordinal": 3,
+    "seed": 420003
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "G4",
+    "build": 0,
+    "ordinal": 0,
+    "seed": 421000
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "A8",
+    "build": 0,
+    "ordinal": 0,
+    "seed": 421000
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "O",
+    "build": 0,
+    "ordinal": 0,
+    "seed": 421000
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "G4",
+    "build": 0,
+    "ordinal": 1,
+    "seed": 421001
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "A8",
+    "build": 0,
+    "ordinal": 1,
+    "seed": 421001
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "O",
+    "build": 0,
+    "ordinal": 1,
+    "seed": 421001
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "G4",
+    "build": 1,
+    "ordinal": 2,
+    "seed": 421002
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "A8",
+    "build": 1,
+    "ordinal": 2,
+    "seed": 421002
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "O",
+    "build": 1,
+    "ordinal": 2,
+    "seed": 421002
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "G4",
+    "build": 1,
+    "ordinal": 3,
+    "seed": 421003
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "A8",
+    "build": 1,
+    "ordinal": 3,
+    "seed": 421003
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X1+X2)>(X0+X3)?X0:X1",
+    "arm": "O",
+    "build": 1,
+    "ordinal": 3,
+    "seed": 421003
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "G4",
+    "build": 0,
+    "ordinal": 0,
+    "seed": 422000
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "A8",
+    "build": 0,
+    "ordinal": 0,
+    "seed": 422000
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "O",
+    "build": 0,
+    "ordinal": 0,
+    "seed": 422000
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "G4",
+    "build": 0,
+    "ordinal": 1,
+    "seed": 422001
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "A8",
+    "build": 0,
+    "ordinal": 1,
+    "seed": 422001
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "O",
+    "build": 0,
+    "ordinal": 1,
+    "seed": 422001
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "G4",
+    "build": 1,
+    "ordinal": 2,
+    "seed": 422002
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "A8",
+    "build": 1,
+    "ordinal": 2,
+    "seed": 422002
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "O",
+    "build": 1,
+    "ordinal": 2,
+    "seed": 422002
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "G4",
+    "build": 1,
+    "ordinal": 3,
+    "seed": 422003
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "A8",
+    "build": 1,
+    "ordinal": 3,
+    "seed": 422003
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X0+X3)>(X1+X2)?X1:X2",
+    "arm": "O",
+    "build": 1,
+    "ordinal": 3,
+    "seed": 422003
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "G4",
+    "build": 0,
+    "ordinal": 0,
+    "seed": 423000
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "A8",
+    "build": 0,
+    "ordinal": 0,
+    "seed": 423000
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "O",
+    "build": 0,
+    "ordinal": 0,
+    "seed": 423000
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "G4",
+    "build": 0,
+    "ordinal": 1,
+    "seed": 423001
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "A8",
+    "build": 0,
+    "ordinal": 1,
+    "seed": 423001
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "O",
+    "build": 0,
+    "ordinal": 1,
+    "seed": 423001
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "G4",
+    "build": 1,
+    "ordinal": 2,
+    "seed": 423002
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "A8",
+    "build": 1,
+    "ordinal": 2,
+    "seed": 423002
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "O",
+    "build": 1,
+    "ordinal": 2,
+    "seed": 423002
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "G4",
+    "build": 1,
+    "ordinal": 3,
+    "seed": 423003
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "A8",
+    "build": 1,
+    "ordinal": 3,
+    "seed": 423003
+  },
+  {
+    "phase": "development",
+    "cell": "DG:(X2+X3)>(X0+X1)?X1:X3",
+    "arm": "O",
+    "build": 1,
+    "ordinal": 3,
+    "seed": 423003
+  }
+]

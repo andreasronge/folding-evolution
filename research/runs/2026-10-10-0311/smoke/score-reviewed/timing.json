@@ -1,0 +1,13 @@
+{
+  "alphabet": "v2_x4",
+  "batches": {
+    "development": {
+      "jobs": 48,
+      "wall_seconds": 2.8221344579942524,
+      "worker_seconds": 13.68017933133524,
+      "effective_workers": 4.847458381220439,
+      "exact_check_seconds": 0.0,
+      "max_exact_check_seconds": 0.0
+    }
+  }
+}

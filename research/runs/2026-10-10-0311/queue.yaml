@@ -1,0 +1,82 @@
+runs:
+  - id: 2026-10-10-0311-independent-input-prepare
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-10-0311 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.independent_input_run
+      --prepare --workers 10 --deadline-seconds 1500
+    timeout_seconds: 1500
+    track: chem-tape
+    notes: >-
+      v2_x4 / x4-double-gate-v1 descriptive probe. Load SHA-frozen real-token
+      exhaustive9 screen, exact24-cell separation clique, deterministic covered
+      4-source/4-development/8-protected split; validate492 canonicals/witnesses
+      in Python/Rust/semantic machine, typed-state pruning and10k random tapes.
+      Freeze all seeds, method/backend hashes and eight O artifacts before search.
+      Protected cells never searched. Eight independent A8 builds, 128 G4 source
+      attempts then128 adaptive attempts under own intermediate C4+F4; refit.
+      Fixed cap524288/pop256/64 cases/exact625 inputs, four+four per source cell.
+      Keep all failures and unchanged empty cell/corpus/library fallbacks; report
+      incidence, per-cell yields, acquisition evaluations, verification/fitting
+      and exact-check tails. Actual128-job batches at10 workers price sustained
+      load. No increased attempt count. Report median first yield<4/16 as a discovery
+      obstacle; continue pilot scoring with unchanged fallbacks. Stop only if
+      preparation exceeds25min or conservative192-search projection
+      plus30%reserve/report time cannot fit30min. No historical timing calibration.
+    expect_outputs:
+      - config.json
+      - bank.json
+      - old_builds.json
+      - source_schedule.json
+      - schedule.json
+      - method_freeze.json
+      - validation.json
+      - first.jsonl
+      - adaptive.jsonl
+      - seed_builds.json
+      - builds.json
+      - timing.json
+      - source_summary.json
+      - preparation.json
+      - progress.json
+
+  - id: 2026-10-10-0311-independent-input-score
+    cmd: >-
+      cd /Users/andreas/developer/folding-evolution-research/2026-10-10-0311 &&
+      exec env RAYON_NUM_THREADS=1 .venv/bin/python
+      -m experiments.chem_tape.independent_input_run
+      --preparation "${RUN_DIR%/*}/2026-10-10-0311-independent-input-prepare/preparation.json"
+      --workers 10 --deadline-seconds 1800
+    timeout_seconds: 1800
+    track: chem-tape
+    notes: >-
+      Verify all frozen bank/method/backend/seed/O/build/validation/source-row
+      hashes and smoke/full status before any development search. If preparation
+      hits a feasibility obstacle, emit feasibility_stop result/report with no
+      scoring. Otherwise exactly192 searches: four development cells x16 shared
+      seeds xG4/A8/O. A8 uses8 builds x2 seeds/cell; O uses BE1..4 and PA1..4 A8'
+      from0145, explicit v2_x4 reinterpretation with token ids unchanged.
+      Protected performance remains untouched. Descriptive G4/A8,G4/O,O/A8
+      log-capped-evaluation ratios (failures2cap),8192 bootstrap draws with build
+      units and shared cell-stratified G4 seed uncertainty. Solve counts, per-cell
+      costs, log-SD, source fallback incidence, measured complete acquisition and
+      scoring cost, fitness/correctness-pattern diversity and verification tails.
+      Conditional factor1.25 stage2 precision scenarios include fresh independent
+      builds, two seeds/build/protected cell, both fixed and growing baseline
+      allocation, acquisition plus all scoring and optional O price. All-capped
+      or poor-headroom scenarios explicitly uninformative. No confirmatory claims
+      or digest promotion. Return to strategy. Total timeouts55min (probe<=60min).
+    expect_outputs:
+      - config.json
+      - bank.json
+      - old_builds.json
+      - source_schedule.json
+      - schedule.json
+      - method_freeze.json
+      - validation.json
+      - seed_builds.json
+      - builds.json
+      - source_summary.json
+      - preparation.json
+      - result.json
+      - report.md

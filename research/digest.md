@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-10, after run 2026-10-10-0145 (commit `b6d1974`). Core question since the
+As of 2026-10-10, after run 2026-10-10-0311 (commit `09c850d`). Core question since the
 2026-09-25 reframe: *how does the genotype→program map bias what evolution finds and keeps
 ("arrival of the frequent"), and can that bias be adapted to a task family?* History and
 superseded numbers are in the questions' `log.md` files.
@@ -74,14 +74,14 @@ P 1024, L 64). Fairly sure for these layouts; nothing beyond them.
   (≤ 1.2e-7). 100 insertions cannot tell drift from a disadvantage.
   ([07](questions/01-map-bias/07-shared-arrival/question.md), parked; [03](questions/01-map-bias/03-rare-shared-establishment/question.md) closed)
 
-## 10 Compositional map transfer (root open, 30 of 30 used)
+## 10 Compositional map transfer (root open, 31 of 31 used)
 
 [10](questions/10-compositional-map-transfer/question.md): can a decoder adapted across related
 tasks help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 Stack tape `v2_rmin(_first)`, D1331 (length-3 lists over −5..5; only 11's first bank used length-4
 lists), P 256, lexicase on 64 cases with an exact domain check, 524k cap. G / G4: hand-set
 previous-token grammars (post-addition split; four-reducer bank); "-marg": the same token
-marginals without context. Sub-questions 11–38 closed. Every bank, including then-addition-v1 (26)
+marginals without context. Sub-questions 11–39 closed; 40 open. Every bank, including then-addition-v1 (26)
 and two-sum-v1 (37), each fresh when first scored, is now a development bank.
 
 **Banks.** Sign-gated banks could not support a symmetric two-family test (these shapes and rules;
@@ -251,7 +251,7 @@ unresolved from full speed at a tenth of the acquisition, not materially slower 
 (a 1.20× loss excluded), and about 2.5× faster than G4 when rebuilt from another source roster in
 these families. Selection has not established a contextual gain; learned token biases transfer
 about 2× without resolved family specificity. Not shown: that evolution reaches fitted context or
-fragments; what in C carries its advantage; the cheap recipe on a new family or arbitrary sources;
+fragments; what in C carries its advantage; the cheap recipe on a new family (one probe pending protected confirmation, [40](questions/10-compositional-map-transfer/40-independent-input-protected-transfer/question.md)) or arbitrary sources;
 transfer beyond two fresh output shapes.
 
 ## 23 Heritable variation bias (root parked, budget 2, 2 used)

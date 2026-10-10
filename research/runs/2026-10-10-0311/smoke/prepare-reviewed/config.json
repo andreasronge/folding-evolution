@@ -1,0 +1,26 @@
+{
+  "task": "2026-10-10-0311",
+  "alphabet": "v2_x4",
+  "bank": "x4-double-gate-v1",
+  "smoke": true,
+  "arguments": {
+    "prepare": true,
+    "preparation": null,
+    "smoke": true,
+    "workers": 10,
+    "deadline_seconds": 300
+  },
+  "cap": 8192,
+  "population": 256,
+  "lexicase_cases": 64,
+  "git_commit": "999fc9c987c9885594ad8b226516b0aa3e95c294",
+  "recipe": "unchanged G4; 4+4/cell; alpha50 C; active recurrent3..6 windows, max32; F rate0.2 suffix preserved",
+  "method": {
+    "tape_length": 32,
+    "crossover": 0.7,
+    "mutation": 0.03,
+    "elites": 2
+  },
+  "reinterpretation": "O token ids unchanged; reducers explicitly reinterpreted as X0..X3",
+  "protected_performance_scored": false
+}

@@ -1,0 +1,1341 @@
+{
+  "corpus": "DG-smoke",
+  "block": 0,
+  "table": [
+    [
+      729,
+      1458,
+      2187,
+      2916,
+      3645,
+      4374,
+      5103,
+      5832,
+      6561,
+      7290,
+      8019,
+      8748,
+      9476,
+      16720,
+      17448,
+      18176,
+      18904,
+      19632,
+      20360,
+      21088,
+      21816,
+      22544,
+      23272,
+      24000
+    ],
+    [
+      250,
+      500,
+      1190,
+      1440,
+      1690,
+      2832,
+      3082,
+      3332,
+      3582,
+      4272,
+      4522,
+      6699,
+      6949,
+      7199,
+      7449,
+      7699,
+      8906,
+      9156,
+      13509,
+      13759,
+      14009,
+      14259,
+      19647,
+      24000
+    ],
+    [
+      365,
+      6173,
+      6538,
+      6903,
+      7268,
+      7632,
+      7996,
+      10546,
+      10910,
+      13460,
+      13824,
+      14188,
+      17810,
+      18174,
+      18538,
+      18902,
+      19266,
+      21816,
+      22180,
+      22544,
+      22908,
+      23272,
+      23636,
+      24000
+    ],
+    [
+      365,
+      2915,
+      3280,
+      3645,
+      4010,
+      4375,
+      4739,
+      13804,
+      14168,
+      16718,
+      17082,
+      17446,
+      17810,
+      18174,
+      18538,
+      18902,
+      19266,
+      21816,
+      22180,
+      22544,
+      22908,
+      23272,
+      23636,
+      24000
+    ],
+    [
+      1000,
+      2000,
+      3000,
+      4000,
+      5000,
+      6000,
+      7000,
+      8000,
+      9000,
+      10000,
+      11000,
+      12000,
+      13000,
+      14000,
+      15000,
+      16000,
+      17000,
+      18000,
+      19000,
+      20000,
+      21000,
+      22000,
+      23000,
+      24000
+    ],
+    [
+      430,
+      6813,
+      7243,
+      7673,
+      8103,
+      8533,
+      8963,
+      11971,
+      12401,
+      15409,
+      15839,
+      16269,
+      16699,
+      17129,
+      17559,
+      17989,
+      18418,
+      21426,
+      21855,
+      22284,
+      22713,
+      23142,
+      23571,
+      24000
+    ],
+    [
+      422,
+      3372,
+      3794,
+      4216,
+      4638,
+      5060,
+      5482,
+      12202,
+      12624,
+      15574,
+      15996,
+      16418,
+      16840,
+      17261,
+      17682,
+      18103,
+      18524,
+      21474,
+      21895,
+      22316,
+      22737,
+      23158,
+      23579,
+      24000
+    ],
+    [
+      250,
+      6416,
+      6666,
+      6916,
+      7166,
+      7416,
+      7666,
+      13150,
+      14031,
+      15421,
+      15671,
+      15921,
+      16802,
+      18365,
+      18615,
+      18865,
+      19115,
+      21869,
+      22119,
+      22369,
+      23250,
+      23500,
+      23750,
+      24000
+    ],
+    [
+      250,
+      1590,
+      1840,
+      2090,
+      2340,
+      2590,
+      2840,
+      4180,
+      4430,
+      12619,
+      12869,
+      13119,
+      13369,
+      13619,
+      13869,
+      14119,
+      14369,
+      19134,
+      19384,
+      19634,
+      19884,
+      20134,
+      20384,
+      24000
+    ],
+    [
+      583,
+      5171,
+      5754,
+      6337,
+      6920,
+      7503,
+      8086,
+      8669,
+      9252,
+      9835,
+      10418,
+      11001,
+      11584,
+      12167,
+      13751,
+      16336,
+      16919,
+      19504,
+      20087,
+      20670,
+      22254,
+      22836,
+      23418,
+      24000
+    ],
+    [
+      843,
+      1686,
+      2529,
+      3372,
+      4215,
+      5058,
+      5901,
+      6744,
+      7587,
+      8430,
+      9273,
+      10116,
+      10959,
+      11802,
+      12645,
+      13488,
+      14331,
+      15174,
+      19786,
+      20629,
+      21472,
+      22315,
+      23158,
+      24000
+    ],
+    [
+      303,
+      2418,
+      2720,
+      3022,
+      3324,
+      3626,
+      3928,
+      8418,
+      8720,
+      15584,
+      15886,
+      16188,
+      16490,
+      16792,
+      17094,
+      17396,
+      17698,
+      19813,
+      20115,
+      20417,
+      23094,
+      23396,
+      23698,
+      24000
+    ],
+    [
+      729,
+      4715,
+      5444,
+      6173,
+      6902,
+      7631,
+      8360,
+      12346,
+      13075,
+      13804,
+      14533,
+      15262,
+      15991,
+      16720,
+      17448,
+      18176,
+      18904,
+      19632,
+      20360,
+      21088,
+      21816,
+      22544,
+      23272,
+      24000
+    ],
+    [
+      573,
+      1146,
+      1719,
+      2292,
+      2865,
+      3438,
+      4011,
+      4584,
+      15405,
+      15978,
+      16551,
+      17124,
+      17697,
+      18270,
+      18843,
+      19416,
+      19989,
+      20562,
+      21135,
+      21708,
+      22281,
+      22854,
+      23427,
+      24000
+    ],
+    [
+      843,
+      5455,
+      6298,
+      7141,
+      7984,
+      8827,
+      9670,
+      10513,
+      11356,
+      12199,
+      13042,
+      13885,
+      14728,
+      15571,
+      16414,
+      17257,
+      18100,
+      18943,
+      19786,
+      20629,
+      21472,
+      22315,
+      23158,
+      24000
+    ],
+    [
+      6880,
+      9430,
+      9795,
+      10160,
+      10525,
+      10890,
+      11254,
+      13804,
+      14168,
+      16718,
+      17082,
+      17446,
+      17810,
+      18174,
+      18538,
+      18902,
+      19266,
+      21816,
+      22180,
+      22544,
+      22908,
+      23272,
+      23636,
+      24000
+    ],
+    [
+      365,
+      2915,
+      3280,
+      3645,
+      4010,
+      4375,
+      4739,
+      7289,
+      7653,
+      10203,
+      10567,
+      10931,
+      11295,
+      11659,
+      12023,
+      12387,
+      12751,
+      21816,
+      22180,
+      22544,
+      22908,
+      23272,
+      23636,
+      24000
+    ],
+    [
+      333,
+      2665,
+      2998,
+      3331,
+      3664,
+      3997,
+      4330,
+      6662,
+      9284,
+      15049,
+      15382,
+      16860,
+      17193,
+      18671,
+      19004,
+      19337,
+      19670,
+      22002,
+      22335,
+      22668,
+      23001,
+      23334,
+      23667,
+      24000
+    ],
+    [
+      250,
+      8139,
+      8389,
+      11752,
+      12002,
+      12252,
+      12502,
+      15696,
+      15946,
+      17574,
+      17824,
+      18074,
+      18324,
+      18574,
+      18824,
+      19074,
+      19324,
+      20952,
+      22750,
+      23000,
+      23250,
+      23500,
+      23750,
+      24000
+    ],
+    [
+      500,
+      4000,
+      4500,
+      5000,
+      5500,
+      6000,
+      6500,
+      10000,
+      10500,
+      14000,
+      14500,
+      15000,
+      15500,
+      16000,
+      16500,
+      17000,
+      17500,
+      21000,
+      21500,
+      22000,
+      22500,
+      23000,
+      23500,
+      24000
+    ],
+    [
+      729,
+      1458,
+      2187,
+      2916,
+      3645,
+      4374,
+      5103,
+      5832,
+      9818,
+      10547,
+      11276,
+      12005,
+      12734,
+      13462,
+      14190,
+      14918,
+      15646,
+      16374,
+      17102,
+      17830,
+      18558,
+      19286,
+      20014,
+      24000
+    ],
+    [
+      1000,
+      2000,
+      3000,
+      4000,
+      5000,
+      6000,
+      7000,
+      8000,
+      9000,
+      10000,
+      11000,
+      12000,
+      13000,
+      14000,
+      15000,
+      16000,
+      17000,
+      18000,
+      19000,
+      20000,
+      21000,
+      22000,
+      23000,
+      24000
+    ],
+    [
+      250,
+      5009,
+      6807,
+      7057,
+      7307,
+      7557,
+      9355,
+      17244,
+      17494,
+      19122,
+      19372,
+      19622,
+      19872,
+      20122,
+      20372,
+      20622,
+      20872,
+      22500,
+      22750,
+      23000,
+      23250,
+      23500,
+      23750,
+      24000
+    ],
+    [
+      250,
+      6093,
+      6343,
+      6593,
+      6843,
+      7093,
+      7343,
+      14633,
+      14883,
+      16388,
+      18049,
+      18299,
+      18549,
+      18799,
+      19049,
+      19299,
+      19549,
+      22500,
+      22750,
+      23000,
+      23250,
+      23500,
+      23750,
+      24000
+    ],
+    [
+      300,
+      17400,
+      17700,
+      18000,
+      18300,
+      18600,
+      18900,
+      19200,
+      19500,
+      19800,
+      20100,
+      20400,
+      20700,
+      21000,
+      21300,
+      21600,
+      21900,
+      22200,
+      22500,
+      22800,
+      23100,
+      23400,
+      23700,
+      24000
+    ]
+  ],
+  "table_hash": "a630034b349c4c22a81565d426b50e2acef143aad12ebc80674b7a1cadbbaa8e",
+  "library": {
+    "held_out_cell": null,
+    "recurring_candidates": 6,
+    "fragments": [
+      {
+        "tokens": [
+          1,
+          22,
+          7
+        ],
+        "names": [
+          "_op_input",
+          "_op_x2",
+          "_op_add"
+        ],
+        "length": 3,
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "count": 3,
+        "provenance": [
+          {
+            "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+            "seed": 430032,
+            "start": 7,
+            "context_inputs": 4,
+            "context_stack_deltas": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "context_totals": {
+              "default_use": 0,
+              "pop_calls": 12
+            }
+          },
+          {
+            "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+            "seed": 430032,
+            "start": 20,
+            "context_inputs": 4,
+            "context_stack_deltas": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "context_totals": {
+              "default_use": 0,
+              "pop_calls": 12
+            }
+          },
+          {
+            "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+            "seed": 430013,
+            "start": 24,
+            "context_inputs": 4,
+            "context_stack_deltas": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "context_totals": {
+              "default_use": 0,
+              "pop_calls": 12
+            }
+          }
+        ],
+        "standalone": {
+          "inputs": 96,
+          "totals": {
+            "default_use": 96,
+            "pop_calls": 288,
+            "underflow": 96
+          },
+          "stack_effects": {
+            "1": 96
+          },
+          "final_stack_types": {
+            "int": 96
+          }
+        },
+        "source_context_totals": {
+          "default_use": 0,
+          "pop_calls": 36
+        },
+        "padded_solves": []
+      },
+      {
+        "tokens": [
+          7,
+          7,
+          1
+        ],
+        "names": [
+          "_op_add",
+          "_op_add",
+          "_op_input"
+        ],
+        "length": 3,
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "count": 3,
+        "provenance": [
+          {
+            "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+            "seed": 430030,
+            "start": 16,
+            "context_inputs": 4,
+            "context_stack_deltas": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "context_totals": {
+              "pop_calls": 16,
+              "default_use": 0
+            }
+          },
+          {
+            "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+            "seed": 430032,
+            "start": 14,
+            "context_inputs": 4,
+            "context_stack_deltas": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "context_totals": {
+              "pop_calls": 16,
+              "default_use": 0
+            }
+          },
+          {
+            "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+            "seed": 430013,
+            "start": 20,
+            "context_inputs": 4,
+            "context_stack_deltas": [
+              -1,
+              -1,
+              -1,
+              -1
+            ],
+            "context_totals": {
+              "pop_calls": 16,
+              "default_use": 0
+            }
+          }
+        ],
+        "standalone": {
+          "inputs": 96,
+          "totals": {
+            "pop_calls": 384,
+            "underflow": 288,
+            "default_use": 288
+          },
+          "stack_effects": {
+            "2": 96
+          },
+          "final_stack_types": {
+            "int,intlist": 96
+          }
+        },
+        "source_context_totals": {
+          "pop_calls": 48,
+          "default_use": 0
+        },
+        "padded_solves": []
+      },
+      {
+        "tokens": [
+          7,
+          1,
+          23,
+          1
+        ],
+        "names": [
+          "_op_add",
+          "_op_input",
+          "_op_x3",
+          "_op_input"
+        ],
+        "length": 4,
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "count": 2,
+        "provenance": [
+          {
+            "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+            "seed": 430032,
+            "start": 9,
+            "context_inputs": 4,
+            "context_stack_deltas": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "context_totals": {
+              "pop_calls": 12,
+              "default_use": 0
+            }
+          },
+          {
+            "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+            "seed": 430013,
+            "start": 21,
+            "context_inputs": 4,
+            "context_stack_deltas": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "context_totals": {
+              "pop_calls": 12,
+              "default_use": 0
+            }
+          }
+        ],
+        "standalone": {
+          "inputs": 96,
+          "totals": {
+            "pop_calls": 288,
+            "underflow": 192,
+            "default_use": 192
+          },
+          "stack_effects": {
+            "3": 96
+          },
+          "final_stack_types": {
+            "int,int,intlist": 96
+          }
+        },
+        "source_context_totals": {
+          "pop_calls": 24,
+          "default_use": 0
+        },
+        "padded_solves": []
+      },
+      {
+        "tokens": [
+          1,
+          18,
+          1
+        ],
+        "names": [
+          "_op_input",
+          "_op_x1",
+          "_op_input"
+        ],
+        "length": 3,
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "count": 2,
+        "provenance": [
+          {
+            "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+            "seed": 430032,
+            "start": 18,
+            "context_inputs": 4,
+            "context_stack_deltas": [
+              2,
+              2,
+              2,
+              2
+            ],
+            "context_totals": {
+              "default_use": 0,
+              "pop_calls": 4
+            }
+          },
+          {
+            "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+            "seed": 430013,
+            "start": 12,
+            "context_inputs": 4,
+            "context_stack_deltas": [
+              2,
+              2,
+              2,
+              2
+            ],
+            "context_totals": {
+              "default_use": 0,
+              "pop_calls": 4
+            }
+          }
+        ],
+        "standalone": {
+          "inputs": 96,
+          "totals": {
+            "default_use": 0,
+            "pop_calls": 96
+          },
+          "stack_effects": {
+            "2": 96
+          },
+          "final_stack_types": {
+            "int,intlist": 96
+          }
+        },
+        "source_context_totals": {
+          "default_use": 0,
+          "pop_calls": 8
+        },
+        "padded_solves": []
+      },
+      {
+        "tokens": [
+          1,
+          23,
+          1
+        ],
+        "names": [
+          "_op_input",
+          "_op_x3",
+          "_op_input"
+        ],
+        "length": 3,
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "count": 2,
+        "provenance": [
+          {
+            "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+            "seed": 430032,
+            "start": 10,
+            "context_inputs": 4,
+            "context_stack_deltas": [
+              2,
+              2,
+              2,
+              2
+            ],
+            "context_totals": {
+              "default_use": 0,
+              "pop_calls": 4
+            }
+          },
+          {
+            "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+            "seed": 430013,
+            "start": 22,
+            "context_inputs": 4,
+            "context_stack_deltas": [
+              2,
+              2,
+              2,
+              2
+            ],
+            "context_totals": {
+              "default_use": 0,
+              "pop_calls": 4
+            }
+          }
+        ],
+        "standalone": {
+          "inputs": 96,
+          "totals": {
+            "default_use": 0,
+            "pop_calls": 96
+          },
+          "stack_effects": {
+            "2": 96
+          },
+          "final_stack_types": {
+            "int,intlist": 96
+          }
+        },
+        "source_context_totals": {
+          "default_use": 0,
+          "pop_calls": 8
+        },
+        "padded_solves": []
+      },
+      {
+        "tokens": [
+          7,
+          1,
+          23
+        ],
+        "names": [
+          "_op_add",
+          "_op_input",
+          "_op_x3"
+        ],
+        "length": 3,
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "count": 2,
+        "provenance": [
+          {
+            "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+            "seed": 430032,
+            "start": 9,
+            "context_inputs": 4,
+            "context_stack_deltas": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "context_totals": {
+              "pop_calls": 12,
+              "default_use": 0
+            }
+          },
+          {
+            "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+            "seed": 430013,
+            "start": 21,
+            "context_inputs": 4,
+            "context_stack_deltas": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "context_totals": {
+              "pop_calls": 12,
+              "default_use": 0
+            }
+          }
+        ],
+        "standalone": {
+          "inputs": 96,
+          "totals": {
+            "pop_calls": 288,
+            "underflow": 192,
+            "default_use": 192
+          },
+          "stack_effects": {
+            "2": 96
+          },
+          "final_stack_types": {
+            "int,int": 96
+          }
+        },
+        "source_context_totals": {
+          "pop_calls": 24,
+          "default_use": 0
+        },
+        "padded_solves": []
+      }
+    ],
+    "dropped_padded_solvers": [],
+    "hash": "7344d85d409077cbecac55fbed6c2a8fd00f7c8b3d9cbf40a3b7cf535acbf74f",
+    "activity_scope": "NOP knockout contribution in the original source program on 96 inputs",
+    "stack_scope": "standalone empty-stack effect on 96 inputs; source-context use on first four of those inputs"
+  },
+  "activity": [
+    {
+      "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+      "seed": 430030,
+      "active": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        false,
+        false
+      ]
+    },
+    {
+      "cell": "DG:(X0+X3)>(X1+X2)?X2:X3",
+      "seed": 430032,
+      "active": [
+        true,
+        true,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        false
+      ]
+    },
+    {
+      "cell": "DG:(X2+X3)>(X0+X1)?X1:X0",
+      "seed": 430013,
+      "active": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ]
+    }
+  ],
+  "yields": {
+    "DG:(X2+X3)>(X0+X1)?X0:X2": 0,
+    "DG:(X2+X3)>(X0+X1)?X1:X0": 1,
+    "DG:(X0+X1)>(X2+X3)?X3:X0": 0,
+    "DG:(X0+X3)>(X1+X2)?X2:X3": 2
+  },
+  "empty_cells": [
+    "DG:(X2+X3)>(X0+X1)?X0:X2",
+    "DG:(X0+X1)>(X2+X3)?X3:X0"
+  ],
+  "attempt_keys": [
+    [
+      "DG-smoke",
+      "DG:(X0+X1)>(X2+X3)?X3:X0",
+      430020
+    ],
+    [
+      "DG-smoke",
+      "DG:(X0+X1)>(X2+X3)?X3:X0",
+      430021
+    ],
+    [
+      "DG-smoke",
+      "DG:(X0+X1)>(X2+X3)?X3:X0",
+      430022
+    ],
+    [
+      "DG-smoke",
+      "DG:(X0+X1)>(X2+X3)?X3:X0",
+      430023
+    ],
+    [
+      "DG-smoke",
+      "DG:(X0+X3)>(X1+X2)?X2:X3",
+      430030
+    ],
+    [
+      "DG-smoke",
+      "DG:(X0+X3)>(X1+X2)?X2:X3",
+      430031
+    ],
+    [
+      "DG-smoke",
+      "DG:(X0+X3)>(X1+X2)?X2:X3",
+      430032
+    ],
+    [
+      "DG-smoke",
+      "DG:(X0+X3)>(X1+X2)?X2:X3",
+      430033
+    ],
+    [
+      "DG-smoke",
+      "DG:(X2+X3)>(X0+X1)?X0:X2",
+      430000
+    ],
+    [
+      "DG-smoke",
+      "DG:(X2+X3)>(X0+X1)?X0:X2",
+      430001
+    ],
+    [
+      "DG-smoke",
+      "DG:(X2+X3)>(X0+X1)?X0:X2",
+      430002
+    ],
+    [
+      "DG-smoke",
+      "DG:(X2+X3)>(X0+X1)?X0:X2",
+      430003
+    ],
+    [
+      "DG-smoke",
+      "DG:(X2+X3)>(X0+X1)?X1:X0",
+      430010
+    ],
+    [
+      "DG-smoke",
+      "DG:(X2+X3)>(X0+X1)?X1:X0",
+      430011
+    ],
+    [
+      "DG-smoke",
+      "DG:(X2+X3)>(X0+X1)?X1:X0",
+      430012
+    ],
+    [
+      "DG-smoke",
+      "DG:(X2+X3)>(X0+X1)?X1:X0",
+      430013
+    ]
+  ],
+  "attempts_hash": "819eb48d59ebc64849a5e491b1cc957469c4724c58cc3dd0b40ee1ef46e62bac",
+  "acquisition": {
+    "evaluations": 7708160,
+    "source_worker_seconds": 422.7357883749064,
+    "verification_seconds": 0.0004652919014915824,
+    "fit_seconds": 0.1157516660168767,
+    "extraction_seconds": 0.005921458010561764
+  }
+}
