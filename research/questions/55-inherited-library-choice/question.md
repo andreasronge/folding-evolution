@@ -14,12 +14,14 @@ Summary: **parked after experiment 1736 (commit `3a18ef5`; six order development
 libraries, P 256, lexicase, crossover 0.5; content and donor law supplied, never learned).** With the child bit
 redrawn from Bernoulli(1/16) at rate 1/32, the R-all carrier bit stayed polymorphic and rose from 1/16 to a mean
 of 0.29 [0.23, 0.35] in linked populations, against 0.06 neutral-bit and 0.05 shuffled (L − N 0.23 [0.16, 0.30];
-24/24 libraries). The rise is bimodal (46/144 above 0.5, 55/144 at or below the start): selection is weak while the
-bit is rare (+0.0017 per generation at f ≤ 0.25) and about ten times stronger once it is common. Each population's
-frozen law, deployed alone at q = f/2, cost **0.805 [0.704, 0.913]** of the starting law (pre-set useful bar: upper
+24/24 libraries). The rise is bimodal (46/144 above 0.5, 55/144 at or below the start): the observed pre-solve
+selection differential was +0.0017 per generation at f ≤ 0.25 and about ten times larger in the high-frequency
+stratum (suggesting frequency-dependent dynamics; not an intervention on frequency). Averaged over separate-population
+deployments, each population's frozen law, deployed alone at q = f/2, cost **0.805 [0.704, 0.913]** of the starting law (pre-set useful bar: upper
 < 0.90, so formally unresolved; the interval excludes 1), and beat the neutral (0.75 [0.64, 0.86]) and shuffled
-(0.70 [0.61, 0.80]) endpoints. The law carries nothing beyond its dose: every endpoint's cost sits within 6% of the
-dose curve at its own q, and the saving comes from the 43% of populations where the bit rose. Hand-set R-all
+(0.70 [0.61, 0.80]) endpoints. The law carries nothing beyond its dose: the three arm-average costs were within
+about 6% of predictions averaged over their endpoint doses (endpoint-wise accuracy untested), 94/144 linked
+endpoints were cheaper than their paired start, and the saving comes from the 43% of populations where the bit rose. Hand-set R-all
 (q = 0.5) is 1.71× [1.45, 2.01] cheaper and needs no exposure; exposure repays against q₀ after about 16 searches.
 Read: program selection can acquire a cost-lowering frequency of a supplied variation law when selector loss is
 reversible, but the acquired dose falls well short of the obvious hand setting. Not shown: whether the saving exceeds 10%; other

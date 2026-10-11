@@ -28,8 +28,9 @@ Related: [49](../49-tree-library-source-portability/question.md), [45](../45-tre
 (reopen item (ii): another insertion rate), [44](../44-restarted-tree-vs-a8/question.md),
 [analysis 0833 §2.2](../../../runs/2026-10-11-0833/analysis.md), [log](log.md).
 
-Reopen if: the strategist funds deployment of libraries by default across mixed-difficulty destinations
-(e.g. a broader benchmark plan); or a next experiment applies libraries to a destination where plain
-R-tree's first-attempt solve rate exceeds about 90%. Then test a library-on-failure gate (library only from
-attempt 2) against mix 0.5 and R-tree on both native TS and B/C, using the saved 0833 libraries (no new
-acquisition).
+Reopen if: the strategist funds deployment of libraries by default across mixed-difficulty or mixed-family
+destinations (e.g. a broader benchmark plan), where a library built for other targets would meet near-solved ones.
+(The earlier trigger, any destination with R-tree first-attempt rate above about 90%, was met in run 1938 and showed
+no harm from matched libraries; see the [log](log.md).) Then test a library-on-failure gate (library only from
+attempt 2) against mix 0.5 and R-tree on native TS, B/C and the 1938 signed-gate cells with transported order
+libraries, using saved libraries (no new acquisition).

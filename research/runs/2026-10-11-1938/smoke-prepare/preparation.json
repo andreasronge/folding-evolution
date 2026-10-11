@@ -1,0 +1,30 @@
+{
+  "admitted": true,
+  "smoke": true,
+  "source_rows_hash": "0678a518439722799f5b396bd6d3dc4455fccaffb9677c8b762b66058afdab27",
+  "libraries_hash": "d78f8ab0a8fe4a82206c894b5d043a7ec7dee99fbcd5bb612d051fb2c3d24556",
+  "bank_hash": "1349277c1e74ea19d8fe5efb7b0ad5c1e1db45887cbbc55fcb28079e9fbc910c",
+  "freeze_hash": "32eb997e5bf25cfbf9746d7073696ef6dfa51dd96633b3cadc33ae5c254a69d5",
+  "schedule_hash": "bdb29982d02701ac7b91a5d561c5920b482b0bc77a0ea8b659b7c9499c77baf1",
+  "audit_hash": "d3070d38fde2ebf3e38a5836811ff3ffe40f41117cd4b6c8aae39948643a50ac",
+  "source_batch_seconds": 1.6041184579953551,
+  "throughput": {
+    "wall_seconds": 1.6041184579953551,
+    "worker_seconds": 9.317687373957597,
+    "workers": 11,
+    "effective_concurrency": 5.808603053917715,
+    "jobs_per_second": 59.845954344275725,
+    "evaluations_per_wall_second": 128628.90453729662,
+    "max_worker_seconds": 0.4213639589725062,
+    "projected_2304_jobs_seconds": 38.49884299188852,
+    "projected_8064_jobs_seconds": 134.74595047160983
+  },
+  "seconds": 5.688073166995309,
+  "supplied_prior_construction_validation_seconds": 0.018312750034965575,
+  "source_jobs": 96,
+  "source_solves": 96,
+  "protected_searches": 0,
+  "workers": 11,
+  "git_commit": "b2e992aa17718b446f6dbe5d256a6f89c45775fd",
+  "preparation_hash": "6bf363d4fa8c97feae83e872db21412285e5873ffe180e4a1d7fce279701785b"
+}

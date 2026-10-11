@@ -26,3 +26,12 @@
   [0.32, 0.50]; the cell × build pairs whose uncapped pool held no needed helper were unresolved from R-tree (0.77×
   [0.50, 1.12], 18 pairs, descriptive). Uncapped libraries were not tested on easy targets. Reopen condition (≥ ~90%
   first-attempt targets, or funded default deployment) not met; status unchanged.
+- 2026-10-11 (steward, 1938): reopen check. The condition "libraries applied to a destination where R-tree's
+  first-attempt rate exceeds about 90%" is met by [58](../58-signed-gate-acquisition/question.md) (run 1938,
+  signed-gate protected cells, R-tree 97.7% first attempt, 1,728 jobs per arm). There, at mix 0.5, the matched new
+  R-all libraries cost 0.577× [0.47, 0.72] of R-tree (below 1 in 18/18 cells) and the supplied gate prior 0.246×;
+  only the transported order libraries, whose content these targets do not need, sat above R-tree, 1.12× [0.94,
+  1.34] (unresolved; 11/18 cells above 1). So near-solved targets do not by themselves bring harm; harm in 49 and
+  here travels with libraries built for other targets (a pattern, not an isolated mechanism). A library-on-failure
+  gate would buy little where the library helps on attempt one. Status stays parked; the next step is the
+  strategist's (run 1938 returns to strategy). Reopen condition narrowed in question.md.
