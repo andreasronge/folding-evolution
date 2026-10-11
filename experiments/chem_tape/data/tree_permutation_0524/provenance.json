@@ -1,0 +1,12 @@
+{
+  "artifacts": {
+    "bank.json": "fd129ff344594715dca9772e12e6c77a325bfb76f2693e977cc40e883d74b452",
+    "preparation.json": "5ebfc17db74c73ba0477af8155a1657142439fbeae56c92c2adaa94e0d4b316f",
+    "reference_rates.json": "d04e31d37543487fc77a1b6cfab904cbb1481f23d70539638e070507aabfa349",
+    "replay.jsonl": "2a523d12e5cc3d8e393b9fb61a767ecc58fd33ff260732ec4361540b666cfb1d",
+    "schedule_audit.json": "be2e90196435b8eb41405122de8f52b892177f9e33e5317179643d7dce5542be"
+  },
+  "reference_commit": "1f02bb7382c64c4f77fca9eb75f3aa38e9f640b7",
+  "search_sha256": "4d85c89af7a10daaa579e7162ac2a8da051a9d30d3d857abf3107a73b69c3660",
+  "source_root": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-11"
+}
