@@ -1,0 +1,7772 @@
+[
+  {
+    "build": 0,
+    "seed": 4896052560296078868,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          5,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 14
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 3
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 96
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 39
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 41
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 56
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 101
+      },
+      {
+        "prefix": [
+          10,
+          6,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 25
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 14
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 50
+      },
+      {
+        "prefix": [
+          11,
+          0,
+          3,
+          9,
+          3,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 166
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          10,
+          4,
+          1,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1034
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 51
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 114
+      },
+      {
+        "prefix": [
+          11,
+          3,
+          9,
+          4,
+          4,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1404
+      },
+      {
+        "prefix": [
+          11,
+          10,
+          0,
+          4,
+          0,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 714
+      },
+      {
+        "prefix": [
+          11,
+          8,
+          10,
+          11,
+          1,
+          4,
+          0,
+          2,
+          4
+        ],
+        "nodes": 9,
+        "compiled_length": 14,
+        "draws": 658
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          3,
+          11,
+          1,
+          10,
+          2,
+          3,
+          5
+        ],
+        "nodes": 9,
+        "compiled_length": 14,
+        "draws": 56
+      },
+      {
+        "prefix": [
+          11,
+          11,
+          2,
+          10,
+          2,
+          4,
+          2,
+          4,
+          4
+        ],
+        "nodes": 9,
+        "compiled_length": 15,
+        "draws": 1011
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 72
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 40
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 38
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          6
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 32
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 17
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 70
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          10,
+          8,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 44
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 8
+      },
+      {
+        "prefix": [
+          11,
+          8,
+          1,
+          8
+        ],
+        "nodes": 4,
+        "compiled_length": 5,
+        "draws": 231
+      },
+      {
+        "prefix": [
+          10,
+          8,
+          10,
+          4,
+          0
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 73
+      }
+    ],
+    "seconds": 0.04020529193803668
+  },
+  {
+    "build": 1,
+    "seed": 4730365912048294472,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 19
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 29
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 75
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 18
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 38
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 20
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 25
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 80
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 60
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 17
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 15
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 23
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 18
+      },
+      {
+        "prefix": [
+          11,
+          3,
+          2,
+          9,
+          1,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          9,
+          10,
+          11,
+          4,
+          5,
+          0,
+          4,
+          0
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 36
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 25
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 2
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 48
+      },
+      {
+        "prefix": [
+          10,
+          11,
+          2,
+          3,
+          4,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 87
+      },
+      {
+        "prefix": [
+          11,
+          0,
+          9,
+          1,
+          4,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 439
+      },
+      {
+        "prefix": [
+          11,
+          9,
+          3,
+          2,
+          1,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 702
+      },
+      {
+        "prefix": [
+          10,
+          8,
+          10,
+          11,
+          2,
+          1,
+          0,
+          3
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 127
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 59
+      },
+      {
+        "prefix": [
+          11,
+          10,
+          2,
+          3,
+          0,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 94
+      },
+      {
+        "prefix": [
+          10,
+          11,
+          0,
+          3,
+          4,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 246
+      },
+      {
+        "prefix": [
+          9,
+          11,
+          2,
+          1,
+          0,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 86
+      }
+    ],
+    "seconds": 0.022660500020720065
+  },
+  {
+    "build": 2,
+    "seed": 3438593906057617455,
+    "entries": [
+      {
+        "prefix": [
+          10,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 70
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 9
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 48
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 67
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 10
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 42
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 89
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 168
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 18
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 19
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 59
+      },
+      {
+        "prefix": [
+          10,
+          6,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 14
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 7
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 51
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 132
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          11,
+          1,
+          3,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 892
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 36
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          11,
+          1,
+          0,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 2004
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          11,
+          3,
+          4,
+          4
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 682
+      },
+      {
+        "prefix": [
+          11,
+          3,
+          4,
+          9,
+          2,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 423
+      },
+      {
+        "prefix": [
+          10,
+          11,
+          11,
+          3,
+          0,
+          0,
+          1,
+          0,
+          2
+        ],
+        "nodes": 9,
+        "compiled_length": 15,
+        "draws": 1786
+      },
+      {
+        "prefix": [
+          11,
+          0,
+          9,
+          2,
+          11,
+          0,
+          2,
+          5,
+          3
+        ],
+        "nodes": 9,
+        "compiled_length": 14,
+        "draws": 1204
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 21
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          11,
+          3,
+          2,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 320
+      },
+      {
+        "prefix": [
+          10,
+          11,
+          0,
+          0,
+          2,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 444
+      }
+    ],
+    "seconds": 0.04991425003390759
+  },
+  {
+    "build": 3,
+    "seed": 1729471533379745132,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 24
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 20
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 55
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 31
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 178
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 48
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 19
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 49
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 27
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 2
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 7
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 11
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 22
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 13
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          9,
+          2,
+          2,
+          4
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 42
+      },
+      {
+        "prefix": [
+          11,
+          1,
+          11,
+          0,
+          1,
+          10,
+          0,
+          3,
+          4
+        ],
+        "nodes": 9,
+        "compiled_length": 15,
+        "draws": 2465
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 20
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          11,
+          2,
+          4,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 49
+      },
+      {
+        "prefix": [
+          11,
+          0,
+          9,
+          0,
+          11,
+          4,
+          4,
+          4,
+          3
+        ],
+        "nodes": 9,
+        "compiled_length": 15,
+        "draws": 1405
+      },
+      {
+        "prefix": [
+          9,
+          7,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 101
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 8
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 21
+      },
+      {
+        "prefix": [
+          9,
+          9,
+          2,
+          0,
+          1
+        ],
+        "nodes": 5,
+        "compiled_length": 8,
+        "draws": 16
+      },
+      {
+        "prefix": [
+          10,
+          5,
+          9,
+          3,
+          0
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 5
+      },
+      {
+        "prefix": [
+          10,
+          11,
+          0,
+          4,
+          1,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 537
+      },
+      {
+        "prefix": [
+          11,
+          0,
+          4,
+          9,
+          2,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 86
+      },
+      {
+        "prefix": [
+          11,
+          4,
+          10,
+          1,
+          4,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1584
+      }
+    ],
+    "seconds": 0.04206700006034225
+  },
+  {
+    "build": 4,
+    "seed": 5361111044484235527,
+    "entries": [
+      {
+        "prefix": [
+          10,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 101
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 51
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 19
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 34
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 44
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 21
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 70
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 15
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 23
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 30
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 134
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 26
+      },
+      {
+        "prefix": [
+          11,
+          0,
+          1,
+          10,
+          3,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 86
+      },
+      {
+        "prefix": [
+          9,
+          11,
+          1,
+          1,
+          3,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1056
+      },
+      {
+        "prefix": [
+          10,
+          11,
+          3,
+          2,
+          0,
+          4
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 830
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 28
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          11,
+          4,
+          2,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 956
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 37
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 21
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          6
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 38
+      },
+      {
+        "prefix": [
+          11,
+          3,
+          8,
+          6
+        ],
+        "nodes": 4,
+        "compiled_length": 5,
+        "draws": 153
+      },
+      {
+        "prefix": [
+          11,
+          10,
+          2,
+          4,
+          2,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1050
+      }
+    ],
+    "seconds": 0.032342584105208516
+  },
+  {
+    "build": 5,
+    "seed": 2323077974313760483,
+    "entries": [
+      {
+        "prefix": [
+          10,
+          2,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 30
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 7
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 22
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 67
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 14
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 137
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 29
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 40
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 9
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 34
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          10,
+          0,
+          3,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 242
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 49
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          11,
+          10,
+          4,
+          8,
+          0,
+          4
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 194
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          9,
+          9,
+          3,
+          2,
+          9,
+          4,
+          2
+        ],
+        "nodes": 9,
+        "compiled_length": 14,
+        "draws": 64
+      },
+      {
+        "prefix": [
+          10,
+          5,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 63
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 56
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          6
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 23
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 30
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 50
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 43
+      },
+      {
+        "prefix": [
+          11,
+          3,
+          9,
+          3,
+          4,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1516
+      },
+      {
+        "prefix": [
+          9,
+          11,
+          0,
+          2,
+          2,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 680
+      }
+    ],
+    "seconds": 0.026772667071782053
+  },
+  {
+    "build": 6,
+    "seed": 8009501586122596903,
+    "entries": [
+      {
+        "prefix": [
+          10,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 33
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 29
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 23
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 3
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 23
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 11
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 3
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 53
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 37
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 82
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 103
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 16
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          1,
+          10,
+          0,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 135
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          11,
+          4,
+          0,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 581
+      },
+      {
+        "prefix": [
+          11,
+          10,
+          0,
+          2,
+          2,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 41
+      },
+      {
+        "prefix": [
+          11,
+          3,
+          9,
+          0,
+          0,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 89
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          11,
+          2,
+          0,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 357
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          11,
+          4,
+          4,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 58
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          11,
+          1,
+          4,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 611
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          10,
+          2,
+          11,
+          5,
+          2,
+          1
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 49
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 63
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 63
+      },
+      {
+        "prefix": [
+          10,
+          5,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 29
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 50
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          8
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 5
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 54
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 47
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 18
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 45
+      },
+      {
+        "prefix": [
+          11,
+          4,
+          7,
+          6
+        ],
+        "nodes": 4,
+        "compiled_length": 5,
+        "draws": 89
+      },
+      {
+        "prefix": [
+          10,
+          10,
+          7,
+          0,
+          8
+        ],
+        "nodes": 5,
+        "compiled_length": 6,
+        "draws": 96
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          9,
+          2,
+          4
+        ],
+        "nodes": 5,
+        "compiled_length": 8,
+        "draws": 120
+      },
+      {
+        "prefix": [
+          11,
+          10,
+          4,
+          3,
+          2,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1319
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          11,
+          4,
+          11,
+          1,
+          4,
+          0,
+          3
+        ],
+        "nodes": 9,
+        "compiled_length": 15,
+        "draws": 157
+      }
+    ],
+    "seconds": 0.03168683301191777
+  },
+  {
+    "build": 7,
+    "seed": 6643578882898810890,
+    "entries": [
+      {
+        "prefix": [
+          10,
+          3,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 133
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 63
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 63
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 120
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 54
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 16
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 61
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 47
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 10
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 14
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 5
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 63
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 17
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 43
+      },
+      {
+        "prefix": [
+          11,
+          10,
+          4,
+          1,
+          2,
+          4
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 724
+      },
+      {
+        "prefix": [
+          10,
+          11,
+          2,
+          4,
+          10,
+          0,
+          1,
+          5
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 150
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          11,
+          3,
+          4,
+          4
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 414
+      },
+      {
+        "prefix": [
+          11,
+          9,
+          2,
+          2,
+          3,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 53
+      },
+      {
+        "prefix": [
+          11,
+          5,
+          11,
+          10,
+          0,
+          0,
+          5,
+          4,
+          4
+        ],
+        "nodes": 9,
+        "compiled_length": 13,
+        "draws": 60
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          7
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 17
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 32
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 124
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 50
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 71
+      },
+      {
+        "prefix": [
+          9,
+          11,
+          0,
+          4,
+          3,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 48
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          2,
+          10,
+          3,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 470
+      }
+    ],
+    "seconds": 0.024237249977886677
+  },
+  {
+    "build": 8,
+    "seed": 2442469970214970151,
+    "entries": [
+      {
+        "prefix": [
+          10,
+          2,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 143
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 81
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 2
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 7
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 36
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 36
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 98
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 39
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 31
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 67
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 42
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 53
+      },
+      {
+        "prefix": [
+          11,
+          10,
+          1,
+          4,
+          2,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 285
+      },
+      {
+        "prefix": [
+          11,
+          9,
+          0,
+          1,
+          3,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1950
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          11,
+          1,
+          3,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 102
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          3,
+          9,
+          4,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 10
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          11,
+          2,
+          4,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1122
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          11,
+          1,
+          3,
+          4
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1776
+      },
+      {
+        "prefix": [
+          11,
+          1,
+          2,
+          9,
+          4,
+          10,
+          2,
+          1
+        ],
+        "nodes": 8,
+        "compiled_length": 13,
+        "draws": 172
+      },
+      {
+        "prefix": [
+          9,
+          11,
+          2,
+          11,
+          2,
+          0,
+          6,
+          2,
+          4
+        ],
+        "nodes": 9,
+        "compiled_length": 14,
+        "draws": 42
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 18
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 23
+      },
+      {
+        "prefix": [
+          11,
+          4,
+          4,
+          1
+        ],
+        "nodes": 4,
+        "compiled_length": 7,
+        "draws": 11
+      }
+    ],
+    "seconds": 0.039444167050533
+  },
+  {
+    "build": 9,
+    "seed": 359236884953448738,
+    "entries": [
+      {
+        "prefix": [
+          10,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 2
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 54
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 24
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 24
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 36
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 183
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 18
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 11
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 7
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 48
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 94
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 9
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 25
+      },
+      {
+        "prefix": [
+          11,
+          0,
+          9,
+          8,
+          9,
+          3,
+          3,
+          4
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 42
+      },
+      {
+        "prefix": [
+          11,
+          9,
+          2,
+          0,
+          4,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1555
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          3,
+          9,
+          5,
+          10,
+          4,
+          2
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 322
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          11,
+          1,
+          2,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 2072
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          11,
+          4,
+          0,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 13
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          11,
+          0,
+          4,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 296
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          11,
+          3,
+          1,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 485
+      },
+      {
+        "prefix": [
+          11,
+          11,
+          2,
+          10,
+          4,
+          1,
+          3,
+          1,
+          1
+        ],
+        "nodes": 9,
+        "compiled_length": 15,
+        "draws": 2588
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 42
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 9
+      },
+      {
+        "prefix": [
+          10,
+          5,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 11
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 56
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          11,
+          1,
+          7,
+          6
+        ],
+        "nodes": 4,
+        "compiled_length": 5,
+        "draws": 161
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          9,
+          3,
+          2
+        ],
+        "nodes": 5,
+        "compiled_length": 8,
+        "draws": 138
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          11,
+          9,
+          4,
+          0,
+          2,
+          1
+        ],
+        "nodes": 8,
+        "compiled_length": 13,
+        "draws": 39
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          9,
+          11,
+          6,
+          1,
+          8,
+          7
+        ],
+        "nodes": 8,
+        "compiled_length": 10,
+        "draws": 48
+      }
+    ],
+    "seconds": 0.04932112491223961
+  },
+  {
+    "build": 10,
+    "seed": 1212562144388838097,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 14
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 52
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 10
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 3
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 9
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 28
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 26
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 15
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 24
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 45
+      },
+      {
+        "prefix": [
+          10,
+          6,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 11
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          10,
+          3,
+          1,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 675
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          9,
+          0,
+          4,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 56
+      },
+      {
+        "prefix": [
+          11,
+          10,
+          1,
+          3,
+          2,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 695
+      },
+      {
+        "prefix": [
+          10,
+          10,
+          11,
+          0,
+          2,
+          3,
+          7,
+          3
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 136
+      },
+      {
+        "prefix": [
+          11,
+          9,
+          5,
+          10,
+          3,
+          3,
+          1,
+          4
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 353
+      },
+      {
+        "prefix": [
+          10,
+          11,
+          2,
+          1,
+          9,
+          8,
+          2,
+          2
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 9
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 18
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 5
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 119
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          11,
+          4,
+          4,
+          4
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1636
+      },
+      {
+        "prefix": [
+          9,
+          11,
+          4,
+          1,
+          0,
+          4
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 452
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          3,
+          10,
+          1,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 831
+      }
+    ],
+    "seconds": 0.03495029197074473
+  },
+  {
+    "build": 11,
+    "seed": 7005501884699102621,
+    "entries": [
+      {
+        "prefix": [
+          10,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 84
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 69
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 2
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 59
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 29
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 15
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 10
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 90
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          10,
+          10,
+          5,
+          1,
+          3
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 216
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 10
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 2
+      },
+      {
+        "prefix": [
+          11,
+          4,
+          3,
+          9,
+          2,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 328
+      },
+      {
+        "prefix": [
+          11,
+          9,
+          3,
+          0,
+          2,
+          9,
+          2,
+          7
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 262
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 44
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          1,
+          10,
+          1,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 510
+      },
+      {
+        "prefix": [
+          11,
+          10,
+          4,
+          0,
+          3,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 284
+      },
+      {
+        "prefix": [
+          11,
+          9,
+          0,
+          0,
+          3,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 65
+      },
+      {
+        "prefix": [
+          11,
+          10,
+          1,
+          1,
+          2,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 62
+      },
+      {
+        "prefix": [
+          11,
+          10,
+          2,
+          3,
+          0,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 683
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 7
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 3
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 5
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 11
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 10
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 26
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 9
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          10,
+          4,
+          1
+        ],
+        "nodes": 5,
+        "compiled_length": 8,
+        "draws": 194
+      },
+      {
+        "prefix": [
+          10,
+          11,
+          3,
+          3,
+          2,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 475
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          10,
+          3,
+          9,
+          2,
+          2
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 137
+      }
+    ],
+    "seconds": 0.02785795903764665
+  },
+  {
+    "build": 12,
+    "seed": 3168990901405750876,
+    "entries": [
+      {
+        "prefix": [
+          10,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 58
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 21
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 26
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 14
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 13
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 39
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 48
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 61
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 61
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 12
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 22
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 55
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 36
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 31
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 56
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          11,
+          3,
+          2,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 331
+      },
+      {
+        "prefix": [
+          9,
+          11,
+          2,
+          4,
+          2,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 755
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 10
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          11,
+          2,
+          1,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1079
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          9,
+          3,
+          1,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1331
+      },
+      {
+        "prefix": [
+          10,
+          8,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 18
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 18
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 20
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 29
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 55
+      },
+      {
+        "prefix": [
+          11,
+          11,
+          1,
+          10,
+          4,
+          7,
+          2,
+          8,
+          0
+        ],
+        "nodes": 9,
+        "compiled_length": 13,
+        "draws": 89
+      }
+    ],
+    "seconds": 0.030472750077024102
+  },
+  {
+    "build": 13,
+    "seed": 7281587972875321143,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 20
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 22
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 56
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 23
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 72
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 2
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 36
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 2
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 44
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 46
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 32
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 28
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 52
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 37
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 10
+      },
+      {
+        "prefix": [
+          11,
+          3,
+          4,
+          10,
+          2,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 474
+      },
+      {
+        "prefix": [
+          10,
+          11,
+          2,
+          3,
+          4,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 101
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          11,
+          3,
+          2,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1725
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 13
+      },
+      {
+        "prefix": [
+          11,
+          0,
+          3,
+          10,
+          0,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 128
+      },
+      {
+        "prefix": [
+          11,
+          10,
+          4,
+          3,
+          3,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 55
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          10,
+          4,
+          2,
+          10,
+          7,
+          4
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 12
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 65
+      },
+      {
+        "prefix": [
+          10,
+          8,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 8
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          9,
+          1,
+          2
+        ],
+        "nodes": 5,
+        "compiled_length": 8,
+        "draws": 16
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          11,
+          2,
+          4,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 587
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          9,
+          2,
+          1,
+          2,
+          6
+        ],
+        "nodes": 7,
+        "compiled_length": 10,
+        "draws": 7
+      },
+      {
+        "prefix": [
+          9,
+          6,
+          10,
+          5,
+          11,
+          4,
+          0,
+          1
+        ],
+        "nodes": 8,
+        "compiled_length": 11,
+        "draws": 2
+      }
+    ],
+    "seconds": 0.028003667015582323
+  },
+  {
+    "build": 14,
+    "seed": 2532345145425278543,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 41
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 24
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 22
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          7
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 51
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 14
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 66
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 5
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 28
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 14
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 28
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 134
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          11,
+          2,
+          4,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 237
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 80
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 134
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 44
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 94
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 101
+      },
+      {
+        "prefix": [
+          10,
+          11,
+          3,
+          1,
+          3,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 975
+      },
+      {
+        "prefix": [
+          11,
+          3,
+          10,
+          2,
+          2,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 518
+      },
+      {
+        "prefix": [
+          11,
+          10,
+          3,
+          2,
+          3,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 746
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          0,
+          11,
+          10,
+          1,
+          6,
+          4,
+          3
+        ],
+        "nodes": 9,
+        "compiled_length": 14,
+        "draws": 179
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 69
+      },
+      {
+        "prefix": [
+          11,
+          1,
+          4,
+          10,
+          0,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 519
+      },
+      {
+        "prefix": [
+          11,
+          10,
+          4,
+          0,
+          2,
+          4
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 827
+      }
+    ],
+    "seconds": 0.03345374995842576
+  },
+  {
+    "build": 15,
+    "seed": 6012746025799282577,
+    "entries": [
+      {
+        "prefix": [
+          10,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 28
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 42
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 137
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          6
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 5
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 14
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 47
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 40
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 20
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 54
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 17
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 101
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 58
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          11,
+          1,
+          3,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 56
+      },
+      {
+        "prefix": [
+          11,
+          4,
+          4,
+          10,
+          3,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 722
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          10,
+          3,
+          1,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 315
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 3
+      },
+      {
+        "prefix": [
+          10,
+          11,
+          2,
+          3,
+          0,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 225
+      },
+      {
+        "prefix": [
+          9,
+          11,
+          3,
+          2,
+          0,
+          4
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 16
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          10,
+          11,
+          0,
+          2,
+          0,
+          2
+        ],
+        "nodes": 8,
+        "compiled_length": 13,
+        "draws": 437
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 33
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 60
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 49
+      },
+      {
+        "prefix": [
+          11,
+          1,
+          4,
+          9,
+          0,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 487
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          10,
+          2,
+          4,
+          4
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 487
+      }
+    ],
+    "seconds": 0.02658687497023493
+  },
+  {
+    "build": 16,
+    "seed": 1560963883061479750,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          2,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 46
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 43
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 63
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 122
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 34
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 31
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 15
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 45
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 12
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 107
+      },
+      {
+        "prefix": [
+          10,
+          8,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 5
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 114
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 2
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          8
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 12
+      },
+      {
+        "prefix": [
+          9,
+          7,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 8
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          11,
+          10,
+          3,
+          3,
+          0,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 615
+      },
+      {
+        "prefix": [
+          11,
+          10,
+          2,
+          4,
+          2,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 596
+      },
+      {
+        "prefix": [
+          9,
+          10,
+          4,
+          11,
+          3,
+          3,
+          3,
+          8
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 163
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 21
+      },
+      {
+        "prefix": [
+          10,
+          10,
+          3,
+          5,
+          2
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 21
+      },
+      {
+        "prefix": [
+          11,
+          3,
+          2,
+          9,
+          0,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 360
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          11,
+          0,
+          4,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 383
+      },
+      {
+        "prefix": [
+          11,
+          5,
+          0,
+          11,
+          10,
+          4,
+          7,
+          0,
+          3
+        ],
+        "nodes": 9,
+        "compiled_length": 13,
+        "draws": 118
+      },
+      {
+        "prefix": [
+          10,
+          11,
+          11,
+          3,
+          6,
+          2,
+          4,
+          1,
+          0
+        ],
+        "nodes": 9,
+        "compiled_length": 14,
+        "draws": 132
+      }
+    ],
+    "seconds": 0.025071667041629553
+  },
+  {
+    "build": 17,
+    "seed": 2840387199005650949,
+    "entries": [
+      {
+        "prefix": [
+          10,
+          0,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 24
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 85
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 2
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 11
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 52
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 7
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 12
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 3
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 13
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 17
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 49
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 23
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 55
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 9
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 44
+      },
+      {
+        "prefix": [
+          10,
+          10,
+          5,
+          7,
+          0
+        ],
+        "nodes": 5,
+        "compiled_length": 6,
+        "draws": 84
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          1,
+          5,
+          4
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 291
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 10
+      },
+      {
+        "prefix": [
+          11,
+          10,
+          2,
+          0,
+          3,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 732
+      },
+      {
+        "prefix": [
+          10,
+          11,
+          0,
+          1,
+          3,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 2197
+      },
+      {
+        "prefix": [
+          11,
+          1,
+          1,
+          9,
+          1,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 420
+      },
+      {
+        "prefix": [
+          11,
+          3,
+          10,
+          2,
+          1,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 2699
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          11,
+          3,
+          3,
+          3,
+          4,
+          3
+        ],
+        "nodes": 8,
+        "compiled_length": 13,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 50
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          6
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 14
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 37
+      },
+      {
+        "prefix": [
+          10,
+          8,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 32
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          10,
+          3,
+          1
+        ],
+        "nodes": 5,
+        "compiled_length": 8,
+        "draws": 437
+      },
+      {
+        "prefix": [
+          11,
+          4,
+          2,
+          10,
+          9,
+          8,
+          3,
+          4
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 2
+      }
+    ],
+    "seconds": 0.04479066701605916
+  },
+  {
+    "build": 18,
+    "seed": 4717370402375080855,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          1,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 104
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 43
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 35
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 104
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 29
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 66
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 10
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 22
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 47
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 84
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 9
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          9,
+          7,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 12
+      },
+      {
+        "prefix": [
+          11,
+          0,
+          9,
+          0,
+          2,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1887
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          11,
+          0,
+          3,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 175
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          11,
+          4,
+          1,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 876
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 196
+      },
+      {
+        "prefix": [
+          11,
+          0,
+          3,
+          10,
+          0,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 303
+      },
+      {
+        "prefix": [
+          11,
+          10,
+          3,
+          0,
+          1,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 653
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          1,
+          11,
+          8,
+          0,
+          0,
+          3
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 277
+      },
+      {
+        "prefix": [
+          9,
+          11,
+          10,
+          8,
+          4,
+          2,
+          3,
+          0
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 198
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 3
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 172
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 58
+      },
+      {
+        "prefix": [
+          11,
+          6,
+          4,
+          1
+        ],
+        "nodes": 4,
+        "compiled_length": 6,
+        "draws": 12
+      },
+      {
+        "prefix": [
+          9,
+          9,
+          3,
+          2,
+          4
+        ],
+        "nodes": 5,
+        "compiled_length": 8,
+        "draws": 8
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          11,
+          0,
+          2,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 382
+      }
+    ],
+    "seconds": 0.03682183404453099
+  },
+  {
+    "build": 19,
+    "seed": 6128440472397433422,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          2,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 3
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 195
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 25
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 15
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 37
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 59
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 11
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 2
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 35
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 49
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 30
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 17
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 97
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          8
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 8
+      },
+      {
+        "prefix": [
+          10,
+          6,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 106
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          0,
+          9,
+          3,
+          4
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 639
+      },
+      {
+        "prefix": [
+          9,
+          11,
+          3,
+          0,
+          3,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1059
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          10,
+          1,
+          4,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 616
+      },
+      {
+        "prefix": [
+          11,
+          9,
+          3,
+          2,
+          1,
+          4
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 397
+      },
+      {
+        "prefix": [
+          11,
+          10,
+          2,
+          4,
+          0,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 611
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 48
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          9,
+          0,
+          2
+        ],
+        "nodes": 5,
+        "compiled_length": 8,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          9,
+          9,
+          6,
+          0,
+          10,
+          1,
+          1
+        ],
+        "nodes": 9,
+        "compiled_length": 13,
+        "draws": 95
+      }
+    ],
+    "seconds": 0.029379499959759414
+  },
+  {
+    "build": 20,
+    "seed": 2925079504954996330,
+    "entries": [
+      {
+        "prefix": [
+          10,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 39
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 33
+      },
+      {
+        "prefix": [
+          10,
+          7,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 5
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 16
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 60
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 27
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 5
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 28
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 8
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 36
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 30
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 33
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 81
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 31
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 9
+      },
+      {
+        "prefix": [
+          10,
+          11,
+          3,
+          3,
+          3,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 909
+      },
+      {
+        "prefix": [
+          9,
+          11,
+          10,
+          3,
+          1,
+          3,
+          5,
+          0
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          9,
+          10,
+          11,
+          8,
+          3,
+          4,
+          4,
+          0
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 12
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 22
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 81
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 13
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 32
+      },
+      {
+        "prefix": [
+          9,
+          11,
+          1,
+          3,
+          0,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 160
+      },
+      {
+        "prefix": [
+          9,
+          11,
+          1,
+          0,
+          6,
+          10,
+          2,
+          0
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 33
+      },
+      {
+        "prefix": [
+          11,
+          1,
+          6,
+          9,
+          9,
+          2,
+          1,
+          0
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 91
+      },
+      {
+        "prefix": [
+          9,
+          10,
+          11,
+          3,
+          6,
+          4,
+          0,
+          3
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 90
+      },
+      {
+        "prefix": [
+          11,
+          8,
+          1,
+          0
+        ],
+        "nodes": 4,
+        "compiled_length": 6,
+        "draws": 14
+      },
+      {
+        "prefix": [
+          11,
+          3,
+          1,
+          9,
+          5,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 9,
+        "draws": 24
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          11,
+          0,
+          0,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 2167
+      },
+      {
+        "prefix": [
+          10,
+          11,
+          1,
+          4,
+          0,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1891
+      }
+    ],
+    "seconds": 0.038419541087932885
+  },
+  {
+    "build": 21,
+    "seed": 7218041070402758125,
+    "entries": [
+      {
+        "prefix": [
+          10,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 5
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 15
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 47
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 45
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 8
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 91
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 12
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 7
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 75
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 9
+      },
+      {
+        "prefix": [
+          9,
+          11,
+          4,
+          0,
+          4,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 961
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 83
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 11
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 75
+      },
+      {
+        "prefix": [
+          9,
+          11,
+          4,
+          1,
+          1,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 416
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          11,
+          1,
+          0,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 5
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          10,
+          2,
+          11,
+          1,
+          0,
+          3
+        ],
+        "nodes": 8,
+        "compiled_length": 13,
+        "draws": 328
+      },
+      {
+        "prefix": [
+          11,
+          4,
+          9,
+          11,
+          3,
+          0,
+          1,
+          1,
+          1
+        ],
+        "nodes": 9,
+        "compiled_length": 15,
+        "draws": 9901
+      },
+      {
+        "prefix": [
+          10,
+          5,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 62
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          6
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 22
+      },
+      {
+        "prefix": [
+          10,
+          10,
+          4,
+          6,
+          2
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 30
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          10,
+          2,
+          1
+        ],
+        "nodes": 5,
+        "compiled_length": 8,
+        "draws": 123
+      },
+      {
+        "prefix": [
+          11,
+          10,
+          0,
+          4,
+          1,
+          4
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 299
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          11,
+          1,
+          3,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 296
+      },
+      {
+        "prefix": [
+          9,
+          9,
+          10,
+          2,
+          3,
+          9,
+          4,
+          3,
+          0
+        ],
+        "nodes": 9,
+        "compiled_length": 14,
+        "draws": 69
+      }
+    ],
+    "seconds": 0.07009133405517787
+  },
+  {
+    "build": 22,
+    "seed": 7056351445334049436,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          2,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 9
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 31
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 20
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 19
+      },
+      {
+        "prefix": [
+          11,
+          5,
+          0,
+          0
+        ],
+        "nodes": 4,
+        "compiled_length": 6,
+        "draws": 208
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 47
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 9
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 151
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 7
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 31
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 43
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 12
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 3
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 20
+      },
+      {
+        "prefix": [
+          10,
+          11,
+          0,
+          2,
+          4,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 95
+      },
+      {
+        "prefix": [
+          11,
+          4,
+          1,
+          10,
+          2,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 662
+      },
+      {
+        "prefix": [
+          10,
+          11,
+          3,
+          3,
+          3,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 98
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 72
+      },
+      {
+        "prefix": [
+          11,
+          3,
+          2,
+          10,
+          2,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 411
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          6
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 14
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 34
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 153
+      },
+      {
+        "prefix": [
+          10,
+          7,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 14
+      },
+      {
+        "prefix": [
+          11,
+          9,
+          1,
+          3,
+          1,
+          3
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1702
+      },
+      {
+        "prefix": [
+          11,
+          1,
+          0,
+          9,
+          3,
+          0
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1762
+      },
+      {
+        "prefix": [
+          9,
+          10,
+          11,
+          6,
+          2,
+          2,
+          4,
+          3
+        ],
+        "nodes": 8,
+        "compiled_length": 12,
+        "draws": 87
+      }
+    ],
+    "seconds": 0.036988125066272914
+  },
+  {
+    "build": 23,
+    "seed": 2097120803376200637,
+    "entries": [
+      {
+        "prefix": [
+          10,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 109
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 2
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 80
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 18
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 16
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 14
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 34
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 19
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 19
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 51
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 32
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 79
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 92
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 11
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 2
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 78
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          11,
+          2,
+          4,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 458
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          11,
+          3,
+          4,
+          2
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 2253
+      },
+      {
+        "prefix": [
+          11,
+          3,
+          4,
+          9,
+          3,
+          4
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1314
+      },
+      {
+        "prefix": [
+          11,
+          4,
+          2,
+          11,
+          2,
+          10,
+          2,
+          8,
+          2
+        ],
+        "nodes": 9,
+        "compiled_length": 14,
+        "draws": 74
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          11,
+          1,
+          11,
+          1,
+          0,
+          2,
+          1
+        ],
+        "nodes": 9,
+        "compiled_length": 15,
+        "draws": 27
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 5
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 51
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 21
+      },
+      {
+        "prefix": [
+          10,
+          7,
+          10,
+          2,
+          3
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 131
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          2,
+          9,
+          3,
+          4
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 1048
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          11,
+          2,
+          4,
+          4
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 724
+      },
+      {
+        "prefix": [
+          11,
+          3,
+          4,
+          10,
+          0,
+          1
+        ],
+        "nodes": 6,
+        "compiled_length": 10,
+        "draws": 331
+      },
+      {
+        "prefix": [
+          11,
+          1,
+          11,
+          3,
+          8,
+          9,
+          1,
+          3,
+          6
+        ],
+        "nodes": 9,
+        "compiled_length": 13,
+        "draws": 81
+      }
+    ],
+    "seconds": 0.04315462498925626
+  }
+]

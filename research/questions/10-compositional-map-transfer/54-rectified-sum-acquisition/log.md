@@ -40,3 +40,12 @@
   the source, so neither more seeds nor protected scoring of this recipe on this source design could change the
   decision; only a different source design or a different acquisition method could, and both are strategy's call
   (strategy 1315 ruled out silently enlarging this candidate). Root 10 is at 45/45; next step is a strategy review.
+
+- 2026-10-11 (steward, 1427): wording corrections from [critique 1427](../../../runs/2026-10-11-1427/critique.md)
+  digest check, notes 5–6; the 1315 entry above stays as written and is corrected here. (5) "saved nothing" / "no
+  saving" overstate: R-all / R-tree 1.03× [0.96, 1.10] means no saving was resolved in capped mean evaluations; a
+  saving above about 4% is excluded at this descriptive resolution, a smaller one is not. (6) "neither more seeds
+  nor protected scoring … could change the decision; only a different source design or a different acquisition
+  method could" claims more than a finite probe shows. Read instead: the observed coverage and capped-cost results
+  do not justify funding more seeds or protected scoring of this candidate under the current allocation. The park
+  decision and its reopen condition are unchanged. Question summary and root 10's summary updated.
