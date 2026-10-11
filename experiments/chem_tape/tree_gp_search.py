@@ -142,7 +142,7 @@ def from_postfix(tokens):
     return Tree(stack[0])
 
 
-def search(job, *, force_cap=False, donor_library=None):
+def search(job, *, force_cap=False, donor_library=None, donor_observer=None):
     cell, seed, cap, pop_size, inputs, crossover = job
     if cap < pop_size or cap % pop_size or pop_size < 3 or crossover not in MIXES:
         raise ValueError("invalid GP search budget/mix")
@@ -234,6 +234,8 @@ def search(job, *, force_cap=False, donor_library=None):
                     stats["library_draws"] += int(library_draw)
                     stats["library_insertions"] += int(library_draw and not rejected)
                     stats["rejected_library"] += int(library_draw and rejected)
+                    if library_draw and donor_observer is not None:
+                        donor_observer(donor, rejected)
                     stats["ordinary_donors"] += int(not library_draw)
                     stats["empty_fallbacks"] += int(not donor_library)
             stats[kind] += 1

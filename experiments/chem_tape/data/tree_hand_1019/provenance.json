@@ -1,0 +1,12 @@
+{
+  "origin": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-11/2026-10-11-0833-prepare",
+  "artifacts": {
+    "acquisition.jsonl": "b8d832e23dd971ce52c0d67415b3682ca7f168ceec0434f949d0ed6e54cfecb3",
+    "libraries.json": "a3f83d0e7743f2b9e2a9cdbb5eaa818899e4ca4dc52dc985a7a9ea50ac7f0715",
+    "preparation.json": "abd465073e18542f6d063ebd5d8eb95a7692062b2885d3524019f1aa13af5d75",
+    "schedules.json": "6b2b9606656ff4712d70da69f4cd7e772e49f12b2290bf26813d7ed63d805d41",
+    "schedule_audit.json": "699547867e44c9a54ed2a0daff0b32f9baab4b88df442fff3fe65e05ca1a0d50",
+    "banks.json": "ea35042917cbffaca5248af82cec58ac3196b46c3384f123bc9005a0e2f9d014",
+    "method_freeze.json": "b1f378590ac77e9988d79ebbaf2ad9e075584d5d78e0be4292b07a152836ad54"
+  }
+}
