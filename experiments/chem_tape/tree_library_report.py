@@ -35,24 +35,28 @@ def classify(b, c, d):
     return "unresolved_return_to_strategy"
 
 
-def grid(rows, cells, metric):
+def grid(rows, cells, metric, repeats=8, expected_cells=8):
     by = {(r["build"], r["cell"], r["repeat"], r["arm"]): r for r in rows}
     expected = {
-        (b, c, r, a) for b in range(24) for c in cells for r in range(8) for a in ARMS
+        (b, c, r, a)
+        for b in range(24)
+        for c in cells
+        for r in range(repeats)
+        for a in ARMS
     }
-    if len(cells) != 8 or len(by) != len(rows) or set(by) != expected:
+    if len(cells) != expected_cells or len(by) != len(rows) or set(by) != expected:
         raise ValueError(
-            "requires complete 24-acquisition x 8-cell x 8-repeat x 3-arm grid"
+            f"requires complete 24-acquisition x {expected_cells}-cell x {repeats}-repeat x 3-arm grid"
         )
     for b in range(24):
         for c in cells:
-            for r in range(8):
+            for r in range(repeats):
                 if len({tuple(by[b, c, r, a]["seeds"]) for a in ARMS}) != 1:
                     raise ValueError("attempt seed pairing mismatch")
     return {
         a: np.array(
             [
-                [[float(by[b, c, r, a][metric]) for r in range(8)] for c in cells]
+                [[float(by[b, c, r, a][metric]) for r in range(repeats)] for c in cells]
                 for b in range(24)
             ]
         )
@@ -70,10 +74,26 @@ def coverage(bank, targets):
     return {c: pair(c) in covered for c in targets}
 
 
-def summarize(rows, libraries, bank, targets):
-    selected = np.random.default_rng(SEED).integers(24, size=(DRAWS, 24))
-    costs = {m: grid(rows, targets, m) for m in ("evaluations", "worker_seconds")}
-    solves = grid(rows, targets, "solved")
+def summarize(
+    rows,
+    libraries,
+    bank,
+    targets,
+    *,
+    repeats=8,
+    expected_cells=8,
+    seed=SEED,
+    horizons=(1, 16, 64, 160, 320, 1024, 4096),
+    coverage_flags=None,
+    groups=None,
+    decision_fn=classify,
+):
+    selected = np.random.default_rng(seed).integers(24, size=(DRAWS, 24))
+    costs = {
+        m: grid(rows, targets, m, repeats, expected_cells)
+        for m in ("evaluations", "worker_seconds")
+    }
+    solves = grid(rows, targets, "solved", repeats, expected_cells)
     blocks = {
         m: {a: v.mean(axis=(1, 2)) for a, v in arrays.items()}
         for m, arrays in costs.items()
@@ -118,7 +138,9 @@ def summarize(rows, libraries, bank, targets):
             routing_threshold=threshold,
             conditional_total_acquisitions=needed,
             additional_acquisitions=extra,
-            additional_jobs=None if extra is None else extra * (32 + 8 * 8 * 3),
+            additional_jobs=None
+            if extra is None
+            else extra * (32 + len(targets) * repeats * 3),
             additional_worker_seconds=None
             if extra is None
             else float(extra * (total_per_build + acquisition_seconds).mean()),
@@ -179,10 +201,10 @@ def summarize(rows, libraries, bank, targets):
                             (a, acq + n * v[a]),
                         ]
                     }
-                    for n in (1, 16, 64, 160, 320, 1024, 4096)
+                    for n in horizons
                 },
             )
-    flags = coverage(bank, targets)
+    flags = coverage(bank, targets) if coverage_flags is None else coverage_flags
     per_cell = {}
     for ci, cell in enumerate(targets):
         per_cell[cell] = dict(source_pair_split_covered=flags[cell], arms={}, ratios={})
@@ -202,19 +224,21 @@ def summarize(rows, libraries, bank, targets):
                 num[selected].mean(axis=1) / den[selected].mean(axis=1),
             )
     split = {}
-    for covered in (True, False):
-        indices = [i for i, c in enumerate(targets) if flags[c] == covered]
-        split["covered" if covered else "uncovered"] = dict(
-            cells=[targets[i] for i in indices], ratios={}
-        )
+    if groups is None:
+        groups = {
+            "covered" if covered else "uncovered": [
+                i for i, c in enumerate(targets) if flags[c] == covered
+            ]
+            for covered in (True, False)
+        }
+    for group, indices in groups.items():
+        split[group] = dict(cells=[targets[i] for i in indices], ratios={})
         for denom in ("R-tree", "R-size"):
             num = costs["evaluations"]["R-lib"][:, indices, :].mean(axis=(1, 2))
             den = costs["evaluations"][denom][:, indices, :].mean(axis=(1, 2))
-            split["covered" if covered else "uncovered"]["ratios"]["R-lib/" + denom] = (
-                estimate(
-                    num.mean() / den.mean(),
-                    num[selected].mean(axis=1) / den[selected].mean(axis=1),
-                )
+            split[group]["ratios"]["R-lib/" + denom] = estimate(
+                num.mean() / den.mean(),
+                num[selected].mean(axis=1) / den[selected].mean(axis=1),
             )
     diagnostics = {}
     for a in ARMS:
@@ -247,7 +271,7 @@ def summarize(rows, libraries, bank, targets):
         },
         solve_fractions={a: float(v.mean()) for a, v in solve_blocks.items()},
         contrasts=contrasts,
-        decision=classify(
+        decision=decision_fn(
             b["evaluations"]["interval95"],
             c["evaluations"]["interval95"],
             b["solve_fraction_difference"]["interval95"],
