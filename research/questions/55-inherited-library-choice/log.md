@@ -68,3 +68,13 @@
     "every trajectory absorbed rapidly".
   The parking decision is unchanged: its reasons (allele movement alone does not change a decision; budget spent;
   usefulness needs a redesigned instrument) do not depend on these wordings.
+
+
+- 2026-10-11 (steward, digest compression 1628): wording only, no belief changed. The digest's root-55 section
+  now ends "One probe; observations only, in its [log](…). No beliefs yet." Former text:
+
+  ```
+  of an already useful donor law (R-all on the order cells), and does the result help fresh search? One
+  probe so far; its observations are in the [log](questions/55-inherited-library-choice/log.md), not here.
+  No beliefs yet.
+  ```

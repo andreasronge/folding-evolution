@@ -3650,3 +3650,101 @@ Decision: close 56 and return to strategy (`next: strategy`) because the pre-sta
 held-out saving" branch, which both strategy 1530 and the proposal route to strategy; root 10's 46-slot budget is
 spent and no later experiment was allocated. The [decision](../../runs/2026-10-11-1530/decision.md) prices the
 candidates.
+
+Strategy 1628 raised the budget 46 → 47 for one mechanism test, recorded as new sub-question
+[57](57-order-helper-arrangement/question.md). The 24 saved R-all libraries (rebuilt, hash-checked) with only their 177
+helper-valued entries permuted within each entry's arity/width pools until no subtree computed a helper (R-hx; four
+realizations per build; 613/708 replaced slots projection-valued), against intact R-all and R-tree on the six
+development cells of `x4-order-v1`; 24 builds × 6 cells × 8 repeats, 3,456/3,456 seed-paired jobs. Commit `46e05cb`,
+code review pass, queue 26 min of 70. Primary, ratio of pooled capped arithmetic means with whole-build bootstrap:
+**R-hx / R-all 2.35 [2.07, 2.66]** → pre-set branch "material loss"; R-hx / R-tree 0.90 [0.83, 0.98]; R-all / R-tree
+0.38 [0.34, 0.43]; Q > 1 in 24/24 builds; coverage gradient gone under R-hx. Details in
+[57's log](57-order-helper-arrangement/log.md) and the [analysis](../../runs/2026-10-11-1628/analysis.md). Full
+experiment, so it enters the digest as a belief, scoped to the development cells and this replacement law.
+
+Digest change: new bullet after the order bullet (helper rearrangement removes most of the saving); the order bullet
+is tightened, its "helpers' causal share is untested" clause removed, and its capped-library clause now says "on the
+development cells" (critique 1628 note 7). The Overall paragraph moves the order helpers' share from "not shown" to
+shown. Former order bullet (links relative to `research/`):
+
+```
+- **On order-helper cells, an uncapped behaviour-keyed library cut evaluations about 2.5×, on the
+  development cells and, frozen, on the bank's held-out cells; under the 16-entry cap the same corpora
+  cost more than no library.** `x4-order-v1` (`lo(a,b)+hi(c,d)` from GT/IF_GT), 24 acquisitions keeping
+  every output class recurring in ≥ 2 source cells (25–37 entries). Six development cells: R-all/R-tree
+  0.40× [0.32, 0.50], all jobs solved; capped R-S/R-tree 1.23× [1.07, 1.41]. The same libraries,
+  unrefitted, on the 24 never-searched protected cells: 0.37× [0.33, 0.42] (pre-stated), 1,152/1,152
+  solved (R-tree 1,146), 24/24 builds, all cells by point; repays after about 4 searches. A supplied order
+  prior is still 6.9× [5.7, 8.6] cheaper. Same bank and twelve helpers on both rosters, so not fresh-bank
+  transfer; size, content and trivia share changed together, so helpers' causal share is untested.
+```
+
+Wording fix (critique 1628 note 5): this question's summary of 56 said "no reliability loss"; it now says "no loss
+observed (registered failure-count guard passed)", since 1,152/1,152 vs 1,146/1,152 is a finite sample.
+
+Decision: close 57 and return to strategy (`next: strategy`) because the pre-stated rule reached its "material
+loss" branch, which strategy 1628, the plan and the proposal all route to strategy; root 10's 47-slot budget is spent.
+The [decision](../../runs/2026-10-11-1628/decision.md) prices the candidates.
+
+
+## 2026-10-11 — digest compression (steward task 2026-10-11-1628): former digest text moved here
+
+The digest was 3056 words, over its limit; it is now about 2,980 (this root's section about 2,080 → 2,020). No
+belief changed. Removed or merged (the numbers stand and remain in the question files):
+
+- 11: exact-solver supply up 11–82× for 1.9–3.5× speed (the bullet keeps "G also emits far more exact solvers").
+- 13: "(lower bounds ≥ 1.60)" on G's two withheld cells; 16: "(a 1.1× preference not excluded)", which the kept
+  intervals 1.02× [0.84, 1.25] and 0.96× [0.79, 1.15] already show.
+- 13/16 and 17 merged into one bullet ("… mostly generically, through both start and decoder"); 17's numbers kept.
+- 33: E/F 0.843× [0.795, 0.892] (the bullet keeps E/W_E).
+- 42: "(unresolved against 1.5×)" on DG over TS library 1.95× [1.43, 2.66]; "(equality not shown)" after the
+  unresolved TS-cell library difference; "which component is larger is a point estimate".
+- 47 and 48 merged into one bullet; all numbers kept; "Against size-matched random donors unresolved" now reads as
+  the bare ratio R-size/R-unif 1.10× [0.86, 1.37] followed by "so the shapes' contribution is unresolved".
+- 53/56: "the 24" → "24" protected cells, "still 6.9× … cheaper" → "6.9× … cheaper still".
+- The Overall paragraph was only re-wrapped.
+
+Former text of the changed blocks (links relative to `research/`):
+
+```
+- **Contextual grammars beat their own token marginals on all three banks**: G/G-marg 1.5–20× (11,
+  12); G4/G4-marg 4.4× [3.4, 5.6] BE, 3.3× [2.7, 4.0] PA (15). Not a mechanism: G also emits far more
+  exact solvers (11–82×, for 1.9–3.5× speed) and changes more tokens per mutation (11).
+
+- **Learned token weights transfer about 2–2.5× to withheld cells, mostly generically.** G (PA):
+  2.06–2.25× on two withheld cells (lower bounds ≥ 1.60), unresolved on linear (1.08× [0.72, 1.57])
+  ([13](questions/10-compositional-map-transfer/13-post-addition-map-learning/question.md)). G4: 2.0×
+  BE, 2.5–2.6× PA withheld; matched over mismatched withheld 1.02× [0.84, 1.25] BE, 0.96× [0.79,
+  1.15] PA (a 1.1× preference not excluded)
+  ([16](questions/10-compositional-map-transfer/16-crossed-family-adaptation/question.md)).
+- **The frozen maps help through both the starting programs and the search decoder,
+  sub-additively**: given the other, decoder 1.39× / 1.28× and start 1.30× / 1.33× (withheld /
+  training), both 2.29× / 2.44×; not direct seeding. ([17](questions/10-compositional-map-transfer/17-decoder-initialization-variation/question.md))
+
+- **The same extractor on pre-solve parents (E) gave no worthwhile gain over chain blocks on
+  then-addition**: E/W_E 0.981× [0.911, 1.057] (above about 1.06× excluded); E/F 0.843× [0.795, 0.892].
+  One source selection, one extractor.
+
+- **Both components carry that DG advantage.** On DG cells without libraries the DG table is 3.26×
+  [2.43, 4.30] cheaper than the TS table; on the TS table the DG library beats no library 3.05×
+  [2.32, 4.07] and the TS library 1.95× [1.43, 2.66] (unresolved against 1.5×) but stays 1.55×
+  [1.15, 2.09] behind the native pair. No library shown to need its own table; no library difference
+  resolved on TS cells (equality not shown). One family pair; content versus size not separated;
+  which component is larger is a point estimate.
+
+- **On B/C, label-rearranged libraries kept that gain at the registered resolution; A's extra gain
+  needs the learned arrangement.** Labels permuted within size/arity/width pools: R-perm/R-lib B/C
+  1.03× [0.85, 1.23] (an intact advantage up to about 20% not excluded), A 5.1× [3.7, 7.1]. The
+  permutation removed nearly all learned predicates and tripled B/C pair supply.
+  ([47](questions/10-compositional-map-transfer/47-tree-donor-arrangement/question.md), [run 0524](runs/2026-10-11-0524/analysis.md))
+- **Uniform labels on the same shapes lost most of the B/C gain.** R-unif/R-perm 2.07× [1.68, 2.61];
+  R-unif/R-tree 0.755× [0.645, 0.884] (about 40% of the saving kept). Against
+  size-matched random donors unresolved (R-size/R-unif 1.10× [0.86, 1.37]), so the shape contribution
+  is unresolved (up to about 30% not excluded). Label content changed together; one uniform law.
+  ([48](questions/10-compositional-map-transfer/48-tree-donor-label-supply/question.md), [run 0652](runs/2026-10-11-0652/analysis.md))
+
+  cells: R-all/R-tree 0.40× [0.32, 0.50]; capped R-S/R-tree 1.23× [1.07, 1.41]. Unrefitted on the 24
+  never-searched protected cells: 0.37× [0.33, 0.42], 1,152/1,152 solved (R-tree 1,146); repays after
+  about 4 searches. A supplied order prior is still 6.9× [5.7, 8.6] cheaper. Same bank and twelve helpers
+  on both rosters: not fresh-bank transfer.
+```

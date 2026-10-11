@@ -713,3 +713,33 @@ those question files.
 The digest was compressed under its word limit; no belief changed. In the fitted-`op_weights` bullet, "more
 exact solvers than uniform, against 1.0× / 1.3× for the other family's fit" now reads "more exact solvers than
 uniform (other family's fit 1.0× / 1.3×)". Nothing else in this root's section changed.
+
+
+## 2026-10-11 — digest compression (steward task 2026-10-11-1628): wording moved here
+
+The digest was 3056 words, over its limit; it is now about 2,980. No belief changed. Removed from this root's
+section (the numbers stand; they are secondary contrasts):
+
+- Fitted `op_weights` bullet: sampling lift for the other family's fit, 1.0× / 1.3× more exact solvers than
+  uniform, and "mainly via the aggregator weight" ([run 1558](../../runs/2026-10-05-1558/analysis.md)). The bullet
+  now leads with the evolution result and keeps the fitted sampling lift (4.9× / 8.9×; one seed, one fit) as
+  "does not predict speed".
+- Shortcut sentence: "is used as a last step but" (sum>2 solutions use the exact max>2 shortcut as a last step;
+  barring it still leaves 100/100 solving).
+
+Former text of the two changed bullets (links relative to `research/`):
+
+```
+- **A fitted `op_weights` vector transfers to a held-out member, about 4× faster than uniform in
+  evolution.** Sampling: 4.9× (sum>2), 8.9× (max>2) more exact solvers than uniform (other family's fit
+  1.0× / 1.3×), mainly via the aggregator weight (one seed, one fit; [run 1558](runs/2026-10-05-1558/analysis.md)).
+  Evolution: 4.33× / 3.58× (lower bounds 2.6×, 1.9×); a hand-set INPUT/GT/aggregator scaffold is
+  within the registered 0.5–2× margin of it (not equality); family specificity unresolved (1.66× /
+  1.80× over the other family's fit, against 2×); sampling lift does not predict speed ([run 1705](runs/2026-10-05-1705/analysis.md)).
+- **Most of that gain is generic; on max>2 INPUT/GT alone reproduces it within the tested margin.**
+  Pre-registered, 250 pairs: the other family's vector 2.73× (sum>2), 2.02× (max>2) over uniform
+  (lower bounds 2.12, 1.45); INPUT/GT versus the full vector on max>2 0.90× [0.71, 1.08] (1.5× margin);
+  sum>2 unresolved. Initialization and mutation coupled; no mechanism named ([run 1814](runs/2026-10-05-1814/analysis.md)).
+  On sum>2 the exact max>2 shortcut is used as a last step but not needed (pilot: barred, 100/100
+  still solve; its share of the gain unknown; [run 1957](runs/2026-10-05-1957/analysis.md)).
+```
