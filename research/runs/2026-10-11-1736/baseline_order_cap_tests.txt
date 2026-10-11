@@ -1,0 +1,66 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+__________ test_frozen_bank_schedules_seed_audit_and_protected_guard ___________
+
+    def test_frozen_bank_schedules_seed_audit_and_protected_guard():
+        bank = run.load_bank()
+        schedule = run.schedules(bank)
+        assert len(schedule['source']) == 1152 and len(schedule['score']) == 2304
+        assert run.seed_audit(bank)['admitted']
+>       frozen = run.freeze(bank)
+                 ^^^^^^^^^^^^^^^^
+
+tests/test_order_cap.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+bank = {'admission': 'no exact alias through nine executable tokens; all old and admitted pairwise agreements <80%', 'admitte...': [[-2, -2, -2, -2], [-2, -2, -2, -1], [-2, -2, -2, 0], [-2, -2, -2, 1], [-2, -2, -2, 2], [-2, -2, -1, -2], ...], ...}
+
+    def freeze(bank):
+        raw = (DATA / 'pilot_freeze.json').read_bytes()
+        if hashlib.sha256(raw).hexdigest() != PILOT_SHA:
+            raise ValueError('pilot method freeze changed')
+        pilot = json.loads(raw)
+        current = base.methods()
+        # Only the cap option changes an existing file; the new driver/report is separate.
+        for path, expected in pilot['methods'].items():
+            if path not in ('experiments/chem_tape/order_library.py', 'rust_extension') and current.get(path) != expected:
+>               raise ValueError('unchanged 1129 method differs: ' + path)
+E               ValueError: unchanged 1129 method differs: experiments/chem_tape/tree_gp_search.py
+
+experiments/chem_tape/order_cap_run.py:109: ValueError
+_____________ test_preparation_roundtrip_and_tampering_fail_closed _____________
+
+tmp_path = PosixPath('/private/var/folders/dm/6qlgzkw133s_wvklhgxfbwh80000gn/T/pytest-of-andreas/pytest-254/test_preparation_roundtrip_and0')
+
+    def test_preparation_roundtrip_and_tampering_fail_closed(tmp_path):
+        import json
+        from experiments.chem_tape.comparison_gate_bank import digest
+        from experiments.chem_tape.composition_run import write_json
+        from experiments.chem_tape.tree_gp_search import Tree
+    
+        bank = run.load_bank()
+>       frozen, schedule, audit = run.freeze(bank), run.schedules(bank, True), run.seed_audit(bank)
+                                  ^^^^^^^^^^^^^^^^
+
+tests/test_order_cap.py:113: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+bank = {'admission': 'no exact alias through nine executable tokens; all old and admitted pairwise agreements <80%', 'admitte...': [[-2, -2, -2, -2], [-2, -2, -2, -1], [-2, -2, -2, 0], [-2, -2, -2, 1], [-2, -2, -2, 2], [-2, -2, -1, -2], ...], ...}
+
+    def freeze(bank):
+        raw = (DATA / 'pilot_freeze.json').read_bytes()
+        if hashlib.sha256(raw).hexdigest() != PILOT_SHA:
+            raise ValueError('pilot method freeze changed')
+        pilot = json.loads(raw)
+        current = base.methods()
+        # Only the cap option changes an existing file; the new driver/report is separate.
+        for path, expected in pilot['methods'].items():
+            if path not in ('experiments/chem_tape/order_library.py', 'rust_extension') and current.get(path) != expected:
+>               raise ValueError('unchanged 1129 method differs: ' + path)
+E               ValueError: unchanged 1129 method differs: experiments/chem_tape/tree_gp_search.py
+
+experiments/chem_tape/order_cap_run.py:109: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_order_cap.py::test_frozen_bank_schedules_seed_audit_and_protected_guard
+FAILED tests/test_order_cap.py::test_preparation_roundtrip_and_tampering_fail_closed
+2 failed in 1.49s

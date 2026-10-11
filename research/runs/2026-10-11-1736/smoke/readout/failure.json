@@ -1,0 +1,6 @@
+{
+  "admitted": false,
+  "phase": "readout",
+  "smoke": true,
+  "error": "bank/library/method/schedule changed since exposure"
+}

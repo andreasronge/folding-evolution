@@ -41,3 +41,14 @@
   beat other nontrivial computations, which helpers or how many carry the saving, or anything about a fresh bank.
   Root 10 is at 47/47 and strategy 1628, the plan and the proposal route every outcome back to strategy. See the
   [decision](../../../runs/2026-10-11-1628/decision.md).
+
+- 2026-10-11 (steward, 1736): wording correction after [critique 1736](../../../runs/2026-10-11-1736/critique.md)
+  (digest check, notes 6–7); the 1628 entry above stays as written, read it with these corrections. No numbers change.
+  - "(b) … and (c) … together worth at most a small residual" overstates: the experiment permuted the helper entries
+    only; it did not remove primitive supply or other content separately, nor rule out interactions or harm from the
+    replacement entries. Read: "the complete permuted library retains a small net saving (R-hx / R-tree 0.90
+    [0.83, 0.98], a point saving of 10%, interval about 2–17%); contributions of unchanged content and its
+    interactions with the replacement entries are unidentified."
+  - "The gradient disappears" overstates a descriptive flattening: R-hx strata 0.99 [0.77, 1.36] / 0.86 [0.74, 0.99]
+    / 0.94 [0.82, 1.08] with no gradient-equivalence test. Read: "the strong intact-library gradient was not apparent
+    in the permuted-library point estimates." question.md updated accordingly. The close decision is unchanged.

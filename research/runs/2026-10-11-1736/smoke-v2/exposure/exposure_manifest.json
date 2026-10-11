@@ -1,0 +1,28 @@
+{
+  "admitted": true,
+  "smoke": true,
+  "protected_searches": 0,
+  "workers": 10,
+  "seconds": 16.69898608303629,
+  "exposure_batch_seconds": 9.882703625014983,
+  "git_commit": "fa568296746477e54249296617da4843258db935",
+  "saved_preparation_hash": "b7d6dd5939758e8f97c3c171ffb70dcbd2438bab8ef707b095dfb0fda9a82c5a",
+  "exposure_rows_hash": "f83cc9951267293c18541c1a937199cf549f1ee424bbda95748005146e9156bb",
+  "probabilities": {
+    "0:0": {
+      "initial": 0.03125,
+      "R-all": 0.5,
+      "L-final": 0.2265625,
+      "N-final": 0.0625,
+      "S-final": 0.095703125
+    }
+  },
+  "artifacts": {
+    "bank": "2fc0d88c67ae651cbf3b927ecdedcebdd60220e30307ed4f9aa2bb428803d74a",
+    "libraries": "375c7b69544131cbea5683fd77bcc13e6299353ed6394eba4c90f17f759010d5",
+    "schedules": "306d8ca735cce5c3561e14659b5b8609e25e9e5c692fab217171a404e5333bea",
+    "method_freeze": "3614c0b5b7fb642ca617d5dcfe4450389d11b968b4adfdd7185f71a9f3f969a6",
+    "seed_audit": "8843619e6094f7f330262f86bdf2375941a0faab7fe55f2c79450f6e92af5e70"
+  },
+  "manifest_hash": "16d7be0c7a53b1c74a70958609836eccb92ba4633416750cc280416047e59aeb"
+}

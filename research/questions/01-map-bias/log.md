@@ -743,3 +743,19 @@ Former text of the two changed bullets (links relative to `research/`):
   On sum>2 the exact max>2 shortcut is used as a last step but not needed (pilot: barred, 100/100
   still solve; its share of the gain unknown; [run 1957](runs/2026-10-05-1957/analysis.md)).
 ```
+
+- 2026-10-11 (steward, digest compression 1736): wording only, no belief changed. The digest's "Most of that gain
+  is generic" bullet no longer carries the 1957 pilot sentence (it was a pilot observation, kept in
+  [09](09-generic-bias-speedup/question.md) and its log). Former text (links relative to `research/`):
+
+  ```
+  On sum>2 the exact max>2 shortcut is not needed (pilot: barred, 100/100 still solve; its share of
+  the gain unknown; [run 1957](runs/2026-10-05-1957/analysis.md)).
+  ```
+
+
+## 2026-10-11 — digest compression (steward task 2026-10-11-1736, second pass): wording moved here
+
+The digest was 3122 words; it was rewritten to about 2,970. No belief changed. One sentence left this root's
+"Solutions arrive mostly partly shared or duplicated" bullet (a secondary observation; it stands, §31 G, §32 L):
+"About a third of each final population fits training without being exact."
