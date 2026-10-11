@@ -142,7 +142,7 @@ def from_postfix(tokens):
     return Tree(stack[0])
 
 
-def search(job, *, force_cap=False):
+def search(job, *, force_cap=False, donor_library=None):
     cell, seed, cap, pop_size, inputs, crossover = job
     if cap < pop_size or cap % pop_size or pop_size < 3 or crossover not in MIXES:
         raise ValueError("invalid GP search budget/mix")
@@ -155,6 +155,12 @@ def search(job, *, force_cap=False):
     variation = np.random.default_rng([seed, 2])
     selection = FastRandom(seed + 100000000)
     stats = dict(crossover=0, mutation=0, rejected_crossover=0, rejected_mutation=0)
+    if donor_library is not None:
+        donor_library = tuple(donor_library)
+        if any(not isinstance(t, Tree) or len(t.program) > MAX_TOKENS for t in donor_library):
+            raise ValueError("invalid mutation donor library")
+        stats.update(library_draws=0, library_insertions=0, rejected_library=0,
+                     ordinary_donors=0, empty_fallbacks=0)
     checked, curve, budget_times = {}, [], {}
     phenotype_curve = []
     shortcuts = unique_shortcuts = perfect_count = 0
@@ -219,7 +225,17 @@ def search(job, *, force_cap=False):
                 child, rejected = p1.insert(point, p2, donor_point)
             else:
                 kind = "mutation"
-                child, rejected = p1.insert(point, random_tree(variation, 3))
+                library_draw = (donor_library is not None and bool(donor_library)
+                                and variation.random() < 0.5)
+                donor = (donor_library[int(variation.integers(len(donor_library)))]
+                         if library_draw else random_tree(variation, 3))
+                child, rejected = p1.insert(point, donor)
+                if donor_library is not None:
+                    stats["library_draws"] += int(library_draw)
+                    stats["library_insertions"] += int(library_draw and not rejected)
+                    stats["rejected_library"] += int(library_draw and rejected)
+                    stats["ordinary_donors"] += int(not library_draw)
+                    stats["empty_fallbacks"] += int(not donor_library)
             stats[kind] += 1
             stats["rejected_" + kind] += int(rejected)
             children.append(child)

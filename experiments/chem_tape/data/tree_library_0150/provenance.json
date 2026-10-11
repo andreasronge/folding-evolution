@@ -1,0 +1,13 @@
+{
+  "replay_sha256": "62e15cbdc3f9f19083f91431ff505a3f5a1cf24050ec16936781c2b714e75e4c",
+  "replay_source": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-11/2026-10-11-0024-dg/search.jsonl",
+  "historical_sha256": "ff8e2ba7bf71ce6ebc412b8a3f5215abc60b435a88ac778ec0958c524a00b227",
+  "reference_commit": "1773d11e97ccbc710a1ead0d969c926102cb0860",
+  "historical_artifact_count": 12620,
+  "historical_artifact_paths_sha256": "5b8e989d4fb317fe21f2e18271117b8b0c3b11f38642d0157d42f513c9ff9d1c",
+  "historical_sources": [
+    "main checkout experiments/output/**.json{,l}",
+    "main checkout research/runs/**.json{,l}; current task excluded"
+  ],
+  "historical_seed_count": 191682
+}

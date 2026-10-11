@@ -1,6 +1,8 @@
 """Restart stopping/accounting, seed isolation and paired scientific inference."""
 
 import copy
+import gzip
+import hashlib
 import json
 from types import SimpleNamespace
 
@@ -18,7 +20,25 @@ def saved():
 
 def test_seed_sets_and_grid_counts(saved):
     data, targets = saved
-    old, _ = run.historical(data, targets)
+    # 0150 deliberately adds an off-path donor hook; 0024 must still refuse
+    # an edited frozen engine. Audit the immutable historical artifacts without
+    # weakening that production gate or rewriting its historical hashes.
+    with pytest.raises(ValueError, match="2254 frozen search changed"):
+        run.historical(data, targets)
+    provenance = json.loads((run.DATA / "provenance.json").read_text())
+    old = {}
+    for name, rec in provenance["files"].items():
+        raw = (
+            (run.DATA / name).read_bytes()
+            if name.endswith(".json")
+            else gzip.decompress((run.DATA / (name + ".gz")).read_bytes())
+        )
+        assert hashlib.sha256(raw).hexdigest() == rec["sha256"]
+        old[name] = (
+            json.loads(raw)
+            if name.endswith(".json")
+            else [json.loads(line) for line in raw.splitlines()]
+        )
     score, stage, validation = run.schedules(data["banks.json"], targets)
     audit = run.audit(score, stage, validation, data, old, targets)
     assert audit["admitted"]
