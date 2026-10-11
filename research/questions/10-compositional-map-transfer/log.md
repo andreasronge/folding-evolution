@@ -3419,3 +3419,170 @@ strategy with a located limit rather than to a protected comparison, root 10's 4
 strategy 1129 asked to review the program after this result. The candidate the strategist should weigh is a
 single extractor-mechanism test (does relieving cells-first crowding turn acquired helpers into a destination
 saving?), against stopping the literal-library line.
+
+## 2026-10-11: run 2026-10-11-1228, uncapped semantic library on order cells (slot 44; question 53)
+
+Strategy 1228 raised the budget 43 → 44 for one development test of whether removing R-S's 16-entry cap turns
+behaviour-keyed acquisition into a useful order-task bias. R-all keeps every class recurring in ≥ 2 source cells
+(3–9 nodes, one minimum representative, uniform draws); nothing else changed from `db30b15`. Commit `60ab766`,
+code review pass, queue 14.6 min of 110 approved. 24 new acquisitions from the frozen 1129 roster (1,152/1,152
+source jobs solved, 214 k evaluations per build); R-S 16 entries, R-all 25–37. Scoring: R-tree, R-order, R-S, R-all
+on 6 development cells × 24 builds × 4 repeats (576 paired jobs per arm); protected cells unsearched. Primary,
+ratio of pooled capped arithmetic means with whole-build bootstrap: **R-all / R-tree 0.40 [0.32, 0.50]** → pre-set
+branch "useful acquisition". R-all / R-S 0.33 [0.27, 0.39]; R-S / R-tree 1.23 [1.07, 1.41]; R-all / R-order 7.27
+[5.49, 9.81]; 24/24 builds and 6/6 cells favour R-all over R-tree; break-even about 4.9 [3.8, 6.5] searches.
+Descriptive: needed helper in pool 126/144 cell × builds (R-S 14/144); cost falls with coverage (0.77, 0.45, 0.23
+of R-tree for 0/1/2 helpers). Helper causality not isolated. Details in [53's log](53-order-library-cap-release/log.md)
+and the [analysis](../../runs/2026-10-11-1228/analysis.md). This is a full experiment, so it enters the digest as a
+belief (development scope). 52 closed alongside it.
+
+Digest-check corrections (critique 1228, notes 6–9) applied to the question files, not the digest (which did not
+carry those wordings): 52's summary and log (unresolved is not zero recovery; "at most 2 source cells" is an
+observation, not a ceiling; availability partial), 50's and 51's logs (content mismatch is plausible, not
+isolated). The 1129 entry above says "each helper recurs in ≤ 2 source cells"; read it as "each helper is required
+by two source targets and was observed only in those targets' solvers".
+
+Digest change: new root-10 bullet for 53; as-of line, budget and status line updated; the Overall paragraph now
+includes the order result and replaces the "library on unfamiliar content (one probe…)" item with "acquired order
+content beyond development cells". Former Overall paragraph (links relative to `research/`):
+
+```
+**Overall.** Solver-fitted context and fragment blocks transfer beyond token frequency to withheld
+compositions and one fresh shape; outer-loop selection learns token biases but no resolved context
+gain. On DG, restarted tree GP needs fewer evaluations than A8; learned subtree libraries cut its cost
+a further 2.6× on DG and 4× on fresh gate-sum, and a fixed sum prior cut it 3.1× on development
+gate-sum B/C; libraries harmed near-solved targets. Not shown: that evolution reaches
+fitted context or fragments; what carries C's, the library's or the prior's advantage; why DG
+components are better; A8 on a fresh family bank or against tuned tree GP; the library on unfamiliar
+content (one probe on order helpers, [52](questions/10-compositional-map-transfer/52-order-helper-acquisition/question.md), observations only) or with an easy-target policy; transfer beyond three fresh shapes.
+```
+
+Decision: close 53 (and 52) and return to strategy (`next: strategy`) because the pre-registered rule landed in
+its "useful acquisition" branch, which the plan routes to strategy with a separately priced protected-stage case;
+root 10's 44-slot budget is spent and strategy 1228 asked to review after this result. The decision file prices
+the candidate next steps and recommends a frozen-method fresh content-family bank over scoring the protected
+cells of the development bank.
+
+
+## 2026-10-11 — digest compression (steward task 2026-10-11-1228): former digest text moved here
+
+The digest was 3008 words, over its limit; it is now about 2,920. No belief, number or interval changed. What
+left the digest (all still true and still in the question files):
+
+- Banks: the comparison-gate screen detail "exact ≤ 9-token screen (no 13-token minimality certificate)".
+- 43/44: the caveat "case redraw versus population reset not separated" and the run 2254 link.
+- 47: "shapes and counts kept"; 48: "each node drawn uniformly within its compatible class, skeletons and sizes
+  kept", the explicit wording "this uniform law on the shapes did not retain the full learned-label saving" (the
+  bullet keeps its heading and "the shape contribution is unresolved"), and the list "ADD share, ANY share,
+  constants and library dependencies" (now "label content").
+- 51: "built from the alphabet"; 53: `v2_x4`/D625 (alphabet now in the section header) and "new" acquisitions.
+- 38: the arm label G4/A8′; 35/36: the label S8 (now "four more collected under G4").
+- Per-bullet "half the mutation donors" / "development bank / rosters" moved into the tree-GP section header
+  (all tree-GP arms use donor mix 0.5; checked in run 1129's probe and run 1228's plan).
+- The as-of line lost "one belief added under root 10".
+
+Former text of the changed blocks (links relative to `research/`):
+
+```
+**Banks.** Sign-gated banks could not support a symmetric two-family test; the four-reducer bank
+has headroom above the hand-set grammars ([11](questions/10-compositional-map-transfer/11-composition-bank/question.md),
+[12](questions/10-compositional-map-transfer/12-generic-grammar-headroom/question.md),
+[15](questions/10-compositional-map-transfer/15-four-reducer-family-bank/question.md)). The
+comparison-gate bank gives a protected multi-holdout split with headroom: branch-else (BE)
+`A>B ? C : D+E`, post-addition (PA) `(A>B ? C : D)+E`, 13 tokens, exact ≤ 9-token screen (no
+13-token minimality certificate), performance-blind 4 training and 4 holdouts per family; G4 solves 68% of training
+searches. ([24](questions/10-compositional-map-transfer/24-comparison-gate-bank/question.md), [run 1246](runs/2026-10-08-1246/analysis.md))
+
+- **Contextual grammars beat their own token marginals on all three banks**: G/G-marg 1.5–20× (11,
+  12); G4/G4-marg 4.4× [3.4, 5.6] BE, 3.3× [2.7, 4.0] PA (15). Not a mechanism: G also emits far more
+  exact solvers and changes more tokens per mutation; exact-solver supply up 11–82× gave speed 1.9–3.5× (11).
+
+- **Library-free chain blocks (W) also beat C, without needing suffix repair; marginal blocks (B)
+  showed no resolved gain on training cells.** W/C 1.23–1.38× on training, then-addition and holdouts
+  (lower bounds ≥ 1.15); B/C 0.98× [0.93, 1.04] (training; above about 4% excluded), so edit size
+  alone does not explain F or W there. W/R on then-addition 0.954× [0.903, 1.007] (a repair gain above
+  0.7% excluded, a cost up to about 10% not). W's length law and token supply not isolated. (32,
+  [34](questions/10-compositional-map-transfer/34-chain-block-suffix-preservation/question.md), [run 1606](runs/2026-10-09-1606/analysis.md))
+
+**Cheap acquisition (C+F rebuilt from few sources; failures charged).**
+- **Four sources per cell lose about a third of full speed; four more collected under that bias (A8)
+  leave it unresolved from full speed at about a tenth of the acquisition.** Then-addition: (C4+F4)/F
+  0.679× [0.614, 0.752]; F/A8 1.03× [0.95, 1.12] (an A8 slowdown above about 5% excluded); S8/A8 1.13× [1.04, 1.22] (S8: four more under G4).
+  One source size, one update; yield, content, decoder and library bundled.
+  ([35](questions/10-compositional-map-transfer/35-small-source-acquisition/question.md),
+  [36](questions/10-compositional-map-transfer/36-sparse-source-feedback/question.md), [runs 1743](runs/2026-10-09-1743/analysis.md), [2033](runs/2026-10-09-2033/analysis.md))
+- **A8 was useful on a fresh output shape and replicated from complementary sources.** `two-sum-v1`
+  (`A>B ? C+D : E+F`): G4/A8 2.73× [2.36, 3.17]; rebuilt from the former holdouts,
+  G4/A8′ 2.50× [2.17, 2.85], unresolved from the original. One shape with familiar `+` joins.
+  ([37](questions/10-compositional-map-transfer/37-cheap-bias-fresh-transfer/question.md),
+  [38](questions/10-compositional-map-transfer/38-cheap-bias-source-replication/question.md), [runs 2303](runs/2026-10-09-2303/analysis.md), [0145](runs/2026-10-10-0145/analysis.md))
+
+**Against tree GP.**
+- **Under a common restart schedule, closure-based subtree GP with no learned prior needs about a
+  fifth fewer DG evaluations than A8; A8 stays cheaper in worker seconds.** One tree configuration,
+  up to 8 × 65,536 evaluations: R-tree/R-A8 0.79× [0.68, 0.92]; solved 765 vs 754 of 768
+  (noninferior within 3 points; equal reliability not established); worker seconds 1.39×
+  [1.20, 1.60]. A8's full-cap reliability lead was mainly the schedule; case redraw versus
+  population reset not separated.
+  ([43](questions/10-compositional-map-transfer/43-acquired-bias-vs-tree-gp/question.md), [44](questions/10-compositional-map-transfer/44-restarted-tree-vs-a8/question.md), [run 2254](runs/2026-10-10-2254/analysis.md), [run 0024](runs/2026-10-11-0024/analysis.md))
+- **A frozen library of recurring source subtrees cut restarted tree GP's DG evaluations about 2.6×,
+  beyond size-matched random donors.** 24 libraries of 3–9-node subtrees recurring in ≥ 2 source
+  cells (pair sums `ADD(Xi,Xj)` plus, in 20/24, one `GT(ADD,ADD)` predicate), half the mutation
+  donors: R-lib/R-tree 0.39× [0.33, 0.46], R-lib/R-size 0.41× [0.33, 0.53]; no solve loss observed.
+  Development bank, one extractor and rate.
+  ([45](questions/10-compositional-map-transfer/45-tree-subtree-library/question.md), [run 0150](runs/2026-10-11-0150/analysis.md))
+- **The same libraries cut evaluations about 4× on one fresh shape; the relative gain is much larger
+  where the learned predicate fits.** `x4-gate-sum-v1` (`(Xa+Xb)>(Xc+Xd) ? Xe+Xf : Xg`, 18 cells
+  frozen before any search): R-lib/R-tree 0.25× [0.22, 0.29], R-lib/R-size 0.29× [0.23, 0.37];
+  predicate-matched split A 0.055× [0.042, 0.071], splits B/C 0.36×, 0.34×. Built from the
+  libraries' own parts: reuse across composition, not unfamiliar content.
+  ([46](questions/10-compositional-map-transfer/46-tree-library-fresh-composition/question.md), [run 0348](runs/2026-10-11-0348/analysis.md))
+- **On B/C, label-rearranged libraries kept that gain at the registered resolution; A's extra gain
+  needs the learned arrangement.** Labels permuted within size/arity/width pools, shapes and counts
+  kept: R-perm/R-lib B/C 1.03× [0.85, 1.23] (an intact advantage up to about 20% not excluded),
+  A 5.1× [3.7, 7.1]. The permutation removed nearly all learned predicates and tripled B/C pair supply.
+  ([47](questions/10-compositional-map-transfer/47-tree-donor-arrangement/question.md), [run 0524](runs/2026-10-11-0524/analysis.md))
+- **Uniform labels on the same shapes lost most of the B/C gain.** Each node drawn uniformly within
+  its compatible class, skeletons and sizes kept: R-unif/R-perm 2.07× [1.68, 2.61], R-unif/R-tree
+  0.755× [0.645, 0.884] (about 40% of the saving kept), worse in 23/24 builds. Against size-matched
+  random donors unresolved (R-size/R-unif 1.10× [0.86, 1.37]): this uniform law on the shapes did not
+  retain the full learned-label saving; the shape contribution is unresolved (up to about 30% not
+  excluded). ADD share, ANY share, constants and library dependencies changed together; one uniform law.
+  ([48](questions/10-compositional-map-transfer/48-tree-donor-label-supply/question.md), [run 0652](runs/2026-10-11-0652/analysis.md))
+- **Rebuilt from branch-sum (TS) sources, the unchanged recipe also cut B/C evaluations about 2.6×,
+  for about a twelfth of DG's acquisition.** 24 new TS builds: R-TS/R-tree 0.38× [0.34, 0.43],
+  R-TS/R-sizeTS 0.41× [0.34, 0.48], no solve loss; repays after about 6 searches (DG about 64). TS
+  versus DG libraries 1.03× [0.86, 1.22], unresolved. No TS library holds the `GT(ADD,ADD)`
+  predicate (0/24; DG 21/24), so it seems unnecessary for this saving (cross-cohort observation).
+  Development rosters, one extractor, one TS cohort.
+  ([49](questions/10-compositional-map-transfer/49-tree-library-source-portability/question.md), [run 0833](runs/2026-10-11-0833/analysis.md))
+- **On near-solved native TS targets, both libraries raised cost.** R-TS/R-tree 1.78× [1.58, 2.00],
+  R-DG/R-tree 1.33× [1.12, 1.57], all jobs solved; R-tree solves 99% first time. One roster, mix 0.5;
+  whether gating the library removes this is untested ([50](questions/10-compositional-map-transfer/50-library-easy-target-harm/question.md)).
+- **A fixed sum-donor prior with no acquisition was cheaper than the TS libraries on B/C.** All
+  `ADD(input,input)` and `ADD(input,const)` forms, built from the alphabet, half the donors:
+  R-hand/R-TS 0.85× [0.76, 0.96], R-hand/R-tree 0.32× [0.29, 0.35]; both donor arms solved all 1,728
+  jobs, R-tree 1,723. TS acquisition never repaid against it within 200 searches; 19/24 builds favour the prior. Substitution, not
+  isolation: pair coverage, constants, size and ANY/GT content changed together. Development bank;
+  prior written after seeing these results.
+  ([51](questions/10-compositional-map-transfer/51-source-free-donor-prior/question.md), [run 1019](runs/2026-10-11-1019/analysis.md))
+- **On order-helper cells, an uncapped behaviour-keyed library cut restarted tree GP's evaluations
+  about 2.5×; under the 16-entry cap the same corpora cost more than no library.** `x4-order-v1`
+  (`lo(a,b)+hi(c,d)` from GT/IF_GT, `v2_x4`/D625), six development cells, 24 new acquisitions: every
+  output class recurring in ≥ 2 source cells kept (25–37 entries), R-all/R-tree 0.40× [0.32, 0.50],
+  24/24 builds, all jobs solved; capped R-S/R-tree 1.23× [1.07, 1.41]. Repays after about 5 searches.
+  A supplied order prior is 7.3× [5.5, 9.8] cheaper. Size, content and trivia share changed together;
+  helpers' causal share, protected cells and fresh banks untested.
+  ([53](questions/10-compositional-map-transfer/53-order-library-cap-release/question.md), [run 1228](runs/2026-10-11-1228/analysis.md))
+
+**Overall.** Solver-fitted context and fragment blocks transfer beyond token frequency to withheld
+compositions and one fresh shape; outer-loop selection learns token biases but no resolved context
+gain. On DG, restarted tree GP needs fewer evaluations than A8; learned subtree libraries cut its cost
+a further 2.6× on DG and 4× on fresh gate-sum, and a fixed sum prior cut it 3.1× on development
+gate-sum B/C; an uncapped library holding acquired order helpers cut it 2.5× on development
+order cells, a supplied order prior far more. Libraries harmed near-solved targets. Not shown: that
+evolution reaches fitted context or fragments; what carries C's, the library's or the prior's
+advantage; why DG components are better; A8 on a fresh family bank or against tuned tree GP;
+acquired order content beyond development cells; an easy-target policy; transfer beyond three fresh
+shapes.
+```

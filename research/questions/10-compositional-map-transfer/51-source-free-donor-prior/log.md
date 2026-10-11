@@ -51,3 +51,10 @@
 - 2026-10-11 (steward, 1129): correction to the 1019 entry's and the digest's wording, from
   [critique 1129](../../../runs/2026-10-11-1129/critique.md) note 5: "all jobs solved" means both donor arms solved
   1,728/1,728; R-tree solved 1,723/1,728. The numbers in the entry above were already correct.
+- 2026-10-11 (steward, 1228): wording correction from [critique 1228](../../../runs/2026-10-11-1228/critique.md)
+  note 9: the 1129 entry's "The B/C saving is family-specific content" claims more than the probe isolated. Better:
+  the same sum prior helped B/C but harmed these order cells; content mismatch is a plausible explanation, not an
+  isolated mechanism. Related: on those order development cells the uncapped acquired library of
+  [53](../53-order-library-cap-release/question.md) cost 0.40× [0.32, 0.50] of R-tree; acquisition there supplied
+  content a sum prior lacks, but a supplied order prior was still 7.3× cheaper. Reopen condition (a learned library
+  proposed as an improvement on B/C) not met; status unchanged (closed).
