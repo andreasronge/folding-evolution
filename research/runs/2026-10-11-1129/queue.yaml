@@ -1,0 +1,36 @@
+runs:
+  - id: 2026-10-11-1129-prepare
+    cmd: >-
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.order_run prepare --workers 10 --seconds 1170
+    timeout_seconds: 1200
+    expect_outputs:
+      - bank.json
+      - method_freeze.json
+      - schedules.json
+      - seed_audit.json
+      - acquisition.jsonl
+      - libraries.json
+      - preparation.json
+    track: chem-tape
+    notes: >-
+      Complete independent nine-token bank screen, freeze methods/rosters/seeds,
+      and acquire eight builds from 24 sources times two R-tree jobs (384 jobs).
+      Failed jobs are charged. Protected destinations receive no search.
+  - id: 2026-10-11-1129-score
+    cmd: >-
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.order_run score
+      --prepared "$RUN_DIR/../2026-10-11-1129-prepare" --workers 10 --seconds 1770
+    timeout_seconds: 1800
+    expect_outputs:
+      - bank.json
+      - method_freeze.json
+      - libraries.json
+      - schedules.json
+      - score.jsonl
+      - report.json
+      - probe.png
+    track: chem-tape
+    notes: >-
+      Verify preparation hashes, method identity, seed schedules and reconstructed
+      source-only libraries before 480 paired development jobs. Six development
+      cells, five arms, eight builds, two seeds per build; no protected search.

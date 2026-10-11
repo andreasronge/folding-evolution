@@ -3394,3 +3394,28 @@ carries C's advantage, or what carries the library's or the prior's; why DG comp
 better; A8 on a fresh family bank or against a tuned tree GP; the library on unfamiliar content or with a policy for easy targets;
 transfer beyond three fresh shapes.
 ```
+
+## 2026-10-11: run 2026-10-11-1129, order-helper acquisition probe (slot 43, probe; question 52)
+
+Strategy 1129 raised the budget 42 → 43 for one bounded probe of whether the unchanged subtree recipe acquires
+new content. New bank `x4-order-v1` (`v2_x4`, D625): sources `lo/hi(a,b)+Xc` (24), destinations `lo(a,b)+hi(c,d)`
+(30; 6 development searched, 24 protected frozen, never searched). Commit `db30b15`, code review pass, queue 7.5
+min; 384/384 source jobs solved; 480 scoring jobs, seeds paired across five arms. Observations (development cells,
+geometric cost ratio to R-tree): supplied 12-helper order prior 0.048× [0.04, 0.06]; 1019 sum prior 2.12× [1.54,
+2.91]; literal library (unchanged recipe) 1.55× [1.09, 2.17], helper in 0/8 builds; behaviour-keyed library 1.00×
+[0.68, 1.46], helper in 3/8 (needed one in 2/8). 63% of source solvers contain their own helper, mostly not in the
+6-node form; literal keys pool it in 5/96 helper × build cases, behaviour keys in 49/96, of which 44 fell outside
+the 16-entry cap (cells-first ranking; each helper recurs in ≤ 2 source cells, 3-node sums, comparators and a
+constant class in 3–8). Pre-stated routing rule not met; details in [52's log](52-order-helper-acquisition/log.md)
+and the [analysis](../../runs/2026-10-11-1129/analysis.md). Probe results stay out of the digest's beliefs.
+
+Digest-check corrections (critique 1129, notes 5–6) applied to the digest: the sum-prior bullet now says both
+donor arms solved 1,728/1,728 and R-tree 1,723/1,728 (the verbatim former-digest copy above, "all jobs solved",
+is history and is corrected by this note); the Overall paragraph no longer merges the libraries' DG and fresh-shape
+tests with the fixed prior's development-only B/C test.
+
+Decision: park 52 and return to strategy (`next: strategy`) because the probe's pre-stated rule routes back to
+strategy with a located limit rather than to a protected comparison, root 10's 43-slot budget is spent, and
+strategy 1129 asked to review the program after this result. The candidate the strategist should weigh is a
+single extractor-mechanism test (does relieving cells-first crowding turn acquired helpers into a destination
+saving?), against stopping the literal-library line.

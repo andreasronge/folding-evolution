@@ -1,0 +1,20 @@
+{
+  "admitted": true,
+  "smoke": true,
+  "source_rows_hash": "6c2509fe7a8d2486dd7e25e11e67eaaff27e438ad1244e4aaeb767fe702f8636",
+  "libraries_hash": "4b4535a9eaf950115851c5692e51908d86e886d72fbcaa5f6a0fe98a2c7acaf1",
+  "bank_hash": "c84a0bd098837bcc9a24ece8fc34accbd2246ad841d05b6763178192fd451511",
+  "freeze_hash": "a70af40ba614a4119d3cf7d2da49ff1a76a382955439485f5a491453a80e95d1",
+  "schedule_hash": "6ea0d3ffa9bf35b68b7a8e9752c2de64b472ca3365496a8c6c7670fed9bc3cf5",
+  "audit_hash": "820caf34c448bd5bae6373206acc1d43523bb8d72e94d05efd7a139d83584723",
+  "source_batch_seconds": 4.908322791918181,
+  "source_worker_seconds": 11.239252626430243,
+  "bank_seconds": 105.9716018330073,
+  "seconds": 5.553941624937579,
+  "source_jobs": 48,
+  "source_solves": 48,
+  "protected_searches": 0,
+  "workers": 10,
+  "git_commit": "c4fa27d0f27bca71d0f8a8a78a0649b905d0273f",
+  "preparation_hash": "968fa765186162e402b024ea3cbbdc4b28f3a16b891791d7ab9c9e2c04d874e6"
+}

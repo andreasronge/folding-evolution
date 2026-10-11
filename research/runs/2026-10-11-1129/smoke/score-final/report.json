@@ -1,0 +1,89 @@
+{
+  "arms": {
+    "R-tree": {
+      "jobs": 12,
+      "capped_mean": 51648.0,
+      "geometric_mean": 29137.7182768161,
+      "solves": 12,
+      "first_attempt_rate": 0.5833333333333334,
+      "worker_seconds": 42.20957737590652,
+      "between_build_sd_log_cost": null,
+      "log_gap_recovered": 0.0
+    },
+    "R-sum": {
+      "jobs": 12,
+      "capped_mean": 83968.0,
+      "geometric_mean": 40581.17167842227,
+      "solves": 12,
+      "first_attempt_rate": 0.6666666666666666,
+      "worker_seconds": 63.110539958812296,
+      "between_build_sd_log_cost": null,
+      "log_gap_recovered": -0.12325486156954171
+    },
+    "R-order": {
+      "jobs": 12,
+      "capped_mean": 4586.666666666667,
+      "geometric_mean": 1982.4722758611365,
+      "solves": 12,
+      "first_attempt_rate": 1.0,
+      "worker_seconds": 3.317293332889676,
+      "between_build_sd_log_cost": null,
+      "log_gap_recovered": 1.0
+    },
+    "R-L": {
+      "jobs": 12,
+      "capped_mean": 80682.66666666667,
+      "geometric_mean": 50426.092561893056,
+      "solves": 12,
+      "first_attempt_rate": 0.4166666666666667,
+      "worker_seconds": 65.15442316606641,
+      "between_build_sd_log_cost": null,
+      "log_gap_recovered": -0.20406947929675834
+    },
+    "R-S": {
+      "jobs": 12,
+      "capped_mean": 112085.33333333333,
+      "geometric_mean": 45682.04232954969,
+      "solves": 12,
+      "first_attempt_rate": 0.3333333333333333,
+      "worker_seconds": 89.65312124718912,
+      "between_build_sd_log_cost": null,
+      "log_gap_recovered": -0.1673079775083358
+    }
+  },
+  "acquisition": [
+    {
+      "build": 0,
+      "helpers": {
+        "R-L": [],
+        "R-S": []
+      },
+      "destination_needed": {
+        "R-L": [],
+        "R-S": []
+      },
+      "evaluations": 221952,
+      "worker_seconds": 11.239252626430243,
+      "census_extraction_seconds": 0.10742133390158415,
+      "source_jobs": 48,
+      "source_solves": 48
+    }
+  ],
+  "helper_build_counts": {
+    "R-L": 0,
+    "R-S": 0
+  },
+  "descriptive_recommendation": "return located or unresolved limit to strategy",
+  "qualifying_arms": [],
+  "qualification": "development probe only; no mechanism confirmation or practical-advantage claim",
+  "own_helper_census": 32,
+  "source_solvers": 48,
+  "source_jobs": 48,
+  "admitted": true,
+  "smoke": true,
+  "protected_searches": 0,
+  "score_batch_seconds": 28.823529749992304,
+  "workers": 10,
+  "preparation_hash": "968fa765186162e402b024ea3cbbdc4b28f3a16b891791d7ab9c9e2c04d874e6",
+  "score_rows_hash": "5130da5a46874d5761726d4198c8199b48b650ccfa76a846cfe995e760be144a"
+}

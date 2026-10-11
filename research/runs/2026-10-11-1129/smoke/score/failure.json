@@ -1,0 +1,6 @@
+{
+  "admitted": false,
+  "error": "preparation provenance/method mismatch",
+  "phase": "score",
+  "smoke": true
+}
