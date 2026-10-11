@@ -1,0 +1,117 @@
+rows 7776
+unique keys 7776 max multiplicity 1
+cells 18
+builds True repeats [0, 1, 2, 3, 4, 5]
+per arm Counter({'R-lib': 2592, 'R-perm': 2592, 'R-tree': 2592})
+triples with mismatched seeds 0 mismatched realization 0
+distinct attempt seeds among R-tree rows 20736 of 20736
+caps Counter({524288: 7776}) cutoff Counter({65536: 7776})
+evaluations > cap 0
+unsolved rows Counter({('R-tree', True, 8): 10})
+solved but attempts/evals odd 0
+cells per split Counter({'A': 6, 'B': 6, 'C': 6})
+B/C learned then-pair cells 4
+
+== B/C (primary): 12 cells, 1728 jobs/arm
+  R-tree  mean evals     72558  solves 1723/1728  worker s    11811  mean 6.84
+  R-lib   mean evals     25343  solves 1728/1728  worker s     3885  mean 2.25
+  R-perm  mean evals     26125  solves 1728/1728  worker s     4037  mean 2.34
+  R-perm/R-lib: ratio 1.031 nested-boot [0.859, 1.224]  build-only boot [0.897, 1.187]  geo-mean per-build 1.012 t-CI [0.878, 1.167]  builds with ratio<1: 11/24  solve diff +0.0000 [+0.0000, +0.0000]
+  R-perm/R-tree: ratio 0.360 nested-boot [0.301, 0.429]  build-only boot [0.313, 0.415]  geo-mean per-build 0.342 t-CI [0.294, 0.398]  builds with ratio<1: 24/24  solve diff +0.0029 [+0.0000, +0.0069]
+  R-lib/R-tree: ratio 0.349 nested-boot [0.302, 0.410]  build-only boot [0.310, 0.403]  geo-mean per-build 0.338 t-CI [0.300, 0.380]  builds with ratio<1: 24/24  solve diff +0.0029 [+0.0000, +0.0069]
+
+== A (positive control): 6 cells, 864 jobs/arm
+  R-tree  mean evals     70288  solves 859/864  worker s     5473  mean 6.33
+  R-lib   mean evals      4445  solves 864/864  worker s      273  mean 0.32
+  R-perm  mean evals     22858  solves 864/864  worker s     1678  mean 1.94
+  R-perm/R-lib: ratio 5.142 nested-boot [3.696, 7.144]  build-only boot [3.892, 6.870]  geo-mean per-build 5.282 t-CI [3.930, 7.100]  builds with ratio<1: 0/24  solve diff +0.0000 [+0.0000, +0.0000]
+  R-perm/R-tree: ratio 0.325 nested-boot [0.251, 0.414]  build-only boot [0.263, 0.396]  geo-mean per-build 0.294 t-CI [0.233, 0.371]  builds with ratio<1: 24/24  solve diff +0.0058 [+0.0012, +0.0127]
+  R-lib/R-tree: ratio 0.063 nested-boot [0.047, 0.082]  build-only boot [0.049, 0.080]  geo-mean per-build 0.056 t-CI [0.044, 0.070]  builds with ratio<1: 24/24  solve diff +0.0058 [+0.0012, +0.0127]
+
+== B: 6 cells, 864 jobs/arm
+  R-tree  mean evals     75910  solves 861/864  worker s     6138  mean 7.10
+  R-lib   mean evals     28521  solves 864/864  worker s     2188  mean 2.53
+  R-perm  mean evals     29080  solves 864/864  worker s     2238  mean 2.59
+  R-perm/R-lib: ratio 1.020 nested-boot [0.782, 1.301]  build-only boot [0.835, 1.225]  geo-mean per-build 0.919 t-CI [0.719, 1.175]  builds with ratio<1: 11/24  solve diff +0.0000 [+0.0000, +0.0000]
+  R-perm/R-tree: ratio 0.383 nested-boot [0.291, 0.490]  build-only boot [0.307, 0.467]  geo-mean per-build 0.330 t-CI [0.250, 0.437]  builds with ratio<1: 23/24  solve diff +0.0035 [+0.0000, +0.0104]
+  R-lib/R-tree: ratio 0.376 nested-boot [0.314, 0.451]  build-only boot [0.325, 0.440]  geo-mean per-build 0.359 t-CI [0.311, 0.416]  builds with ratio<1: 24/24  solve diff +0.0035 [+0.0000, +0.0104]
+
+== C: 6 cells, 864 jobs/arm
+  R-tree  mean evals     69207  solves 862/864  worker s     5673  mean 6.57
+  R-lib   mean evals     22165  solves 864/864  worker s     1697  mean 1.96
+  R-perm  mean evals     23169  solves 864/864  worker s     1799  mean 2.08
+  R-perm/R-lib: ratio 1.045 nested-boot [0.819, 1.312]  build-only boot [0.875, 1.241]  geo-mean per-build 0.996 t-CI [0.827, 1.199]  builds with ratio<1: 12/24  solve diff +0.0000 [+0.0000, +0.0000]
+  R-perm/R-tree: ratio 0.335 nested-boot [0.263, 0.417]  build-only boot [0.281, 0.396]  geo-mean per-build 0.310 t-CI [0.254, 0.377]  builds with ratio<1: 24/24  solve diff +0.0023 [+0.0000, +0.0069]
+  R-lib/R-tree: ratio 0.320 nested-boot [0.265, 0.389]  build-only boot [0.277, 0.372]  geo-mean per-build 0.311 t-CI [0.270, 0.358]  builds with ratio<1: 24/24  solve diff +0.0023 [+0.0000, +0.0069]
+
+== all 18: 18 cells, 2592 jobs/arm
+  R-tree  mean evals     71802  solves 2582/2592  worker s    17284  mean 6.67
+  R-lib   mean evals     18377  solves 2592/2592  worker s     4158  mean 1.60
+  R-perm  mean evals     25036  solves 2592/2592  worker s     5715  mean 2.20
+  R-perm/R-lib: ratio 1.362 nested-boot [1.167, 1.587]  build-only boot [1.198, 1.549]  geo-mean per-build 1.355 t-CI [1.188, 1.546]  builds with ratio<1: 4/24  solve diff +0.0000 [+0.0000, +0.0000]
+  R-perm/R-tree: ratio 0.349 nested-boot [0.298, 0.407]  build-only boot [0.305, 0.400]  geo-mean per-build 0.334 t-CI [0.291, 0.385]  builds with ratio<1: 24/24  solve diff +0.0039 [+0.0012, +0.0069]
+  R-lib/R-tree: ratio 0.256 nested-boot [0.222, 0.298]  build-only boot [0.227, 0.294]  geo-mean per-build 0.247 t-CI [0.219, 0.278]  builds with ratio<1: 24/24  solve diff +0.0039 [+0.0012, +0.0069]
+
+== B/C learned then-pair (4): 4 cells, 576 jobs/arm
+  R-tree  mean evals     77158  solves 572/576  worker s     4222  mean 7.33
+  R-lib   mean evals     29440  solves 576/576  worker s     1539  mean 2.67
+  R-perm  mean evals     25583  solves 576/576  worker s     1324  mean 2.30
+  R-perm/R-lib: ratio 0.869 nested-boot [0.629, 1.167]  build-only boot [0.678, 1.098]  geo-mean per-build 0.892 t-CI [0.709, 1.122]  builds with ratio<1: 11/24  solve diff +0.0000 [+0.0000, +0.0000]
+  R-perm/R-tree: ratio 0.332 nested-boot [0.266, 0.406]  build-only boot [0.288, 0.378]  geo-mean per-build 0.314 t-CI [0.271, 0.364]  builds with ratio<1: 24/24  solve diff +0.0069 [+0.0000, +0.0174]
+  R-lib/R-tree: ratio 0.382 nested-boot [0.297, 0.492]  build-only boot [0.312, 0.471]  geo-mean per-build 0.352 t-CI [0.286, 0.435]  builds with ratio<1: 23/24  solve diff +0.0069 [+0.0000, +0.0174]
+
+== B/C other then-pair (8): 8 cells, 1152 jobs/arm
+  R-tree  mean evals     70258  solves 1151/1152  worker s     7589  mean 6.59
+  R-lib   mean evals     23294  solves 1152/1152  worker s     2346  mean 2.04
+  R-perm  mean evals     26396  solves 1152/1152  worker s     2713  mean 2.35
+  R-perm/R-lib: ratio 1.133 nested-boot [0.935, 1.361]  build-only boot [0.978, 1.311]  geo-mean per-build 1.085 t-CI [0.927, 1.268]  builds with ratio<1: 10/24  solve diff +0.0000 [+0.0000, +0.0000]
+  R-perm/R-tree: ratio 0.376 nested-boot [0.300, 0.469]  build-only boot [0.315, 0.448]  geo-mean per-build 0.350 t-CI [0.292, 0.419]  builds with ratio<1: 24/24  solve diff +0.0009 [+0.0000, +0.0035]
+  R-lib/R-tree: ratio 0.332 nested-boot [0.286, 0.387]  build-only boot [0.295, 0.375]  geo-mean per-build 0.323 t-CI [0.288, 0.362]  builds with ratio<1: 24/24  solve diff +0.0009 [+0.0000, +0.0035]
+
+== B/C per realization (R-perm/R-lib), 576 jobs per arm per realization
+  realization 0: R-perm    25697  R-lib    23851  R-tree    76397  ratio 1.077 build-boot [0.840, 1.328]  builds<1 13/24
+  realization 1: R-perm    25826  R-lib    25707  R-tree    68500  ratio 1.005 build-boot [0.804, 1.212]  builds<1 10/24
+  realization 2: R-perm    26851  R-lib    26471  R-tree    72778  ratio 1.014 build-boot [0.766, 1.317]  builds<1 13/24
+  per repeat R-perm/R-lib: [np.float64(1.038), np.float64(1.039), np.float64(0.966), np.float64(1.126), np.float64(0.971), np.float64(1.064)]
+
+== per cell (144 jobs/arm): split, then-pair, mean evals per arm, R-perm/R-lib, R-lib/R-tree, solves
+  A GS:(X0+X1)>(X2+X3)?(X0+X2):X1      then=(0, 2) tree   69460 lib    5234 perm   24656  perm/lib 4.71  lib/tree 0.075  solves 143/144/144
+  A GS:(X0+X1)>(X2+X3)?(X1+X3):X1      then=(1, 3) tree   79036 lib    7527 perm   26551  perm/lib 3.53  lib/tree 0.095  solves 143/144/144
+  A GS:(X2+X3)>(X0+X1)?(X0+X2):X3      then=(0, 2) tree   65012 lib    2450 perm   17676  perm/lib 7.22  lib/tree 0.038  solves 144/144/144
+  A GS:(X2+X3)>(X0+X1)?(X1+X2):X2      then=(1, 2) tree   92679 lib    3957 perm   27604  perm/lib 6.98  lib/tree 0.043  solves 141/144/144
+  A GS:(X2+X3)>(X0+X1)?(X1+X3):X2      then=(1, 3) tree   74327 lib    3797 perm   21182  perm/lib 5.58  lib/tree 0.051  solves 144/144/144
+  A GS:(X2+X3)>(X0+X1)?(X2+X3):X0      then=(2, 3) tree   41214 lib    3705 perm   19477  perm/lib 5.26  lib/tree 0.090  solves 144/144/144
+  B GS:(X0+X2)>(X1+X3)?(X0+X3):X2      then=(0, 3) tree   65244 lib   20421 perm   30793  perm/lib 1.51  lib/tree 0.313  solves 144/144/144
+  B GS:(X0+X2)>(X1+X3)?(X1+X2):X3      then=(1, 2) tree   66516 lib   26836 perm   28411  perm/lib 1.06  lib/tree 0.403  solves 144/144/144
+  B GS:(X1+X3)>(X0+X2)?(X0+X1):X0      then=(0, 1) tree   73127 lib   31033 perm   24871  perm/lib 0.80  lib/tree 0.424  solves 143/144/144
+  B GS:(X1+X3)>(X0+X2)?(X0+X3):X3      then=(0, 3) tree   93118 lib   33344 perm   33941  perm/lib 1.02  lib/tree 0.358  solves 144/144/144
+  B GS:(X1+X3)>(X0+X2)?(X1+X2):X3      then=(1, 2) tree   73404 lib   23824 perm   28137  perm/lib 1.18  lib/tree 0.325  solves 144/144/144
+  B GS:(X1+X3)>(X0+X2)?(X2+X3):X2      then=(2, 3) tree   84050 lib   35666 perm   28327  perm/lib 0.79  lib/tree 0.424  solves 142/144/144
+  C GS:(X0+X3)>(X1+X2)?(X0+X1):X0      then=(0, 1) tree   77712 lib   21724 perm   23964  perm/lib 1.10  lib/tree 0.280  solves 143/144/144
+  C GS:(X0+X3)>(X1+X2)?(X0+X1):X1      then=(0, 1) tree   73744 lib   29335 perm   25168  perm/lib 0.86  lib/tree 0.398  solves 144/144/144
+  C GS:(X0+X3)>(X1+X2)?(X0+X3):X2      then=(0, 3) tree   55138 lib   17543 perm   20617  perm/lib 1.18  lib/tree 0.318  solves 144/144/144
+  C GS:(X0+X3)>(X1+X2)?(X1+X2):X1      then=(1, 2) tree   74711 lib   21193 perm   28487  perm/lib 1.34  lib/tree 0.284  solves 144/144/144
+  C GS:(X0+X3)>(X1+X2)?(X1+X3):X0      then=(1, 3) tree   68944 lib   20805 perm   23244  perm/lib 1.12  lib/tree 0.302  solves 143/144/144
+  C GS:(X1+X2)>(X0+X3)?(X1+X2):X1      then=(1, 2) tree   64992 lib   22388 perm   17534  perm/lib 0.78  lib/tree 0.344  solves 144/144/144
+
+== B/C attempt of solve (solved jobs) and first-attempt share
+  R-tree: {1: 871, 2: 457, 3: 218, 4: 101, 5: 45, 6: 18, 7: 11, 8: 2}  first-attempt 871/1728 = 0.504  unsolved 5
+  R-lib: {1: 1367, 2: 285, 3: 57, 4: 15, 5: 2, 8: 2}  first-attempt 1367/1728 = 0.791  unsolved 0
+  R-perm: {1: 1385, 2: 239, 3: 74, 4: 17, 5: 10, 6: 2, 7: 1}  first-attempt 1385/1728 = 0.802  unsolved 0
+== A attempt of solve
+  R-tree: {1: 472, 2: 206, 3: 97, 4: 50, 5: 18, 6: 7, 7: 6, 8: 3}  first-attempt 472/864 = 0.546  unsolved 5
+  R-lib: {1: 849, 2: 15}  first-attempt 849/864 = 0.983  unsolved 0
+  R-perm: {1: 705, 2: 130, 3: 16, 4: 9, 5: 3, 6: 1}  first-attempt 705/864 = 0.816  unsolved 0
+
+== B/C evaluations distribution per arm (median, p25, p75, p90, max)
+  R-tree: median 59648 p25 7424 p75 105664 p90 199680 max 524288  share at 1st-attempt-cap or more (>65536) 0.496
+  R-lib: median 5632 p25 3328 p75 25920 p90 71757 max 485120  share at 1st-attempt-cap or more (>65536) 0.209
+  R-perm: median 4864 p25 2816 p75 20992 p90 73293 max 458496  share at 1st-attempt-cap or more (>65536) 0.198
+
+== operator totals on B/C per arm
+  R-tree {}
+  R-lib {}
+  R-perm {}
+
+== timing: jobs 7776 wall 2721 worker 27157 concurrency 9.98
+per-arm worker seconds: {'R-tree': 17284, 'R-lib': 4158, 'R-perm': 5715}

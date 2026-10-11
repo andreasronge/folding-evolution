@@ -9,13 +9,16 @@ Current summary: **closed (run 2026-10-11-0348, commit `1f02bb7`): yes, as a sea
 shape. On 18 protected cells of `x4-gate-sum-v1` (`(Xa+Xb)>(Xc+Xd) ? Xe+Xf : Xg`, frozen with the method before
 any protected search), the 24 unchanged 0150 libraries cut restarted tree GP's mean evaluations to 0.250×
 [0.217, 0.289] of R-tree's (69,442 → 17,346) and to 0.291× [0.231, 0.372] of size- and length-matched random
-donors, with no reliability loss (1,728/1,728 vs 1,726/1,728 solved; guard lower bound 0.000).** Lower in 18/18
+donors; no reliability loss observed (1,728/1,728 vs 1,726/1,728 solved) and the registered 3-point
+noninferiority guard passed (lower bound 0.000).** Lower in 18/18
 cells and 24/24 builds; worker seconds agree (0.234×); with the 0150 acquisition charged a library repays after
 about 55 [49, 62] gate-sum searches.
 - The gain is strongly split-dependent: 0.055× [0.042, 0.071] on the split whose predicate the libraries learned
   on DG, where about half the solvers contain that predicate verbatim; 0.363× [0.299, 0.434] and 0.338× [0.287,
   0.400] on the two splits no learned predicate covers, where large entries rarely survive verbatim. Quote the
   pooled 0.25 only with these.
+- Later ([47](../47-tree-donor-arrangement/question.md)): label-rearranged libraries kept the B/C gain (R-perm ÷
+  R-lib 1.03 [0.85, 1.23]) and lost A's extra gain (5.1×), so A's extra gain needs the learned arrangement.
 - Not separated: what carries the ≈ 3× floor on the unlearned splits (pair sums, small entries, or an
   input/`ADD` frequency shift the size control does not match). The size control's own effect is unresolved
   (R-size ÷ R-tree 0.860× [0.716, 1.011]).
@@ -28,8 +31,9 @@ Competing explanations:
   add little or crowd the 32-token cap: R-lib ≈ R-tree;
 - (c) any gain is donor size/repetition, not content: R-lib ≈ R-size < R-tree.
 
-Reading: (a) supported at this scope, in every pair split and beyond the size control, mostly via the matched
-predicate; (b) not supported; (c) not supported for content beyond this size control.
+Reading: (a) supported at this scope, in every pair split and beyond the size control; the relative gain is
+much larger on the predicate-matched split (0.055× vs 0.34–0.36×), though that split carries only about 43% of
+the pooled evaluation savings; (b) not supported; (c) not supported for content beyond this size control.
 
 Scope: one fresh shape built from the libraries' own parts (reuse across composition, not unfamiliar
 content); one acquisition cohort on DG sources; one extractor, rate and restart schedule. Two development cells were probed before the freeze; protected

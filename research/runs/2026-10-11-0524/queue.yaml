@@ -1,0 +1,65 @@
+runs:
+  - id: 2026-10-11-0524-prepare
+    cmd: RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.tree_permutation_run --prepare --workers 10 --deadline-seconds 2400
+    timeout_seconds: 2400
+    track: chem-tape
+    expect_outputs:
+      - config.json
+      - bank.json
+      - method_freeze.json
+      - schedule_audit.json
+      - schedules.json
+      - verification.json
+      - reconstruction.json
+      - libraries.json
+      - construction_audit.json
+      - replay.json
+      - replay.jsonl
+      - stage0.jsonl
+      - stage_gate.json
+      - timing.json
+      - preparation.json
+    notes: >-
+      Rebuild all 24 frozen 0150 libraries from the full source cohort including
+      failures. Preserve reviewed search/extraction code. Freeze three seeded
+      size/arity/width-conditioned constructions per build, with exact matching,
+      complete parsing and compiler/interpreter/Python/Rust agreement on D625.
+      Audit predicate survival and pair supply without filtering or selection.
+      Six saved 0348 R-lib determinism replays; 288 full-budget restarted R-perm
+      development jobs across all four cells and 72 constructions at ten workers.
+      Project scoring with historical all-cell baseline rates, B/C floors,
+      upward replay host adjustment, actual sustained concurrency and 30% reserve.
+      If six repeats exceed 100 minutes, use four for all arms and first two
+      constructions with repeat modulo two. Stop if that also exceeds 100 minutes.
+      Smoke preparations never authorize scoring.
+  - id: 2026-10-11-0524-score
+    cmd: RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.tree_permutation_run --workers 10 --deadline-seconds 7200 --preparation "$RUN_DIR/../2026-10-11-0524-prepare"
+    timeout_seconds: 7200
+    track: chem-tape
+    expect_outputs:
+      - config.json
+      - bank.json
+      - method_freeze.json
+      - schedule_audit.json
+      - schedules.json
+      - preparation.json
+      - libraries.json
+      - construction_audit.json
+      - search.jsonl
+      - timing.json
+      - result.json
+      - report.md
+      - dynamics.png
+      - economics.png
+    notes: >-
+      Requires admitted unchanged production preparation and revalidated source,
+      construction, replay and calibration evidence. Full approved grid: 24 builds
+      x18 development-bank cells x6 repeats x3 arms=7776 jobs (or the fixed 5184-job
+      runtime fallback), with common eight-attempt seeds and matched initial
+      populations/cases. Primary R-perm/R-lib arithmetic capped evaluations on
+      twelve equally weighted B/C cells, paired build/construction bootstrap
+      preserving both repeats and reference rows. Registered replication,
+      reliability, baseline and A positive-control guards; fixed decision margins.
+      Report split and then-pair subgroups, actual donor use/rejections, construction
+      pair/predicate supply, worker seconds and source-acquisition-plus-search curves
+      charged to both donor arms. No performance selection or automatic top-up.

@@ -1,0 +1,31 @@
+{
+  "admitted": true,
+  "repeats": 4,
+  "realizations": 2,
+  "realization_rule": "repeat modulo active realization count; first preselected constructions only",
+  "arms": {
+    "R-tree": {
+      "mean_worker_seconds": 6.421525647967025
+    },
+    "R-lib": {
+      "mean_worker_seconds": 2.12
+    },
+    "R-perm": {
+      "jobs": 36,
+      "solves": 36,
+      "mean_evaluations": 25024.0,
+      "measured_mean_worker_seconds": 1.799008416691019,
+      "mean_worker_seconds": 2.12
+    }
+  },
+  "effective_concurrency": 4.874714120897255,
+  "replay_host_scale": 1.0,
+  "sustained_wall_seconds": 13.285764332977124,
+  "projections_seconds": {
+    "6": 7459.678699594636,
+    "4": 5003.11913306309
+  },
+  "scoring_projected_seconds": 5003.11913306309,
+  "scoring_limit_seconds": 6000,
+  "projection": "saved all-cell R-tree/R-lib rates with B/C floors and upward replay host adjustment; measured R-perm development rate with R-lib floor; sustained concurrency; 30% reserve +90s; protected heterogeneity unmeasured"
+}

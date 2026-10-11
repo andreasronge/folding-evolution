@@ -1,0 +1,4544 @@
+{
+  "passed": true,
+  "builds": 24,
+  "constructions": 72,
+  "verified_entries": 543,
+  "per_construction": [
+    {
+      "build": 0,
+      "realization": 0,
+      "seed": 8467897560420066956,
+      "entries_hash": "78b8256a81f5a99906c9cf7ef45c666cd63b773c5785b3216b4255adb682a677",
+      "entry_count": 5,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 4,
+      "changed_behaviours": 3,
+      "unique_behaviours": 5,
+      "behaviour_hash": "908202c6982f9aab428d3f016d92262b1953e6b26e83cf22dc770788e1543417",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 0,
+      "realization": 1,
+      "seed": 1466636836710927023,
+      "entries_hash": "1dc6e596c2676a29ae09d769829078e7140342830af9ad706b824e8d4e3bf707",
+      "entry_count": 5,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 4,
+      "changed_behaviours": 3,
+      "unique_behaviours": 5,
+      "behaviour_hash": "6fc26bb6bae30a1f216c015379a648e5b034dfe611b7b02865663d18b1832d55",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 1,
+          "(1, 3)": 1,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 2,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 0,
+      "realization": 2,
+      "seed": 4406718825988298154,
+      "entries_hash": "9b6ccfeb22c6bb1d2501dd1ecd1dbe487ee4a9b7f17563276fd4c8a8cc916c66",
+      "entry_count": 5,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 2,
+      "changed_behaviours": 2,
+      "unique_behaviours": 5,
+      "behaviour_hash": "15894409952e01b4b0809fb98cbf7f10e468c6401b8c091b5d4900098c18559c",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 2
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 1,
+      "realization": 0,
+      "seed": 8790989500898253297,
+      "entries_hash": "374b7dcdecb5db8b53a3cb9d1d227f6d9da7e98a9980cbba800631097d09746d",
+      "entry_count": 6,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 5,
+      "changed_behaviours": 5,
+      "unique_behaviours": 6,
+      "behaviour_hash": "f467ae597d6dbe07ddd25b752fa97b1e065c8f6f0341d9f716d7055ee74c6f0e",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 2,
+          "(1, 2)": 2
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 4
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 1,
+      "realization": 1,
+      "seed": 1135972043046929537,
+      "entries_hash": "5dc1aa9f5fabf0bcad95149e38df706da413a23215a3dece7b9022c7798f6764",
+      "entry_count": 6,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 3,
+      "changed_behaviours": 3,
+      "unique_behaviours": 6,
+      "behaviour_hash": "eb6a713769d7be17ae4e3da8e075e92274a9c1e6a007dc8797674634043209d4",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 2,
+          "(1, 3)": 2,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 4,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 1,
+      "realization": 2,
+      "seed": 6127763063926864848,
+      "entries_hash": "6ae592bc7799d9f415ce5165ac82e83c2028af5e8eb4cc896d35a0aa068bc9ce",
+      "entry_count": 6,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 5,
+      "changed_behaviours": 5,
+      "unique_behaviours": 5,
+      "behaviour_hash": "e4073850b0876624d94c4e19bc5ee62b82d16ab299e677f2abe7e6631d37c584",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 3,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 2,
+      "realization": 0,
+      "seed": 1729765191889981553,
+      "entries_hash": "cd773b87ff9304853d41ee9b6faa33b846b86b7b9342daef82604b3d276a3b0d",
+      "entry_count": 3,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 3,
+      "changed_behaviours": 3,
+      "unique_behaviours": 3,
+      "behaviour_hash": "50bd9db3007e3f7a08370d408b7944218f0f06ed8ecb668b068500da834117aa",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 1,
+          "(1, 3)": 1,
+          "(0, 3)": 1,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 2,
+          "((0, 3), (1, 2))": 2
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 2,
+      "realization": 1,
+      "seed": 8588802199661760029,
+      "entries_hash": "51703c8188b4142ee5ab13209ad7d5f53c7cd9bf68de5d929bf2970af914199c",
+      "entry_count": 3,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 3,
+      "changed_behaviours": 3,
+      "unique_behaviours": 3,
+      "behaviour_hash": "886d33ea5fa99ab6a7044ebc8230c97cb1b8c08fa2e9fa260c65dd4801c3ef2b",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 1,
+          "(0, 2)": 1,
+          "(1, 3)": 1,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 2,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 2,
+      "realization": 2,
+      "seed": 1035570722905131423,
+      "entries_hash": "deba8ee7359a1554e19f2133116c87a49f1536fbd6810f045d27b67e7c04c4d9",
+      "entry_count": 3,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 3,
+      "changed_behaviours": 3,
+      "unique_behaviours": 3,
+      "behaviour_hash": "bc1e2f312922dc332e47c33db259342cc471fcd67eb753c7aab5959175c14d48",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 1,
+          "(1, 3)": 1,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 2,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 3,
+      "realization": 0,
+      "seed": 6103845858975302101,
+      "entries_hash": "b16f358846938e667dda6d574a1f6d2ef75216483c4d9b2da75236ae6673f505",
+      "entry_count": 8,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 6,
+      "changed_behaviours": 6,
+      "unique_behaviours": 8,
+      "behaviour_hash": "58450e3eac1d2a2f13b4e7e81a0843ab98c24ce534a8c43b9a065fe7ebd2ada0",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 0,
+          "(0, 2)": 2,
+          "(1, 3)": 2,
+          "(0, 3)": 1,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 4,
+          "((0, 3), (1, 2))": 2
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 1
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 3,
+          "(2, 3)": 3,
+          "(0, 2)": 0,
+          "(1, 3)": 1,
+          "(0, 3)": 1,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 6,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 3,
+      "realization": 1,
+      "seed": 8761684890407329453,
+      "entries_hash": "21c6c97ae646bf5c68f28810752d1f599f29b3caa0f0e4a7983e2fe71d1158eb",
+      "entry_count": 8,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 7,
+      "changed_behaviours": 7,
+      "unique_behaviours": 8,
+      "behaviour_hash": "99b1e47ea35007aaa7ff40475594e2428ea99ada74a7d09d7a92c17bc2c2b1a9",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 1,
+          "(0, 3)": 2,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 3
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 3,
+          "(2, 3)": 3,
+          "(0, 2)": 0,
+          "(1, 3)": 1,
+          "(0, 3)": 1,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 6,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 3,
+      "realization": 2,
+      "seed": 5132716645291183465,
+      "entries_hash": "4c0ece2ec5977a493888f8a395739074c8d36260cebec8fc30eeb265ddd532eb",
+      "entry_count": 8,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 5,
+      "changed_behaviours": 5,
+      "unique_behaviours": 8,
+      "behaviour_hash": "74034beff943559a17250a33a8ccc2ef8492f790b3cbb1a45a4435ac8411f375",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 1,
+          "(0, 3)": 1,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 2
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 3,
+          "(2, 3)": 3,
+          "(0, 2)": 0,
+          "(1, 3)": 1,
+          "(0, 3)": 1,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 6,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 4,
+      "realization": 0,
+      "seed": 9157316913673651497,
+      "entries_hash": "37a21af87afcd36e5b5d3e92082a05f80202def6e844aa7ab34585b3287d4b65",
+      "entry_count": 8,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 8,
+      "changed_behaviours": 7,
+      "unique_behaviours": 7,
+      "behaviour_hash": "2e38e413c78f2d8a0c241968e49bc2fb1ab7e241d1b261e6a91acbf2f228efd2",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 1,
+          "(0, 2)": 1,
+          "(1, 3)": 1,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 2,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 4,
+          "(2, 3)": 3,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 7,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 4,
+      "realization": 1,
+      "seed": 4736576293606889680,
+      "entries_hash": "d4f8c21589d5e16349b728c55b7d563573f3c67f0c30833d98a473138ef52f4b",
+      "entry_count": 8,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 4,
+      "changed_behaviours": 4,
+      "unique_behaviours": 8,
+      "behaviour_hash": "85ecf17fc14111bdb9b0aecddd1a89879c65c0bba17c87385c4cdc7712ca8b41",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 3,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 2
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 4,
+          "(2, 3)": 3,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 7,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 4,
+      "realization": 2,
+      "seed": 3748573399806688645,
+      "entries_hash": "451794e75a2b4b5d1455213b7945d54881f26eea0cdb165624721e8e00e6de11",
+      "entry_count": 8,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 7,
+      "changed_behaviours": 6,
+      "unique_behaviours": 7,
+      "behaviour_hash": "802e5bf2836b8ecce2413acc1bd36cedc79623ca7370c8064ca6e3a8a796bc81",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 3,
+          "(1, 3)": 1,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 4,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 4,
+          "(2, 3)": 3,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 7,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 5,
+      "realization": 0,
+      "seed": 812224347452121576,
+      "entries_hash": "3ef8f2d6ce68a47f4cdd373b0b68e36aebadb7e15340da0f034c46e101e3ba1c",
+      "entry_count": 7,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 7,
+      "changed_behaviours": 6,
+      "unique_behaviours": 7,
+      "behaviour_hash": "1881acbcafcb09ccddf08681a3c3612412173f0931a12367f74c25f75c63bea1",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 2
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 3,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 5,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 5,
+      "realization": 1,
+      "seed": 8811823976936806150,
+      "entries_hash": "49e24b60f2edf852be70336dfd8a56c7927f7505cc4ac2e2e583f1b46cfa8856",
+      "entry_count": 7,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 7,
+      "changed_behaviours": 6,
+      "unique_behaviours": 7,
+      "behaviour_hash": "6e1e0b891645a630fa022d945674f38293daa6b67dd8e1d1b57815ab42c40630",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 1,
+          "(0, 3)": 1,
+          "(1, 2)": 2
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 3
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 3,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 5,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 5,
+      "realization": 2,
+      "seed": 2651622224031032323,
+      "entries_hash": "6822ae931ab0e4622c5e196e7d69d04db93f36afbf6089e19e0fbd1048ad2327",
+      "entry_count": 7,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 7,
+      "changed_behaviours": 6,
+      "unique_behaviours": 7,
+      "behaviour_hash": "2776ed5cb5ec922333ffc0227a78c7cf61a1a48d1632a07d824e754a08a75794",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 1,
+          "(0, 3)": 1,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 3,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 5,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 6,
+      "realization": 0,
+      "seed": 8763683733883107102,
+      "entries_hash": "f028714fad12b4fbe26a6efe48fafece8107cb66a80c5ccfee2d4db1ca5e35f0",
+      "entry_count": 6,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 6,
+      "changed_behaviours": 6,
+      "unique_behaviours": 6,
+      "behaviour_hash": "2656889962b7eedc7b9335db5e0f409fb6e0b24dbf0b80c3d7a1e5256abd32d1",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 1,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 6,
+      "realization": 1,
+      "seed": 313267036308780121,
+      "entries_hash": "1689070ca5e36650bcef08b8d82300cb8965fb3e09e66ab9fa918081afcda1b8",
+      "entry_count": 6,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 6,
+      "changed_behaviours": 6,
+      "unique_behaviours": 6,
+      "behaviour_hash": "940138c159b2ba00751399c1cc72cd3197fdda954fd3414fe18a39428fde2178",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 1,
+          "(1, 3)": 2,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 3,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 6,
+      "realization": 2,
+      "seed": 2499528322837091781,
+      "entries_hash": "be5b4de5e8a73e0e38736d95761ff6eb9ef086ff87df94003d51c68244977513",
+      "entry_count": 6,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 5,
+      "changed_behaviours": 5,
+      "unique_behaviours": 6,
+      "behaviour_hash": "8319a8c6ee5c6e17e204177cd3ede3c42d3f539520ae4850624c97a89f638d26",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 2
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 7,
+      "realization": 0,
+      "seed": 4384287702980186446,
+      "entries_hash": "d1f4961bda9de0e39d1b94c291219c3d81c6e6dedd86fd4f251aa913725575a7",
+      "entry_count": 6,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 5,
+      "changed_behaviours": 4,
+      "unique_behaviours": 6,
+      "behaviour_hash": "ee0082dd0a4ea801c6bee160a2a69434248cf96c3a1ee7f06488bc32a53a7d77",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 1,
+          "(0, 3)": 1,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 3,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 7,
+      "realization": 1,
+      "seed": 2544366875449082024,
+      "entries_hash": "406191f81c191ab196df6af5c99f55796094ce89040249b727e094e93b635784",
+      "entry_count": 6,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 4,
+      "changed_behaviours": 4,
+      "unique_behaviours": 5,
+      "behaviour_hash": "a1231d200d96a56505da07359daf609e2c2c3d27b7a6fc9a9dd74c4d60c57d20",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 2,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 2,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 3,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 7,
+      "realization": 2,
+      "seed": 5471203161706518084,
+      "entries_hash": "1658c8a2bf2c869a54b0f933e381bd8e833850429d741fcb176c3585665ec3c6",
+      "entry_count": 6,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 3,
+      "changed_behaviours": 2,
+      "unique_behaviours": 6,
+      "behaviour_hash": "dcd828d6c64054a7ef91d4237690c84a9628d01e2c2a8e74b16c61a15fa979c7",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 0,
+          "(0, 2)": 1,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 3,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 8,
+      "realization": 0,
+      "seed": 3552803156244660325,
+      "entries_hash": "30ad81b79076e88737093b182ae85d8d443863b482461c4bbf991744bc32897b",
+      "entry_count": 12,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 12,
+      "changed_behaviours": 10,
+      "unique_behaviours": 12,
+      "behaviour_hash": "603fc44657e53c1ae61e724be50ee0af7d6a1612bed3dbec34342103104c4034",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 0,
+          "(0, 2)": 1,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 2
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 3
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 8,
+      "realization": 1,
+      "seed": 3530521556595927851,
+      "entries_hash": "860fcf7d458acd648851e6789555af02878956a5ea90b5d081b62c7950aca6fa",
+      "entry_count": 12,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 9,
+      "changed_behaviours": 7,
+      "unique_behaviours": 11,
+      "behaviour_hash": "1bfebb15f63c0a5ed5ec742ed2ac55c7890b7c02d816d4bdd83185625e14bfd3",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 0,
+          "(0, 2)": 1,
+          "(1, 3)": 2,
+          "(0, 3)": 0,
+          "(1, 2)": 2
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 3,
+          "((0, 3), (1, 2))": 2
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 8,
+      "realization": 2,
+      "seed": 2679238916395028915,
+      "entries_hash": "ab62ac1058701358f3daf1fb2dffb480b8d005d87328ac9cc7b58e0211c75e28",
+      "entry_count": 12,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 12,
+      "changed_behaviours": 10,
+      "unique_behaviours": 12,
+      "behaviour_hash": "0fb48b9a7ee5fb00dce0c1ba0e2f51a2b827d7e96587587a422c082586842bb8",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 2,
+          "(1, 3)": 2,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 4,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 9,
+      "realization": 0,
+      "seed": 5028779020090007506,
+      "entries_hash": "7727b4c2a3798232637ddbc462063035fa32c2356e63401c3b1e2f5319064e95",
+      "entry_count": 8,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 5,
+      "changed_behaviours": 5,
+      "unique_behaviours": 8,
+      "behaviour_hash": "b214a1bcc9ec09ec60bbd0ace1153f41307e6c5917b22c9a53e8256743bf2f2a",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 3,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 5,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 9,
+      "realization": 1,
+      "seed": 6687707380800451974,
+      "entries_hash": "a4444b9e59d0eef074f0d6c2cbfc7c359ea5732c23b1459c869062636f5ea966",
+      "entry_count": 8,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 7,
+      "changed_behaviours": 7,
+      "unique_behaviours": 8,
+      "behaviour_hash": "80eebffb3a68df403bd82690925112bf5b48d066f8f53d6e872ff05897b70a03",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 1,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 3,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 5,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 9,
+      "realization": 2,
+      "seed": 6207514475770588604,
+      "entries_hash": "c63b8a2d616eb5082ea1a39c293cf11e6b0c650e37d6e9607caec200cf84601f",
+      "entry_count": 8,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 5,
+      "changed_behaviours": 5,
+      "unique_behaviours": 7,
+      "behaviour_hash": "2f407bf6b88342ce9efc7d861256f14a89088e6d021ccf0b7fc39b381bf5ecbb",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 2
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 3,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 5,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 10,
+      "realization": 0,
+      "seed": 292364375964587283,
+      "entries_hash": "b8ca05fab71e470f9080daac15b25cc032d91299f9f666ca7943b70a1bbe0af8",
+      "entry_count": 4,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 1,
+      "changed_behaviours": 1,
+      "unique_behaviours": 4,
+      "behaviour_hash": "eb6c3599cc4086b9f228da318bf3a9922980a8b274a84cb372b53a37fa020222",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 10,
+      "realization": 1,
+      "seed": 4672402120580416572,
+      "entries_hash": "2d13f91cafa638bfe728e25fce3330ca80a75f2ef9b3ba7e9ebc3926f31c6c28",
+      "entry_count": 4,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 3,
+      "changed_behaviours": 3,
+      "unique_behaviours": 4,
+      "behaviour_hash": "7c6314b618a0dd892b63c3c89126597fecbeeb848f9c5646cf604189bf5df094",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 2,
+          "(1, 2)": 2
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 4
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 10,
+      "realization": 2,
+      "seed": 7632164117548947422,
+      "entries_hash": "419d14e36f458c7ae1c9f04dad7b36e667cc9c264f5fd773ec60a65817d4149e",
+      "entry_count": 4,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 3,
+      "changed_behaviours": 3,
+      "unique_behaviours": 4,
+      "behaviour_hash": "5488c7408e3ddd8ff27544e5c6adc92dd918f0b6f3a5be84392e85741bfaabe4",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 2,
+          "(1, 2)": 2
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 4
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 11,
+      "realization": 0,
+      "seed": 806744577497399318,
+      "entries_hash": "66b92e45454af19dd8740b7fb9175ee0bfc8f76d845d1a68e09c8e87e3a7da87",
+      "entry_count": 12,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 11,
+      "changed_behaviours": 11,
+      "unique_behaviours": 11,
+      "behaviour_hash": "1456e39ba82884d671a52d489d03b142e5ff48a90e7b64a3302a9f7bb70f5484",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 0,
+          "(0, 2)": 1,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 11,
+      "realization": 1,
+      "seed": 5043805433474539160,
+      "entries_hash": "a6295abb81c25f979f5767e3ad76538a95d8b38f354e54883dcc9387469e0b87",
+      "entry_count": 12,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 12,
+      "changed_behaviours": 12,
+      "unique_behaviours": 12,
+      "behaviour_hash": "43a74ec81899ceb61383a0914b85f982a96753e5303426f2c85af996a9e73b5b",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 1,
+          "(0, 2)": 1,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 11,
+      "realization": 2,
+      "seed": 8692969078992470498,
+      "entries_hash": "cbea6abc004f70ec60328258669894df6f289bd99dd0eb51d30e0ef98ead7a57",
+      "entry_count": 12,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 11,
+      "changed_behaviours": 10,
+      "unique_behaviours": 12,
+      "behaviour_hash": "08c68b74b29e23caee3a3fb471edcecd3edcdfcbc70facbd2e9872512d836c83",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 2
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 12,
+      "realization": 0,
+      "seed": 4728603548222895899,
+      "entries_hash": "09d5224a60e57435dbe517eef1dbd1ad29cd5a65badf144181e21cf7f8ab58c4",
+      "entry_count": 8,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 7,
+      "changed_behaviours": 7,
+      "unique_behaviours": 8,
+      "behaviour_hash": "c698089b5f3e70e3786a52072b8111994e9f312e84a6833c8070309746822ee2",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 2,
+          "(1, 2)": 2
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 4
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 12,
+      "realization": 1,
+      "seed": 7244526674123423476,
+      "entries_hash": "79120c679d54e47164afa9aae05d321d6fecc270b915dd7df0e946d741fdc978",
+      "entry_count": 8,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 6,
+      "changed_behaviours": 6,
+      "unique_behaviours": 7,
+      "behaviour_hash": "0fe8496735d26f567902590d33a0bc903f914fae665acfa50c71e1e13f5854c5",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 1,
+          "(1, 3)": 1,
+          "(0, 3)": 1,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 2,
+          "((0, 3), (1, 2))": 2
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 12,
+      "realization": 2,
+      "seed": 7148708433399230473,
+      "entries_hash": "21e20a01724557ebb5f5f4776a1e692787e330e241b9a05cdd2e0c048fc8e126",
+      "entry_count": 8,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 7,
+      "changed_behaviours": 7,
+      "unique_behaviours": 8,
+      "behaviour_hash": "a7fde3230a09216da38094391fc19c0ea031e44d13c5dd02c9f24433c9fa4dfd",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 2,
+          "(1, 3)": 2,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 4,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 13,
+      "realization": 0,
+      "seed": 3731665213626208729,
+      "entries_hash": "1729464fa79ca4cbfe92d31050b01f43d00932b6418627f2e2b0fb9899e2682a",
+      "entry_count": 7,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 7,
+      "changed_behaviours": 7,
+      "unique_behaviours": 7,
+      "behaviour_hash": "9b6e1d15240c2ad3c0e7b7e5093597788600cacc1c84ed94b3a5b6a5c57e2dbc",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 1,
+          "(1, 3)": 1,
+          "(0, 3)": 1,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 2,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 13,
+      "realization": 1,
+      "seed": 5712478761746607710,
+      "entries_hash": "ebb1dd1f5a85557afbf58b3d202b2645afc569575a21633e3e9d1bd259524572",
+      "entry_count": 7,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 7,
+      "changed_behaviours": 7,
+      "unique_behaviours": 7,
+      "behaviour_hash": "02058d0266bf11a64bce17ce02f5ef74973a7b91167429d8a7f21dd73274feb9",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 2
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 13,
+      "realization": 2,
+      "seed": 5468647875702496567,
+      "entries_hash": "27f8de6e1cdd714b170e97c83a6159424743a48d47f3b2d3b706bb9d6d9a1bc5",
+      "entry_count": 7,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 7,
+      "changed_behaviours": 7,
+      "unique_behaviours": 7,
+      "behaviour_hash": "11019dac2ac2cdf7beab03caa4913d4c8ef2089821cf63c1d7dbc4cf9a90c186",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 2,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 2,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 14,
+      "realization": 0,
+      "seed": 1081963403599983425,
+      "entries_hash": "00da90430e63fb14e83afcc5f4ede96be2811b94f46b71ac1520ba85e494f269",
+      "entry_count": 9,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 7,
+      "changed_behaviours": 7,
+      "unique_behaviours": 8,
+      "behaviour_hash": "a654be6781cde8307e158874e8bb5f24744e54b1d6505c751c648129a26554f7",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 3,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 14,
+      "realization": 1,
+      "seed": 2186201561295955600,
+      "entries_hash": "698956bb6773b9ad8747f7e990f3a48beea8c12e67b76af9e5243fc163830134",
+      "entry_count": 9,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 8,
+      "changed_behaviours": 7,
+      "unique_behaviours": 9,
+      "behaviour_hash": "6842ad54bd8f75f09413f2258c0f40c24980a9d4f55649d08c48ae243e029e2b",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 2
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 3,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 14,
+      "realization": 2,
+      "seed": 3993049028137622147,
+      "entries_hash": "30a77017fb55a41e78dacd9fd7969e6fa74c70eecb194ebc49725545a0f4c229",
+      "entry_count": 9,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 3,
+      "changed_behaviours": 3,
+      "unique_behaviours": 8,
+      "behaviour_hash": "54f853fb5702aa15b794e03affc752257c66ee9eef87861c6fbfe87a868cbaa4",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 3,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 15,
+      "realization": 0,
+      "seed": 5049861648018755066,
+      "entries_hash": "d03ba869fa19f45d42a492b27f7d424e7470a10ebbe57a0c21cf4ccf09ba059d",
+      "entry_count": 7,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 6,
+      "changed_behaviours": 6,
+      "unique_behaviours": 6,
+      "behaviour_hash": "48f559ba36d3847df28477b9ff840c0020d8aee50c321624d9ebfaecd319ce1c",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 15,
+      "realization": 1,
+      "seed": 5377917763625321928,
+      "entries_hash": "c3136c02f03ea5026796a6ffa8910040cca86c21f3ea2dfdaf03a08cf16d17a5",
+      "entry_count": 7,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 7,
+      "changed_behaviours": 7,
+      "unique_behaviours": 6,
+      "behaviour_hash": "048e943108369cb3c231641a6a2f1820d5b63a455a7b48811906cf34c89ba41d",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 15,
+      "realization": 2,
+      "seed": 6249162474986126074,
+      "entries_hash": "6050c4b0f790e5f39aa5bbe2ae1460e9fb5df295498c35d7975f9e314c1c6818",
+      "entry_count": 7,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 6,
+      "changed_behaviours": 6,
+      "unique_behaviours": 7,
+      "behaviour_hash": "fd757ab37fed3d1dcc712df7448a970042b961d3f4b5ccbfbdec56037e20f8e7",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 1,
+          "(0, 3)": 1,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 16,
+      "realization": 0,
+      "seed": 2863735837236723150,
+      "entries_hash": "4324f2dc0f31faa6edcb1130744e2243c3c66f3d53b8401e6798a0770a573419",
+      "entry_count": 6,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 5,
+      "changed_behaviours": 5,
+      "unique_behaviours": 6,
+      "behaviour_hash": "ec6ca1ea5e0a0a2bd270b36cdbcb4d3d25a7add1f9460e1a984c84d4e821f651",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 1,
+          "(0, 3)": 2,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 2
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 16,
+      "realization": 1,
+      "seed": 3137305208074569845,
+      "entries_hash": "1d878740794626253251a8b381d1f20f36a42a282828d04ffd9ddc9da21825f8",
+      "entry_count": 6,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 4,
+      "changed_behaviours": 4,
+      "unique_behaviours": 6,
+      "behaviour_hash": "4ba1b91cc59bde822f1902f841daf95246221021f4952f2023a8ce015c7628d9",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 3,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 16,
+      "realization": 2,
+      "seed": 5602896138707718196,
+      "entries_hash": "ea7c497bbbeb2a557444fed760104101ce3ed7b04e047b142e16500f4e4d82f4",
+      "entry_count": 6,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 5,
+      "changed_behaviours": 5,
+      "unique_behaviours": 5,
+      "behaviour_hash": "4ff9ca1fabccbdbf876294b4118c49291d69848cef1dd85a33f3cb7aa3eb7ca5",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 1,
+          "(1, 3)": 3,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 4,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 17,
+      "realization": 0,
+      "seed": 6969885605764212781,
+      "entries_hash": "f891799b3003d81f16202ac42ddbb2f59525ad69e9227f61f226c8d1b9b840fd",
+      "entry_count": 10,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 10,
+      "changed_behaviours": 10,
+      "unique_behaviours": 9,
+      "behaviour_hash": "c72de328d57c9a89196117be92e86c0969ed822aa8217eade88680fd3496c5f4",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 2,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 3
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 17,
+      "realization": 1,
+      "seed": 959023322480099710,
+      "entries_hash": "020649de7b0a314ba6f758d773c10f223ad91f1860a9a9b624b0f87227abc718",
+      "entry_count": 10,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 7,
+      "changed_behaviours": 6,
+      "unique_behaviours": 8,
+      "behaviour_hash": "7e8b7a03b05cf7c3895faebb7180c18c719233568f2c9c4d1e131ba70947443a",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 17,
+      "realization": 2,
+      "seed": 7556463195202830697,
+      "entries_hash": "e20c39740dcfc8e4de86832e6ae53104bbeda740d2bde8d8f0fe148c08ae69f3",
+      "entry_count": 10,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 10,
+      "changed_behaviours": 9,
+      "unique_behaviours": 10,
+      "behaviour_hash": "f948a481465953fe5dfd5e059e7f1e76ad382a2e82d02cdb97e426cbdeb31a30",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 18,
+      "realization": 0,
+      "seed": 2317344228819848196,
+      "entries_hash": "1f7599a9af3211698227e0272be5bc4e3cf01d0df12e269da72bc0944b170659",
+      "entry_count": 9,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 7,
+      "changed_behaviours": 7,
+      "unique_behaviours": 8,
+      "behaviour_hash": "dc546355db781e354caf6845a53e8142f0996e6ef282e57aab462efa8efcea89",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 3,
+          "(0, 2)": 1,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 3,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 3,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 5,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 18,
+      "realization": 1,
+      "seed": 4793930059301297116,
+      "entries_hash": "74e85f39f94a59fc2441b84025d3df50a64e63f9335373e6545af56cd689c137",
+      "entry_count": 9,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 6,
+      "changed_behaviours": 6,
+      "unique_behaviours": 9,
+      "behaviour_hash": "02bdc64fbf69c602d8f16144c97ed4be2787dbad7539dc7aff1a00d20fa7ac54",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 3,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 5,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 18,
+      "realization": 2,
+      "seed": 2168340594794225744,
+      "entries_hash": "d206824bd69fdbcc346fad55481d774ad163a1fca3e16a05ee155a26cf2a008d",
+      "entry_count": 9,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 8,
+      "changed_behaviours": 8,
+      "unique_behaviours": 8,
+      "behaviour_hash": "f07babe175360d8e158c59edfa7f72ee1131da7fa0879517cbe630a32d32fdb4",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 3,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 3,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 5,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 19,
+      "realization": 0,
+      "seed": 1588964087708251500,
+      "entries_hash": "57b3edd7b02c3826e97262c9c860795e2283f96474b8c3b597daf939fadd93b7",
+      "entry_count": 5,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 5,
+      "changed_behaviours": 4,
+      "unique_behaviours": 5,
+      "behaviour_hash": "7cfadfcb58ed8b3ea686f84c3dc1214ed0a33d075ae69c07c5b9d3a9d2166ca0",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 1,
+          "(0, 2)": 1,
+          "(1, 3)": 1,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 2,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 3,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 5,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 19,
+      "realization": 1,
+      "seed": 2874452998082422458,
+      "entries_hash": "62bcadbbf9f5b1a3bb94885f689a1da913e68278edcc034f6c0290c8d6b9b47c",
+      "entry_count": 5,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 4,
+      "changed_behaviours": 4,
+      "unique_behaviours": 5,
+      "behaviour_hash": "e3aafa2659287a8729ade11a094954919710f827f1fe320452c32e5b0424debe",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 3,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 5,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 3,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 5,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 19,
+      "realization": 2,
+      "seed": 7631058339731028627,
+      "entries_hash": "a72f21c0dbf4112c0ac87251560a7690a46ca999f7eb9c71477f15ebec4c1a14",
+      "entry_count": 5,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 5,
+      "changed_behaviours": 4,
+      "unique_behaviours": 4,
+      "behaviour_hash": "db9cf36ca827641cb1bd31c1ed59ee1e84bee55f8cc3f96cc012ddb86e64caec",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 1,
+          "(1, 3)": 1,
+          "(0, 3)": 1,
+          "(1, 2)": 2
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 2,
+          "((0, 3), (1, 2))": 3
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 3,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 5,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 20,
+      "realization": 0,
+      "seed": 1498719863058883153,
+      "entries_hash": "cac74fdf89226a985cbe67adbb3f08c637deb0a15364281c55221e5f5a2236d7",
+      "entry_count": 8,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 7,
+      "changed_behaviours": 6,
+      "unique_behaviours": 7,
+      "behaviour_hash": "e41b3b3904697b70bdb6e6338d1819b90dc0ba0ff30a60e0148655f3d0100e81",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 1,
+          "(0, 2)": 1,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 3,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 5,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 20,
+      "realization": 1,
+      "seed": 8440675523874095226,
+      "entries_hash": "8953d70c82bd4497491129054e40519375adf2267ae901125eaf5338a0cb4588",
+      "entry_count": 8,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 8,
+      "changed_behaviours": 8,
+      "unique_behaviours": 8,
+      "behaviour_hash": "e57673793013627bf2362d8c08dd6dd7f7ff388e67f1b3dc03361610f7521c5a",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 1,
+          "(0, 2)": 1,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 2
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 3,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 5,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 20,
+      "realization": 2,
+      "seed": 5622935584425821703,
+      "entries_hash": "3c7e9eb80d258af2b358c06cd5f45ec71c13b5b658b1e937bbb5073532a2bb3e",
+      "entry_count": 8,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 6,
+      "changed_behaviours": 6,
+      "unique_behaviours": 8,
+      "behaviour_hash": "b85d4774c4fb07400c53910fd39346669fa224ae6777bde9e72748efe287e504",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 0,
+          "(0, 2)": 1,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 3,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 5,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 21,
+      "realization": 0,
+      "seed": 682044522243782471,
+      "entries_hash": "f010f87280ed66640ee1d5757cdd7ad99133fa44cbbad1905810f5075efc01b2",
+      "entry_count": 9,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 5,
+      "changed_behaviours": 4,
+      "unique_behaviours": 9,
+      "behaviour_hash": "b5e01d4f7a71ccb10f797f94e66b47298f5fe2385efd028d56924097635bae27",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 1,
+          "(0, 3)": 1,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 21,
+      "realization": 1,
+      "seed": 4092504940369674787,
+      "entries_hash": "cd2ecc626fb4f879b924509ebbc43178436c2c6308f533c25d9f8848dd44124c",
+      "entry_count": 9,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 6,
+      "changed_behaviours": 5,
+      "unique_behaviours": 9,
+      "behaviour_hash": "0bc37988444ac3742862b04de5f95d907311907e788f2b17559255351b4dad3a",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 2
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 21,
+      "realization": 2,
+      "seed": 5721429733311508210,
+      "entries_hash": "50b8bf0783c96dd94f50a55ac6249b5e0f17444f4975248d854102715c1c50fe",
+      "entry_count": 9,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 4,
+      "changed_behaviours": 4,
+      "unique_behaviours": 9,
+      "behaviour_hash": "2dac97638d2975bf45278542c4f883a77f26a51ff5add0299d203b0abe12856e",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 1,
+          "(0, 3)": 1,
+          "(1, 2)": 2
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 3
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 22,
+      "realization": 0,
+      "seed": 180082222710656616,
+      "entries_hash": "fdd8bead599c6b910ac39bf75f4014e15c19e1730792d24e5afa8378e75be3f3",
+      "entry_count": 11,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 10,
+      "changed_behaviours": 10,
+      "unique_behaviours": 11,
+      "behaviour_hash": "c18933977f36dbd2599a36e7050c379bd5f4bedf4a22be7bee851d84e32f00b2",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 1,
+          "(0, 3)": 0,
+          "(1, 2)": 2
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 2,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 2
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 22,
+      "realization": 1,
+      "seed": 8970710830112578716,
+      "entries_hash": "54e9846e28541d64439cf46d703db0f165ea436b190f33121629d4b90bd913df",
+      "entry_count": 11,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 10,
+      "changed_behaviours": 10,
+      "unique_behaviours": 10,
+      "behaviour_hash": "da041aa0e83d625731d1f5d715f596e97184545d59ed8d3123d667f1dcef0d3d",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 1,
+          "(0, 2)": 1,
+          "(1, 3)": 3,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 4,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 22,
+      "realization": 2,
+      "seed": 9034662249948387778,
+      "entries_hash": "5823e749d3a53f907be19e73d5a1204a7c1c935edce41a28759fbee47e78e36a",
+      "entry_count": 11,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 10,
+      "changed_behaviours": 10,
+      "unique_behaviours": 11,
+      "behaviour_hash": "2e2cd871b2937389324df4a1e982202926d299e8574841d2b13b87e4b2154907",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 2,
+          "(0, 3)": 0,
+          "(1, 2)": 2
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 2,
+          "((0, 3), (1, 2))": 2
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 23,
+      "realization": 0,
+      "seed": 1086760061031361851,
+      "entries_hash": "0e711f21b0e60797ddf4b117067445031d4bc6ee4b19589f6a138988096949de",
+      "entry_count": 7,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 7,
+      "changed_behaviours": 7,
+      "unique_behaviours": 7,
+      "behaviour_hash": "90a0327ba2547abe8673ad243f4262191d4f400a63e6f3c4cf664574ce8ddee9",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 1,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 2
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 2
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 23,
+      "realization": 1,
+      "seed": 1412550633846402962,
+      "entries_hash": "3d09e7d7a130e8f7c6bb6b55adaffa7ec6769f177063d8a9dab3fa6fe90ff06b",
+      "entry_count": 7,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 7,
+      "changed_behaviours": 7,
+      "unique_behaviours": 7,
+      "behaviour_hash": "e167c848f918228e684ce4245f36515ec97bbd7537c4eacd723de60ec69281d9",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 1,
+          "(2, 3)": 0,
+          "(0, 2)": 0,
+          "(1, 3)": 1,
+          "(0, 3)": 0,
+          "(1, 2)": 1
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 1
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    },
+    {
+      "build": 23,
+      "realization": 2,
+      "seed": 438892663396156496,
+      "entries_hash": "001f6fb59932159bcdb7dfe0fb6631a4ebf64075d80ee19584a867e919fb068f",
+      "entry_count": 7,
+      "invariants_passed": true,
+      "semantics_passed": true,
+      "changed": 5,
+      "changed_behaviours": 5,
+      "unique_behaviours": 7,
+      "behaviour_hash": "e506d98d3db94c68aa14452b6871798115255b2117e484a7d019f58c54fb7242",
+      "motifs": {
+        "pair_counts": {
+          "(0, 1)": 0,
+          "(2, 3)": 0,
+          "(0, 2)": 1,
+          "(1, 3)": 0,
+          "(0, 3)": 1,
+          "(1, 2)": 2
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 1,
+          "((0, 3), (1, 2))": 3
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 1
+        }
+      },
+      "original_motifs": {
+        "pair_counts": {
+          "(0, 1)": 2,
+          "(2, 3)": 2,
+          "(0, 2)": 0,
+          "(1, 3)": 0,
+          "(0, 3)": 0,
+          "(1, 2)": 0
+        },
+        "split_pair_counts": {
+          "((0, 1), (2, 3))": 4,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "exact_predicate_counts": {
+          "((0, 1), (2, 3))": 1,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        },
+        "ordered_predicate_counts": {
+          "((0, 1), (2, 3))": 0,
+          "((0, 2), (1, 3))": 0,
+          "((0, 3), (1, 2))": 0
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "arguments": {
+    "prepare": false,
+    "smoke": false,
+    "workers": 10,
+    "deadline_seconds": 600,
+    "preparation": "/Users/andreas/developer/folding-evolution/research/runs/2026-10-11-0524/validation-prepare"
+  },
+  "git_commit": "96039d1033a2ed46a1a7213c6284d32ee8c8af60"
+}

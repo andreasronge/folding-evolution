@@ -67,3 +67,13 @@ Decision: close 46 and return to strategy (`next: strategy`) because the primary
 "transfers" branch with a wide margin and passed the guard, root 10's 38-slot budget is spent, and
 strategy 0348 reserved the next choice (mechanism, acquisition on different sources, broader tasks) for
 its own review.
+
+2026-10-11 (steward, run 0524): wording corrections from critique 0524's digest check (notes 6–8). (i) "Most of
+the pooled gain is predicate-matched" above overstates attribution: split A contributes about 43% of the
+arithmetic evaluation savings (pooled 52,096 per job; B/C about 44,577); read instead "the relative gain is much
+larger on the predicate-matched split (0.055× vs 0.34–0.36×)". Its causal carrier was unidentified at 0348; 47
+has since shown, by intervention, that A's extra gain needs the learned arrangement. (ii) "the share of solvers
+holding some `GT(ADD,ADD)` on B/C … equals R-tree's" should read: observed shares were similar (167/576 and
+173/576 vs 166/575 and 169/575); differences were not assessed. (iii) "no reliability loss" in the summary now
+reads "no loss observed; the registered 3-point noninferiority guard passed". The summary has been corrected;
+these entries above stay as written.

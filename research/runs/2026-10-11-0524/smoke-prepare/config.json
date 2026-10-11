@@ -1,0 +1,10 @@
+{
+  "arguments": {
+    "prepare": true,
+    "smoke": true,
+    "preparation": null,
+    "workers": 10,
+    "deadline_seconds": 600
+  },
+  "git_commit": "96039d1033a2ed46a1a7213c6284d32ee8c8af60"
+}

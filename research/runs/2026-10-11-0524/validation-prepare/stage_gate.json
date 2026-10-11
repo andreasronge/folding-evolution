@@ -1,0 +1,609 @@
+{
+  "admitted": true,
+  "repeats": 6,
+  "realizations": 3,
+  "realization_rule": "repeat modulo active realization count; first preselected constructions only",
+  "arms": {
+    "R-tree": {
+      "mean_worker_seconds": 6.421525647967025
+    },
+    "R-lib": {
+      "mean_worker_seconds": 2.12
+    },
+    "R-perm": {
+      "jobs": 288,
+      "solves": 288,
+      "mean_evaluations": 23486.222222222223,
+      "measured_mean_worker_seconds": 1.9182820059156964,
+      "mean_worker_seconds": 2.12
+    }
+  },
+  "per_construction": [
+    {
+      "build": 0,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 20288.0,
+      "mean_worker_seconds": 1.5971039897412993
+    },
+    {
+      "build": 0,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 8128.0,
+      "mean_worker_seconds": 0.5063637292478234
+    },
+    {
+      "build": 0,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 61376.0,
+      "mean_worker_seconds": 5.031331312493421
+    },
+    {
+      "build": 1,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 3136.0,
+      "mean_worker_seconds": 0.17141308373538777
+    },
+    {
+      "build": 1,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 5376.0,
+      "mean_worker_seconds": 0.310073323053075
+    },
+    {
+      "build": 1,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 74368.0,
+      "mean_worker_seconds": 6.725123521027854
+    },
+    {
+      "build": 2,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 23360.0,
+      "mean_worker_seconds": 1.6874088025069796
+    },
+    {
+      "build": 2,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 2304.0,
+      "mean_worker_seconds": 0.1378571042441763
+    },
+    {
+      "build": 2,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 64448.0,
+      "mean_worker_seconds": 5.32284278125735
+    },
+    {
+      "build": 3,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 2112.0,
+      "mean_worker_seconds": 0.09271161479409784
+    },
+    {
+      "build": 3,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 4352.0,
+      "mean_worker_seconds": 0.30070005176821724
+    },
+    {
+      "build": 3,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 52352.0,
+      "mean_worker_seconds": 4.254185145779047
+    },
+    {
+      "build": 4,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 42176.0,
+      "mean_worker_seconds": 3.4373588644666597
+    },
+    {
+      "build": 4,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 11264.0,
+      "mean_worker_seconds": 0.8399194687372074
+    },
+    {
+      "build": 4,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 3392.0,
+      "mean_worker_seconds": 0.18313661479623988
+    },
+    {
+      "build": 5,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 22912.0,
+      "mean_worker_seconds": 1.6927565210207831
+    },
+    {
+      "build": 5,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 30208.0,
+      "mean_worker_seconds": 2.434025291731814
+    },
+    {
+      "build": 5,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 54592.0,
+      "mean_worker_seconds": 4.88085572925047
+    },
+    {
+      "build": 6,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 25472.0,
+      "mean_worker_seconds": 1.9997788644686807
+    },
+    {
+      "build": 6,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 6400.0,
+      "mean_worker_seconds": 0.42246016673743725
+    },
+    {
+      "build": 6,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 24192.0,
+      "mean_worker_seconds": 2.0487421662546694
+    },
+    {
+      "build": 7,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 54016.0,
+      "mean_worker_seconds": 4.745249354222324
+    },
+    {
+      "build": 7,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 38528.0,
+      "mean_worker_seconds": 3.599116146011511
+    },
+    {
+      "build": 7,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 24128.0,
+      "mean_worker_seconds": 2.0182604999863543
+    },
+    {
+      "build": 8,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 10432.0,
+      "mean_worker_seconds": 0.7737140000390355
+    },
+    {
+      "build": 8,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 8000.0,
+      "mean_worker_seconds": 0.5601897080196068
+    },
+    {
+      "build": 8,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 5632.0,
+      "mean_worker_seconds": 0.35510513550252654
+    },
+    {
+      "build": 9,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 24064.0,
+      "mean_worker_seconds": 2.120608864497626
+    },
+    {
+      "build": 9,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 20416.0,
+      "mean_worker_seconds": 1.5767188327736221
+    },
+    {
+      "build": 9,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 32832.0,
+      "mean_worker_seconds": 2.691378646006342
+    },
+    {
+      "build": 10,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 20864.0,
+      "mean_worker_seconds": 1.6471106562530622
+    },
+    {
+      "build": 10,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 25792.0,
+      "mean_worker_seconds": 2.347954531258438
+    },
+    {
+      "build": 10,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 1984.0,
+      "mean_worker_seconds": 0.10030089574865997
+    },
+    {
+      "build": 11,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 16768.0,
+      "mean_worker_seconds": 1.340789864276303
+    },
+    {
+      "build": 11,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 21248.0,
+      "mean_worker_seconds": 1.6396932395000476
+    },
+    {
+      "build": 11,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 13696.0,
+      "mean_worker_seconds": 0.9832585312542506
+    },
+    {
+      "build": 12,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 2880.0,
+      "mean_worker_seconds": 0.16071284349891357
+    },
+    {
+      "build": 12,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 3008.0,
+      "mean_worker_seconds": 0.1522758542560041
+    },
+    {
+      "build": 12,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 12544.0,
+      "mean_worker_seconds": 0.933389958285261
+    },
+    {
+      "build": 13,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 12544.0,
+      "mean_worker_seconds": 1.0285546042432543
+    },
+    {
+      "build": 13,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 119104.0,
+      "mean_worker_seconds": 10.468440457974793
+    },
+    {
+      "build": 13,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 20928.0,
+      "mean_worker_seconds": 1.6240266562381294
+    },
+    {
+      "build": 14,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 7552.0,
+      "mean_worker_seconds": 0.5146720726916101
+    },
+    {
+      "build": 14,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 67456.0,
+      "mean_worker_seconds": 5.876676812797086
+    },
+    {
+      "build": 14,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 8000.0,
+      "mean_worker_seconds": 0.5400631975498982
+    },
+    {
+      "build": 15,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 22144.0,
+      "mean_worker_seconds": 1.7701106042368338
+    },
+    {
+      "build": 15,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 6592.0,
+      "mean_worker_seconds": 0.4176592292787973
+    },
+    {
+      "build": 15,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 21504.0,
+      "mean_worker_seconds": 1.5683560940087773
+    },
+    {
+      "build": 16,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 7232.0,
+      "mean_worker_seconds": 0.509090448031202
+    },
+    {
+      "build": 16,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 31488.0,
+      "mean_worker_seconds": 2.4744783750211354
+    },
+    {
+      "build": 16,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 35072.0,
+      "mean_worker_seconds": 3.0006827812467236
+    },
+    {
+      "build": 17,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 24320.0,
+      "mean_worker_seconds": 1.9066582502564415
+    },
+    {
+      "build": 17,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 7680.0,
+      "mean_worker_seconds": 0.5297511564858723
+    },
+    {
+      "build": 17,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 20928.0,
+      "mean_worker_seconds": 1.5745951977442019
+    },
+    {
+      "build": 18,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 65792.0,
+      "mean_worker_seconds": 5.433768489252543
+    },
+    {
+      "build": 18,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 58944.0,
+      "mean_worker_seconds": 5.121546124719316
+    },
+    {
+      "build": 18,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 43328.0,
+      "mean_worker_seconds": 3.782151895982679
+    },
+    {
+      "build": 19,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 19776.0,
+      "mean_worker_seconds": 1.405058625008678
+    },
+    {
+      "build": 19,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 8000.0,
+      "mean_worker_seconds": 0.6582389894756489
+    },
+    {
+      "build": 19,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 3776.0,
+      "mean_worker_seconds": 0.26097525999648497
+    },
+    {
+      "build": 20,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 22784.0,
+      "mean_worker_seconds": 1.6147027289844118
+    },
+    {
+      "build": 20,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 3648.0,
+      "mean_worker_seconds": 0.20867016626289114
+    },
+    {
+      "build": 20,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 20672.0,
+      "mean_worker_seconds": 1.8209031562146265
+    },
+    {
+      "build": 21,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 32192.0,
+      "mean_worker_seconds": 2.7806358024827205
+    },
+    {
+      "build": 21,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 23232.0,
+      "mean_worker_seconds": 1.897180270490935
+    },
+    {
+      "build": 21,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 2560.0,
+      "mean_worker_seconds": 0.1251484687672928
+    },
+    {
+      "build": 22,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 5696.0,
+      "mean_worker_seconds": 0.372439416765701
+    },
+    {
+      "build": 22,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 4160.0,
+      "mean_worker_seconds": 0.26212670796667226
+    },
+    {
+      "build": 22,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 40064.0,
+      "mean_worker_seconds": 3.315762167010689
+    },
+    {
+      "build": 23,
+      "realization": 0,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 19840.0,
+      "mean_worker_seconds": 1.4578742602607235
+    },
+    {
+      "build": 23,
+      "realization": 1,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 19648.0,
+      "mean_worker_seconds": 1.622261604265077
+    },
+    {
+      "build": 23,
+      "realization": 2,
+      "jobs": 4,
+      "solves": 4,
+      "mean_evaluations": 5312.0,
+      "mean_worker_seconds": 0.3510686457157135
+    }
+  ],
+  "effective_concurrency": 9.683159796868871,
+  "replay_host_scale": 1.0,
+  "sustained_wall_seconds": 57.054229124914855,
+  "projections_seconds": {
+    "6": 3800.057210354657,
+    "4": 2563.371473569771
+  },
+  "scoring_projected_seconds": 3800.057210354657,
+  "scoring_limit_seconds": 6000,
+  "projection": "saved all-cell R-tree/R-lib rates with B/C floors and upward replay host adjustment; measured R-perm development rate with R-lib floor; sustained concurrency; 30% reserve +90s; protected heterogeneity unmeasured"
+}
