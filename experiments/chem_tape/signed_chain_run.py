@@ -1,4 +1,4 @@
-"""2044 descriptive development probe; frozen 1938 content, no protected searches."""
+"""2044 development probe and opt-in 2150 protected confirmation; frozen content."""
 
 import argparse
 import gzip
@@ -31,6 +31,9 @@ BANK_HASH = "e3873e170b71ffcb69bea99b0d2cf4afd7062a5b6ab28ef2a9e59608f6c6d175"
 ARMS = ("R-tree", "R-all", "R-gate")
 BOOTSTRAP_SEED = 202610112044
 DRAWS = 8192
+CONFIRM_TASK = "2026-10-11-2150"
+CONFIRM_BOOTSTRAP_SEED = 202610112150
+REVIEWED_SHA = "e9a14075090564caca352122c756cf3aabb6074289074a9fe3368935608c2eea"
 
 
 def saved_libraries():
@@ -128,17 +131,26 @@ def load_bank():
     return bank
 
 
-def schedules(bank, smoke=False):
+def schedules(bank, smoke=False, confirm=False):
     # Arm pairing is deliberate; eight disjoint consecutive attempt seeds/unit.
-    cells = bank["split"]["development"][:2] if smoke else bank["split"]["development"]
-    builds, repeats, start = (2, 1, 20460000) if smoke else (24, 2, 20450000)
+    cells = (
+        bank["split"]["development"][:2]
+        if smoke
+        else bank["split"]["protected" if confirm else "development"]
+    )
+    builds, repeats, start = (
+        ((2, 1, 20480000) if smoke else (24, 4, 20461000))
+        if confirm
+        else ((2, 1, 20460000) if smoke else (24, 2, 20450000))
+    )
+    stride = 4 if confirm else 2
     return [
         dict(
             cell=c,
             build=b,
             repeat=r,
             arm=a,
-            seeds=[start + ((ci * 24 + b) * 2 + r) * 8 + k for k in range(8)],
+            seeds=[start + ((ci * 24 + b) * stride + r) * 8 + k for k in range(8)],
         )
         for ci, c in enumerate(cells)
         for b in range(builds)
@@ -147,7 +159,7 @@ def schedules(bank, smoke=False):
     ]
 
 
-def seed_audit(bank, old_schedule, old_audit):
+def seed_audit(bank, old_schedule, old_audit, confirm=False):
     historic = set(range(20440000, 20443028))
 
     def collect(value, key=""):
@@ -170,10 +182,14 @@ def seed_audit(bank, old_schedule, old_audit):
         | set(range(19480000, 19484718))
         | set(range(19390000, 19393028))
     )
+    if confirm:
+        for smoke in (False, True):
+            for m in schedules(bank, smoke):
+                historic.update(m["seeds"])
     published, used = {}, set()
     for smoke in (False, True):
         uses = {}
-        for m in schedules(bank, smoke):
+        for m in schedules(bank, smoke, confirm):
             for k, value in enumerate(m["seeds"]):
                 uses.setdefault(value, []).append((m, k))
         for records in uses.values():
@@ -188,7 +204,9 @@ def seed_audit(bank, old_schedule, old_audit):
         if values & (historic | used):
             raise ValueError("historical/smoke seed collision")
         used.update(values)
-        published["smoke" if smoke else "development"] = sorted(values)
+        published[
+            "smoke" if smoke else "confirmation" if confirm else "development"
+        ] = sorted(values)
     return dict(
         admitted=True,
         historical_count=len(historic),
@@ -198,7 +216,7 @@ def seed_audit(bank, old_schedule, old_audit):
     )
 
 
-def freeze(bank, libs, identities):
+def freeze(bank, libs, identities, confirm=False):
     supplied = [
         list(gates.helper(k, a, b).prefix)
         for k in ("p", "n")
@@ -213,7 +231,7 @@ def freeze(bank, libs, identities):
         ],
         bank["inputs"],
     )
-    return dict(
+    frozen = dict(
         task=TASK,
         bank_hash=BANK_HASH,
         methods=method_hashes(),
@@ -247,6 +265,90 @@ def freeze(bank, libs, identities):
             runtime_tail_multiplier=2,
         ),
     )
+    if confirm:
+        raw = (DATA / "method_2044.json.gz").read_bytes()
+        if hashlib.sha256(raw).hexdigest() != REVIEWED_SHA:
+            raise ValueError("2044 reviewed freeze hash mismatch")
+        reviewed = json.loads(gzip.decompress(raw))
+        # The driver gains an opt-in phase; every other reviewed module and
+        # production source/binary must be unchanged from 8a621df.
+        for path, expected in reviewed["methods"].items():
+            if (
+                path != "experiments/chem_tape/signed_chain_run.py"
+                and frozen["methods"].get(path) != expected
+            ):
+                raise ValueError("2044 reviewed method changed: " + path)
+        for key in (
+            "task",
+            "bank_hash",
+            "grammar",
+            "cutoff",
+            "attempts",
+            "population",
+            "crossover",
+            "library_probability",
+            "builds",
+            "repeats",
+            "arms",
+            "gates",
+            "archive_sha256",
+            "acquisition_identities",
+            "donors",
+        ):
+            if digest(frozen[key]) != digest(reviewed[key]):
+                raise ValueError("2044 reviewed parameter drift: " + key)
+        if len(bank["split"]["protected"]) != 18:
+            raise ValueError("confirmation requires all eighteen frozen cells")
+        frozen.update(
+            task=CONFIRM_TASK,
+            repeats=4,
+            reviewed_freeze_sha256=REVIEWED_SHA,
+            bootstrap=dict(
+                seed=CONFIRM_BOOTSTRAP_SEED,
+                draws=DRAWS,
+                unit="paired whole builds and cells, four repeats retained",
+            ),
+            inference=dict(
+                primary="R-all/R-tree pooled capped mean evaluations",
+                saving="upper95 < 1.00",
+                harm="lower95 > 1.00",
+                otherwise="unresolved",
+                secondary_bar=0.80,
+            ),
+            validity=dict(
+                R_tree_first_attempt_max=0.85,
+                R_tree_cap_max=0.25,
+                R_gate_solve_min=0.95,
+                failing_flags="report capped costs; qualify interpretation",
+            ),
+            economics_horizons=[10, 100],
+            scope="Protected-cell reuse within the development chain bank",
+            authorized_protected_searches=5184,
+        )
+        frozen.pop("forecast")
+    return frozen
+
+
+def admission_identity(bank):
+    """Compare identical admission evidence across relocated git worktrees."""
+    marker = "/experiments/chem_tape/data/"
+
+    def relative(path):
+        if path.count(marker) != 1:
+            raise ValueError("invalid historical bank reference")
+        return "experiments/chem_tape/data/" + path.split(marker, 1)[1]
+
+    hashes = {relative(k): v for k, v in bank["old_bank_hashes"].items()}
+    if len(hashes) != len(bank["old_bank_hashes"]):
+        raise ValueError("ambiguous historical bank references")
+    return dict(
+        split=bank["split"],
+        cells=[
+            c | dict(old_bank=relative(c["old_bank"])) for c in bank["screen"]["cells"]
+        ],
+        old_bank_hashes=hashes,
+        pairwise=bank["pairwise"],
+    )
 
 
 def prepare(args, out, deadline):
@@ -254,18 +356,17 @@ def prepare(args, out, deadline):
     bank = load_bank()
     # Reproduce all performance-blind admission checks; timing is not hashed.
     rebuilt = bank_module.build(deadline)
-    if (
-        not rebuilt["admitted"]
-        or rebuilt["split"] != bank["split"]
-        or rebuilt["screen"]["cells"] != bank["screen"]["cells"]
-        or rebuilt["old_bank_hashes"] != bank["old_bank_hashes"]
-        or rebuilt["pairwise"] != bank["pairwise"]
+    if not rebuilt["admitted"] or admission_identity(rebuilt) != admission_identity(
+        bank
     ):
         raise ValueError("chain admission replay mismatch")
     libs, identities, old_schedule, old_audit = saved_libraries()
-    frozen = freeze(bank, libs, identities)
-    audit = seed_audit(bank, old_schedule, old_audit)
-    full, smoke = schedules(bank), schedules(bank, True)
+    frozen = freeze(bank, libs, identities, args.confirm)
+    audit = seed_audit(bank, old_schedule, old_audit, args.confirm)
+    full, smoke = (
+        schedules(bank, confirm=args.confirm),
+        schedules(bank, True, args.confirm),
+    )
     payloads = [
         ("bank", bank),
         ("method_freeze", frozen),
@@ -277,6 +378,7 @@ def prepare(args, out, deadline):
     p = dict(
         admitted=True,
         protected_searches=0,
+        admission_replay_identity_hash=digest(admission_identity(rebuilt)),
         seconds=time.monotonic() - start,
         git_commit=subprocess.check_output(["git", "rev-parse", "HEAD"])
         .decode()
@@ -290,7 +392,7 @@ def prepare(args, out, deadline):
     print("prepared", p, flush=True)
 
 
-def load_prepared(path):
+def load_prepared(path, confirm=False):
     if (path / "failure.json").exists():
         raise ValueError("preparation has recorded failure")
 
@@ -314,10 +416,10 @@ def load_prepared(path):
         not p["admitted"]
         or digest(bank) != digest(load_bank())
         or libs != original
-        or digest(frozen) != digest(freeze(bank, libs, identities))
-        or full != schedules(bank)
-        or smoke != schedules(bank, True)
-        or audit != seed_audit(bank, old_schedule, old_audit)
+        or digest(frozen) != digest(freeze(bank, libs, identities, confirm))
+        or full != schedules(bank, confirm=confirm)
+        or smoke != schedules(bank, True, confirm)
+        or audit != seed_audit(bank, old_schedule, old_audit, confirm)
         or p["preparation_hash"]
         != digest({k: v for k, v in p.items() if k != "preparation_hash"})
         or any(
@@ -336,14 +438,13 @@ def load_prepared(path):
     return bank, frozen, libs, p
 
 
-def envelopes(metas, bank, libs, frozen, smoke=False):
-    expected = {json.dumps(m, sort_keys=True) for m in schedules(bank, smoke)}
+def envelopes(metas, bank, libs, frozen, smoke=False, confirm=False):
+    expected = {json.dumps(m, sort_keys=True) for m in schedules(bank, smoke, confirm)}
     by = {c["id"]: c for c in bank["screen"]["cells"]}
     jobs = []
     for m in metas:
-        if (
-            json.dumps(m, sort_keys=True) not in expected
-            or m["cell"] in bank["split"]["protected"]
+        if json.dumps(m, sort_keys=True) not in expected or (
+            (smoke or not confirm) and m["cell"] in bank["split"]["protected"]
         ):
             raise ValueError("unapproved/protected search requested")
         donors = (
@@ -496,10 +597,38 @@ def forecast(arrays, bank, throughput, frozen):
     )
 
 
-def summarize(rows, libs, bank, frozen, elapsed, workers, smoke=False):
-    rows = prior.validate_rows(rows, schedules(bank, smoke), bank)
-    cells = bank["split"]["development"][:2] if smoke else bank["split"]["development"]
-    builds, repeats = (2, 1) if smoke else (24, 2)
+def classify_confirmation(interval, threshold=1.0):
+    low, high = interval
+    return "saving" if high < threshold else "harm" if low > threshold else "unresolved"
+
+
+def validity_checks(arms):
+    tree, gate = arms["R-tree"], arms["R-gate"]
+    hard = tree["first_attempt_rate"] <= 0.85
+    cap_rate = tree["capped_jobs"] / tree["jobs"]
+    solve_rate = gate["solves"] / gate["jobs"]
+    return dict(
+        R_tree_first_attempt_rate=tree["first_attempt_rate"],
+        hard_tier_supported=hard,
+        R_tree_cap_rate=cap_rate,
+        cap_dominated=cap_rate > 0.25,
+        R_gate_solve_rate=solve_rate,
+        supplied_repertoire_reliable=solve_rate >= 0.95,
+        intended_interpretation_supported=hard
+        and cap_rate <= 0.25
+        and solve_rate >= 0.95,
+        interpretation="Report capped costs regardless; withhold hard-tier interpretation if first-attempt >85%, label cap-dominated if caps >25%, withhold reliable-supplied-reference interpretation if R-gate solves <95%. Return to strategy; no top-up.",
+    )
+
+
+def summarize(rows, libs, bank, frozen, elapsed, workers, smoke=False, confirm=False):
+    rows = prior.validate_rows(rows, schedules(bank, smoke, confirm), bank)
+    cells = (
+        bank["split"]["development"][:2]
+        if smoke
+        else bank["split"]["protected" if confirm else "development"]
+    )
+    builds, repeats = (2, 1) if smoke else (24, 4 if confirm else 2)
     by = {(r["build"], r["cell"], r["repeat"], r["arm"]): r for r in rows}
     arrays = {
         metric: {
@@ -514,7 +643,7 @@ def summarize(rows, libs, bank, frozen, elapsed, workers, smoke=False):
         }
         for metric in ("evaluations", "worker_seconds", "solved")
     }
-    rng = np.random.default_rng(BOOTSTRAP_SEED)
+    rng = np.random.default_rng(CONFIRM_BOOTSTRAP_SEED if confirm else BOOTSTRAP_SEED)
     bi, ci = (
         rng.integers(builds, size=(DRAWS, builds)),
         rng.integers(len(cells), size=(DRAWS, len(cells))),
@@ -533,6 +662,15 @@ def summarize(rows, libs, bank, frozen, elapsed, workers, smoke=False):
         }
         for a in ("R-all", "R-gate")
     }
+    if confirm:
+        for numerator, denominator in (("R-gate", "R-all"), ("R-all", "R-gate")):
+            contrasts[numerator + "/" + denominator] = {
+                m: prior.estimate(
+                    arrays[m][numerator].mean() / arrays[m][denominator].mean(),
+                    boot[m][numerator] / boot[m][denominator],
+                )
+                for m in ("evaluations", "worker_seconds")
+            }
     coverage = []
     for b, lib in enumerate(libs):
         included = {
@@ -613,6 +751,30 @@ def summarize(rows, libs, bank, frozen, elapsed, workers, smoke=False):
                 for n in (0, 1, 10, 100, 1000)
             ],
         )
+        if confirm:
+            saving_boot = boot[metric]["R-tree"] - boot[metric]["R-all"]
+            lo, hi = np.quantile(saving_boot / acq_boot, [0.025, 0.975])
+            unbounded = (
+                lo <= 0 or economics[metric]["saving_per_search"]["interval95"][0] <= 0
+            )
+            economics[metric].update(
+                symbols="A = acquisition; C = capped per-search cost; Delta = C_tree - C_all; total = A + N*C_all; repayment = A/Delta for positive Delta",
+                repayment_interval95=[
+                    None if hi <= 0 else float(1 / hi),
+                    None if unbounded else float(1 / lo),
+                ],
+                repayment_unbounded=bool(unbounded),
+                nonpositive_saving_bootstrap_fraction=float(np.mean(saving_boot <= 0)),
+                interval_method="Paired build/cell bootstrap of saving/acquisition, inverted; null bounds encode infinity/no finite repayment. Upper is unbounded if saving interval includes zero.",
+            )
+            for curve in economics[metric]["cost_curves"]:
+                curve["acquisition_plus_search_label"] = (
+                    "lower_total_cost"
+                    if curve["newly_deployed_difference"]["interval95"][1] < 0
+                    else "higher_total_cost"
+                    if curve["newly_deployed_difference"]["interval95"][0] > 0
+                    else "unresolved"
+                )
     result = dict(
         complete=True,
         smoke=smoke,
@@ -645,7 +807,27 @@ def summarize(rows, libs, bank, frozen, elapsed, workers, smoke=False):
         economics_scope="Historical acquisition/extraction/validation worker seconds from 1938; current deployment worker seconds. Hardware/load differences limit comparability. Shared admission/replay overhead separate; supplied family prior has no evolutionary acquisition.",
         scope="One combined linked-role/depth shape change; no protected effect, helper causality, inherited learning or unrestricted time-to-solution claim.",
     )
-    if not smoke:
+    if confirm:
+        result.update(
+            protected_searches=0 if smoke else len(rows),
+            task=CONFIRM_TASK,
+            primary="R-all/R-tree pooled capped arithmetic mean evaluations",
+            scope="Protected-cell reuse within the development chain bank; combined depth/input-sharing change, no fresh-bank transfer, helper causality, inherited learning or uncapped time-to-solution claim.",
+        )
+        if not smoke:
+            primary = contrasts["R-all/R-tree"]["evaluations"]
+            bar = classify_confirmation(primary["interval95"], 0.80)
+            result.update(
+                validity_checks=validity_checks(result["arms"]),
+                decision=classify_confirmation(primary["interval95"]),
+                secondary_20_percent_label={
+                    "saving": ">20% saving",
+                    "harm": "20% saving excluded",
+                    "unresolved": "unresolved",
+                }[bar],
+                next_action="Return to strategy; unresolved closes this confirmation without automatic top-up. Acquisition repayment requires the measured horizon comparisons, separate from deployment saving.",
+            )
+    elif not smoke:
         result["confirmation_forecast"] = forecast(arrays, bank, throughput, frozen)
         hard = result["arms"]["R-tree"]["first_attempt_rate"] <= 0.85
         ceiling = (
@@ -721,9 +903,10 @@ def plots(out, rows, libs):
 
 def score(args, out, deadline):
     start = time.monotonic()
-    bank, frozen, libs, p = load_prepared(Path(args.prepared))
+    confirm = args.phase == "confirm"
+    bank, frozen, libs, p = load_prepared(Path(args.prepared), confirm)
     replay = time.monotonic() - start
-    metas = schedules(bank, args.smoke)
+    metas = schedules(bank, args.smoke, confirm)
     for name, value in [
         ("bank", bank),
         ("method_freeze", frozen),
@@ -733,11 +916,15 @@ def score(args, out, deadline):
     rows, elapsed = base.run_batch(
         out,
         "score.jsonl",
-        envelopes(metas, bank, libs, frozen, args.smoke),
+        envelopes(metas, bank, libs, frozen, args.smoke, confirm),
         args.workers,
         deadline,
     )
-    report = summarize(rows, libs, bank, frozen, elapsed, args.workers, args.smoke)
+    report = summarize(
+        rows, libs, bank, frozen, elapsed, args.workers, args.smoke, confirm
+    )
+    if confirm and not args.smoke:
+        write_json(out, "validity_checks.json", report["validity_checks"])
     plots(out, rows, libs)
     report.update(
         preparation_hash=p["preparation_hash"],
@@ -751,13 +938,20 @@ def score(args, out, deadline):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("phase", choices=("prepare", "development"))
+    parser.add_argument("phase", choices=("prepare", "development", "confirm"))
+    parser.add_argument(
+        "--confirm",
+        action="store_true",
+        help="prepare the authorized 2150 confirmation freeze",
+    )
     parser.add_argument("--prepared")
     parser.add_argument("--smoke", action="store_true")
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--seconds", type=int)
     args = parser.parse_args()
-    limit = 870 if args.phase == "prepare" else 2370
+    limit = (
+        870 if args.phase == "prepare" else 11490 if args.phase == "confirm" else 2370
+    )
     seconds = args.seconds or limit
     if (
         args.workers < 1
@@ -766,6 +960,7 @@ def main():
         or (args.phase != "prepare" and not args.prepared)
         or os.environ.get("RAYON_NUM_THREADS") != "1"
         or (args.phase == "prepare" and args.smoke)
+        or (args.phase != "prepare" and args.confirm)
     ):
         parser.error(
             "positive workers, fixed phase limits, RAYON_NUM_THREADS=1 and --prepared for score required; preparation always freezes full grids"
