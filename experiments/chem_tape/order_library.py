@@ -25,7 +25,7 @@ def helpers(inputs):
             for kind in ("lo", "hi") for a, b in itertools.combinations(range(4), 2)}
 
 
-def build(rows, source_cells, inputs, *, cap=16):
+def build(rows, source_cells, inputs, *, cap=16, diagnostic_vectors=None):
     """Set cap=None for R-all; helper diagnostics never select entries."""
     if cap not in (16, None):
         raise ValueError('only the original cap or approved uncapped recipe is supported')
@@ -54,7 +54,7 @@ def build(rows, source_cells, inputs, *, cap=16):
             cache[tree.prefix] = vector.astype('<i8').tobytes()
     cells, solvers, reps = {}, Counter(), {}
     literal_cells, literal_solvers, literal_forms = {}, Counter(), {}
-    helper_vectors = helpers(inputs)
+    helper_vectors = helpers(inputs) if diagnostic_vectors is None else diagnostic_vectors
     census = []
     for row, own in zip(rows, row_forms):
         seen = {}
