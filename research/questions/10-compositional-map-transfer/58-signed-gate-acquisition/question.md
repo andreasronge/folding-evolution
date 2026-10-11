@@ -18,7 +18,7 @@ Current summary: **closed after experiment 1938 (commit `9da9c2c`): yes, on this
 protected cells frozen with the method, 24 new R-all acquisitions cost **0.577× [0.47, 0.72]** of R-tree in pooled
 capped mean evaluations (pre-stated rule: upper < 0.80, met), below 1 in 18/18 cells and 22/24 builds, all 1,728 jobs
 solved in every arm (no solve loss observed). The new libraries also beat the transported 1228 order libraries,
-0.516× [0.44, 0.61]; those showed no saving here (1.12× [0.94, 1.34] of R-tree: a 20% saving excluded, harm
+0.516× [0.44, 0.61]; those gave no resolved saving here (1.12× [0.94, 1.34] of R-tree: a 20% saving excluded, harm
 unresolved). The supplied
 24-helper prior was 0.246× [0.21, 0.30] of R-tree, 2.3× cheaper than R-all. Libraries kept 8.6 of 24 helpers on
 average; the saving was larger where needed helpers were present (descriptive, confounded) but did not vanish
@@ -41,14 +41,17 @@ Competing explanations for no saving:
 - (d) helpers rarely retained in pairs;
 - (e) the four probe cells were unrepresentative.
 
-After 1938: (b) is ruled out as the whole story for the order libraries (no saving; a 20% saving excluded); (e) did not occur
-(development 0.58, protected 0.58); (a) versus other content in the same libraries (other-index p/n forms, small
+After 1938: (b) is ruled out as the whole story for the order libraries (no resolved saving; a 20% saving excluded); (e)
+the protected result independently met the usefulness rule, with a point estimate similar to development (0.58 [0.39,
+0.86] vs 0.58 [0.47, 0.72]; representativeness not established); (a) versus other content in the same libraries (other-index p/n forms, small
 ADD entries) and (c) are not separated.
 
 Related: [53](../53-order-library-cap-release/question.md) (recipe), [56](../56-order-library-protected-cells/question.md)
 (order protected result), [54](../54-rectified-sum-acquisition/question.md) (rectifier probe),
 [50](../50-library-easy-target-harm/question.md) (easy-target harm; its ≥ 90% condition is met here),
 [51](../51-source-free-donor-prior/question.md) (supplied prior), [log](log.md).
+
+The hard tier of this family is pursued in [59](../59-signed-chain-depth/question.md) (probe 2044).
 
 Reopen if: a decision needs helper causality for signed gates (e.g. a helper-entry rearrangement as in
 [57](../57-order-helper-arrangement/question.md)), the hard tier of this family, or the reason the extractor keeps

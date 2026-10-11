@@ -4173,3 +4173,22 @@ order content on a fresh bank; R-all on hard targets or on sources that seldom b
 ([54](questions/10-compositional-map-transfer/54-rectified-sum-acquisition/question.md): probe only); why
 acquisition stays 2–7× behind supplied priors; an easy-target policy; families unlike these.
 ```
+
+## 2026-10-11: run 2026-10-11-2044, signed-chain depth probe (slot 49, probe; question 59)
+
+Strategy 2044 raised the budget 48 → 49 for one probe. Commit `8a621df`, bank `x4-signed-chain-v1`
+(`p(a,b)+n(b,c)+p(c,d)`, 24 destinations, 6 development / 18 protected, frozen, protected unsearched). Saved 1938
+R-all libraries vs R-tree and R-gate, 288 paired jobs per arm on the development cells. Observations: R-tree 30%
+first-attempt, 5.6% capped, 159 k mean evaluations; R-all/R-tree 0.79 [0.60, 1.03]; R-gate/R-tree 0.30 [0.23,
+0.38]; R-all saving by point only where a needed helper is present (confounded). Protected confirmation priced at
+r = 2–4, 112–207 min summed timeouts. Details in [59's log](59-signed-chain-depth/log.md) and
+[analysis](../../runs/2026-10-11-2044/analysis.md).
+
+Digest-check corrections from [critique 2044](../../runs/2026-10-11-2044/critique.md) notes 5–8, applied in this
+pass: bank status (58's bank is now a development bank too); "no saving" for transported order libraries →
+"no resolved saving; a 20% saving excluded, harm unresolved" (digest, this summary, 58); 58's explanation (e)
+"did not occur" → point estimates similar, representativeness not established; 50's 1938 entry over-attributed
+harm to libraries built for other targets (corrected in 50's log).
+
+Decision: root stays open and returns to strategy, because the probe's slot is used and a protected confirmation
+needs a separate allocation; no digest belief changes from a probe.

@@ -37,3 +37,11 @@
   so no extra run on this bank would change a decision; root 10's allocation is used. Scope: one construction
   (`p(a,b)+n(c,d)` input rebindings in D625), easy destinations, one extractor and search regime; helper causality
   and the ~2.3× gap to the supplied prior are unexplained.
+- 2026-10-11 (steward, 2044): wording correction after [critique 2044](../../../runs/2026-10-11-2044/critique.md)
+  notes 6–7; no number changed. (1) The 1938 entry's "no saving from the order libraries" overstates R-order/R-tree
+  1.12 [0.94, 1.34]: read "no resolved saving; a 20% saving excluded, harm unresolved". (2) question.md said
+  explanation (e) "did not occur" because development and protected point ratios both round to 0.58; the intervals
+  ([0.39, 0.86] development, [0.47, 0.72] protected) do not establish equality. Read: "the protected result
+  independently met the usefulness rule, with a point estimate similar to development". Both fixed in
+  question.md. The 1938 bank is now a development bank: its protected cells have been scored. The hard tier of this
+  family is now [59](../59-signed-chain-depth/question.md) (probe 2044; 58 stays closed).

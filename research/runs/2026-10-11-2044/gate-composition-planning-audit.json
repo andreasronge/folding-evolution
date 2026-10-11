@@ -1,0 +1,971 @@
+{
+  "purpose": "Static label-only planning audit. No evolutionary search, short-program screen, VM validation, or timing.",
+  "candidate": "p(a,b)+n(b,c)+p(c,d); all four indices distinct; left-associated ADD",
+  "domain_source": "experiments/output/2026-10-11/2026-10-11-1938-prepare/bank.json",
+  "input_sha256": "ff9df49a7408821cf0fe71a682601c7e510729515f99db10bd52c3654e8299c4",
+  "old_unique_behaviours": 1032,
+  "old_bank_files": [
+    "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+    "experiments/output/2026-10-10/2026-10-10-0311-independent-input-score/bank.json",
+    "experiments/output/2026-10-10/2026-10-10-1536-independent-input-prepare/bank.json",
+    "experiments/output/2026-10-10/2026-10-10-1536-independent-input-score/bank.json",
+    "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:DG",
+    "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+    "experiments/output/2026-10-10/2026-10-10-1717-family-preference-score/banks.json:DG",
+    "experiments/output/2026-10-10/2026-10-10-1717-family-preference-score/banks.json:TS",
+    "experiments/output/2026-10-11/2026-10-11-0348-gate-sum/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-0348-prepare/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-0524-prepare/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-0524-score/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-0652-prepare/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-0652-score/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-0833-prepare/banks.json:GS",
+    "experiments/output/2026-10-11/2026-10-11-0833-prepare/banks.json:TS",
+    "experiments/output/2026-10-11/2026-10-11-0833-score/banks.json:GS",
+    "experiments/output/2026-10-11/2026-10-11-0833-score/banks.json:TS",
+    "experiments/output/2026-10-11/2026-10-11-1019-prepare/banks.json:GS",
+    "experiments/output/2026-10-11/2026-10-11-1019-prepare/banks.json:TS",
+    "experiments/output/2026-10-11/2026-10-11-1019-score/banks.json:GS",
+    "experiments/output/2026-10-11/2026-10-11-1019-score/banks.json:TS",
+    "experiments/output/2026-10-11/2026-10-11-1129-prepare/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1129-score/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1228-prepare/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1228-score/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1315-prepare/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1315-score/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1427-exposure/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1427-readout/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1530-prepare/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1530-prepare/saved/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1530-score/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1628-initial-smoke-prepare/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1628-initial-smoke-prepare/source/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1628-initial-smoke-prepare/source/saved/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1628-initial-smoke-score/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1628-prepare/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1628-prepare/source/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1628-prepare/source/saved/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1628-score/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1628-smoke-prepare/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1628-smoke-prepare/source/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1628-smoke-prepare/source/saved/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1628-smoke-score/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1736-exposure/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1736-readout/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1938-prepare/bank.json",
+    "experiments/output/2026-10-11/2026-10-11-1938-protected/bank.json"
+  ],
+  "candidate_count": 24,
+  "unique_behaviours": 24,
+  "max_old_agreement": 0.488,
+  "max_pairwise_agreement": 0.536,
+  "rows": [
+    {
+      "id": "p01+n12+p23",
+      "label_hash": "25071cfe8f03ef3fd90113dd3af213d0ba4c9c6cd5b9ebe3ee0fe9e2dd5eb3a8",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p03+n12"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p01+n13+p32",
+      "label_hash": "9756ba555ea42a6b6582555846b2f67eeffae4ebcb692dbf3cb838a8be94b35f",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p02+n13"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p02+n21+p13",
+      "label_hash": "ab307b21ee7c99e5d980153b269db69eb5d023f0d34bdb6150008b48b1783b47",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p03+n21"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p02+n23+p31",
+      "label_hash": "38699f8b1427c6467096ba15e80d11a634e188efb701d92215b97839addb0813",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p01+n23"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p03+n31+p12",
+      "label_hash": "74f2ef72e5fc5bddc8ef9aea065d687baf52871b7994a75d6a3c3112bac776f7",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p02+n31"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p03+n32+p21",
+      "label_hash": "dc799d15dddc792120e050f78f9eb647900ec281aaa1bf2050a9116bcd387b70",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p01+n32"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p10+n02+p23",
+      "label_hash": "777b3e1da1a0fc7fecb6a45ae2aed073574864689040485a01e0fe1af22ced06",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p13+n02"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p10+n03+p32",
+      "label_hash": "c92e37a78fcf63b565be2798840710a34e5ffc74877cf7a06cdef4b2480d4029",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p12+n03"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p12+n20+p03",
+      "label_hash": "71b5758797e81c4eb056d91a8879adaf771b546d5b1b3a0916f01f494764837e",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p13+n20"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p12+n23+p30",
+      "label_hash": "560efba67623ead335efd3bc3e7c6454d85605ef7722bd3b0e22a020820a191b",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p10+n23"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p13+n30+p02",
+      "label_hash": "21f87df0af2ae3f303d55b4f8f8076af0ac19f4f60a84c4f19c2ceaa87df9393",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p12+n30"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p13+n32+p20",
+      "label_hash": "ad3bec712592102ec5ea12246892300345abef56ad7804508c9603e77faf1c6c",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p10+n32"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p20+n01+p13",
+      "label_hash": "c2c93af5598734b96914c2dc7465f1562a91b344cee618dbc6246308c6220e66",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p23+n01"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p20+n03+p31",
+      "label_hash": "28d19349728e26c653478e0a81ba0a231a86ebd101b91a57167c5b4a160ca747",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p21+n03"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p21+n10+p03",
+      "label_hash": "9131ef61f607b01094ad90b137d4a5c938578ff3e0a1fe956e1796f6856cb38c",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p23+n10"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p21+n13+p30",
+      "label_hash": "c7d666b1098629c94215af2cb53c2ba7d642be3ee5f3b346273a53e67602c227",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p20+n13"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p23+n30+p01",
+      "label_hash": "299453dd9c8fcf9b34e06e82f6ccabbdbac15949d163f8da974447862957c8bc",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p21+n30"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p23+n31+p10",
+      "label_hash": "fa8a8cd8b4d2004c718b642c202976cb893c4f19eb798650309e069e3931df19",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p20+n31"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p30+n01+p12",
+      "label_hash": "16c998860f3b21206bd8829c89c25b9e9a5840049efe7268087d3bd8519e2bdc",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p32+n01"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p30+n02+p21",
+      "label_hash": "18dca8744ad2daf8b97be60d829fabb9e0ba69b236517ea4663c225a723a51da",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p31+n02"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p31+n10+p02",
+      "label_hash": "878e7461166cd016b170e704fe3422303e7eb1e2838bdadec993b6b62c13653a",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p32+n10"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p31+n12+p20",
+      "label_hash": "b27a055efc4723f8ecfaa05fd53e98d46c2b09f4429fbf95d5f49122f9d575fd",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p30+n12"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p32+n20+p01",
+      "label_hash": "713acca1ee3079a5e5fb223b94a99ae9de545d6cb76e91fac0a620533340f975",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p31+n20"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    },
+    {
+      "id": "p32+n21+p10",
+      "label_hash": "2e96a6eaa00a0ef7849e5eeadc462b0f51ccea690422a0c206efa96124d439f5",
+      "old_max_matches": 305,
+      "old_nearest": [
+        "experiments/output/2026-10-11/2026-10-11-1938-development/bank.json",
+        "O:p30+n21"
+      ],
+      "canonical_nodes": 14,
+      "canonical_tokens": 20
+    }
+  ],
+  "initial_candidate_rejected": {
+    "candidate": "(p(a,b)>n(c,d)) ? Xa+Xc : Xb+Xd; all four indices distinct",
+    "candidate_count": 24,
+    "unique_behaviours": 24,
+    "max_old_agreement": 0.8128,
+    "max_pairwise_agreement": 0.8432,
+    "rows": [
+      {
+        "id": "p01>n23?X0+X2:X1+X3",
+        "label_hash": "0e0785a04fca40c74d998d36845b0724d9e4b4491303f72724df1de3b1dd6d39",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X1>X3?(X0+X2):(X1+X3)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p01>n32?X0+X3:X1+X2",
+        "label_hash": "fd627ede5987d2ab8539c4142536a43b7ab473943056c15603c7937ef31e91b5",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X1>X2?(X0+X3):(X1+X2)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p02>n13?X0+X1:X2+X3",
+        "label_hash": "99fa559757dd18bf6d97d0c29d222adcfc48d2c68d4e2f479cfdbab55a90dee8",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X2>X3?(X0+X1):(X2+X3)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p02>n31?X0+X3:X2+X1",
+        "label_hash": "c39ff3c9c16cf79510415ca0e80587f59fc7edce2bec350bfbd1c825848476ec",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X2>X1?(X0+X3):(X1+X2)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p03>n12?X0+X1:X3+X2",
+        "label_hash": "aa45b4790c6a20f3073f550b9c3a352f7547d311a26e5456becb007ac19f48b5",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X3>X2?(X0+X1):(X2+X3)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p03>n21?X0+X2:X3+X1",
+        "label_hash": "6f9e2273f40f82fe01b4b1caa4664544f10379574dff95616ef018896132e283",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X3>X1?(X0+X2):(X1+X3)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p10>n23?X1+X2:X0+X3",
+        "label_hash": "9d65a03c333666472e5d866068224ef52c667eef746297688408f5036c3885ec",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X0>X3?(X1+X2):(X0+X3)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p10>n32?X1+X3:X0+X2",
+        "label_hash": "9998bf0ba2960b4e0fac5badda3a6e59741ab82de43b17a8fd6a682f5e638ae0",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X0>X2?(X1+X3):(X0+X2)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p12>n03?X1+X0:X2+X3",
+        "label_hash": "66700fbd545d5727321e8663459021747ae9d7d63a4b864f6b9832aa4978e5be",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X2>X3?(X0+X1):(X2+X3)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p12>n30?X1+X3:X2+X0",
+        "label_hash": "656e10f7b98f1959ed46419d6abd73406a4e14bbc2a4a00949c94a6f3daa8876",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X2>X0?(X1+X3):(X0+X2)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p13>n02?X1+X0:X3+X2",
+        "label_hash": "5fdc9d578763f96f99f134d86deb83de3129f353ac361fe14ca67f588ff1ff2e",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X3>X2?(X0+X1):(X2+X3)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p13>n20?X1+X2:X3+X0",
+        "label_hash": "659a3f20643223ddac0fa5371fa3c1617e59a47b8d871afa29536cfdcfadf8dd",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X3>X0?(X1+X2):(X0+X3)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p20>n13?X2+X1:X0+X3",
+        "label_hash": "32e3febb5dd2b8afe05a17fbe530a8f2c87cfa9de6ea73a48f8c3f074efa1f45",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X0>X3?(X1+X2):(X0+X3)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p20>n31?X2+X3:X0+X1",
+        "label_hash": "243ee719acd828a4d4ce0a6a068d1f816b70712a2c8951c8cf18100daf50bc6c",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X0>X1?(X2+X3):(X0+X1)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p21>n03?X2+X0:X1+X3",
+        "label_hash": "595878aa24eb6f24ae6a2cfb54074713538007cfdeadf3bbe32d79779fefa461",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X1>X3?(X0+X2):(X1+X3)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p21>n30?X2+X3:X1+X0",
+        "label_hash": "f96278ffd3564d549a17a82cb482d16b68f2bab633d0e5a6dafa92431a566704",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X1>X0?(X2+X3):(X0+X1)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p23>n01?X2+X0:X3+X1",
+        "label_hash": "703e73788933ac7bb678e1f2846426263d4f1fa9702f0aef1b8cba802896de44",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X3>X1?(X0+X2):(X1+X3)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p23>n10?X2+X1:X3+X0",
+        "label_hash": "3ec47042ed7d2da812990e01f5d8e039a532854bf557c69d9872064bb4f1cc57",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X3>X0?(X1+X2):(X0+X3)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p30>n12?X3+X1:X0+X2",
+        "label_hash": "fb838584756ef312469f146a27fb903dcbc5b54f0305d78b4a86bdbd2c069ba8",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X0>X2?(X1+X3):(X0+X2)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p30>n21?X3+X2:X0+X1",
+        "label_hash": "a58d5ae3657f1666c2d5c4cf06cc2410c96e20d3755b563a65eaddd4f46acbba",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X0>X1?(X2+X3):(X0+X1)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p31>n02?X3+X0:X1+X2",
+        "label_hash": "663d423c180a6bde8859be5c38e96f3a378d19db9e025f18c45687231f51c664",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X1>X2?(X0+X3):(X1+X2)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p31>n20?X3+X2:X1+X0",
+        "label_hash": "3a0526ba382b5673892e106b59236a26e439168a1a13d77487aa74a99a1d3896",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X1>X0?(X2+X3):(X0+X1)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p32>n01?X3+X0:X2+X1",
+        "label_hash": "82b554e5b2b0ae30ddc2bf2d242bf9bae523a304deccc7f043f52562aa94566a",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X2>X1?(X0+X3):(X1+X2)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      },
+      {
+        "id": "p32>n10?X3+X1:X2+X0",
+        "label_hash": "394e9d88bafadf17f0264d18c8a9203ca078db8db326f7ae73dd24fe119d1945",
+        "old_max_matches": 508,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-1717-family-preference-prepare/banks.json:TS",
+          "TS:X2>X0?(X1+X3):(X0+X2)"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 16,
+        "canonical_tokens": 24
+      }
+    ]
+  },
+  "second_candidate_rejected": {
+    "candidate": "(p(a,b)>n(c,d)) ? Xa : Xc; all four indices distinct",
+    "candidate_count": 24,
+    "unique_behaviours": 24,
+    "max_old_agreement": 0.8272,
+    "max_pairwise_agreement": 0.776,
+    "rows": [
+      {
+        "id": "p01>n23?X0:X2",
+        "label_hash": "1206179102805a7df4890cb36fa0286040b577b1b366aa470848a1ce224469e2",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X1+X3)>(X3+X3)?X0:X2"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p01>n32?X0:X3",
+        "label_hash": "a47481d33f74f3f17a7fd28c73f0098a87eb1fa859257500df46691bf6c4da0b",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X1+X3)>(X2+X3)?X0:X3"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p02>n13?X0:X1",
+        "label_hash": "7ea5831785e61ab6905c40dc909b42304183fa324f1fd1f8a541adb7c6d2fed5",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X2+X3)>(X3+X3)?X0:X1"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p02>n31?X0:X3",
+        "label_hash": "65cf9e9f3c23221f0f8cc0fd23fbe93d0c8e784ddc1849987dc2bd72e59d7765",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X2+X3)>(X1+X3)?X0:X3"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p03>n12?X0:X1",
+        "label_hash": "be71d622dc7cb78c203f03919c5cd47151721c039b972514ba8c472210f18ee5",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X3+X3)>(X2+X3)?X0:X1"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p03>n21?X0:X2",
+        "label_hash": "6ca89b01872acadcdf85b9737bb84ee8aec7f259c83a2212949e83af9d684148",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X3+X3)>(X1+X3)?X0:X2"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p10>n23?X1:X2",
+        "label_hash": "11d0bf8cb111800c8fce7e113aaa666c5fe64f83b87952c9bf7a3d704fb9d927",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X0+X3)>(X3+X3)?X1:X2"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p10>n32?X1:X3",
+        "label_hash": "136df146662098a542d76fef373ffb0e1247ad081a129ff3a8192362c37e6790",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X0+X3)>(X2+X3)?X1:X3"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p12>n03?X1:X0",
+        "label_hash": "03e9c2020680eff8b42ad4d05b67a103fc78bd577dbf4798ee0bbfd532fbb25b",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X2+X3)>(X3+X3)?X1:X0"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p12>n30?X1:X3",
+        "label_hash": "6f367c160a0de64b669d6216973db84d6d62e82a833b725d3003e305953e96df",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X2+X3)>(X0+X3)?X1:X3"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p13>n02?X1:X0",
+        "label_hash": "85c6eeb0ca0309131736c3fc5f2496189b4392e700992b32b8acf66d8b4a90a2",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X3+X3)>(X2+X3)?X1:X0"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p13>n20?X1:X2",
+        "label_hash": "79c8bf260a038f8e8922ca331c08ae0461c88fb3df12c220d31b88da2021b417",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X3+X3)>(X0+X3)?X1:X2"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p20>n13?X2:X1",
+        "label_hash": "57563a51b1d5259dae054187f53d2a147c4166c7f2dc153b8b67148ca398b0b0",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X0+X3)>(X3+X3)?X2:X1"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p20>n31?X2:X3",
+        "label_hash": "daf00b00d669509679fbf663c793c3cb031c733634f935d09c56fcd58c6d8299",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X0+X3)>(X1+X3)?X2:X3"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p21>n03?X2:X0",
+        "label_hash": "a14797f238338dc228e4204b5b11d1df21185b2236f0768084ed88d7ed5dcf79",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X1+X3)>(X3+X3)?X2:X0"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p21>n30?X2:X3",
+        "label_hash": "c8722a2e146c6af960cd0fa698b2a50480714d47521bd0b1641dec4213d61f83",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X1+X3)>(X0+X3)?X2:X3"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p23>n01?X2:X0",
+        "label_hash": "9a31d717547497599f79335377cec813a780351b7bde0e300f2fc1be3d41b635",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X3+X3)>(X1+X3)?X2:X0"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p23>n10?X2:X1",
+        "label_hash": "9e3bd6686c3cb3da9b80bb00aa53c6a742aa3cd1e22b7c68f5e5be1a46310853",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X3+X3)>(X0+X3)?X2:X1"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p30>n12?X3:X1",
+        "label_hash": "bcd8c401907d38516cc713543970e05c71869fbde1382dae126e17ff8cd22cb7",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X0+X3)>(X2+X3)?X3:X1"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p30>n21?X3:X2",
+        "label_hash": "db971ee78b6702b9ad9e48264410e8f108fb69c3a9bb0869de093075e54a65df",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X0+X3)>(X1+X3)?X3:X2"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p31>n02?X3:X0",
+        "label_hash": "05ddef1fe5439c4808cf4ff977649ca3eea22380b74d7a4fa98465a0ab628eee",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X1+X3)>(X2+X3)?X3:X0"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p31>n20?X3:X2",
+        "label_hash": "8609b03e10031f6ef6be59d07301c4306cccf65ea4ba0ca52c569320e23ad031",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X1+X3)>(X0+X3)?X3:X2"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p32>n01?X3:X0",
+        "label_hash": "28ebec585d2364131dbe1efd3313205423c047bb786b2ac88e1b5f55726ac3b3",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X2+X3)>(X1+X3)?X3:X0"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      },
+      {
+        "id": "p32>n10?X3:X1",
+        "label_hash": "e5e6b4bb4b0f755fdb809bd4ceb4457845af119b71afaa5c4afc985c3a08bb42",
+        "old_max_matches": 517,
+        "old_nearest": [
+          "experiments/output/2026-10-10/2026-10-10-0311-independent-input-prepare/bank.json",
+          "DG:(X2+X3)>(X0+X3)?X3:X1"
+        ],
+        "then_count": 190,
+        "tie_count": 245,
+        "canonical_nodes": 12,
+        "canonical_tokens": 18
+      }
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+- id: 2026-10-11-2044-prepare
+  cmd: >-
+    PYTHONPATH=. RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.signed_chain_run
+    prepare --workers 8 --seconds 870
+  timeout_seconds: 900
+  expect_outputs:
+    - bank.json
+    - method_freeze.json
+    - libraries.json
+    - schedules.json
+    - smoke_schedule.json
+    - seed_audit.json
+    - preparation.json
+  track: chem-tape
+  notes: "Replay performance-blind chain admission and all 24 saved 1938 acquisitions; freeze paired development schedules before search. No new acquisition or protected search."
+- id: 2026-10-11-2044-development
+  cmd: >-
+    PYTHONPATH=. RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.signed_chain_run
+    development --workers 8 --seconds 2370
+    --prepared "$(dirname "$RUN_DIR")/2026-10-11-2044-prepare"
+  timeout_seconds: 2400
+  expect_outputs:
+    - bank.json
+    - method_freeze.json
+    - schedules.json
+    - score.jsonl
+    - report.json
+    - dynamics.png
+  track: chem-tape
+  notes: "Fixed descriptive probe: 24 saved builds x 6 development cells x 2 repeats x R-tree/R-all/R-gate = 864 jobs. Complete paired two-way summaries, coverage, acquisition/deployment costs, conditional precision/runtime forecasts on actual protected count; return to strategy. No confirmation authorization."
