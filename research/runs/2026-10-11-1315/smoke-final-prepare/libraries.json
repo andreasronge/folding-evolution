@@ -1,0 +1,2442 @@
+[
+  {
+    "literal": [
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "canonical": [
+          9,
+          1,
+          2
+        ],
+        "source_cells": [
+          "S:neg02+X1",
+          "S:neg12+X0",
+          "S:neg12+X3",
+          "S:neg23+X1",
+          "S:pos02+X3",
+          "S:pos12+X0",
+          "S:pos12+X3",
+          "S:pos13+X2",
+          "S:pos23+X1"
+        ],
+        "solver_count": 13,
+        "literal_solver_count": 8,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "S:neg01+X2",
+          "S:neg01+X3",
+          "S:neg12+X0",
+          "S:pos01+X2",
+          "S:pos01+X3",
+          "S:pos02+X1",
+          "S:pos03+X1",
+          "S:pos13+X0"
+        ],
+        "solver_count": 11,
+        "literal_solver_count": 9,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          3
+        ],
+        "source_cells": [
+          "S:neg01+X3",
+          "S:neg02+X3",
+          "S:neg03+X1",
+          "S:neg03+X2",
+          "S:neg23+X0",
+          "S:pos01+X3",
+          "S:pos03+X1",
+          "S:pos03+X2"
+        ],
+        "solver_count": 11,
+        "literal_solver_count": 8,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          2
+        ],
+        "canonical": [
+          9,
+          0,
+          2
+        ],
+        "source_cells": [
+          "S:neg01+X2",
+          "S:neg01+X3",
+          "S:neg02+X1",
+          "S:neg12+X0",
+          "S:neg23+X0",
+          "S:pos02+X1",
+          "S:pos02+X3",
+          "S:pos03+X2"
+        ],
+        "solver_count": 9,
+        "literal_solver_count": 5,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          1
+        ],
+        "canonical": [
+          9,
+          1,
+          3
+        ],
+        "source_cells": [
+          "S:neg12+X3",
+          "S:neg13+X0",
+          "S:neg13+X2",
+          "S:pos01+X3",
+          "S:pos12+X3",
+          "S:pos13+X0",
+          "S:pos13+X2"
+        ],
+        "solver_count": 7,
+        "literal_solver_count": 5,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "S:neg23+X0",
+          "S:neg23+X1",
+          "S:pos23+X0",
+          "S:pos23+X1"
+        ],
+        "solver_count": 7,
+        "literal_solver_count": 5,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          5
+        ],
+        "canonical": [
+          9,
+          3,
+          5
+        ],
+        "source_cells": [
+          "S:neg12+X3",
+          "S:pos01+X3",
+          "S:pos02+X3",
+          "S:pos13+X0"
+        ],
+        "solver_count": 4,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          9,
+          1,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          9,
+          1,
+          3
+        ],
+        "source_cells": [
+          "S:neg12+X3",
+          "S:neg13+X2",
+          "S:pos12+X3",
+          "S:pos13+X2"
+        ],
+        "solver_count": 4,
+        "literal_solver_count": 2,
+        "nodes": 5,
+        "compiled_length": 8
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          1
+        ],
+        "canonical": [
+          9,
+          1,
+          5
+        ],
+        "source_cells": [
+          "S:neg03+X2",
+          "S:neg13+X2",
+          "S:pos01+X3"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          9,
+          2,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          9,
+          1,
+          2
+        ],
+        "source_cells": [
+          "S:neg02+X1",
+          "S:pos02+X3",
+          "S:pos12+X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 1,
+        "nodes": 5,
+        "compiled_length": 8
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          9,
+          2,
+          0
+        ],
+        "canonical": [
+          9,
+          1,
+          9,
+          0,
+          2
+        ],
+        "source_cells": [
+          "S:neg01+X2",
+          "S:neg02+X1",
+          "S:neg12+X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 1,
+        "nodes": 5,
+        "compiled_length": 8
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          9,
+          2,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "S:pos01+X2",
+          "S:pos02+X1"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 5,
+        "compiled_length": 8
+      },
+      {
+        "prefix": [
+          9,
+          9,
+          0,
+          3,
+          2
+        ],
+        "canonical": [
+          9,
+          2,
+          9,
+          0,
+          3
+        ],
+        "source_cells": [
+          "S:neg02+X3",
+          "S:neg23+X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 5,
+        "compiled_length": 8
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          9,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "S:pos03+X1",
+          "S:pos13+X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 1,
+        "nodes": 5,
+        "compiled_length": 8
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          5
+        ],
+        "canonical": [
+          9,
+          0,
+          5
+        ],
+        "source_cells": [
+          "S:pos02+X3",
+          "S:pos03+X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          8
+        ],
+        "canonical": [
+          10,
+          1,
+          8
+        ],
+        "source_cells": [
+          "S:neg02+X1",
+          "S:pos12+X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      }
+    ],
+    "semantic": [
+      {
+        "prefix": [
+          9,
+          0,
+          2
+        ],
+        "canonical": [
+          9,
+          0,
+          2
+        ],
+        "source_cells": [
+          "S:neg01+X2",
+          "S:neg01+X3",
+          "S:neg02+X1",
+          "S:neg02+X3",
+          "S:neg12+X0",
+          "S:neg23+X0",
+          "S:pos02+X1",
+          "S:pos02+X3",
+          "S:pos03+X2",
+          "S:pos23+X0"
+        ],
+        "solver_count": 13,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "76efa3174c1ff7e7449d3e78d5dabfda43db1d52907211d9e0513129787f3b07"
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "canonical": [
+          9,
+          1,
+          2
+        ],
+        "source_cells": [
+          "S:neg02+X1",
+          "S:neg12+X0",
+          "S:neg12+X3",
+          "S:neg23+X1",
+          "S:pos02+X3",
+          "S:pos12+X0",
+          "S:pos12+X3",
+          "S:pos13+X2",
+          "S:pos23+X1"
+        ],
+        "solver_count": 13,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "a5dfc520d06570f353f8e4469deed3428c0764eade8fff4867025d140f686244"
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "S:neg01+X2",
+          "S:neg01+X3",
+          "S:neg12+X0",
+          "S:pos01+X2",
+          "S:pos01+X3",
+          "S:pos02+X1",
+          "S:pos03+X1",
+          "S:pos13+X0"
+        ],
+        "solver_count": 13,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "cb6c8b7d2f695c42dc795c3456b1527b9a463631b805987633c2c1e1212899d6"
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          3
+        ],
+        "canonical": [
+          9,
+          0,
+          3
+        ],
+        "source_cells": [
+          "S:neg01+X3",
+          "S:neg02+X3",
+          "S:neg03+X1",
+          "S:neg03+X2",
+          "S:neg23+X0",
+          "S:pos01+X3",
+          "S:pos03+X1",
+          "S:pos03+X2"
+        ],
+        "solver_count": 13,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "0a23d4b620b75d815ad7de1c39f310d4b0e2eee353ca44130a6ff9185291c776"
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          0
+        ],
+        "canonical": [
+          10,
+          0,
+          0
+        ],
+        "source_cells": [
+          "S:neg02+X1",
+          "S:neg03+X1",
+          "S:neg23+X0",
+          "S:pos01+X2",
+          "S:pos01+X3",
+          "S:pos12+X0",
+          "S:pos12+X3",
+          "S:pos23+X0"
+        ],
+        "solver_count": 9,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "7ca5bd879f393d9dd05b14f38add9c0fc6b67928f7f2d261b2e47a32ee8219e3"
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          9,
+          3,
+          0
+        ],
+        "canonical": [
+          9,
+          2,
+          9,
+          0,
+          3
+        ],
+        "source_cells": [
+          "S:neg01+X3",
+          "S:neg02+X3",
+          "S:neg03+X2",
+          "S:neg23+X0",
+          "S:pos02+X3",
+          "S:pos03+X2",
+          "S:pos23+X0"
+        ],
+        "solver_count": 12,
+        "nodes": 5,
+        "compiled_length": 8,
+        "semantic_hash": "6795985f4b72546ed0d8f51de06b54caa3dfb6c2443c69b9773baff5b4589fae"
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          9,
+          2,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          9,
+          1,
+          2
+        ],
+        "source_cells": [
+          "S:neg01+X2",
+          "S:neg02+X1",
+          "S:neg12+X0",
+          "S:pos01+X2",
+          "S:pos02+X1",
+          "S:pos02+X3",
+          "S:pos12+X0"
+        ],
+        "solver_count": 11,
+        "nodes": 5,
+        "compiled_length": 8,
+        "semantic_hash": "fb185263e321328c188f5adbe33ff0e8d52c72fec3c5f13e680ecd2c1daf7fa7"
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          3
+        ],
+        "canonical": [
+          9,
+          1,
+          3
+        ],
+        "source_cells": [
+          "S:neg12+X3",
+          "S:neg13+X0",
+          "S:neg13+X2",
+          "S:pos01+X3",
+          "S:pos12+X3",
+          "S:pos13+X0",
+          "S:pos13+X2"
+        ],
+        "solver_count": 10,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "2c189025f7daa25c36a8c7243e7effe645fe6a492c44f6fc4011e73a8eaa0c30"
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          9,
+          1,
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "S:neg12+X3",
+          "S:neg13+X2",
+          "S:neg23+X1",
+          "S:pos12+X3",
+          "S:pos13+X2",
+          "S:pos23+X1"
+        ],
+        "solver_count": 12,
+        "nodes": 5,
+        "compiled_length": 8,
+        "semantic_hash": "a524b731fc39fa7ee09070f191e0011e3a2b16339429fe207ec9a4e212234e1f"
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "S:neg13+X2",
+          "S:neg23+X0",
+          "S:neg23+X1",
+          "S:pos02+X3",
+          "S:pos23+X0",
+          "S:pos23+X1"
+        ],
+        "solver_count": 11,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "e8e9e7740f7242165041dcb1178a7c7ec90f1c18dda600237f44ea3ba546722f"
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          9,
+          3,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          9,
+          1,
+          3
+        ],
+        "source_cells": [
+          "S:neg01+X3",
+          "S:neg03+X1",
+          "S:neg13+X0",
+          "S:pos01+X3",
+          "S:pos03+X1",
+          "S:pos13+X0"
+        ],
+        "solver_count": 9,
+        "nodes": 5,
+        "compiled_length": 8,
+        "semantic_hash": "d298956f1c1898f2625e77dfcfb6c2a850d9e35aeb5e307c9dfb79e11620cfa3"
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          6
+        ],
+        "canonical": [
+          9,
+          1,
+          6
+        ],
+        "source_cells": [
+          "S:neg12+X3",
+          "S:pos13+X2"
+        ],
+        "solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4,
+        "semantic_hash": "ffbfaa58b3954375d454b49bacdcc52eed8ef5f63d19ace845c175771dc003ba"
+      },
+      {
+        "prefix": [
+          10,
+          8,
+          0
+        ],
+        "canonical": [
+          10,
+          8,
+          0
+        ],
+        "source_cells": [
+          "S:pos12+X3",
+          "S:pos13+X2"
+        ],
+        "solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4,
+        "semantic_hash": "d997814203ea9bd75f2b2c3428e672609be64259f02475f116f493de6556ef05"
+      },
+      {
+        "prefix": [
+          10,
+          5,
+          9,
+          3,
+          1
+        ],
+        "canonical": [
+          10,
+          5,
+          9,
+          1,
+          3
+        ],
+        "source_cells": [
+          "S:neg13+X0",
+          "S:pos13+X2"
+        ],
+        "solver_count": 2,
+        "nodes": 5,
+        "compiled_length": 7,
+        "semantic_hash": "f9ea3f6290e34b757a4e2c5db0bccfcd68520592a306798b7cb6932984eabaf5"
+      },
+      {
+        "prefix": [
+          9,
+          9,
+          3,
+          2,
+          9,
+          6,
+          5
+        ],
+        "canonical": [
+          9,
+          9,
+          2,
+          3,
+          9,
+          5,
+          6
+        ],
+        "source_cells": [
+          "S:neg23+X1",
+          "S:pos23+X1"
+        ],
+        "solver_count": 2,
+        "nodes": 7,
+        "compiled_length": 9,
+        "semantic_hash": "fe8a5b879d92af166923316f3ea495b35399761443f7d7140290d1f85775c5ca"
+      },
+      {
+        "prefix": [
+          11,
+          9,
+          1,
+          0,
+          5,
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          11,
+          9,
+          0,
+          1,
+          5,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "S:neg01+X2",
+          "S:neg01+X3"
+        ],
+        "solver_count": 2,
+        "nodes": 8,
+        "compiled_length": 12,
+        "semantic_hash": "b98817b2739c5c04b0df2c8d1df62e7887e96e562fe05b23fe14606e10bd905f"
+      }
+    ],
+    "helper_diagnostics": {
+      "pos01": {
+        "semantic": {
+          "source_cells": [],
+          "solver_count": 0,
+          "smallest_prefix": null,
+          "nodes": null,
+          "admissible": false,
+          "recurrent": false,
+          "pooling_rank": null,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      },
+      "pos02": {
+        "semantic": {
+          "source_cells": [],
+          "solver_count": 0,
+          "smallest_prefix": null,
+          "nodes": null,
+          "admissible": false,
+          "recurrent": false,
+          "pooling_rank": null,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      },
+      "pos03": {
+        "semantic": {
+          "source_cells": [],
+          "solver_count": 0,
+          "smallest_prefix": null,
+          "nodes": null,
+          "admissible": false,
+          "recurrent": false,
+          "pooling_rank": null,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      },
+      "pos12": {
+        "semantic": {
+          "source_cells": [
+            "S:pos12+X0"
+          ],
+          "solver_count": 1,
+          "smallest_prefix": [
+            11,
+            10,
+            1,
+            8,
+            9,
+            2,
+            1,
+            9,
+            1,
+            2
+          ],
+          "nodes": 10,
+          "admissible": false,
+          "recurrent": false,
+          "pooling_rank": null,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      },
+      "pos13": {
+        "semantic": {
+          "source_cells": [],
+          "solver_count": 0,
+          "smallest_prefix": null,
+          "nodes": null,
+          "admissible": false,
+          "recurrent": false,
+          "pooling_rank": null,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      },
+      "pos23": {
+        "semantic": {
+          "source_cells": [],
+          "solver_count": 0,
+          "smallest_prefix": null,
+          "nodes": null,
+          "admissible": false,
+          "recurrent": false,
+          "pooling_rank": null,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      },
+      "neg01": {
+        "semantic": {
+          "source_cells": [
+            "S:neg01+X2",
+            "S:neg01+X3"
+          ],
+          "solver_count": 2,
+          "smallest_prefix": [
+            11,
+            9,
+            1,
+            0,
+            5,
+            9,
+            0,
+            1
+          ],
+          "nodes": 8,
+          "admissible": true,
+          "recurrent": true,
+          "pooling_rank": 20,
+          "uncapped_rank": 16,
+          "included": true
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              9,
+              0,
+              1,
+              5,
+              9,
+              0,
+              1
+            ],
+            "source_cells": [
+              "S:neg01+X3"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              9,
+              1,
+              0,
+              5,
+              9,
+              0,
+              1
+            ],
+            "nodes": 8,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "neg02": {
+        "semantic": {
+          "source_cells": [],
+          "solver_count": 0,
+          "smallest_prefix": null,
+          "nodes": null,
+          "admissible": false,
+          "recurrent": false,
+          "pooling_rank": null,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      },
+      "neg03": {
+        "semantic": {
+          "source_cells": [],
+          "solver_count": 0,
+          "smallest_prefix": null,
+          "nodes": null,
+          "admissible": false,
+          "recurrent": false,
+          "pooling_rank": null,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      },
+      "neg12": {
+        "semantic": {
+          "source_cells": [],
+          "solver_count": 0,
+          "smallest_prefix": null,
+          "nodes": null,
+          "admissible": false,
+          "recurrent": false,
+          "pooling_rank": null,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      },
+      "neg13": {
+        "semantic": {
+          "source_cells": [],
+          "solver_count": 0,
+          "smallest_prefix": null,
+          "nodes": null,
+          "admissible": false,
+          "recurrent": false,
+          "pooling_rank": null,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      },
+      "neg23": {
+        "semantic": {
+          "source_cells": [],
+          "solver_count": 0,
+          "smallest_prefix": null,
+          "nodes": null,
+          "admissible": false,
+          "recurrent": false,
+          "pooling_rank": null,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      }
+    },
+    "census": [
+      {
+        "cell": "S:neg01+X2",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg01",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 1280,
+        "worker_seconds": 0.05353266606107354,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg01+X2",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [
+            11
+          ],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg01",
+        "own_helper_sizes": [
+          11
+        ],
+        "three_input_sum_sizes": [],
+        "root_op": "ADD",
+        "evaluations": 6656,
+        "worker_seconds": 0.3968392499955371,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg01+X3",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg01",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          8
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 3072,
+        "worker_seconds": 0.15596387500409037,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg01+X3",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [
+            8
+          ],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg01",
+        "own_helper_sizes": [
+          8
+        ],
+        "three_input_sum_sizes": [],
+        "root_op": "ADD",
+        "evaluations": 1536,
+        "worker_seconds": 0.07112749991938472,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg02+X1",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg02",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5,
+          9
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 1280,
+        "worker_seconds": 0.059638084028847516,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg02+X1",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg02",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 1792,
+        "worker_seconds": 0.0956167500698939,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg02+X3",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg02",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 2304,
+        "worker_seconds": 0.12419462495017797,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg02+X3",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg02",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 2304,
+        "worker_seconds": 0.12784208403900266,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg03+X1",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg03",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [],
+        "root_op": "IF_GT",
+        "evaluations": 1792,
+        "worker_seconds": 0.0821198329795152,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg03+X1",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg03",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 1792,
+        "worker_seconds": 0.07155066693667322,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg03+X2",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg03",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          8
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 2816,
+        "worker_seconds": 0.13727624993771315,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg03+X2",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg03",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          10
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 1792,
+        "worker_seconds": 0.10155454208143055,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg12+X0",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg12",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          7
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 2816,
+        "worker_seconds": 0.1589544169837609,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg12+X0",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg12",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 1536,
+        "worker_seconds": 0.08161424996796995,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg12+X3",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg12",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 1280,
+        "worker_seconds": 0.061394583084620535,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg12+X3",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg12",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          7
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 1536,
+        "worker_seconds": 0.06943420798052102,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg13+X0",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg13",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          8
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 2816,
+        "worker_seconds": 0.14343850000295788,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg13+X0",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg13",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 2048,
+        "worker_seconds": 0.10628208296839148,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg13+X2",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg13",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5,
+          9
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 2560,
+        "worker_seconds": 0.13038416695781052,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg13+X2",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg13",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          8
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 1536,
+        "worker_seconds": 0.060021082987077534,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg23+X0",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg23",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 2304,
+        "worker_seconds": 0.12275054201018065,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg23+X0",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg23",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 5632,
+        "worker_seconds": 0.2662491659866646,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg23+X1",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg23",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 1280,
+        "worker_seconds": 0.0573482500622049,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:neg23+X1",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "neg23",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 1536,
+        "worker_seconds": 0.07814995804801583,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos01+X2",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos01",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "ADD",
+        "evaluations": 4608,
+        "worker_seconds": 0.25120999990031123,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos01+X2",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos01",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 1536,
+        "worker_seconds": 0.07001729193143547,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos01+X3",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos01",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [],
+        "root_op": "IF_GT",
+        "evaluations": 2560,
+        "worker_seconds": 0.13526054203975946,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos01+X3",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos01",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 3328,
+        "worker_seconds": 0.1809724159538746,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos02+X1",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos02",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          8
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 2304,
+        "worker_seconds": 0.12761295901145786,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos02+X1",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos02",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 3072,
+        "worker_seconds": 0.1731663750251755,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos02+X3",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos02",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          9
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 2304,
+        "worker_seconds": 0.10334425000473857,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos02+X3",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos02",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          11
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 4096,
+        "worker_seconds": 0.22103754105046391,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos03+X1",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos03",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 1792,
+        "worker_seconds": 0.09087370790075511,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos03+X1",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos03",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 1792,
+        "worker_seconds": 0.09352616698015481,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos03+X2",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos03",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          11
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 2048,
+        "worker_seconds": 0.08499858295544982,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos03+X2",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos03",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          8
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 2304,
+        "worker_seconds": 0.08615287498105317,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos12+X0",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos12",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "ADD",
+        "evaluations": 3328,
+        "worker_seconds": 0.15355024999007583,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos12+X0",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [
+            10
+          ],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos12",
+        "own_helper_sizes": [
+          10
+        ],
+        "three_input_sum_sizes": [],
+        "root_op": "ADD",
+        "evaluations": 4096,
+        "worker_seconds": 0.21311833302024752,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos12+X3",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos12",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          11
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 4352,
+        "worker_seconds": 0.1984002919634804,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos12+X3",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos12",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 2304,
+        "worker_seconds": 0.10697620804421604,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos13+X0",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos13",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 2048,
+        "worker_seconds": 0.08634891698602587,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos13+X0",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos13",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          7
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 1536,
+        "worker_seconds": 0.05504424998071045,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos13+X2",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos13",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5,
+          12
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 2048,
+        "worker_seconds": 0.09781620802823454,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos13+X2",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos13",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 3328,
+        "worker_seconds": 0.17578670906368643,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos23+X0",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos23",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [],
+        "root_op": "IF_GT",
+        "evaluations": 4608,
+        "worker_seconds": 0.2687679579248652,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos23+X0",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos23",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          9
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 2560,
+        "worker_seconds": 0.14252254192251712,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos23+X1",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos23",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          13
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 2048,
+        "worker_seconds": 0.0893823750084266,
+        "first_attempt_solved": true
+      },
+      {
+        "cell": "S:pos23+X1",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "pos01": [],
+          "pos02": [],
+          "pos03": [],
+          "pos12": [],
+          "pos13": [],
+          "pos23": [],
+          "neg01": [],
+          "neg02": [],
+          "neg03": [],
+          "neg12": [],
+          "neg13": [],
+          "neg23": []
+        },
+        "own_helper": "pos23",
+        "own_helper_sizes": [],
+        "three_input_sum_sizes": [
+          5,
+          8
+        ],
+        "root_op": "IF_GT",
+        "evaluations": 2048,
+        "worker_seconds": 0.11562862491700798,
+        "first_attempt_solved": true
+      }
+    ],
+    "eligible_semantic_classes": 16,
+    "eligible_literal_classes": 21,
+    "literal_seconds": 0.0010255000088363886,
+    "extraction_census_seconds": 0.11049587500747293,
+    "acquisition_evaluations": 121344,
+    "acquisition_worker_seconds": 6.134792707627639,
+    "source_jobs": 48,
+    "source_solves": 48,
+    "validation_census_seconds": 0.031037959037348628
+  }
+]

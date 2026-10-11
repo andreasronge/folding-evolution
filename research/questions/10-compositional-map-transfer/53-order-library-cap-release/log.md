@@ -29,3 +29,9 @@
   development cells — and the plan routes this outcome back to strategy with a protected-stage case, which needs
   new budget (root 10 is at 44/44). The next-step options and my recommendation are in the
   [decision](../../../runs/2026-10-11-1228/decision.md).
+
+- 2026-10-11 (steward, 1315): wording correction after [critique 1315](../../../runs/2026-10-11-1315/critique.md)
+  (digest check, note 6). The 1228 entry's "unused helpers (b) not supported" and "coverage (c) is a residual
+  limit" read more than was measured: solvers were checked for containment of needed-helper entries (382/576), not
+  for donor ancestry, and the 18/144 no-helper pairs are an observational stratum (cost unresolved from R-tree), not
+  a manipulated coverage effect. The summary in question.md now says so. No numbers change.

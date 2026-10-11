@@ -33,8 +33,10 @@ cells-first key, behind 3-node classes recurring in 3–10 cells. Cost falls wit
 contain a needed-helper library entry, against 43/572 for R-S; per-draw insertion rates are similar (0.45 vs
 0.50).
 
-Against the competing explanations for failure: (a) dilution did not cancel the gain; (b) present helpers are used
-(solver check, descriptive); (c) coverage gaps remain in 18/144 pairs, where cost is unresolved from R-tree.
+Against the competing explanations for failure: (a) dilution did not cancel the gain; (b) 382/576 R-all solvers
+contain a needed-helper library entry (containment; donor ancestry not traced, so use is not shown); (c) 18/144
+cell × build pairs lack a needed helper, and their cost is unresolved from R-tree (observational stratum; whether
+coverage causes the cost differences is unmeasured).
 
 Not shown: that order helpers cause the saving. Entry count, sizes, content and the trivia share of draws changed
 together, and the no-helper stratum is also cheaper than R-S (0.58 [0.41, 0.76]), so part of the R-all/R-S gain may

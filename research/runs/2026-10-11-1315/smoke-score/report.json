@@ -1,0 +1,1839 @@
+{
+  "arms": {
+    "R-tree": {
+      "jobs": 4,
+      "solves": 1,
+      "first_attempt_rate": 0.0,
+      "capped_mean": 416960.0,
+      "geometric_mean": 342043.1575503623,
+      "worker_seconds": 116.4129459579708,
+      "mean_worker_seconds": 29.1032364894927
+    },
+    "R-rect": {
+      "jobs": 4,
+      "solves": 3,
+      "first_attempt_rate": 0.25,
+      "capped_mean": 232704.0,
+      "geometric_mean": 87563.24535860369,
+      "worker_seconds": 67.70583249919582,
+      "mean_worker_seconds": 16.926458124798955
+    },
+    "R-all": {
+      "jobs": 4,
+      "solves": 0,
+      "first_attempt_rate": 0.0,
+      "capped_mean": 524288.0,
+      "geometric_mean": 524287.99999999994,
+      "worker_seconds": 139.67620291700587,
+      "mean_worker_seconds": 34.91905072925147
+    },
+    "R-order-all": {
+      "jobs": 4,
+      "solves": 1,
+      "first_attempt_rate": 0.0,
+      "capped_mean": 412992.0,
+      "geometric_mean": 326758.6171113898,
+      "worker_seconds": 108.7865472920239,
+      "mean_worker_seconds": 27.196636823005974
+    }
+  },
+  "contrasts": {
+    "R-rect/R-tree": {
+      "evaluations": {
+        "point": 0.5580966999232541,
+        "interval95": [
+          0.5580966999232541,
+          0.5580966999232541
+        ]
+      },
+      "worker_seconds": {
+        "point": 0.5816005422939818,
+        "interval95": [
+          0.5816005422939818,
+          0.5816005422939818
+        ]
+      },
+      "geometric_evaluations": {
+        "point": 0.25600057602588033,
+        "interval95": [
+          0.25600057602588033,
+          0.25600057602588033
+        ]
+      }
+    },
+    "R-all/R-tree": {
+      "evaluations": {
+        "point": 1.2574059861857252,
+        "interval95": [
+          1.2574059861857252,
+          1.2574059861857252
+        ]
+      },
+      "worker_seconds": {
+        "point": 1.1998339339976323,
+        "interval95": [
+          1.1998339339976323,
+          1.1998339339976323
+        ]
+      },
+      "geometric_evaluations": {
+        "point": 1.532812419797651,
+        "interval95": [
+          1.532812419797651,
+          1.532812419797651
+        ]
+      }
+    },
+    "R-order-all/R-tree": {
+      "evaluations": {
+        "point": 0.9904834996162701,
+        "interval95": [
+          0.9904834996162701,
+          0.9904834996162701
+        ]
+      },
+      "worker_seconds": {
+        "point": 0.9344883972895909,
+        "interval95": [
+          0.9344883972895909,
+          0.9344883972895909
+        ]
+      },
+      "geometric_evaluations": {
+        "point": 0.9553140002903815,
+        "interval95": [
+          0.9553140002903815,
+          0.9553140002903815
+        ]
+      }
+    },
+    "R-all/R-order-all": {
+      "evaluations": {
+        "point": 1.2694870602820394,
+        "interval95": [
+          1.2694870602820394,
+          1.2694870602820394
+        ]
+      },
+      "worker_seconds": {
+        "point": 1.2839473849837568,
+        "interval95": [
+          1.2839473849837568,
+          1.2839473849837568
+        ]
+      },
+      "geometric_evaluations": {
+        "point": 1.6045116258442045,
+        "interval95": [
+          1.6045116258442045,
+          1.6045116258442045
+        ]
+      }
+    }
+  },
+  "bootstrap": {
+    "seed": 202610111315,
+    "draws": 8192,
+    "unit": "paired whole builds; ratio of pooled capped means; descriptive"
+  },
+  "coverage": [
+    {
+      "build": 0,
+      "cell": "O:pos01+neg02",
+      "needed_helpers": [
+        "pos01",
+        "neg02"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 0,
+      "cell": "O:pos13+neg23",
+      "needed_helpers": [
+        "pos13",
+        "neg23"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 0,
+      "cell": "O:pos01+neg23",
+      "needed_helpers": [
+        "pos01",
+        "neg23"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 0,
+      "cell": "O:pos12+neg03",
+      "needed_helpers": [
+        "pos12",
+        "neg03"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    }
+  ],
+  "coverage_pairs": 0,
+  "acquisition": [
+    {
+      "build": 0,
+      "source_jobs": 48,
+      "source_solves": 48,
+      "evaluations": 121344,
+      "worker_seconds": 6.067501495941542,
+      "preparation_worker_seconds": 0.14434308395721018,
+      "helpers": [
+        "neg01"
+      ],
+      "entries": 16,
+      "helper_diagnostics": {
+        "pos01": {
+          "semantic": {
+            "source_cells": [],
+            "solver_count": 0,
+            "smallest_prefix": null,
+            "nodes": null,
+            "admissible": false,
+            "recurrent": false,
+            "pooling_rank": null,
+            "uncapped_rank": null,
+            "included": false
+          },
+          "literal": []
+        },
+        "pos02": {
+          "semantic": {
+            "source_cells": [],
+            "solver_count": 0,
+            "smallest_prefix": null,
+            "nodes": null,
+            "admissible": false,
+            "recurrent": false,
+            "pooling_rank": null,
+            "uncapped_rank": null,
+            "included": false
+          },
+          "literal": []
+        },
+        "pos03": {
+          "semantic": {
+            "source_cells": [],
+            "solver_count": 0,
+            "smallest_prefix": null,
+            "nodes": null,
+            "admissible": false,
+            "recurrent": false,
+            "pooling_rank": null,
+            "uncapped_rank": null,
+            "included": false
+          },
+          "literal": []
+        },
+        "pos12": {
+          "semantic": {
+            "source_cells": [
+              "S:pos12+X0"
+            ],
+            "solver_count": 1,
+            "smallest_prefix": [
+              11,
+              10,
+              1,
+              8,
+              9,
+              2,
+              1,
+              9,
+              1,
+              2
+            ],
+            "nodes": 10,
+            "admissible": false,
+            "recurrent": false,
+            "pooling_rank": null,
+            "uncapped_rank": null,
+            "included": false
+          },
+          "literal": []
+        },
+        "pos13": {
+          "semantic": {
+            "source_cells": [],
+            "solver_count": 0,
+            "smallest_prefix": null,
+            "nodes": null,
+            "admissible": false,
+            "recurrent": false,
+            "pooling_rank": null,
+            "uncapped_rank": null,
+            "included": false
+          },
+          "literal": []
+        },
+        "pos23": {
+          "semantic": {
+            "source_cells": [],
+            "solver_count": 0,
+            "smallest_prefix": null,
+            "nodes": null,
+            "admissible": false,
+            "recurrent": false,
+            "pooling_rank": null,
+            "uncapped_rank": null,
+            "included": false
+          },
+          "literal": []
+        },
+        "neg01": {
+          "semantic": {
+            "source_cells": [
+              "S:neg01+X2",
+              "S:neg01+X3"
+            ],
+            "solver_count": 2,
+            "smallest_prefix": [
+              11,
+              9,
+              1,
+              0,
+              5,
+              9,
+              0,
+              1
+            ],
+            "nodes": 8,
+            "admissible": true,
+            "recurrent": true,
+            "pooling_rank": 20,
+            "uncapped_rank": 16,
+            "included": true
+          },
+          "literal": [
+            {
+              "canonical": [
+                11,
+                9,
+                0,
+                1,
+                5,
+                9,
+                0,
+                1
+              ],
+              "source_cells": [
+                "S:neg01+X3"
+              ],
+              "solver_count": 1,
+              "representative": [
+                11,
+                9,
+                1,
+                0,
+                5,
+                9,
+                0,
+                1
+              ],
+              "nodes": 8,
+              "admissible": true,
+              "uncapped_rank": null,
+              "included": false
+            }
+          ]
+        },
+        "neg02": {
+          "semantic": {
+            "source_cells": [],
+            "solver_count": 0,
+            "smallest_prefix": null,
+            "nodes": null,
+            "admissible": false,
+            "recurrent": false,
+            "pooling_rank": null,
+            "uncapped_rank": null,
+            "included": false
+          },
+          "literal": []
+        },
+        "neg03": {
+          "semantic": {
+            "source_cells": [],
+            "solver_count": 0,
+            "smallest_prefix": null,
+            "nodes": null,
+            "admissible": false,
+            "recurrent": false,
+            "pooling_rank": null,
+            "uncapped_rank": null,
+            "included": false
+          },
+          "literal": []
+        },
+        "neg12": {
+          "semantic": {
+            "source_cells": [],
+            "solver_count": 0,
+            "smallest_prefix": null,
+            "nodes": null,
+            "admissible": false,
+            "recurrent": false,
+            "pooling_rank": null,
+            "uncapped_rank": null,
+            "included": false
+          },
+          "literal": []
+        },
+        "neg13": {
+          "semantic": {
+            "source_cells": [],
+            "solver_count": 0,
+            "smallest_prefix": null,
+            "nodes": null,
+            "admissible": false,
+            "recurrent": false,
+            "pooling_rank": null,
+            "uncapped_rank": null,
+            "included": false
+          },
+          "literal": []
+        },
+        "neg23": {
+          "semantic": {
+            "source_cells": [],
+            "solver_count": 0,
+            "smallest_prefix": null,
+            "nodes": null,
+            "admissible": false,
+            "recurrent": false,
+            "pooling_rank": null,
+            "uncapped_rank": null,
+            "included": false
+          },
+          "literal": []
+        }
+      }
+    }
+  ],
+  "source_census": [
+    {
+      "cell": "S:neg01+X2",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg01",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg01+X2",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [
+          11
+        ],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg01",
+      "own_helper_sizes": [
+        11
+      ],
+      "three_input_sum_sizes": [],
+      "root_op": "ADD"
+    },
+    {
+      "cell": "S:neg01+X3",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg01",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        8
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg01+X3",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [
+          8
+        ],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg01",
+      "own_helper_sizes": [
+        8
+      ],
+      "three_input_sum_sizes": [],
+      "root_op": "ADD"
+    },
+    {
+      "cell": "S:neg02+X1",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg02",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5,
+        9
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg02+X1",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg02",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg02+X3",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg02",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg02+X3",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg02",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg03+X1",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg03",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg03+X1",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg03",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg03+X2",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg03",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        8
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg03+X2",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg03",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        10
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg12+X0",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg12",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        7
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg12+X0",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg12",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg12+X3",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg12",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg12+X3",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg12",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        7
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg13+X0",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg13",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        8
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg13+X0",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg13",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg13+X2",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg13",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5,
+        9
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg13+X2",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg13",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        8
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg23+X0",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg23",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg23+X0",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg23",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg23+X1",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg23",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:neg23+X1",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "neg23",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos01+X2",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos01",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "ADD"
+    },
+    {
+      "cell": "S:pos01+X2",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos01",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos01+X3",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos01",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos01+X3",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos01",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos02+X1",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos02",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        8
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos02+X1",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos02",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos02+X3",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos02",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        9
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos02+X3",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos02",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        11
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos03+X1",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos03",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos03+X1",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos03",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos03+X2",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos03",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        11
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos03+X2",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos03",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        8
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos12+X0",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos12",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "ADD"
+    },
+    {
+      "cell": "S:pos12+X0",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [
+          10
+        ],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos12",
+      "own_helper_sizes": [
+        10
+      ],
+      "three_input_sum_sizes": [],
+      "root_op": "ADD"
+    },
+    {
+      "cell": "S:pos12+X3",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos12",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        11
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos12+X3",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos12",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos13+X0",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos13",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos13+X0",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos13",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        7
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos13+X2",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos13",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5,
+        12
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos13+X2",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos13",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos23+X0",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos23",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos23+X0",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos23",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        9
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos23+X1",
+      "build": 0,
+      "repeat": 0,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos23",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        13
+      ],
+      "root_op": "IF_GT"
+    },
+    {
+      "cell": "S:pos23+X1",
+      "build": 0,
+      "repeat": 1,
+      "solved": true,
+      "helpers": {
+        "pos01": [],
+        "pos02": [],
+        "pos03": [],
+        "pos12": [],
+        "pos13": [],
+        "pos23": [],
+        "neg01": [],
+        "neg02": [],
+        "neg03": [],
+        "neg12": [],
+        "neg13": [],
+        "neg23": []
+      },
+      "own_helper": "pos23",
+      "own_helper_sizes": [],
+      "three_input_sum_sizes": [
+        5,
+        8
+      ],
+      "root_op": "IF_GT"
+    }
+  ],
+  "source_solver_census": {
+    "jobs": 48,
+    "solves": 48,
+    "own_helper": 3,
+    "own_helper_fraction": 0.0625,
+    "three_input_sum": 42,
+    "root_ops": {
+      "ADD": 5,
+      "IF_GT": 43
+    }
+  },
+  "per_cell": [
+    {
+      "arm": "R-tree",
+      "cell": "O:pos01+neg02",
+      "solves": 0,
+      "capped_mean": 524288.0
+    },
+    {
+      "arm": "R-tree",
+      "cell": "O:pos13+neg23",
+      "solves": 0,
+      "capped_mean": 524288.0
+    },
+    {
+      "arm": "R-tree",
+      "cell": "O:pos01+neg23",
+      "solves": 1,
+      "capped_mean": 94976.0
+    },
+    {
+      "arm": "R-tree",
+      "cell": "O:pos12+neg03",
+      "solves": 0,
+      "capped_mean": 524288.0
+    },
+    {
+      "arm": "R-rect",
+      "cell": "O:pos01+neg02",
+      "solves": 0,
+      "capped_mean": 524288.0
+    },
+    {
+      "arm": "R-rect",
+      "cell": "O:pos13+neg23",
+      "solves": 1,
+      "capped_mean": 4864.0
+    },
+    {
+      "arm": "R-rect",
+      "cell": "O:pos01+neg23",
+      "solves": 1,
+      "capped_mean": 332288.0
+    },
+    {
+      "arm": "R-rect",
+      "cell": "O:pos12+neg03",
+      "solves": 1,
+      "capped_mean": 69376.0
+    },
+    {
+      "arm": "R-all",
+      "cell": "O:pos01+neg02",
+      "solves": 0,
+      "capped_mean": 524288.0
+    },
+    {
+      "arm": "R-all",
+      "cell": "O:pos13+neg23",
+      "solves": 0,
+      "capped_mean": 524288.0
+    },
+    {
+      "arm": "R-all",
+      "cell": "O:pos01+neg23",
+      "solves": 0,
+      "capped_mean": 524288.0
+    },
+    {
+      "arm": "R-all",
+      "cell": "O:pos12+neg03",
+      "solves": 0,
+      "capped_mean": 524288.0
+    },
+    {
+      "arm": "R-order-all",
+      "cell": "O:pos01+neg02",
+      "solves": 0,
+      "capped_mean": 524288.0
+    },
+    {
+      "arm": "R-order-all",
+      "cell": "O:pos13+neg23",
+      "solves": 0,
+      "capped_mean": 524288.0
+    },
+    {
+      "arm": "R-order-all",
+      "cell": "O:pos01+neg23",
+      "solves": 1,
+      "capped_mean": 79104.0
+    },
+    {
+      "arm": "R-order-all",
+      "cell": "O:pos12+neg03",
+      "solves": 0,
+      "capped_mean": 524288.0
+    }
+  ],
+  "economics": {
+    "evaluations": {
+      "R-tree": {
+        "mean_acquisition": 121344.0,
+        "mean_saving": -107328.0,
+        "repayment_searches": null
+      },
+      "R-order-all": {
+        "mean_acquisition": 121344.0,
+        "mean_saving": -111296.0,
+        "repayment_searches": null
+      }
+    },
+    "worker_seconds": {
+      "R-tree": {
+        "mean_acquisition": 6.211844579898752,
+        "mean_saving": -5.815814239758765,
+        "repayment_searches": null
+      },
+      "R-order-all": {
+        "mean_acquisition": 6.211844579898752,
+        "mean_saving": -7.722413906245492,
+        "repayment_searches": null
+      }
+    }
+  },
+  "transported_historical_acquisition": [
+    {
+      "build": 0,
+      "evaluations": 215296,
+      "worker_seconds": 14.861455417587422,
+      "preparation_worker_seconds": 0.2379143750295043
+    }
+  ],
+  "decision": {
+    "recommendation": "smoke_only_no_recommendation"
+  },
+  "scope": "Development roster; stage 0 preceded freeze; protected cells unsearched. No helper causality, absence, unlimited time-to-solution or general portability conclusion.",
+  "admitted": true,
+  "smoke": true,
+  "protected_searches": 0,
+  "throughput": {
+    "wall_seconds": 50.56455591705162,
+    "worker_seconds": 432.5815286661964,
+    "workers": 11,
+    "effective_concurrency": 8.55503466451525,
+    "jobs_per_second": 0.31642718322785474,
+    "evaluations_per_wall_second": 125538.05496508618,
+    "max_worker_seconds": 39.681285666069016,
+    "projected_384_jobs_seconds": 1213.549342009239
+  },
+  "replay_validation_seconds": 0.13927304197568446,
+  "preparation_hash": "14192c85b428388abb28b3a8944bfc14b1afdcdbff9dfebd92af929a21d334bc",
+  "score_rows_hash": "479866494f5a344a512877c7283293987244fe7a5bb301ff3f4b4c5044836c70"
+}

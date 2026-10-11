@@ -9,8 +9,9 @@ Current summary: **closed after the 1129 probe (commit `db30b15`) and its follow
 [53](../53-order-library-cap-release/question.md) (run 1228, commit `60ab766`); six development cells, protected
 roster never searched.** Bank `x4-order-v1` on `v2_x4`/D625: sources `lo(a,b)+Xc`,
 `hi(a,b)+Xc` (24), destinations `lo(a,b)+hi(c,d)` (30; 6 development, 24 protected), built from ordinary GT/IF_GT
-([plan](../../../plans/order-helper-acquisition.md)). Answer: the unchanged literal recipe does not acquire them
-here; a behaviour-keyed extractor does once its 16-entry cap is removed, and that library then saves search.
+([plan](../../../plans/order-helper-acquisition.md)). Answer: no order helper entered the eight capped literal
+libraries in the 1129 probe (the uncapped literal recipe remains untested); a behaviour-keyed extractor put a needed
+helper in most libraries once its 16-entry cap was removed, and that library then saved search (53).
 
 Probe 1129 (observations): the unchanged literal extractor (R-L) held an order helper in
 0/8 builds and was dearer than plain restarted tree GP (R-L/R-tree 1.55× [1.09, 2.17] in geometric cost); a
@@ -47,6 +48,6 @@ Related: [53](../53-order-library-cap-release/question.md) (uncapped follow-up),
 [run 1129 analysis](../../../runs/2026-10-11-1129/analysis.md), [decision](../../../runs/2026-10-11-1129/decision.md), [log](log.md).
 
 Reopen if: (closed) a parameterized-abstraction method (DreamCoder/Stitch-like) is proposed and needs a bank where
-literal reuse is known to fail (R-L here); or a decision needs to know whether literal keying alone, without the cap,
+capped literal reuse acquired no helper (R-L here, 0/8 probe builds); or a decision needs to know whether literal keying alone, without the cap,
 would acquire the helpers. Reuse the saved 1129 and 1228 libraries, census and rows for descriptive follow-ups
 without new search. Further work with the uncapped extractor belongs under 53 or a new question.
