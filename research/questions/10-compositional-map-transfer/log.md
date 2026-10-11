@@ -2679,3 +2679,26 @@ fitted context or fragments; what carries C's advantage over token fits; why the
 better (content, size or source difficulty); A8 on a fresh bank of a new family, against a tuned
 or size-aware tree GP, or from arbitrary sources; a learned bias that improves on tree GP; transfer beyond two fresh shapes.
 ```
+
+## 2026-10-11: run 2026-10-11-0024, restarted tree GP versus restarted A8 (slot 36; question 44)
+
+Both frozen 2254 procedures ran under the same restart schedule (up to 8 attempts of 65,536 evaluations, total
+cap 524,288, stop at the first D625-exact solve; each attempt redraws population, training cases and seed; A8
+keeps its build) at commit `1773d11`; full-cap A8 rerun as a secondary reference. All grids complete, seeds
+audited, replays matched. DG (primary): mean evaluations R-tree ÷ R-A8 0.792× [0.682, 0.915]; solved 765/768 vs
+754/768, difference +0.014 [0.000, 0.034] — the pre-registered PASS cell (no A8 evaluation saving within a
+three-point reliability margin). Worker seconds reverse: 1.388× [1.196, 1.604], so A8 repays its historical
+acquisition after about 312 [211, 579] searches per build in seconds, never in evaluations. Restarted A8 ÷
+full-cap A8 0.727× [0.647, 0.814], solved 98.2% vs 83.6%: 43's A8 reliability lead was mainly a full-cap schedule
+effect. TS (descriptive) 0.181× [0.159, 0.202]. Tree spent 9.6% of DG evaluations on training-perfect non-exact
+programs, so case redraw may carry part of its restart gain (not separated)
+([analysis](../../runs/2026-10-11-0024/analysis.md), [44 log](44-restarted-tree-vs-a8/log.md)).
+
+Digest-check corrections (critique 0024, notes 6–9) applied to the root summary, 43's summary and the digest:
+metric named for 43's "no worthwhile advantage"; the shared "about 10× (DG) and 40× (TS)" over G4 in the 43
+entry above was wrong for TS — A8 about 7.2×, tree about 40.8× (2254 §2.5); "untuned" replaced by
+"calibration-selected mix, frozen before target scoring"; digest's A8 total cost restored to "estimated".
+
+Decision: close 44 and return to strategy (`next: strategy`) because the comparison landed on its PASS cell,
+root 10's 36-slot budget is spent, and the next purchase — tree-native fragment learning measured against
+restarted tree GP, or a different root — is the strategist's allocation, as strategy 0024 required.

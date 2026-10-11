@@ -1,0 +1,23 @@
+.......F..................                                               [100%]
+=================================== FAILURES ===================================
+_____ test_queue_owned_metadata_is_allowed_but_prior_experiment_is_refused _____
+
+tmp_path = PosixPath('/private/var/folders/dm/6qlgzkw133s_wvklhgxfbwh80000gn/T/pytest-of-andreas/pytest-207/test_queue_owned_metadata_is_a0')
+
+    def test_queue_owned_metadata_is_allowed_but_prior_experiment_is_refused(tmp_path):
+        for name in ("metadata.json", "stdout.log", "stderr.log"):
+            (tmp_path / name).write_text("")
+        run.require_fresh(tmp_path)
+        (tmp_path / "config.json").write_text("{}")
+        with pytest.raises(ValueError, match="fresh RUN_DIR"):
+            run.require_fresh(tmp_path)
+>       ratio = blocks["R-tree"][selected].mean(axis=1) / blocks["R-A8"][selected].mean(
+                ^^^^^^
+            axis=1
+        )
+E       NameError: name 'blocks' is not defined
+
+tests/test_restart_gp.py:138: NameError
+=========================== short test summary info ============================
+FAILED tests/test_restart_gp.py::test_queue_owned_metadata_is_allowed_but_prior_experiment_is_refused
+1 failed, 25 passed in 55.28s

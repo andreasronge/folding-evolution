@@ -1,0 +1,69 @@
+{
+  "scenarios": {
+    "cell_pool": {
+      "analytic": {
+        "tree": {
+          "evaluations": 87313.79728657097,
+          "solve_fraction": 0.989687708046193
+        },
+        "A8": {
+          "evaluations": 110563.26221049367,
+          "solve_fraction": 0.9868299727079766
+        }
+      },
+      "simulation_datasets": 256,
+      "bootstrap_draws_per_dataset": 512,
+      "evaluation_win_frequency": 0.99609375,
+      "reliability_guard_frequency": 1.0,
+      "joint_frequency": 0.99609375,
+      "simulated_ratio_range95": [
+        0.7184780931088359,
+        0.8771716501172807
+      ]
+    },
+    "build_pool": {
+      "analytic": {
+        "tree": {
+          "evaluations": 96956.46730342259,
+          "solve_fraction": 0.9767644146437912
+        },
+        "A8": {
+          "evaluations": 123713.96391296883,
+          "solve_fraction": 0.96439735830063
+        }
+      },
+      "simulation_datasets": 256,
+      "bootstrap_draws_per_dataset": 512,
+      "evaluation_win_frequency": 0.58984375,
+      "reliability_guard_frequency": 0.97265625,
+      "joint_frequency": 0.5859375,
+      "simulated_ratio_range95": [
+        0.709567019358774,
+        0.8657547644932088
+      ]
+    },
+    "cell_build": {
+      "analytic": {
+        "tree": {
+          "evaluations": 195568.703125,
+          "solve_fraction": 0.69610595703125
+        },
+        "A8": {
+          "evaluations": 218006.74479166666,
+          "solve_fraction": 0.6753336588541666
+        }
+      },
+      "simulation_datasets": 256,
+      "bootstrap_draws_per_dataset": 512,
+      "evaluation_win_frequency": 0.0,
+      "reliability_guard_frequency": 0.0,
+      "joint_frequency": 0.0,
+      "simulated_ratio_range95": [
+        0.8741867344871597,
+        0.9201770909268182
+      ]
+    }
+  },
+  "worker_seconds": 0.23729420802555978,
+  "assumptions": "paired historical rows across arms; independent empirical attempts within fixed build per job; only two observations per cell/build; sensitivity, not validated power or dependence test"
+}

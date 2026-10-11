@@ -108,3 +108,14 @@ Decision: close 43 and return to strategy because the pre-registered comparison 
 the plan's "PASS partial, bounded geometric difference / positive savings" row, whose action is to redirect
 learning toward an increment over tree search (a smaller saving can still repay) rather than price a
 fresh-bank A8 test; the plan forbade tuning or top-ups, and root 10's budget (35 of 35) is spent.
+
+2026-10-11 (steward, run 2026-10-11-0024): summary wording corrected per critique 0024 digest check — "no
+worthwhile search-cost advantage" now names its metric (no ≥ 1.5× geometric advantage under 2 × cap charging;
+arithmetic savings remained), and "untuned" replaced by "crossover mix selected on source/development cells,
+frozen before target scoring". Question 44 then found that both of A8's remaining DG advantages here
+(reliability 314 vs 202 of 384, about 86k evaluations saved per search) were mainly full-cap schedule effects:
+with both arms restarted at 65,536, R-tree ÷ R-A8 0.792 [0.682, 0.915] in evaluations, reliability within
+three points; A8 still cheaper in worker seconds (tree ÷ A8 1.388 [1.196, 1.604]).
+
+Decision: stays closed because 44 answered its follow-up; reopen clause (i) on worker seconds is now partly
+answered by 44 (A8 cheaper per search under restarts).

@@ -1,0 +1,36 @@
+{
+  "id": "2026-10-11-0024-smoke-queue",
+  "queue_entry": {
+    "id": "2026-10-11-0024-smoke-queue",
+    "cmd": "RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.restart_gp_run --prepare --smoke --workers 10 --deadline-seconds 400",
+    "timeout_seconds": 400,
+    "expect_outputs": [
+      "preparation.json",
+      "schedule_audit.json",
+      "validation.json",
+      "replay.json",
+      "historical_sensitivity.json",
+      "stage0.jsonl"
+    ],
+    "track": "chem-tape",
+    "notes": null
+  },
+  "git_commit": "604e42490b643901fff59c9fa7cdca677853312e",
+  "git_dirty": true,
+  "python_version": "3.12.14",
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "started_at": "2026-10-10T22:54:10.269011+00:00",
+  "ended_at": "2026-10-10T22:55:24.103144+00:00",
+  "exit_code": 0,
+  "status": "done",
+  "wall_seconds": 73.834,
+  "profile": {
+    "wall_seconds": 73.834,
+    "user_cpu_seconds": 161.186,
+    "sys_cpu_seconds": 1.136,
+    "peak_rss_mb": 284.0,
+    "voluntary_ctxt_switches": 86,
+    "involuntary_ctxt_switches": 46240,
+    "cpu_efficiency": 2.18
+  }
+}

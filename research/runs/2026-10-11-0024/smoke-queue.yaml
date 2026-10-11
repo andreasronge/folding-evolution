@@ -1,0 +1,14 @@
+runs:
+  - id: 2026-10-11-0024-smoke-queue
+    cmd: >-
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.restart_gp_run
+      --prepare --smoke --workers 10 --deadline-seconds 400
+    timeout_seconds: 400
+    track: chem-tape
+    expect_outputs:
+      - preparation.json
+      - schedule_audit.json
+      - validation.json
+      - replay.json
+      - historical_sensitivity.json
+      - stage0.jsonl

@@ -1,0 +1,11 @@
+{
+  "rows": 16,
+  "passed": true,
+  "excluded_timing_fields": [
+    "budget_seconds",
+    "decode_seconds",
+    "exact_check_max_seconds",
+    "exact_check_seconds",
+    "seconds"
+  ]
+}

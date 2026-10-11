@@ -1,0 +1,19 @@
+2026-10-11 00:31:50 cycle 2026-10-10-2254 done; brief: /Users/andreas/developer/folding-evolution/research/briefs/2026-10-11-2026-10-10-2254.md
+2026-10-11 00:31:50 strategist (codex/gpt-6-astra) → strategy [herdr]
+2026-10-11 00:37:44 phase → propose
+2026-10-11 00:37:44 steward (claude/claude-opus-5-5) → propose [herdr]
+2026-10-11 00:42:20 phase → accept
+2026-10-11 00:42:20 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-11 00:44:08 phase → awaiting_approval
+2026-10-11 00:44:08 proposal: Restarted tree GP versus restarted and full-cap A8 on the DG and TS rosters [questions/10-compositional-map-transfer/44-restarted-tree-vs-a8] — budget left: 1. Approve with `research.py approve`.
+2026-10-11 00:44:08 auto-approved (critic: approve_with_notes, revisions: 0)
+2026-10-11 00:44:08 phase → prepare
+2026-10-11 00:44:26 researcher (codex/gpt-6.1-sol) → prepare [herdr]
+2026-10-11 00:59:25 phase → review_code
+2026-10-11 00:59:25 reviewer (claude/claude-fable-5-1) → review_code [herdr]
+2026-10-11 01:07:11 phase → execute
+2026-10-11 01:07:11 running queue (3 entries)
+2026-10-11 01:43:45 phase → analyse
+2026-10-11 01:43:45 reviewer (claude/claude-fable-5-1) → analyse [herdr]
+2026-10-11 01:50:24 phase → decide
+2026-10-11 01:50:24 steward (claude/claude-opus-5-5) → decide [herdr]
