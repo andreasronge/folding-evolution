@@ -13,14 +13,15 @@ cells, 24 saved R-all libraries, protected cells unsearched).** A recipient-inhe
 mutation donors to R-all, starting at f₀ = 0.25 with no bit mutation, fixed in 46/96 linked trajectories
 against 27/96 shuffled, 29/96 with size-matched random donors and 16/48 neutral: L − S 0.20 [0.04, 0.35],
 L − Z 0.18 [0.05, 0.30] (library bootstrap). The carriers' per-generation advantage among selected parents
-was small (about 4% relative, pre-solve, L only), and drift decided every trajectory, almost all within
-about 15 generations of the first episode, so 11 of 12 planned episodes measured nothing. The frozen
+was small (about 4% relative, pre-solve, L only), and every trajectory absorbed rapidly: 290/336 in the first episode (median about 15 generations), 45 more in the
+second, one later, so the later episodes measured almost nothing about the bit. The frozen
 mean law was not resolved from the starting mixture (L-final / initial 0.91 [0.71, 1.20]; ceiling about
-0.73× if every run had fixed) and is not better than fixed R-all (1.21× [0.98, 1.46]). In the episode where
-selection acted, linked and shuffled populations solved equally often (55/96 each). Because each population
-ends at 0 or 0.5 and the dose curve is convex, deploying one population's law would be expected, on the
-pooled curve, to cost about 1.2× the starting mixture (steward arithmetic, no interval). Read: selection
-can favour carriers of a useful donor law here, but too weakly against drift for the inherited choice to show a
+0.73× if every run had fixed) and no improvement over fixed R-all was established (1.21× [0.98, 1.46]; the point estimate is worse). In the episode where
+selection acted, linked and shuffled populations solved in the same number of runs (55/96 each; equal observed
+counts, not shown equal rates). Each population ends at 0 or 0.5 and the pooled dose curve is convex; projecting one population's law onto that
+curve gives about 1.2× the starting mixture's cost. That is an unvalidated pooled-curve projection without an
+interval (single-population deployment was not tested; the curve pools different build compositions). Read: selection
+can favour carriers of a useful donor law here, but too weakly, given rapid absorption, for the inherited choice to show a
 resolved fresh-search gain at this population size and exposure (unresolved, not shown absent). Not shown: anything under bit mutation, other population
 sizes or crossover rates, other libraries or banks, or on protected cells.
 

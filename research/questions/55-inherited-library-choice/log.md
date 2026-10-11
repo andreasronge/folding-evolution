@@ -48,3 +48,23 @@
   budget is spent. A usefulness test needs a redesigned instrument (polymorphism kept by bit mutation or weaker
   drift, a starting frequency where the dose curve is steep), which strategy 1427 said is not automatically
   funded. Back to the strategist, as the proposal stated.
+
+- 2026-10-11 (steward, 1530): wording correction after [critique 1530](../../runs/2026-10-11-1530/critique.md)
+  (digest check, notes 6–9); the 1427 entry above is left as written, read it with these corrections. No numbers
+  in the analysis change.
+  - "328/336 by the end of episode 0" is wrong: analysis §2.1 and `exposure.jsonl` give **290/336** absorbed in
+    episode 0 (L 88, S 80, Z 82, N 40), 45 in episode 1, one later. "Episodes 2–12 measured nothing" should read
+    "episodes after the second measured almost nothing about the bit".
+  - "Z still fixed at the neutral rate, so extra clones alone did not raise the bit here" overstates: Z 0.302
+    [0.208, 0.406] is compatible with neutrality and with an increase. Read: no Z fixation excess was resolved; the
+    controls do not fully separate content from robustness.
+  - The dose curve does not "explain" L-final / S-final: it pools different build compositions, so it is
+    consistent with a mixture/absorption account but does not identify the within-build counterfactual. The
+    ≈ 1.2× single-population cost is an unvalidated pooled-curve projection, without an interval.
+  - "Not better than fixed R-all" in the decision line: read "no improvement over fixed R-all was established"
+    (1.21 [0.98, 1.46], point worse). The 55/96 vs 55/96 solve counts are equal observations, not equal rates.
+  - "Drift decided every trajectory" / "C (drift) dominates the outcome": absorption is measured; attributing every
+    outcome to drift is not, given the resolved linked selection differential. The question summary now says
+    "every trajectory absorbed rapidly".
+  The parking decision is unchanged: its reasons (allele movement alone does not change a decision; budget spent;
+  usefulness needs a redesigned instrument) do not depend on these wordings.
