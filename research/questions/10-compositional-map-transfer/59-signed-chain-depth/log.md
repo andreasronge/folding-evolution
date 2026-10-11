@@ -42,3 +42,17 @@
   a price), its one slot is used, the strategy and proposal both route a confirmation through a separate
   allocation, and the R-all effect is unresolved at both thresholds that matter. Steward's recommendation for
   strategy is in [decision 2044](../../../runs/2026-10-11-2044/decision.md).
+- 2026-10-11 (steward, 2150): wording correction after [critique 2150](../../../runs/2026-10-11-2150/critique.md)
+  digest-check notes 6–9 (log lines stay as written; corrected readings here and in question.md):
+  "hard but not capped" / "a hard, uncapped tier" / "without a ceiling" → hard tier with 5.6% R-tree capping (16/288,
+  18.4% of its evaluations), below the pre-set 25% cap-dominance flag; "a 40% saving is excluded" → the descriptive
+  lower cost-ratio bound is about 0.60 (the runner's bound was 0.596); "linking alone did not limit search (R-gate
+  never capped)" → the supplied repertoire substantially reduced cost, contradicting the prediction that supplying
+  helpers would help little; residual assembly cost and helper causality remain unresolved (R-gate restarted on
+  102/288 jobs); "decidable"/"resolves" for the forecast → a meaningful but uncertain chance of resolving any saving.
+- 2026-10-11 (steward, 2150): the protected confirmation ran as
+  [60](../60-signed-chain-protected-reuse/question.md) (run 2150, commit `83c7c5b`): R-all/R-tree 0.778× [0.696,
+  0.870] on 18 never-searched cells, R-gate/R-tree 0.263×, repayment 5.4 [3.8, 9.7] searches; details in 60's log.
+  Decision: close 59 as answered (frozen signed-gate libraries help modestly on this hard tier of the same bank),
+  because its confirmation resolved a saving with all validity checks passed; attribution (helpers versus other
+  content) and acquisition coverage are separate questions for strategy, not further probes of this one.

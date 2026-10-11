@@ -1,0 +1,59 @@
+Reproduce unmodified signed-gate tests with the method inventory from baseline HEAD: 92a458fc20a614f74e1f5e92fefc1e596a3e1d46
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+____________ test_frozen_bank_complete_split_and_fresh_paired_grid _____________
+
+    def test_frozen_bank_complete_split_and_fresh_paired_grid():
+>       b = run.load_bank()
+            ^^^^^^^^^^^^^^^
+
+tests/test_signed_gate.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def load_bank():
+        bank_module.executable_check()
+        bank = json.loads((DATA / 'manifest.json').read_text())
+        if digest(bank) != BANK_HASH or not bank['admitted'] or not bank['screen']['complete']:
+            raise ValueError('frozen screened bank hash/admission mismatch')
+        bank_module.verify(bank['screen']['cells'])
+        if bank['split'] != bank_module.split([c for c in bank['screen']['cells'] if c['retained']]):
+            raise ValueError('frozen development/protected split changed')
+        pre = json.loads(gzip.decompress((DATA / 'presearch.json.gz').read_bytes()))
+        if (pre['bank_hash'] != BANK_HASH or digest(pre['freeze']) != digest(freeze(bank))
+                or pre['schedule'] != schedules(bank) or pre['smoke_schedule'] != schedules(bank, True)
+                or pre['seed_audit'] != seed_audit(bank)):
+>           raise ValueError('presearch method/schedule/seed freeze mismatch')
+E           ValueError: presearch method/schedule/seed freeze mismatch
+
+experiments/chem_tape/signed_gate_run.py:45: ValueError
+_________________ test_source_replay_and_tampering_fail_closed _________________
+
+tmp_path = PosixPath('/private/var/folders/dm/6qlgzkw133s_wvklhgxfbwh80000gn/T/pytest-of-andreas/pytest-268/test_source_replay_and_tamperi0')
+
+    def test_source_replay_and_tampering_fail_closed(tmp_path):
+>       b=run.load_bank()
+          ^^^^^^^^^^^^^^^
+
+tests/test_signed_gate.py:106: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def load_bank():
+        bank_module.executable_check()
+        bank = json.loads((DATA / 'manifest.json').read_text())
+        if digest(bank) != BANK_HASH or not bank['admitted'] or not bank['screen']['complete']:
+            raise ValueError('frozen screened bank hash/admission mismatch')
+        bank_module.verify(bank['screen']['cells'])
+        if bank['split'] != bank_module.split([c for c in bank['screen']['cells'] if c['retained']]):
+            raise ValueError('frozen development/protected split changed')
+        pre = json.loads(gzip.decompress((DATA / 'presearch.json.gz').read_bytes()))
+        if (pre['bank_hash'] != BANK_HASH or digest(pre['freeze']) != digest(freeze(bank))
+                or pre['schedule'] != schedules(bank) or pre['smoke_schedule'] != schedules(bank, True)
+                or pre['seed_audit'] != seed_audit(bank)):
+>           raise ValueError('presearch method/schedule/seed freeze mismatch')
+E           ValueError: presearch method/schedule/seed freeze mismatch
+
+experiments/chem_tape/signed_gate_run.py:45: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_signed_gate.py::test_frozen_bank_complete_split_and_fresh_paired_grid
+FAILED tests/test_signed_gate.py::test_source_replay_and_tampering_fail_closed
+2 failed in 1.60s

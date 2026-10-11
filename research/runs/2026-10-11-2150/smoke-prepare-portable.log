@@ -1,0 +1,10 @@
+D625 {'depth': 1, 'states': 8, 'output_only': False, 'distinct_outputs': 4, 'seconds': 0.005555958021432161, 'peak_rss_mb': 166.515625}
+D625 {'depth': 2, 'states': 59, 'output_only': False, 'distinct_outputs': 9, 'seconds': 0.005710333003662527, 'peak_rss_mb': 166.515625}
+D625 {'depth': 3, 'states': 460, 'output_only': False, 'distinct_outputs': 18, 'seconds': 0.006252374965697527, 'peak_rss_mb': 166.578125}
+D625 {'depth': 4, 'states': 3606, 'output_only': False, 'distinct_outputs': 55, 'seconds': 0.010014708037488163, 'peak_rss_mb': 167.109375}
+D625 {'depth': 5, 'states': 28429, 'output_only': False, 'distinct_outputs': 172, 'seconds': 0.034702833043411374, 'peak_rss_mb': 171.515625}
+D625 {'depth': 6, 'states': 224254, 'output_only': False, 'distinct_outputs': 480, 'seconds': 0.22972658299840987, 'peak_rss_mb': 214.375}
+D625 {'depth': 7, 'states': 1769977, 'output_only': False, 'distinct_outputs': 1626, 'seconds': 2.0202922080643475, 'peak_rss_mb': 717.46875}
+D625 {'depth': 8, 'states': 13974615, 'output_only': False, 'distinct_outputs': 5818, 'seconds': 17.941452000057325, 'peak_rss_mb': 4828.78125}
+D625 {'depth': 9, 'states': None, 'output_only': True, 'distinct_outputs': 17807, 'seconds': 105.0797092920402, 'peak_rss_mb': 4828.78125}
+prepared {'admitted': True, 'protected_searches': 0, 'admission_replay_identity_hash': '1a9e9cf665f499834c2f55c59ac3788f5a0445e767dbd81dc33764b51337dc19', 'seconds': 112.06742987502366, 'git_commit': '92a458fc20a614f74e1f5e92fefc1e596a3e1d46', 'bank_hash': 'e3873e170b71ffcb69bea99b0d2cf4afd7062a5b6ab28ef2a9e59608f6c6d175', 'method_freeze_hash': '60b74bdaa1a0fe73f65669c43b3d407288d428f1fc9af76d99cbc5faffb13a94', 'libraries_hash': '27ab91a94fcb6b9ab30795422051231c35d9d3ed470b8ab0deb13f9627e16efe', 'schedules_hash': 'ecfe88df21ee9b775a63a339a518d4667c1414785d9e56a3be3e9876e48f0f1c', 'smoke_schedule_hash': '0d478689394cac5a334187e3c66538b8cf754eefa539ca46b6a69a8a67649024', 'seed_audit_hash': 'd678f21d826284cd3ff952164ad06f3a1a40e8f64e602ec5d35efc8dcff6e51f', 'preparation_hash': 'acb386b882d88e3eae3e21991f91b1525249e26b1c23e8d8715f5be066b0bcfc'}
