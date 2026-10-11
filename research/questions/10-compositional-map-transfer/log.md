@@ -2924,3 +2924,27 @@ source difficulty); A8 on a fresh bank of a new family, against a tuned or size-
 arbitrary sources; the subtree library on a fresh bank; transfer beyond two fresh shapes.
 
 ```
+
+## 2026-10-11: run 2026-10-11-0524, label-rearranged tree libraries (slot 39; question 47)
+
+The 24 frozen 0150 libraries (R-lib), the same libraries with labels permuted within (entry node count, compiled
+length, node arity, token width) pools (R-perm, 3 frozen realizations per build) and plain restarted tree GP
+(R-tree) on all 18 cells of `x4-gate-sum-v1` (development bank), 6 repeats, shared seeds, commit `7c0e5df`
+(code review pass; all validation, replay and seed audits clean; 7,776/7,776 rows). Primary, the two splits no
+learned predicate covers (B/C, 1,728 jobs/arm): mean evaluations R-perm ÷ R-lib **1.031 [0.854, 1.225]**,
+R-perm ÷ R-tree 0.360 [0.299, 0.429], R-lib ÷ R-tree 0.349 [0.301, 0.410] (replicates 0348), solved 1,728/1,728
+in both donor arms. Positive control, the learned predicate's split A: R-perm ÷ R-lib **5.14 [3.68, 7.14]**.
+Registered branch: arrangement unnecessary at this resolution, read narrowly — this one count-preserving
+construction keeps the B/C gain; it also removed the learned predicate (0–1 of 63 kept) and tripled B/C pair
+supply, so the carrier is not identified and an intact advantage up to about 20% is not excluded
+([analysis](../../runs/2026-10-11-0524/analysis.md), [47 log](47-tree-donor-arrangement/log.md)).
+
+Digest-check corrections (critique 0524, notes 6–8) applied to the root summary, 46's summary and log, and the
+digest: "mostly predicate-matched" replaced by "relative gain much larger on the predicate-matched split" (split
+A carries about 43% of the pooled savings); 46's "equals R-tree's" share recorded as "similar, not assessed";
+"no reliability loss" replaced by "no loss observed; the registered 3-point guard passed". (Run 0348 has no
+separate entry here; see [46 log](46-tree-library-fresh-composition/log.md).)
+
+Decision: close 47 and return to strategy (`next: strategy`) because the primary landed on its retention branch
+with guards and positive control passing, root 10's 39-slot budget is spent, and strategy 0524 reserved the
+follow-up choice for its own review.

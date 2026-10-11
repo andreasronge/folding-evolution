@@ -1,0 +1,34 @@
+attempt keys: ['arm', 'budget_seconds', 'build', 'cap', 'cell', 'compile_seconds', 'compile_seconds_scope', 'compiled_length_histogram', 'compiled_tokens_evaluated', 'crossover', 'curve', 'evaluations', 'exact_check_max_seconds', 'exact_check_seconds', 'exact_checks', 'family', 'force_cap', 'generations', 'initial_tokens_hash', 'initialization', 'max_compiled_length', 'mean_compiled_length', 'operator', 'phenotype_diversity_curve', 'phenotype_diversity_scope', 'pop_size', 'primitive_case_work', 'realization', 'repeat', 'seconds', 'seed', 'shortcuts', 'solved', 'solver', 'solver_tree', 'training_indices', 'training_perfect_individuals', 'tree_nodes_evaluated', 'unique_shortcuts', 'variation_seconds', 'worker_seconds']
+   initialization {"attempts": 272, "rejected": 16, "bins": {"1/True": {"accepted": 43, "attempts": 43, "rejected": 0}, "1/False": {"accepted": 43, "attempts": 43, "rejected": 0}, "2/True": {"accepted": 43, "attempts": 43, "rejected": 0}, "2/False": {"accepted": 43, "attempts": 43, "rejected": 0}, "3/True": {"accepte
+   operator {"crossover": 894, "mutation": 884, "rejected_crossover": 33, "rejected_mutation": 53, "library_draws": 444, "library_insertions": 430, "rejected_library": 14, "ordinary_donors": 440, "empty_fallbacks": 0}
+
+== construction audit: 24 builds x 3 realizations = 72
+entries per realization 181  mean entries per library 7.541666666666667
+distinct-input pair sums by split, summed over 24 libraries: intact {'((0, 1), (2, 3))': 300, '((0, 2), (1, 3))': 3, '((0, 3), (1, 2))': 18}
+   realization 0 {'((0, 1), (2, 3))': 28, '((0, 2), (1, 3))': 21, '((0, 3), (1, 2))': 36}
+   realization 1 {'((0, 1), (2, 3))': 35, '((0, 2), (1, 3))': 28, '((0, 3), (1, 2))': 33}
+   realization 2 {'((0, 1), (2, 3))': 20, '((0, 2), (1, 3))': 31, '((0, 3), (1, 2))': 31}
+ordered GT(ADD,ADD) predicates by orientation, intact: {'((2, 3), (0, 1))': 63}
+   realization 0 {'((0, 1), (2, 3))': 1, '((0, 2), (1, 3))': 2, '((1, 3), (0, 2))': 2, '((0, 3), (1, 2))': 2, '((1, 2), (0, 3))': 2}
+   realization 1 {'((0, 1), (2, 3))': 5, '((2, 3), (0, 1))': 1, '((0, 2), (1, 3))': 3, '((0, 3), (1, 2))': 5, '((1, 2), (0, 3))': 1}
+   realization 2 {'((0, 2), (1, 3))': 1, '((1, 3), (0, 2))': 3, '((0, 3), (1, 2))': 2, '((1, 2), (0, 3))': 1}
+changed entries share: mean 0.82 min 0.25 max 1.00
+changed behaviours share: mean 0.78 min 0.25
+unique behaviours: intact total 168  per realization [174, 174, 174]
+library sizes: [3, 4, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 9, 10, 11, 12, 12]
+entries with >=5 nodes per library: [1, 2, 1, 2, 3, 2, 1, 1, 3, 2, 1, 4, 1, 1, 2, 1, 1, 2, 2, 2, 3, 4, 4, 1] total 47
+builds with an intact GT(ADD,ADD) predicate: 20 ; without: [0, 7, 14, 17]
+
+== operator/library use on B/C (summed over attempts)
+  R-tree 1728 {'compiled_tokens_evaluated': 3377635674, 'tree_nodes_evaluated': 2304238696, 'primitive_case_work': 216168683136, 'max_compiled_length': 105888, 'mean_compiled_length': 82477.15180534816, 'compile_seconds': 5.654261877643876, 'variation_seconds': 9812.326799277682, 'exact_check_seconds': 24.285815077484585, 'exact_check_max_seconds': 0.5843020883621648, 'exact_checks': 104156, 'training_perfect_individuals': 6414786, 'shortcuts': 6413063, 'unique_shortcuts': 102433, 'build': 38191, 'repeat': 8247, 'realization': 3279, 'worker_seconds': 11810.903880983824}
+  R-lib 1728 {'compiled_tokens_evaluated': 1167270373, 'tree_nodes_evaluated': 795372035, 'primitive_case_work': 74705303872, 'max_compiled_length': 70208, 'mean_compiled_length': 49719.58096266439, 'compile_seconds': 1.8870519686024636, 'variation_seconds': 3184.9511667102342, 'exact_check_seconds': 4.967324816971086, 'exact_check_max_seconds': 0.4858423804398626, 'exact_checks': 20549, 'training_perfect_individuals': 2280221, 'shortcuts': 2278493, 'unique_shortcuts': 18821, 'build': 24883, 'repeat': 5474, 'realization': 2216, 'worker_seconds': 3885.478328150115}
+  R-perm 1728 {'compiled_tokens_evaluated': 1206562913, 'tree_nodes_evaluated': 823310860, 'primitive_case_work': 77220026432, 'max_compiled_length': 71103, 'mean_compiled_length': 49851.06079923972, 'compile_seconds': 1.9419582427944988, 'variation_seconds': 3315.345470977365, 'exact_check_seconds': 5.330582105205394, 'exact_check_max_seconds': 0.48325799184385687, 'exact_checks': 22641, 'training_perfect_individuals': 2238593, 'shortcuts': 2236865, 'unique_shortcuts': 20913, 'build': 25312, 'repeat': 5566, 'realization': 2233, 'worker_seconds': 4036.6167132495902}
+
+== solver content (solved jobs; denominators = solved jobs in group)
+group arm | n | has GT(ADD,ADD) of the cell's split | has any GT(ADD,ADD) | contains a >=5-node entry of its own donor set verbatim | contains an INTACT >=5-node entry verbatim | mean solver nodes
+A R-tree | 859 | 250 (0.29) | 250 (0.29) | 0 (0.00) | 45 (0.05) | 18.1
+A R-lib | 864 | 499 (0.58) | 500 (0.58) | 513 (0.59) | 513 (0.59) | 16.2
+A R-perm | 864 | 214 (0.25) | 217 (0.25) | 201 (0.23) | 91 (0.11) | 17.9
+B/C R-tree | 1723 | 488 (0.28) | 488 (0.28) | 0 (0.00) | 0 (0.00) | 18.1
+B/C R-lib | 1728 | 432 (0.25) | 437 (0.25) | 34 (0.02) | 34 (0.02) | 17.8
+B/C R-perm | 1728 | 609 (0.35) | 610 (0.35) | 180 (0.10) | 6 (0.00) | 17.5
