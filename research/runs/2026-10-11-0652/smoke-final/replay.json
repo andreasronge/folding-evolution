@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "jobs": 6,
+  "fields": "all deterministic fields",
+  "rows_hash": "d101e844218c8c71198d386495586017b321872c690374dcded683dc7e164c93"
+}

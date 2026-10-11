@@ -37,3 +37,8 @@
   retention branch with both guards and the positive control passing, root 10's 39-slot budget is spent, and
   strategy 0524 reserved the follow-up (price a statistical acquisition, or carry intact expressions) for its
   own review.
+
+- 2026-10-11 (steward, 0652): wording correction (critic digest check, run 0652). The 0524 entry's "with no
+  matching change in mean cost" should read "without a resolved mean-cost difference (1.031 [0.854, 1.225]);
+  the registered 1.25 retention margin passed": an unresolved ratio is not equality. Run 0652 re-ran R-lib and
+  R-perm contemporaneously: R-lib ÷ R-perm 1.062 [0.875, 1.294], again unresolved; no decision changes.

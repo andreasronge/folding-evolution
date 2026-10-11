@@ -1,7 +1,7 @@
 ---
 status: open
 tags: [map-bias, evolve-the-bias, task-family, compositional-transfer, decoder, fresh-start]
-budget: {experiments: 39, used: 0}
+budget: {experiments: 40, used: 0}
 ---
 # Can an adapted decoder help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 
@@ -447,6 +447,11 @@ split), 0.363×, 0.338×; repays after about 55 searches; carrier of the unlearn
 libraries on `x4-gate-sum-v1`; B/C R-perm ÷ R-lib 1.031× [0.854, 1.225] (retention margin 1.25), ÷ R-tree 0.360×;
 split A 5.14× [3.68, 7.14]; arrangement needed for the predicate split's extra gain, not for the B/C gain at this
 resolution; carrier unidentified).
+[48-tree-donor-label-supply](48-tree-donor-label-supply/question.md) (closed, slot 40, run 2026-10-11-0652: the
+same 0150 skeletons, widths, sizes and multiplicities with labels drawn uniformly within compatible classes;
+B/C R-unif ÷ R-perm 2.07× [1.68, 2.61] (registered loss), ÷ R-tree 0.755× [0.645, 0.884], ÷ R-size unresolved
+(R-size ÷ R-unif 1.095× [0.864, 1.367]); the learned label law, not the skeletons, carries most of the B/C gain
+for this replacement; which label component is unidentified).
 
 Related: [core question](../../../README.md#core-question),
 [01-map-bias](../01-map-bias/question.md),
@@ -486,6 +491,7 @@ Related: [core question](../../../README.md#core-question),
 [run 0150 decision](../../runs/2026-10-11-0150/decision.md),
 [run 0348 decision](../../runs/2026-10-11-0348/decision.md),
 [run 0524 decision](../../runs/2026-10-11-0524/decision.md),
+[run 0652 decision](../../runs/2026-10-11-0652/decision.md),
 [digest](../../digest.md), [chem-tape findings](../../../docs/chem-tape/findings.md).
 
 Review after the feasibility experiment and after the four allocated experiments. A
