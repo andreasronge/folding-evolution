@@ -1,0 +1,264 @@
+{
+  "saved_rows_sha256": "fa91e4ad521d02b25b9cea2066d48d58ff4d0b945f57b5cd057c14c8b5eb6dd9",
+  "saved_jobs": 1440,
+  "seed": 5043370131188619381,
+  "bootstrap_seed": 5558062548157006309,
+  "draws": 8192,
+  "empirical_anchor": "paired 1427 initial/ordinary rows (not measured new q0 or endpoint)",
+  "assumptions": "24 empirical library clusters; paired cellwise repeat resampling to six populations; fixed 0.95 mean ratio; paired response deviations scaled by 0.25/0.5/1 of the saved fixed-dose anchor; independent lognormal endpoint multipliers with listed CVs; no extra library correlation beyond saved anchor",
+  "limitations": "Only two saved repeats per cell; new endpoint heterogeneity and library correlation are unknown; Response noise at the much closer new low-dose laws is unmeasured; scaling is an assumption. This sensitivity is not a guarantee or an added efficacy gate.",
+  "scenarios": [
+    {
+      "assumed_paired_response_noise_scale": 0.25,
+      "assumed_endpoint_multiplier_cv": 0,
+      "centered_ratio": 0.95,
+      "library_only": {
+        "interval95": [
+          0.9014303877552483,
+          1.002640309818282
+        ],
+        "excludes_0_80": true,
+        "half_width": 0.05060496103151679
+      },
+      "nested": {
+        "interval95": [
+          0.8999510402461456,
+          1.0035112062049352
+        ],
+        "excludes_0_80": true,
+        "half_width": 0.05178008297939479
+      }
+    },
+    {
+      "assumed_paired_response_noise_scale": 0.25,
+      "assumed_endpoint_multiplier_cv": 0.25,
+      "centered_ratio": 0.95,
+      "library_only": {
+        "interval95": [
+          0.8858235869790675,
+          1.0196242110908011
+        ],
+        "excludes_0_80": true,
+        "half_width": 0.06690031205586683
+      },
+      "nested": {
+        "interval95": [
+          0.8722060635561039,
+          1.0316524451929425
+        ],
+        "excludes_0_80": true,
+        "half_width": 0.07972319081841933
+      }
+    },
+    {
+      "assumed_paired_response_noise_scale": 0.25,
+      "assumed_endpoint_multiplier_cv": 0.5,
+      "centered_ratio": 0.95,
+      "library_only": {
+        "interval95": [
+          0.8736139461202765,
+          1.0393170101535298
+        ],
+        "excludes_0_80": true,
+        "half_width": 0.08285153201662665
+      },
+      "nested": {
+        "interval95": [
+          0.8482340547767842,
+          1.0711554423674208
+        ],
+        "excludes_0_80": true,
+        "half_width": 0.11146069379531831
+      }
+    },
+    {
+      "assumed_paired_response_noise_scale": 0.25,
+      "assumed_endpoint_multiplier_cv": 1.0,
+      "centered_ratio": 0.95,
+      "library_only": {
+        "interval95": [
+          0.793569532531035,
+          1.1231099921488163
+        ],
+        "excludes_0_80": false,
+        "half_width": 0.16477022980889067
+      },
+      "nested": {
+        "interval95": [
+          0.7594516259341608,
+          1.1769568925830565
+        ],
+        "excludes_0_80": false,
+        "half_width": 0.20875263332444782
+      }
+    },
+    {
+      "assumed_paired_response_noise_scale": 0.5,
+      "assumed_endpoint_multiplier_cv": 0,
+      "centered_ratio": 0.95,
+      "library_only": {
+        "interval95": [
+          0.8528607755104962,
+          1.0552806196365638
+        ],
+        "excludes_0_80": true,
+        "half_width": 0.10120992206303381
+      },
+      "nested": {
+        "interval95": [
+          0.8499020804922909,
+          1.0570224124098702
+        ],
+        "excludes_0_80": true,
+        "half_width": 0.10356016595878964
+      }
+    },
+    {
+      "assumed_paired_response_noise_scale": 0.5,
+      "assumed_endpoint_multiplier_cv": 0.25,
+      "centered_ratio": 0.95,
+      "library_only": {
+        "interval95": [
+          0.8458710960876588,
+          1.0663392277248893
+        ],
+        "excludes_0_80": true,
+        "half_width": 0.11023406581861528
+      },
+      "nested": {
+        "interval95": [
+          0.8378930608272149,
+          1.0751526949179728
+        ],
+        "excludes_0_80": true,
+        "half_width": 0.11862981704537895
+      }
+    },
+    {
+      "assumed_paired_response_noise_scale": 0.5,
+      "assumed_endpoint_multiplier_cv": 0.5,
+      "centered_ratio": 0.95,
+      "library_only": {
+        "interval95": [
+          0.8340288920211842,
+          1.0744870813234115
+        ],
+        "excludes_0_80": true,
+        "half_width": 0.12022909465111364
+      },
+      "nested": {
+        "interval95": [
+          0.8090249949004458,
+          1.1023770330264775
+        ],
+        "excludes_0_80": true,
+        "half_width": 0.14667601906301586
+      }
+    },
+    {
+      "assumed_paired_response_noise_scale": 0.5,
+      "assumed_endpoint_multiplier_cv": 1.0,
+      "centered_ratio": 0.95,
+      "library_only": {
+        "interval95": [
+          0.7962805805950084,
+          1.1157356933682412
+        ],
+        "excludes_0_80": false,
+        "half_width": 0.1597275563866164
+      },
+      "nested": {
+        "interval95": [
+          0.7602014843940047,
+          1.1857788253206516
+        ],
+        "excludes_0_80": false,
+        "half_width": 0.21278867046332345
+      }
+    },
+    {
+      "assumed_paired_response_noise_scale": 1.0,
+      "assumed_endpoint_multiplier_cv": 0,
+      "centered_ratio": 0.95,
+      "library_only": {
+        "interval95": [
+          0.7557215510209924,
+          1.1605612392731273
+        ],
+        "excludes_0_80": false,
+        "half_width": 0.20241984412606745
+      },
+      "nested": {
+        "interval95": [
+          0.7498041609845819,
+          1.1640448248197404
+        ],
+        "excludes_0_80": false,
+        "half_width": 0.20712033191757923
+      }
+    },
+    {
+      "assumed_paired_response_noise_scale": 1.0,
+      "assumed_endpoint_multiplier_cv": 0.25,
+      "centered_ratio": 0.95,
+      "library_only": {
+        "interval95": [
+          0.7576973973498065,
+          1.1637722758629685
+        ],
+        "excludes_0_80": false,
+        "half_width": 0.20303743925658102
+      },
+      "nested": {
+        "interval95": [
+          0.7485613612310441,
+          1.173165224502456
+        ],
+        "excludes_0_80": false,
+        "half_width": 0.21230193163570593
+      }
+    },
+    {
+      "assumed_paired_response_noise_scale": 1.0,
+      "assumed_endpoint_multiplier_cv": 0.5,
+      "centered_ratio": 0.95,
+      "library_only": {
+        "interval95": [
+          0.7433392622503033,
+          1.171598740220947
+        ],
+        "excludes_0_80": false,
+        "half_width": 0.21412973898532178
+      },
+      "nested": {
+        "interval95": [
+          0.7251012172512601,
+          1.222969492247924
+        ],
+        "excludes_0_80": false,
+        "half_width": 0.24893413749833193
+      }
+    },
+    {
+      "assumed_paired_response_noise_scale": 1.0,
+      "assumed_endpoint_multiplier_cv": 1.0,
+      "centered_ratio": 0.95,
+      "library_only": {
+        "interval95": [
+          0.7050576368944431,
+          1.2487374972172707
+        ],
+        "excludes_0_80": false,
+        "half_width": 0.2718399301614138
+      },
+      "nested": {
+        "interval95": [
+          0.6786425755212583,
+          1.2977191835950372
+        ],
+        "excludes_0_80": false,
+        "half_width": 0.3095383040368895
+      }
+    }
+  ]
+}

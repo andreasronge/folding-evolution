@@ -1,0 +1,52 @@
+runs:
+  - id: 2026-10-11-1736-exposure
+    cmd: >-
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.recurrent_library_run exposure
+      --saved /Users/andreas/developer/folding-evolution/experiments/output/2026-10-11/2026-10-11-1228-prepare
+      --workers 10 --seconds 1770
+    timeout_seconds: 1800
+    expect_outputs:
+      - bank.json
+      - libraries.json
+      - schedules.json
+      - method_freeze.json
+      - seed_audit.json
+      - exposure.jsonl
+      - exposure_manifest.json
+    track: chem-tape
+    notes: >-
+      Reconstruct and hash-check all 24 immutable 1228 R-all libraries.
+      Run 432 populations (24 libraries x 6 repeats x L/S/N), each with 16/256
+      initial carriers, recipient inheritance then 1/32 redraw to Bernoulli(1/16),
+      and twelve balanced episodes of 64 evaluated populations. Independent tree
+      resets, persistent bits, aligned elites and rejected edits, continued
+      post-solve exposure. Freeze every endpoint separately; no efficacy tuning
+      or protected scoring.
+  - id: 2026-10-11-1736-readout
+    cmd: >-
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.recurrent_library_run readout
+      --exposure "$RUN_DIR/../2026-10-11-1736-exposure"
+      --workers 10 --seconds 7170
+    timeout_seconds: 7200
+    expect_outputs:
+      - bank.json
+      - libraries.json
+      - schedules.json
+      - method_freeze.json
+      - seed_audit.json
+      - exposure_manifest.json
+      - score.jsonl
+      - report.json
+      - dynamics.png
+    track: chem-tape
+    notes: >-
+      Fail closed on partial exposure, method/artifact/seed drift or endpoint
+      extraction mismatch. 5,184 individual L/S/N endpoint searches at their
+      own final f/2 plus 3,456 shared q0=1/32 and R-all=0.5 references, 8,640
+      jobs total on six original development cells. Two distinct fresh scoring
+      blocks per cell per population, paired across five laws; eight attempts
+      of 65,536 evaluations. Average costs within population, then library.
+      Nested paired library/population bootstrap keeps reference blocks attached.
+      Report solve counts, state/phase rejection, low-f differential, headroom,
+      acquisition costs and supplied R-order context. Wide uncertainty remains
+      unresolved; negative scope is this fixed procedure only.

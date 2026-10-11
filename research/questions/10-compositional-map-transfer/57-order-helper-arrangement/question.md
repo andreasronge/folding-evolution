@@ -21,7 +21,8 @@ realizations per build; 613/708 replaced slots became single-input projections).
   branch *material loss* (lower > 1.25). Above 1 in 24/24 builds, 6/6 cells and 4/4 realizations.
 - R-hx / R-tree 0.90 [0.83, 0.98]; R-all / R-tree 0.38 [0.34, 0.43] (replicates 0.40 from 1228). The residual
   saving after permutation is small (upper bound below 1, above the 0.80 retention bar).
-- With helpers permuted, the coverage gradient disappears (R-hx 0.99 / 0.86 / 0.94 of R-tree for 0 / 1 / 2 needed
+- With helpers permuted, the strong intact-library coverage gradient was not apparent in the point estimates (R-hx
+  0.99 [0.77, 1.36] / 0.86 [0.74, 0.99] / 0.94 [0.82, 1.08] of R-tree for 0 / 1 / 2 needed
   helpers; R-all 0.78 / 0.41 / 0.22). Whether R-all's small no-helper-stratum saving is also helper-borne is
   unresolved (stratum Q 1.28 [0.98, 1.72], 144 units).
 - Solve counts R-tree 1,146, R-all 1,151, R-hx 1,147 of 1,152. Permuted entries were drawn and inserted as often as
@@ -30,8 +31,9 @@ realizations per build; 613/708 replaced slots became single-input projections).
 Competing explanations for R-all's saving:
 (a) intact helper computations — supported: the material loss;
 (b) supply of order primitives (GT, IF_GT, inputs) in useful shapes, whatever their arrangement, and
-(c) other recurrent 2-cell content and a lower trivia share — together worth at most the small residual
-(R-hx / R-tree 0.90 [0.83, 0.98]); not separated from each other.
+(c) other recurrent 2-cell content and a lower trivia share — not removed separately: the complete permuted library
+retains a small net saving (R-hx / R-tree 0.90 [0.83, 0.98]), and the contributions of the unchanged content and its
+interactions with the replacement entries are unidentified.
 
 Not shown: that min/max beat *other nontrivial* computations of the same material (the control is mostly trivial
 projections; matched nontrivial alternatives mostly do not exist for six-node entries); which helpers, or how many

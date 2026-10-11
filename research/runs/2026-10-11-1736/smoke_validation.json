@@ -1,0 +1,60 @@
+{
+  "admitted": true,
+  "checks": [
+    {
+      "check": "partial exposure",
+      "rejected": true,
+      "reason": "incomplete/duplicate exposure grid"
+    },
+    {
+      "check": "duplicate exposure",
+      "rejected": true,
+      "reason": "incomplete/duplicate exposure grid"
+    },
+    {
+      "check": "episode bit reset",
+      "rejected": true,
+      "reason": "episode bit persistence mismatch"
+    },
+    {
+      "check": "transition tampering",
+      "rejected": true,
+      "reason": "modifier mutation/elite accounting mismatch"
+    },
+    {
+      "check": "readout law mismatch",
+      "rejected": true,
+      "reason": "readout probability/budget/failure cap mismatch"
+    },
+    {
+      "check": "partial scoring",
+      "rejected": true,
+      "reason": "incomplete/duplicate rows"
+    },
+    {
+      "check": "smoke into full-run readout",
+      "rejected": true,
+      "reason": "exposure manifest mismatch"
+    },
+    {
+      "check": "endpoint tampering with rehashed manifest",
+      "rejected": true,
+      "reason": "endpoint extraction mismatch"
+    },
+    {
+      "check": "paired q0/R-all paths",
+      "valid": true,
+      "initial_jobs": 12,
+      "fixed_jobs": 12
+    },
+    {
+      "check": "equal scheduled evaluations",
+      "valid": true,
+      "per_population": [
+        196608,
+        196608,
+        196608
+      ]
+    }
+  ]
+}
