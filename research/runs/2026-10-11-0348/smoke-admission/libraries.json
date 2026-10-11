@@ -1,0 +1,6957 @@
+[
+  {
+    "build": 0,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 18,
+        "literal_solver_count": 12,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 13,
+        "literal_solver_count": 7,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          6
+        ],
+        "canonical": [
+          9,
+          0,
+          6
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          3,
+          1
+        ],
+        "canonical": [
+          11,
+          2,
+          3,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 4,
+        "compiled_length": 7
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          9,
+          0,
+          6
+        ],
+        "canonical": [
+          9,
+          1,
+          9,
+          0,
+          6
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 5,
+        "compiled_length": 7
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          9,
+          0,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 28
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          9,
+          6,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 14
+      },
+      {
+        "prefix": [
+          11,
+          3,
+          2,
+          4
+        ],
+        "nodes": 4,
+        "compiled_length": 7,
+        "draws": 404
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          9,
+          1,
+          5
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 341
+      }
+    ],
+    "source_rows_hash": "8ea340200ef8ae656dcb977471051dcf4b106d1ef88aaf7b6026dbccaaa04f28",
+    "source_solves": 31,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 512768,
+        "worker_seconds": 49.13661928998772
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 281600,
+        "worker_seconds": 25.7806197097525
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 7,
+        "evaluations": 778240,
+        "worker_seconds": 79.97939962474629
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 542464,
+        "worker_seconds": 55.85335603996646
+      }
+    },
+    "acquisition_evaluations": 2115072,
+    "acquisition_worker_seconds": 210.74999466445297,
+    "extraction_seconds": 0.0006046659545972943,
+    "control_seconds": 0.01514354208484292,
+    "verification_seconds": 0.0032431670697405934,
+    "control_seed": 31900000,
+    "verified_entries": 10
+  },
+  {
+    "build": 1,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 18,
+        "literal_solver_count": 11,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 18,
+        "literal_solver_count": 13,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          2
+        ],
+        "canonical": [
+          9,
+          2,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          6
+        ],
+        "canonical": [
+          9,
+          2,
+          6
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          3,
+          2,
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 7,
+        "literal_solver_count": 4,
+        "nodes": 7,
+        "compiled_length": 11
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          9,
+          5,
+          2
+        ],
+        "canonical": [
+          9,
+          3,
+          9,
+          2,
+          5
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 5,
+        "compiled_length": 7
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          10,
+          2,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 126
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 63
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 24
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          8
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 5
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          9,
+          1,
+          10,
+          4,
+          1
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 272
+      },
+      {
+        "prefix": [
+          9,
+          7,
+          9,
+          0,
+          1
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 265
+      }
+    ],
+    "source_rows_hash": "022ba1f8e25b3cd3dfd65a450f63ef58ed45ddd66ed2d99d07517f0511c38fc7",
+    "source_solves": 32,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 964608,
+        "worker_seconds": 92.16088966466486
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 789504,
+        "worker_seconds": 75.82536320912186
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 444160,
+        "worker_seconds": 45.73565358191263
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 1190656,
+        "worker_seconds": 122.25099624914583
+      }
+    },
+    "acquisition_evaluations": 3388928,
+    "acquisition_worker_seconds": 335.9729027048452,
+    "extraction_seconds": 0.0005162920570001006,
+    "control_seconds": 0.014981209067627788,
+    "verification_seconds": 0.004216208006255329,
+    "control_seed": 31900001,
+    "verified_entries": 12
+  },
+  {
+    "build": 2,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 21,
+        "literal_solver_count": 11,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 12,
+        "literal_solver_count": 7,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 7,
+        "compiled_length": 11
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          9,
+          1,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 16
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 71
+      },
+      {
+        "prefix": [
+          9,
+          10,
+          4,
+          9,
+          2,
+          4,
+          3
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 77
+      }
+    ],
+    "source_rows_hash": "d93997061989e47296958d3fabec9638583db5b20a7dae24efbb79a1a3718a68",
+    "source_solves": 31,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 7,
+        "evaluations": 1032448,
+        "worker_seconds": 101.74516179191414
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 257792,
+        "worker_seconds": 23.81450162373949
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 710144,
+        "worker_seconds": 72.72412895900197
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 595200,
+        "worker_seconds": 60.64144591486547
+      }
+    },
+    "acquisition_evaluations": 2595584,
+    "acquisition_worker_seconds": 258.9252382895211,
+    "extraction_seconds": 0.0005879589589312673,
+    "control_seconds": 0.012255957932211459,
+    "verification_seconds": 0.002266291994601488,
+    "control_seed": 31900002,
+    "verified_entries": 6
+  },
+  {
+    "build": 3,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 16,
+        "literal_solver_count": 8,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 16,
+        "literal_solver_count": 9,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          3
+        ],
+        "canonical": [
+          9,
+          0,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 7,
+        "literal_solver_count": 6,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 4,
+        "literal_solver_count": 2,
+        "nodes": 7,
+        "compiled_length": 11
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          3
+        ],
+        "canonical": [
+          9,
+          1,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          5
+        ],
+        "canonical": [
+          9,
+          3,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          9,
+          5,
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 9,
+        "compiled_length": 13
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          10,
+          0,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 30
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 85
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          9,
+          3,
+          10,
+          3,
+          3
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 270
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          7
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 5
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 16
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          7
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          11,
+          7,
+          11,
+          9,
+          0,
+          7,
+          2,
+          0,
+          1
+        ],
+        "nodes": 9,
+        "compiled_length": 13,
+        "draws": 106
+      }
+    ],
+    "source_rows_hash": "68df02f1352e37d0d4c083ffe9c13e2ed85ae1d38cd011bcf694e0f4ea6c52c5",
+    "source_solves": 32,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 266752,
+        "worker_seconds": 25.98186050192453
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 380672,
+        "worker_seconds": 35.84580870880745
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 640768,
+        "worker_seconds": 64.69731258286629
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 385024,
+        "worker_seconds": 39.163775250082836
+      }
+    },
+    "acquisition_evaluations": 1673216,
+    "acquisition_worker_seconds": 165.6887570436811,
+    "extraction_seconds": 0.0006090000970289111,
+    "control_seconds": 0.013829124975018203,
+    "verification_seconds": 0.005788250011391938,
+    "control_seed": 31900003,
+    "verified_entries": 16
+  },
+  {
+    "build": 4,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 20,
+        "literal_solver_count": 13,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 17,
+        "literal_solver_count": 12,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          3,
+          2,
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 7,
+        "compiled_length": 11
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          5
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          7
+        ],
+        "canonical": [
+          9,
+          0,
+          7
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          5
+        ],
+        "canonical": [
+          9,
+          2,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          9,
+          1,
+          0,
+          4
+        ],
+        "canonical": [
+          9,
+          4,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 5,
+        "compiled_length": 8
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          9,
+          1,
+          0,
+          4,
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          10,
+          9,
+          4,
+          9,
+          0,
+          1,
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 9,
+        "compiled_length": 14
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          9,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 41
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 47
+      },
+      {
+        "prefix": [
+          9,
+          10,
+          9,
+          3,
+          3,
+          3,
+          1
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 843
+      },
+      {
+        "prefix": [
+          9,
+          8,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 9
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 13
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          6
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 22
+      },
+      {
+        "prefix": [
+          9,
+          10,
+          4,
+          2,
+          0
+        ],
+        "nodes": 5,
+        "compiled_length": 8,
+        "draws": 12
+      },
+      {
+        "prefix": [
+          11,
+          1,
+          1,
+          11,
+          2,
+          7,
+          9,
+          3,
+          4
+        ],
+        "nodes": 9,
+        "compiled_length": 14,
+        "draws": 8
+      }
+    ],
+    "source_rows_hash": "7cff6a47b3a5eab8b51516aea1a5d4420ea9dad3e487b725542499f7552d5a10",
+    "source_solves": 32,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 342528,
+        "worker_seconds": 33.011778917047195
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 388096,
+        "worker_seconds": 36.73432716703974
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 609024,
+        "worker_seconds": 61.00243970914744
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 564480,
+        "worker_seconds": 56.30152491608169
+      }
+    },
+    "acquisition_evaluations": 1904128,
+    "acquisition_worker_seconds": 187.05007070931606,
+    "extraction_seconds": 0.0006516249850392342,
+    "control_seconds": 0.01581150002311915,
+    "verification_seconds": 0.006010749959386885,
+    "control_seed": 31900004,
+    "verified_entries": 16
+  },
+  {
+    "build": 5,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 20,
+        "literal_solver_count": 11,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 15,
+        "literal_solver_count": 8,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          2
+        ],
+        "canonical": [
+          9,
+          2,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          1
+        ],
+        "canonical": [
+          10,
+          1,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          8,
+          2
+        ],
+        "canonical": [
+          10,
+          8,
+          2
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          9,
+          3,
+          2,
+          4
+        ],
+        "canonical": [
+          9,
+          4,
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 5,
+        "compiled_length": 8
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 7,
+        "compiled_length": 11
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          10,
+          4,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 46
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 7
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          7
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 8
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          10,
+          6,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 9
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          10,
+          2,
+          2
+        ],
+        "nodes": 5,
+        "compiled_length": 8,
+        "draws": 433
+      },
+      {
+        "prefix": [
+          9,
+          9,
+          4,
+          9,
+          4,
+          2,
+          3
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 13
+      }
+    ],
+    "source_rows_hash": "dc2643907703aff239259f570ef7d7181adcb43d3e1f3702fbfb6fe4eece0176",
+    "source_solves": 32,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 696832,
+        "worker_seconds": 67.50015937583521
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 987648,
+        "worker_seconds": 93.24050312594045
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 580608,
+        "worker_seconds": 59.13376637606416
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 523520,
+        "worker_seconds": 54.56886074889917
+      }
+    },
+    "acquisition_evaluations": 2788608,
+    "acquisition_worker_seconds": 274.443289626739,
+    "extraction_seconds": 0.0006214580498635769,
+    "control_seconds": 0.013651791028678417,
+    "verification_seconds": 0.00484254106413573,
+    "control_seed": 31900005,
+    "verified_entries": 14
+  },
+  {
+    "build": 6,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 16,
+        "literal_solver_count": 10,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 15,
+        "literal_solver_count": 9,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 7,
+        "compiled_length": 11
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          5
+        ],
+        "canonical": [
+          9,
+          2,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          5
+        ],
+        "canonical": [
+          9,
+          3,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          8
+        ],
+        "canonical": [
+          10,
+          0,
+          8
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          10,
+          4,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 3
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 101
+      },
+      {
+        "prefix": [
+          11,
+          11,
+          1,
+          1,
+          6,
+          2,
+          1
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 324
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          8
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 20
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 55
+      },
+      {
+        "prefix": [
+          10,
+          6,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 15
+      }
+    ],
+    "source_rows_hash": "0bab263fa5db43b60ec935b482bf0720b71674850b1e2b2dfed2b3425eff4ada",
+    "source_solves": 32,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 914944,
+        "worker_seconds": 91.50916499993764
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 707072,
+        "worker_seconds": 67.40063362196088
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 224000,
+        "worker_seconds": 20.694095375947654
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 759040,
+        "worker_seconds": 77.73149641789496
+      }
+    },
+    "acquisition_evaluations": 2605056,
+    "acquisition_worker_seconds": 257.33539041574113,
+    "extraction_seconds": 0.0005567920161411166,
+    "control_seconds": 0.013651374960318208,
+    "verification_seconds": 0.00389558298047632,
+    "control_seed": 31900006,
+    "verified_entries": 12
+  },
+  {
+    "build": 7,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 19,
+        "literal_solver_count": 11,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 15,
+        "literal_solver_count": 9,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          6
+        ],
+        "canonical": [
+          9,
+          2,
+          6
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "solver_count": 9,
+        "literal_solver_count": 6,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          1
+        ],
+        "canonical": [
+          10,
+          1,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          9,
+          0,
+          1,
+          4
+        ],
+        "canonical": [
+          9,
+          4,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 5,
+        "compiled_length": 8
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          10,
+          4,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 43
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 14
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          7
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 12
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 12
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 7
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          9,
+          0,
+          4
+        ],
+        "nodes": 5,
+        "compiled_length": 8,
+        "draws": 75
+      }
+    ],
+    "source_rows_hash": "90110d058185ddb0b55fedbc0914db0492cf140a82868a04ec163ec0456e9528",
+    "source_solves": 32,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 1397760,
+        "worker_seconds": 136.01684474991634
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 393728,
+        "worker_seconds": 37.148471040069126
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 900352,
+        "worker_seconds": 94.04838866693899
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 1590016,
+        "worker_seconds": 165.02366370905656
+      }
+    },
+    "acquisition_evaluations": 4281856,
+    "acquisition_worker_seconds": 432.237368165981,
+    "extraction_seconds": 0.0005929999751970172,
+    "control_seconds": 0.012047749944031239,
+    "verification_seconds": 0.0038346670335158706,
+    "control_seed": 31900007,
+    "verified_entries": 12
+  },
+  {
+    "build": 8,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 16,
+        "literal_solver_count": 11,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 16,
+        "literal_solver_count": 10,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          5
+        ],
+        "canonical": [
+          9,
+          0,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "canonical": [
+          9,
+          1,
+          2
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 7,
+        "literal_solver_count": 5,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 5,
+        "literal_solver_count": 2,
+        "nodes": 7,
+        "compiled_length": 11
+      },
+      {
+        "prefix": [
+          9,
+          6,
+          1
+        ],
+        "canonical": [
+          9,
+          1,
+          6
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          2
+        ],
+        "canonical": [
+          9,
+          2,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          1
+        ],
+        "canonical": [
+          9,
+          1,
+          4
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          6
+        ],
+        "canonical": [
+          9,
+          2,
+          6
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          5
+        ],
+        "canonical": [
+          9,
+          3,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          9,
+          4,
+          1,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          9,
+          1,
+          4
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 5,
+        "compiled_length": 8
+      },
+      {
+        "prefix": [
+          9,
+          9,
+          6,
+          1,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          9,
+          1,
+          6
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 5,
+        "compiled_length": 7
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          10,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 78
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 61
+      },
+      {
+        "prefix": [
+          10,
+          5,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 12
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 13
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          10,
+          10,
+          3,
+          2,
+          3
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 102
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 17
+      },
+      {
+        "prefix": [
+          10,
+          5,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 15
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 16
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 25
+      },
+      {
+        "prefix": [
+          10,
+          6,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 37
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          9,
+          0,
+          1
+        ],
+        "nodes": 5,
+        "compiled_length": 8,
+        "draws": 156
+      },
+      {
+        "prefix": [
+          10,
+          8,
+          9,
+          4,
+          0
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 154
+      }
+    ],
+    "source_rows_hash": "62bba559a5739d03769dfcc09be293d994d7c61c60df2cf964d35de20e36307d",
+    "source_solves": 31,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 412672,
+        "worker_seconds": 39.27414991683327
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 1262080,
+        "worker_seconds": 118.67416929185856
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 7,
+        "evaluations": 2035712,
+        "worker_seconds": 204.94745108368807
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 387072,
+        "worker_seconds": 38.62384608620778
+      }
+    },
+    "acquisition_evaluations": 4097536,
+    "acquisition_worker_seconds": 401.51961637858767,
+    "extraction_seconds": 0.000534208957105875,
+    "control_seconds": 0.014581499970518053,
+    "verification_seconds": 0.007945916964672506,
+    "control_seed": 31900008,
+    "verified_entries": 24
+  },
+  {
+    "build": 9,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 20,
+        "literal_solver_count": 13,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 15,
+        "literal_solver_count": 9,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          3,
+          2,
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 4,
+        "literal_solver_count": 2,
+        "nodes": 7,
+        "compiled_length": 11
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          6
+        ],
+        "canonical": [
+          9,
+          3,
+          6
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          9,
+          3,
+          2
+        ],
+        "canonical": [
+          9,
+          5,
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 3,
+        "nodes": 5,
+        "compiled_length": 7
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          4
+        ],
+        "canonical": [
+          9,
+          1,
+          4
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          6
+        ],
+        "canonical": [
+          9,
+          1,
+          6
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          2
+        ],
+        "canonical": [
+          10,
+          2,
+          2
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 5
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          9,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 68
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 46
+      },
+      {
+        "prefix": [
+          9,
+          9,
+          4,
+          2,
+          9,
+          3,
+          3
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 47
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          9,
+          9,
+          1,
+          2,
+          5
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 321
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          8
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 12
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 31
+      }
+    ],
+    "source_rows_hash": "24b4f53d55917414e343f8490198fda5b1fe9306a827a3549aecc8b055f2294e",
+    "source_solves": 32,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 1100032,
+        "worker_seconds": 108.65070316696074
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 877056,
+        "worker_seconds": 82.54409399989527
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 704512,
+        "worker_seconds": 69.76044779305812
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 1041152,
+        "worker_seconds": 107.81744920788333
+      }
+    },
+    "acquisition_evaluations": 3722752,
+    "acquisition_worker_seconds": 368.77269416779745,
+    "extraction_seconds": 0.0005576669936999679,
+    "control_seconds": 0.013790415949188173,
+    "verification_seconds": 0.005453416961245239,
+    "control_seed": 31900009,
+    "verified_entries": 16
+  },
+  {
+    "build": 10,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 19,
+        "literal_solver_count": 11,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 15,
+        "literal_solver_count": 8,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          5
+        ],
+        "canonical": [
+          9,
+          2,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 1,
+        "nodes": 7,
+        "compiled_length": 11
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          9,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 80
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 17
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          6
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 13
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          9,
+          4,
+          9,
+          0,
+          3
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 91
+      }
+    ],
+    "source_rows_hash": "9e1c77390ab3c692999ba3fac68889f136de4ded02a99cbef7f4f496c27e5b99",
+    "source_solves": 32,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 1396736,
+        "worker_seconds": 139.95520458300598
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 332288,
+        "worker_seconds": 30.837707875180058
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 700416,
+        "worker_seconds": 70.50194504181854
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 581888,
+        "worker_seconds": 60.758964458014816
+      }
+    },
+    "acquisition_evaluations": 3011328,
+    "acquisition_worker_seconds": 302.0538219580194,
+    "extraction_seconds": 0.0005624579498544335,
+    "control_seconds": 0.012282416922971606,
+    "verification_seconds": 0.002863125060684979,
+    "control_seed": 31900010,
+    "verified_entries": 8
+  },
+  {
+    "build": 11,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 17,
+        "literal_solver_count": 10,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 11,
+        "literal_solver_count": 6,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          3,
+          2,
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 5,
+        "literal_solver_count": 2,
+        "nodes": 7,
+        "compiled_length": 11
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          3
+        ],
+        "canonical": [
+          9,
+          0,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "solver_count": 7,
+        "literal_solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          6
+        ],
+        "canonical": [
+          9,
+          0,
+          6
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          4
+        ],
+        "canonical": [
+          9,
+          1,
+          4
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          6,
+          1
+        ],
+        "canonical": [
+          9,
+          1,
+          6
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          4
+        ],
+        "canonical": [
+          9,
+          2,
+          4
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          5
+        ],
+        "canonical": [
+          9,
+          3,
+          5
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          9,
+          6,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          9,
+          1,
+          6
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 5,
+        "compiled_length": 7
+      },
+      {
+        "prefix": [
+          9,
+          9,
+          0,
+          6,
+          1
+        ],
+        "canonical": [
+          9,
+          1,
+          9,
+          0,
+          6
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 5,
+        "compiled_length": 7
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          9,
+          3,
+          5
+        ],
+        "canonical": [
+          9,
+          2,
+          9,
+          3,
+          5
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 5,
+        "compiled_length": 7
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          10,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 3
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          10,
+          0,
+          9,
+          4,
+          3
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 238
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          8
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 31
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 56
+      },
+      {
+        "prefix": [
+          9,
+          7,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 26
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 36
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 12
+      },
+      {
+        "prefix": [
+          9,
+          10,
+          0,
+          5,
+          0
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 70
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          9,
+          6,
+          3
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 65
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          10,
+          6,
+          1
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 17
+      }
+    ],
+    "source_rows_hash": "da00b948fd63e71e38fc3a7225b38b1a496b7d2f6442e140bcdfcbc3f13f254a",
+    "source_solves": 32,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 774912,
+        "worker_seconds": 77.22364866593853
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 1030656,
+        "worker_seconds": 99.11129687610082
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 896768,
+        "worker_seconds": 91.90998279023916
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 1070336,
+        "worker_seconds": 109.60794125008397
+      }
+    },
+    "acquisition_evaluations": 3772672,
+    "acquisition_worker_seconds": 377.8528695823625,
+    "extraction_seconds": 0.0006091250106692314,
+    "control_seconds": 0.013836249941959977,
+    "verification_seconds": 0.0081913749454543,
+    "control_seed": 31900011,
+    "verified_entries": 24
+  },
+  {
+    "build": 12,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 20,
+        "literal_solver_count": 11,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 18,
+        "literal_solver_count": 10,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          6
+        ],
+        "canonical": [
+          9,
+          1,
+          6
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 4,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          3,
+          2,
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 7,
+        "literal_solver_count": 3,
+        "nodes": 7,
+        "compiled_length": 11
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          5
+        ],
+        "canonical": [
+          9,
+          0,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          4
+        ],
+        "canonical": [
+          9,
+          2,
+          4
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          8
+        ],
+        "canonical": [
+          9,
+          3,
+          8
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          11,
+          1,
+          0,
+          6
+        ],
+        "canonical": [
+          11,
+          1,
+          0,
+          6
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 4,
+        "compiled_length": 6
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 7
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          8
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 17
+      },
+      {
+        "prefix": [
+          9,
+          9,
+          0,
+          10,
+          0,
+          2,
+          0
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 101
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          6
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 35
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 54
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 8
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          0,
+          6
+        ],
+        "nodes": 4,
+        "compiled_length": 6,
+        "draws": 71
+      }
+    ],
+    "source_rows_hash": "0a7b80725bd8770679b89b7102cf6e509c4a93dd76caa3d2abfe6f2d9f0a4b2d",
+    "source_solves": 32,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 881664,
+        "worker_seconds": 89.02264070801903
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 733440,
+        "worker_seconds": 70.87031387595925
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 617984,
+        "worker_seconds": 60.54821079294197
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 782080,
+        "worker_seconds": 80.40306074800901
+      }
+    },
+    "acquisition_evaluations": 3015168,
+    "acquisition_worker_seconds": 300.84422612492926,
+    "extraction_seconds": 0.0005804999964311719,
+    "control_seconds": 0.012647082912735641,
+    "verification_seconds": 0.00521187495905906,
+    "control_seed": 31900012,
+    "verified_entries": 16
+  },
+  {
+    "build": 13,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 22,
+        "literal_solver_count": 14,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 18,
+        "literal_solver_count": 10,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          6,
+          1
+        ],
+        "canonical": [
+          9,
+          1,
+          6
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 4,
+        "literal_solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 3,
+        "nodes": 7,
+        "compiled_length": 11
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          5
+        ],
+        "canonical": [
+          9,
+          2,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          2
+        ],
+        "canonical": [
+          10,
+          2,
+          2
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          7,
+          3
+        ],
+        "canonical": [
+          10,
+          7,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          10,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 27
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 19
+      },
+      {
+        "prefix": [
+          10,
+          5,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          10,
+          3,
+          3,
+          4,
+          1
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 123
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          6
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 1
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 81
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 44
+      }
+    ],
+    "source_rows_hash": "e3f03bc1734a31b80c00e87c621c0ed00105417486bc11dfde5509823e692e78",
+    "source_solves": 32,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 576768,
+        "worker_seconds": 57.17379287513904
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 721408,
+        "worker_seconds": 69.9720197491115
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 819456,
+        "worker_seconds": 82.89880362479016
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 423936,
+        "worker_seconds": 44.607826543040574
+      }
+    },
+    "acquisition_evaluations": 2541568,
+    "acquisition_worker_seconds": 254.65244279208127,
+    "extraction_seconds": 0.0006126670632511377,
+    "control_seconds": 0.012741875019855797,
+    "verification_seconds": 0.004610790987499058,
+    "control_seed": 31900013,
+    "verified_entries": 14
+  },
+  {
+    "build": 14,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 19,
+        "literal_solver_count": 11,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 8,
+        "literal_solver_count": 6,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          6,
+          1
+        ],
+        "canonical": [
+          9,
+          1,
+          6
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 6,
+        "literal_solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          9,
+          1,
+          6
+        ],
+        "canonical": [
+          9,
+          0,
+          9,
+          1,
+          6
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 4,
+        "literal_solver_count": 2,
+        "nodes": 5,
+        "compiled_length": 7
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          0,
+          9,
+          1,
+          6,
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          10,
+          9,
+          0,
+          9,
+          1,
+          6,
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 4,
+        "literal_solver_count": 2,
+        "nodes": 9,
+        "compiled_length": 13
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          3
+        ],
+        "canonical": [
+          9,
+          3,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          4
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          7
+        ],
+        "canonical": [
+          9,
+          0,
+          7
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          11,
+          6,
+          0,
+          8
+        ],
+        "canonical": [
+          11,
+          6,
+          0,
+          8
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 4,
+        "compiled_length": 5
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          10,
+          2,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 65
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 11
+      },
+      {
+        "prefix": [
+          10,
+          6,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 36
+      },
+      {
+        "prefix": [
+          9,
+          9,
+          6,
+          4,
+          2
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 63
+      },
+      {
+        "prefix": [
+          10,
+          6,
+          9,
+          10,
+          3,
+          4,
+          9,
+          0,
+          0
+        ],
+        "nodes": 9,
+        "compiled_length": 13,
+        "draws": 157
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          6
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 46
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 26
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 22
+      },
+      {
+        "prefix": [
+          11,
+          6,
+          6,
+          3
+        ],
+        "nodes": 4,
+        "compiled_length": 5,
+        "draws": 151
+      }
+    ],
+    "source_rows_hash": "126af64f3112a1722ffabc5bf3ac639a08290cadf285c0bfbcd22fb2618e76bc",
+    "source_solves": 32,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 555008,
+        "worker_seconds": 57.45317079115193
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 919040,
+        "worker_seconds": 87.61202024912927
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 463616,
+        "worker_seconds": 45.29076550027821
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 910336,
+        "worker_seconds": 94.92458808189258
+      }
+    },
+    "acquisition_evaluations": 2848000,
+    "acquisition_worker_seconds": 285.280544622452,
+    "extraction_seconds": 0.0005815420299768448,
+    "control_seconds": 0.01411329093389213,
+    "verification_seconds": 0.006207540980540216,
+    "control_seed": 31900014,
+    "verified_entries": 18
+  },
+  {
+    "build": 15,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 22,
+        "literal_solver_count": 12,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 17,
+        "literal_solver_count": 11,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          5
+        ],
+        "canonical": [
+          9,
+          1,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 5,
+        "literal_solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          3,
+          2,
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 7,
+        "literal_solver_count": 3,
+        "nodes": 7,
+        "compiled_length": 11
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          5
+        ],
+        "canonical": [
+          9,
+          0,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          6
+        ],
+        "canonical": [
+          9,
+          1,
+          6
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          0
+        ],
+        "canonical": [
+          10,
+          0,
+          0
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 5
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          10,
+          0,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 14
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 43
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 20
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          11,
+          1,
+          4,
+          7,
+          0
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 478
+      },
+      {
+        "prefix": [
+          9,
+          8,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 2
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          8
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 93
+      }
+    ],
+    "source_rows_hash": "b136807bd2588d68ea93ec3ab129d9303a34f9834f9c1a3daae6af873792e012",
+    "source_solves": 32,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 1495552,
+        "worker_seconds": 149.10530470695812
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 447744,
+        "worker_seconds": 42.307588001247495
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 1043712,
+        "worker_seconds": 107.02190033299848
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 588032,
+        "worker_seconds": 58.76887295709457
+      }
+    },
+    "acquisition_evaluations": 3575040,
+    "acquisition_worker_seconds": 357.2036659982987,
+    "extraction_seconds": 0.0005402079550549388,
+    "control_seconds": 0.014325041905976832,
+    "verification_seconds": 0.004559832974337041,
+    "control_seed": 31900015,
+    "verified_entries": 14
+  },
+  {
+    "build": 16,
+    "entries": [
+      {
+        "prefix": [
+          10,
+          1,
+          1
+        ],
+        "canonical": [
+          10,
+          1,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 4,
+        "literal_solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 17,
+        "literal_solver_count": 10,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 16,
+        "literal_solver_count": 11,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 1,
+        "nodes": 7,
+        "compiled_length": 11
+      },
+      {
+        "prefix": [
+          9,
+          6,
+          2
+        ],
+        "canonical": [
+          9,
+          2,
+          6
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          3
+        ],
+        "canonical": [
+          9,
+          3,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 5
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          10,
+          2,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 99
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 18
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 21
+      },
+      {
+        "prefix": [
+          9,
+          10,
+          2,
+          9,
+          2,
+          0,
+          1
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 139
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 26
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 34
+      }
+    ],
+    "source_rows_hash": "1239c90fa01c8a5e9fe3c2950c3518c51be0773a6bba184a0ad7871ad55cdfc2",
+    "source_solves": 31,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 781312,
+        "worker_seconds": 78.30250466906
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 696320,
+        "worker_seconds": 65.29438366717659
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 553984,
+        "worker_seconds": 55.535237122909166
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 7,
+        "evaluations": 1307136,
+        "worker_seconds": 135.07965049997438
+      }
+    },
+    "acquisition_evaluations": 3338752,
+    "acquisition_worker_seconds": 334.21177595912013,
+    "extraction_seconds": 0.0005783330416306853,
+    "control_seconds": 0.012909499928355217,
+    "verification_seconds": 0.004017125000245869,
+    "control_seed": 31900016,
+    "verified_entries": 12
+  },
+  {
+    "build": 17,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 16,
+        "literal_solver_count": 9,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 16,
+        "literal_solver_count": 10,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "solver_count": 7,
+        "literal_solver_count": 5,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          6,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          6
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          1
+        ],
+        "canonical": [
+          9,
+          1,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          5
+        ],
+        "canonical": [
+          9,
+          2,
+          5
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          9,
+          0,
+          6
+        ],
+        "canonical": [
+          9,
+          1,
+          9,
+          0,
+          6
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 1,
+        "nodes": 5,
+        "compiled_length": 7
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          9,
+          2,
+          5
+        ],
+        "canonical": [
+          9,
+          3,
+          9,
+          2,
+          5
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 1,
+        "nodes": 5,
+        "compiled_length": 7
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          6
+        ],
+        "canonical": [
+          9,
+          1,
+          6
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          7
+        ],
+        "canonical": [
+          10,
+          3,
+          7
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          10,
+          3,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 77
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 77
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 2
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 3
+      },
+      {
+        "prefix": [
+          10,
+          6,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 3
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 2
+      },
+      {
+        "prefix": [
+          10,
+          6,
+          9,
+          0,
+          0
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 35
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          10,
+          0,
+          8
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 130
+      },
+      {
+        "prefix": [
+          10,
+          7,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          7
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 14
+      }
+    ],
+    "source_rows_hash": "f8ea18cbb39278fddf40b689a4da8c3be3e61d2d0020a6be78afe189ddb9c0e2",
+    "source_solves": 32,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 610816,
+        "worker_seconds": 60.46547237422783
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 266496,
+        "worker_seconds": 23.993762998026796
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 1054464,
+        "worker_seconds": 108.40196366701275
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 302848,
+        "worker_seconds": 29.413597207982093
+      }
+    },
+    "acquisition_evaluations": 2234624,
+    "acquisition_worker_seconds": 222.27479624724947,
+    "extraction_seconds": 0.0005955840460956097,
+    "control_seconds": 0.012891332968138158,
+    "verification_seconds": 0.0062865000218153,
+    "control_seed": 31900017,
+    "verified_entries": 20
+  },
+  {
+    "build": 18,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 17,
+        "literal_solver_count": 11,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 17,
+        "literal_solver_count": 10,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          7
+        ],
+        "canonical": [
+          10,
+          0,
+          7
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 6,
+        "literal_solver_count": 3,
+        "nodes": 7,
+        "compiled_length": 11
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          1
+        ],
+        "canonical": [
+          9,
+          1,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          2
+        ],
+        "canonical": [
+          9,
+          2,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          2
+        ],
+        "canonical": [
+          10,
+          2,
+          2
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          9,
+          2,
+          3,
+          5
+        ],
+        "canonical": [
+          9,
+          5,
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 5,
+        "compiled_length": 7
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          9,
+          2,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 98
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 20
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          8
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 46
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          6
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 28
+      },
+      {
+        "prefix": [
+          9,
+          10,
+          10,
+          3,
+          0,
+          2,
+          1
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 438
+      },
+      {
+        "prefix": [
+          10,
+          7,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 61
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 25
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 101
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          9,
+          8,
+          3
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 86
+      }
+    ],
+    "source_rows_hash": "48bc1f566cbfaa34f06470f3f59773f792e17a4dc207347710f1854d236ed13b",
+    "source_solves": 32,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 245504,
+        "worker_seconds": 23.911626624758355
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 771840,
+        "worker_seconds": 74.68149412306957
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 1073408,
+        "worker_seconds": 107.19569408404641
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 942848,
+        "worker_seconds": 98.5072513341438
+      }
+    },
+    "acquisition_evaluations": 3033600,
+    "acquisition_worker_seconds": 304.29606616601814,
+    "extraction_seconds": 0.0005466659786179662,
+    "control_seconds": 0.015637499978765845,
+    "verification_seconds": 0.005971957929432392,
+    "control_seed": 31900018,
+    "verified_entries": 18
+  },
+  {
+    "build": 19,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 20,
+        "literal_solver_count": 14,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 19,
+        "literal_solver_count": 10,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          1
+        ],
+        "canonical": [
+          9,
+          1,
+          2
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 6,
+        "literal_solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          3,
+          2,
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 5,
+        "literal_solver_count": 3,
+        "nodes": 7,
+        "compiled_length": 11
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          9,
+          4,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 5,
+        "compiled_length": 8
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          10,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 19
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 54
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 13
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          10,
+          4,
+          10,
+          1,
+          2
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 271
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          9,
+          0,
+          2
+        ],
+        "nodes": 5,
+        "compiled_length": 8,
+        "draws": 257
+      }
+    ],
+    "source_rows_hash": "7faee08260292c030cb8ac020acdcc208eda6fb2a709a6c676d54cb101df3a87",
+    "source_solves": 32,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 592640,
+        "worker_seconds": 58.97924008278642
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 561664,
+        "worker_seconds": 54.0183076239191
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 611328,
+        "worker_seconds": 62.938302708789706
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 457728,
+        "worker_seconds": 44.58969379204791
+      }
+    },
+    "acquisition_evaluations": 2223360,
+    "acquisition_worker_seconds": 220.52554420754313,
+    "extraction_seconds": 0.0005803749663755298,
+    "control_seconds": 0.014387457980774343,
+    "verification_seconds": 0.0037055419525131583,
+    "control_seed": 31900019,
+    "verified_entries": 10
+  },
+  {
+    "build": 20,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 19,
+        "literal_solver_count": 15,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 15,
+        "literal_solver_count": 10,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 4,
+        "literal_solver_count": 3,
+        "nodes": 7,
+        "compiled_length": 11
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          5
+        ],
+        "canonical": [
+          9,
+          0,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          6
+        ],
+        "canonical": [
+          9,
+          0,
+          6
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          0
+        ],
+        "canonical": [
+          10,
+          2,
+          0
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          9,
+          0,
+          6
+        ],
+        "canonical": [
+          9,
+          1,
+          9,
+          0,
+          6
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 5,
+        "compiled_length": 7
+      },
+      {
+        "prefix": [
+          9,
+          6,
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          9,
+          6,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 5,
+        "compiled_length": 7
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          10,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 20
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 22
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          10,
+          9,
+          1,
+          0,
+          4
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 435
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          5
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 6
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          7
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 20
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 35
+      },
+      {
+        "prefix": [
+          9,
+          10,
+          2,
+          4,
+          6
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 70
+      },
+      {
+        "prefix": [
+          10,
+          5,
+          10,
+          4,
+          3
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 196
+      }
+    ],
+    "source_rows_hash": "280eb027e3ad25903eb3422a175fe28437896553a087288b7382e8e6b6ddb05d",
+    "source_solves": 32,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 798208,
+        "worker_seconds": 80.73513816704508
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 794624,
+        "worker_seconds": 75.74841587606352
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 1328128,
+        "worker_seconds": 133.65373095683753
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 500480,
+        "worker_seconds": 50.118611752055585
+      }
+    },
+    "acquisition_evaluations": 3421440,
+    "acquisition_worker_seconds": 340.2558967520017,
+    "extraction_seconds": 0.0006097090663388371,
+    "control_seconds": 0.014962457935325801,
+    "verification_seconds": 0.005590165965259075,
+    "control_seed": 31900020,
+    "verified_entries": 16
+  },
+  {
+    "build": 21,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 15,
+        "literal_solver_count": 11,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 14,
+        "literal_solver_count": 8,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          3
+        ],
+        "canonical": [
+          9,
+          3,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          9,
+          5,
+          3,
+          2
+        ],
+        "canonical": [
+          9,
+          2,
+          9,
+          3,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 5,
+        "compiled_length": 7
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 1,
+        "nodes": 7,
+        "compiled_length": 11
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          4
+        ],
+        "canonical": [
+          9,
+          1,
+          4
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          6
+        ],
+        "canonical": [
+          9,
+          3,
+          6
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          9,
+          1,
+          4
+        ],
+        "canonical": [
+          9,
+          0,
+          9,
+          1,
+          4
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 5,
+        "compiled_length": 8
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          9,
+          6,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          9,
+          3,
+          6
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 5,
+        "compiled_length": 7
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          10,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 17
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 20
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 3
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          2,
+          4,
+          5
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 24
+      },
+      {
+        "prefix": [
+          9,
+          10,
+          1,
+          10,
+          4,
+          3,
+          0
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 19
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          6
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 29
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          9,
+          0,
+          1
+        ],
+        "nodes": 5,
+        "compiled_length": 8,
+        "draws": 484
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          10,
+          3,
+          8
+        ],
+        "nodes": 5,
+        "compiled_length": 7,
+        "draws": 20
+      }
+    ],
+    "source_rows_hash": "4c9d40c1f50c893e4a6fd0dc8bf49025742c77651a5e991ab4612aa2874c2a62",
+    "source_solves": 32,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 652544,
+        "worker_seconds": 66.87970037397463
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 456960,
+        "worker_seconds": 43.562583456980065
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 250624,
+        "worker_seconds": 25.2870260408381
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 816896,
+        "worker_seconds": 82.53940654196776
+      }
+    },
+    "acquisition_evaluations": 2177024,
+    "acquisition_worker_seconds": 218.26871641376056,
+    "extraction_seconds": 0.0005636250134557486,
+    "control_seconds": 0.014395333011634648,
+    "verification_seconds": 0.006414458039216697,
+    "control_seed": 31900021,
+    "verified_entries": 18
+  },
+  {
+    "build": 22,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 17,
+        "literal_solver_count": 10,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 15,
+        "literal_solver_count": 10,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          4
+        ],
+        "canonical": [
+          9,
+          1,
+          4
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 4,
+        "literal_solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          3,
+          2,
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 4,
+        "literal_solver_count": 2,
+        "nodes": 7,
+        "compiled_length": 11
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          2
+        ],
+        "canonical": [
+          10,
+          2,
+          2
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          5
+        ],
+        "canonical": [
+          9,
+          2,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          3
+        ],
+        "canonical": [
+          9,
+          3,
+          4
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          1
+        ],
+        "canonical": [
+          10,
+          1,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          9,
+          4,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          9,
+          3,
+          4
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 5,
+        "compiled_length": 8
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          10,
+          1,
+          1
+        ],
+        "canonical": [
+          9,
+          3,
+          10,
+          1,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 5,
+        "compiled_length": 8
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          9,
+          3,
+          10,
+          1,
+          1
+        ],
+        "canonical": [
+          9,
+          2,
+          9,
+          3,
+          10,
+          1,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 7,
+        "compiled_length": 11
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          10,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 253
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 70
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 8
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          10,
+          3,
+          9,
+          3,
+          3
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 305
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 19
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          8
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 4
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 40
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 20
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          10,
+          1,
+          1
+        ],
+        "nodes": 5,
+        "compiled_length": 8,
+        "draws": 513
+      },
+      {
+        "prefix": [
+          9,
+          9,
+          1,
+          1,
+          2
+        ],
+        "nodes": 5,
+        "compiled_length": 8,
+        "draws": 184
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          10,
+          10,
+          0,
+          4,
+          2
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 102
+      }
+    ],
+    "source_rows_hash": "94b798e684417f85dcac64a2936236cbb2ae71d65aa9caf936b8c94536fc7ddd",
+    "source_solves": 32,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 684288,
+        "worker_seconds": 67.71577795909252
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 776192,
+        "worker_seconds": 75.179266875959
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 589056,
+        "worker_seconds": 59.44388300005812
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 783104,
+        "worker_seconds": 76.06443537597079
+      }
+    },
+    "acquisition_evaluations": 2832640,
+    "acquisition_worker_seconds": 278.40336321108043,
+    "extraction_seconds": 0.0006124579813331366,
+    "control_seconds": 0.01816454203799367,
+    "verification_seconds": 0.007949957973323762,
+    "control_seed": 31900022,
+    "verified_entries": 22
+  },
+  {
+    "build": 23,
+    "entries": [
+      {
+        "prefix": [
+          9,
+          3,
+          2
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 21,
+        "literal_solver_count": 12,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 20,
+        "literal_solver_count": 13,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          6
+        ],
+        "canonical": [
+          9,
+          1,
+          6
+        ],
+        "source_cells": [
+          "DG:(X0+X3)>(X1+X2)?X2:X3",
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 5,
+        "literal_solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          10,
+          9,
+          2,
+          3,
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "DG:(X2+X3)>(X0+X1)?X0:X2",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 7,
+        "literal_solver_count": 3,
+        "nodes": 7,
+        "compiled_length": 11
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          4
+        ],
+        "canonical": [
+          9,
+          1,
+          4
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          4
+        ],
+        "canonical": [
+          9,
+          2,
+          4
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X2+X3)>(X0+X1)?X1:X0"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          5
+        ],
+        "canonical": [
+          9,
+          3,
+          5
+        ],
+        "source_cells": [
+          "DG:(X0+X1)>(X2+X3)?X3:X0",
+          "DG:(X0+X3)>(X1+X2)?X2:X3"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 4
+      }
+    ],
+    "controls": [
+      {
+        "prefix": [
+          9,
+          3,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 9
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          1
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 14
+      },
+      {
+        "prefix": [
+          10,
+          8,
+          2
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 39
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          10,
+          10,
+          1,
+          2,
+          0
+        ],
+        "nodes": 7,
+        "compiled_length": 11,
+        "draws": 127
+      },
+      {
+        "prefix": [
+          10,
+          4,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 174
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          4
+        ],
+        "nodes": 3,
+        "compiled_length": 5,
+        "draws": 13
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          3
+        ],
+        "nodes": 3,
+        "compiled_length": 4,
+        "draws": 1
+      }
+    ],
+    "source_rows_hash": "bec83d0def3a62efcfa6984bc0c9dc863d60458687bf3828c768c272b808c681",
+    "source_solves": 32,
+    "source_by_cell": {
+      "DG:(X2+X3)>(X0+X1)?X0:X2": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 279040,
+        "worker_seconds": 27.536014543147758
+      },
+      "DG:(X2+X3)>(X0+X1)?X1:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 267264,
+        "worker_seconds": 23.889574332977645
+      },
+      "DG:(X0+X1)>(X2+X3)?X3:X0": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 497920,
+        "worker_seconds": 50.536276625003666
+      },
+      "DG:(X0+X3)>(X1+X2)?X2:X3": {
+        "jobs": 8,
+        "solves": 8,
+        "evaluations": 813568,
+        "worker_seconds": 65.46967254194897
+      }
+    },
+    "acquisition_evaluations": 1857792,
+    "acquisition_worker_seconds": 167.43153804307804,
+    "extraction_seconds": 0.0005759159103035927,
+    "control_seconds": 0.013289374997839332,
+    "verification_seconds": 0.004656749893911183,
+    "control_seed": 31900023,
+    "verified_entries": 14
+  }
+]

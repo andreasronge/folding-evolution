@@ -1,0 +1,12 @@
+{
+  "replay": {
+    "jobs": 8,
+    "wall_seconds": 12.234054291038774,
+    "worker_seconds": 18.050501708174124
+  },
+  "stage0": {
+    "jobs": 288,
+    "wall_seconds": 153.8097677079495,
+    "worker_seconds": 1421.0815991096897
+  }
+}

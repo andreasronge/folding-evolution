@@ -11,7 +11,9 @@ evaluations to exact solution to 0.390× [0.332, 0.463] of R-tree's (87,352 → 
 0.533] of size- and length-matched random donors; solve difference +0.008 [+0.004, +0.012] (1,536/1,536 vs
 1,524/1,536).** R-lib's mean was below R-tree's in 24/24 independent acquisitions (one only at 0.98) and in all
 8 target cells: 0.12× on the one target sharing the learned predicate, 0.35–0.53× on the rest. The gain shows as more first-attempt solves
-(1,121 vs 715 of 1,536), not as copied entries in final solvers. With acquisition charged (2.88 M evaluations
+(1,121 vs 715 of 1,536); few final solvers contain larger entries verbatim under the literal matcher (10/1,536
+the predicate), and transformed reuse and causal pathways remain unmeasured. On a fresh gate-sum bank the same
+libraries transferred, 0.250× [0.217, 0.289] ([46](../46-tree-library-fresh-composition/question.md)). With acquisition charged (2.88 M evaluations
 per library) it repays after about 54 [45, 65] target searches. Worker seconds agree (0.373× [0.315, 0.443]).
 - Not separated: which part of the content carries it — the `GT(ADD(·,·),ADD(·,·))` skeleton (absent from 4
   builds, which gained less: 0.26–0.98, observation), pair sums, or an input/`ADD` token-frequency shift (every

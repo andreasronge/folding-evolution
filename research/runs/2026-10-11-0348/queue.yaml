@@ -1,0 +1,57 @@
+runs:
+  - id: 2026-10-11-0348-prepare
+    cmd: RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.gate_sum_run --prepare --workers 10 --deadline-seconds 2400
+    timeout_seconds: 2400
+    track: chem-tape
+    expect_outputs:
+      - config.json
+      - bank.json
+      - method_freeze.json
+      - schedule_audit.json
+      - schedules.json
+      - verification.json
+      - reconstruction.json
+      - libraries.json
+      - replay.json
+      - replay.jsonl
+      - stage0.jsonl
+      - stage_gate.json
+      - timing.json
+      - preparation.json
+    notes: >-
+      Performance-blind admission and 4-development/18-protected split; both
+      probe cells excluded from protection. Reconstruct all 24 unchanged 0150
+      libraries and original size donors, including failed acquisition attempts.
+      Freeze artifacts, methods and paired seeds before development search.
+      Eight saved off-path replays; 288 actual restarted development jobs at ten
+      workers. Protected scoring requires projected scoring <=90 min and all
+      admission hashes unchanged. Smoke preparations cannot authorize scoring.
+  - id: 2026-10-11-0348-gate-sum
+    cmd: RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.gate_sum_run --workers 10 --deadline-seconds 5400 --preparation "$RUN_DIR/../2026-10-11-0348-prepare"
+    timeout_seconds: 5400
+    track: chem-tape
+    expect_outputs:
+      - config.json
+      - bank.json
+      - method_freeze.json
+      - schedule_audit.json
+      - schedules.json
+      - preparation.json
+      - libraries.json
+      - search.jsonl
+      - timing.json
+      - result.json
+      - report.md
+      - dynamics.png
+      - economics.png
+    notes: >-
+      Requires complete, admitted, unchanged preparation. Exactly 24 builds x
+      18 protected cells x 4 repeats =1728 jobs per arm, with shared eight-attempt
+      seeds and the unchanged 0150 tree method. Primary capped evaluation ratio
+      R-lib/R-tree with paired acquisition-block bootstrap and reliability guard;
+      secondary size control, all three predicate splits, measured worker costs,
+      exact solve counts, restart/operator/shortcut diagnostics. Joint-bootstrap
+      acquisition plus search at fixed horizons and finite/unbounded repayment,
+      including failures and extraction. Two probed development cells disclosed;
+      confirmation is within a deliberately selected familiar-parts shape.
+      Return to strategy after results; no automatic top-up.
