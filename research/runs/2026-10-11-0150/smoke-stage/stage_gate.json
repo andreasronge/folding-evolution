@@ -1,0 +1,70 @@
+{
+  "means": {
+    "R-tree": 7.8560574205585,
+    "R-lib": 2.4532860860126675,
+    "R-size": 7.51242454948806
+  },
+  "effective_concurrency": 9.044655531532612,
+  "source_effective_concurrency": 7.675123598815376,
+  "scoring_projected_seconds": 5984.592648014964,
+  "preparation_projected_seconds": 1386.143353587915,
+  "source_by_cell": {
+    "DG:(X2+X3)>(X0+X1)?X0:X2": {
+      "jobs": 16,
+      "solves": 16,
+      "mean_evaluations": 70272.0,
+      "mean_worker_seconds": 6.35229383593105
+    },
+    "DG:(X2+X3)>(X0+X1)?X1:X0": {
+      "jobs": 16,
+      "solves": 16,
+      "mean_evaluations": 98688.0,
+      "mean_worker_seconds": 8.772181640626513
+    },
+    "DG:(X0+X1)>(X2+X3)?X3:X0": {
+      "jobs": 16,
+      "solves": 16,
+      "mean_evaluations": 66608.0,
+      "mean_worker_seconds": 6.2406011926796054
+    },
+    "DG:(X0+X3)>(X1+X2)?X2:X3": {
+      "jobs": 16,
+      "solves": 16,
+      "mean_evaluations": 101376.0,
+      "mean_worker_seconds": 8.476982034058892
+    }
+  },
+  "library_yields": [
+    6,
+    12
+  ],
+  "control_draws": [
+    [
+      32,
+      138,
+      13,
+      3,
+      16,
+      59
+    ],
+    [
+      17,
+      26,
+      23,
+      3,
+      68,
+      6,
+      23,
+      24,
+      6,
+      297,
+      291,
+      311
+    ]
+  ],
+  "control_seconds": [
+    0.01274591707624495,
+    0.016523208003491163
+  ],
+  "projection": "ten-worker sustained source/development; historical 8.9s/job floor; 30% reserve+90s"
+}

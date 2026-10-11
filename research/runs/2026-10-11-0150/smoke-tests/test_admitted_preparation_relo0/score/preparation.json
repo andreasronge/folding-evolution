@@ -1,0 +1,20 @@
+{
+  "admitted": true,
+  "smoke": false,
+  "freeze": {
+    "method": "synthetic"
+  },
+  "seed_audit": {
+    "admitted": true
+  },
+  "validation": {
+    "passed": true
+  },
+  "replay": {
+    "passed": true
+  },
+  "stage_rows": 128,
+  "DG_projected_seconds": 100,
+  "stage_hash": "bafa1fe9322d6f1fa055da278ba2139ebddf34cd0a23379995fa601302089fc9",
+  "preparation_hash": "70f6521f60510f4b1932e758dd4f358d2459c71e1bdb82b56ab1fb9b5fa82a71"
+}

@@ -1,0 +1,1945 @@
+{
+  "means": {
+    "evaluations": {
+      "R-tree": 3200.0,
+      "R-lib": 1600.0,
+      "R-size": 2400.0
+    },
+    "worker_seconds": {
+      "R-tree": 12.5,
+      "R-lib": 6.25,
+      "R-size": 9.375
+    }
+  },
+  "solve_fractions": {
+    "R-tree": 1.0,
+    "R-lib": 1.0,
+    "R-size": 1.0
+  },
+  "contrasts": {
+    "R-lib/R-tree": {
+      "evaluations": {
+        "point": 0.5,
+        "interval95": [
+          0.5,
+          0.5
+        ]
+      },
+      "worker_seconds": {
+        "point": 0.5,
+        "interval95": [
+          0.5,
+          0.5
+        ]
+      },
+      "solve_fraction_difference": {
+        "point": 0.0,
+        "interval95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "R-lib/R-size": {
+      "evaluations": {
+        "point": 0.6666666666666666,
+        "interval95": [
+          0.6666666666666666,
+          0.6666666666666667
+        ]
+      },
+      "worker_seconds": {
+        "point": 0.6666666666666666,
+        "interval95": [
+          0.6666666666666666,
+          0.6666666666666667
+        ]
+      },
+      "solve_fraction_difference": {
+        "point": 0.0,
+        "interval95": [
+          0.0,
+          0.0
+        ]
+      }
+    }
+  },
+  "decision": "useful_search_content_increment_consider_fresh_bank",
+  "resolution_price": {
+    "R-lib/R-tree": {
+      "routing_threshold": 0.9,
+      "conditional_total_acquisitions": 0,
+      "additional_acquisitions": 0,
+      "additional_jobs": 0,
+      "additional_worker_seconds": 0.0,
+      "realised_relative_interval_half_width": 0.0,
+      "caveat": "normal approximation at observed acquisition variance and effect; all three arms and acquisition charged; no guaranteed precision or automatic top-up"
+    },
+    "R-lib/R-size": {
+      "routing_threshold": 1.0,
+      "conditional_total_acquisitions": 0,
+      "additional_acquisitions": 0,
+      "additional_jobs": 0,
+      "additional_worker_seconds": 0.0,
+      "realised_relative_interval_half_width": 8.326672684688674e-17,
+      "caveat": "normal approximation at observed acquisition variance and effect; all three arms and acquisition charged; no guaranteed precision or automatic top-up"
+    }
+  },
+  "economics": {
+    "evaluations": {
+      "R-lib": {
+        "acquisition": {
+          "point": 25600.0,
+          "interval95": [
+            25600.0,
+            25600.0
+          ]
+        },
+        "savings": {
+          "point": 1600.0,
+          "interval95": [
+            1248.0,
+            1962.6666666666667
+          ]
+        },
+        "repayment_searches": 16.0,
+        "repayment_interval95": [
+          13.043478260869565,
+          20.51282051282051
+        ],
+        "repayment_unbounded": false,
+        "per_build": [
+          {
+            "build": 0,
+            "acquisition": 25600.0,
+            "saving": 128.0,
+            "repayment_searches": 200.0
+          },
+          {
+            "build": 1,
+            "acquisition": 25600.0,
+            "saving": 256.0,
+            "repayment_searches": 100.0
+          },
+          {
+            "build": 2,
+            "acquisition": 25600.0,
+            "saving": 384.0,
+            "repayment_searches": 66.66666666666667
+          },
+          {
+            "build": 3,
+            "acquisition": 25600.0,
+            "saving": 512.0,
+            "repayment_searches": 50.0
+          },
+          {
+            "build": 4,
+            "acquisition": 25600.0,
+            "saving": 640.0,
+            "repayment_searches": 40.0
+          },
+          {
+            "build": 5,
+            "acquisition": 25600.0,
+            "saving": 768.0,
+            "repayment_searches": 33.333333333333336
+          },
+          {
+            "build": 6,
+            "acquisition": 25600.0,
+            "saving": 896.0,
+            "repayment_searches": 28.571428571428573
+          },
+          {
+            "build": 7,
+            "acquisition": 25600.0,
+            "saving": 1024.0,
+            "repayment_searches": 25.0
+          },
+          {
+            "build": 8,
+            "acquisition": 25600.0,
+            "saving": 1152.0,
+            "repayment_searches": 22.22222222222222
+          },
+          {
+            "build": 9,
+            "acquisition": 25600.0,
+            "saving": 1280.0,
+            "repayment_searches": 20.0
+          },
+          {
+            "build": 10,
+            "acquisition": 25600.0,
+            "saving": 1408.0,
+            "repayment_searches": 18.181818181818183
+          },
+          {
+            "build": 11,
+            "acquisition": 25600.0,
+            "saving": 1536.0,
+            "repayment_searches": 16.666666666666668
+          },
+          {
+            "build": 12,
+            "acquisition": 25600.0,
+            "saving": 1664.0,
+            "repayment_searches": 15.384615384615385
+          },
+          {
+            "build": 13,
+            "acquisition": 25600.0,
+            "saving": 1792.0,
+            "repayment_searches": 14.285714285714286
+          },
+          {
+            "build": 14,
+            "acquisition": 25600.0,
+            "saving": 1920.0,
+            "repayment_searches": 13.333333333333334
+          },
+          {
+            "build": 15,
+            "acquisition": 25600.0,
+            "saving": 2048.0,
+            "repayment_searches": 12.5
+          },
+          {
+            "build": 16,
+            "acquisition": 25600.0,
+            "saving": 2176.0,
+            "repayment_searches": 11.764705882352942
+          },
+          {
+            "build": 17,
+            "acquisition": 25600.0,
+            "saving": 2304.0,
+            "repayment_searches": 11.11111111111111
+          },
+          {
+            "build": 18,
+            "acquisition": 25600.0,
+            "saving": 2432.0,
+            "repayment_searches": 10.526315789473685
+          },
+          {
+            "build": 19,
+            "acquisition": 25600.0,
+            "saving": 2560.0,
+            "repayment_searches": 10.0
+          },
+          {
+            "build": 20,
+            "acquisition": 25600.0,
+            "saving": 2688.0,
+            "repayment_searches": 9.523809523809524
+          },
+          {
+            "build": 21,
+            "acquisition": 25600.0,
+            "saving": 2816.0,
+            "repayment_searches": 9.090909090909092
+          },
+          {
+            "build": 22,
+            "acquisition": 25600.0,
+            "saving": 2944.0,
+            "repayment_searches": 8.695652173913043
+          },
+          {
+            "build": 23,
+            "acquisition": 25600.0,
+            "saving": 3072.0,
+            "repayment_searches": 8.333333333333334
+          }
+        ],
+        "horizons": {
+          "1": {
+            "R-tree": {
+              "point": 3200.0,
+              "interval95": [
+                2496.0,
+                3925.3333333333335
+              ]
+            },
+            "R-lib": {
+              "point": 27200.0,
+              "interval95": [
+                26848.0,
+                27562.666666666668
+              ]
+            }
+          },
+          "16": {
+            "R-tree": {
+              "point": 51200.0,
+              "interval95": [
+                39936.0,
+                62805.333333333336
+              ]
+            },
+            "R-lib": {
+              "point": 51200.0,
+              "interval95": [
+                45568.0,
+                57002.666666666664
+              ]
+            }
+          },
+          "64": {
+            "R-tree": {
+              "point": 204800.0,
+              "interval95": [
+                159744.0,
+                251221.33333333334
+              ]
+            },
+            "R-lib": {
+              "point": 128000.0,
+              "interval95": [
+                105472.0,
+                151210.66666666666
+              ]
+            }
+          },
+          "160": {
+            "R-tree": {
+              "point": 512000.0,
+              "interval95": [
+                399360.0,
+                628053.3333333334
+              ]
+            },
+            "R-lib": {
+              "point": 281600.0,
+              "interval95": [
+                225280.0,
+                339626.6666666667
+              ]
+            }
+          },
+          "320": {
+            "R-tree": {
+              "point": 1024000.0,
+              "interval95": [
+                798720.0,
+                1256106.6666666667
+              ]
+            },
+            "R-lib": {
+              "point": 537600.0,
+              "interval95": [
+                424960.0,
+                653653.3333333334
+              ]
+            }
+          },
+          "1024": {
+            "R-tree": {
+              "point": 3276800.0,
+              "interval95": [
+                2555904.0,
+                4019541.3333333335
+              ]
+            },
+            "R-lib": {
+              "point": 1664000.0,
+              "interval95": [
+                1303552.0,
+                2035370.6666666667
+              ]
+            }
+          },
+          "4096": {
+            "R-tree": {
+              "point": 13107200.0,
+              "interval95": [
+                10223616.0,
+                16078165.333333334
+              ]
+            },
+            "R-lib": {
+              "point": 6579200.0,
+              "interval95": [
+                5137408.0,
+                8064682.666666667
+              ]
+            }
+          }
+        }
+      },
+      "R-size": {
+        "acquisition": {
+          "point": 25600.0,
+          "interval95": [
+            25600.0,
+            25600.0
+          ]
+        },
+        "savings": {
+          "point": 800.0,
+          "interval95": [
+            624.0,
+            981.3333333333334
+          ]
+        },
+        "repayment_searches": 32.0,
+        "repayment_interval95": [
+          26.08695652173913,
+          41.02564102564102
+        ],
+        "repayment_unbounded": false,
+        "per_build": [
+          {
+            "build": 0,
+            "acquisition": 25600.0,
+            "saving": 64.0,
+            "repayment_searches": 400.0
+          },
+          {
+            "build": 1,
+            "acquisition": 25600.0,
+            "saving": 128.0,
+            "repayment_searches": 200.0
+          },
+          {
+            "build": 2,
+            "acquisition": 25600.0,
+            "saving": 192.0,
+            "repayment_searches": 133.33333333333334
+          },
+          {
+            "build": 3,
+            "acquisition": 25600.0,
+            "saving": 256.0,
+            "repayment_searches": 100.0
+          },
+          {
+            "build": 4,
+            "acquisition": 25600.0,
+            "saving": 320.0,
+            "repayment_searches": 80.0
+          },
+          {
+            "build": 5,
+            "acquisition": 25600.0,
+            "saving": 384.0,
+            "repayment_searches": 66.66666666666667
+          },
+          {
+            "build": 6,
+            "acquisition": 25600.0,
+            "saving": 448.0,
+            "repayment_searches": 57.142857142857146
+          },
+          {
+            "build": 7,
+            "acquisition": 25600.0,
+            "saving": 512.0,
+            "repayment_searches": 50.0
+          },
+          {
+            "build": 8,
+            "acquisition": 25600.0,
+            "saving": 576.0,
+            "repayment_searches": 44.44444444444444
+          },
+          {
+            "build": 9,
+            "acquisition": 25600.0,
+            "saving": 640.0,
+            "repayment_searches": 40.0
+          },
+          {
+            "build": 10,
+            "acquisition": 25600.0,
+            "saving": 704.0,
+            "repayment_searches": 36.36363636363637
+          },
+          {
+            "build": 11,
+            "acquisition": 25600.0,
+            "saving": 768.0,
+            "repayment_searches": 33.333333333333336
+          },
+          {
+            "build": 12,
+            "acquisition": 25600.0,
+            "saving": 832.0,
+            "repayment_searches": 30.76923076923077
+          },
+          {
+            "build": 13,
+            "acquisition": 25600.0,
+            "saving": 896.0,
+            "repayment_searches": 28.571428571428573
+          },
+          {
+            "build": 14,
+            "acquisition": 25600.0,
+            "saving": 960.0,
+            "repayment_searches": 26.666666666666668
+          },
+          {
+            "build": 15,
+            "acquisition": 25600.0,
+            "saving": 1024.0,
+            "repayment_searches": 25.0
+          },
+          {
+            "build": 16,
+            "acquisition": 25600.0,
+            "saving": 1088.0,
+            "repayment_searches": 23.529411764705884
+          },
+          {
+            "build": 17,
+            "acquisition": 25600.0,
+            "saving": 1152.0,
+            "repayment_searches": 22.22222222222222
+          },
+          {
+            "build": 18,
+            "acquisition": 25600.0,
+            "saving": 1216.0,
+            "repayment_searches": 21.05263157894737
+          },
+          {
+            "build": 19,
+            "acquisition": 25600.0,
+            "saving": 1280.0,
+            "repayment_searches": 20.0
+          },
+          {
+            "build": 20,
+            "acquisition": 25600.0,
+            "saving": 1344.0,
+            "repayment_searches": 19.047619047619047
+          },
+          {
+            "build": 21,
+            "acquisition": 25600.0,
+            "saving": 1408.0,
+            "repayment_searches": 18.181818181818183
+          },
+          {
+            "build": 22,
+            "acquisition": 25600.0,
+            "saving": 1472.0,
+            "repayment_searches": 17.391304347826086
+          },
+          {
+            "build": 23,
+            "acquisition": 25600.0,
+            "saving": 1536.0,
+            "repayment_searches": 16.666666666666668
+          }
+        ],
+        "horizons": {
+          "1": {
+            "R-tree": {
+              "point": 3200.0,
+              "interval95": [
+                2496.0,
+                3925.3333333333335
+              ]
+            },
+            "R-size": {
+              "point": 28000.0,
+              "interval95": [
+                27472.0,
+                28544.0
+              ]
+            }
+          },
+          "16": {
+            "R-tree": {
+              "point": 51200.0,
+              "interval95": [
+                39936.0,
+                62805.333333333336
+              ]
+            },
+            "R-size": {
+              "point": 64000.0,
+              "interval95": [
+                55552.0,
+                72704.0
+              ]
+            }
+          },
+          "64": {
+            "R-tree": {
+              "point": 204800.0,
+              "interval95": [
+                159744.0,
+                251221.33333333334
+              ]
+            },
+            "R-size": {
+              "point": 179200.0,
+              "interval95": [
+                145408.0,
+                214016.0
+              ]
+            }
+          },
+          "160": {
+            "R-tree": {
+              "point": 512000.0,
+              "interval95": [
+                399360.0,
+                628053.3333333334
+              ]
+            },
+            "R-size": {
+              "point": 409600.0,
+              "interval95": [
+                325120.0,
+                496640.0
+              ]
+            }
+          },
+          "320": {
+            "R-tree": {
+              "point": 1024000.0,
+              "interval95": [
+                798720.0,
+                1256106.6666666667
+              ]
+            },
+            "R-size": {
+              "point": 793600.0,
+              "interval95": [
+                624640.0,
+                967680.0
+              ]
+            }
+          },
+          "1024": {
+            "R-tree": {
+              "point": 3276800.0,
+              "interval95": [
+                2555904.0,
+                4019541.3333333335
+              ]
+            },
+            "R-size": {
+              "point": 2483200.0,
+              "interval95": [
+                1942528.0,
+                3040256.0
+              ]
+            }
+          },
+          "4096": {
+            "R-tree": {
+              "point": 13107200.0,
+              "interval95": [
+                10223616.0,
+                16078165.333333334
+              ]
+            },
+            "R-size": {
+              "point": 9856000.0,
+              "interval95": [
+                7693312.0,
+                12084224.0
+              ]
+            }
+          }
+        }
+      }
+    },
+    "worker_seconds": {
+      "R-lib": {
+        "acquisition": {
+          "point": 104.0,
+          "interval95": [
+            104.0,
+            104.0
+          ]
+        },
+        "savings": {
+          "point": 6.25,
+          "interval95": [
+            4.875,
+            7.666666666666667
+          ]
+        },
+        "repayment_searches": 16.64,
+        "repayment_interval95": [
+          13.565217391304348,
+          21.333333333333332
+        ],
+        "repayment_unbounded": false,
+        "per_build": [
+          {
+            "build": 0,
+            "acquisition": 104.0,
+            "saving": 0.5,
+            "repayment_searches": 208.0
+          },
+          {
+            "build": 1,
+            "acquisition": 104.0,
+            "saving": 1.0,
+            "repayment_searches": 104.0
+          },
+          {
+            "build": 2,
+            "acquisition": 104.0,
+            "saving": 1.5,
+            "repayment_searches": 69.33333333333333
+          },
+          {
+            "build": 3,
+            "acquisition": 104.0,
+            "saving": 2.0,
+            "repayment_searches": 52.0
+          },
+          {
+            "build": 4,
+            "acquisition": 104.0,
+            "saving": 2.5,
+            "repayment_searches": 41.6
+          },
+          {
+            "build": 5,
+            "acquisition": 104.0,
+            "saving": 3.0,
+            "repayment_searches": 34.666666666666664
+          },
+          {
+            "build": 6,
+            "acquisition": 104.0,
+            "saving": 3.5,
+            "repayment_searches": 29.714285714285715
+          },
+          {
+            "build": 7,
+            "acquisition": 104.0,
+            "saving": 4.0,
+            "repayment_searches": 26.0
+          },
+          {
+            "build": 8,
+            "acquisition": 104.0,
+            "saving": 4.5,
+            "repayment_searches": 23.11111111111111
+          },
+          {
+            "build": 9,
+            "acquisition": 104.0,
+            "saving": 5.0,
+            "repayment_searches": 20.8
+          },
+          {
+            "build": 10,
+            "acquisition": 104.0,
+            "saving": 5.5,
+            "repayment_searches": 18.90909090909091
+          },
+          {
+            "build": 11,
+            "acquisition": 104.0,
+            "saving": 6.0,
+            "repayment_searches": 17.333333333333332
+          },
+          {
+            "build": 12,
+            "acquisition": 104.0,
+            "saving": 6.5,
+            "repayment_searches": 16.0
+          },
+          {
+            "build": 13,
+            "acquisition": 104.0,
+            "saving": 7.0,
+            "repayment_searches": 14.857142857142858
+          },
+          {
+            "build": 14,
+            "acquisition": 104.0,
+            "saving": 7.5,
+            "repayment_searches": 13.866666666666667
+          },
+          {
+            "build": 15,
+            "acquisition": 104.0,
+            "saving": 8.0,
+            "repayment_searches": 13.0
+          },
+          {
+            "build": 16,
+            "acquisition": 104.0,
+            "saving": 8.5,
+            "repayment_searches": 12.235294117647058
+          },
+          {
+            "build": 17,
+            "acquisition": 104.0,
+            "saving": 9.0,
+            "repayment_searches": 11.555555555555555
+          },
+          {
+            "build": 18,
+            "acquisition": 104.0,
+            "saving": 9.5,
+            "repayment_searches": 10.947368421052632
+          },
+          {
+            "build": 19,
+            "acquisition": 104.0,
+            "saving": 10.0,
+            "repayment_searches": 10.4
+          },
+          {
+            "build": 20,
+            "acquisition": 104.0,
+            "saving": 10.5,
+            "repayment_searches": 9.904761904761905
+          },
+          {
+            "build": 21,
+            "acquisition": 104.0,
+            "saving": 11.0,
+            "repayment_searches": 9.454545454545455
+          },
+          {
+            "build": 22,
+            "acquisition": 104.0,
+            "saving": 11.5,
+            "repayment_searches": 9.043478260869565
+          },
+          {
+            "build": 23,
+            "acquisition": 104.0,
+            "saving": 12.0,
+            "repayment_searches": 8.666666666666666
+          }
+        ],
+        "horizons": {
+          "1": {
+            "R-tree": {
+              "point": 12.5,
+              "interval95": [
+                9.75,
+                15.333333333333334
+              ]
+            },
+            "R-lib": {
+              "point": 110.25,
+              "interval95": [
+                108.875,
+                111.66666666666667
+              ]
+            }
+          },
+          "16": {
+            "R-tree": {
+              "point": 200.0,
+              "interval95": [
+                156.0,
+                245.33333333333334
+              ]
+            },
+            "R-lib": {
+              "point": 204.0,
+              "interval95": [
+                182.0,
+                226.66666666666666
+              ]
+            }
+          },
+          "64": {
+            "R-tree": {
+              "point": 800.0,
+              "interval95": [
+                624.0,
+                981.3333333333334
+              ]
+            },
+            "R-lib": {
+              "point": 504.0,
+              "interval95": [
+                416.0,
+                594.6666666666666
+              ]
+            }
+          },
+          "160": {
+            "R-tree": {
+              "point": 2000.0,
+              "interval95": [
+                1560.0,
+                2453.3333333333335
+              ]
+            },
+            "R-lib": {
+              "point": 1104.0,
+              "interval95": [
+                884.0,
+                1330.6666666666667
+              ]
+            }
+          },
+          "320": {
+            "R-tree": {
+              "point": 4000.0,
+              "interval95": [
+                3120.0,
+                4906.666666666667
+              ]
+            },
+            "R-lib": {
+              "point": 2104.0,
+              "interval95": [
+                1664.0,
+                2557.3333333333335
+              ]
+            }
+          },
+          "1024": {
+            "R-tree": {
+              "point": 12800.0,
+              "interval95": [
+                9984.0,
+                15701.333333333334
+              ]
+            },
+            "R-lib": {
+              "point": 6504.0,
+              "interval95": [
+                5096.0,
+                7954.666666666667
+              ]
+            }
+          },
+          "4096": {
+            "R-tree": {
+              "point": 51200.0,
+              "interval95": [
+                39936.0,
+                62805.333333333336
+              ]
+            },
+            "R-lib": {
+              "point": 25704.0,
+              "interval95": [
+                20072.0,
+                31506.666666666668
+              ]
+            }
+          }
+        }
+      },
+      "R-size": {
+        "acquisition": {
+          "point": 106.0,
+          "interval95": [
+            106.0,
+            106.0
+          ]
+        },
+        "savings": {
+          "point": 3.125,
+          "interval95": [
+            2.4375,
+            3.8333333333333335
+          ]
+        },
+        "repayment_searches": 33.92,
+        "repayment_interval95": [
+          27.65217391304348,
+          43.48717948717949
+        ],
+        "repayment_unbounded": false,
+        "per_build": [
+          {
+            "build": 0,
+            "acquisition": 106.0,
+            "saving": 0.25,
+            "repayment_searches": 424.0
+          },
+          {
+            "build": 1,
+            "acquisition": 106.0,
+            "saving": 0.5,
+            "repayment_searches": 212.0
+          },
+          {
+            "build": 2,
+            "acquisition": 106.0,
+            "saving": 0.75,
+            "repayment_searches": 141.33333333333334
+          },
+          {
+            "build": 3,
+            "acquisition": 106.0,
+            "saving": 1.0,
+            "repayment_searches": 106.0
+          },
+          {
+            "build": 4,
+            "acquisition": 106.0,
+            "saving": 1.25,
+            "repayment_searches": 84.8
+          },
+          {
+            "build": 5,
+            "acquisition": 106.0,
+            "saving": 1.5,
+            "repayment_searches": 70.66666666666667
+          },
+          {
+            "build": 6,
+            "acquisition": 106.0,
+            "saving": 1.75,
+            "repayment_searches": 60.57142857142857
+          },
+          {
+            "build": 7,
+            "acquisition": 106.0,
+            "saving": 2.0,
+            "repayment_searches": 53.0
+          },
+          {
+            "build": 8,
+            "acquisition": 106.0,
+            "saving": 2.25,
+            "repayment_searches": 47.111111111111114
+          },
+          {
+            "build": 9,
+            "acquisition": 106.0,
+            "saving": 2.5,
+            "repayment_searches": 42.4
+          },
+          {
+            "build": 10,
+            "acquisition": 106.0,
+            "saving": 2.75,
+            "repayment_searches": 38.54545454545455
+          },
+          {
+            "build": 11,
+            "acquisition": 106.0,
+            "saving": 3.0,
+            "repayment_searches": 35.333333333333336
+          },
+          {
+            "build": 12,
+            "acquisition": 106.0,
+            "saving": 3.25,
+            "repayment_searches": 32.61538461538461
+          },
+          {
+            "build": 13,
+            "acquisition": 106.0,
+            "saving": 3.5,
+            "repayment_searches": 30.285714285714285
+          },
+          {
+            "build": 14,
+            "acquisition": 106.0,
+            "saving": 3.75,
+            "repayment_searches": 28.266666666666666
+          },
+          {
+            "build": 15,
+            "acquisition": 106.0,
+            "saving": 4.0,
+            "repayment_searches": 26.5
+          },
+          {
+            "build": 16,
+            "acquisition": 106.0,
+            "saving": 4.25,
+            "repayment_searches": 24.941176470588236
+          },
+          {
+            "build": 17,
+            "acquisition": 106.0,
+            "saving": 4.5,
+            "repayment_searches": 23.555555555555557
+          },
+          {
+            "build": 18,
+            "acquisition": 106.0,
+            "saving": 4.75,
+            "repayment_searches": 22.31578947368421
+          },
+          {
+            "build": 19,
+            "acquisition": 106.0,
+            "saving": 5.0,
+            "repayment_searches": 21.2
+          },
+          {
+            "build": 20,
+            "acquisition": 106.0,
+            "saving": 5.25,
+            "repayment_searches": 20.19047619047619
+          },
+          {
+            "build": 21,
+            "acquisition": 106.0,
+            "saving": 5.5,
+            "repayment_searches": 19.272727272727273
+          },
+          {
+            "build": 22,
+            "acquisition": 106.0,
+            "saving": 5.75,
+            "repayment_searches": 18.434782608695652
+          },
+          {
+            "build": 23,
+            "acquisition": 106.0,
+            "saving": 6.0,
+            "repayment_searches": 17.666666666666668
+          }
+        ],
+        "horizons": {
+          "1": {
+            "R-tree": {
+              "point": 12.5,
+              "interval95": [
+                9.75,
+                15.333333333333334
+              ]
+            },
+            "R-size": {
+              "point": 115.375,
+              "interval95": [
+                113.3125,
+                117.5
+              ]
+            }
+          },
+          "16": {
+            "R-tree": {
+              "point": 200.0,
+              "interval95": [
+                156.0,
+                245.33333333333334
+              ]
+            },
+            "R-size": {
+              "point": 256.0,
+              "interval95": [
+                223.0,
+                290.0
+              ]
+            }
+          },
+          "64": {
+            "R-tree": {
+              "point": 800.0,
+              "interval95": [
+                624.0,
+                981.3333333333334
+              ]
+            },
+            "R-size": {
+              "point": 706.0,
+              "interval95": [
+                574.0,
+                842.0
+              ]
+            }
+          },
+          "160": {
+            "R-tree": {
+              "point": 2000.0,
+              "interval95": [
+                1560.0,
+                2453.3333333333335
+              ]
+            },
+            "R-size": {
+              "point": 1606.0,
+              "interval95": [
+                1276.0,
+                1946.0
+              ]
+            }
+          },
+          "320": {
+            "R-tree": {
+              "point": 4000.0,
+              "interval95": [
+                3120.0,
+                4906.666666666667
+              ]
+            },
+            "R-size": {
+              "point": 3106.0,
+              "interval95": [
+                2446.0,
+                3786.0
+              ]
+            }
+          },
+          "1024": {
+            "R-tree": {
+              "point": 12800.0,
+              "interval95": [
+                9984.0,
+                15701.333333333334
+              ]
+            },
+            "R-size": {
+              "point": 9706.0,
+              "interval95": [
+                7594.0,
+                11882.0
+              ]
+            }
+          },
+          "4096": {
+            "R-tree": {
+              "point": 51200.0,
+              "interval95": [
+                39936.0,
+                62805.333333333336
+              ]
+            },
+            "R-size": {
+              "point": 38506.0,
+              "interval95": [
+                30058.0,
+                47210.0
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "per_cell": {
+    "0": {
+      "source_pair_split_covered": true,
+      "arms": {
+        "R-tree": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 3200.0,
+          "worker_seconds": 12.5
+        },
+        "R-lib": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 1600.0,
+          "worker_seconds": 6.25
+        },
+        "R-size": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 2400.0,
+          "worker_seconds": 9.375
+        }
+      },
+      "ratios": {
+        "R-lib/R-tree": {
+          "point": 0.5,
+          "interval95": [
+            0.5,
+            0.5
+          ]
+        },
+        "R-lib/R-size": {
+          "point": 0.6666666666666666,
+          "interval95": [
+            0.6666666666666666,
+            0.6666666666666667
+          ]
+        }
+      }
+    },
+    "1": {
+      "source_pair_split_covered": true,
+      "arms": {
+        "R-tree": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 3200.0,
+          "worker_seconds": 12.5
+        },
+        "R-lib": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 1600.0,
+          "worker_seconds": 6.25
+        },
+        "R-size": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 2400.0,
+          "worker_seconds": 9.375
+        }
+      },
+      "ratios": {
+        "R-lib/R-tree": {
+          "point": 0.5,
+          "interval95": [
+            0.5,
+            0.5
+          ]
+        },
+        "R-lib/R-size": {
+          "point": 0.6666666666666666,
+          "interval95": [
+            0.6666666666666666,
+            0.6666666666666667
+          ]
+        }
+      }
+    },
+    "2": {
+      "source_pair_split_covered": true,
+      "arms": {
+        "R-tree": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 3200.0,
+          "worker_seconds": 12.5
+        },
+        "R-lib": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 1600.0,
+          "worker_seconds": 6.25
+        },
+        "R-size": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 2400.0,
+          "worker_seconds": 9.375
+        }
+      },
+      "ratios": {
+        "R-lib/R-tree": {
+          "point": 0.5,
+          "interval95": [
+            0.5,
+            0.5
+          ]
+        },
+        "R-lib/R-size": {
+          "point": 0.6666666666666666,
+          "interval95": [
+            0.6666666666666666,
+            0.6666666666666667
+          ]
+        }
+      }
+    },
+    "3": {
+      "source_pair_split_covered": true,
+      "arms": {
+        "R-tree": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 3200.0,
+          "worker_seconds": 12.5
+        },
+        "R-lib": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 1600.0,
+          "worker_seconds": 6.25
+        },
+        "R-size": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 2400.0,
+          "worker_seconds": 9.375
+        }
+      },
+      "ratios": {
+        "R-lib/R-tree": {
+          "point": 0.5,
+          "interval95": [
+            0.5,
+            0.5
+          ]
+        },
+        "R-lib/R-size": {
+          "point": 0.6666666666666666,
+          "interval95": [
+            0.6666666666666666,
+            0.6666666666666667
+          ]
+        }
+      }
+    },
+    "4": {
+      "source_pair_split_covered": false,
+      "arms": {
+        "R-tree": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 3200.0,
+          "worker_seconds": 12.5
+        },
+        "R-lib": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 1600.0,
+          "worker_seconds": 6.25
+        },
+        "R-size": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 2400.0,
+          "worker_seconds": 9.375
+        }
+      },
+      "ratios": {
+        "R-lib/R-tree": {
+          "point": 0.5,
+          "interval95": [
+            0.5,
+            0.5
+          ]
+        },
+        "R-lib/R-size": {
+          "point": 0.6666666666666666,
+          "interval95": [
+            0.6666666666666666,
+            0.6666666666666667
+          ]
+        }
+      }
+    },
+    "5": {
+      "source_pair_split_covered": false,
+      "arms": {
+        "R-tree": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 3200.0,
+          "worker_seconds": 12.5
+        },
+        "R-lib": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 1600.0,
+          "worker_seconds": 6.25
+        },
+        "R-size": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 2400.0,
+          "worker_seconds": 9.375
+        }
+      },
+      "ratios": {
+        "R-lib/R-tree": {
+          "point": 0.5,
+          "interval95": [
+            0.5,
+            0.5
+          ]
+        },
+        "R-lib/R-size": {
+          "point": 0.6666666666666666,
+          "interval95": [
+            0.6666666666666666,
+            0.6666666666666667
+          ]
+        }
+      }
+    },
+    "6": {
+      "source_pair_split_covered": false,
+      "arms": {
+        "R-tree": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 3200.0,
+          "worker_seconds": 12.5
+        },
+        "R-lib": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 1600.0,
+          "worker_seconds": 6.25
+        },
+        "R-size": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 2400.0,
+          "worker_seconds": 9.375
+        }
+      },
+      "ratios": {
+        "R-lib/R-tree": {
+          "point": 0.5,
+          "interval95": [
+            0.5,
+            0.5
+          ]
+        },
+        "R-lib/R-size": {
+          "point": 0.6666666666666666,
+          "interval95": [
+            0.6666666666666666,
+            0.6666666666666667
+          ]
+        }
+      }
+    },
+    "7": {
+      "source_pair_split_covered": false,
+      "arms": {
+        "R-tree": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 3200.0,
+          "worker_seconds": 12.5
+        },
+        "R-lib": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 1600.0,
+          "worker_seconds": 6.25
+        },
+        "R-size": {
+          "jobs": 192,
+          "solves": 192,
+          "evaluations": 2400.0,
+          "worker_seconds": 9.375
+        }
+      },
+      "ratios": {
+        "R-lib/R-tree": {
+          "point": 0.5,
+          "interval95": [
+            0.5,
+            0.5
+          ]
+        },
+        "R-lib/R-size": {
+          "point": 0.6666666666666666,
+          "interval95": [
+            0.6666666666666666,
+            0.6666666666666667
+          ]
+        }
+      }
+    }
+  },
+  "pair_split": {
+    "covered": {
+      "cells": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "ratios": {
+        "R-lib/R-tree": {
+          "point": 0.5,
+          "interval95": [
+            0.5,
+            0.5
+          ]
+        },
+        "R-lib/R-size": {
+          "point": 0.6666666666666666,
+          "interval95": [
+            0.6666666666666666,
+            0.6666666666666667
+          ]
+        }
+      }
+    },
+    "uncovered": {
+      "cells": [
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "ratios": {
+        "R-lib/R-tree": {
+          "point": 0.5,
+          "interval95": [
+            0.5,
+            0.5
+          ]
+        },
+        "R-lib/R-size": {
+          "point": 0.6666666666666666,
+          "interval95": [
+            0.6666666666666666,
+            0.6666666666666667
+          ]
+        }
+      }
+    }
+  },
+  "diagnostics": {
+    "R-tree": {
+      "operator": {
+        "crossover": 1536,
+        "mutation": 1536
+      },
+      "training_perfect_not_exact_evaluation_share": 0.0,
+      "training_perfect_not_exact_among_perfect": 0.0,
+      "mean_attempts": 1.0,
+      "attempt_histogram": {
+        "1": 1536,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0
+      }
+    },
+    "R-lib": {
+      "operator": {
+        "crossover": 1536,
+        "mutation": 1536
+      },
+      "training_perfect_not_exact_evaluation_share": 0.0,
+      "training_perfect_not_exact_among_perfect": 0.0,
+      "mean_attempts": 1.0,
+      "attempt_histogram": {
+        "1": 1536,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0
+      }
+    },
+    "R-size": {
+      "operator": {
+        "crossover": 1536,
+        "mutation": 1536
+      },
+      "training_perfect_not_exact_evaluation_share": 0.0,
+      "training_perfect_not_exact_among_perfect": 0.0,
+      "mean_attempts": 1.0,
+      "attempt_histogram": {
+        "1": 1536,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0
+      }
+    }
+  },
+  "acquisition_spread": [
+    {
+      "build": 0,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 1,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 2,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 3,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 4,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 5,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 6,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 7,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 8,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 9,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 10,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 11,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 12,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 13,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 14,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 15,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 16,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 17,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 18,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 19,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 20,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 21,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 22,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    },
+    {
+      "build": 23,
+      "source_solves": 32,
+      "acquisition_evaluations": 25600,
+      "acquisition_worker_seconds": 100.0,
+      "extraction_seconds": 1.0,
+      "control_seconds": 2.0,
+      "verification_seconds": 3.0,
+      "library_size": 0,
+      "entry_size_pairs": [],
+      "control_draws": []
+    }
+  ],
+  "rows_hash": "df7e2b321360e3040b6ebb81484902fcdae1844030b16ffa2e291b0560a7e83a",
+  "preparation_hash": "test",
+  "timing": {},
+  "bootstrap": {
+    "draws": 8192,
+    "seed": 32000200,
+    "unit": "24 independent acquisitions; paired across arms, fixed cells/repeats retained"
+  },
+  "scope": "DG development bank, frozen extractor/rate/restart policy; no fresh-bank transfer or causal separation of token frequencies/dependencies",
+  "economics_scope": "measured acquisition, extraction and shared semantic-validation gate; size-control construction charged to R-size; wall timings depend on sustained ten-worker load"
+}

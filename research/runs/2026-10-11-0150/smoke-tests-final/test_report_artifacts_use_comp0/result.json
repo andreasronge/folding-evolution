@@ -1,0 +1,3822 @@
+{
+  "status": "complete",
+  "summary": {
+    "families": {
+      "DG": {
+        "Q": {
+          "point": 2.0,
+          "interval95": [
+            1.9999999999999996,
+            2.0
+          ],
+          "interval_multiplicative_width": 1.0000000000000002
+        },
+        "block_log_ratio_sd": 2.0445305916433942e-16,
+        "per_cell_Q": {
+          "DG0": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "DG1": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "DG2": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "DG3": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "DG4": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "DG5": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "DG6": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "DG7": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          }
+        },
+        "per_build_Q": {
+          "0": 2.0,
+          "1": 2.0,
+          "2": 2.0,
+          "3": 2.0,
+          "4": 2.0,
+          "5": 1.9999999999999998,
+          "6": 1.9999999999999998,
+          "7": 2.0,
+          "8": 2.0,
+          "9": 2.0,
+          "10": 2.0,
+          "11": 2.0,
+          "12": 1.9999999999999998,
+          "13": 1.9999999999999998,
+          "14": 2.0,
+          "15": 2.0,
+          "16": 2.0,
+          "17": 2.0,
+          "18": 2.0,
+          "19": 1.9999999999999998,
+          "20": 1.9999999999999998,
+          "21": 2.0,
+          "22": 2.0,
+          "23": 2.0
+        },
+        "tree_over_G4": {
+          "point": 0.41993787171039276,
+          "interval95": [
+            0.40026507212340046,
+            0.4395093544535255
+          ],
+          "scope": "descriptive, independent G4 seeds within fixed cells"
+        },
+        "costs": {
+          "A8": {
+            "geometric_cost": 860.0327612628806,
+            "solved": 384,
+            "attempts": 384
+          },
+          "tree": {
+            "geometric_cost": 1720.0655225257644,
+            "solved": 384,
+            "attempts": 384
+          },
+          "G4": {
+            "geometric_cost": 4095.9999999999895,
+            "solved": 128,
+            "attempts": 128
+          }
+        }
+      },
+      "TS": {
+        "Q": {
+          "point": 2.0,
+          "interval95": [
+            1.9999999999999996,
+            2.0
+          ],
+          "interval_multiplicative_width": 1.0000000000000002
+        },
+        "block_log_ratio_sd": 2.0445305916433942e-16,
+        "per_cell_Q": {
+          "TS0": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "TS1": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "TS2": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "TS3": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "TS4": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "TS5": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "TS6": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "TS7": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          }
+        },
+        "per_build_Q": {
+          "0": 2.0,
+          "1": 2.0,
+          "2": 2.0,
+          "3": 2.0,
+          "4": 2.0,
+          "5": 1.9999999999999998,
+          "6": 1.9999999999999998,
+          "7": 2.0,
+          "8": 2.0,
+          "9": 2.0,
+          "10": 2.0,
+          "11": 2.0,
+          "12": 1.9999999999999998,
+          "13": 1.9999999999999998,
+          "14": 2.0,
+          "15": 2.0,
+          "16": 2.0,
+          "17": 2.0,
+          "18": 2.0,
+          "19": 1.9999999999999998,
+          "20": 1.9999999999999998,
+          "21": 2.0,
+          "22": 2.0,
+          "23": 2.0
+        },
+        "tree_over_G4": {
+          "point": 0.41993787171039276,
+          "interval95": [
+            0.40026507212340046,
+            0.4395093544535255
+          ],
+          "scope": "descriptive, independent G4 seeds within fixed cells"
+        },
+        "costs": {
+          "A8": {
+            "geometric_cost": 860.0327612628806,
+            "solved": 384,
+            "attempts": 384
+          },
+          "tree": {
+            "geometric_cost": 1720.0655225257644,
+            "solved": 384,
+            "attempts": 384
+          },
+          "G4": {
+            "geometric_cost": 4095.9999999999895,
+            "solved": 128,
+            "attempts": 128
+          }
+        }
+      }
+    },
+    "decision": "worthwhile_A8_advantage",
+    "failure_penalty": 2,
+    "reliable": true,
+    "bootstrap": {
+      "draws": 8192,
+      "seed": 2214000,
+      "blocks": 24,
+      "cells": "fixed",
+      "unit": "build blocks; tree build labels identify independent searches, not acquired tree replicates",
+      "repeats": "two repeats resampled jointly within each selected block x cell"
+    }
+  },
+  "one_cap": {
+    "families": {
+      "DG": {
+        "Q": {
+          "point": 2.0,
+          "interval95": [
+            1.9999999999999996,
+            2.0
+          ],
+          "interval_multiplicative_width": 1.0000000000000002
+        },
+        "block_log_ratio_sd": 2.0445305916433942e-16,
+        "per_cell_Q": {
+          "DG0": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "DG1": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "DG2": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "DG3": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "DG4": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "DG5": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "DG6": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "DG7": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          }
+        },
+        "per_build_Q": {
+          "0": 2.0,
+          "1": 2.0,
+          "2": 2.0,
+          "3": 2.0,
+          "4": 2.0,
+          "5": 1.9999999999999998,
+          "6": 1.9999999999999998,
+          "7": 2.0,
+          "8": 2.0,
+          "9": 2.0,
+          "10": 2.0,
+          "11": 2.0,
+          "12": 1.9999999999999998,
+          "13": 1.9999999999999998,
+          "14": 2.0,
+          "15": 2.0,
+          "16": 2.0,
+          "17": 2.0,
+          "18": 2.0,
+          "19": 1.9999999999999998,
+          "20": 1.9999999999999998,
+          "21": 2.0,
+          "22": 2.0,
+          "23": 2.0
+        },
+        "tree_over_G4": {
+          "point": 0.41993787171039276,
+          "interval95": [
+            0.40026507212340046,
+            0.4395093544535255
+          ],
+          "scope": "descriptive, independent G4 seeds within fixed cells"
+        },
+        "costs": {
+          "A8": {
+            "geometric_cost": 860.0327612628806,
+            "solved": 384,
+            "attempts": 384
+          },
+          "tree": {
+            "geometric_cost": 1720.0655225257644,
+            "solved": 384,
+            "attempts": 384
+          },
+          "G4": {
+            "geometric_cost": 4095.9999999999895,
+            "solved": 128,
+            "attempts": 128
+          }
+        }
+      },
+      "TS": {
+        "Q": {
+          "point": 2.0,
+          "interval95": [
+            1.9999999999999996,
+            2.0
+          ],
+          "interval_multiplicative_width": 1.0000000000000002
+        },
+        "block_log_ratio_sd": 2.0445305916433942e-16,
+        "per_cell_Q": {
+          "TS0": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "TS1": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "TS2": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "TS3": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "TS4": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "TS5": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "TS6": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          },
+          "TS7": {
+            "point": 2.0,
+            "interval95": [
+              1.9999999999999996,
+              2.0
+            ]
+          }
+        },
+        "per_build_Q": {
+          "0": 2.0,
+          "1": 2.0,
+          "2": 2.0,
+          "3": 2.0,
+          "4": 2.0,
+          "5": 1.9999999999999998,
+          "6": 1.9999999999999998,
+          "7": 2.0,
+          "8": 2.0,
+          "9": 2.0,
+          "10": 2.0,
+          "11": 2.0,
+          "12": 1.9999999999999998,
+          "13": 1.9999999999999998,
+          "14": 2.0,
+          "15": 2.0,
+          "16": 2.0,
+          "17": 2.0,
+          "18": 2.0,
+          "19": 1.9999999999999998,
+          "20": 1.9999999999999998,
+          "21": 2.0,
+          "22": 2.0,
+          "23": 2.0
+        },
+        "tree_over_G4": {
+          "point": 0.41993787171039276,
+          "interval95": [
+            0.40026507212340046,
+            0.4395093544535255
+          ],
+          "scope": "descriptive, independent G4 seeds within fixed cells"
+        },
+        "costs": {
+          "A8": {
+            "geometric_cost": 860.0327612628806,
+            "solved": 384,
+            "attempts": 384
+          },
+          "tree": {
+            "geometric_cost": 1720.0655225257644,
+            "solved": 384,
+            "attempts": 384
+          },
+          "G4": {
+            "geometric_cost": 4095.9999999999895,
+            "solved": 128,
+            "attempts": 128
+          }
+        }
+      }
+    },
+    "decision": "worthwhile_A8_advantage",
+    "failure_penalty": 1,
+    "reliable": true,
+    "bootstrap": {
+      "draws": 8192,
+      "seed": 2214000,
+      "blocks": 24,
+      "cells": "fixed",
+      "unit": "build blocks; tree build labels identify independent searches, not acquired tree replicates",
+      "repeats": "two repeats resampled jointly within each selected block x cell"
+    }
+  },
+  "penalty_sensitive": false,
+  "economics": {
+    "families": {
+      "DG": {
+        "evaluations": {
+          "mean_acquisition": 12538816.0,
+          "mean_savings_per_search": 1018.0,
+          "savings_interval95": [
+            980.5166666666667,
+            1054.0
+          ],
+          "repayment_searches": 12317.108055009823,
+          "repayment_interval95": [
+            11463.619537275064,
+            13166.136125654451
+          ],
+          "repayment_unbounded": false,
+          "nonpositive_savings_bootstrap_fraction": 0.0,
+          "unbounded_endpoint_encoding": "null means no finite repayment horizon",
+          "per_build": {
+            "0": {
+              "acquisition": 13895680.0,
+              "native_search_mean": 944.0,
+              "tree_search_mean": 1888.0,
+              "repayment_searches": 14720.0,
+              "actual_native_total": 13910784.0,
+              "actual_tree_total": 30208.0,
+              "horizons": {
+                "1": {
+                  "A8": 13896624.0,
+                  "tree": 1888.0
+                },
+                "16": {
+                  "A8": 13910784.0,
+                  "tree": 30208.0
+                },
+                "256": {
+                  "A8": 14137344.0,
+                  "tree": 483328.0
+                },
+                "4096": {
+                  "A8": 17762304.0,
+                  "tree": 7733248.0
+                }
+              }
+            },
+            "1": {
+              "acquisition": 10355712.0,
+              "native_search_mean": 976.0,
+              "tree_search_mean": 1952.0,
+              "repayment_searches": 10610.360655737704,
+              "actual_native_total": 10371328.0,
+              "actual_tree_total": 31232.0,
+              "horizons": {
+                "1": {
+                  "A8": 10356688.0,
+                  "tree": 1952.0
+                },
+                "16": {
+                  "A8": 10371328.0,
+                  "tree": 31232.0
+                },
+                "256": {
+                  "A8": 10605568.0,
+                  "tree": 499712.0
+                },
+                "4096": {
+                  "A8": 14353408.0,
+                  "tree": 7995392.0
+                }
+              }
+            },
+            "2": {
+              "acquisition": 13102592.0,
+              "native_search_mean": 1008.0,
+              "tree_search_mean": 2016.0,
+              "repayment_searches": 12998.603174603175,
+              "actual_native_total": 13118720.0,
+              "actual_tree_total": 32256.0,
+              "horizons": {
+                "1": {
+                  "A8": 13103600.0,
+                  "tree": 2016.0
+                },
+                "16": {
+                  "A8": 13118720.0,
+                  "tree": 32256.0
+                },
+                "256": {
+                  "A8": 13360640.0,
+                  "tree": 516096.0
+                },
+                "4096": {
+                  "A8": 17231360.0,
+                  "tree": 8257536.0
+                }
+              }
+            },
+            "3": {
+              "acquisition": 15808768.0,
+              "native_search_mean": 1040.0,
+              "tree_search_mean": 2080.0,
+              "repayment_searches": 15200.738461538462,
+              "actual_native_total": 15825408.0,
+              "actual_tree_total": 33280.0,
+              "horizons": {
+                "1": {
+                  "A8": 15809808.0,
+                  "tree": 2080.0
+                },
+                "16": {
+                  "A8": 15825408.0,
+                  "tree": 33280.0
+                },
+                "256": {
+                  "A8": 16075008.0,
+                  "tree": 532480.0
+                },
+                "4096": {
+                  "A8": 20068608.0,
+                  "tree": 8519680.0
+                }
+              }
+            },
+            "4": {
+              "acquisition": 15278336.0,
+              "native_search_mean": 1072.0,
+              "tree_search_mean": 2144.0,
+              "repayment_searches": 14252.179104477613,
+              "actual_native_total": 15295488.0,
+              "actual_tree_total": 34304.0,
+              "horizons": {
+                "1": {
+                  "A8": 15279408.0,
+                  "tree": 2144.0
+                },
+                "16": {
+                  "A8": 15295488.0,
+                  "tree": 34304.0
+                },
+                "256": {
+                  "A8": 15552768.0,
+                  "tree": 548864.0
+                },
+                "4096": {
+                  "A8": 19669248.0,
+                  "tree": 8781824.0
+                }
+              }
+            },
+            "5": {
+              "acquisition": 14042880.0,
+              "native_search_mean": 1104.0,
+              "tree_search_mean": 2208.0,
+              "repayment_searches": 12720.0,
+              "actual_native_total": 14060544.0,
+              "actual_tree_total": 35328.0,
+              "horizons": {
+                "1": {
+                  "A8": 14043984.0,
+                  "tree": 2208.0
+                },
+                "16": {
+                  "A8": 14060544.0,
+                  "tree": 35328.0
+                },
+                "256": {
+                  "A8": 14325504.0,
+                  "tree": 565248.0
+                },
+                "4096": {
+                  "A8": 18564864.0,
+                  "tree": 9043968.0
+                }
+              }
+            },
+            "6": {
+              "acquisition": 11580928.0,
+              "native_search_mean": 1024.0,
+              "tree_search_mean": 2048.0,
+              "repayment_searches": 11309.5,
+              "actual_native_total": 11597312.0,
+              "actual_tree_total": 32768.0,
+              "horizons": {
+                "1": {
+                  "A8": 11581952.0,
+                  "tree": 2048.0
+                },
+                "16": {
+                  "A8": 11597312.0,
+                  "tree": 32768.0
+                },
+                "256": {
+                  "A8": 11843072.0,
+                  "tree": 524288.0
+                },
+                "4096": {
+                  "A8": 15775232.0,
+                  "tree": 8388608.0
+                }
+              }
+            },
+            "7": {
+              "acquisition": 10285312.0,
+              "native_search_mean": 944.0,
+              "tree_search_mean": 1888.0,
+              "repayment_searches": 10895.457627118643,
+              "actual_native_total": 10300416.0,
+              "actual_tree_total": 30208.0,
+              "horizons": {
+                "1": {
+                  "A8": 10286256.0,
+                  "tree": 1888.0
+                },
+                "16": {
+                  "A8": 10300416.0,
+                  "tree": 30208.0
+                },
+                "256": {
+                  "A8": 10526976.0,
+                  "tree": 483328.0
+                },
+                "4096": {
+                  "A8": 14151936.0,
+                  "tree": 7733248.0
+                }
+              }
+            },
+            "8": {
+              "acquisition": 11061760.0,
+              "native_search_mean": 976.0,
+              "tree_search_mean": 1952.0,
+              "repayment_searches": 11333.77049180328,
+              "actual_native_total": 11077376.0,
+              "actual_tree_total": 31232.0,
+              "horizons": {
+                "1": {
+                  "A8": 11062736.0,
+                  "tree": 1952.0
+                },
+                "16": {
+                  "A8": 11077376.0,
+                  "tree": 31232.0
+                },
+                "256": {
+                  "A8": 11311616.0,
+                  "tree": 499712.0
+                },
+                "4096": {
+                  "A8": 15059456.0,
+                  "tree": 7995392.0
+                }
+              }
+            },
+            "9": {
+              "acquisition": 14579712.0,
+              "native_search_mean": 1008.0,
+              "tree_search_mean": 2016.0,
+              "repayment_searches": 14464.0,
+              "actual_native_total": 14595840.0,
+              "actual_tree_total": 32256.0,
+              "horizons": {
+                "1": {
+                  "A8": 14580720.0,
+                  "tree": 2016.0
+                },
+                "16": {
+                  "A8": 14595840.0,
+                  "tree": 32256.0
+                },
+                "256": {
+                  "A8": 14837760.0,
+                  "tree": 516096.0
+                },
+                "4096": {
+                  "A8": 18708480.0,
+                  "tree": 8257536.0
+                }
+              }
+            },
+            "10": {
+              "acquisition": 11809536.0,
+              "native_search_mean": 1040.0,
+              "tree_search_mean": 2080.0,
+              "repayment_searches": 11355.323076923078,
+              "actual_native_total": 11826176.0,
+              "actual_tree_total": 33280.0,
+              "horizons": {
+                "1": {
+                  "A8": 11810576.0,
+                  "tree": 2080.0
+                },
+                "16": {
+                  "A8": 11826176.0,
+                  "tree": 33280.0
+                },
+                "256": {
+                  "A8": 12075776.0,
+                  "tree": 532480.0
+                },
+                "4096": {
+                  "A8": 16069376.0,
+                  "tree": 8519680.0
+                }
+              }
+            },
+            "11": {
+              "acquisition": 12672512.0,
+              "native_search_mean": 1072.0,
+              "tree_search_mean": 2144.0,
+              "repayment_searches": 11821.373134328358,
+              "actual_native_total": 12689664.0,
+              "actual_tree_total": 34304.0,
+              "horizons": {
+                "1": {
+                  "A8": 12673584.0,
+                  "tree": 2144.0
+                },
+                "16": {
+                  "A8": 12689664.0,
+                  "tree": 34304.0
+                },
+                "256": {
+                  "A8": 12946944.0,
+                  "tree": 548864.0
+                },
+                "4096": {
+                  "A8": 17063424.0,
+                  "tree": 8781824.0
+                }
+              }
+            },
+            "12": {
+              "acquisition": 11809024.0,
+              "native_search_mean": 1104.0,
+              "tree_search_mean": 2208.0,
+              "repayment_searches": 10696.579710144928,
+              "actual_native_total": 11826688.0,
+              "actual_tree_total": 35328.0,
+              "horizons": {
+                "1": {
+                  "A8": 11810128.0,
+                  "tree": 2208.0
+                },
+                "16": {
+                  "A8": 11826688.0,
+                  "tree": 35328.0
+                },
+                "256": {
+                  "A8": 12091648.0,
+                  "tree": 565248.0
+                },
+                "4096": {
+                  "A8": 16331008.0,
+                  "tree": 9043968.0
+                }
+              }
+            },
+            "13": {
+              "acquisition": 10946816.0,
+              "native_search_mean": 1024.0,
+              "tree_search_mean": 2048.0,
+              "repayment_searches": 10690.25,
+              "actual_native_total": 10963200.0,
+              "actual_tree_total": 32768.0,
+              "horizons": {
+                "1": {
+                  "A8": 10947840.0,
+                  "tree": 2048.0
+                },
+                "16": {
+                  "A8": 10963200.0,
+                  "tree": 32768.0
+                },
+                "256": {
+                  "A8": 11208960.0,
+                  "tree": 524288.0
+                },
+                "4096": {
+                  "A8": 15141120.0,
+                  "tree": 8388608.0
+                }
+              }
+            },
+            "14": {
+              "acquisition": 13058816.0,
+              "native_search_mean": 944.0,
+              "tree_search_mean": 1888.0,
+              "repayment_searches": 13833.49152542373,
+              "actual_native_total": 13073920.0,
+              "actual_tree_total": 30208.0,
+              "horizons": {
+                "1": {
+                  "A8": 13059760.0,
+                  "tree": 1888.0
+                },
+                "16": {
+                  "A8": 13073920.0,
+                  "tree": 30208.0
+                },
+                "256": {
+                  "A8": 13300480.0,
+                  "tree": 483328.0
+                },
+                "4096": {
+                  "A8": 16925440.0,
+                  "tree": 7733248.0
+                }
+              }
+            },
+            "15": {
+              "acquisition": 9972224.0,
+              "native_search_mean": 976.0,
+              "tree_search_mean": 1952.0,
+              "repayment_searches": 10217.442622950819,
+              "actual_native_total": 9987840.0,
+              "actual_tree_total": 31232.0,
+              "horizons": {
+                "1": {
+                  "A8": 9973200.0,
+                  "tree": 1952.0
+                },
+                "16": {
+                  "A8": 9987840.0,
+                  "tree": 31232.0
+                },
+                "256": {
+                  "A8": 10222080.0,
+                  "tree": 499712.0
+                },
+                "4096": {
+                  "A8": 13969920.0,
+                  "tree": 7995392.0
+                }
+              }
+            },
+            "16": {
+              "acquisition": 15507712.0,
+              "native_search_mean": 1008.0,
+              "tree_search_mean": 2016.0,
+              "repayment_searches": 15384.63492063492,
+              "actual_native_total": 15523840.0,
+              "actual_tree_total": 32256.0,
+              "horizons": {
+                "1": {
+                  "A8": 15508720.0,
+                  "tree": 2016.0
+                },
+                "16": {
+                  "A8": 15523840.0,
+                  "tree": 32256.0
+                },
+                "256": {
+                  "A8": 15765760.0,
+                  "tree": 516096.0
+                },
+                "4096": {
+                  "A8": 19636480.0,
+                  "tree": 8257536.0
+                }
+              }
+            },
+            "17": {
+              "acquisition": 13525760.0,
+              "native_search_mean": 1040.0,
+              "tree_search_mean": 2080.0,
+              "repayment_searches": 13005.538461538461,
+              "actual_native_total": 13542400.0,
+              "actual_tree_total": 33280.0,
+              "horizons": {
+                "1": {
+                  "A8": 13526800.0,
+                  "tree": 2080.0
+                },
+                "16": {
+                  "A8": 13542400.0,
+                  "tree": 33280.0
+                },
+                "256": {
+                  "A8": 13792000.0,
+                  "tree": 532480.0
+                },
+                "4096": {
+                  "A8": 17785600.0,
+                  "tree": 8519680.0
+                }
+              }
+            },
+            "18": {
+              "acquisition": 13247488.0,
+              "native_search_mean": 1072.0,
+              "tree_search_mean": 2144.0,
+              "repayment_searches": 12357.731343283582,
+              "actual_native_total": 13264640.0,
+              "actual_tree_total": 34304.0,
+              "horizons": {
+                "1": {
+                  "A8": 13248560.0,
+                  "tree": 2144.0
+                },
+                "16": {
+                  "A8": 13264640.0,
+                  "tree": 34304.0
+                },
+                "256": {
+                  "A8": 13521920.0,
+                  "tree": 548864.0
+                },
+                "4096": {
+                  "A8": 17638400.0,
+                  "tree": 8781824.0
+                }
+              }
+            },
+            "19": {
+              "acquisition": 8525568.0,
+              "native_search_mean": 1104.0,
+              "tree_search_mean": 2208.0,
+              "repayment_searches": 7722.434782608696,
+              "actual_native_total": 8543232.0,
+              "actual_tree_total": 35328.0,
+              "horizons": {
+                "1": {
+                  "A8": 8526672.0,
+                  "tree": 2208.0
+                },
+                "16": {
+                  "A8": 8543232.0,
+                  "tree": 35328.0
+                },
+                "256": {
+                  "A8": 8808192.0,
+                  "tree": 565248.0
+                },
+                "4096": {
+                  "A8": 13047552.0,
+                  "tree": 9043968.0
+                }
+              }
+            },
+            "20": {
+              "acquisition": 11267840.0,
+              "native_search_mean": 1024.0,
+              "tree_search_mean": 2048.0,
+              "repayment_searches": 11003.75,
+              "actual_native_total": 11284224.0,
+              "actual_tree_total": 32768.0,
+              "horizons": {
+                "1": {
+                  "A8": 11268864.0,
+                  "tree": 2048.0
+                },
+                "16": {
+                  "A8": 11284224.0,
+                  "tree": 32768.0
+                },
+                "256": {
+                  "A8": 11529984.0,
+                  "tree": 524288.0
+                },
+                "4096": {
+                  "A8": 15462144.0,
+                  "tree": 8388608.0
+                }
+              }
+            },
+            "21": {
+              "acquisition": 10806016.0,
+              "native_search_mean": 944.0,
+              "tree_search_mean": 1888.0,
+              "repayment_searches": 11447.050847457627,
+              "actual_native_total": 10821120.0,
+              "actual_tree_total": 30208.0,
+              "horizons": {
+                "1": {
+                  "A8": 10806960.0,
+                  "tree": 1888.0
+                },
+                "16": {
+                  "A8": 10821120.0,
+                  "tree": 30208.0
+                },
+                "256": {
+                  "A8": 11047680.0,
+                  "tree": 483328.0
+                },
+                "4096": {
+                  "A8": 14672640.0,
+                  "tree": 7733248.0
+                }
+              }
+            },
+            "22": {
+              "acquisition": 12763648.0,
+              "native_search_mean": 976.0,
+              "tree_search_mean": 1952.0,
+              "repayment_searches": 13077.508196721312,
+              "actual_native_total": 12779264.0,
+              "actual_tree_total": 31232.0,
+              "horizons": {
+                "1": {
+                  "A8": 12764624.0,
+                  "tree": 1952.0
+                },
+                "16": {
+                  "A8": 12779264.0,
+                  "tree": 31232.0
+                },
+                "256": {
+                  "A8": 13013504.0,
+                  "tree": 499712.0
+                },
+                "4096": {
+                  "A8": 16761344.0,
+                  "tree": 7995392.0
+                }
+              }
+            },
+            "23": {
+              "acquisition": 15026944.0,
+              "native_search_mean": 1008.0,
+              "tree_search_mean": 2016.0,
+              "repayment_searches": 14907.682539682539,
+              "actual_native_total": 15043072.0,
+              "actual_tree_total": 32256.0,
+              "horizons": {
+                "1": {
+                  "A8": 15027952.0,
+                  "tree": 2016.0
+                },
+                "16": {
+                  "A8": 15043072.0,
+                  "tree": 32256.0
+                },
+                "256": {
+                  "A8": 15284992.0,
+                  "tree": 516096.0
+                },
+                "4096": {
+                  "A8": 19155712.0,
+                  "tree": 8257536.0
+                }
+              }
+            }
+          },
+          "mean_horizon_costs": {
+            "1": {
+              "A8": 12539834.0,
+              "tree": 2036.0
+            },
+            "16": {
+              "A8": 12555104.0,
+              "tree": 32576.0
+            },
+            "256": {
+              "A8": 12799424.0,
+              "tree": 521216.0
+            },
+            "4096": {
+              "A8": 16708544.0,
+              "tree": 8339456.0
+            }
+          }
+        },
+        "worker_seconds": {
+          "mean_acquisition": 771.7028386872116,
+          "mean_savings_per_search": 3.9765625,
+          "savings_interval95": [
+            3.8301432291666666,
+            4.1171875
+          ],
+          "repayment_searches": 194.06279636927914,
+          "repayment_interval95": [
+            180.78453356503329,
+            207.0949558523142
+          ],
+          "repayment_unbounded": false,
+          "nonpositive_savings_bootstrap_fraction": 0.0,
+          "unbounded_endpoint_encoding": "null means no finite repayment horizon",
+          "per_build": {
+            "0": {
+              "acquisition": 842.1914160479791,
+              "native_search_mean": 3.6875,
+              "tree_search_mean": 7.375,
+              "repayment_searches": 228.39089248758756,
+              "actual_native_total": 901.1914160479791,
+              "actual_tree_total": 118.0,
+              "horizons": {
+                "1": {
+                  "A8": 845.8789160479791,
+                  "tree": 7.375
+                },
+                "16": {
+                  "A8": 901.1914160479791,
+                  "tree": 118.0
+                },
+                "256": {
+                  "A8": 1786.1914160479791,
+                  "tree": 1888.0
+                },
+                "4096": {
+                  "A8": 15946.19141604798,
+                  "tree": 30208.0
+                }
+              }
+            },
+            "1": {
+              "acquisition": 621.6651077072602,
+              "native_search_mean": 3.8125,
+              "tree_search_mean": 7.625,
+              "repayment_searches": 163.05970038223217,
+              "actual_native_total": 682.6651077072602,
+              "actual_tree_total": 122.0,
+              "horizons": {
+                "1": {
+                  "A8": 625.4776077072602,
+                  "tree": 7.625
+                },
+                "16": {
+                  "A8": 682.6651077072602,
+                  "tree": 122.0
+                },
+                "256": {
+                  "A8": 1597.6651077072602,
+                  "tree": 1952.0
+                },
+                "4096": {
+                  "A8": 16237.66510770726,
+                  "tree": 31232.0
+                }
+              }
+            },
+            "2": {
+              "acquisition": 782.7930629958864,
+              "native_search_mean": 3.9375,
+              "tree_search_mean": 7.875,
+              "repayment_searches": 198.8045874275267,
+              "actual_native_total": 845.7930629958864,
+              "actual_tree_total": 126.0,
+              "horizons": {
+                "1": {
+                  "A8": 786.7305629958864,
+                  "tree": 7.875
+                },
+                "16": {
+                  "A8": 845.7930629958864,
+                  "tree": 126.0
+                },
+                "256": {
+                  "A8": 1790.7930629958864,
+                  "tree": 2016.0
+                },
+                "4096": {
+                  "A8": 16910.793062995886,
+                  "tree": 32256.0
+                }
+              }
+            },
+            "3": {
+              "acquisition": 941.3084419982042,
+              "native_search_mean": 4.0625,
+              "tree_search_mean": 8.125,
+              "repayment_searches": 231.70669341494258,
+              "actual_native_total": 1006.3084419982042,
+              "actual_tree_total": 130.0,
+              "horizons": {
+                "1": {
+                  "A8": 945.3709419982042,
+                  "tree": 8.125
+                },
+                "16": {
+                  "A8": 1006.3084419982042,
+                  "tree": 130.0
+                },
+                "256": {
+                  "A8": 1981.3084419982042,
+                  "tree": 2080.0
+                },
+                "4096": {
+                  "A8": 17581.308441998204,
+                  "tree": 33280.0
+                }
+              }
+            },
+            "4": {
+              "acquisition": 898.8665271678474,
+              "native_search_mean": 4.1875,
+              "tree_search_mean": 8.375,
+              "repayment_searches": 214.65469305500832,
+              "actual_native_total": 965.8665271678474,
+              "actual_tree_total": 134.0,
+              "horizons": {
+                "1": {
+                  "A8": 903.0540271678474,
+                  "tree": 8.375
+                },
+                "16": {
+                  "A8": 965.8665271678474,
+                  "tree": 134.0
+                },
+                "256": {
+                  "A8": 1970.8665271678474,
+                  "tree": 2144.0
+                },
+                "4096": {
+                  "A8": 18050.866527167847,
+                  "tree": 34304.0
+                }
+              }
+            },
+            "5": {
+              "acquisition": 849.5265107507585,
+              "native_search_mean": 4.3125,
+              "tree_search_mean": 8.625,
+              "repayment_searches": 196.99165466684255,
+              "actual_native_total": 918.5265107507585,
+              "actual_tree_total": 138.0,
+              "horizons": {
+                "1": {
+                  "A8": 853.8390107507585,
+                  "tree": 8.625
+                },
+                "16": {
+                  "A8": 918.5265107507585,
+                  "tree": 138.0
+                },
+                "256": {
+                  "A8": 1953.5265107507585,
+                  "tree": 2208.0
+                },
+                "4096": {
+                  "A8": 18513.52651075076,
+                  "tree": 35328.0
+                }
+              }
+            },
+            "6": {
+              "acquisition": 703.8837491208687,
+              "native_search_mean": 4.0,
+              "tree_search_mean": 8.0,
+              "repayment_searches": 175.97093728021719,
+              "actual_native_total": 767.8837491208687,
+              "actual_tree_total": 128.0,
+              "horizons": {
+                "1": {
+                  "A8": 707.8837491208687,
+                  "tree": 8.0
+                },
+                "16": {
+                  "A8": 767.8837491208687,
+                  "tree": 128.0
+                },
+                "256": {
+                  "A8": 1727.8837491208687,
+                  "tree": 2048.0
+                },
+                "4096": {
+                  "A8": 17087.88374912087,
+                  "tree": 32768.0
+                }
+              }
+            },
+            "7": {
+              "acquisition": 610.5376528733177,
+              "native_search_mean": 3.6875,
+              "tree_search_mean": 7.375,
+              "repayment_searches": 165.56953298259464,
+              "actual_native_total": 669.5376528733177,
+              "actual_tree_total": 118.0,
+              "horizons": {
+                "1": {
+                  "A8": 614.2251528733177,
+                  "tree": 7.375
+                },
+                "16": {
+                  "A8": 669.5376528733177,
+                  "tree": 118.0
+                },
+                "256": {
+                  "A8": 1554.5376528733177,
+                  "tree": 1888.0
+                },
+                "4096": {
+                  "A8": 15714.537652873318,
+                  "tree": 30208.0
+                }
+              }
+            },
+            "8": {
+              "acquisition": 650.7769382083789,
+              "native_search_mean": 3.8125,
+              "tree_search_mean": 7.625,
+              "repayment_searches": 170.69559034973872,
+              "actual_native_total": 711.7769382083789,
+              "actual_tree_total": 122.0,
+              "horizons": {
+                "1": {
+                  "A8": 654.5894382083789,
+                  "tree": 7.625
+                },
+                "16": {
+                  "A8": 711.7769382083789,
+                  "tree": 122.0
+                },
+                "256": {
+                  "A8": 1626.7769382083789,
+                  "tree": 1952.0
+                },
+                "4096": {
+                  "A8": 16266.776938208379,
+                  "tree": 31232.0
+                }
+              }
+            },
+            "9": {
+              "acquisition": 893.8546329542296,
+              "native_search_mean": 3.9375,
+              "tree_search_mean": 7.875,
+              "repayment_searches": 227.01070043282022,
+              "actual_native_total": 956.8546329542296,
+              "actual_tree_total": 126.0,
+              "horizons": {
+                "1": {
+                  "A8": 897.7921329542296,
+                  "tree": 7.875
+                },
+                "16": {
+                  "A8": 956.8546329542296,
+                  "tree": 126.0
+                },
+                "256": {
+                  "A8": 1901.8546329542296,
+                  "tree": 2016.0
+                },
+                "4096": {
+                  "A8": 17021.85463295423,
+                  "tree": 32256.0
+                }
+              }
+            },
+            "10": {
+              "acquisition": 753.8264348369557,
+              "native_search_mean": 4.0625,
+              "tree_search_mean": 8.125,
+              "repayment_searches": 185.55727626755834,
+              "actual_native_total": 818.8264348369557,
+              "actual_tree_total": 130.0,
+              "horizons": {
+                "1": {
+                  "A8": 757.8889348369557,
+                  "tree": 8.125
+                },
+                "16": {
+                  "A8": 818.8264348369557,
+                  "tree": 130.0
+                },
+                "256": {
+                  "A8": 1793.8264348369557,
+                  "tree": 2080.0
+                },
+                "4096": {
+                  "A8": 17393.826434836956,
+                  "tree": 33280.0
+                }
+              }
+            },
+            "11": {
+              "acquisition": 812.042553044972,
+              "native_search_mean": 4.1875,
+              "tree_search_mean": 8.375,
+              "repayment_searches": 193.92060968238138,
+              "actual_native_total": 879.042553044972,
+              "actual_tree_total": 134.0,
+              "horizons": {
+                "1": {
+                  "A8": 816.230053044972,
+                  "tree": 8.375
+                },
+                "16": {
+                  "A8": 879.042553044972,
+                  "tree": 134.0
+                },
+                "256": {
+                  "A8": 1884.042553044972,
+                  "tree": 2144.0
+                },
+                "4096": {
+                  "A8": 17964.042553044972,
+                  "tree": 34304.0
+                }
+              }
+            },
+            "12": {
+              "acquisition": 716.642697790754,
+              "native_search_mean": 4.3125,
+              "tree_search_mean": 8.625,
+              "repayment_searches": 166.17801687901542,
+              "actual_native_total": 785.642697790754,
+              "actual_tree_total": 138.0,
+              "horizons": {
+                "1": {
+                  "A8": 720.955197790754,
+                  "tree": 8.625
+                },
+                "16": {
+                  "A8": 785.642697790754,
+                  "tree": 138.0
+                },
+                "256": {
+                  "A8": 1820.642697790754,
+                  "tree": 2208.0
+                },
+                "4096": {
+                  "A8": 18380.642697790754,
+                  "tree": 35328.0
+                }
+              }
+            },
+            "13": {
+              "acquisition": 700.9126883746358,
+              "native_search_mean": 4.0,
+              "tree_search_mean": 8.0,
+              "repayment_searches": 175.22817209365894,
+              "actual_native_total": 764.9126883746358,
+              "actual_tree_total": 128.0,
+              "horizons": {
+                "1": {
+                  "A8": 704.9126883746358,
+                  "tree": 8.0
+                },
+                "16": {
+                  "A8": 764.9126883746358,
+                  "tree": 128.0
+                },
+                "256": {
+                  "A8": 1724.9126883746358,
+                  "tree": 2048.0
+                },
+                "4096": {
+                  "A8": 17084.912688374636,
+                  "tree": 32768.0
+                }
+              }
+            },
+            "14": {
+              "acquisition": 800.8571704152273,
+              "native_search_mean": 3.6875,
+              "tree_search_mean": 7.375,
+              "repayment_searches": 217.18160553633282,
+              "actual_native_total": 859.8571704152273,
+              "actual_tree_total": 118.0,
+              "horizons": {
+                "1": {
+                  "A8": 804.5446704152273,
+                  "tree": 7.375
+                },
+                "16": {
+                  "A8": 859.8571704152273,
+                  "tree": 118.0
+                },
+                "256": {
+                  "A8": 1744.8571704152273,
+                  "tree": 1888.0
+                },
+                "4096": {
+                  "A8": 15904.857170415227,
+                  "tree": 30208.0
+                }
+              }
+            },
+            "15": {
+              "acquisition": 626.1870633754879,
+              "native_search_mean": 3.8125,
+              "tree_search_mean": 7.625,
+              "repayment_searches": 164.2457871148821,
+              "actual_native_total": 687.1870633754879,
+              "actual_tree_total": 122.0,
+              "horizons": {
+                "1": {
+                  "A8": 629.9995633754879,
+                  "tree": 7.625
+                },
+                "16": {
+                  "A8": 687.1870633754879,
+                  "tree": 122.0
+                },
+                "256": {
+                  "A8": 1602.187063375488,
+                  "tree": 1952.0
+                },
+                "4096": {
+                  "A8": 16242.187063375488,
+                  "tree": 31232.0
+                }
+              }
+            },
+            "16": {
+              "acquisition": 991.857460543164,
+              "native_search_mean": 3.9375,
+              "tree_search_mean": 7.875,
+              "repayment_searches": 251.90030743953372,
+              "actual_native_total": 1054.857460543164,
+              "actual_tree_total": 126.0,
+              "horizons": {
+                "1": {
+                  "A8": 995.794960543164,
+                  "tree": 7.875
+                },
+                "16": {
+                  "A8": 1054.857460543164,
+                  "tree": 126.0
+                },
+                "256": {
+                  "A8": 1999.857460543164,
+                  "tree": 2016.0
+                },
+                "4096": {
+                  "A8": 17119.857460543164,
+                  "tree": 32256.0
+                }
+              }
+            },
+            "17": {
+              "acquisition": 907.8089322070591,
+              "native_search_mean": 4.0625,
+              "tree_search_mean": 8.125,
+              "repayment_searches": 223.4606602355838,
+              "actual_native_total": 972.8089322070591,
+              "actual_tree_total": 130.0,
+              "horizons": {
+                "1": {
+                  "A8": 911.8714322070591,
+                  "tree": 8.125
+                },
+                "16": {
+                  "A8": 972.8089322070591,
+                  "tree": 130.0
+                },
+                "256": {
+                  "A8": 1947.8089322070591,
+                  "tree": 2080.0
+                },
+                "4096": {
+                  "A8": 17547.80893220706,
+                  "tree": 33280.0
+                }
+              }
+            },
+            "18": {
+              "acquisition": 825.3009849982336,
+              "native_search_mean": 4.1875,
+              "tree_search_mean": 8.375,
+              "repayment_searches": 197.08680238763787,
+              "actual_native_total": 892.3009849982336,
+              "actual_tree_total": 134.0,
+              "horizons": {
+                "1": {
+                  "A8": 829.4884849982336,
+                  "tree": 8.375
+                },
+                "16": {
+                  "A8": 892.3009849982336,
+                  "tree": 134.0
+                },
+                "256": {
+                  "A8": 1897.3009849982336,
+                  "tree": 2144.0
+                },
+                "4096": {
+                  "A8": 17977.300984998234,
+                  "tree": 34304.0
+                }
+              }
+            },
+            "19": {
+              "acquisition": 528.5470853338484,
+              "native_search_mean": 4.3125,
+              "tree_search_mean": 8.625,
+              "repayment_searches": 122.56164297596484,
+              "actual_native_total": 597.5470853338484,
+              "actual_tree_total": 138.0,
+              "horizons": {
+                "1": {
+                  "A8": 532.8595853338484,
+                  "tree": 8.625
+                },
+                "16": {
+                  "A8": 597.5470853338484,
+                  "tree": 138.0
+                },
+                "256": {
+                  "A8": 1632.5470853338484,
+                  "tree": 2208.0
+                },
+                "4096": {
+                  "A8": 18192.54708533385,
+                  "tree": 35328.0
+                }
+              }
+            },
+            "20": {
+              "acquisition": 704.5618990813382,
+              "native_search_mean": 4.0,
+              "tree_search_mean": 8.0,
+              "repayment_searches": 176.14047477033455,
+              "actual_native_total": 768.5618990813382,
+              "actual_tree_total": 128.0,
+              "horizons": {
+                "1": {
+                  "A8": 708.5618990813382,
+                  "tree": 8.0
+                },
+                "16": {
+                  "A8": 768.5618990813382,
+                  "tree": 128.0
+                },
+                "256": {
+                  "A8": 1728.5618990813382,
+                  "tree": 2048.0
+                },
+                "4096": {
+                  "A8": 17088.56189908134,
+                  "tree": 32768.0
+                }
+              }
+            },
+            "21": {
+              "acquisition": 668.1221825822722,
+              "native_search_mean": 3.6875,
+              "tree_search_mean": 7.375,
+              "repayment_searches": 181.1856766324806,
+              "actual_native_total": 727.1221825822722,
+              "actual_tree_total": 118.0,
+              "horizons": {
+                "1": {
+                  "A8": 671.8096825822722,
+                  "tree": 7.375
+                },
+                "16": {
+                  "A8": 727.1221825822722,
+                  "tree": 118.0
+                },
+                "256": {
+                  "A8": 1612.1221825822722,
+                  "tree": 1888.0
+                },
+                "4096": {
+                  "A8": 15772.122182582272,
+                  "tree": 30208.0
+                }
+              }
+            },
+            "22": {
+              "acquisition": 798.7259840837214,
+              "native_search_mean": 3.8125,
+              "tree_search_mean": 7.625,
+              "repayment_searches": 209.50189746458267,
+              "actual_native_total": 859.7259840837214,
+              "actual_tree_total": 122.0,
+              "horizons": {
+                "1": {
+                  "A8": 802.5384840837214,
+                  "tree": 7.625
+                },
+                "16": {
+                  "A8": 859.7259840837214,
+                  "tree": 122.0
+                },
+                "256": {
+                  "A8": 1774.7259840837214,
+                  "tree": 1952.0
+                },
+                "4096": {
+                  "A8": 16414.72598408372,
+                  "tree": 31232.0
+                }
+              }
+            },
+            "23": {
+              "acquisition": 890.0709520006785,
+              "native_search_mean": 3.9375,
+              "tree_search_mean": 7.875,
+              "repayment_searches": 226.0497655874739,
+              "actual_native_total": 953.0709520006785,
+              "actual_tree_total": 126.0,
+              "horizons": {
+                "1": {
+                  "A8": 894.0084520006785,
+                  "tree": 7.875
+                },
+                "16": {
+                  "A8": 953.0709520006785,
+                  "tree": 126.0
+                },
+                "256": {
+                  "A8": 1898.0709520006785,
+                  "tree": 2016.0
+                },
+                "4096": {
+                  "A8": 17018.07095200068,
+                  "tree": 32256.0
+                }
+              }
+            }
+          },
+          "mean_horizon_costs": {
+            "1": {
+              "A8": 775.6794011872116,
+              "tree": 7.953125
+            },
+            "16": {
+              "A8": 835.3278386872116,
+              "tree": 127.25
+            },
+            "256": {
+              "A8": 1789.7028386872116,
+              "tree": 2036.0
+            },
+            "4096": {
+              "A8": 17059.70283868721,
+              "tree": 32576.0
+            }
+          }
+        }
+      },
+      "TS": {
+        "evaluations": {
+          "mean_acquisition": 6070677.333333333,
+          "mean_savings_per_search": 1018.0,
+          "savings_interval95": [
+            980.5166666666667,
+            1054.0
+          ],
+          "repayment_searches": 5963.337262606417,
+          "repayment_interval95": [
+            5484.026007802341,
+            6436.85380919698
+          ],
+          "repayment_unbounded": false,
+          "nonpositive_savings_bootstrap_fraction": 0.0,
+          "unbounded_endpoint_encoding": "null means no finite repayment horizon",
+          "per_build": {
+            "0": {
+              "acquisition": 7077120.0,
+              "native_search_mean": 944.0,
+              "tree_search_mean": 1888.0,
+              "repayment_searches": 7496.949152542373,
+              "actual_native_total": 7092224.0,
+              "actual_tree_total": 30208.0,
+              "horizons": {
+                "1": {
+                  "A8": 7078064.0,
+                  "tree": 1888.0
+                },
+                "16": {
+                  "A8": 7092224.0,
+                  "tree": 30208.0
+                },
+                "256": {
+                  "A8": 7318784.0,
+                  "tree": 483328.0
+                },
+                "4096": {
+                  "A8": 10943744.0,
+                  "tree": 7733248.0
+                }
+              }
+            },
+            "1": {
+              "acquisition": 6458368.0,
+              "native_search_mean": 976.0,
+              "tree_search_mean": 1952.0,
+              "repayment_searches": 6617.180327868852,
+              "actual_native_total": 6473984.0,
+              "actual_tree_total": 31232.0,
+              "horizons": {
+                "1": {
+                  "A8": 6459344.0,
+                  "tree": 1952.0
+                },
+                "16": {
+                  "A8": 6473984.0,
+                  "tree": 31232.0
+                },
+                "256": {
+                  "A8": 6708224.0,
+                  "tree": 499712.0
+                },
+                "4096": {
+                  "A8": 10456064.0,
+                  "tree": 7995392.0
+                }
+              }
+            },
+            "2": {
+              "acquisition": 6058496.0,
+              "native_search_mean": 1008.0,
+              "tree_search_mean": 2016.0,
+              "repayment_searches": 6010.412698412699,
+              "actual_native_total": 6074624.0,
+              "actual_tree_total": 32256.0,
+              "horizons": {
+                "1": {
+                  "A8": 6059504.0,
+                  "tree": 2016.0
+                },
+                "16": {
+                  "A8": 6074624.0,
+                  "tree": 32256.0
+                },
+                "256": {
+                  "A8": 6316544.0,
+                  "tree": 516096.0
+                },
+                "4096": {
+                  "A8": 10187264.0,
+                  "tree": 8257536.0
+                }
+              }
+            },
+            "3": {
+              "acquisition": 7430400.0,
+              "native_search_mean": 1040.0,
+              "tree_search_mean": 2080.0,
+              "repayment_searches": 7144.615384615385,
+              "actual_native_total": 7447040.0,
+              "actual_tree_total": 33280.0,
+              "horizons": {
+                "1": {
+                  "A8": 7431440.0,
+                  "tree": 2080.0
+                },
+                "16": {
+                  "A8": 7447040.0,
+                  "tree": 33280.0
+                },
+                "256": {
+                  "A8": 7696640.0,
+                  "tree": 532480.0
+                },
+                "4096": {
+                  "A8": 11690240.0,
+                  "tree": 8519680.0
+                }
+              }
+            },
+            "4": {
+              "acquisition": 4435712.0,
+              "native_search_mean": 1072.0,
+              "tree_search_mean": 2144.0,
+              "repayment_searches": 4137.79104477612,
+              "actual_native_total": 4452864.0,
+              "actual_tree_total": 34304.0,
+              "horizons": {
+                "1": {
+                  "A8": 4436784.0,
+                  "tree": 2144.0
+                },
+                "16": {
+                  "A8": 4452864.0,
+                  "tree": 34304.0
+                },
+                "256": {
+                  "A8": 4710144.0,
+                  "tree": 548864.0
+                },
+                "4096": {
+                  "A8": 8826624.0,
+                  "tree": 8781824.0
+                }
+              }
+            },
+            "5": {
+              "acquisition": 6305792.0,
+              "native_search_mean": 1104.0,
+              "tree_search_mean": 2208.0,
+              "repayment_searches": 5711.768115942029,
+              "actual_native_total": 6323456.0,
+              "actual_tree_total": 35328.0,
+              "horizons": {
+                "1": {
+                  "A8": 6306896.0,
+                  "tree": 2208.0
+                },
+                "16": {
+                  "A8": 6323456.0,
+                  "tree": 35328.0
+                },
+                "256": {
+                  "A8": 6588416.0,
+                  "tree": 565248.0
+                },
+                "4096": {
+                  "A8": 10827776.0,
+                  "tree": 9043968.0
+                }
+              }
+            },
+            "6": {
+              "acquisition": 7261184.0,
+              "native_search_mean": 1024.0,
+              "tree_search_mean": 2048.0,
+              "repayment_searches": 7091.0,
+              "actual_native_total": 7277568.0,
+              "actual_tree_total": 32768.0,
+              "horizons": {
+                "1": {
+                  "A8": 7262208.0,
+                  "tree": 2048.0
+                },
+                "16": {
+                  "A8": 7277568.0,
+                  "tree": 32768.0
+                },
+                "256": {
+                  "A8": 7523328.0,
+                  "tree": 524288.0
+                },
+                "4096": {
+                  "A8": 11455488.0,
+                  "tree": 8388608.0
+                }
+              }
+            },
+            "7": {
+              "acquisition": 6490368.0,
+              "native_search_mean": 944.0,
+              "tree_search_mean": 1888.0,
+              "repayment_searches": 6875.389830508475,
+              "actual_native_total": 6505472.0,
+              "actual_tree_total": 30208.0,
+              "horizons": {
+                "1": {
+                  "A8": 6491312.0,
+                  "tree": 1888.0
+                },
+                "16": {
+                  "A8": 6505472.0,
+                  "tree": 30208.0
+                },
+                "256": {
+                  "A8": 6732032.0,
+                  "tree": 483328.0
+                },
+                "4096": {
+                  "A8": 10356992.0,
+                  "tree": 7733248.0
+                }
+              }
+            },
+            "8": {
+              "acquisition": 5281536.0,
+              "native_search_mean": 976.0,
+              "tree_search_mean": 1952.0,
+              "repayment_searches": 5411.4098360655735,
+              "actual_native_total": 5297152.0,
+              "actual_tree_total": 31232.0,
+              "horizons": {
+                "1": {
+                  "A8": 5282512.0,
+                  "tree": 1952.0
+                },
+                "16": {
+                  "A8": 5297152.0,
+                  "tree": 31232.0
+                },
+                "256": {
+                  "A8": 5531392.0,
+                  "tree": 499712.0
+                },
+                "4096": {
+                  "A8": 9279232.0,
+                  "tree": 7995392.0
+                }
+              }
+            },
+            "9": {
+              "acquisition": 5478144.0,
+              "native_search_mean": 1008.0,
+              "tree_search_mean": 2016.0,
+              "repayment_searches": 5434.666666666667,
+              "actual_native_total": 5494272.0,
+              "actual_tree_total": 32256.0,
+              "horizons": {
+                "1": {
+                  "A8": 5479152.0,
+                  "tree": 2016.0
+                },
+                "16": {
+                  "A8": 5494272.0,
+                  "tree": 32256.0
+                },
+                "256": {
+                  "A8": 5736192.0,
+                  "tree": 516096.0
+                },
+                "4096": {
+                  "A8": 9606912.0,
+                  "tree": 8257536.0
+                }
+              }
+            },
+            "10": {
+              "acquisition": 5213952.0,
+              "native_search_mean": 1040.0,
+              "tree_search_mean": 2080.0,
+              "repayment_searches": 5013.415384615385,
+              "actual_native_total": 5230592.0,
+              "actual_tree_total": 33280.0,
+              "horizons": {
+                "1": {
+                  "A8": 5214992.0,
+                  "tree": 2080.0
+                },
+                "16": {
+                  "A8": 5230592.0,
+                  "tree": 33280.0
+                },
+                "256": {
+                  "A8": 5480192.0,
+                  "tree": 532480.0
+                },
+                "4096": {
+                  "A8": 9473792.0,
+                  "tree": 8519680.0
+                }
+              }
+            },
+            "11": {
+              "acquisition": 3873792.0,
+              "native_search_mean": 1072.0,
+              "tree_search_mean": 2144.0,
+              "repayment_searches": 3613.6119402985073,
+              "actual_native_total": 3890944.0,
+              "actual_tree_total": 34304.0,
+              "horizons": {
+                "1": {
+                  "A8": 3874864.0,
+                  "tree": 2144.0
+                },
+                "16": {
+                  "A8": 3890944.0,
+                  "tree": 34304.0
+                },
+                "256": {
+                  "A8": 4148224.0,
+                  "tree": 548864.0
+                },
+                "4096": {
+                  "A8": 8264704.0,
+                  "tree": 8781824.0
+                }
+              }
+            },
+            "12": {
+              "acquisition": 5692672.0,
+              "native_search_mean": 1104.0,
+              "tree_search_mean": 2208.0,
+              "repayment_searches": 5156.405797101449,
+              "actual_native_total": 5710336.0,
+              "actual_tree_total": 35328.0,
+              "horizons": {
+                "1": {
+                  "A8": 5693776.0,
+                  "tree": 2208.0
+                },
+                "16": {
+                  "A8": 5710336.0,
+                  "tree": 35328.0
+                },
+                "256": {
+                  "A8": 5975296.0,
+                  "tree": 565248.0
+                },
+                "4096": {
+                  "A8": 10214656.0,
+                  "tree": 9043968.0
+                }
+              }
+            },
+            "13": {
+              "acquisition": 4603392.0,
+              "native_search_mean": 1024.0,
+              "tree_search_mean": 2048.0,
+              "repayment_searches": 4495.5,
+              "actual_native_total": 4619776.0,
+              "actual_tree_total": 32768.0,
+              "horizons": {
+                "1": {
+                  "A8": 4604416.0,
+                  "tree": 2048.0
+                },
+                "16": {
+                  "A8": 4619776.0,
+                  "tree": 32768.0
+                },
+                "256": {
+                  "A8": 4865536.0,
+                  "tree": 524288.0
+                },
+                "4096": {
+                  "A8": 8797696.0,
+                  "tree": 8388608.0
+                }
+              }
+            },
+            "14": {
+              "acquisition": 5894912.0,
+              "native_search_mean": 944.0,
+              "tree_search_mean": 1888.0,
+              "repayment_searches": 6244.610169491525,
+              "actual_native_total": 5910016.0,
+              "actual_tree_total": 30208.0,
+              "horizons": {
+                "1": {
+                  "A8": 5895856.0,
+                  "tree": 1888.0
+                },
+                "16": {
+                  "A8": 5910016.0,
+                  "tree": 30208.0
+                },
+                "256": {
+                  "A8": 6136576.0,
+                  "tree": 483328.0
+                },
+                "4096": {
+                  "A8": 9761536.0,
+                  "tree": 7733248.0
+                }
+              }
+            },
+            "15": {
+              "acquisition": 7758080.0,
+              "native_search_mean": 976.0,
+              "tree_search_mean": 1952.0,
+              "repayment_searches": 7948.852459016393,
+              "actual_native_total": 7773696.0,
+              "actual_tree_total": 31232.0,
+              "horizons": {
+                "1": {
+                  "A8": 7759056.0,
+                  "tree": 1952.0
+                },
+                "16": {
+                  "A8": 7773696.0,
+                  "tree": 31232.0
+                },
+                "256": {
+                  "A8": 8007936.0,
+                  "tree": 499712.0
+                },
+                "4096": {
+                  "A8": 11755776.0,
+                  "tree": 7995392.0
+                }
+              }
+            },
+            "16": {
+              "acquisition": 4467456.0,
+              "native_search_mean": 1008.0,
+              "tree_search_mean": 2016.0,
+              "repayment_searches": 4432.0,
+              "actual_native_total": 4483584.0,
+              "actual_tree_total": 32256.0,
+              "horizons": {
+                "1": {
+                  "A8": 4468464.0,
+                  "tree": 2016.0
+                },
+                "16": {
+                  "A8": 4483584.0,
+                  "tree": 32256.0
+                },
+                "256": {
+                  "A8": 4725504.0,
+                  "tree": 516096.0
+                },
+                "4096": {
+                  "A8": 8596224.0,
+                  "tree": 8257536.0
+                }
+              }
+            },
+            "17": {
+              "acquisition": 5524224.0,
+              "native_search_mean": 1040.0,
+              "tree_search_mean": 2080.0,
+              "repayment_searches": 5311.753846153846,
+              "actual_native_total": 5540864.0,
+              "actual_tree_total": 33280.0,
+              "horizons": {
+                "1": {
+                  "A8": 5525264.0,
+                  "tree": 2080.0
+                },
+                "16": {
+                  "A8": 5540864.0,
+                  "tree": 33280.0
+                },
+                "256": {
+                  "A8": 5790464.0,
+                  "tree": 532480.0
+                },
+                "4096": {
+                  "A8": 9784064.0,
+                  "tree": 8519680.0
+                }
+              }
+            },
+            "18": {
+              "acquisition": 6276864.0,
+              "native_search_mean": 1072.0,
+              "tree_search_mean": 2144.0,
+              "repayment_searches": 5855.2835820895525,
+              "actual_native_total": 6294016.0,
+              "actual_tree_total": 34304.0,
+              "horizons": {
+                "1": {
+                  "A8": 6277936.0,
+                  "tree": 2144.0
+                },
+                "16": {
+                  "A8": 6294016.0,
+                  "tree": 34304.0
+                },
+                "256": {
+                  "A8": 6551296.0,
+                  "tree": 548864.0
+                },
+                "4096": {
+                  "A8": 10667776.0,
+                  "tree": 8781824.0
+                }
+              }
+            },
+            "19": {
+              "acquisition": 7797504.0,
+              "native_search_mean": 1104.0,
+              "tree_search_mean": 2208.0,
+              "repayment_searches": 7062.95652173913,
+              "actual_native_total": 7815168.0,
+              "actual_tree_total": 35328.0,
+              "horizons": {
+                "1": {
+                  "A8": 7798608.0,
+                  "tree": 2208.0
+                },
+                "16": {
+                  "A8": 7815168.0,
+                  "tree": 35328.0
+                },
+                "256": {
+                  "A8": 8080128.0,
+                  "tree": 565248.0
+                },
+                "4096": {
+                  "A8": 12319488.0,
+                  "tree": 9043968.0
+                }
+              }
+            },
+            "20": {
+              "acquisition": 7049472.0,
+              "native_search_mean": 1024.0,
+              "tree_search_mean": 2048.0,
+              "repayment_searches": 6884.25,
+              "actual_native_total": 7065856.0,
+              "actual_tree_total": 32768.0,
+              "horizons": {
+                "1": {
+                  "A8": 7050496.0,
+                  "tree": 2048.0
+                },
+                "16": {
+                  "A8": 7065856.0,
+                  "tree": 32768.0
+                },
+                "256": {
+                  "A8": 7311616.0,
+                  "tree": 524288.0
+                },
+                "4096": {
+                  "A8": 11243776.0,
+                  "tree": 8388608.0
+                }
+              }
+            },
+            "21": {
+              "acquisition": 6085120.0,
+              "native_search_mean": 944.0,
+              "tree_search_mean": 1888.0,
+              "repayment_searches": 6446.1016949152545,
+              "actual_native_total": 6100224.0,
+              "actual_tree_total": 30208.0,
+              "horizons": {
+                "1": {
+                  "A8": 6086064.0,
+                  "tree": 1888.0
+                },
+                "16": {
+                  "A8": 6100224.0,
+                  "tree": 30208.0
+                },
+                "256": {
+                  "A8": 6326784.0,
+                  "tree": 483328.0
+                },
+                "4096": {
+                  "A8": 9951744.0,
+                  "tree": 7733248.0
+                }
+              }
+            },
+            "22": {
+              "acquisition": 5929984.0,
+              "native_search_mean": 976.0,
+              "tree_search_mean": 1952.0,
+              "repayment_searches": 6075.803278688524,
+              "actual_native_total": 5945600.0,
+              "actual_tree_total": 31232.0,
+              "horizons": {
+                "1": {
+                  "A8": 5930960.0,
+                  "tree": 1952.0
+                },
+                "16": {
+                  "A8": 5945600.0,
+                  "tree": 31232.0
+                },
+                "256": {
+                  "A8": 6179840.0,
+                  "tree": 499712.0
+                },
+                "4096": {
+                  "A8": 9927680.0,
+                  "tree": 7995392.0
+                }
+              }
+            },
+            "23": {
+              "acquisition": 7251712.0,
+              "native_search_mean": 1008.0,
+              "tree_search_mean": 2016.0,
+              "repayment_searches": 7194.158730158731,
+              "actual_native_total": 7267840.0,
+              "actual_tree_total": 32256.0,
+              "horizons": {
+                "1": {
+                  "A8": 7252720.0,
+                  "tree": 2016.0
+                },
+                "16": {
+                  "A8": 7267840.0,
+                  "tree": 32256.0
+                },
+                "256": {
+                  "A8": 7509760.0,
+                  "tree": 516096.0
+                },
+                "4096": {
+                  "A8": 11380480.0,
+                  "tree": 8257536.0
+                }
+              }
+            }
+          },
+          "mean_horizon_costs": {
+            "1": {
+              "A8": 6071695.333333333,
+              "tree": 2036.0
+            },
+            "16": {
+              "A8": 6086965.333333333,
+              "tree": 32576.0
+            },
+            "256": {
+              "A8": 6331285.333333333,
+              "tree": 521216.0
+            },
+            "4096": {
+              "A8": 10240405.333333332,
+              "tree": 8339456.0
+            }
+          }
+        },
+        "worker_seconds": {
+          "mean_acquisition": 307.38374394507747,
+          "mean_savings_per_search": 3.9765625,
+          "savings_interval95": [
+            3.8301432291666666,
+            4.1171875
+          ],
+          "repayment_searches": 77.29885898815307,
+          "repayment_interval95": [
+            70.90620678724075,
+            83.61400409124707
+          ],
+          "repayment_unbounded": false,
+          "nonpositive_savings_bootstrap_fraction": 0.0,
+          "unbounded_endpoint_encoding": "null means no finite repayment horizon",
+          "per_build": {
+            "0": {
+              "acquisition": 340.53587795922067,
+              "native_search_mean": 3.6875,
+              "tree_search_mean": 7.375,
+              "repayment_searches": 92.3487126669073,
+              "actual_native_total": 399.53587795922067,
+              "actual_tree_total": 118.0,
+              "horizons": {
+                "1": {
+                  "A8": 344.22337795922067,
+                  "tree": 7.375
+                },
+                "16": {
+                  "A8": 399.53587795922067,
+                  "tree": 118.0
+                },
+                "256": {
+                  "A8": 1284.5358779592207,
+                  "tree": 1888.0
+                },
+                "4096": {
+                  "A8": 15444.53587795922,
+                  "tree": 30208.0
+                }
+              }
+            },
+            "1": {
+              "acquisition": 339.21480454679113,
+              "native_search_mean": 3.8125,
+              "tree_search_mean": 7.625,
+              "repayment_searches": 88.97437496309276,
+              "actual_native_total": 400.21480454679113,
+              "actual_tree_total": 122.0,
+              "horizons": {
+                "1": {
+                  "A8": 343.02730454679113,
+                  "tree": 7.625
+                },
+                "16": {
+                  "A8": 400.21480454679113,
+                  "tree": 122.0
+                },
+                "256": {
+                  "A8": 1315.2148045467911,
+                  "tree": 1952.0
+                },
+                "4096": {
+                  "A8": 15955.214804546791,
+                  "tree": 31232.0
+                }
+              }
+            },
+            "2": {
+              "acquisition": 287.0666109168669,
+              "native_search_mean": 3.9375,
+              "tree_search_mean": 7.875,
+              "repayment_searches": 72.9058059471408,
+              "actual_native_total": 350.0666109168669,
+              "actual_tree_total": 126.0,
+              "horizons": {
+                "1": {
+                  "A8": 291.0041109168669,
+                  "tree": 7.875
+                },
+                "16": {
+                  "A8": 350.0666109168669,
+                  "tree": 126.0
+                },
+                "256": {
+                  "A8": 1295.066610916867,
+                  "tree": 2016.0
+                },
+                "4096": {
+                  "A8": 16415.066610916867,
+                  "tree": 32256.0
+                }
+              }
+            },
+            "3": {
+              "acquisition": 373.31771766825113,
+              "native_search_mean": 4.0625,
+              "tree_search_mean": 8.125,
+              "repayment_searches": 91.89359204141566,
+              "actual_native_total": 438.31771766825113,
+              "actual_tree_total": 130.0,
+              "horizons": {
+                "1": {
+                  "A8": 377.38021766825113,
+                  "tree": 8.125
+                },
+                "16": {
+                  "A8": 438.31771766825113,
+                  "tree": 130.0
+                },
+                "256": {
+                  "A8": 1413.3177176682511,
+                  "tree": 2080.0
+                },
+                "4096": {
+                  "A8": 17013.31771766825,
+                  "tree": 33280.0
+                }
+              }
+            },
+            "4": {
+              "acquisition": 207.50537637388334,
+              "native_search_mean": 4.1875,
+              "tree_search_mean": 8.375,
+              "repayment_searches": 49.55352271615124,
+              "actual_native_total": 274.50537637388334,
+              "actual_tree_total": 134.0,
+              "horizons": {
+                "1": {
+                  "A8": 211.69287637388334,
+                  "tree": 8.375
+                },
+                "16": {
+                  "A8": 274.50537637388334,
+                  "tree": 134.0
+                },
+                "256": {
+                  "A8": 1279.5053763738833,
+                  "tree": 2144.0
+                },
+                "4096": {
+                  "A8": 17359.505376373883,
+                  "tree": 34304.0
+                }
+              }
+            },
+            "5": {
+              "acquisition": 345.97090712341014,
+              "native_search_mean": 4.3125,
+              "tree_search_mean": 8.625,
+              "repayment_searches": 80.22513788368931,
+              "actual_native_total": 414.97090712341014,
+              "actual_tree_total": 138.0,
+              "horizons": {
+                "1": {
+                  "A8": 350.28340712341014,
+                  "tree": 8.625
+                },
+                "16": {
+                  "A8": 414.97090712341014,
+                  "tree": 138.0
+                },
+                "256": {
+                  "A8": 1449.9709071234101,
+                  "tree": 2208.0
+                },
+                "4096": {
+                  "A8": 18009.97090712341,
+                  "tree": 35328.0
+                }
+              }
+            },
+            "6": {
+              "acquisition": 372.3392229571473,
+              "native_search_mean": 4.0,
+              "tree_search_mean": 8.0,
+              "repayment_searches": 93.08480573928682,
+              "actual_native_total": 436.3392229571473,
+              "actual_tree_total": 128.0,
+              "horizons": {
+                "1": {
+                  "A8": 376.3392229571473,
+                  "tree": 8.0
+                },
+                "16": {
+                  "A8": 436.3392229571473,
+                  "tree": 128.0
+                },
+                "256": {
+                  "A8": 1396.3392229571473,
+                  "tree": 2048.0
+                },
+                "4096": {
+                  "A8": 16756.339222957147,
+                  "tree": 32768.0
+                }
+              }
+            },
+            "7": {
+              "acquisition": 315.91383471223526,
+              "native_search_mean": 3.6875,
+              "tree_search_mean": 7.375,
+              "repayment_searches": 85.67154839653837,
+              "actual_native_total": 374.91383471223526,
+              "actual_tree_total": 118.0,
+              "horizons": {
+                "1": {
+                  "A8": 319.60133471223526,
+                  "tree": 7.375
+                },
+                "16": {
+                  "A8": 374.91383471223526,
+                  "tree": 118.0
+                },
+                "256": {
+                  "A8": 1259.9138347122353,
+                  "tree": 1888.0
+                },
+                "4096": {
+                  "A8": 15419.913834712235,
+                  "tree": 30208.0
+                }
+              }
+            },
+            "8": {
+              "acquisition": 278.5614783318015,
+              "native_search_mean": 3.8125,
+              "tree_search_mean": 7.625,
+              "repayment_searches": 73.06530579194794,
+              "actual_native_total": 339.5614783318015,
+              "actual_tree_total": 122.0,
+              "horizons": {
+                "1": {
+                  "A8": 282.3739783318015,
+                  "tree": 7.625
+                },
+                "16": {
+                  "A8": 339.5614783318015,
+                  "tree": 122.0
+                },
+                "256": {
+                  "A8": 1254.5614783318015,
+                  "tree": 1952.0
+                },
+                "4096": {
+                  "A8": 15894.561478331801,
+                  "tree": 31232.0
+                }
+              }
+            },
+            "9": {
+              "acquisition": 265.53141496307217,
+              "native_search_mean": 3.9375,
+              "tree_search_mean": 7.875,
+              "repayment_searches": 67.43654983189134,
+              "actual_native_total": 328.53141496307217,
+              "actual_tree_total": 126.0,
+              "horizons": {
+                "1": {
+                  "A8": 269.46891496307217,
+                  "tree": 7.875
+                },
+                "16": {
+                  "A8": 328.53141496307217,
+                  "tree": 126.0
+                },
+                "256": {
+                  "A8": 1273.5314149630722,
+                  "tree": 2016.0
+                },
+                "4096": {
+                  "A8": 16393.531414963072,
+                  "tree": 32256.0
+                }
+              }
+            },
+            "10": {
+              "acquisition": 255.9255394632928,
+              "native_search_mean": 4.0625,
+              "tree_search_mean": 8.125,
+              "repayment_searches": 62.99705586788746,
+              "actual_native_total": 320.9255394632928,
+              "actual_tree_total": 130.0,
+              "horizons": {
+                "1": {
+                  "A8": 259.9880394632928,
+                  "tree": 8.125
+                },
+                "16": {
+                  "A8": 320.9255394632928,
+                  "tree": 130.0
+                },
+                "256": {
+                  "A8": 1295.9255394632928,
+                  "tree": 2080.0
+                },
+                "4096": {
+                  "A8": 16895.925539463293,
+                  "tree": 33280.0
+                }
+              }
+            },
+            "11": {
+              "acquisition": 204.6981495434884,
+              "native_search_mean": 4.1875,
+              "tree_search_mean": 8.375,
+              "repayment_searches": 48.883140189489765,
+              "actual_native_total": 271.6981495434884,
+              "actual_tree_total": 134.0,
+              "horizons": {
+                "1": {
+                  "A8": 208.8856495434884,
+                  "tree": 8.375
+                },
+                "16": {
+                  "A8": 271.6981495434884,
+                  "tree": 134.0
+                },
+                "256": {
+                  "A8": 1276.6981495434884,
+                  "tree": 2144.0
+                },
+                "4096": {
+                  "A8": 17356.69814954349,
+                  "tree": 34304.0
+                }
+              }
+            },
+            "12": {
+              "acquisition": 281.72154042171314,
+              "native_search_mean": 4.3125,
+              "tree_search_mean": 8.625,
+              "repayment_searches": 65.32673401083203,
+              "actual_native_total": 350.72154042171314,
+              "actual_tree_total": 138.0,
+              "horizons": {
+                "1": {
+                  "A8": 286.03404042171314,
+                  "tree": 8.625
+                },
+                "16": {
+                  "A8": 350.72154042171314,
+                  "tree": 138.0
+                },
+                "256": {
+                  "A8": 1385.7215404217131,
+                  "tree": 2208.0
+                },
+                "4096": {
+                  "A8": 17945.721540421713,
+                  "tree": 35328.0
+                }
+              }
+            },
+            "13": {
+              "acquisition": 242.8873857917497,
+              "native_search_mean": 4.0,
+              "tree_search_mean": 8.0,
+              "repayment_searches": 60.72184644793742,
+              "actual_native_total": 306.8873857917497,
+              "actual_tree_total": 128.0,
+              "horizons": {
+                "1": {
+                  "A8": 246.8873857917497,
+                  "tree": 8.0
+                },
+                "16": {
+                  "A8": 306.8873857917497,
+                  "tree": 128.0
+                },
+                "256": {
+                  "A8": 1266.8873857917497,
+                  "tree": 2048.0
+                },
+                "4096": {
+                  "A8": 16626.88738579175,
+                  "tree": 32768.0
+                }
+              }
+            },
+            "14": {
+              "acquisition": 314.5818040872691,
+              "native_search_mean": 3.6875,
+              "tree_search_mean": 7.375,
+              "repayment_searches": 85.31031975247976,
+              "actual_native_total": 373.5818040872691,
+              "actual_tree_total": 118.0,
+              "horizons": {
+                "1": {
+                  "A8": 318.2693040872691,
+                  "tree": 7.375
+                },
+                "16": {
+                  "A8": 373.5818040872691,
+                  "tree": 118.0
+                },
+                "256": {
+                  "A8": 1258.5818040872691,
+                  "tree": 1888.0
+                },
+                "4096": {
+                  "A8": 15418.58180408727,
+                  "tree": 30208.0
+                }
+              }
+            },
+            "15": {
+              "acquisition": 402.3034110388253,
+              "native_search_mean": 3.8125,
+              "tree_search_mean": 7.625,
+              "repayment_searches": 105.52220617411811,
+              "actual_native_total": 463.3034110388253,
+              "actual_tree_total": 122.0,
+              "horizons": {
+                "1": {
+                  "A8": 406.1159110388253,
+                  "tree": 7.625
+                },
+                "16": {
+                  "A8": 463.3034110388253,
+                  "tree": 122.0
+                },
+                "256": {
+                  "A8": 1378.3034110388253,
+                  "tree": 1952.0
+                },
+                "4096": {
+                  "A8": 16018.303411038825,
+                  "tree": 31232.0
+                }
+              }
+            },
+            "16": {
+              "acquisition": 222.5942026261473,
+              "native_search_mean": 3.9375,
+              "tree_search_mean": 7.875,
+              "repayment_searches": 56.531860984418365,
+              "actual_native_total": 285.5942026261473,
+              "actual_tree_total": 126.0,
+              "horizons": {
+                "1": {
+                  "A8": 226.5317026261473,
+                  "tree": 7.875
+                },
+                "16": {
+                  "A8": 285.5942026261473,
+                  "tree": 126.0
+                },
+                "256": {
+                  "A8": 1230.5942026261473,
+                  "tree": 2016.0
+                },
+                "4096": {
+                  "A8": 16350.594202626147,
+                  "tree": 32256.0
+                }
+              }
+            },
+            "17": {
+              "acquisition": 273.1088012877153,
+              "native_search_mean": 4.0625,
+              "tree_search_mean": 8.125,
+              "repayment_searches": 67.22678185543762,
+              "actual_native_total": 338.1088012877153,
+              "actual_tree_total": 130.0,
+              "horizons": {
+                "1": {
+                  "A8": 277.1713012877153,
+                  "tree": 8.125
+                },
+                "16": {
+                  "A8": 338.1088012877153,
+                  "tree": 130.0
+                },
+                "256": {
+                  "A8": 1313.1088012877153,
+                  "tree": 2080.0
+                },
+                "4096": {
+                  "A8": 16913.108801287715,
+                  "tree": 33280.0
+                }
+              }
+            },
+            "18": {
+              "acquisition": 307.2732831649482,
+              "native_search_mean": 4.1875,
+              "tree_search_mean": 8.375,
+              "repayment_searches": 73.37869448715182,
+              "actual_native_total": 374.2732831649482,
+              "actual_tree_total": 134.0,
+              "horizons": {
+                "1": {
+                  "A8": 311.4607831649482,
+                  "tree": 8.375
+                },
+                "16": {
+                  "A8": 374.2732831649482,
+                  "tree": 134.0
+                },
+                "256": {
+                  "A8": 1379.2732831649482,
+                  "tree": 2144.0
+                },
+                "4096": {
+                  "A8": 17459.27328316495,
+                  "tree": 34304.0
+                }
+              }
+            },
+            "19": {
+              "acquisition": 398.16724974440876,
+              "native_search_mean": 4.3125,
+              "tree_search_mean": 8.625,
+              "repayment_searches": 92.32863762189189,
+              "actual_native_total": 467.16724974440876,
+              "actual_tree_total": 138.0,
+              "horizons": {
+                "1": {
+                  "A8": 402.47974974440876,
+                  "tree": 8.625
+                },
+                "16": {
+                  "A8": 467.16724974440876,
+                  "tree": 138.0
+                },
+                "256": {
+                  "A8": 1502.1672497444088,
+                  "tree": 2208.0
+                },
+                "4096": {
+                  "A8": 18062.16724974441,
+                  "tree": 35328.0
+                }
+              }
+            },
+            "20": {
+              "acquisition": 379.5533894151449,
+              "native_search_mean": 4.0,
+              "tree_search_mean": 8.0,
+              "repayment_searches": 94.88834735378623,
+              "actual_native_total": 443.5533894151449,
+              "actual_tree_total": 128.0,
+              "horizons": {
+                "1": {
+                  "A8": 383.5533894151449,
+                  "tree": 8.0
+                },
+                "16": {
+                  "A8": 443.5533894151449,
+                  "tree": 128.0
+                },
+                "256": {
+                  "A8": 1403.553389415145,
+                  "tree": 2048.0
+                },
+                "4096": {
+                  "A8": 16763.553389415145,
+                  "tree": 32768.0
+                }
+              }
+            },
+            "21": {
+              "acquisition": 307.4040940434206,
+              "native_search_mean": 3.6875,
+              "tree_search_mean": 7.375,
+              "repayment_searches": 83.36382211347001,
+              "actual_native_total": 366.4040940434206,
+              "actual_tree_total": 118.0,
+              "horizons": {
+                "1": {
+                  "A8": 311.0915940434206,
+                  "tree": 7.375
+                },
+                "16": {
+                  "A8": 366.4040940434206,
+                  "tree": 118.0
+                },
+                "256": {
+                  "A8": 1251.4040940434206,
+                  "tree": 1888.0
+                },
+                "4096": {
+                  "A8": 15411.40409404342,
+                  "tree": 30208.0
+                }
+              }
+            },
+            "22": {
+              "acquisition": 311.76284458010923,
+              "native_search_mean": 3.8125,
+              "tree_search_mean": 7.625,
+              "repayment_searches": 81.77386087347128,
+              "actual_native_total": 372.76284458010923,
+              "actual_tree_total": 122.0,
+              "horizons": {
+                "1": {
+                  "A8": 315.57534458010923,
+                  "tree": 7.625
+                },
+                "16": {
+                  "A8": 372.76284458010923,
+                  "tree": 122.0
+                },
+                "256": {
+                  "A8": 1287.7628445801092,
+                  "tree": 1952.0
+                },
+                "4096": {
+                  "A8": 15927.76284458011,
+                  "tree": 31232.0
+                }
+              }
+            },
+            "23": {
+              "acquisition": 349.27091392094735,
+              "native_search_mean": 3.9375,
+              "tree_search_mean": 7.875,
+              "repayment_searches": 88.70372417039933,
+              "actual_native_total": 412.27091392094735,
+              "actual_tree_total": 126.0,
+              "horizons": {
+                "1": {
+                  "A8": 353.20841392094735,
+                  "tree": 7.875
+                },
+                "16": {
+                  "A8": 412.27091392094735,
+                  "tree": 126.0
+                },
+                "256": {
+                  "A8": 1357.2709139209474,
+                  "tree": 2016.0
+                },
+                "4096": {
+                  "A8": 16477.270913920947,
+                  "tree": 32256.0
+                }
+              }
+            }
+          },
+          "mean_horizon_costs": {
+            "1": {
+              "A8": 311.36030644507747,
+              "tree": 7.953125
+            },
+            "16": {
+              "A8": 371.00874394507747,
+              "tree": 127.25
+            },
+            "256": {
+              "A8": 1325.3837439450774,
+              "tree": 2036.0
+            },
+            "4096": {
+              "A8": 16595.383743945076,
+              "tree": 32576.0
+            }
+          }
+        }
+      }
+    },
+    "scope": "arithmetic actual expenditures; failures at actual cap; native pays its saved acquisition once per deployed build; GP calibration is separate development cost",
+    "timing_caveat": "acquisition worker times are historical and search worker times contemporary; hardware/load comparability limits apply; neither is queue wall time"
+  },
+  "resolution_price": {
+    "observed_block_variance": 4.1801053401656875e-32,
+    "nearest_boundary": 1.5,
+    "conditional_total_blocks": 24,
+    "additional_blocks": 0,
+    "additional_worker_seconds": 0.0,
+    "projected_minutes_at10_with30percent_reserve": 0.0,
+    "caveat": "conditional normal/t approximation at observed point and variance; full both-roster price provisional until TS completes; reference G4 excluded; no guarantee or automatic top-up"
+  },
+  "diagnostics": {
+    "DG": {
+      "A8": {
+        "mean_seconds": 3.9765625,
+        "mean_worker_seconds": 3.9765625,
+        "max_worker_seconds": 7.0,
+        "mean_compiled_length": 32.0,
+        "max_compiled_length": 32,
+        "compiled_length_histogram": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          390912
+        ],
+        "primitive_case_work": 800587776,
+        "exact_check_seconds": 0.384,
+        "training_perfect_individuals": 384,
+        "unique_shortcuts": 0,
+        "final_mean_correctness_pattern_diversity": 8.0,
+        "final_mean_output_phenotype_diversity": 12.0
+      },
+      "tree": {
+        "mean_seconds": 7.953125,
+        "mean_worker_seconds": 7.953125,
+        "max_worker_seconds": 14.0,
+        "mean_compiled_length": 32.0,
+        "max_compiled_length": 32,
+        "compiled_length_histogram": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          781824
+        ],
+        "primitive_case_work": 1601175552,
+        "exact_check_seconds": 0.384,
+        "training_perfect_individuals": 384,
+        "unique_shortcuts": 0,
+        "final_mean_correctness_pattern_diversity": 8.0,
+        "final_mean_output_phenotype_diversity": 12.0,
+        "initialization_attempts": 102144,
+        "initialization_rejections": 3840,
+        "operator": {
+          "crossover": 38400,
+          "mutation": 3840,
+          "rejected_crossover": 1920,
+          "rejected_mutation": 384
+        },
+        "compile_seconds": 3.84,
+        "variation_seconds": 19.200000000000003,
+        "operator_rejection_fractions": {
+          "crossover": 0.05,
+          "mutation": 0.1
+        }
+      },
+      "G4": {
+        "mean_seconds": 16.0,
+        "mean_worker_seconds": 16.0,
+        "max_worker_seconds": 16,
+        "mean_compiled_length": 32.0,
+        "max_compiled_length": 32,
+        "compiled_length_histogram": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          524288
+        ],
+        "primitive_case_work": 1073741824,
+        "exact_check_seconds": 0.128,
+        "training_perfect_individuals": 128,
+        "unique_shortcuts": 0,
+        "final_mean_correctness_pattern_diversity": 8.0,
+        "final_mean_output_phenotype_diversity": 12.0
+      },
+      "per_cell": {
+        "DG0": {
+          "A8": {
+            "mean_worker_seconds": 3.8125,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "tree": {
+            "mean_worker_seconds": 7.625,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "G4": {
+            "mean_worker_seconds": 16.0,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          }
+        },
+        "DG1": {
+          "A8": {
+            "mean_worker_seconds": 3.9375,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "tree": {
+            "mean_worker_seconds": 7.875,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "G4": {
+            "mean_worker_seconds": 16.0,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          }
+        },
+        "DG2": {
+          "A8": {
+            "mean_worker_seconds": 4.0625,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "tree": {
+            "mean_worker_seconds": 8.125,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "G4": {
+            "mean_worker_seconds": 16.0,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          }
+        },
+        "DG3": {
+          "A8": {
+            "mean_worker_seconds": 4.1875,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "tree": {
+            "mean_worker_seconds": 8.375,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "G4": {
+            "mean_worker_seconds": 16.0,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          }
+        },
+        "DG4": {
+          "A8": {
+            "mean_worker_seconds": 4.166666666666667,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "tree": {
+            "mean_worker_seconds": 8.333333333333334,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "G4": {
+            "mean_worker_seconds": 16.0,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          }
+        },
+        "DG5": {
+          "A8": {
+            "mean_worker_seconds": 4.0,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "tree": {
+            "mean_worker_seconds": 8.0,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "G4": {
+            "mean_worker_seconds": 16.0,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          }
+        },
+        "DG6": {
+          "A8": {
+            "mean_worker_seconds": 3.8333333333333335,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "tree": {
+            "mean_worker_seconds": 7.666666666666667,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "G4": {
+            "mean_worker_seconds": 16.0,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          }
+        },
+        "DG7": {
+          "A8": {
+            "mean_worker_seconds": 3.8125,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "tree": {
+            "mean_worker_seconds": 7.625,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "G4": {
+            "mean_worker_seconds": 16.0,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          }
+        }
+      }
+    },
+    "TS": {
+      "A8": {
+        "mean_seconds": 3.9765625,
+        "mean_worker_seconds": 3.9765625,
+        "max_worker_seconds": 7.0,
+        "mean_compiled_length": 32.0,
+        "max_compiled_length": 32,
+        "compiled_length_histogram": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          390912
+        ],
+        "primitive_case_work": 800587776,
+        "exact_check_seconds": 0.384,
+        "training_perfect_individuals": 384,
+        "unique_shortcuts": 0,
+        "final_mean_correctness_pattern_diversity": 8.0,
+        "final_mean_output_phenotype_diversity": 12.0
+      },
+      "tree": {
+        "mean_seconds": 7.953125,
+        "mean_worker_seconds": 7.953125,
+        "max_worker_seconds": 14.0,
+        "mean_compiled_length": 32.0,
+        "max_compiled_length": 32,
+        "compiled_length_histogram": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          781824
+        ],
+        "primitive_case_work": 1601175552,
+        "exact_check_seconds": 0.384,
+        "training_perfect_individuals": 384,
+        "unique_shortcuts": 0,
+        "final_mean_correctness_pattern_diversity": 8.0,
+        "final_mean_output_phenotype_diversity": 12.0,
+        "initialization_attempts": 102144,
+        "initialization_rejections": 3840,
+        "operator": {
+          "crossover": 38400,
+          "mutation": 3840,
+          "rejected_crossover": 1920,
+          "rejected_mutation": 384
+        },
+        "compile_seconds": 3.84,
+        "variation_seconds": 19.200000000000003,
+        "operator_rejection_fractions": {
+          "crossover": 0.05,
+          "mutation": 0.1
+        }
+      },
+      "G4": {
+        "mean_seconds": 16.0,
+        "mean_worker_seconds": 16.0,
+        "max_worker_seconds": 16,
+        "mean_compiled_length": 32.0,
+        "max_compiled_length": 32,
+        "compiled_length_histogram": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          524288
+        ],
+        "primitive_case_work": 1073741824,
+        "exact_check_seconds": 0.128,
+        "training_perfect_individuals": 128,
+        "unique_shortcuts": 0,
+        "final_mean_correctness_pattern_diversity": 8.0,
+        "final_mean_output_phenotype_diversity": 12.0
+      },
+      "per_cell": {
+        "TS0": {
+          "A8": {
+            "mean_worker_seconds": 3.8125,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "tree": {
+            "mean_worker_seconds": 7.625,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "G4": {
+            "mean_worker_seconds": 16.0,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          }
+        },
+        "TS1": {
+          "A8": {
+            "mean_worker_seconds": 3.9375,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "tree": {
+            "mean_worker_seconds": 7.875,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "G4": {
+            "mean_worker_seconds": 16.0,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          }
+        },
+        "TS2": {
+          "A8": {
+            "mean_worker_seconds": 4.0625,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "tree": {
+            "mean_worker_seconds": 8.125,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "G4": {
+            "mean_worker_seconds": 16.0,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          }
+        },
+        "TS3": {
+          "A8": {
+            "mean_worker_seconds": 4.1875,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "tree": {
+            "mean_worker_seconds": 8.375,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "G4": {
+            "mean_worker_seconds": 16.0,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          }
+        },
+        "TS4": {
+          "A8": {
+            "mean_worker_seconds": 4.166666666666667,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "tree": {
+            "mean_worker_seconds": 8.333333333333334,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "G4": {
+            "mean_worker_seconds": 16.0,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          }
+        },
+        "TS5": {
+          "A8": {
+            "mean_worker_seconds": 4.0,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "tree": {
+            "mean_worker_seconds": 8.0,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "G4": {
+            "mean_worker_seconds": 16.0,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          }
+        },
+        "TS6": {
+          "A8": {
+            "mean_worker_seconds": 3.8333333333333335,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "tree": {
+            "mean_worker_seconds": 7.666666666666667,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "G4": {
+            "mean_worker_seconds": 16.0,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          }
+        },
+        "TS7": {
+          "A8": {
+            "mean_worker_seconds": 3.8125,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "tree": {
+            "mean_worker_seconds": 7.625,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          },
+          "G4": {
+            "mean_worker_seconds": 16.0,
+            "mean_compiled_length": 32.0,
+            "final_mean_output_phenotype_diversity": 12.0
+          }
+        }
+      }
+    }
+  },
+  "timing": {},
+  "preparation": {
+    "freeze": {
+      "targets": {
+        "DG": [
+          "DG0",
+          "DG1",
+          "DG2",
+          "DG3",
+          "DG4",
+          "DG5",
+          "DG6",
+          "DG7"
+        ],
+        "TS": [
+          "TS0",
+          "TS1",
+          "TS2",
+          "TS3",
+          "TS4",
+          "TS5",
+          "TS6",
+          "TS7"
+        ]
+      }
+    },
+    "batches": {
+      "DG": {
+        "worker_seconds": 1.0
+      },
+      "TS": {
+        "worker_seconds": 1.0
+      }
+    },
+    "calibration_actual_evaluations": 10000
+  },
+  "development_cost": {
+    "actual_calibration_evaluations": 10000,
+    "actual_calibration_worker_seconds": 2.0
+  },
+  "search_rows_hash": "707fea5f923c50e07987582410213454f4975bc5963c21288e6942e1b35da19e",
+  "metric_definitions": {
+    "phenotype_diversity": "distinct output vectors on 64 fixed training cases; lower bound on D625 phenotype diversity",
+    "compile_seconds": "cached program collection; construction compilation included in variation_seconds",
+    "Q": "exp(mean(log(capped tree cost) - log(capped native A8 cost))); fixed eight cells, 24 build blocks, two paired repeats; failures at two caps",
+    "savings": "mean(actual tree effort - actual A8 effort); failures spend actual cap; evaluations and worker seconds separately",
+    "repayment": "mean(actual native acquisition effort) / mean(actual tree effort - actual A8 effort); unbounded when savings admit zero or negative values",
+    "primitive_case_work": "sum(compiled token count over evaluated individuals) times 64 training cases; execution-length proxy, excludes exact checks and internal primitive costs"
+  },
+  "next": "strategy",
+  "scope": "fixed DG/TS development rosters, v2_x4, 32 tokens, P256, cap524288; complete procedures; no causal learning, strong-typing or fresh-bank transfer claim"
+}

@@ -1,9 +1,11 @@
 # Can learned subtrees improve an already structural search prior?
 
-Unallocated candidate plan for [root 10](../questions/10-compositional-map-transfer/question.md),
-written at [strategy 0024](../runs/2026-10-11-0024/strategy.md). Reconsider at the
-next strategy review, after the restart comparison or its measured obstruction.
-The steward supplies any eventual experimental design and fixed decision rule.
+Concept plan for [root 10](../questions/10-compositional-map-transfer/question.md),
+written at [strategy 0024](../runs/2026-10-11-0024/strategy.md). **One first-stage
+experiment allocated by [strategy 0150](../runs/2026-10-11-0150/strategy.md).**
+The update below fixes its current comparator, cost units and exit. A later
+fresh-bank stage remains unallocated. The steward supplies the experimental
+design and fixed decision rule; this is not an experiment registration.
 
 The core question now needs an increment from learned bias beyond conventional
 structural search. A8 learned useful information, but its complete tape procedure
@@ -86,7 +88,79 @@ retain the structural comparator, replicate acquisition and reset all target
 populations. Allow provisionally **5–8 further hours**, **12–18 hours for the
 complete candidate**; semantic bank construction and actual rates can change
 that price. If the new bank cannot be validated, report that limit without
-calling new seeds on DG/TS fresh transfer. No second stage or experiment slot
-is allocated by this plan. A fresh-bank result would extend externally learned
+calling new seeds on DG/TS fresh transfer. No second-stage slot is allocated.
+A fresh-bank result would extend externally learned
 structural bias, while per-individual inherited acquisition remains a separate
 root-23 question.
+
+**Allocation update, 2026-10-11 0150.** The [restart result](../runs/2026-10-11-0024/analysis.md)
+selects R-tree as the evaluation comparator: 90,392 mean evaluations and
+765/768 exact DG solves, against R-A8's 114,137 and 754/768. A8 remains cheaper
+in worker seconds. This supersedes any reading of the earlier plan that plain
+full-cap tree GP is an adequate primary comparator or that an evaluation win
+necessarily saves time.
+
+Ask whether a frozen library learned from **new tree-source searches** lowers
+fresh DG search cost beyond both R-tree and valid generic donors matched to its
+size law. The complete eight-cell DG development roster is the primary scope;
+source collection uses the existing four DG source cells. TS may provide a
+separately priced boundary, but no second acquisition family or crossed-family
+claim is needed in this block. All these banks are development data.
+
+Use the frozen 0024 restart policy in every scoring arm: at most eight fresh
+65,536-evaluation attempts, 524,288 total, with training-case redraw and exact
+D625 verification. Retain the same library throughout a learned job's restarts.
+Keep the initializer, crossover mix, primitive capacity and selection fixed.
+Only a bounded fraction of ordinary mutation donors becomes library draws;
+specify the ordinary-donor fallback before scoring. No learned initialization,
+restart tuning, new size-control method or callable macro is part of this study.
+For the matched donor control, price a sampler of valid trees conditional on
+compiled primitive size, including rejection costs. A small library need not
+be forced to 32 entries, and an empty one stays in the acquisition cohort.
+
+Source inspection at `1773d11` confirms that `tree_gp_search.Tree` already stores
+subtree spans, compiles primitive tokens and provides size-checked insertion;
+`search` returns `solver_tree`. `restart_gp_run.py` saves constituent attempts.
+Reuse those reviewed interfaces on the research branch. The missing work is
+bounded source orchestration, extraction, donor controls and reporting, not a
+new VM. Verify that source searches retain their exact trees through the wrapper.
+Do not recycle target-solving trees from 0024 as training data. Preserve an exact
+operator-off replay and audit actual seed sets across acquisition, calibration,
+confirmation and historical data before the queue.
+
+**Cost unit and decision value.** Make arithmetic capped evaluations the primary
+search-efficiency unit, with a reliability guard and acquisition-build uncertainty.
+Measure worker seconds under comparable sustained load as a separate deployment
+unit, including donor construction, verification and extraction. A worthwhile
+effect of roughly a **20% evaluation saving** is a sizing scenario for the steward,
+not a registered rule or prediction. DG's near-complete solving leaves little
+reliability headroom, but its 90k mean cost leaves a meaningful speed question.
+The generic-donor comparison asks whether source content adds beyond donor size;
+it does not isolate token frequency from dependencies. A benefit only over a
+degraded control cannot justify continuation.
+
+Charge the complete source policy, every unsuccessful attempt and extraction
+once per deployed library. Report arithmetic acquisition-plus-search curves in
+both units without assuming a reuse horizon. An evaluation gain with a time
+loss is still evidence about learned search bias, but does not establish a
+practical faster method. Any later allocation must weigh the price of that
+remaining obstacle explicitly.
+
+Raise root 10 **36 → 37**, one substantive experiment through the next review.
+Allow **7–10 h total**, at most **120 min preparation** and **4 h summed queue
+timeouts**, including proposal, validation, collection, scoring, reviews and
+contingency. The 0024 queue completed preparation and 3,840 scoring jobs in
+about 36 minutes; DG R-tree averaged 8.86 worker-seconds. These anchor baseline
+scoring only: tree-source yield, extraction, learned search tails and precision
+need sustained development/source timing before admission. Freeze a decision-sized
+comparison after that pricing. A standalone probe is not the intended purchase;
+if only one is justified, use its 60-minute limit and return for review.
+
+Return to strategy after the result or a measured build, validity, precision or
+complete-cost obstacle. Useful learned improvement with credible economics earns
+consideration of the separately reviewed **5–8 h** fresh-bank stage; the complete
+candidate remains **12–18 h**, inside the approximately 36 h remaining at review.
+Tight small effects or harm end this extractor's expansion; broad uncertainty
+requires a priced resolution. No result automatically funds more corpus sizes,
+fragment lengths or rates. Finish analysis before the run deadline,
+**2026-10-12T14:19:15 Europe/Stockholm**.

@@ -7,7 +7,8 @@ budget: {experiments: 1, used: 0}
 
 Current summary: **closed (run 2026-10-11-0024, commit `1773d11`): under the same restart schedule
 (up to 8 attempts of 65,536 evaluations, total cap 524,288), restarted tree GP spent fewer evaluations than
-restarted A8 on DG, at reliability within three points; in worker seconds A8 stayed cheaper.** Development
+restarted A8 on DG and was noninferior in reliability within the prespecified three-point margin (equal
+reliability not established); in worker seconds A8 stayed cheaper.** Development
 rosters, saved 1717 builds, one cutoff.
 - **DG (primary, 768 jobs per arm)**: mean evaluations R-tree ÷ R-A8 **0.792 [0.682, 0.915]** (paired
   24-build bootstrap); solved 765/768 vs 754/768, difference +0.014 [0.000, 0.034] (noninferiority within
@@ -21,8 +22,10 @@ rosters, saved 1717 builds, one cutoff.
 - Tree GP's restart gain may partly come from redrawing training cases (9.6% of its DG evaluations went to
   training-perfect, non-exact programs); not separated from population reset.
 
-Reading: (b) holds in evaluations at this schedule; (a) survives only as a worker-time saving; (c) is not
-supported for tree GP (per-attempt success flat), and A8's slight shortfall is fixed-build heterogeneity.
+Reading: the restarted comparison favours tree GP in evaluations at this schedule; (b)'s stagnation/shortcut
+mechanisms remain hypotheses (the comparison does not test them). (a) survives only as a worker-time saving.
+Tree hazards are consistent with the independence projection (per-attempt success flat), so (c) gets no support
+for tree GP; A8's slight shortfall is consistent with build heterogeneity (not a test ruling out dependence).
 Background: [43](../43-acquired-bias-vs-tree-gp/question.md) left frozen A8 with better full-cap DG
 reliability and an arithmetic saving of about 86k evaluations per search; a post hoc projection from 2254's
 rows ([planning audit](../../../runs/2026-10-11-0024/planning-audit.json), [proposal](../../../runs/2026-10-11-0024/proposal.md))

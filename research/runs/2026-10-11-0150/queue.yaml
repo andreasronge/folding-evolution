@@ -1,0 +1,46 @@
+runs:
+- id: 2026-10-11-0150-prepare
+  cmd: RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.tree_library_run --prepare --workers
+    10 --deadline-seconds 2700
+  timeout_seconds: 2700
+  track: chem-tape
+  expect_outputs:
+  - config.json
+  - method_freeze.json
+  - schedule_audit.json
+  - schedules.json
+  - timing.json
+  - preparation.json
+  - replay.json
+  - replay.jsonl
+  - stage_source.jsonl
+  - stage_libraries.json
+  - stage0.jsonl
+  - stage_gate.json
+  - acquisition.jsonl
+  - libraries.json
+  notes: Eight saved off-path replays; independent source-only stage libraries and sustained ten-worker
+    gate; 768 production source jobs and 24 frozen libraries. Failures and empty libraries retained. No
+    fresh target scoring.
+- id: 2026-10-11-0150-dg
+  cmd: RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.tree_library_run --workers 10 --deadline-seconds
+    9000 --preparation "$RUN_DIR/../2026-10-11-0150-prepare"
+  timeout_seconds: 9000
+  track: chem-tape
+  expect_outputs:
+  - config.json
+  - method_freeze.json
+  - schedule_audit.json
+  - schedules.json
+  - timing.json
+  - preparation.json
+  - libraries.json
+  - search.jsonl
+  - result.json
+  - report.md
+  - dynamics.png
+  - economics.png
+  notes: 'Requires admitted hash-matched complete preparation. DG only: 1,536 jobs each for R-tree, R-lib,
+    R-size; paired eight-attempt seeds, 24 acquisition blocks, 8 targets, 8 repeats. Expanded size-limited
+    insertion. Exact solving, source costs, both bootstrap contrasts, reliability guard, coverage, operator/shortcut
+    diagnostics and measured economics. Return to strategy; no automatic top-up.'
