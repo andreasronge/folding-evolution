@@ -69,3 +69,9 @@
   Decision: close 52 because its question is answered on these development cells — the unchanged literal recipe
   did not acquire order helpers (probe), and the behaviour-keyed recipe did and saved search once the cap was
   removed (53) — and further work with the uncapped extractor is a separate question.
+
+- 2026-10-11 (steward, 1315): wording correction after [critique 1315](../../../runs/2026-10-11-1315/critique.md)
+  (digest check, note 5). The summary's "the unchanged literal recipe does not acquire them here" and the reopen
+  text's "literal reuse is known to fail" turned eight capped literal libraries with zero helpers into absence.
+  Now: no order helper entered the eight capped literal libraries in the 1129 probe; the uncapped literal recipe is
+  untested. No numbers change.

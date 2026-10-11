@@ -1,7 +1,7 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-11, after run 2026-10-11-1228 (uncapped semantic library on order-helper cells; commit
-`60ab766`).
+As of 2026-10-11, after run 2026-10-11-1315 (rectified-sum probe of the uncapped library; commit
+`4a60cc7`).
 Core question since the 2026-09-25 reframe: *how does the genotype→program map bias what evolution
 finds and keeps ("arrival of the frequent"), and can that bias be adapted to a task family?*
 History, superseded numbers and secondary contrasts are in the questions' `log.md` files.
@@ -68,13 +68,13 @@ L 64). Fairly sure for these layouts; nothing beyond them.
   cannot tell drift from a disadvantage.
   ([07](questions/01-map-bias/07-shared-arrival/question.md), [03](questions/01-map-bias/03-rare-shared-establishment/question.md))
 
-## 10 Compositional map transfer (root open, budget 44, 44 used)
+## 10 Compositional map transfer (root open, budget 45, 45 used)
 
 [10](questions/10-compositional-map-transfer/question.md): can a decoder adapted across related
 tasks help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 Stack tape `v2_rmin(_first)`, D1331 (length-3 lists over −5..5), P 256, lexicase on 64 cases with
 an exact domain check, 524k cap. G / G4: hand-set previous-token grammars (post-addition split;
-four-reducer bank); "-marg": same token marginals without context. Sub-questions 11–49 and 51–53 closed; 50 parked.
+four-reducer bank); "-marg": same token marginals without context. Sub-questions 11–49 and 51–53 closed; 50 and 54 parked (54 was a probe: its observations are in its log, not here).
 All banks are development banks; unless stated, fits are external and frozen before scoring.
 
 **Banks.** Sign-gated banks could not support a symmetric two-family test; the four-reducer bank
@@ -248,10 +248,11 @@ half the mutation donors; development banks unless stated).
 compositions and one fresh shape; outer-loop selection learns token biases but no resolved context
 gain. Restarted tree GP needs fewer DG evaluations than A8; learned subtree libraries cut its cost
 2.6× on DG and 4× on fresh gate-sum, a fixed sum prior 3.1× on development gate-sum B/C, and an
-uncapped library of acquired order helpers 2.5× on development order cells (a supplied order prior
-far more); libraries harmed near-solved targets. Not shown: that evolution reaches fitted context or fragments; what
+uncapped library holding acquired order helpers 2.5× on the six development order cells (helpers'
+causal contribution unresolved; a supplied order prior far more); libraries harmed near-solved targets. Not shown: that evolution reaches fitted context or fragments; what
 carries C's, the library's or the prior's advantage; why DG components are better; A8 on a fresh
-family bank or against tuned tree GP; acquired order content beyond development cells; an
+family bank or against tuned tree GP; acquired order content beyond development cells; useful acquisition by the frozen uncapped recipe on a new
+content family (one rectified-sum probe, observations only: [54](questions/10-compositional-map-transfer/54-rectified-sum-acquisition/question.md)); an
 easy-target policy; transfer beyond three fresh shapes.
 
 ## 23 Heritable variation bias (root parked, budget 2, 2 used)
