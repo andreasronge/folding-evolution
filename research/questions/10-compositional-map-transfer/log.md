@@ -3618,3 +3618,35 @@ family bank or against tuned tree GP; acquired order content beyond development 
 content family (one rectified-sum probe, observations only: [54](questions/10-compositional-map-transfer/54-rectified-sum-acquisition/question.md)); an
 easy-target policy; transfer beyond three fresh shapes.
 ```
+
+## 2026-10-11: run 2026-10-11-1530, frozen R-all libraries on the protected order cells (slot 46; question 56)
+
+Strategy 1530 raised the budget 45 → 46 for one protected-combination test of the frozen 1228 R-all libraries. The
+24 saved libraries (byte-identical after rebuild), unchanged method, bank `x4-order-v1` hash-checked; scored on its
+24 never-searched `split.protected` cells (4 disjoint-pair, 20 overlapping) against R-tree and R-order, 24 builds ×
+24 cells × 2 repeats, 3,456/3,456 seed-paired jobs. Commit `53f0e06`, code review pass, queue 18 min of 115.
+Primary, ratio of pooled capped arithmetic means with whole-build bootstrap: **R-all / R-tree 0.37 [0.33, 0.42]**,
+R-all 1,152/1,152 solved, R-tree 1,146 → pre-set branch "useful held-out saving". R-all / R-order 6.9 [5.7, 8.6];
+24/24 builds below 0.67; disjoint 0.34, overlapping 0.38 (descriptive); coverage gradient 0.74 / 0.42 / 0.19 of
+R-tree for 0 / 1 / 2 needed helpers (post-hoc); break-even about 4.0 [3.4, 4.6] searches. Details in
+[56's log](56-order-library-protected-cells/log.md) and the [analysis](../../runs/2026-10-11-1530/analysis.md).
+Full experiment, so it enters the digest as a belief, scoped to held-out cells of a development bank.
+
+Digest change: the 53 order bullet now carries the protected-cell result (heading and text); "protected cells
+untested" removed from it; the Overall paragraph's "acquired order content beyond development cells" becomes
+"acquired order content on a fresh bank". Former bullet (links relative to `research/`):
+
+```
+- **On order-helper cells, an uncapped behaviour-keyed library cut evaluations about 2.5×; under the
+  16-entry cap the same corpora cost more than no library.** `x4-order-v1` (`lo(a,b)+hi(c,d)` from
+  GT/IF_GT), six development cells, 24 acquisitions keeping every output class recurring in ≥ 2
+  source cells (25–37 entries): R-all/R-tree 0.40× [0.32, 0.50], all jobs solved;
+  capped R-S/R-tree 1.23× [1.07, 1.41]; repays after about 5 searches. A supplied order prior is 7.3×
+  [5.5, 9.8] cheaper. Size, content and trivia share changed together; helpers' causal share,
+  protected cells and fresh banks untested.
+```
+
+Decision: close 56 and return to strategy (`next: strategy`) because the pre-stated rule landed in its "useful
+held-out saving" branch, which both strategy 1530 and the proposal route to strategy; root 10's 46-slot budget is
+spent and no later experiment was allocated. The [decision](../../runs/2026-10-11-1530/decision.md) prices the
+candidates.

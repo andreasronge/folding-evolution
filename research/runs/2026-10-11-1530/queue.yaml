@@ -1,0 +1,54 @@
+runs:
+  - id: 2026-10-11-1530-prepare
+    cmd: >-
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.order_protected_run prepare
+      --saved /Users/andreas/developer/folding-evolution/experiments/output/2026-10-11/2026-10-11-1228-prepare
+      --workers 10 --seconds 1470
+    timeout_seconds: 1500
+    expect_outputs:
+      - saved/acquisition.jsonl
+      - bank.json
+      - method_freeze.json
+      - libraries.json
+      - schedules.json
+      - seed_audit.json
+      - coverage.json
+      - smoke.jsonl
+      - smoke_completion.json
+      - smoke_report.json
+      - smoke_dynamics.png
+      - preparation.json
+    track: chem-tape
+    notes: >-
+      Copy immutable 1228 evidence under RUN_DIR; verify recorded hashes and
+      reconstruct all 24 R-all libraries from their own complete source grids.
+      No acquisition, re-screening, fitting or ranking. Freeze the unchanged
+      method, all 24 protected cells, coverage and disjoint fresh seed schedule.
+      Run only 36 development smoke jobs at unchanged search caps.
+  - id: 2026-10-11-1530-score
+    cmd: >-
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.order_protected_run score
+      --prepared "$RUN_DIR/../2026-10-11-1530-prepare" --workers 10 --seconds 5370
+    timeout_seconds: 5400
+    expect_outputs:
+      - bank.json
+      - method_freeze.json
+      - libraries.json
+      - schedules.json
+      - seed_audit.json
+      - coverage.json
+      - score.jsonl
+      - report.json
+    track: chem-tape
+    notes: >-
+      Fail closed on preparation, library, bank, method, smoke or seed mismatch.
+      Score 24 builds x 24 protected cells x 2 repeats x 3 paired arms = 3456
+      jobs; no shared R-tree baseline across builds. Fsync every row and
+      validate complete repeat zero before submitting repeat one. Reserve
+      30 seconds for timeout reporting: analyze full two repeats, else only
+      complete balanced repeat zero (1728 jobs); otherwise emit incomplete
+      without an efficacy verdict. Partial repeat one is ignored. Lower >0.67
+      has precedence; useful requires upper <0.80 and at most 12 extra R-all
+      failures (6 for fallback). Whole-build paired bootstrap. Historical
+      acquisition cost includes extraction/validation; R-order remains visible.
+      A balanced report also writes dynamics.png. Return to strategy; no top-up.

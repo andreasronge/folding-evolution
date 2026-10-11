@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-11, after run 2026-10-11-1427 (inherited library-choice probe; commit `f8f4246`).
+As of 2026-10-11, after run 2026-10-11-1530 (frozen R-all libraries on protected order cells; commit `53f0e06`).
 Core question since the 2026-09-25 reframe: *how does the genotype→program map bias what evolution
 finds and keeps ("arrival of the frequent"), and can that bias be adapted to a task family?*
 History, superseded numbers and secondary contrasts are in the questions' `log.md` files.
@@ -67,13 +67,13 @@ L 64). Fairly sure for these layouts; nothing beyond them.
   cannot tell drift from a disadvantage.
   ([07](questions/01-map-bias/07-shared-arrival/question.md), [03](questions/01-map-bias/03-rare-shared-establishment/question.md))
 
-## 10 Compositional map transfer (root open, budget 45, 45 used)
+## 10 Compositional map transfer (root open, budget 46, 46 used)
 
 [10](questions/10-compositional-map-transfer/question.md): can a decoder adapted across related
 tasks help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 Stack tape `v2_rmin(_first)`, D1331 (length-3 lists over −5..5), P 256, lexicase on 64 cases with
 an exact domain check, 524k cap. G / G4: hand-set previous-token grammars (post-addition split;
-four-reducer bank); "-marg": same token marginals without context. Sub-questions 11–49 and 51–53 closed;
+four-reducer bank); "-marg": same token marginals without context. Sub-questions 11–49, 51–53 and 56 closed;
 50 and 54 (a probe; observations only, in its log) parked.
 All banks are development banks; unless stated, fits are external and frozen before scoring.
 
@@ -233,23 +233,26 @@ half the mutation donors; development banks unless stated).
   it within 200 searches. Substitution, not isolation: coverage,
   constants, size and ANY/GT content changed together; prior written after seeing these results.
   ([51](questions/10-compositional-map-transfer/51-source-free-donor-prior/question.md), [run 1019](runs/2026-10-11-1019/analysis.md))
-- **On order-helper cells, an uncapped behaviour-keyed library cut evaluations about 2.5×; under the
-  16-entry cap the same corpora cost more than no library.** `x4-order-v1` (`lo(a,b)+hi(c,d)` from
-  GT/IF_GT), six development cells, 24 acquisitions keeping every output class recurring in ≥ 2
-  source cells (25–37 entries): R-all/R-tree 0.40× [0.32, 0.50], all jobs solved;
-  capped R-S/R-tree 1.23× [1.07, 1.41]; repays after about 5 searches. A supplied order prior is 7.3×
-  [5.5, 9.8] cheaper. Size, content and trivia share changed together; helpers' causal share,
-  protected cells and fresh banks untested.
-  ([53](questions/10-compositional-map-transfer/53-order-library-cap-release/question.md), [run 1228](runs/2026-10-11-1228/analysis.md))
+- **On order-helper cells, an uncapped behaviour-keyed library cut evaluations about 2.5×, on the
+  development cells and, frozen, on the bank's held-out cells; under the 16-entry cap the same corpora
+  cost more than no library.** `x4-order-v1` (`lo(a,b)+hi(c,d)` from GT/IF_GT), 24 acquisitions keeping
+  every output class recurring in ≥ 2 source cells (25–37 entries). Six development cells: R-all/R-tree
+  0.40× [0.32, 0.50], all jobs solved; capped R-S/R-tree 1.23× [1.07, 1.41]. The same libraries,
+  unrefitted, on the 24 never-searched protected cells: 0.37× [0.33, 0.42] (pre-stated), 1,152/1,152
+  solved (R-tree 1,146), 24/24 builds, all cells by point; repays after about 4 searches. A supplied order
+  prior is still 6.9× [5.7, 8.6] cheaper. Same bank and twelve helpers on both rosters, so not fresh-bank
+  transfer; size, content and trivia share changed together, so helpers' causal share is untested.
+  ([53](questions/10-compositional-map-transfer/53-order-library-cap-release/question.md), [run 1228](runs/2026-10-11-1228/analysis.md);
+  [56](questions/10-compositional-map-transfer/56-order-library-protected-cells/question.md), [run 1530](runs/2026-10-11-1530/analysis.md))
 
 **Overall.** Solver-fitted context and fragment blocks transfer beyond token frequency to withheld
 compositions and one fresh shape; outer-loop selection learns token biases but no resolved context
 gain. Restarted tree GP needs fewer DG evaluations than A8; donor libraries cut its cost 2.5–4×
-(learned on DG and fresh gate-sum, uncapped on order cells; a fixed sum prior on gate-sum B/C; a supplied order
-prior far more) but raised it on near-solved targets. Not shown: that evolution reaches fitted
+(learned on DG and fresh gate-sum, uncapped on development and held-out order cells; a fixed sum prior on
+gate-sum B/C; a supplied order prior far more) but raised it on near-solved targets. Not shown: that evolution reaches fitted
 context or fragments; what carries C's, the libraries' or the priors' advantage (including the order
 helpers' share); why DG components are better; A8 on a fresh family bank or against tuned tree GP;
-acquired order content beyond development cells; useful acquisition by the frozen uncapped recipe on a new
+acquired order content on a fresh bank; useful acquisition by the frozen uncapped recipe on a new
 content family ([54](questions/10-compositional-map-transfer/54-rectified-sum-acquisition/question.md):
 probe only); an easy-target policy; transfer beyond three fresh shapes.
 
