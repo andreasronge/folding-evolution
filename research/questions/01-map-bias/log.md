@@ -706,3 +706,10 @@ L 64). Fairly sure for these layouts; nothing beyond them.
 The digest was compressed under its word limit; no belief changed. The root-01 intro line "02, 04, 07, 08, 09
 parked (reopen conditions in their question files)" now ends at "parked"; the reopen conditions are unchanged in
 those question files.
+
+
+## 2026-10-11 — digest compression (steward task 2026-10-11-1228): wording moved here
+
+The digest was compressed under its word limit; no belief changed. In the fitted-`op_weights` bullet, "more
+exact solvers than uniform, against 1.0× / 1.3× for the other family's fit" now reads "more exact solvers than
+uniform (other family's fit 1.0× / 1.3×)". Nothing else in this root's section changed.

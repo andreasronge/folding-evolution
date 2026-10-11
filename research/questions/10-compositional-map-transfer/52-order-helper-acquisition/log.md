@@ -50,3 +50,22 @@
   protected comparison. Whether relieving the ranking/cap turns acquired helpers into a search saving is a new
   extractor-mechanism question that strategy 1129 reserved for its own review (no variant sweeps), and root 10's
   43-slot budget is spent.
+
+- 2026-10-11 (steward, 1228): wording corrections from [critique 1228](../../../runs/2026-10-11-1228/critique.md)
+  digest check, notes 6–8; the 1129 entry above stays as written and is corrected here. (6) "neither learned arm
+  recovered any of that gap" holds for the point estimates only: neither met the probe's continuation rule, and
+  R-S's benefit was unresolved (1.00× [0.68, 1.46]), not shown absent. (7) "by bank construction each helper can
+  recur in at most 2 source cells" overstates: construction makes each helper required by two source targets; it
+  was observed only in those targets' solvers (0 non-own helpers in 384), which is a finite observation, not a
+  structural ceiling. (8) "availability is not the limit" overstates: the census refutes "nothing to extract", but
+  26/96 helper × build cases were nonrecurrent and 21/96 lacked an emittable form; helpers are often present, and
+  literal pooling, cap crowding, nonrecurrence and emission size restrict usable coverage. Question summary updated.
+- 2026-10-11 (steward, 1228): follow-up [53](../53-order-library-cap-release/question.md) (run 1228, commit
+  `60ab766`, full pre-registered experiment, 24 new builds) removed R-S's 16-entry cap: R-all / R-tree 0.40 [0.32,
+  0.50] in capped arithmetic mean evaluations, R-all / R-S 0.33 [0.27, 0.39], R-S / R-tree 1.23 [1.07, 1.41]; a
+  needed helper in the pool in 126/144 cell × build pairs (R-S 14/144). This confirms, at experiment level, that
+  cap crowding blocked useful behaviour-keyed acquisition here (helper causality not isolated).
+
+  Decision: close 52 because its question is answered on these development cells — the unchanged literal recipe
+  did not acquire order helpers (probe), and the behaviour-keyed recipe did and saved search once the cap was
+  removed (53) — and further work with the uncapped extractor is a separate question.

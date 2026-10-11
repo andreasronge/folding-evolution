@@ -1,0 +1,339 @@
+{
+  "arms": {
+    "R-tree": {
+      "jobs": 12,
+      "solves": 12,
+      "capped_mean": 55338.666666666664,
+      "geometric_mean": 28031.140469508646,
+      "mean_worker_seconds": 3.7868172741436865,
+      "worker_seconds": 45.44180728972424,
+      "log_gap_recovered": 0.0,
+      "operators": {
+        "crossover": 327163,
+        "mutation": 326633,
+        "rejected_crossover": 88620,
+        "rejected_mutation": 118746
+      }
+    },
+    "R-order": {
+      "jobs": 12,
+      "solves": 12,
+      "capped_mean": 3498.6666666666665,
+      "geometric_mean": 2030.4023002110287,
+      "mean_worker_seconds": 0.20883959733570615,
+      "worker_seconds": 2.506075168028474,
+      "log_gap_recovered": 1.0,
+      "operators": {
+        "crossover": 19374,
+        "empty_fallbacks": 0,
+        "library_draws": 9737,
+        "library_insertions": 4712,
+        "mutation": 19234,
+        "ordinary_donors": 9497,
+        "rejected_crossover": 3394,
+        "rejected_library": 5025,
+        "rejected_mutation": 7467
+      }
+    },
+    "R-S": {
+      "jobs": 12,
+      "solves": 12,
+      "capped_mean": 82325.33333333333,
+      "geometric_mean": 29507.278980114577,
+      "mean_worker_seconds": 5.170089510424684,
+      "worker_seconds": 62.0410741250962,
+      "log_gap_recovered": -0.019550217560885395,
+      "operators": {
+        "crossover": 487331,
+        "empty_fallbacks": 0,
+        "library_draws": 243091,
+        "library_insertions": 116883,
+        "mutation": 486759,
+        "ordinary_donors": 243668,
+        "rejected_crossover": 140662,
+        "rejected_library": 126208,
+        "rejected_mutation": 216037
+      }
+    },
+    "R-all": {
+      "jobs": 12,
+      "solves": 12,
+      "capped_mean": 14250.666666666666,
+      "geometric_mean": 4343.584405030198,
+      "mean_worker_seconds": 0.9993540172484549,
+      "worker_seconds": 11.992248206981458,
+      "log_gap_recovered": 0.7103077439428608,
+      "operators": {
+        "crossover": 83216,
+        "empty_fallbacks": 0,
+        "library_draws": 41454,
+        "library_insertions": 19954,
+        "mutation": 82900,
+        "ordinary_donors": 41446,
+        "rejected_crossover": 21450,
+        "rejected_library": 21500,
+        "rejected_mutation": 35833
+      }
+    }
+  },
+  "contrasts": {
+    "R-all/R-tree": {
+      "evaluations": {
+        "point": 0.25751734772552043,
+        "interval95": [
+          0.25751734772552043,
+          0.25751734772552043
+        ]
+      },
+      "worker_seconds": {
+        "point": 0.2639034167484194,
+        "interval95": [
+          0.2639034167484194,
+          0.2639034167484194
+        ]
+      },
+      "geometric_evaluations": {
+        "point": 0.1549556790154509,
+        "interval95": [
+          0.1549556790154509,
+          0.1549556790154509
+        ]
+      },
+      "solve_fraction_difference": {
+        "point": 0.0,
+        "interval95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "R-all/R-S": {
+      "evaluations": {
+        "point": 0.1731018398548847,
+        "interval95": [
+          0.1731018398548847,
+          0.1731018398548847
+        ]
+      },
+      "worker_seconds": {
+        "point": 0.19329530276669532,
+        "interval95": [
+          0.19329530276669532,
+          0.19329530276669532
+        ]
+      },
+      "geometric_evaluations": {
+        "point": 0.14720382750159403,
+        "interval95": [
+          0.14720382750159403,
+          0.14720382750159403
+        ]
+      },
+      "solve_fraction_difference": {
+        "point": 0.0,
+        "interval95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "R-all/R-order": {
+      "evaluations": {
+        "point": 4.073170731707317,
+        "interval95": [
+          4.073170731707317,
+          4.073170731707317
+        ]
+      },
+      "worker_seconds": {
+        "point": 4.78527075323752,
+        "interval95": [
+          4.78527075323752,
+          4.78527075323752
+        ]
+      },
+      "geometric_evaluations": {
+        "point": 2.1392727956320523,
+        "interval95": [
+          2.1392727956320523,
+          2.1392727956320523
+        ]
+      },
+      "solve_fraction_difference": {
+        "point": 0.0,
+        "interval95": [
+          0.0,
+          0.0
+        ]
+      }
+    }
+  },
+  "primary": "R-all/R-tree capped arithmetic mean evaluations",
+  "decision": "smoke_only_no_decision",
+  "smaller_saving_supported": true,
+  "bootstrap": {
+    "seed": 202610111228,
+    "draws": 8192,
+    "unit": "whole paired builds; equal cell/repeat weights; ratio of pooled means"
+  },
+  "acquisition": [
+    {
+      "build": 0,
+      "source_jobs": 48,
+      "source_solves": 48,
+      "evaluations": 368640,
+      "worker_seconds": 21.389295163098723,
+      "library_sizes": {
+        "semantic": 16,
+        "semantic_all": 25
+      },
+      "timing": {
+        "literal_seconds": 0.000862959073856473,
+        "extraction_census_seconds": 0.10269591701216996,
+        "all_extraction_census_seconds": 0.09452966693788767,
+        "validation_seconds": 0.008797457907348871
+      }
+    }
+  ],
+  "coverage": [
+    {
+      "build": 0,
+      "cell": "O:lo01+hi23",
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 0,
+      "cell": "O:lo01+hi12",
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 0,
+      "cell": "O:lo02+hi13",
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 0,
+      "cell": "O:lo23+hi02",
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 0,
+      "cell": "O:lo02+hi12",
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 0,
+      "cell": "O:lo23+hi12",
+      "needed_helpers_present": 2
+    }
+  ],
+  "coverage_costs_descriptive": {
+    "0": {
+      "paired_units": 2,
+      "arms": {
+        "R-tree": {
+          "jobs": 2,
+          "capped_mean": 18176.0,
+          "worker_seconds": 2.186368998955004
+        },
+        "R-order": {
+          "jobs": 2,
+          "capped_mean": 2688.0,
+          "worker_seconds": 0.24850754195358604
+        },
+        "R-S": {
+          "jobs": 2,
+          "capped_mean": 62208.0,
+          "worker_seconds": 7.884108874946833
+        },
+        "R-all": {
+          "jobs": 2,
+          "capped_mean": 40064.0,
+          "worker_seconds": 5.275305208051577
+        }
+      }
+    },
+    "1": {
+      "paired_units": 4,
+      "arms": {
+        "R-tree": {
+          "jobs": 4,
+          "capped_mean": 39104.0,
+          "worker_seconds": 10.075302207958885
+        },
+        "R-order": {
+          "jobs": 4,
+          "capped_mean": 2176.0,
+          "worker_seconds": 0.4358316680882126
+        },
+        "R-S": {
+          "jobs": 4,
+          "capped_mean": 5248.0,
+          "worker_seconds": 1.1184295420534909
+        },
+        "R-all": {
+          "jobs": 4,
+          "capped_mean": 3200.0,
+          "worker_seconds": 0.657082290854305
+        }
+      }
+    },
+    "2": {
+      "paired_units": 6,
+      "arms": {
+        "R-tree": {
+          "jobs": 6,
+          "capped_mean": 78549.33333333333,
+          "worker_seconds": 33.18013608281035
+        },
+        "R-order": {
+          "jobs": 6,
+          "capped_mean": 4650.666666666667,
+          "worker_seconds": 1.8217359579866752
+        },
+        "R-S": {
+          "jobs": 6,
+          "capped_mean": 140416.0,
+          "worker_seconds": 53.03853570809588
+        },
+        "R-all": {
+          "jobs": 6,
+          "capped_mean": 13013.333333333334,
+          "worker_seconds": 6.0598607080755755
+        }
+      }
+    }
+  },
+  "economics_against_R_tree": {
+    "evaluations": {
+      "mean_acquisition": 368640.0,
+      "mean_saving": 41088.0,
+      "repayment_searches": 8.97196261682243,
+      "repayment_interval95": [
+        8.97196261682243,
+        8.97196261682243
+      ],
+      "repayment_unbounded": false
+    },
+    "worker_seconds": {
+      "mean_acquisition": 21.59531820495613,
+      "mean_saving": 2.7874632568952316,
+      "repayment_searches": 7.747301476185091,
+      "repayment_interval95": [
+        7.747301476185092,
+        7.747301476185092
+      ],
+      "repayment_unbounded": false
+    }
+  },
+  "scope": "External fitting, frozen recurrence recipe, six development cells of x4-order-v1; no fresh-bank transfer, helper causality or inherited-adaptation claim",
+  "economics_scope": "All failed sources charged; worker cost includes both extractions, census and preparation validation; replay validation reported separately; no repayment claim against cheaper R-order",
+  "admitted": true,
+  "smoke": true,
+  "protected_searches": 0,
+  "workers": 10,
+  "score_batch_seconds": 17.4905903339386,
+  "replay_validation_seconds": 0.2005296249408275,
+  "preparation_hash": "adbb5c092541ddbd8fa8c8278a04ba73af3dd55267106357f807d935d72f03a3",
+  "score_rows_hash": "0cb6754719bbdf345efc85cb977ceb6b5a4441826dc3d76b18b8ae82224b14de"
+}

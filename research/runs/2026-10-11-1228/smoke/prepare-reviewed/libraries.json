@@ -1,0 +1,3702 @@
+[
+  {
+    "literal": [
+      {
+        "prefix": [
+          9,
+          2,
+          1
+        ],
+        "canonical": [
+          9,
+          1,
+          2
+        ],
+        "source_cells": [
+          "S:hi01+X2",
+          "S:hi13+X2",
+          "S:hi23+X1",
+          "S:lo01+X2",
+          "S:lo02+X1",
+          "S:lo13+X2",
+          "S:lo23+X1"
+        ],
+        "solver_count": 8,
+        "literal_solver_count": 6,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "S:hi02+X3",
+          "S:hi03+X2",
+          "S:hi13+X2",
+          "S:lo02+X3",
+          "S:lo03+X2",
+          "S:lo13+X2"
+        ],
+        "solver_count": 8,
+        "literal_solver_count": 6,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          2
+        ],
+        "canonical": [
+          9,
+          0,
+          2
+        ],
+        "source_cells": [
+          "S:hi01+X2",
+          "S:hi23+X0",
+          "S:lo01+X2",
+          "S:lo03+X2",
+          "S:lo12+X0"
+        ],
+        "solver_count": 6,
+        "literal_solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          3
+        ],
+        "source_cells": [
+          "S:hi02+X3",
+          "S:hi13+X0",
+          "S:hi23+X0",
+          "S:lo02+X3",
+          "S:lo13+X0"
+        ],
+        "solver_count": 6,
+        "literal_solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "S:hi12+X0",
+          "S:hi13+X0",
+          "S:lo02+X1",
+          "S:lo12+X0",
+          "S:lo13+X0"
+        ],
+        "solver_count": 5,
+        "literal_solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          1
+        ],
+        "canonical": [
+          10,
+          3,
+          1
+        ],
+        "source_cells": [
+          "S:hi13+X0",
+          "S:hi13+X2",
+          "S:lo13+X0",
+          "S:lo13+X2"
+        ],
+        "solver_count": 5,
+        "literal_solver_count": 5,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          3
+        ],
+        "canonical": [
+          10,
+          2,
+          3
+        ],
+        "source_cells": [
+          "S:hi23+X0",
+          "S:hi23+X1",
+          "S:lo23+X0",
+          "S:lo23+X1"
+        ],
+        "solver_count": 4,
+        "literal_solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          2
+        ],
+        "canonical": [
+          10,
+          1,
+          2
+        ],
+        "source_cells": [
+          "S:hi12+X3",
+          "S:lo12+X0",
+          "S:lo12+X3"
+        ],
+        "solver_count": 4,
+        "literal_solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          1
+        ],
+        "canonical": [
+          10,
+          2,
+          1
+        ],
+        "source_cells": [
+          "S:hi12+X0",
+          "S:lo12+X0",
+          "S:lo12+X3"
+        ],
+        "solver_count": 4,
+        "literal_solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          5
+        ],
+        "canonical": [
+          9,
+          0,
+          5
+        ],
+        "source_cells": [
+          "S:hi01+X2",
+          "S:lo02+X3",
+          "S:lo03+X1"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          0
+        ],
+        "canonical": [
+          10,
+          2,
+          0
+        ],
+        "source_cells": [
+          "S:hi02+X1",
+          "S:hi02+X3",
+          "S:lo02+X1"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          5
+        ],
+        "canonical": [
+          9,
+          1,
+          5
+        ],
+        "source_cells": [
+          "S:hi12+X3",
+          "S:lo12+X3"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          9,
+          5,
+          3
+        ],
+        "canonical": [
+          9,
+          3,
+          5
+        ],
+        "source_cells": [
+          "S:hi13+X0",
+          "S:lo23+X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          3
+        ],
+        "canonical": [
+          10,
+          1,
+          3
+        ],
+        "source_cells": [
+          "S:hi13+X2",
+          "S:lo13+X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          3
+        ],
+        "canonical": [
+          9,
+          1,
+          3
+        ],
+        "source_cells": [
+          "S:hi23+X1",
+          "S:lo23+X1"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 1,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          5
+        ],
+        "canonical": [
+          9,
+          2,
+          5
+        ],
+        "source_cells": [
+          "S:hi23+X0",
+          "S:lo13+X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      }
+    ],
+    "semantic": [
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "canonical": [
+          9,
+          1,
+          2
+        ],
+        "source_cells": [
+          "S:hi01+X2",
+          "S:hi13+X2",
+          "S:hi23+X1",
+          "S:lo01+X2",
+          "S:lo02+X1",
+          "S:lo13+X2",
+          "S:lo23+X1"
+        ],
+        "solver_count": 8,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "a5dfc520d06570f353f8e4469deed3428c0764eade8fff4867025d140f686244"
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "S:hi02+X3",
+          "S:hi03+X2",
+          "S:hi13+X2",
+          "S:lo02+X3",
+          "S:lo03+X2",
+          "S:lo13+X2"
+        ],
+        "solver_count": 8,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "e8e9e7740f7242165041dcb1178a7c7ec90f1c18dda600237f44ea3ba546722f"
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          0
+        ],
+        "canonical": [
+          10,
+          0,
+          0
+        ],
+        "source_cells": [
+          "S:hi01+X3",
+          "S:hi03+X1",
+          "S:hi12+X3",
+          "S:hi23+X1",
+          "S:lo01+X3",
+          "S:lo12+X3"
+        ],
+        "solver_count": 7,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "7ca5bd879f393d9dd05b14f38add9c0fc6b67928f7f2d261b2e47a32ee8219e3"
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          2
+        ],
+        "canonical": [
+          9,
+          0,
+          2
+        ],
+        "source_cells": [
+          "S:hi01+X2",
+          "S:hi23+X0",
+          "S:lo01+X2",
+          "S:lo03+X2",
+          "S:lo12+X0"
+        ],
+        "solver_count": 6,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "76efa3174c1ff7e7449d3e78d5dabfda43db1d52907211d9e0513129787f3b07"
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          3
+        ],
+        "canonical": [
+          9,
+          0,
+          3
+        ],
+        "source_cells": [
+          "S:hi02+X3",
+          "S:hi13+X0",
+          "S:hi23+X0",
+          "S:lo02+X3",
+          "S:lo13+X0"
+        ],
+        "solver_count": 6,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "0a23d4b620b75d815ad7de1c39f310d4b0e2eee353ca44130a6ff9185291c776"
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "S:hi12+X0",
+          "S:hi13+X0",
+          "S:lo02+X1",
+          "S:lo12+X0",
+          "S:lo13+X0"
+        ],
+        "solver_count": 5,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "cb6c8b7d2f695c42dc795c3456b1527b9a463631b805987633c2c1e1212899d6"
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          0
+        ],
+        "canonical": [
+          10,
+          1,
+          0
+        ],
+        "source_cells": [
+          "S:hi01+X2",
+          "S:hi01+X3",
+          "S:lo01+X2",
+          "S:lo01+X3"
+        ],
+        "solver_count": 6,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "ca1364b3a7cae33d7296b69ec3a56af29904119f9dfa09add75562b171951937"
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          2
+        ],
+        "canonical": [
+          10,
+          1,
+          2
+        ],
+        "source_cells": [
+          "S:hi12+X3",
+          "S:hi23+X0",
+          "S:lo12+X0",
+          "S:lo12+X3"
+        ],
+        "solver_count": 5,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "e50a4e7b5d68b6f7014e0bbe8a829e04022485919ce3b56ca9156aa62893245f"
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          1
+        ],
+        "canonical": [
+          10,
+          3,
+          1
+        ],
+        "source_cells": [
+          "S:hi13+X0",
+          "S:hi13+X2",
+          "S:lo13+X0",
+          "S:lo13+X2"
+        ],
+        "solver_count": 5,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "0e3d8656d33e0b959b8cdb468c80313e43a721f7d90c2f42f2c0de8dc8a50e9f"
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          0
+        ],
+        "canonical": [
+          10,
+          2,
+          0
+        ],
+        "source_cells": [
+          "S:hi02+X1",
+          "S:hi02+X3",
+          "S:lo02+X1",
+          "S:lo02+X3"
+        ],
+        "solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "adcc75087d63fc54928d89a2b29a796bea58dc0d4b2f8c86b6b58c642232fb77"
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          3
+        ],
+        "canonical": [
+          10,
+          2,
+          3
+        ],
+        "source_cells": [
+          "S:hi23+X0",
+          "S:hi23+X1",
+          "S:lo23+X0",
+          "S:lo23+X1"
+        ],
+        "solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "ae0d3ad107c107209d4b24919a41c4c28a67d7d27aba09b81b10d12d5c332c0e"
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          3
+        ],
+        "canonical": [
+          10,
+          0,
+          3
+        ],
+        "source_cells": [
+          "S:hi03+X1",
+          "S:lo03+X1",
+          "S:lo03+X2"
+        ],
+        "solver_count": 5,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "1a01cedcdc7a2b283a478d976b5eaeaee5f089215c09f07ddbd22f62f1ac3665"
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          3
+        ],
+        "canonical": [
+          10,
+          1,
+          3
+        ],
+        "source_cells": [
+          "S:hi13+X0",
+          "S:hi13+X2",
+          "S:lo13+X0"
+        ],
+        "solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "112d68cd6ce07dd22ccf109ef7f99a89e2a6c740aa202f344295752876a5e6e1"
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          1
+        ],
+        "canonical": [
+          10,
+          2,
+          1
+        ],
+        "source_cells": [
+          "S:hi12+X0",
+          "S:lo12+X0",
+          "S:lo12+X3"
+        ],
+        "solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "2ca7e528f4f29ef1a01b3d44d987dac1bcad516f494ad3dbdc188da003012ce5"
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          2
+        ],
+        "canonical": [
+          10,
+          3,
+          2
+        ],
+        "source_cells": [
+          "S:hi23+X1",
+          "S:lo23+X0",
+          "S:lo23+X1"
+        ],
+        "solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "105c2e98abb7dbb541bd91608c89b7e8739ca94c444378daf2195031bd0db998"
+      },
+      {
+        "prefix": [
+          11,
+          1,
+          2,
+          10,
+          2,
+          1
+        ],
+        "canonical": [
+          11,
+          1,
+          2,
+          10,
+          2,
+          1
+        ],
+        "source_cells": [
+          "S:hi12+X0",
+          "S:hi12+X3"
+        ],
+        "solver_count": 4,
+        "nodes": 6,
+        "compiled_length": 10,
+        "semantic_hash": "2b524dba2fc46fa7352ece00c0eed61d2bb40cdef28d299169a31d0f5d4e1aca"
+      }
+    ],
+    "helper_diagnostics": {
+      "lo01": {
+        "semantic": {
+          "source_cells": [
+            "S:lo01+X2",
+            "S:lo01+X3"
+          ],
+          "solver_count": 3,
+          "smallest_prefix": [
+            11,
+            0,
+            1,
+            10,
+            0,
+            1
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": true,
+          "pooling_rank": 21,
+          "uncapped_rank": 17,
+          "included": false
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              0,
+              1,
+              10,
+              0,
+              1
+            ],
+            "source_cells": [
+              "S:lo01+X2"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              0,
+              1,
+              10,
+              0,
+              1
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "lo02": {
+        "semantic": {
+          "source_cells": [
+            "S:lo02+X1"
+          ],
+          "solver_count": 1,
+          "smallest_prefix": [
+            11,
+            0,
+            2,
+            10,
+            0,
+            2
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": false,
+          "pooling_rank": null,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              0,
+              2,
+              10,
+              0,
+              2
+            ],
+            "source_cells": [
+              "S:lo02+X1"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              0,
+              2,
+              10,
+              0,
+              2
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "lo03": {
+        "semantic": {
+          "source_cells": [
+            "S:lo03+X1"
+          ],
+          "solver_count": 2,
+          "smallest_prefix": [
+            11,
+            0,
+            3,
+            10,
+            11,
+            4,
+            0,
+            8,
+            3
+          ],
+          "nodes": 9,
+          "admissible": true,
+          "recurrent": false,
+          "pooling_rank": null,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              0,
+              3,
+              10,
+              11,
+              4,
+              0,
+              8,
+              3
+            ],
+            "source_cells": [
+              "S:lo03+X1"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              0,
+              3,
+              10,
+              11,
+              4,
+              0,
+              8,
+              3
+            ],
+            "nodes": 9,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "lo12": {
+        "semantic": {
+          "source_cells": [
+            "S:lo12+X0",
+            "S:lo12+X3"
+          ],
+          "solver_count": 3,
+          "smallest_prefix": [
+            11,
+            2,
+            1,
+            10,
+            2,
+            1
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": true,
+          "pooling_rank": 24,
+          "uncapped_rank": 20,
+          "included": false
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              2,
+              1,
+              10,
+              2,
+              1
+            ],
+            "source_cells": [
+              "S:lo12+X3"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              2,
+              1,
+              10,
+              2,
+              1
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          },
+          {
+            "canonical": [
+              11,
+              2,
+              1,
+              10,
+              10,
+              2,
+              1,
+              5
+            ],
+            "source_cells": [
+              "S:lo12+X0"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              2,
+              1,
+              10,
+              10,
+              2,
+              1,
+              5
+            ],
+            "nodes": 8,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "lo13": {
+        "semantic": {
+          "source_cells": [
+            "S:lo13+X0",
+            "S:lo13+X2"
+          ],
+          "solver_count": 2,
+          "smallest_prefix": [
+            11,
+            1,
+            3,
+            10,
+            1,
+            3
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": true,
+          "pooling_rank": 31,
+          "uncapped_rank": 25,
+          "included": false
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              1,
+              3,
+              10,
+              1,
+              3
+            ],
+            "source_cells": [
+              "S:lo13+X0"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              1,
+              3,
+              10,
+              1,
+              3
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          },
+          {
+            "canonical": [
+              11,
+              3,
+              1,
+              10,
+              3,
+              1
+            ],
+            "source_cells": [
+              "S:lo13+X2"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              3,
+              1,
+              10,
+              3,
+              1
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "lo23": {
+        "semantic": {
+          "source_cells": [
+            "S:lo23+X0",
+            "S:lo23+X1"
+          ],
+          "solver_count": 3,
+          "smallest_prefix": [
+            11,
+            2,
+            3,
+            10,
+            2,
+            3
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": true,
+          "pooling_rank": 25,
+          "uncapped_rank": 21,
+          "included": false
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              2,
+              3,
+              10,
+              2,
+              3
+            ],
+            "source_cells": [
+              "S:lo23+X0",
+              "S:lo23+X1"
+            ],
+            "solver_count": 2,
+            "representative": [
+              11,
+              2,
+              3,
+              10,
+              2,
+              3
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": 20,
+            "included": false
+          }
+        ]
+      },
+      "hi01": {
+        "semantic": {
+          "source_cells": [
+            "S:hi01+X2",
+            "S:hi01+X3"
+          ],
+          "solver_count": 3,
+          "smallest_prefix": [
+            11,
+            0,
+            1,
+            10,
+            1,
+            0
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": true,
+          "pooling_rank": 22,
+          "uncapped_rank": 18,
+          "included": false
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              0,
+              1,
+              10,
+              1,
+              0
+            ],
+            "source_cells": [
+              "S:hi01+X3"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              0,
+              1,
+              10,
+              1,
+              0
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          },
+          {
+            "canonical": [
+              11,
+              0,
+              1,
+              10,
+              1,
+              9,
+              0,
+              5
+            ],
+            "source_cells": [
+              "S:hi01+X2"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              0,
+              1,
+              10,
+              1,
+              9,
+              0,
+              5
+            ],
+            "nodes": 8,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "hi02": {
+        "semantic": {
+          "source_cells": [
+            "S:hi02+X1",
+            "S:hi02+X3"
+          ],
+          "solver_count": 3,
+          "smallest_prefix": [
+            11,
+            0,
+            2,
+            10,
+            2,
+            0
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": true,
+          "pooling_rank": 23,
+          "uncapped_rank": 19,
+          "included": false
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              0,
+              2,
+              10,
+              2,
+              0
+            ],
+            "source_cells": [
+              "S:hi02+X3"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              0,
+              2,
+              10,
+              2,
+              0
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          },
+          {
+            "canonical": [
+              11,
+              11,
+              7,
+              0,
+              8,
+              2,
+              10,
+              2,
+              0
+            ],
+            "source_cells": [
+              "S:hi02+X1"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              11,
+              7,
+              0,
+              8,
+              2,
+              10,
+              2,
+              0
+            ],
+            "nodes": 9,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "hi03": {
+        "semantic": {
+          "source_cells": [
+            "S:hi03+X1",
+            "S:hi03+X2"
+          ],
+          "solver_count": 3,
+          "smallest_prefix": [
+            11,
+            0,
+            3,
+            9,
+            11,
+            11,
+            9,
+            4,
+            3,
+            2,
+            0,
+            5,
+            0,
+            10,
+            3,
+            0
+          ],
+          "nodes": 16,
+          "admissible": false,
+          "recurrent": true,
+          "pooling_rank": 27,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      },
+      "hi12": {
+        "semantic": {
+          "source_cells": [
+            "S:hi12+X0",
+            "S:hi12+X3"
+          ],
+          "solver_count": 4,
+          "smallest_prefix": [
+            11,
+            1,
+            2,
+            10,
+            2,
+            1
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": true,
+          "pooling_rank": 20,
+          "uncapped_rank": 16,
+          "included": true
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              1,
+              2,
+              10,
+              2,
+              1
+            ],
+            "source_cells": [
+              "S:hi12+X0"
+            ],
+            "solver_count": 2,
+            "representative": [
+              11,
+              1,
+              2,
+              10,
+              2,
+              1
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "hi13": {
+        "semantic": {
+          "source_cells": [
+            "S:hi13+X0"
+          ],
+          "solver_count": 1,
+          "smallest_prefix": [
+            11,
+            11,
+            3,
+            1,
+            7,
+            11,
+            9,
+            3,
+            5,
+            2,
+            5,
+            11,
+            10,
+            3,
+            1,
+            1,
+            5
+          ],
+          "nodes": 17,
+          "admissible": false,
+          "recurrent": false,
+          "pooling_rank": null,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      },
+      "hi23": {
+        "semantic": {
+          "source_cells": [
+            "S:hi23+X0",
+            "S:hi23+X1"
+          ],
+          "solver_count": 3,
+          "smallest_prefix": [
+            11,
+            2,
+            3,
+            10,
+            9,
+            3,
+            10,
+            1,
+            9,
+            2,
+            5,
+            2
+          ],
+          "nodes": 12,
+          "admissible": false,
+          "recurrent": true,
+          "pooling_rank": 26,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      }
+    },
+    "census": [
+      {
+        "cell": "S:hi01+X2",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi01+X2",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [
+            8
+          ],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi01+X3",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [
+            12,
+            18
+          ],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi01+X3",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [
+            6
+          ],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi02+X1",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [
+            9
+          ],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi02+X1",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [
+            16
+          ],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi02+X3",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [
+            6
+          ],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi02+X3",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi03+X1",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [
+            18
+          ],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi03+X1",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [
+            16
+          ],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi03+X2",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [
+            16
+          ],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi03+X2",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi12+X0",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [
+            6
+          ],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi12+X0",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [
+            6
+          ],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi12+X3",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [
+            11
+          ],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi12+X3",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [
+            19
+          ],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi13+X0",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi13+X0",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [
+            17
+          ],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi13+X2",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi13+X2",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi23+X0",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": [
+            12
+          ]
+        }
+      },
+      {
+        "cell": "S:hi23+X0",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:hi23+X1",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": [
+            19
+          ]
+        }
+      },
+      {
+        "cell": "S:hi23+X1",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": [
+            16
+          ]
+        }
+      },
+      {
+        "cell": "S:lo01+X2",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo01+X2",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [
+            6
+          ],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo01+X3",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [
+            14
+          ],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo01+X3",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [
+            15
+          ],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo02+X1",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [
+            6
+          ],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo02+X1",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo02+X3",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo02+X3",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo03+X1",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [
+            11
+          ],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo03+X1",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [
+            9,
+            14
+          ],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo03+X2",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo03+X2",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo12+X0",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [
+            8
+          ],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo12+X0",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo12+X3",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [
+            6
+          ],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo12+X3",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [
+            11
+          ],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo13+X0",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [
+            6
+          ],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo13+X0",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo13+X2",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo13+X2",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [
+            6
+          ],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo23+X0",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [
+            6
+          ],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo23+X0",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [
+            18
+          ],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo23+X1",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      },
+      {
+        "cell": "S:lo23+X1",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [
+            6
+          ],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        }
+      }
+    ],
+    "eligible_semantic_classes": 25,
+    "eligible_literal_classes": 20,
+    "literal_seconds": 0.0008026669966056943,
+    "extraction_census_seconds": 0.09967179095838219,
+    "acquisition_evaluations": 368640,
+    "acquisition_worker_seconds": 20.260571085847914,
+    "source_jobs": 48,
+    "source_solves": 48,
+    "semantic_all": [
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "canonical": [
+          9,
+          1,
+          2
+        ],
+        "source_cells": [
+          "S:hi01+X2",
+          "S:hi13+X2",
+          "S:hi23+X1",
+          "S:lo01+X2",
+          "S:lo02+X1",
+          "S:lo13+X2",
+          "S:lo23+X1"
+        ],
+        "solver_count": 8,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "a5dfc520d06570f353f8e4469deed3428c0764eade8fff4867025d140f686244"
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "S:hi02+X3",
+          "S:hi03+X2",
+          "S:hi13+X2",
+          "S:lo02+X3",
+          "S:lo03+X2",
+          "S:lo13+X2"
+        ],
+        "solver_count": 8,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "e8e9e7740f7242165041dcb1178a7c7ec90f1c18dda600237f44ea3ba546722f"
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          0
+        ],
+        "canonical": [
+          10,
+          0,
+          0
+        ],
+        "source_cells": [
+          "S:hi01+X3",
+          "S:hi03+X1",
+          "S:hi12+X3",
+          "S:hi23+X1",
+          "S:lo01+X3",
+          "S:lo12+X3"
+        ],
+        "solver_count": 7,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "7ca5bd879f393d9dd05b14f38add9c0fc6b67928f7f2d261b2e47a32ee8219e3"
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          2
+        ],
+        "canonical": [
+          9,
+          0,
+          2
+        ],
+        "source_cells": [
+          "S:hi01+X2",
+          "S:hi23+X0",
+          "S:lo01+X2",
+          "S:lo03+X2",
+          "S:lo12+X0"
+        ],
+        "solver_count": 6,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "76efa3174c1ff7e7449d3e78d5dabfda43db1d52907211d9e0513129787f3b07"
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          3
+        ],
+        "canonical": [
+          9,
+          0,
+          3
+        ],
+        "source_cells": [
+          "S:hi02+X3",
+          "S:hi13+X0",
+          "S:hi23+X0",
+          "S:lo02+X3",
+          "S:lo13+X0"
+        ],
+        "solver_count": 6,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "0a23d4b620b75d815ad7de1c39f310d4b0e2eee353ca44130a6ff9185291c776"
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "S:hi12+X0",
+          "S:hi13+X0",
+          "S:lo02+X1",
+          "S:lo12+X0",
+          "S:lo13+X0"
+        ],
+        "solver_count": 5,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "cb6c8b7d2f695c42dc795c3456b1527b9a463631b805987633c2c1e1212899d6"
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          0
+        ],
+        "canonical": [
+          10,
+          1,
+          0
+        ],
+        "source_cells": [
+          "S:hi01+X2",
+          "S:hi01+X3",
+          "S:lo01+X2",
+          "S:lo01+X3"
+        ],
+        "solver_count": 6,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "ca1364b3a7cae33d7296b69ec3a56af29904119f9dfa09add75562b171951937"
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          2
+        ],
+        "canonical": [
+          10,
+          1,
+          2
+        ],
+        "source_cells": [
+          "S:hi12+X3",
+          "S:hi23+X0",
+          "S:lo12+X0",
+          "S:lo12+X3"
+        ],
+        "solver_count": 5,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "e50a4e7b5d68b6f7014e0bbe8a829e04022485919ce3b56ca9156aa62893245f"
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          1
+        ],
+        "canonical": [
+          10,
+          3,
+          1
+        ],
+        "source_cells": [
+          "S:hi13+X0",
+          "S:hi13+X2",
+          "S:lo13+X0",
+          "S:lo13+X2"
+        ],
+        "solver_count": 5,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "0e3d8656d33e0b959b8cdb468c80313e43a721f7d90c2f42f2c0de8dc8a50e9f"
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          0
+        ],
+        "canonical": [
+          10,
+          2,
+          0
+        ],
+        "source_cells": [
+          "S:hi02+X1",
+          "S:hi02+X3",
+          "S:lo02+X1",
+          "S:lo02+X3"
+        ],
+        "solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "adcc75087d63fc54928d89a2b29a796bea58dc0d4b2f8c86b6b58c642232fb77"
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          3
+        ],
+        "canonical": [
+          10,
+          2,
+          3
+        ],
+        "source_cells": [
+          "S:hi23+X0",
+          "S:hi23+X1",
+          "S:lo23+X0",
+          "S:lo23+X1"
+        ],
+        "solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "ae0d3ad107c107209d4b24919a41c4c28a67d7d27aba09b81b10d12d5c332c0e"
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          3
+        ],
+        "canonical": [
+          10,
+          0,
+          3
+        ],
+        "source_cells": [
+          "S:hi03+X1",
+          "S:lo03+X1",
+          "S:lo03+X2"
+        ],
+        "solver_count": 5,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "1a01cedcdc7a2b283a478d976b5eaeaee5f089215c09f07ddbd22f62f1ac3665"
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          3
+        ],
+        "canonical": [
+          10,
+          1,
+          3
+        ],
+        "source_cells": [
+          "S:hi13+X0",
+          "S:hi13+X2",
+          "S:lo13+X0"
+        ],
+        "solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "112d68cd6ce07dd22ccf109ef7f99a89e2a6c740aa202f344295752876a5e6e1"
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          1
+        ],
+        "canonical": [
+          10,
+          2,
+          1
+        ],
+        "source_cells": [
+          "S:hi12+X0",
+          "S:lo12+X0",
+          "S:lo12+X3"
+        ],
+        "solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "2ca7e528f4f29ef1a01b3d44d987dac1bcad516f494ad3dbdc188da003012ce5"
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          2
+        ],
+        "canonical": [
+          10,
+          3,
+          2
+        ],
+        "source_cells": [
+          "S:hi23+X1",
+          "S:lo23+X0",
+          "S:lo23+X1"
+        ],
+        "solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "105c2e98abb7dbb541bd91608c89b7e8739ca94c444378daf2195031bd0db998"
+      },
+      {
+        "prefix": [
+          11,
+          1,
+          2,
+          10,
+          2,
+          1
+        ],
+        "canonical": [
+          11,
+          1,
+          2,
+          10,
+          2,
+          1
+        ],
+        "source_cells": [
+          "S:hi12+X0",
+          "S:hi12+X3"
+        ],
+        "solver_count": 4,
+        "nodes": 6,
+        "compiled_length": 10,
+        "semantic_hash": "2b524dba2fc46fa7352ece00c0eed61d2bb40cdef28d299169a31d0f5d4e1aca"
+      },
+      {
+        "prefix": [
+          11,
+          0,
+          1,
+          10,
+          0,
+          1
+        ],
+        "canonical": [
+          11,
+          0,
+          1,
+          10,
+          0,
+          1
+        ],
+        "source_cells": [
+          "S:lo01+X2",
+          "S:lo01+X3"
+        ],
+        "solver_count": 3,
+        "nodes": 6,
+        "compiled_length": 10,
+        "semantic_hash": "399c9500f131560ad6cf6681ace6a7b459f9fad1a3001bc537610bf7d1993ec4"
+      },
+      {
+        "prefix": [
+          11,
+          0,
+          1,
+          10,
+          1,
+          0
+        ],
+        "canonical": [
+          11,
+          0,
+          1,
+          10,
+          1,
+          0
+        ],
+        "source_cells": [
+          "S:hi01+X2",
+          "S:hi01+X3"
+        ],
+        "solver_count": 3,
+        "nodes": 6,
+        "compiled_length": 10,
+        "semantic_hash": "b69f863ec0f95d7d511b3f2cf83a95296ff0f2cb4e4149ce6c02f3b83bc3b357"
+      },
+      {
+        "prefix": [
+          11,
+          0,
+          2,
+          10,
+          2,
+          0
+        ],
+        "canonical": [
+          11,
+          0,
+          2,
+          10,
+          2,
+          0
+        ],
+        "source_cells": [
+          "S:hi02+X1",
+          "S:hi02+X3"
+        ],
+        "solver_count": 3,
+        "nodes": 6,
+        "compiled_length": 10,
+        "semantic_hash": "e2d38b171a59c216d3caea23e7182692b3a0fbe86571b1a2b70baea3d84d93b4"
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          1,
+          10,
+          2,
+          1
+        ],
+        "canonical": [
+          11,
+          2,
+          1,
+          10,
+          2,
+          1
+        ],
+        "source_cells": [
+          "S:lo12+X0",
+          "S:lo12+X3"
+        ],
+        "solver_count": 3,
+        "nodes": 6,
+        "compiled_length": 10,
+        "semantic_hash": "9b08e68b1d5fcf7fb6a7fc2b2904ccbddf5fc7107e7e3ec7700f1cf7bac10343"
+      },
+      {
+        "prefix": [
+          11,
+          2,
+          3,
+          10,
+          2,
+          3
+        ],
+        "canonical": [
+          11,
+          2,
+          3,
+          10,
+          2,
+          3
+        ],
+        "source_cells": [
+          "S:lo23+X0",
+          "S:lo23+X1"
+        ],
+        "solver_count": 3,
+        "nodes": 6,
+        "compiled_length": 10,
+        "semantic_hash": "424d00d9952674a58ed3aca181f10491013960ee54a02dd90f6e23e3b7d2c9d3"
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          6
+        ],
+        "canonical": [
+          9,
+          0,
+          6
+        ],
+        "source_cells": [
+          "S:hi03+X2",
+          "S:lo02+X3"
+        ],
+        "solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4,
+        "semantic_hash": "d023f9b070aa8e04bf36e0da5a223500ac73a0740081407924fd0b55a1122915"
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          3
+        ],
+        "canonical": [
+          9,
+          1,
+          3
+        ],
+        "source_cells": [
+          "S:hi23+X1",
+          "S:lo23+X1"
+        ],
+        "solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "2c189025f7daa25c36a8c7243e7effe645fe6a492c44f6fc4011e73a8eaa0c30"
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          1
+        ],
+        "canonical": [
+          10,
+          0,
+          1
+        ],
+        "source_cells": [
+          "S:lo01+X2",
+          "S:lo01+X3"
+        ],
+        "solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "2ece19a65a62d82a921a81c5fdbf9fe7209503416ee17d0e2fb5fd42e05cd057"
+      },
+      {
+        "prefix": [
+          11,
+          1,
+          3,
+          10,
+          1,
+          3
+        ],
+        "canonical": [
+          11,
+          1,
+          3,
+          10,
+          1,
+          3
+        ],
+        "source_cells": [
+          "S:lo13+X0",
+          "S:lo13+X2"
+        ],
+        "solver_count": 2,
+        "nodes": 6,
+        "compiled_length": 10,
+        "semantic_hash": "0a331d08b6d957daaf5777cd7d3934642f771eba717b7eb2ea8aab4a8e600b4a"
+      }
+    ],
+    "all_helper_diagnostics": {
+      "lo01": {
+        "semantic": {
+          "source_cells": [
+            "S:lo01+X2",
+            "S:lo01+X3"
+          ],
+          "solver_count": 3,
+          "smallest_prefix": [
+            11,
+            0,
+            1,
+            10,
+            0,
+            1
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": true,
+          "pooling_rank": 21,
+          "uncapped_rank": 17,
+          "included": true
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              0,
+              1,
+              10,
+              0,
+              1
+            ],
+            "source_cells": [
+              "S:lo01+X2"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              0,
+              1,
+              10,
+              0,
+              1
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "lo02": {
+        "semantic": {
+          "source_cells": [
+            "S:lo02+X1"
+          ],
+          "solver_count": 1,
+          "smallest_prefix": [
+            11,
+            0,
+            2,
+            10,
+            0,
+            2
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": false,
+          "pooling_rank": null,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              0,
+              2,
+              10,
+              0,
+              2
+            ],
+            "source_cells": [
+              "S:lo02+X1"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              0,
+              2,
+              10,
+              0,
+              2
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "lo03": {
+        "semantic": {
+          "source_cells": [
+            "S:lo03+X1"
+          ],
+          "solver_count": 2,
+          "smallest_prefix": [
+            11,
+            0,
+            3,
+            10,
+            11,
+            4,
+            0,
+            8,
+            3
+          ],
+          "nodes": 9,
+          "admissible": true,
+          "recurrent": false,
+          "pooling_rank": null,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              0,
+              3,
+              10,
+              11,
+              4,
+              0,
+              8,
+              3
+            ],
+            "source_cells": [
+              "S:lo03+X1"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              0,
+              3,
+              10,
+              11,
+              4,
+              0,
+              8,
+              3
+            ],
+            "nodes": 9,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "lo12": {
+        "semantic": {
+          "source_cells": [
+            "S:lo12+X0",
+            "S:lo12+X3"
+          ],
+          "solver_count": 3,
+          "smallest_prefix": [
+            11,
+            2,
+            1,
+            10,
+            2,
+            1
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": true,
+          "pooling_rank": 24,
+          "uncapped_rank": 20,
+          "included": true
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              2,
+              1,
+              10,
+              2,
+              1
+            ],
+            "source_cells": [
+              "S:lo12+X3"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              2,
+              1,
+              10,
+              2,
+              1
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          },
+          {
+            "canonical": [
+              11,
+              2,
+              1,
+              10,
+              10,
+              2,
+              1,
+              5
+            ],
+            "source_cells": [
+              "S:lo12+X0"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              2,
+              1,
+              10,
+              10,
+              2,
+              1,
+              5
+            ],
+            "nodes": 8,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "lo13": {
+        "semantic": {
+          "source_cells": [
+            "S:lo13+X0",
+            "S:lo13+X2"
+          ],
+          "solver_count": 2,
+          "smallest_prefix": [
+            11,
+            1,
+            3,
+            10,
+            1,
+            3
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": true,
+          "pooling_rank": 31,
+          "uncapped_rank": 25,
+          "included": true
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              1,
+              3,
+              10,
+              1,
+              3
+            ],
+            "source_cells": [
+              "S:lo13+X0"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              1,
+              3,
+              10,
+              1,
+              3
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          },
+          {
+            "canonical": [
+              11,
+              3,
+              1,
+              10,
+              3,
+              1
+            ],
+            "source_cells": [
+              "S:lo13+X2"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              3,
+              1,
+              10,
+              3,
+              1
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "lo23": {
+        "semantic": {
+          "source_cells": [
+            "S:lo23+X0",
+            "S:lo23+X1"
+          ],
+          "solver_count": 3,
+          "smallest_prefix": [
+            11,
+            2,
+            3,
+            10,
+            2,
+            3
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": true,
+          "pooling_rank": 25,
+          "uncapped_rank": 21,
+          "included": true
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              2,
+              3,
+              10,
+              2,
+              3
+            ],
+            "source_cells": [
+              "S:lo23+X0",
+              "S:lo23+X1"
+            ],
+            "solver_count": 2,
+            "representative": [
+              11,
+              2,
+              3,
+              10,
+              2,
+              3
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": 20,
+            "included": false
+          }
+        ]
+      },
+      "hi01": {
+        "semantic": {
+          "source_cells": [
+            "S:hi01+X2",
+            "S:hi01+X3"
+          ],
+          "solver_count": 3,
+          "smallest_prefix": [
+            11,
+            0,
+            1,
+            10,
+            1,
+            0
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": true,
+          "pooling_rank": 22,
+          "uncapped_rank": 18,
+          "included": true
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              0,
+              1,
+              10,
+              1,
+              0
+            ],
+            "source_cells": [
+              "S:hi01+X3"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              0,
+              1,
+              10,
+              1,
+              0
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          },
+          {
+            "canonical": [
+              11,
+              0,
+              1,
+              10,
+              1,
+              9,
+              0,
+              5
+            ],
+            "source_cells": [
+              "S:hi01+X2"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              0,
+              1,
+              10,
+              1,
+              9,
+              0,
+              5
+            ],
+            "nodes": 8,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "hi02": {
+        "semantic": {
+          "source_cells": [
+            "S:hi02+X1",
+            "S:hi02+X3"
+          ],
+          "solver_count": 3,
+          "smallest_prefix": [
+            11,
+            0,
+            2,
+            10,
+            2,
+            0
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": true,
+          "pooling_rank": 23,
+          "uncapped_rank": 19,
+          "included": true
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              0,
+              2,
+              10,
+              2,
+              0
+            ],
+            "source_cells": [
+              "S:hi02+X3"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              0,
+              2,
+              10,
+              2,
+              0
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          },
+          {
+            "canonical": [
+              11,
+              11,
+              7,
+              0,
+              8,
+              2,
+              10,
+              2,
+              0
+            ],
+            "source_cells": [
+              "S:hi02+X1"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              11,
+              7,
+              0,
+              8,
+              2,
+              10,
+              2,
+              0
+            ],
+            "nodes": 9,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "hi03": {
+        "semantic": {
+          "source_cells": [
+            "S:hi03+X1",
+            "S:hi03+X2"
+          ],
+          "solver_count": 3,
+          "smallest_prefix": [
+            11,
+            0,
+            3,
+            9,
+            11,
+            11,
+            9,
+            4,
+            3,
+            2,
+            0,
+            5,
+            0,
+            10,
+            3,
+            0
+          ],
+          "nodes": 16,
+          "admissible": false,
+          "recurrent": true,
+          "pooling_rank": 27,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      },
+      "hi12": {
+        "semantic": {
+          "source_cells": [
+            "S:hi12+X0",
+            "S:hi12+X3"
+          ],
+          "solver_count": 4,
+          "smallest_prefix": [
+            11,
+            1,
+            2,
+            10,
+            2,
+            1
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": true,
+          "pooling_rank": 20,
+          "uncapped_rank": 16,
+          "included": true
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              1,
+              2,
+              10,
+              2,
+              1
+            ],
+            "source_cells": [
+              "S:hi12+X0"
+            ],
+            "solver_count": 2,
+            "representative": [
+              11,
+              1,
+              2,
+              10,
+              2,
+              1
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "hi13": {
+        "semantic": {
+          "source_cells": [
+            "S:hi13+X0"
+          ],
+          "solver_count": 1,
+          "smallest_prefix": [
+            11,
+            11,
+            3,
+            1,
+            7,
+            11,
+            9,
+            3,
+            5,
+            2,
+            5,
+            11,
+            10,
+            3,
+            1,
+            1,
+            5
+          ],
+          "nodes": 17,
+          "admissible": false,
+          "recurrent": false,
+          "pooling_rank": null,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      },
+      "hi23": {
+        "semantic": {
+          "source_cells": [
+            "S:hi23+X0",
+            "S:hi23+X1"
+          ],
+          "solver_count": 3,
+          "smallest_prefix": [
+            11,
+            2,
+            3,
+            10,
+            9,
+            3,
+            10,
+            1,
+            9,
+            2,
+            5,
+            2
+          ],
+          "nodes": 12,
+          "admissible": false,
+          "recurrent": true,
+          "pooling_rank": 26,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      }
+    },
+    "all_extraction_census_seconds": 0.09252987499348819,
+    "validation_seconds": 0.008634750032797456
+  }
+]

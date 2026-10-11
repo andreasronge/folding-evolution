@@ -16,3 +16,13 @@
   [1.54, 2.91], literal library 1.55× [1.09, 2.17] of R-tree; geometric cost, 96 paired jobs each). So donor harm is
   not confined to near-solved targets; it tracks irrelevant content at mix 0.5. Reopen condition (≥ ~90% first-attempt
   rate, or funded default deployment) not met; status unchanged.
+- 2026-10-11 (steward, 1228): wording correction from [critique 1228](../../../runs/2026-10-11-1228/critique.md)
+  note 9: the 1129 entry's "it tracks irrelevant content at mix 0.5" claims more than the probe isolated. Better:
+  donor libraries whose content these order targets do not need raised cost there; content mismatch is a plausible
+  explanation, not an isolated mechanism (destination family, difficulty and donor size/acceptance were not
+  separated). Related evidence from [53](../53-order-library-cap-release/question.md) (run 1228, full experiment,
+  same six order development cells, R-tree first-attempt rate about 56% in 1129): the capped 16-entry semantic
+  library cost 1.23× [1.07, 1.41] of R-tree in arithmetic mean evaluations, while the uncapped library cost 0.40×
+  [0.32, 0.50]; the cell × build pairs whose uncapped pool held no needed helper were unresolved from R-tree (0.77×
+  [0.50, 1.12], 18 pairs, descriptive). Uncapped libraries were not tested on easy targets. Reopen condition (≥ ~90%
+  first-attempt targets, or funded default deployment) not met; status unchanged.
