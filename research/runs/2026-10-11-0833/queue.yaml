@@ -1,0 +1,74 @@
+runs:
+  - id: 2026-10-11-0833-prepare
+    cmd: RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.tree_source_run --prepare --workers 10 --deadline-seconds 2700
+    timeout_seconds: 2700
+    track: chem-tape
+    expect_outputs:
+      - config.json
+      - banks.json
+      - method_freeze.json
+      - schedule_audit.json
+      - schedules.json
+      - verification.json
+      - reconstruction.json
+      - replay.json
+      - replay.jsonl
+      - stage_source.jsonl
+      - stage_libraries.json
+      - stage_gate.jsonl
+      - stage_native.jsonl
+      - stage_gate.json
+      - acquisition.jsonl
+      - libraries.json
+      - timing.json
+      - preparation.json
+    notes: >-
+      Frozen TS source roster and unchanged 0150 extractor/operator/restart policy.
+      Verify canonical TS and GS interpreter/Python/VM semantics, source/target
+      exclusion, full historic seed disjointness, eight historical off-path replays,
+      and reconstruction of all 24 archived DG libraries with failures charged.
+      Timing-only calibration: 64 actual TS-source jobs, two libraries, 96 B/C
+      and 48 native jobs at full budgets. Measured arm rates with historical floors,
+      sustained concurrency, 30 percent reserve and 90s overhead; stop if full
+      preparation exceeds 2700s or scoring exceeds 9000s. Keep exact approved design.
+      Acquire 24 new TS builds, exactly eight scheduled R-tree jobs per source cell
+      (768 jobs); up to eight 65536-evaluation attempts each, exact D625. Freeze
+      proper recurring subtrees (3-9 nodes, input, two source cells, cap 16) and
+      one size/length-matched random control per build. Small/empty libraries stay.
+      Smoke cannot authorize scoring. Outputs and evidence under RUN_DIR.
+  - id: 2026-10-11-0833-score
+    cmd: RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.tree_source_run --workers 10 --deadline-seconds 9000 --preparation "$RUN_DIR/../2026-10-11-0833-prepare"
+    timeout_seconds: 9000
+    track: chem-tape
+    expect_outputs:
+      - config.json
+      - banks.json
+      - method_freeze.json
+      - schedule_audit.json
+      - schedules.json
+      - preparation.json
+      - libraries.json
+      - search.jsonl
+      - timing.json
+      - result.json
+      - report.md
+      - dynamics.png
+      - economics.png
+    notes: >-
+      Require unchanged admitted production preparation, all acquisition/calibration
+      hashes and rows, source-only extraction/control replay, VM agreement and
+      off-path evidence. Twelve B/C cells x24 builds x6 repeats x4 arms
+      (R-tree/R-TS/R-DG/R-sizeTS =6912 jobs), separately eight TS targets x24
+      builds x4 repeats x3 arms (R-tree/R-TS/R-DG =2304 jobs). Exactly 9216 jobs;
+      no fallback or automatic extension. Common attempt seeds pair initial
+      populations and training cases. Primary B/C R-TS/R-tree arithmetic capped
+      evaluations, equal cells, 95 percent bootstrap over 24 build slots; ratio
+      upper below 0.80 plus solve-difference lower above -0.03 supports usefulness.
+      Lower above 0.80 excludes only at least 20 percent saving. Apply the same
+      guard to native usefulness; otherwise route uncertainty to strategy.
+      TS/size paired blocks; independent DG cohort bootstrap for TS/DG secondary.
+      Both TS and DG measured acquisition charged and jointly resampled with
+      their own library. Separate native reporting, per-cell/per-build intervals,
+      insertion/oversize and library audit, failure sensitivity, acquisition curves,
+      plots and conditional resolution prices. No skeleton-only attribution or
+      fresh-bank transfer claim. Outputs under RUN_DIR.

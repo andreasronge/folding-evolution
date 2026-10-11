@@ -1,0 +1,22 @@
+{
+  "replay": {
+    "jobs": 8,
+    "wall_seconds": 12.24224754201714,
+    "worker_seconds": 18.135587375145406
+  },
+  "stage_source": {
+    "jobs": 64,
+    "wall_seconds": 5.450451832963154,
+    "worker_seconds": 22.66000725456979
+  },
+  "stage_gate": {
+    "jobs": 96,
+    "wall_seconds": 30.534000667044893,
+    "worker_seconds": 286.0515462469775
+  },
+  "stage_native": {
+    "jobs": 48,
+    "wall_seconds": 5.55615445796866,
+    "worker_seconds": 27.01918242010288
+  }
+}

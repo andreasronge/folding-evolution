@@ -14,8 +14,10 @@ saving, and repays acquisition after about 169 searches against about 65. Reliab
 1,728 solved (difference −0.0012 [−0.0046, +0.0017]). The loss holds in 23/24 builds, 12/12 cells, both
 splits and all three realizations. Guards passed; 47's retention replicated (R-lib ÷ R-perm 1.06 [0.88, 1.29]).
 - Uniform labels on learned shapes were not resolved from 0150's random size-matched donors (R-size ÷ R-unif
-  1.095 [0.864, 1.367]; similar tails, budget curves and solver-use rates), so skeletons alone do not carry the
-  gain; a skeleton effect up to about 30% under uniform labels is not excluded.
+  1.095 [0.864, 1.367]: cost difference unresolved; tails, budget curves and solver-use rates descriptively
+  similar). Preserving shapes with this uniform label law did not retain the full learned-label saving; the
+  shape contribution remains unresolved (a skeleton effect up to about 30% under uniform labels is not
+  excluded), and a shape–label interaction is not excluded either.
 - The uniform law changed ADD share (84% → 49% of binary nodes), ANY share (5% → 20% of inputs), constants and
   the finite-library dependencies at once, and cut distinct-input pair sums to about a third of R-perm's. Which
   of these carries the gain is not identified; pair-sum supply is a hypothesis.
@@ -28,7 +30,7 @@ Competing explanations:
 - (b) learned skeletons and widths carry it: R-unif ≈ R-perm, well below R-tree;
 - (c) neither alone: R-unif between R-size and R-perm, unresolved against both.
 
-Reading: (a) supported as a replacement result (uniform labels lose a worthwhile amount, R-unif near R-size);
+Reading: (a) supported as a replacement result (uniform labels lose a worthwhile amount; R-unif not resolved from R-size);
 (b) not supported (R-unif resolved worse than R-perm, lower bound 1.68); (c) not supported as stated (R-unif
 resolved against R-perm, unresolved against R-size).
 

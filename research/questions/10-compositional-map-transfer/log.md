@@ -3166,3 +3166,29 @@ label component carries the library's gain; why DG components are better; A8 on 
 or against a tuned tree GP; the library on unfamiliar content; transfer beyond three fresh shapes.
 
 ```
+
+## 2026-10-11: run 2026-10-11-0833, tree libraries rebuilt from branch-sum sources (slot 41; question 49)
+
+The unchanged 0150 extractor was rebuilt from the four TS source cells: 24 new builds, 768/768 source jobs
+solved, 0.245 M [0.218, 0.275] evaluations per library, against 2.88 M for DG. It was scored on gate-sum B/C (12
+cells × 24 builds × 6 repeats) against R-tree, the saved DG libraries (R-DG) and TS size-matched random donors
+(R-sizeTS), and separately on the 8 native TS targets. Commit `28db964`, code review pass, all validation and
+seed audits clean, 9,216/9,216 rows. Primary B/C: R-TS ÷ R-tree **0.382 [0.335, 0.433]**, solve difference
++0.003 [+0.001, +0.005]; pre-set portable branch. R-TS ÷ R-sizeTS 0.406 [0.344, 0.482]; R-TS ÷ R-DG 1.032
+[0.862, 1.224], unresolved. Repays after 5.6 [4.9, 6.4] B/C searches. Native TS: R-TS ÷ R-tree **1.777 [1.578,
+2.000]**, R-DG ÷ R-tree 1.329 [1.122, 1.574]; the libraries harm a roster that R-tree solves first time 98.7% of
+the time. Audit (observational): TS libraries have no `GT(ADD,ADD)` predicate (0/24, DG 21/24) and always
+contain split-matched pair sums, which 18/24 DG libraries lack; the B/C saving is similar for both cohorts
+([analysis](../../runs/2026-10-11-0833/analysis.md), [49 log](49-tree-library-source-portability/log.md)).
+
+Digest-check corrections (critique 0833, notes 6–8) applied. The digest's pre-solve-extractor bullet regains
+"on then-addition" and "one source selection", and its repair sentence regains "on then-addition". 48's
+"perform like random size-matched donors" and "skeletons alone do not carry the gain" are replaced by
+"cost difference unresolved; descriptive reuse similar" and "preserving shapes with this uniform label law did
+not retain the full learned-label saving; the shape contribution remains unresolved". This is done in 48's
+question, a dated correction in 48's log, the root summary and sub-question entry, and the digest.
+
+Decision: close 49 and return to strategy (`next: strategy`) because the primary landed well inside its
+portable branch with the guard passing, root 10's 41-slot budget is spent, and strategy 0833 reserved the next
+choice for its own review. The native-TS harm is recorded as parked
+[50](50-library-easy-target-harm/question.md).
