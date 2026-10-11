@@ -3586,3 +3586,35 @@ advantage; why DG components are better; A8 on a fresh family bank or against tu
 acquired order content beyond development cells; an easy-target policy; transfer beyond three fresh
 shapes.
 ```
+
+
+## 2026-10-11 — digest compression (steward task 2026-10-11-1427): wording moved here
+
+The digest was 3004 words, over its limit. No belief changed in this root's section. Removed from it
+(the numbers stand; they are history, superseded or secondary):
+
+- Banks: "Sign-gated banks could not support a symmetric two-family test" (11, 15).
+- 28: partial-program context fit beat G4 1.62× [1.37, 1.90] on comparison-gate training cells (the
+  digest keeps the token-fit contrast 1.28× [1.12, 1.45]).
+- 36: A8 beat four more sources collected under G4 1.13× [1.04, 1.22].
+- 44: "A8's full-cap reliability lead was mainly the schedule" (explains the superseded 43 result).
+- 48: R-unif worse than R-perm in 23/24 builds.
+- 51: 19/24 builds favour the hand prior over TS libraries.
+- 53: R-all cheaper than R-tree in 24/24 builds.
+- The intro's "54 was a probe: its observations are in its log, not here" now reads "(a probe;
+  observations only, in its log)".
+
+The **Overall** paragraph was shortened. Former text:
+
+```
+**Overall.** Solver-fitted context and fragment blocks transfer beyond token frequency to withheld
+compositions and one fresh shape; outer-loop selection learns token biases but no resolved context
+gain. Restarted tree GP needs fewer DG evaluations than A8; learned subtree libraries cut its cost
+2.6× on DG and 4× on fresh gate-sum, a fixed sum prior 3.1× on development gate-sum B/C, and an
+uncapped library holding acquired order helpers 2.5× on the six development order cells (helpers'
+causal contribution unresolved; a supplied order prior far more); libraries harmed near-solved targets. Not shown: that evolution reaches fitted context or fragments; what
+carries C's, the library's or the prior's advantage; why DG components are better; A8 on a fresh
+family bank or against tuned tree GP; acquired order content beyond development cells; useful acquisition by the frozen uncapped recipe on a new
+content family (one rectified-sum probe, observations only: [54](questions/10-compositional-map-transfer/54-rectified-sum-acquisition/question.md)); an
+easy-target policy; transfer beyond three fresh shapes.
+```

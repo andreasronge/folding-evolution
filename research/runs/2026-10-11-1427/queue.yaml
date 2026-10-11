@@ -1,0 +1,51 @@
+runs:
+  - id: 2026-10-11-1427-exposure
+    cmd: >-
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.inherited_library_run exposure
+      --saved /Users/andreas/developer/folding-evolution/experiments/output/2026-10-11/2026-10-11-1228-prepare
+      --workers 10 --seconds 1470
+    timeout_seconds: 1500
+    expect_outputs:
+      - bank.json
+      - libraries.json
+      - nulls.json
+      - schedules.json
+      - method_freeze.json
+      - seed_audit.json
+      - exposure.jsonl
+      - exposure_manifest.json
+    track: chem-tape
+    notes: >-
+      Reload and hash-check all 24 immutable 1228 R-all libraries and reconstruct
+      from their saved source corpus. Build per-entry size-matched null donors.
+      Run 96 L, 96 S, 96 Z and 48 N trajectories, each 12 balanced episodes of
+      64 evaluated populations, preserving bits in slots across independent
+      program resets. Record first exact hits, continued post-solve exposure,
+      state/phase counters and every census. No protected scoring.
+  - id: 2026-10-11-1427-readout
+    cmd: >-
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.inherited_library_run readout
+      --exposure "$RUN_DIR/../2026-10-11-1427-exposure"
+      --workers 10 --seconds 1770
+    timeout_seconds: 1800
+    expect_outputs:
+      - bank.json
+      - libraries.json
+      - nulls.json
+      - schedules.json
+      - method_freeze.json
+      - seed_audit.json
+      - exposure_manifest.json
+      - score.jsonl
+      - report.json
+      - dynamics.png
+    track: chem-tape
+    notes: >-
+      Fail closed on partial exposure, artifact or method drift, seed-audit
+      mismatch, size-null mismatch or endpoint-extraction mismatch. Discard all
+      programs. Score the five global donor probabilities 0, 0.125, mean L-final
+      f/2, mean S-final f/2 and 0.5 on six development cells, two paired repeats,
+      24 builds (1440 restarted jobs; eight attempts of 65536 evaluations).
+      Bootstrap whole libraries; report advisory probe thresholds, neutral
+      diagnostic, state/phase rejection rates and frozen usefulness separately.
+      No confirmatory outcome table, protected search or automatic follow-up.

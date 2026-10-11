@@ -12,7 +12,7 @@ only if a protected roster frozen with the method is later scored.
 
 Current summary: **parked after probe 1315 (commit `4a60cc7`; observations only, six development cells,
 protected roster never searched).** Under this source design the frozen recipe acquired no rectifier helper and
-saved nothing. Sources `pos/neg(a,b)+Xc` are easy (384/384 solved, ~166 k evaluations per build) but are mostly
+no saving was resolved (1.03× [0.96, 1.10]; a saving above about 4% excluded at this resolution, a smaller one not). Sources `pos/neg(a,b)+Xc` are easy (384/384 solved, ~166 k evaluations per build) but are mostly
 solved through the three-input sum (`a+b+c` in 326/384, IF_GT-rooted 335/384); only 34/384 solvers contain their own
 helper, 9/384 at an emittable size, and no helper both recurred and fit the 3–9-node window (0/96 helper × build
 pairs). So R-all held a needed helper in **0/48** cell × build pairs and cost **1.03× [0.96, 1.10]** of R-tree in

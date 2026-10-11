@@ -1,0 +1,163 @@
+## Completeness
+exposure rows 336 expected 336
+duplicate exposure keys 0
+per arm Counter({'S': 96, 'Z': 96, 'L': 96, 'N': 48})
+episodes per row Counter({12: 336})
+gens per episode Counter({64: 4032})
+score rows 1440 expected 1440
+duplicate score keys 0
+score per arm Counter({'initial': 288, 'S-final': 288, 'R-tree': 288, 'L-final': 288, 'R-all': 288})
+score per cell x arm all 48: {48}
+probability mismatches 0
+unsolved score rows 4 all at cap 524288: True
+failure.json present: False False
+lead-cell counts per arm {'L': [16, 16, 16, 16, 16, 16], 'S': [16, 16, 16, 16, 16, 16], 'Z': [16, 16, 16, 16, 16, 16], 'N': [8, 8, 8, 8, 8, 8]}
+
+## Final frequency
+L n 96 fixed 46 lost 50 polymorphic 0 mean f 0.4792
+S n 96 fixed 27 lost 69 polymorphic 0 mean f 0.2812
+Z n 96 fixed 29 lost 67 polymorphic 0 mean f 0.3021
+N n 48 fixed 16 lost 32 polymorphic 0 mean f 0.3333
+L trajectory-level fixation 46 / 96 = 0.479 Wilson95 [0.382, 0.578]
+S trajectory-level fixation 27 / 96 = 0.281 Wilson95 [0.201, 0.378]
+Z trajectory-level fixation 29 / 96 = 0.302 Wilson95 [0.219, 0.4]
+N trajectory-level fixation 16 / 48 = 0.333 Wilson95 [0.217, 0.475]
+L - S point 0.1979 boot95 [0.0417, 0.3542] builds L> S 14 L= 4 L< 6
+L - Z point 0.1771 boot95 [0.0521, 0.3021] builds L> Z 14 L= 5 L< 5
+L - N point 0.1458 boot95 [0.0, 0.3021] builds L> N 14 L= 3 L< 7
+L mean final f 0.4792 boot95 [0.375, 0.5833]
+S mean final f 0.2812 boot95 [0.1771, 0.3854]
+Z mean final f 0.3021 boot95 [0.2083, 0.4062]
+N mean final f 0.3333 boot95 [0.2083, 0.4583]
+S - Z point -0.0208 boot95 [-0.1667, 0.1146]
+S - N point -0.0521 boot95 [-0.2396, 0.1354]
+Z - N point -0.0312 boot95 [-0.1979, 0.1458]
+
+## Absorption timing (episode index 0-11 at whose end the trajectory was first at 0 or 1 and stayed)
+L {0: 88, 1: 8}
+   absorbing generation (global): median 12.0 IQR [8.0, 22.0] max 88
+S {0: 80, 1: 16}
+   absorbing generation (global): median 18.0 IQR [11.0, 40.0] max 125
+Z {0: 82, 1: 14}
+   absorbing generation (global): median 17.0 IQR [8.0, 34.25] max 120
+N {0: 40, 1: 7, 2: 1}
+   absorbing generation (global): median 15.5 IQR [9.0, 50.25] max 136
+
+## Mean f at episode ends
+L [np.float64(0.477), np.float64(0.479), np.float64(0.479), np.float64(0.479), np.float64(0.479), np.float64(0.479), np.float64(0.479), np.float64(0.479), np.float64(0.479), np.float64(0.479), np.float64(0.479), np.float64(0.479)]
+S [np.float64(0.296), np.float64(0.281), np.float64(0.281), np.float64(0.281), np.float64(0.281), np.float64(0.281), np.float64(0.281), np.float64(0.281), np.float64(0.281), np.float64(0.281), np.float64(0.281), np.float64(0.281)]
+Z [np.float64(0.286), np.float64(0.302), np.float64(0.302), np.float64(0.302), np.float64(0.302), np.float64(0.302), np.float64(0.302), np.float64(0.302), np.float64(0.302), np.float64(0.302), np.float64(0.302), np.float64(0.302)]
+N [np.float64(0.302), np.float64(0.331), np.float64(0.333), np.float64(0.333), np.float64(0.333), np.float64(0.333), np.float64(0.333), np.float64(0.333), np.float64(0.333), np.float64(0.333), np.float64(0.333), np.float64(0.333)]
+
+## Selection differential per polymorphic generation: recipient_f - census_f (before elites) and next_f - census_f
+L pre n polymorphic gens 1901 mean recipient-census 0.01037 +/- 0.00311 | mean next-census 0.01005
+L post n polymorphic gens 29 mean recipient-census 0.09981 +/- 0.08287 | mean next-census 0.09981
+S pre n polymorphic gens 2704 mean recipient-census 0.00217 +/- 0.00279 | mean next-census 0.00211
+S post n polymorphic gens 99 mean recipient-census -0.02752 +/- 0.03617 | mean next-census -0.02746
+Z pre n polymorphic gens 2527 mean recipient-census 0.00203 +/- 0.00225 | mean next-census 0.00209
+Z post n polymorphic gens 12 mean recipient-census -0.02441 +/- 0.10487 | mean next-census -0.02409
+N pre n polymorphic gens 1388 mean recipient-census 0.00195 +/- 0.00302 | mean next-census 0.00208
+N post n polymorphic gens 5 mean recipient-census 0.22188 +/- 0.29239 | mean next-census 0.22188
+per-library mean of per-generation (recipient_f - census_f), bootstrap over libraries:
+L point 0.01563 boot95 [0.00883, 0.02334]
+S point 0.00131 boot95 [-0.0026, 0.00532]
+Z point -0.00038 boot95 [-0.0048, 0.00412]
+N point -0.00297 boot95 [-0.01167, 0.00532]
+
+## Relative selection differential: (recipient_f - census_f) / (census_f (1-census_f)) [approx selection coefficient]
+L pre n 1901 mean s 0.036 +/- 0.0242
+L post n 29 mean s 0.7926 +/- 0.4159
+S pre n 2704 mean s 0.0091 +/- 0.0231
+S post n 99 mean s -0.0521 +/- 0.2609
+Z pre n 2527 mean s -0.0177 +/- 0.0185
+Z post n 12 mean s 0.107 +/- 0.702
+N pre n 1388 mean s -0.0001 +/- 0.0261
+N post n 5 mean s 1.2764 +/- 1.5081
+
+## Shortcuts / force_cap / distinct recipients
+exposure episodes with shortcuts>0: 131 force_cap True: 0
+score attempts with shortcuts>0: 109 of 2288
+unsolved score rows: [('R-tree', 'O:lo02+hi12', 3, 0.0), ('L-final', 'O:lo02+hi12', 3, 0.0), ('S-final', 'O:lo02+hi12', 3, 0.0), ('S-final', 'O:lo23+hi02', 7, 0.25)]
+distinct recipients per generation: mean 98.9 median 102.0 q10/q90 [79.0, 116.0]
+distinct recipients, first 20 generations of episode 0: mean 88.4
+
+## Episode-level pre/post solve delta (split by solved), per-generation rate
+L solved eps (polymorphic start) 58 pre rate/gen 0.03522 post rate/gen 0.00127 | unsolved eps 46 rate/gen 0.0007
+S solved eps (polymorphic start) 65 pre rate/gen 0.00663 post rate/gen -0.00017 | unsolved eps 47 rate/gen 0.00088
+Z solved eps (polymorphic start) 37 pre rate/gen 0.00793 post rate/gen 0.0004 | unsolved eps 73 rate/gen -0.00037
+N solved eps (polymorphic start) 16 pre rate/gen 0.00485 post rate/gen 0.00153 | unsolved eps 41 rate/gen 0.00106
+
+## Solving during exposure (episodes), by arm, and by carrier frequency at episode start
+L episodes 1152 solved within 64 gens 625 0.543 median first-solve evals (solved only) 4352.0
+S episodes 1152 solved within 64 gens 544 0.472 median first-solve evals (solved only) 5632.0
+Z episodes 1152 solved within 64 gens 420 0.365 median first-solve evals (solved only) 7936.0
+N episodes 576 solved within 64 gens 183 0.318 median first-solve evals (solved only) 8192.0
+by initial f bucket (all arms):
+   L f0= 0 episodes 545 solved 193 capped mean evals 13680
+   L f0= poly episodes 104 solved 58 capped mean evals 10530
+   L f0= 1 episodes 503 solved 374 capped mean evals 7153
+   S f0= 0 episodes 749 solved 265 capped mean evals 13670
+   S f0= poly episodes 112 solved 65 capped mean evals 10411
+   S f0= 1 episodes 291 solved 214 capped mean evals 7303
+   Z f0= 0 episodes 730 solved 248 capped mean evals 13718
+   Z f0= poly episodes 110 solved 37 capped mean evals 13654
+   Z f0= 1 episodes 312 solved 135 capped mean evals 12642
+   N f0= 0 episodes 349 solved 118 capped mean evals 13796
+   N f0= poly episodes 57 solved 16 capped mean evals 14031
+   N f0= 1 episodes 170 solved 49 capped mean evals 14185
+paired episode capped evals (16384 cap), L vs S/Z/N on same (build, repeat<2 for N, episode):
+  L - S n episodes 1152 mean diff evals -1198 +/- 398
+  L - Z n episodes 1152 mean diff evals -2874 +/- 362
+  L - N n episodes 576 mean diff evals -3519 +/- 502
+
+## Readout: per law
+R-tree jobs 288 solved 287 capped mean evals 69990 median 30080.0 mean worker s 5.21
+initial jobs 288 solved 288 capped mean evals 43544 median 8448.0 mean worker s 3.25
+L-final jobs 288 solved 287 capped mean evals 39561 median 6784.0 mean worker s 2.98
+S-final jobs 288 solved 286 capped mean evals 56772 median 13184.0 mean worker s 4.25
+R-all jobs 288 solved 288 capped mean evals 32704 median 4608.0 mean worker s 2.46
+
+## Readout dose-response: pooled by probability value (all laws)
+p= 0.0 jobs 396 builds 24 solved 393 capped mean 74285 laws Counter({'R-tree': 288, 'S-final': 96, 'L-final': 12})
+p= 0.125 jobs 492 builds 24 solved 492 capped mean 44707 laws Counter({'initial': 288, 'L-final': 108, 'S-final': 96})
+p= 0.25 jobs 144 builds 11 solved 143 capped mean 36789 laws Counter({'L-final': 84, 'S-final': 60})
+p= 0.375 jobs 96 builds 7 solved 96 capped mean 31653 laws Counter({'L-final': 60, 'S-final': 36})
+p= 0.5 jobs 312 builds 24 solved 312 capped mean 32408 laws Counter({'R-all': 288, 'L-final': 24})
+
+## Per build: probabilities and capped means
+build  pL   pS   cost(R-tree) cost(init) cost(L) cost(S) cost(R-all)
+    0 0.500 0.125      57579     69824    37397    69824     37397
+    1 0.375 0.375      58859     45163    25749    25749     15189
+    2 0.250 0.000      58731     27776    47723    58731     15189
+    3 0.000 0.000     119872     21973   119872   119872     67285
+    4 0.125 0.000      70805     50240    50240    70805     39659
+    5 0.375 0.125      63979     71083    66475    71083     38613
+    6 0.500 0.125      34496     45312    20309    45312     20309
+    7 0.125 0.250     105621     83435    83435    86549     72064
+    8 0.250 0.000      96021     53013    26368    96021     12395
+    9 0.250 0.250      36437     15339    15211    15211     28331
+   10 0.375 0.000      48512     57600    14976    48512     25749
+   11 0.375 0.000      72277     49749    16896    72277     36011
+   12 0.125 0.125      52907     36565    36565    36565     27349
+   13 0.250 0.125      45013     55957    28629    55957      5504
+   14 0.125 0.250      64427     38635    38635    31147     22059
+   15 0.250 0.125      93248     44629    32576    44629     47253
+   16 0.375 0.125      77419     22549    34155    22549     73920
+   17 0.125 0.000      92053     77099    77099    92053     59435
+   18 0.125 0.250      66133     25344    25344    19435     20181
+   19 0.250 0.000      93504     23061    38891    93504     29867
+   20 0.125 0.375      62187     28864    28864    36907     13419
+   21 0.125 0.250      59776     34112    34112    61547     20416
+   22 0.125 0.375      72448     11755    11755    32320     26539
+   23 0.250 0.125      77461     55979    38187    55979     30763
+L-final mean probability 0.2396 dose-curve predicted cost 39886 actual 39561
+S-final mean probability 0.1406 dose-curve predicted cost 51285 actual 56772
+ratio initial / R-all (np.float64(1.331), [1.026, 1.724])
+ratio L-final / initial (np.float64(0.909), [0.71, 1.202])
+ratio L-final / S-final (np.float64(0.697), [0.567, 0.824])
+ratio L-final / R-all (np.float64(1.21), [0.98, 1.462])
+ratio S-final / initial (np.float64(1.304), [1.086, 1.61])
+ratio initial / R-tree (np.float64(0.622), [0.499, 0.75])
+ratio R-all / R-tree (np.float64(0.467), [0.384, 0.552])
+
+plots written

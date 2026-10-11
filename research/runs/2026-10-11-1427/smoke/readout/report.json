@@ -1,0 +1,785 @@
+{
+  "smoke": true,
+  "protected_searches": 0,
+  "probe": true,
+  "final_by_build": {
+    "L": [
+      1.0
+    ],
+    "S": [
+      0.0
+    ],
+    "Z": [
+      0.0
+    ],
+    "N": [
+      0.0
+    ]
+  },
+  "L_minus": {
+    "S": {
+      "point": 1.0,
+      "interval95": [
+        1.0,
+        1.0
+      ]
+    },
+    "Z": {
+      "point": 1.0,
+      "interval95": [
+        1.0,
+        1.0
+      ]
+    }
+  },
+  "neutral": {
+    "point": 0.0,
+    "interval95": [
+      0.0,
+      0.0
+    ]
+  },
+  "neutral_diagnostic_alarm": true,
+  "advisory_thresholds": {
+    "a": true,
+    "b": true,
+    "c": false
+  },
+  "advisory_all_pass": false,
+  "readout_ratios": {
+    "initial/R-all": {
+      "evaluations": {
+        "point": 0.9375534644995722,
+        "interval95": [
+          0.9375534644995722,
+          0.9375534644995722
+        ]
+      },
+      "worker_seconds": {
+        "point": 0.9260645077648617,
+        "interval95": [
+          0.9260645077648617,
+          0.9260645077648617
+        ]
+      }
+    },
+    "L-final/initial": {
+      "evaluations": {
+        "point": 1.0666058394160585,
+        "interval95": [
+          1.0666058394160585,
+          1.0666058394160585
+        ]
+      },
+      "worker_seconds": {
+        "point": 1.074693201118122,
+        "interval95": [
+          1.074693201118122,
+          1.074693201118122
+        ]
+      }
+    },
+    "L-final/S-final": {
+      "evaluations": {
+        "point": 0.536484625975218,
+        "interval95": [
+          0.536484625975218,
+          0.536484625975218
+        ]
+      },
+      "worker_seconds": {
+        "point": 0.5595354849102115,
+        "interval95": [
+          0.5595354849102115,
+          0.5595354849102115
+        ]
+      }
+    },
+    "L-final/R-all": {
+      "evaluations": {
+        "point": 1.0,
+        "interval95": [
+          1.0,
+          1.0
+        ]
+      },
+      "worker_seconds": {
+        "point": 0.9952352302916971,
+        "interval95": [
+          0.9952352302916971,
+          0.9952352302916971
+        ]
+      }
+    }
+  },
+  "per_cell": {
+    "O:lo01+hi23": {
+      "R-tree": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 70016.0
+      },
+      "initial": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 38656.0
+      },
+      "L-final": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 8704.0
+      },
+      "S-final": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 70016.0
+      },
+      "R-all": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 8704.0
+      },
+      "ratios": {
+        "L-final/initial": 0.2251655629139073,
+        "L-final/S-final": 0.12431444241316271
+      }
+    },
+    "O:lo01+hi12": {
+      "R-tree": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 175488.0
+      },
+      "initial": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 65152.0
+      },
+      "L-final": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 170880.0
+      },
+      "S-final": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 175488.0
+      },
+      "R-all": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 170880.0
+      },
+      "ratios": {
+        "L-final/initial": 2.6227897838899805,
+        "L-final/S-final": 0.973741794310722
+      }
+    },
+    "O:lo02+hi13": {
+      "R-tree": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 18304.0
+      },
+      "initial": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 3968.0
+      },
+      "L-final": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 2944.0
+      },
+      "S-final": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 18304.0
+      },
+      "R-all": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 2944.0
+      },
+      "ratios": {
+        "L-final/initial": 0.7419354838709677,
+        "L-final/S-final": 0.16083916083916083
+      }
+    },
+    "O:lo23+hi02": {
+      "R-tree": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 56448.0
+      },
+      "initial": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 110080.0
+      },
+      "L-final": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 75904.0
+      },
+      "S-final": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 56448.0
+      },
+      "R-all": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 75904.0
+      },
+      "ratios": {
+        "L-final/initial": 0.6895348837209302,
+        "L-final/S-final": 1.344671201814059
+      }
+    },
+    "O:lo02+hi12": {
+      "R-tree": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 226688.0
+      },
+      "initial": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 23296.0
+      },
+      "L-final": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 36736.0
+      },
+      "S-final": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 226688.0
+      },
+      "R-all": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 36736.0
+      },
+      "ratios": {
+        "L-final/initial": 1.5769230769230769,
+        "L-final/S-final": 0.16205533596837945
+      }
+    },
+    "O:lo23+hi12": {
+      "R-tree": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 10880.0
+      },
+      "initial": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 39424.0
+      },
+      "L-final": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 4096.0
+      },
+      "S-final": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 10880.0
+      },
+      "R-all": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_mean": 4096.0
+      },
+      "ratios": {
+        "L-final/initial": 0.1038961038961039,
+        "L-final/S-final": 0.3764705882352941
+      }
+    }
+  },
+  "operators_by_state_and_solve_phase": {
+    "L": {
+      "pre": {
+        "0": {
+          "recipients": 12712,
+          "crossover": 6329,
+          "mutation": 6383,
+          "library_draws": 0,
+          "library_insertions": 0,
+          "rejected_library": 0,
+          "ordinary_donors": 6383,
+          "ordinary_insertions": 4455,
+          "rejected_ordinary": 1928,
+          "rejected_crossover": 1392,
+          "rejected_mutation": 1928,
+          "empty_fallbacks": 0,
+          "library_rejection_fraction": null,
+          "ordinary_rejection_fraction": 0.302052326492245
+        },
+        "1": {
+          "recipients": 111240,
+          "crossover": 55657,
+          "mutation": 55583,
+          "library_draws": 27871,
+          "library_insertions": 17280,
+          "rejected_library": 10591,
+          "ordinary_donors": 27712,
+          "ordinary_insertions": 19041,
+          "rejected_ordinary": 8671,
+          "rejected_crossover": 12696,
+          "rejected_mutation": 19262,
+          "empty_fallbacks": 0,
+          "library_rejection_fraction": 0.38000071759176207,
+          "ordinary_rejection_fraction": 0.3128969399538106
+        }
+      },
+      "post": {
+        "0": {
+          "recipients": 0,
+          "crossover": 0,
+          "mutation": 0,
+          "library_draws": 0,
+          "library_insertions": 0,
+          "rejected_library": 0,
+          "ordinary_donors": 0,
+          "ordinary_insertions": 0,
+          "rejected_ordinary": 0,
+          "rejected_crossover": 0,
+          "rejected_mutation": 0,
+          "empty_fallbacks": 0,
+          "library_rejection_fraction": null,
+          "ordinary_rejection_fraction": null
+        },
+        "1": {
+          "recipients": 68072,
+          "crossover": 34092,
+          "mutation": 33980,
+          "library_draws": 17061,
+          "library_insertions": 7766,
+          "rejected_library": 9295,
+          "ordinary_donors": 16919,
+          "ordinary_insertions": 10667,
+          "rejected_ordinary": 6252,
+          "rejected_crossover": 9187,
+          "rejected_mutation": 15547,
+          "empty_fallbacks": 0,
+          "library_rejection_fraction": 0.5448098001289491,
+          "ordinary_rejection_fraction": 0.36952538566109105
+        }
+      }
+    },
+    "S": {
+      "pre": {
+        "0": {
+          "recipients": 150464,
+          "crossover": 75292,
+          "mutation": 75172,
+          "library_draws": 0,
+          "library_insertions": 0,
+          "rejected_library": 0,
+          "ordinary_donors": 75172,
+          "ordinary_insertions": 52246,
+          "rejected_ordinary": 22926,
+          "rejected_crossover": 17110,
+          "rejected_mutation": 22926,
+          "empty_fallbacks": 0,
+          "library_rejection_fraction": null,
+          "ordinary_rejection_fraction": 0.3049805778747406
+        },
+        "1": {
+          "recipients": 3714,
+          "crossover": 1848,
+          "mutation": 1866,
+          "library_draws": 951,
+          "library_insertions": 695,
+          "rejected_library": 256,
+          "ordinary_donors": 915,
+          "ordinary_insertions": 685,
+          "rejected_ordinary": 230,
+          "rejected_crossover": 296,
+          "rejected_mutation": 486,
+          "empty_fallbacks": 0,
+          "library_rejection_fraction": 0.26919032597266035,
+          "ordinary_rejection_fraction": 0.25136612021857924
+        }
+      },
+      "post": {
+        "0": {
+          "recipients": 37846,
+          "crossover": 19067,
+          "mutation": 18779,
+          "library_draws": 0,
+          "library_insertions": 0,
+          "rejected_library": 0,
+          "ordinary_donors": 18779,
+          "ordinary_insertions": 11843,
+          "rejected_ordinary": 6936,
+          "rejected_crossover": 4995,
+          "rejected_mutation": 6936,
+          "empty_fallbacks": 0,
+          "library_rejection_fraction": null,
+          "ordinary_rejection_fraction": 0.3693487406145162
+        },
+        "1": {
+          "recipients": 0,
+          "crossover": 0,
+          "mutation": 0,
+          "library_draws": 0,
+          "library_insertions": 0,
+          "rejected_library": 0,
+          "ordinary_donors": 0,
+          "ordinary_insertions": 0,
+          "rejected_ordinary": 0,
+          "rejected_crossover": 0,
+          "rejected_mutation": 0,
+          "empty_fallbacks": 0,
+          "library_rejection_fraction": null,
+          "ordinary_rejection_fraction": null
+        }
+      }
+    },
+    "Z": {
+      "pre": {
+        "0": {
+          "recipients": 158909,
+          "crossover": 79531,
+          "mutation": 79378,
+          "library_draws": 0,
+          "library_insertions": 0,
+          "rejected_library": 0,
+          "ordinary_donors": 79378,
+          "ordinary_insertions": 55140,
+          "rejected_ordinary": 24238,
+          "rejected_crossover": 18164,
+          "rejected_mutation": 24238,
+          "empty_fallbacks": 0,
+          "library_rejection_fraction": null,
+          "ordinary_rejection_fraction": 0.3053490891682834
+        },
+        "1": {
+          "recipients": 95,
+          "crossover": 46,
+          "mutation": 49,
+          "library_draws": 33,
+          "library_insertions": 30,
+          "rejected_library": 3,
+          "ordinary_donors": 16,
+          "ordinary_insertions": 16,
+          "rejected_ordinary": 0,
+          "rejected_crossover": 3,
+          "rejected_mutation": 3,
+          "empty_fallbacks": 0,
+          "library_rejection_fraction": 0.09090909090909091,
+          "ordinary_rejection_fraction": 0.0
+        }
+      },
+      "post": {
+        "0": {
+          "recipients": 33020,
+          "crossover": 16486,
+          "mutation": 16534,
+          "library_draws": 0,
+          "library_insertions": 0,
+          "rejected_library": 0,
+          "ordinary_donors": 16534,
+          "ordinary_insertions": 10714,
+          "rejected_ordinary": 5820,
+          "rejected_crossover": 4045,
+          "rejected_mutation": 5820,
+          "empty_fallbacks": 0,
+          "library_rejection_fraction": null,
+          "ordinary_rejection_fraction": 0.3520019354058304
+        },
+        "1": {
+          "recipients": 0,
+          "crossover": 0,
+          "mutation": 0,
+          "library_draws": 0,
+          "library_insertions": 0,
+          "rejected_library": 0,
+          "ordinary_donors": 0,
+          "ordinary_insertions": 0,
+          "rejected_ordinary": 0,
+          "rejected_crossover": 0,
+          "rejected_mutation": 0,
+          "empty_fallbacks": 0,
+          "library_rejection_fraction": null,
+          "ordinary_rejection_fraction": null
+        }
+      }
+    },
+    "N": {
+      "pre": {
+        "0": {
+          "recipients": 163709,
+          "crossover": 81811,
+          "mutation": 81898,
+          "library_draws": 0,
+          "library_insertions": 0,
+          "rejected_library": 0,
+          "ordinary_donors": 81898,
+          "ordinary_insertions": 56869,
+          "rejected_ordinary": 25029,
+          "rejected_crossover": 18479,
+          "rejected_mutation": 25029,
+          "empty_fallbacks": 0,
+          "library_rejection_fraction": null,
+          "ordinary_rejection_fraction": 0.305611858653447
+        },
+        "1": {
+          "recipients": 629,
+          "crossover": 322,
+          "mutation": 307,
+          "library_draws": 0,
+          "library_insertions": 0,
+          "rejected_library": 0,
+          "ordinary_donors": 307,
+          "ordinary_insertions": 252,
+          "rejected_ordinary": 55,
+          "rejected_crossover": 42,
+          "rejected_mutation": 55,
+          "empty_fallbacks": 0,
+          "library_rejection_fraction": null,
+          "ordinary_rejection_fraction": 0.1791530944625407
+        }
+      },
+      "post": {
+        "0": {
+          "recipients": 27686,
+          "crossover": 13824,
+          "mutation": 13862,
+          "library_draws": 0,
+          "library_insertions": 0,
+          "rejected_library": 0,
+          "ordinary_donors": 13862,
+          "ordinary_insertions": 8941,
+          "rejected_ordinary": 4921,
+          "rejected_crossover": 3427,
+          "rejected_mutation": 4921,
+          "empty_fallbacks": 0,
+          "library_rejection_fraction": null,
+          "ordinary_rejection_fraction": 0.35499927860337616
+        },
+        "1": {
+          "recipients": 0,
+          "crossover": 0,
+          "mutation": 0,
+          "library_draws": 0,
+          "library_insertions": 0,
+          "rejected_library": 0,
+          "ordinary_donors": 0,
+          "ordinary_insertions": 0,
+          "rejected_ordinary": 0,
+          "rejected_crossover": 0,
+          "rejected_mutation": 0,
+          "empty_fallbacks": 0,
+          "library_rejection_fraction": null,
+          "ordinary_rejection_fraction": null
+        }
+      }
+    }
+  },
+  "arms": {
+    "R-tree": {
+      "jobs": 12,
+      "solves": 12,
+      "capped_mean": 92970.66666666667,
+      "mean_worker_seconds": 4.706414652755484
+    },
+    "initial": {
+      "jobs": 12,
+      "solves": 12,
+      "capped_mean": 46762.666666666664,
+      "mean_worker_seconds": 2.4212197846888253
+    },
+    "L-final": {
+      "jobs": 12,
+      "solves": 12,
+      "capped_mean": 49877.333333333336,
+      "mean_worker_seconds": 2.6020684410177637
+    },
+    "S-final": {
+      "jobs": 12,
+      "solves": 12,
+      "capped_mean": 92970.66666666667,
+      "mean_worker_seconds": 4.650408260407858
+    },
+    "R-all": {
+      "jobs": 12,
+      "solves": 12,
+      "capped_mean": 49877.333333333336,
+      "mean_worker_seconds": 2.614526055568907
+    }
+  },
+  "exposure": {
+    "L": {
+      "trajectories": 1,
+      "fixation": 1,
+      "loss": 0,
+      "worker_seconds": 10.030085541890003,
+      "pre_solve_delta_mean": 0.0625,
+      "post_solve_delta_mean": 0.0
+    },
+    "S": {
+      "trajectories": 1,
+      "fixation": 0,
+      "loss": 1,
+      "worker_seconds": 10.229991000029258,
+      "pre_solve_delta_mean": 0.0032552083333333335,
+      "post_solve_delta_mean": -0.0578125
+    },
+    "Z": {
+      "trajectories": 1,
+      "fixation": 0,
+      "loss": 1,
+      "worker_seconds": 10.203497792012058,
+      "pre_solve_delta_mean": -0.020833333333333332,
+      "post_solve_delta_mean": 0.0
+    },
+    "N": {
+      "trajectories": 1,
+      "fixation": 0,
+      "loss": 1,
+      "worker_seconds": 10.088598584057763,
+      "pre_solve_delta_mean": -0.020833333333333332,
+      "post_solve_delta_mean": 0.0
+    }
+  },
+  "bootstrap": {
+    "seed": 202610111427,
+    "draws": 8192,
+    "unit": "whole paired library builds"
+  },
+  "interpretation": "Descriptive observations; thresholds advisory. Size control does not isolate robustness. Neutral alarm is diagnostic. Broad uncertainty is not absence. Inspect frozen usefulness before confirmation.",
+  "scope": "Six development cells; fixed externally acquired content; aggregate deployment law from mean endpoint; no transfer or single-population deployment claim",
+  "admitted": true,
+  "score_rows_hash": "c0d84cd62ae86879817f5f40283ca69e7e5613a06d097313564e611a4cddb350",
+  "exposure_manifest_hash": "0b9525d542b0c3568fc44e0aaf344bf53d0acaf28f18275d0f9e6d18c1174cb3",
+  "score_batch_seconds": 58.95890816592146,
+  "workers": 4,
+  "historical_acquisition": [
+    {
+      "build": 0,
+      "evaluations": 215296,
+      "worker_seconds": 14.861455417587422
+    },
+    {
+      "build": 1,
+      "evaluations": 173312,
+      "worker_seconds": 9.822090375237167
+    },
+    {
+      "build": 2,
+      "evaluations": 252416,
+      "worker_seconds": 16.886370998923667
+    },
+    {
+      "build": 3,
+      "evaluations": 224512,
+      "worker_seconds": 13.17467337672133
+    },
+    {
+      "build": 4,
+      "evaluations": 199168,
+      "worker_seconds": 11.919554958003573
+    },
+    {
+      "build": 5,
+      "evaluations": 276736,
+      "worker_seconds": 16.661394414957613
+    },
+    {
+      "build": 6,
+      "evaluations": 212224,
+      "worker_seconds": 12.876238294993527
+    },
+    {
+      "build": 7,
+      "evaluations": 276224,
+      "worker_seconds": 16.83526042359881
+    },
+    {
+      "build": 8,
+      "evaluations": 167424,
+      "worker_seconds": 9.483770169666968
+    },
+    {
+      "build": 9,
+      "evaluations": 260864,
+      "worker_seconds": 16.451404334860854
+    },
+    {
+      "build": 10,
+      "evaluations": 265728,
+      "worker_seconds": 19.262621914269403
+    },
+    {
+      "build": 11,
+      "evaluations": 183040,
+      "worker_seconds": 10.604750250233337
+    },
+    {
+      "build": 12,
+      "evaluations": 293376,
+      "worker_seconds": 18.24514262576122
+    },
+    {
+      "build": 13,
+      "evaluations": 131584,
+      "worker_seconds": 6.93985391384922
+    },
+    {
+      "build": 14,
+      "evaluations": 201216,
+      "worker_seconds": 12.00350416766014
+    },
+    {
+      "build": 15,
+      "evaluations": 120064,
+      "worker_seconds": 6.080557581153698
+    },
+    {
+      "build": 16,
+      "evaluations": 319488,
+      "worker_seconds": 19.660609708167613
+    },
+    {
+      "build": 17,
+      "evaluations": 154880,
+      "worker_seconds": 9.707257500616834
+    },
+    {
+      "build": 18,
+      "evaluations": 197120,
+      "worker_seconds": 10.079961666488089
+    },
+    {
+      "build": 19,
+      "evaluations": 202240,
+      "worker_seconds": 11.673510791384615
+    },
+    {
+      "build": 20,
+      "evaluations": 186368,
+      "worker_seconds": 11.300051168422215
+    },
+    {
+      "build": 21,
+      "evaluations": 222464,
+      "worker_seconds": 13.712240002932958
+    },
+    {
+      "build": 22,
+      "evaluations": 198400,
+      "worker_seconds": 13.173683290253393
+    },
+    {
+      "build": 23,
+      "evaluations": 206336,
+      "worker_seconds": 12.403731706202962
+    }
+  ]
+}
