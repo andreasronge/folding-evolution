@@ -142,10 +142,23 @@ def from_postfix(tokens):
     return Tree(stack[0])
 
 
-def search(job, *, force_cap=False, donor_library=None, donor_observer=None):
+def search(job, *, force_cap=False, donor_library=None, donor_observer=None,
+           library_probability=0.5, modifier_bits=None, modifier_seed=None,
+           shuffle_modifiers=False, continue_after_solve=False, lineage_observer=None):
     cell, seed, cap, pop_size, inputs, crossover = job
     if cap < pop_size or cap % pop_size or pop_size < 3 or crossover not in MIXES:
         raise ValueError("invalid GP search budget/mix")
+    if not 0 <= library_probability <= 1:
+        raise ValueError("invalid library probability")
+    bits = None if modifier_bits is None else np.asarray(modifier_bits).copy()
+    if bits is not None and (bits.shape != (pop_size,) or not np.isin(bits, [0, 1]).all()):
+        raise ValueError("invalid modifier bits")
+    if bits is not None:
+        bits = bits.astype(np.int8)
+    if shuffle_modifiers and (bits is None or modifier_seed is None):
+        raise ValueError("shuffle requires bits and an independent seed")
+    modifier_rng = np.random.default_rng(modifier_seed) if shuffle_modifiers else None
+    modifier_trace = []
     start = time.monotonic()
     indices = np.random.default_rng([seed, 0]).choice(len(inputs), 64, replace=False)
     training = [inputs[i] for i in indices]
@@ -183,7 +196,7 @@ def search(job, *, force_cap=False, donor_library=None, donor_observer=None):
         correct = observed == label[indices]
         scores = correct.sum(1)
         evaluations = (generation + 1) * pop_size
-        for i in np.flatnonzero(scores == 64):
+        for i in ([] if continue_after_solve and solved_at is not None else np.flatnonzero(scores == 64)):
             perfect_count += 1
             key = programs[i]
             if key not in checked:
@@ -195,20 +208,28 @@ def search(job, *, force_cap=False, donor_library=None, donor_observer=None):
                 unique_shortcuts += not checked[key]
             if not checked[key]:
                 shortcuts += 1
-            elif not force_cap:
+            elif not force_cap or continue_after_solve:
                 solved_at, solver, solver_tree = evaluations, list(key), list(pop[i].prefix)
                 break
         elapsed = time.monotonic() - start
         for b in budgets:
             if evaluations >= b and str(b) not in budget_times:
                 budget_times[str(b)] = elapsed
-        if generation % 32 == 0 or solved_at is not None or evaluations == cap:
+        if generation % 32 == 0 or (solved_at is not None and (not continue_after_solve or solved_at == evaluations)) or evaluations == cap:
             curve.append([evaluations, int(scores.max()), len(np.unique(correct, axis=0)),
                           float(np.mean(lengths))])
             phenotype_curve.append([evaluations, len(np.unique(observed, axis=0))])
-        if solved_at is not None or evaluations == cap:
+        if (solved_at is not None and not continue_after_solve) or evaluations == cap:
+            if bits is not None:
+                modifier_trace.append(dict(generation=generation, census_f=float(bits.mean()),
+                                           next_f=float(bits.mean()), recipient_f=None,
+                                           phase='post' if solved_at is not None else 'pre',
+                                           counters=None, best_score=int(scores.max()),
+                                           diversity=len(np.unique(correct, axis=0))))
             break
         tick = time.monotonic()
+        if modifier_rng is not None:
+            modifier_rng.shuffle(bits)
         _, inverse = np.unique(correct, axis=0, return_inverse=True)
         groups = [np.flatnonzero(inverse == i) for i in range(inverse.max() + 1)]
         group_cases = np.array([correct[g[0]] for g in groups])
@@ -216,8 +237,17 @@ def search(job, *, force_cap=False, donor_library=None, donor_observer=None):
         parents = np.array([_lexicase_select(groups, group_cases, selection) for _ in range(2 * n)]).reshape(2, n)
         crossing = variation.random(n) < crossover
         children = []
+        child_bits = []
+        counters = [{k: 0 for k in ('recipients', 'crossover', 'mutation', 'library_draws',
+                     'library_insertions', 'rejected_library', 'ordinary_donors',
+                     'ordinary_insertions', 'rejected_ordinary', 'rejected_crossover',
+                     'rejected_mutation', 'empty_fallbacks')} for _ in range(2)] if bits is not None else None
         for j in range(n):
             p1, p2 = pop[parents[0, j]], pop[parents[1, j]]
+            state = int(bits[parents[0, j]]) if bits is not None else 1
+            if counters is not None:
+                counters[state]['recipients'] += 1
+                child_bits.append(state)
             point = int(variation.integers(len(p1.prefix)))
             if crossing[j]:
                 kind = "crossover"
@@ -225,8 +255,9 @@ def search(job, *, force_cap=False, donor_library=None, donor_observer=None):
                 child, rejected = p1.insert(point, p2, donor_point)
             else:
                 kind = "mutation"
-                library_draw = (donor_library is not None and bool(donor_library)
-                                and variation.random() < 0.5)
+                library_draw = (state == 1 and library_probability > 0
+                                and donor_library is not None and bool(donor_library)
+                                and variation.random() < library_probability)
                 donor = (donor_library[int(variation.integers(len(donor_library)))]
                          if library_draw else random_tree(variation, 3))
                 child, rejected = p1.insert(point, donor)
@@ -238,17 +269,49 @@ def search(job, *, force_cap=False, donor_library=None, donor_observer=None):
                         donor_observer(donor, rejected)
                     stats["ordinary_donors"] += int(not library_draw)
                     stats["empty_fallbacks"] += int(not donor_library)
+                if counters is not None:
+                    cc = counters[state]
+                    cc['library_draws'] += int(library_draw)
+                    cc['library_insertions'] += int(library_draw and not rejected)
+                    cc['rejected_library'] += int(library_draw and rejected)
+                    cc['ordinary_donors'] += int(not library_draw)
+                    cc['ordinary_insertions'] += int(not library_draw and not rejected)
+                    cc['rejected_ordinary'] += int(not library_draw and rejected)
+                    cc['empty_fallbacks'] += int(state == 1 and donor_library is not None and not donor_library)
+            if counters is not None:
+                counters[state][kind] += 1
+                counters[state]['rejected_' + kind] += int(rejected)
+            if lineage_observer is not None:
+                lineage_observer(dict(recipient=int(parents[0, j]), mate=int(parents[1, j]),
+                                      state=state, parent=p1, child=child, rejected=rejected,
+                                      kind=kind, generation=generation))
             stats[kind] += 1
             stats["rejected_" + kind] += int(rejected)
             children.append(child)
         elite = np.argsort(-scores, kind="stable")[:2]
         pop = [pop[i] for i in elite] + children
+        if bits is not None:
+            census_f = float(bits.mean())
+            next_bits = np.array([int(bits[i]) for i in elite] + child_bits, dtype=np.int8)
+            if lineage_observer is not None:
+                lineage_observer(dict(elites=elite.tolist(), old_bits=bits.tolist(),
+                                      next_bits=next_bits.tolist(), generation=generation))
+            modifier_trace.append(dict(generation=generation, census_f=census_f,
+                                       recipient_f=float(np.mean(child_bits)), next_f=float(next_bits.mean()),
+                                       distinct_recipients=len(set(parents[0].tolist())),
+                                       phase='post' if solved_at is not None else 'pre',
+                                       counters=counters, best_score=int(scores.max()),
+                                       diversity=len(np.unique(correct, axis=0))))
+            bits = next_bits
         variation_seconds += time.monotonic() - tick
     seconds = time.monotonic() - start
     for b in budgets:
-        if solved_at is not None and solved_at <= b:
+        if solved_at is not None and solved_at <= b and not continue_after_solve:
             budget_times[str(b)] = seconds
-    return dict(cell=cell["id"], arm="tree", seed=seed, cap=cap, pop_size=pop_size,
+    extra = {} if bits is None else dict(modifier_bits=bits.tolist(), modifier_trace=modifier_trace,
+                                         first_solve_evaluations=solved_at,
+                                         library_probability=library_probability)
+    return dict(**extra, cell=cell["id"], arm="tree", seed=seed, cap=cap, pop_size=pop_size,
                 crossover=crossover, solved=solved_at is not None, evaluations=evaluations,
                 seconds=seconds, budget_seconds=budget_times, generations=generation + 1,
                 solver=solver, solver_tree=solver_tree, training_indices=indices.tolist(),

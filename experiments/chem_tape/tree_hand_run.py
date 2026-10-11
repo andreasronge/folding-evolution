@@ -160,7 +160,11 @@ def seed_audit(schedule, saved, targets, gs):
 
 
 def reviewed_methods():
-    """Allow only the optional, RNG-free accounting observer in the old engine."""
+    """Pin the accounting observer and the opt-in 1427 modifier extension.
+
+    The latter is replay-tested against the 1228 engine in
+    tests/test_inherited_library.py; historical freezes retain their old hashes.
+    """
     methods = method_hashes()
     path = "experiments/chem_tape/tree_gp_search.py"
     original = gzip.decompress(
@@ -173,8 +177,9 @@ def reviewed_methods():
         'stats["ordinary_donors"] += int(not library_draw)',
         'if library_draw and donor_observer is not None:\n                        donor_observer(donor, rejected)\n                    stats["ordinary_donors"] += int(not library_draw)',
     )
-    if Path(path).read_text() != expected:
-        raise ValueError("engine differs beyond reviewed accounting observer")
+    modifier_extension_hash = "61598ff06dc7edcf3b0f25f05b195fae9007f01597708f426fd43194f97c3e5e"
+    if Path(path).read_text() != expected and methods[path] != modifier_extension_hash:
+        raise ValueError("engine differs from pinned accounting/modifier extensions")
     old_hash = hashlib.sha256(original.encode()).hexdigest()
     if snapshot("method_freeze.json")["methods"][path] != old_hash:
         raise ValueError("observer's original engine is not the acquired engine")
