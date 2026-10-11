@@ -1,0 +1,10 @@
+{"family": "DG", "cell": "development", "arm": "tree", "repeat": 2, "crossover": 0.9, "seed": 22160202, "worker_seconds": 48.57888171689311}
+{"family": "DG", "cell": "development", "arm": "tree", "repeat": 3, "crossover": 0.9, "seed": 22160203, "worker_seconds": 44.02159173503919}
+{"family": "DG", "cell": "development", "arm": "tree", "repeat": 8, "crossover": 0.9, "seed": 22160208, "worker_seconds": 40.29924169514023}
+{"family": "DG", "cell": "development", "arm": "tree", "repeat": 0, "crossover": 0.9, "seed": 22160200, "worker_seconds": 42.59886125790154}
+{"family": "DG", "cell": "development", "arm": "tree", "repeat": 7, "crossover": 0.9, "seed": 22160207, "worker_seconds": 55.255109643575615}
+{"family": "DG", "cell": "development", "arm": "tree", "repeat": 4, "crossover": 0.9, "seed": 22160204, "worker_seconds": 46.13849811217812}
+{"family": "DG", "cell": "development", "arm": "tree", "repeat": 6, "crossover": 0.9, "seed": 22160206, "worker_seconds": 46.8121340960749}
+{"family": "DG", "cell": "development", "arm": "tree", "repeat": 1, "crossover": 0.9, "seed": 22160201, "worker_seconds": 46.93487190615074}
+{"family": "DG", "cell": "development", "arm": "tree", "repeat": 5, "crossover": 0.9, "seed": 22160205, "worker_seconds": 48.208513191176145}
+{"family": "DG", "cell": "development", "arm": "tree", "repeat": 9, "crossover": 0.9, "seed": 22160209, "worker_seconds": 56.57465781558621}

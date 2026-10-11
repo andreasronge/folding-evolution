@@ -38,3 +38,11 @@ Decision: close 44 and return to strategy (`next: strategy`) because the pre-reg
 (A8 keeps no evaluation saving over restarted tree GP on these development rosters at this schedule), the
 residual A8 value is now a worker-time saving whose purchase depends on the owner's cost unit, and root 10's
 36-slot budget is spent; whether to fund the tree-native fragment plan against R-tree is the strategist's call.
+
+2026-10-11 (steward, run 2026-10-11-0150): wording corrections from critique 0150's digest check (notes 6–8),
+applied to question.md; the entry above stands as written. "Reliability within three points" → noninferior
+within the prespecified three-point margin, equal reliability not established (solve-difference interval
+[0.000, 0.034] is not inside ±0.03). "(b) supported" → the restarted comparison favours tree GP in evaluations;
+the stagnation/shortcut mechanisms in (b) remain hypotheses. "Attempts behave independently" / "fixed-build
+heterogeneity" → tree hazards are consistent with the independence projection; A8's shortfall is consistent
+with build heterogeneity. No decision changes.

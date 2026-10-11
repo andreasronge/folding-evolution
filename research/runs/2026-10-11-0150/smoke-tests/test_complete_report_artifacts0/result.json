@@ -1,0 +1,2311 @@
+{
+  "families": {
+    "DG": {
+      "contrasts": {
+        "R-tree/R-A8": {
+          "evaluations": {
+            "point": 0.5,
+            "interval95": [
+              0.5,
+              0.5
+            ]
+          },
+          "worker_seconds": {
+            "point": 1.0,
+            "interval95": [
+              1.0,
+              1.0
+            ]
+          },
+          "solve_fraction_difference": {
+            "point": 0.0,
+            "interval95": [
+              0.0,
+              0.0
+            ]
+          },
+          "geometric_2cap_ratio": {
+            "point": 0.5,
+            "interval95": [
+              0.49999999999999994,
+              0.5000000000000001
+            ]
+          }
+        },
+        "R-tree/F-A8": {
+          "evaluations": {
+            "point": 0.5,
+            "interval95": [
+              0.5,
+              0.5
+            ]
+          },
+          "worker_seconds": {
+            "point": 1.0,
+            "interval95": [
+              1.0,
+              1.0
+            ]
+          },
+          "solve_fraction_difference": {
+            "point": 0.0,
+            "interval95": [
+              0.0,
+              0.0
+            ]
+          },
+          "geometric_2cap_ratio": {
+            "point": 0.5,
+            "interval95": [
+              0.49999999999999994,
+              0.5000000000000001
+            ]
+          }
+        },
+        "R-A8/F-A8": {
+          "evaluations": {
+            "point": 1.0,
+            "interval95": [
+              1.0,
+              1.0
+            ]
+          },
+          "worker_seconds": {
+            "point": 1.0,
+            "interval95": [
+              1.0,
+              1.0
+            ]
+          },
+          "solve_fraction_difference": {
+            "point": 0.0,
+            "interval95": [
+              0.0,
+              0.0
+            ]
+          },
+          "geometric_2cap_ratio": {
+            "point": 1.0,
+            "interval95": [
+              1.0,
+              1.0
+            ]
+          }
+        }
+      },
+      "decision": {
+        "verdict": "tree_evaluation_win_with_noninferiority",
+        "reliability_noninferiority": true,
+        "reliability_status": "within_three_percentage_points"
+      },
+      "means": {
+        "evaluations": {
+          "R-tree": 3200.0,
+          "R-A8": 6400.0,
+          "F-A8": 6400.0
+        },
+        "worker_seconds": {
+          "R-tree": 1.0,
+          "R-A8": 1.0,
+          "F-A8": 1.0
+        }
+      },
+      "solve_fractions": {
+        "R-tree": 1.0,
+        "R-A8": 1.0,
+        "F-A8": 1.0
+      },
+      "per_cell": {
+        "0": {
+          "R-tree": {
+            "jobs": 96,
+            "solves": 96,
+            "evaluations": {
+              "point": 3200.0,
+              "interval95": [
+                2474.6666666666665,
+                3904.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 3072000,
+            "primitive_case_work": 196608000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 96,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.6666666666666666,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          },
+          "R-A8": {
+            "jobs": 96,
+            "solves": 96,
+            "evaluations": {
+              "point": 6400.0,
+              "interval95": [
+                4949.333333333333,
+                7808.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 6144000,
+            "primitive_case_work": 393216000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 96,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.3333333333333333,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          },
+          "F-A8": {
+            "jobs": 48,
+            "solves": 48,
+            "evaluations": {
+              "point": 6400.0,
+              "interval95": [
+                4949.333333333333,
+                7808.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 3072000,
+            "primitive_case_work": 196608000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 48,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.3333333333333333,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          }
+        },
+        "1": {
+          "R-tree": {
+            "jobs": 96,
+            "solves": 96,
+            "evaluations": {
+              "point": 3200.0,
+              "interval95": [
+                2474.6666666666665,
+                3904.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 3072000,
+            "primitive_case_work": 196608000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 96,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.6666666666666666,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          },
+          "R-A8": {
+            "jobs": 96,
+            "solves": 96,
+            "evaluations": {
+              "point": 6400.0,
+              "interval95": [
+                4949.333333333333,
+                7808.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 6144000,
+            "primitive_case_work": 393216000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 96,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.3333333333333333,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          },
+          "F-A8": {
+            "jobs": 48,
+            "solves": 48,
+            "evaluations": {
+              "point": 6400.0,
+              "interval95": [
+                4949.333333333333,
+                7808.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 3072000,
+            "primitive_case_work": 196608000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 48,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.3333333333333333,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          }
+        },
+        "2": {
+          "R-tree": {
+            "jobs": 96,
+            "solves": 96,
+            "evaluations": {
+              "point": 3200.0,
+              "interval95": [
+                2474.6666666666665,
+                3904.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 3072000,
+            "primitive_case_work": 196608000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 96,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.6666666666666666,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          },
+          "R-A8": {
+            "jobs": 96,
+            "solves": 96,
+            "evaluations": {
+              "point": 6400.0,
+              "interval95": [
+                4949.333333333333,
+                7808.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 6144000,
+            "primitive_case_work": 393216000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 96,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.3333333333333333,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          },
+          "F-A8": {
+            "jobs": 48,
+            "solves": 48,
+            "evaluations": {
+              "point": 6400.0,
+              "interval95": [
+                4949.333333333333,
+                7808.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 3072000,
+            "primitive_case_work": 196608000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 48,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.3333333333333333,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          }
+        },
+        "3": {
+          "R-tree": {
+            "jobs": 96,
+            "solves": 96,
+            "evaluations": {
+              "point": 3200.0,
+              "interval95": [
+                2474.6666666666665,
+                3904.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 3072000,
+            "primitive_case_work": 196608000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 96,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.6666666666666666,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          },
+          "R-A8": {
+            "jobs": 96,
+            "solves": 96,
+            "evaluations": {
+              "point": 6400.0,
+              "interval95": [
+                4949.333333333333,
+                7808.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 6144000,
+            "primitive_case_work": 393216000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 96,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.3333333333333333,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          },
+          "F-A8": {
+            "jobs": 48,
+            "solves": 48,
+            "evaluations": {
+              "point": 6400.0,
+              "interval95": [
+                4949.333333333333,
+                7808.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 3072000,
+            "primitive_case_work": 196608000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 48,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.3333333333333333,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          }
+        },
+        "4": {
+          "R-tree": {
+            "jobs": 96,
+            "solves": 96,
+            "evaluations": {
+              "point": 3200.0,
+              "interval95": [
+                2474.6666666666665,
+                3904.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 3072000,
+            "primitive_case_work": 196608000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 96,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.6666666666666666,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          },
+          "R-A8": {
+            "jobs": 96,
+            "solves": 96,
+            "evaluations": {
+              "point": 6400.0,
+              "interval95": [
+                4949.333333333333,
+                7808.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 6144000,
+            "primitive_case_work": 393216000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 96,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.3333333333333333,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          },
+          "F-A8": {
+            "jobs": 48,
+            "solves": 48,
+            "evaluations": {
+              "point": 6400.0,
+              "interval95": [
+                4949.333333333333,
+                7808.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 3072000,
+            "primitive_case_work": 196608000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 48,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.3333333333333333,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          }
+        },
+        "5": {
+          "R-tree": {
+            "jobs": 96,
+            "solves": 96,
+            "evaluations": {
+              "point": 3200.0,
+              "interval95": [
+                2474.6666666666665,
+                3904.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 3072000,
+            "primitive_case_work": 196608000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 96,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.6666666666666666,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          },
+          "R-A8": {
+            "jobs": 96,
+            "solves": 96,
+            "evaluations": {
+              "point": 6400.0,
+              "interval95": [
+                4949.333333333333,
+                7808.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 6144000,
+            "primitive_case_work": 393216000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 96,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.3333333333333333,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          },
+          "F-A8": {
+            "jobs": 48,
+            "solves": 48,
+            "evaluations": {
+              "point": 6400.0,
+              "interval95": [
+                4949.333333333333,
+                7808.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 3072000,
+            "primitive_case_work": 196608000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 48,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.3333333333333333,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          }
+        },
+        "6": {
+          "R-tree": {
+            "jobs": 96,
+            "solves": 96,
+            "evaluations": {
+              "point": 3200.0,
+              "interval95": [
+                2474.6666666666665,
+                3904.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 3072000,
+            "primitive_case_work": 196608000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 96,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.6666666666666666,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          },
+          "R-A8": {
+            "jobs": 96,
+            "solves": 96,
+            "evaluations": {
+              "point": 6400.0,
+              "interval95": [
+                4949.333333333333,
+                7808.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 6144000,
+            "primitive_case_work": 393216000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 96,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.3333333333333333,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          },
+          "F-A8": {
+            "jobs": 48,
+            "solves": 48,
+            "evaluations": {
+              "point": 6400.0,
+              "interval95": [
+                4949.333333333333,
+                7808.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 3072000,
+            "primitive_case_work": 196608000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 48,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.3333333333333333,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          }
+        },
+        "7": {
+          "R-tree": {
+            "jobs": 96,
+            "solves": 96,
+            "evaluations": {
+              "point": 3200.0,
+              "interval95": [
+                2474.6666666666665,
+                3904.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 3072000,
+            "primitive_case_work": 196608000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 96,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.6666666666666666,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          },
+          "R-A8": {
+            "jobs": 96,
+            "solves": 96,
+            "evaluations": {
+              "point": 6400.0,
+              "interval95": [
+                4949.333333333333,
+                7808.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 6144000,
+            "primitive_case_work": 393216000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 96,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.3333333333333333,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          },
+          "F-A8": {
+            "jobs": 48,
+            "solves": 48,
+            "evaluations": {
+              "point": 6400.0,
+              "interval95": [
+                4949.333333333333,
+                7808.0
+              ]
+            },
+            "solve_fraction": {
+              "point": 1.0,
+              "interval95": [
+                1.0,
+                1.0
+              ]
+            },
+            "worker_seconds": 1.0,
+            "mean_attempts": 1.0,
+            "total_exact_check_seconds": 0,
+            "total_scheduling_seconds": 0,
+            "compiled_tokens_evaluated": 3072000,
+            "primitive_case_work": 196608000,
+            "initialization_rejections": 0,
+            "rejected_subtree_children": 0,
+            "final_training_output_diversity": 2.0,
+            "attempt_histogram": {
+              "1": 48,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 0,
+              "7": 0,
+              "8": 0
+            },
+            "solve_cost_curve": {
+              "4096": 0.3333333333333333,
+              "16384": 1.0,
+              "65536": 1.0,
+              "131072": 1.0,
+              "262144": 1.0,
+              "524288": 1.0
+            }
+          }
+        }
+      },
+      "economics": {
+        "evaluations": {
+          "R-A8": {
+            "acquisition": {
+              "point": 12538816.0,
+              "interval95": [
+                11767107.2,
+                13302332.533333333
+              ]
+            },
+            "savings": {
+              "point": -3200.0,
+              "interval95": [
+                -3904.0,
+                -2474.6666666666665
+              ]
+            },
+            "repayment_searches": null,
+            "repayment_interval95": [
+              null,
+              null
+            ],
+            "repayment_unbounded": true,
+            "per_build": {
+              "0": {
+                "acquisition": 13895680.0,
+                "saving": -256.0,
+                "repayment_searches": null
+              },
+              "1": {
+                "acquisition": 10355712.0,
+                "saving": -512.0,
+                "repayment_searches": null
+              },
+              "2": {
+                "acquisition": 13102592.0,
+                "saving": -768.0,
+                "repayment_searches": null
+              },
+              "3": {
+                "acquisition": 15808768.0,
+                "saving": -1024.0,
+                "repayment_searches": null
+              },
+              "4": {
+                "acquisition": 15278336.0,
+                "saving": -1280.0,
+                "repayment_searches": null
+              },
+              "5": {
+                "acquisition": 14042880.0,
+                "saving": -1536.0,
+                "repayment_searches": null
+              },
+              "6": {
+                "acquisition": 11580928.0,
+                "saving": -1792.0,
+                "repayment_searches": null
+              },
+              "7": {
+                "acquisition": 10285312.0,
+                "saving": -2048.0,
+                "repayment_searches": null
+              },
+              "8": {
+                "acquisition": 11061760.0,
+                "saving": -2304.0,
+                "repayment_searches": null
+              },
+              "9": {
+                "acquisition": 14579712.0,
+                "saving": -2560.0,
+                "repayment_searches": null
+              },
+              "10": {
+                "acquisition": 11809536.0,
+                "saving": -2816.0,
+                "repayment_searches": null
+              },
+              "11": {
+                "acquisition": 12672512.0,
+                "saving": -3072.0,
+                "repayment_searches": null
+              },
+              "12": {
+                "acquisition": 11809024.0,
+                "saving": -3328.0,
+                "repayment_searches": null
+              },
+              "13": {
+                "acquisition": 10946816.0,
+                "saving": -3584.0,
+                "repayment_searches": null
+              },
+              "14": {
+                "acquisition": 13058816.0,
+                "saving": -3840.0,
+                "repayment_searches": null
+              },
+              "15": {
+                "acquisition": 9972224.0,
+                "saving": -4096.0,
+                "repayment_searches": null
+              },
+              "16": {
+                "acquisition": 15507712.0,
+                "saving": -4352.0,
+                "repayment_searches": null
+              },
+              "17": {
+                "acquisition": 13525760.0,
+                "saving": -4608.0,
+                "repayment_searches": null
+              },
+              "18": {
+                "acquisition": 13247488.0,
+                "saving": -4864.0,
+                "repayment_searches": null
+              },
+              "19": {
+                "acquisition": 8525568.0,
+                "saving": -5120.0,
+                "repayment_searches": null
+              },
+              "20": {
+                "acquisition": 11267840.0,
+                "saving": -5376.0,
+                "repayment_searches": null
+              },
+              "21": {
+                "acquisition": 10806016.0,
+                "saving": -5632.0,
+                "repayment_searches": null
+              },
+              "22": {
+                "acquisition": 12763648.0,
+                "saving": -5888.0,
+                "repayment_searches": null
+              },
+              "23": {
+                "acquisition": 15026944.0,
+                "saving": -6144.0,
+                "repayment_searches": null
+              }
+            },
+            "horizons": {
+              "1": {
+                "A8": {
+                  "point": 12545216.0,
+                  "interval95": [
+                    11773472.533333333,
+                    13307911.733333334
+                  ]
+                },
+                "tree": {
+                  "point": 3200.0,
+                  "interval95": [
+                    2474.6666666666665,
+                    3904.0
+                  ]
+                },
+                "A8_minus_tree": {
+                  "point": 12542016.0,
+                  "interval95": [
+                    11770289.866666665,
+                    13305122.133333333
+                  ]
+                }
+              },
+              "16": {
+                "A8": {
+                  "point": 12641216.0,
+                  "interval95": [
+                    11870133.866666665,
+                    13401790.4
+                  ]
+                },
+                "tree": {
+                  "point": 51200.0,
+                  "interval95": [
+                    39594.666666666664,
+                    62464.0
+                  ]
+                },
+                "A8_minus_tree": {
+                  "point": 12590016.0,
+                  "interval95": [
+                    11818913.866666665,
+                    13348220.533333333
+                  ]
+                }
+              },
+              "256": {
+                "A8": {
+                  "point": 14177216.0,
+                  "interval95": [
+                    13398358.666666666,
+                    14983081.333333334
+                  ]
+                },
+                "tree": {
+                  "point": 819200.0,
+                  "interval95": [
+                    633514.6666666666,
+                    999424.0
+                  ]
+                },
+                "A8_minus_tree": {
+                  "point": 13358016.0,
+                  "interval95": [
+                    12606201.6,
+                    14114438.4
+                  ]
+                }
+              },
+              "1024": {
+                "A8": {
+                  "point": 19092416.0,
+                  "interval95": [
+                    17555181.6,
+                    20626134.133333333
+                  ]
+                },
+                "tree": {
+                  "point": 3276800.0,
+                  "interval95": [
+                    2534058.6666666665,
+                    3997696.0
+                  ]
+                },
+                "A8_minus_tree": {
+                  "point": 15815616.0,
+                  "interval95": [
+                    14864533.866666667,
+                    16800958.133333333
+                  ]
+                }
+              },
+              "4096": {
+                "A8": {
+                  "point": 38753216.0,
+                  "interval95": [
+                    32909687.2,
+                    44461195.199999996
+                  ]
+                },
+                "tree": {
+                  "point": 13107200.0,
+                  "interval95": [
+                    10136234.666666666,
+                    15990784.0
+                  ]
+                },
+                "A8_minus_tree": {
+                  "point": 25646016.0,
+                  "interval95": [
+                    22713812.266666666,
+                    28536762.4
+                  ]
+                }
+              }
+            }
+          },
+          "F-A8": {
+            "acquisition": {
+              "point": 12538816.0,
+              "interval95": [
+                11767107.2,
+                13302332.533333333
+              ]
+            },
+            "savings": {
+              "point": -3200.0,
+              "interval95": [
+                -3904.0,
+                -2474.6666666666665
+              ]
+            },
+            "repayment_searches": null,
+            "repayment_interval95": [
+              null,
+              null
+            ],
+            "repayment_unbounded": true,
+            "per_build": {
+              "0": {
+                "acquisition": 13895680.0,
+                "saving": -256.0,
+                "repayment_searches": null
+              },
+              "1": {
+                "acquisition": 10355712.0,
+                "saving": -512.0,
+                "repayment_searches": null
+              },
+              "2": {
+                "acquisition": 13102592.0,
+                "saving": -768.0,
+                "repayment_searches": null
+              },
+              "3": {
+                "acquisition": 15808768.0,
+                "saving": -1024.0,
+                "repayment_searches": null
+              },
+              "4": {
+                "acquisition": 15278336.0,
+                "saving": -1280.0,
+                "repayment_searches": null
+              },
+              "5": {
+                "acquisition": 14042880.0,
+                "saving": -1536.0,
+                "repayment_searches": null
+              },
+              "6": {
+                "acquisition": 11580928.0,
+                "saving": -1792.0,
+                "repayment_searches": null
+              },
+              "7": {
+                "acquisition": 10285312.0,
+                "saving": -2048.0,
+                "repayment_searches": null
+              },
+              "8": {
+                "acquisition": 11061760.0,
+                "saving": -2304.0,
+                "repayment_searches": null
+              },
+              "9": {
+                "acquisition": 14579712.0,
+                "saving": -2560.0,
+                "repayment_searches": null
+              },
+              "10": {
+                "acquisition": 11809536.0,
+                "saving": -2816.0,
+                "repayment_searches": null
+              },
+              "11": {
+                "acquisition": 12672512.0,
+                "saving": -3072.0,
+                "repayment_searches": null
+              },
+              "12": {
+                "acquisition": 11809024.0,
+                "saving": -3328.0,
+                "repayment_searches": null
+              },
+              "13": {
+                "acquisition": 10946816.0,
+                "saving": -3584.0,
+                "repayment_searches": null
+              },
+              "14": {
+                "acquisition": 13058816.0,
+                "saving": -3840.0,
+                "repayment_searches": null
+              },
+              "15": {
+                "acquisition": 9972224.0,
+                "saving": -4096.0,
+                "repayment_searches": null
+              },
+              "16": {
+                "acquisition": 15507712.0,
+                "saving": -4352.0,
+                "repayment_searches": null
+              },
+              "17": {
+                "acquisition": 13525760.0,
+                "saving": -4608.0,
+                "repayment_searches": null
+              },
+              "18": {
+                "acquisition": 13247488.0,
+                "saving": -4864.0,
+                "repayment_searches": null
+              },
+              "19": {
+                "acquisition": 8525568.0,
+                "saving": -5120.0,
+                "repayment_searches": null
+              },
+              "20": {
+                "acquisition": 11267840.0,
+                "saving": -5376.0,
+                "repayment_searches": null
+              },
+              "21": {
+                "acquisition": 10806016.0,
+                "saving": -5632.0,
+                "repayment_searches": null
+              },
+              "22": {
+                "acquisition": 12763648.0,
+                "saving": -5888.0,
+                "repayment_searches": null
+              },
+              "23": {
+                "acquisition": 15026944.0,
+                "saving": -6144.0,
+                "repayment_searches": null
+              }
+            },
+            "horizons": {
+              "1": {
+                "A8": {
+                  "point": 12545216.0,
+                  "interval95": [
+                    11773472.533333333,
+                    13307911.733333334
+                  ]
+                },
+                "tree": {
+                  "point": 3200.0,
+                  "interval95": [
+                    2474.6666666666665,
+                    3904.0
+                  ]
+                },
+                "A8_minus_tree": {
+                  "point": 12542016.0,
+                  "interval95": [
+                    11770289.866666665,
+                    13305122.133333333
+                  ]
+                }
+              },
+              "16": {
+                "A8": {
+                  "point": 12641216.0,
+                  "interval95": [
+                    11870133.866666665,
+                    13401790.4
+                  ]
+                },
+                "tree": {
+                  "point": 51200.0,
+                  "interval95": [
+                    39594.666666666664,
+                    62464.0
+                  ]
+                },
+                "A8_minus_tree": {
+                  "point": 12590016.0,
+                  "interval95": [
+                    11818913.866666665,
+                    13348220.533333333
+                  ]
+                }
+              },
+              "256": {
+                "A8": {
+                  "point": 14177216.0,
+                  "interval95": [
+                    13398358.666666666,
+                    14983081.333333334
+                  ]
+                },
+                "tree": {
+                  "point": 819200.0,
+                  "interval95": [
+                    633514.6666666666,
+                    999424.0
+                  ]
+                },
+                "A8_minus_tree": {
+                  "point": 13358016.0,
+                  "interval95": [
+                    12606201.6,
+                    14114438.4
+                  ]
+                }
+              },
+              "1024": {
+                "A8": {
+                  "point": 19092416.0,
+                  "interval95": [
+                    17555181.6,
+                    20626134.133333333
+                  ]
+                },
+                "tree": {
+                  "point": 3276800.0,
+                  "interval95": [
+                    2534058.6666666665,
+                    3997696.0
+                  ]
+                },
+                "A8_minus_tree": {
+                  "point": 15815616.0,
+                  "interval95": [
+                    14864533.866666667,
+                    16800958.133333333
+                  ]
+                }
+              },
+              "4096": {
+                "A8": {
+                  "point": 38753216.0,
+                  "interval95": [
+                    32909687.2,
+                    44461195.199999996
+                  ]
+                },
+                "tree": {
+                  "point": 13107200.0,
+                  "interval95": [
+                    10136234.666666666,
+                    15990784.0
+                  ]
+                },
+                "A8_minus_tree": {
+                  "point": 25646016.0,
+                  "interval95": [
+                    22713812.266666666,
+                    28536762.4
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "worker_seconds": {
+          "R-A8": {
+            "acquisition": {
+              "point": 771.7028386872116,
+              "interval95": [
+                723.7398140053753,
+                818.8692650046289
+              ]
+            },
+            "savings": {
+              "point": 0.0,
+              "interval95": [
+                0.0,
+                0.0
+              ]
+            },
+            "repayment_searches": null,
+            "repayment_interval95": [
+              null,
+              null
+            ],
+            "repayment_unbounded": true,
+            "per_build": {
+              "0": {
+                "acquisition": 842.1914160479791,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "1": {
+                "acquisition": 621.6651077072602,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "2": {
+                "acquisition": 782.7930629958864,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "3": {
+                "acquisition": 941.3084419982042,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "4": {
+                "acquisition": 898.8665271678474,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "5": {
+                "acquisition": 849.5265107507585,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "6": {
+                "acquisition": 703.8837491208687,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "7": {
+                "acquisition": 610.5376528733177,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "8": {
+                "acquisition": 650.7769382083789,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "9": {
+                "acquisition": 893.8546329542296,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "10": {
+                "acquisition": 753.8264348369557,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "11": {
+                "acquisition": 812.042553044972,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "12": {
+                "acquisition": 716.642697790754,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "13": {
+                "acquisition": 700.9126883746358,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "14": {
+                "acquisition": 800.8571704152273,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "15": {
+                "acquisition": 626.1870633754879,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "16": {
+                "acquisition": 991.857460543164,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "17": {
+                "acquisition": 907.8089322070591,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "18": {
+                "acquisition": 825.3009849982336,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "19": {
+                "acquisition": 528.5470853338484,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "20": {
+                "acquisition": 704.5618990813382,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "21": {
+                "acquisition": 668.1221825822722,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "22": {
+                "acquisition": 798.7259840837214,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "23": {
+                "acquisition": 890.0709520006785,
+                "saving": 0.0,
+                "repayment_searches": null
+              }
+            },
+            "horizons": {
+              "1": {
+                "A8": {
+                  "point": 772.7028386872116,
+                  "interval95": [
+                    724.7398140053753,
+                    819.8692650046289
+                  ]
+                },
+                "tree": {
+                  "point": 1.0,
+                  "interval95": [
+                    1.0,
+                    1.0
+                  ]
+                },
+                "A8_minus_tree": {
+                  "point": 771.7028386872116,
+                  "interval95": [
+                    723.7398140053753,
+                    818.8692650046289
+                  ]
+                }
+              },
+              "16": {
+                "A8": {
+                  "point": 787.7028386872116,
+                  "interval95": [
+                    739.7398140053753,
+                    834.8692650046289
+                  ]
+                },
+                "tree": {
+                  "point": 16.0,
+                  "interval95": [
+                    16.0,
+                    16.0
+                  ]
+                },
+                "A8_minus_tree": {
+                  "point": 771.7028386872116,
+                  "interval95": [
+                    723.7398140053753,
+                    818.8692650046289
+                  ]
+                }
+              },
+              "256": {
+                "A8": {
+                  "point": 1027.7028386872116,
+                  "interval95": [
+                    979.7398140053753,
+                    1074.869265004629
+                  ]
+                },
+                "tree": {
+                  "point": 256.0,
+                  "interval95": [
+                    256.0,
+                    256.0
+                  ]
+                },
+                "A8_minus_tree": {
+                  "point": 771.7028386872116,
+                  "interval95": [
+                    723.7398140053753,
+                    818.8692650046289
+                  ]
+                }
+              },
+              "1024": {
+                "A8": {
+                  "point": 1795.7028386872116,
+                  "interval95": [
+                    1747.7398140053751,
+                    1842.869265004629
+                  ]
+                },
+                "tree": {
+                  "point": 1024.0,
+                  "interval95": [
+                    1024.0,
+                    1024.0
+                  ]
+                },
+                "A8_minus_tree": {
+                  "point": 771.7028386872116,
+                  "interval95": [
+                    723.7398140053753,
+                    818.8692650046289
+                  ]
+                }
+              },
+              "4096": {
+                "A8": {
+                  "point": 4867.702838687212,
+                  "interval95": [
+                    4819.739814005376,
+                    4914.869265004629
+                  ]
+                },
+                "tree": {
+                  "point": 4096.0,
+                  "interval95": [
+                    4096.0,
+                    4096.0
+                  ]
+                },
+                "A8_minus_tree": {
+                  "point": 771.7028386872116,
+                  "interval95": [
+                    723.7398140053753,
+                    818.8692650046289
+                  ]
+                }
+              }
+            }
+          },
+          "F-A8": {
+            "acquisition": {
+              "point": 771.7028386872116,
+              "interval95": [
+                723.7398140053753,
+                818.8692650046289
+              ]
+            },
+            "savings": {
+              "point": 0.0,
+              "interval95": [
+                0.0,
+                0.0
+              ]
+            },
+            "repayment_searches": null,
+            "repayment_interval95": [
+              null,
+              null
+            ],
+            "repayment_unbounded": true,
+            "per_build": {
+              "0": {
+                "acquisition": 842.1914160479791,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "1": {
+                "acquisition": 621.6651077072602,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "2": {
+                "acquisition": 782.7930629958864,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "3": {
+                "acquisition": 941.3084419982042,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "4": {
+                "acquisition": 898.8665271678474,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "5": {
+                "acquisition": 849.5265107507585,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "6": {
+                "acquisition": 703.8837491208687,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "7": {
+                "acquisition": 610.5376528733177,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "8": {
+                "acquisition": 650.7769382083789,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "9": {
+                "acquisition": 893.8546329542296,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "10": {
+                "acquisition": 753.8264348369557,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "11": {
+                "acquisition": 812.042553044972,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "12": {
+                "acquisition": 716.642697790754,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "13": {
+                "acquisition": 700.9126883746358,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "14": {
+                "acquisition": 800.8571704152273,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "15": {
+                "acquisition": 626.1870633754879,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "16": {
+                "acquisition": 991.857460543164,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "17": {
+                "acquisition": 907.8089322070591,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "18": {
+                "acquisition": 825.3009849982336,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "19": {
+                "acquisition": 528.5470853338484,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "20": {
+                "acquisition": 704.5618990813382,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "21": {
+                "acquisition": 668.1221825822722,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "22": {
+                "acquisition": 798.7259840837214,
+                "saving": 0.0,
+                "repayment_searches": null
+              },
+              "23": {
+                "acquisition": 890.0709520006785,
+                "saving": 0.0,
+                "repayment_searches": null
+              }
+            },
+            "horizons": {
+              "1": {
+                "A8": {
+                  "point": 772.7028386872116,
+                  "interval95": [
+                    724.7398140053753,
+                    819.8692650046289
+                  ]
+                },
+                "tree": {
+                  "point": 1.0,
+                  "interval95": [
+                    1.0,
+                    1.0
+                  ]
+                },
+                "A8_minus_tree": {
+                  "point": 771.7028386872116,
+                  "interval95": [
+                    723.7398140053753,
+                    818.8692650046289
+                  ]
+                }
+              },
+              "16": {
+                "A8": {
+                  "point": 787.7028386872116,
+                  "interval95": [
+                    739.7398140053753,
+                    834.8692650046289
+                  ]
+                },
+                "tree": {
+                  "point": 16.0,
+                  "interval95": [
+                    16.0,
+                    16.0
+                  ]
+                },
+                "A8_minus_tree": {
+                  "point": 771.7028386872116,
+                  "interval95": [
+                    723.7398140053753,
+                    818.8692650046289
+                  ]
+                }
+              },
+              "256": {
+                "A8": {
+                  "point": 1027.7028386872116,
+                  "interval95": [
+                    979.7398140053753,
+                    1074.869265004629
+                  ]
+                },
+                "tree": {
+                  "point": 256.0,
+                  "interval95": [
+                    256.0,
+                    256.0
+                  ]
+                },
+                "A8_minus_tree": {
+                  "point": 771.7028386872116,
+                  "interval95": [
+                    723.7398140053753,
+                    818.8692650046289
+                  ]
+                }
+              },
+              "1024": {
+                "A8": {
+                  "point": 1795.7028386872116,
+                  "interval95": [
+                    1747.7398140053751,
+                    1842.869265004629
+                  ]
+                },
+                "tree": {
+                  "point": 1024.0,
+                  "interval95": [
+                    1024.0,
+                    1024.0
+                  ]
+                },
+                "A8_minus_tree": {
+                  "point": 771.7028386872116,
+                  "interval95": [
+                    723.7398140053753,
+                    818.8692650046289
+                  ]
+                }
+              },
+              "4096": {
+                "A8": {
+                  "point": 4867.702838687212,
+                  "interval95": [
+                    4819.739814005376,
+                    4914.869265004629
+                  ]
+                },
+                "tree": {
+                  "point": 4096.0,
+                  "interval95": [
+                    4096.0,
+                    4096.0
+                  ]
+                },
+                "A8_minus_tree": {
+                  "point": 771.7028386872116,
+                  "interval95": [
+                    723.7398140053753,
+                    818.8692650046289
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "historical_full_cap_tree": {
+        "label": "2254 historical unpaired reference, development data",
+        "jobs": 1,
+        "solves": 1,
+        "mean_evaluations": 1024.0,
+        "mean_worker_seconds": 1.0,
+        "restarted_to_historical_evaluation_ratio": 3.125
+      },
+      "resolution_price": {
+        "evaluation_ratio": {
+          "conditional_total_builds": 0,
+          "additional_builds": 0,
+          "additional_worker_seconds": 0.0,
+          "caveat": "normal approximation at observed point/variance; DG-only search + historical fresh acquisition price; no guarantee, no automatic top-up"
+        },
+        "reliability_margin": {
+          "conditional_total_builds": 0,
+          "additional_builds": 0,
+          "additional_worker_seconds": 0.0,
+          "caveat": "normal approximation at observed point/variance; DG-only search + historical fresh acquisition price; no guarantee, no automatic top-up"
+        }
+      }
+    }
+  },
+  "metric_definitions": {
+    "R": "ratio of arithmetic mean actual evaluations R-tree / R-A8; eight cells equally weighted, failures spend actual total cap",
+    "reliability": "solve-fraction difference R-tree minus R-A8; lower paired-build 95% bound > -0.03 establishes noninferiority within three percentage points",
+    "bootstrap": "8192 paired resamples of 24 acquisition-build blocks; all fixed cells and repeats retained within block",
+    "geometric": "exp(mean(log(actual solved evaluations or two times total cap for failures))); descriptive sensitivity",
+    "savings": "mean(actual R-tree effort minus actual A8 effort), evaluations and worker seconds separately",
+    "repayment": "historical mean acquisition / contemporaneous mean search saving; interval unbounded when savings admit zero or negative values",
+    "phenotype_diversity": "distinct output vectors on 64 fixed training cases; lower bound on D625 phenotype diversity",
+    "primitive_case_work": "compiled token count times 64 cases, execution-length proxy excluding exact checks and internal primitive costs"
+  },
+  "rows_hash": "3c34e2ed5777164ac7b4bec2fb791d2154d9d4d879797d59198cd15b86af7316",
+  "preparation_hash": "synthetic",
+  "timing": {},
+  "primary": "DG R-tree/R-A8 arithmetic evaluations with paired reliability guard",
+  "scope": "fixed DG/TS development rosters; no transfer or optimal-policy claim",
+  "acquisition_timing": "historical acquisition worker seconds plus contemporary search seconds; hardware/load limits; point-estimates are not resolved repayment",
+  "bootstrap": {
+    "draws": 8192,
+    "seed": 2230024,
+    "unit": "paired acquisition build"
+  }
+}
