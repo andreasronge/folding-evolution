@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "TS_canonical_cells": [
+    "TS:X0>X1?(X0+X2):(X0+X3)",
+    "TS:X0>X3?(X2+X3):(X1+X2)",
+    "TS:X2>X3?(X0+X2):(X1+X3)",
+    "TS:X3>X1?(X0+X1):(X1+X2)",
+    "TS:X0>X1?(X2+X3):(X1+X2)",
+    "TS:X0>X1?(X2+X3):(X1+X3)",
+    "TS:X0>X2?(X1+X3):(X2+X3)",
+    "TS:X2>X1?(X0+X3):(X1+X3)",
+    "TS:X2>X0?(X1+X3):(X0+X1)",
+    "TS:X3>X2?(X0+X2):(X0+X1)",
+    "TS:X3>X2?(X0+X1):(X0+X2)",
+    "TS:X3>X0?(X1+X2):(X0+X2)"
+  ],
+  "GS": {
+    "passed": true,
+    "cells": 144,
+    "seconds": 1.0172313749790192,
+    "protected_searches": 0
+  },
+  "source_target_separation": true
+}

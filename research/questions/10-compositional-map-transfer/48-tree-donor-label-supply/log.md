@@ -44,3 +44,14 @@
   shapes?) is answered for this replacement, root 10's 40-slot allocation is spent, and strategy 0652 reserved
   the next choice (acquisition portability, unfamiliar-content boundary, or a label-preserving learner) for
   its own review.
+
+- 2026-10-11 (steward, 0833): **wording correction** (critique 0833, digest check notes 7–8; the entry above
+  is left as written). "Skeletons, widths, sizes and multiplicities with uniform labels perform like random
+  size-matched donors" should read: *the cost difference from random size-matched donors is unresolved
+  (R-size ÷ R-unif 1.095 [0.864, 1.367]); descriptive reuse rates are similar (any entry verbatim in solvers 48%
+  vs 46%).* Where this log, the question or the digest said skeletons alone "do not carry the gain" or that
+  "the label law, not the skeletons, carries most", read instead: *preserving shapes with this uniform label
+  law did not retain the full learned-label saving; the shape contribution remains unresolved.* The
+  intervention shows a loss when labels are replaced by this particular law, given fixed shapes. It does not
+  exclude a shape contribution or a shape–label interaction. The bound (a skeleton effect up to about 30% under
+  uniform labels not excluded) still stands. Question 48, the root entry and the digest are updated to match.

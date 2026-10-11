@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-11, after run 2026-10-11-0652 (uniform-label subtree libraries on the gate-sum bank; latest evidence from commit `163f005`). Core question since the
+As of 2026-10-11, after run 2026-10-11-0833 (subtree libraries rebuilt from branch-sum sources; latest evidence from commit `28db964`). Core question since the
 2026-09-25 reframe: *how does the genotype→program map bias what evolution finds and keeps
 ("arrival of the frequent"), and can that bias be adapted to a task family?* History, superseded
 numbers and secondary contrasts are in the questions' `log.md` files.
@@ -67,13 +67,13 @@ L 64). Fairly sure for these layouts; nothing beyond them.
   cannot tell drift from a disadvantage.
   ([07](questions/01-map-bias/07-shared-arrival/question.md), [03](questions/01-map-bias/03-rare-shared-establishment/question.md))
 
-## 10 Compositional map transfer (root open, budget 40, 40 used)
+## 10 Compositional map transfer (root open, budget 41, 41 used)
 
 [10](questions/10-compositional-map-transfer/question.md): can a decoder adapted across related
 tasks help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 Stack tape `v2_rmin(_first)`, D1331 (length-3 lists over −5..5), P 256, lexicase on 64 cases with
 an exact domain check, 524k cap. G / G4: hand-set previous-token grammars (post-addition split;
-four-reducer bank); "-marg": same token marginals without context. Sub-questions 11–48 closed.
+four-reducer bank); "-marg": same token marginals without context. Sub-questions 11–49 closed; 50 parked.
 Every bank is now a development bank; unless stated, results are external fits frozen before scoring.
 
 **Banks.** Sign-gated banks could not support a symmetric two-family test; the four-reducer bank
@@ -155,11 +155,12 @@ per-position marginals; W: blocks sampled from C's own chain.
 - **Library-free chain blocks (W) also beat C, without needing suffix repair; marginal blocks (B)
   showed no resolved gain on training cells.** W/C 1.23–1.38× on training, then-addition and holdouts (lower bounds ≥ 1.15); B/C 0.98×
   [0.93, 1.04] on training cells (gains above about 4% excluded; untested on transfer), so edit size
-  alone does not explain F or W there. Repair: W/R 0.954× [0.903, 1.007] (a gain above 0.7% excluded, a cost up
+  alone does not explain F or W there. Repair on then-addition: W/R 0.954× [0.903, 1.007] (a gain above 0.7% excluded, a cost up
   to about 10% not). W's length law and token supply not isolated. (32,
   [34](questions/10-compositional-map-transfer/34-chain-block-suffix-preservation/question.md), [run 1606](runs/2026-10-09-1606/analysis.md))
-- **The same extractor on pre-solve parents (E) gave no worthwhile gain over chain blocks**: E/W_E
-  0.981× [0.911, 1.057] (above about 1.06× excluded); E/F 0.843× [0.795, 0.892]. One extractor.
+- **The same extractor on pre-solve parents (E) gave no worthwhile gain over chain blocks on
+  then-addition**: E/W_E 0.981× [0.911, 1.057] (above about 1.06× excluded); E/F 0.843× [0.795, 0.892].
+  One source selection, one extractor.
   ([33](questions/10-compositional-map-transfer/33-pre-solve-fragment-source/question.md), [run 1350](runs/2026-10-09-1350/analysis.md))
 
 **Cheap acquisition (C+F rebuilt from few sources; failures charged).**
@@ -218,20 +219,32 @@ per-position marginals; W: blocks sampled from C's own chain.
   ([47](questions/10-compositional-map-transfer/47-tree-donor-arrangement/question.md), [run 0524](runs/2026-10-11-0524/analysis.md))
 - **Uniform labels on the same shapes lost most of the B/C gain.** Each node drawn uniformly within
   its compatible class, skeletons and sizes kept: R-unif/R-perm 2.07× [1.68, 2.61], R-unif/R-tree
-  0.755× [0.645, 0.884] (about 40% of the saving kept); worse in 23/24 builds. Not resolved from
-  size-matched random donors (R-size/R-unif 1.10× [0.86, 1.37]): skeletons alone do not carry the
-  gain (up to about 30% not excluded). ADD share, ANY share, constants and library dependencies changed together. Development
+  0.755× [0.645, 0.884] (about 40% of the saving kept); worse in 23/24 builds. Cost difference from
+  size-matched random donors unresolved (R-size/R-unif 1.10× [0.86, 1.37]): keeping the shapes with this
+  uniform law did not retain the full learned-label saving; the shape contribution is unresolved (up to
+  about 30% not excluded). ADD share, ANY share, constants and library dependencies changed together. Development
   bank, one uniform law.
   ([48](questions/10-compositional-map-transfer/48-tree-donor-label-supply/question.md), [run 0652](runs/2026-10-11-0652/analysis.md))
+- **Rebuilt from branch-sum (TS) sources, the unchanged recipe also cut B/C evaluations about 2.6×,
+  for about a twelfth of DG's acquisition.** 24 new TS builds: R-TS/R-tree 0.38× [0.34, 0.43],
+  R-TS/R-sizeTS 0.41× [0.34, 0.48], no solve loss, 24/24 builds; repays after about 6 searches (DG
+  about 64). TS versus DG libraries 1.03× [0.86, 1.22], unresolved. No TS library holds a comparison
+  predicate (DG: 21/24), so the predicate seems unnecessary for this saving (cross-cohort observation).
+  Development rosters, one extractor, one TS cohort.
+  ([49](questions/10-compositional-map-transfer/49-tree-library-source-portability/question.md), [run 0833](runs/2026-10-11-0833/analysis.md))
+- **On near-solved native TS targets, both libraries raised cost.** R-TS/R-tree 1.78× [1.58, 2.00],
+  R-DG/R-tree 1.33× [1.12, 1.57], all jobs solved; R-tree solves 99% first time. One roster, mix 0.5;
+  whether gating the library removes this is untested ([50](questions/10-compositional-map-transfer/50-library-easy-target-harm/question.md)).
 
 **Overall.** Solver-fitted context transfers about 2× beyond token frequency to withheld
 compositions and one fresh shape, fragment blocks about 1.5× more; selection learns token biases
 (about 2×) but no resolved context gain. Cheap A8 builds beat G4 6–10× on DG, yet restarted tree GP
 needs about a fifth fewer evaluations; a learned subtree library cut that a further 2.6× and about
-4× on one fresh shape built from its parts, where on unmatched splits the label law, not the shapes
-alone, carried most of the gain. Not shown: that evolution reaches fitted context or fragments; what
-carries C's advantage, or which label component carries the library's; why DG components are
-better; A8 on a fresh family bank or against a tuned tree GP; the library on unfamiliar content;
+4× on one fresh shape built from its parts, where on unmatched splits shapes with a uniform label law kept only
+about 40% of the gain. Rebuilt from TS sources, the recipe cut B/C cost about as much (TS versus DG unresolved) for a twelfth
+of the acquisition, but the libraries raised cost on near-solved TS targets. Not shown: that evolution reaches fitted context or fragments; what
+carries C's advantage, or what carries the library's; why DG components are
+better; A8 on a fresh family bank or against a tuned tree GP; the library on unfamiliar content or with a policy for easy targets;
 transfer beyond three fresh shapes.
 
 ## 23 Heritable variation bias (root parked, budget 2, 2 used)
