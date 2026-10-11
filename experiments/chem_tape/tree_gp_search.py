@@ -144,7 +144,8 @@ def from_postfix(tokens):
 
 def search(job, *, force_cap=False, donor_library=None, donor_observer=None,
            library_probability=0.5, modifier_bits=None, modifier_seed=None,
-           shuffle_modifiers=False, continue_after_solve=False, lineage_observer=None):
+           shuffle_modifiers=False, continue_after_solve=False, lineage_observer=None,
+           modifier_mutation_probability=0.0, modifier_redraw_probability=0.0625):
     cell, seed, cap, pop_size, inputs, crossover = job
     if cap < pop_size or cap % pop_size or pop_size < 3 or crossover not in MIXES:
         raise ValueError("invalid GP search budget/mix")
@@ -157,7 +158,11 @@ def search(job, *, force_cap=False, donor_library=None, donor_observer=None,
         bits = bits.astype(np.int8)
     if shuffle_modifiers and (bits is None or modifier_seed is None):
         raise ValueError("shuffle requires bits and an independent seed")
-    modifier_rng = np.random.default_rng(modifier_seed) if shuffle_modifiers else None
+    if not (0 <= modifier_mutation_probability <= 1 and 0 <= modifier_redraw_probability <= 1):
+        raise ValueError("invalid modifier mutation probabilities")
+    if modifier_mutation_probability and (bits is None or modifier_seed is None):
+        raise ValueError("modifier mutation requires bits and an independent seed")
+    modifier_rng = np.random.default_rng(modifier_seed) if shuffle_modifiers or modifier_mutation_probability else None
     modifier_trace = []
     start = time.monotonic()
     indices = np.random.default_rng([seed, 0]).choice(len(inputs), 64, replace=False)
@@ -228,7 +233,7 @@ def search(job, *, force_cap=False, donor_library=None, donor_observer=None,
                                            diversity=len(np.unique(correct, axis=0))))
             break
         tick = time.monotonic()
-        if modifier_rng is not None:
+        if shuffle_modifiers:
             modifier_rng.shuffle(bits)
         _, inverse = np.unique(correct, axis=0, return_inverse=True)
         groups = [np.flatnonzero(inverse == i) for i in range(inverse.max() + 1)]
@@ -236,6 +241,12 @@ def search(job, *, force_cap=False, donor_library=None, donor_observer=None,
         n = pop_size - 2
         parents = np.array([_lexicase_select(groups, group_cases, selection) for _ in range(2 * n)]).reshape(2, n)
         crossing = variation.random(n) < crossover
+        recipient_bits = None if bits is None else bits[parents[0]].copy()
+        offspring_bits = None if bits is None else recipient_bits.copy()
+        redraw = np.zeros(n, dtype=bool)
+        if modifier_mutation_probability:
+            redraw = modifier_rng.random(n) < modifier_mutation_probability
+            offspring_bits[redraw] = (modifier_rng.random(int(redraw.sum())) < modifier_redraw_probability)
         children = []
         child_bits = []
         counters = [{k: 0 for k in ('recipients', 'crossover', 'mutation', 'library_draws',
@@ -244,7 +255,7 @@ def search(job, *, force_cap=False, donor_library=None, donor_observer=None,
                      'rejected_mutation', 'empty_fallbacks')} for _ in range(2)] if bits is not None else None
         for j in range(n):
             p1, p2 = pop[parents[0, j]], pop[parents[1, j]]
-            state = int(bits[parents[0, j]]) if bits is not None else 1
+            state = int(offspring_bits[j]) if bits is not None else 1
             if counters is not None:
                 counters[state]['recipients'] += 1
                 child_bits.append(state)
@@ -282,7 +293,9 @@ def search(job, *, force_cap=False, donor_library=None, donor_observer=None,
                 counters[state][kind] += 1
                 counters[state]['rejected_' + kind] += int(rejected)
             if lineage_observer is not None:
-                lineage_observer(dict(recipient=int(parents[0, j]), mate=int(parents[1, j]),
+                mutation_event = (dict(inherited_state=int(recipient_bits[j]), modifier_redrawn=bool(redraw[j]))
+                                  if modifier_mutation_probability else {})
+                lineage_observer(dict(**mutation_event, recipient=int(parents[0, j]), mate=int(parents[1, j]),
                                       state=state, parent=p1, child=child, rejected=rejected,
                                       kind=kind, generation=generation))
             stats[kind] += 1
@@ -296,8 +309,16 @@ def search(job, *, force_cap=False, donor_library=None, donor_observer=None,
             if lineage_observer is not None:
                 lineage_observer(dict(elites=elite.tolist(), old_bits=bits.tolist(),
                                       next_bits=next_bits.tolist(), generation=generation))
-            modifier_trace.append(dict(generation=generation, census_f=census_f,
-                                       recipient_f=float(np.mean(child_bits)), next_f=float(next_bits.mean()),
+            mutation_trace = {}
+            if modifier_mutation_probability:
+                transitions = np.zeros((2, 2), dtype=int)
+                np.add.at(transitions, (recipient_bits, offspring_bits), 1)
+                mutation_trace = dict(pre_mutation_f=float(recipient_bits.mean()),
+                                      post_mutation_f=float(offspring_bits.mean()),
+                                      modifier_transitions=transitions.tolist(), modifier_redraws=int(redraw.sum()),
+                                      elite_bits=[int(bits[i]) for i in elite])
+            modifier_trace.append(dict(**mutation_trace, generation=generation, census_f=census_f,
+                                       recipient_f=float(recipient_bits.mean()), next_f=float(next_bits.mean()),
                                        distinct_recipients=len(set(parents[0].tolist())),
                                        phase='post' if solved_at is not None else 'pre',
                                        counters=counters, best_score=int(scores.max()),

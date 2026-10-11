@@ -222,7 +222,7 @@ def key(row):
     return row['build'], row['arm'], row['repeat']
 
 
-def validate_exposure(rows, schedule, bank, generations=64):
+def validate_exposure(rows, schedule, bank, generations=64, initial_frequency=0.25):
     expected = {key(m): m for m in schedule}
     if len(rows) != len(expected) or {key(r) for r in rows} != set(expected):
         raise ValueError('incomplete/duplicate exposure grid')
@@ -232,7 +232,7 @@ def validate_exposure(rows, schedule, bank, generations=64):
         if (len(row['final_bits']) != 256 or not np.isin(row['final_bits'], [0, 1]).all()
                 or row['final_f'] != np.mean(row['final_bits'])):
             raise ValueError('final bit accounting mismatch')
-        prior = 0.25
+        prior = initial_frequency
         for e, ep in enumerate(row['episodes']):
             if (ep['cell'] != row['cells'][e] or ep['seed'] != row['program_seeds'][e]
                     or ep['generations'] != generations or ep['evaluations'] != 256*generations
@@ -247,7 +247,7 @@ def validate_exposure(rows, schedule, bank, generations=64):
                 if t['counters'] is not None:
                     cc = t['counters']
                     if (sum(c['recipients'] for c in cc) != 254
-                            or t['recipient_f'] != cc[1]['recipients']/254):
+                            or t.get('post_mutation_f', t['recipient_f']) != cc[1]['recipients']/254):
                         raise ValueError('recipient accounting mismatch')
                     if cc[0]['library_draws'] or (row['arm'] == 'N' and cc[1]['library_draws']):
                         raise ValueError('bit-independent law invoked a library')
