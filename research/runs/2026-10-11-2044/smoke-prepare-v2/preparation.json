@@ -1,0 +1,13 @@
+{
+  "admitted": true,
+  "protected_searches": 0,
+  "seconds": 111.40589454199653,
+  "git_commit": "7cce3cfaa2a68f6980d5a5958211075acf97e49e",
+  "bank_hash": "e3873e170b71ffcb69bea99b0d2cf4afd7062a5b6ab28ef2a9e59608f6c6d175",
+  "method_freeze_hash": "919b7996a2469496a7b44eb636b0e74bf6bf7f872e925dcf0d6259a48a2a23a4",
+  "libraries_hash": "27ab91a94fcb6b9ab30795422051231c35d9d3ed470b8ab0deb13f9627e16efe",
+  "schedules_hash": "199ce53aa6b648cf6ece1962764d7a328c12b72337b0d0e17eadee2bce9da318",
+  "smoke_schedule_hash": "0e309f8dbb5c241c134fe3bb5fb7faf8b91402f4f592ca70b9d0517b59293725",
+  "seed_audit_hash": "a0003af6ce2ddb34bd18209a153026e4be9624bab75cbd95b586237168be661c",
+  "preparation_hash": "f41970d44a5bee793a4d69ac61d73a3ad1cf2457a9c871041a1f96ee77121d0e"
+}

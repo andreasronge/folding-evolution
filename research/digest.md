@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-11, after run 2026-10-11-1938 (R-all acquisition on a fresh signed-gate bank; commit `9da9c2c`).
+As of 2026-10-11, after run 2026-10-11-2044 (signed-chain depth probe; commit `8a621df`; observations only).
 Core question since the 2026-09-25 reframe: *how does the genotype→program map bias what evolution
 finds and keeps ("arrival of the frequent"), and can that bias be adapted to a task family?*
 History, superseded numbers and secondary contrasts are in the questions' `log.md` files.
@@ -64,7 +64,7 @@ L 64). Fairly sure for these layouts; nothing beyond them.
   cannot tell drift from a disadvantage.
   ([07](questions/01-map-bias/07-shared-arrival/question.md), [03](questions/01-map-bias/03-rare-shared-establishment/question.md))
 
-## 10 Compositional map transfer (root open, budget 48, 48 used)
+## 10 Compositional map transfer (root open, budget 49, 49 used)
 
 [10](questions/10-compositional-map-transfer/question.md): can a decoder adapted across related
 tasks help fresh populations solve unseen operation combinations beyond a token-frequency bias?
@@ -74,8 +74,9 @@ marginals without context. Banks with headroom above them: four-reducer and comp
 (branch-else BE `A>B ? C : D+E`, post-addition PA `(A>B ? C : D)+E`; 4 training and 4
 performance-blind holdouts per family;
 [24](questions/10-compositional-map-transfer/24-comparison-gate-bank/question.md)). Sub-questions
-11–49, 51–53, 56–58 closed; 50 and 54 (a probe; observations only) parked. All banks but 58's are
-development banks; unless stated, fits are external and frozen before scoring.
+11–49, 51–53, 56–58 closed; 50 and 54 (a probe; observations only) parked; 59 (a probe; observations
+only) open. All completed banks are now development banks; 58's was fresh and frozen before its first
+protected scoring. Unless stated, fits are external and frozen before scoring.
 
 **Hand-set grammars.** **Contextual grammars beat their own token marginals on all three banks**
 (G/G-marg 1.5–20×; G4/G4-marg 4.4× [3.4, 5.6] BE, 3.3× [2.7, 4.0] PA), but G also emits far more
@@ -223,7 +224,7 @@ the mutation donors; cost in evaluations; development banks unless stated).
   against other nontrivial content, per helper, or off this bank and regime.
   ([57](questions/10-compositional-map-transfer/57-order-helper-arrangement/question.md))
 - **On a fresh signed-gate bank, new acquisitions by the frozen R-all recipe cut cost to about 0.6×
-  of R-tree on never-searched cells and beat transported order libraries, which showed no saving.**
+  of R-tree on never-searched cells and beat transported order libraries, which gave no resolved saving.**
   `x4-signed-gate-v1` (`p(a,b)+n(c,d)`, `p(a,b) = Xa>0 ? Xb : 0`, `n` its complement; bank, 18
   protected cells and method frozen before search; 24 builds). Pre-registered: 0.577× [0.47, 0.72]
   (rule upper < 0.80, met), below 1 in 18/18 cells and 22/24 builds, no solve loss observed;
@@ -238,11 +239,12 @@ compositions and one fresh shape; outer-loop selection learns token biases but n
 gain. Restarted tree GP needs fewer DG evaluations than A8; acquired donor libraries cut its cost
 2.5–4× (raising it on near-solved TS targets), and fixed sum, order and gate priors cut it more on
 the same cells; the frozen R-all recipe also paid off on a freshly frozen content family, where
-order libraries did not; rearranging the order libraries' helper entries removed most of their
+transported order libraries gave no resolved saving; rearranging the order libraries' helper entries removed most of their
 development-cell saving. Not shown: that evolution reaches fitted context or fragments; what carries
 C's, the gate-sum libraries' or the priors' advantage; why DG components are better; A8 on a fresh
 family bank or against tuned tree GP; acquired order content on a fresh bank; R-all on hard targets
-or on sources that seldom build the helper
+([59](questions/10-compositional-map-transfer/59-signed-chain-depth/question.md): probe only, saving
+unresolved) or on sources that seldom build the helper
 ([54](questions/10-compositional-map-transfer/54-rectified-sum-acquisition/question.md): probe
 only); why acquisition stays 2–7× behind supplied priors; an easy-target policy; families unlike
 these.

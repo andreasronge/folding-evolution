@@ -35,3 +35,13 @@
   here travels with libraries built for other targets (a pattern, not an isolated mechanism). A library-on-failure
   gate would buy little where the library helps on attempt one. Status stays parked; the next step is the
   strategist's (run 1938 returns to strategy). Reopen condition narrowed in question.md.
+- 2026-10-11 (steward, 2044): wording correction after [critique 2044](../../../runs/2026-10-11-2044/critique.md)
+  note 8; no number changed. The 1938 entry's "harm in 49 and here travels with libraries built for other targets"
+  is wrong for 49: there the native TS-acquired library also raised native TS cost (1.78 [1.58, 2.00],
+  [analysis 0833 §2.2](../../../runs/2026-10-11-0833/analysis.md)), and in 1938 the transported order libraries'
+  cost increase is unresolved (1.12 [0.94, 1.34]). Read instead: easy targets can benefit from matched signed-gate
+  libraries; native TS libraries previously harmed native TS search, while transported order libraries in 1938 had
+  an unresolved cost increase; these comparisons do not identify why. "A library-on-failure gate would buy little"
+  is untested: a reason to deprioritise that policy, not a measured result. Reopen check after probe 2044 (hard
+  chain targets, R-tree 30% first attempt): no harm by point estimate from matched R-all (0.79 [0.60, 1.03]) or
+  R-gate; no default mixed deployment funded. Condition not met; status unchanged.
