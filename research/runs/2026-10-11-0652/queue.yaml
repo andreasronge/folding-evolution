@@ -1,0 +1,71 @@
+runs:
+  - id: 2026-10-11-0652-prepare
+    cmd: RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.tree_uniform_run --prepare --workers 10 --deadline-seconds 2400
+    timeout_seconds: 2400
+    track: chem-tape
+    expect_outputs:
+      - config.json
+      - bank.json
+      - method_freeze.json
+      - schedule_audit.json
+      - schedules.json
+      - verification.json
+      - reconstruction.json
+      - libraries.json
+      - construction_audit.json
+      - replay.json
+      - replay.jsonl
+      - stage0.jsonl
+      - stage_gate.json
+      - timing.json
+      - preparation.json
+    notes: >-
+      Reconstruct all 24 original source libraries including failures and the saved
+      R-size controls. Rebuild and hash-check all 72 frozen 0524 permutations.
+      Independently draw three uniform compatible-label constructions per build,
+      without filtering or deduplication; validate skeleton/width/size/order/count
+      invariants and interpreter/compiler/Python/Rust agreement on D625. Audit
+      labels, pair sums, predicates and behaviours descriptively. Replay six saved
+      0524 R-perm jobs. Calibrate 288 full-budget R-unif development jobs at ten
+      workers and record solves, attempt/evaluation/time tails and realization spread.
+      Freeze admission using archived B/C rates with upward replay host adjustment,
+      measured uniform rate with R-tree floor, measured concurrency, 30% reserve
+      and 90s overhead. Above 100 minutes drop R-size first, then reduce all four
+      remaining arms to four repeats; stop infeasible if still above 100 minutes.
+      All three realizations remain, with repeat modulo three and equal weight.
+      Smoke preparation cannot authorize scoring.
+  - id: 2026-10-11-0652-score
+    cmd: RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.tree_uniform_run --workers 10 --deadline-seconds 7200 --preparation "$RUN_DIR/../2026-10-11-0652-prepare"
+    timeout_seconds: 7200
+    track: chem-tape
+    expect_outputs:
+      - config.json
+      - bank.json
+      - method_freeze.json
+      - schedule_audit.json
+      - schedules.json
+      - preparation.json
+      - libraries.json
+      - construction_audit.json
+      - search.jsonl
+      - timing.json
+      - result.json
+      - report.md
+      - dynamics.png
+      - economics.png
+    notes: >-
+      Revalidate unchanged admitted production preparation, method/source/library
+      hashes, exact 0524 construction content, replay and calibration evidence.
+      Score only the twelve B/C development-bank cells: 24 builds x6 repeats x5
+      arms =8640 jobs; approved runtime fallbacks are 6912 or 4608 jobs. Common
+      eight-attempt seeds pair initial populations/cases across all active arms.
+      Primary R-unif/R-perm arithmetic capped-evaluation ratio with paired build
+      and nested-realization bootstrap; average searches within realization before
+      equal weighting, including the four-repeat 2/1/1 allocation. Registered
+      1.25 retention and worthwhile-loss rules, R-tree validity guards, reliability
+      against R-perm and separately intact R-lib; no chaining of intact retention.
+      Report splits/cells, worker seconds, actual solves, insertion/rejection rates,
+      realization spread and content audit. Charge R-unif the approved 2.88M source
+      acquisition evaluations per library and archived worker costs plus construction.
+      Conditional precision prices and bounded development-bank interpretation;
+      return to strategy without automatic top-up or additional mechanism arms.
