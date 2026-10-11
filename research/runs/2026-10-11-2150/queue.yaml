@@ -1,0 +1,31 @@
+- id: 2026-10-11-2150-prepare
+  cmd: >-
+    PYTHONPATH=. RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.signed_chain_run
+    prepare --confirm --workers 8 --seconds 870
+  timeout_seconds: 900
+  expect_outputs:
+    - bank.json
+    - method_freeze.json
+    - libraries.json
+    - schedules.json
+    - smoke_schedule.json
+    - seed_audit.json
+    - preparation.json
+  track: chem-tape
+  notes: "Replay unchanged performance-blind admission; verify 8a621df method, all 24 frozen 1938 acquisitions and entire disjoint 2150 seed range. Freeze the full confirmation without searching."
+- id: 2026-10-11-2150-confirm
+  cmd: >-
+    PYTHONPATH=. RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.signed_chain_run
+    confirm --workers 8 --seconds 11490
+    --prepared "$(dirname "$RUN_DIR")/2026-10-11-2150-prepare"
+  timeout_seconds: 11520
+  expect_outputs:
+    - bank.json
+    - method_freeze.json
+    - schedules.json
+    - score.jsonl
+    - validity_checks.json
+    - report.json
+    - dynamics.png
+  track: chem-tape
+  notes: "Protected-cell reuse within the development chain bank: 24 builds x 18 protected cells x 4 repeats x R-tree/R-all/R-gate = 5184 jobs. Paired two-way capped-mean primary ratio at 1.00; secondary 0.80 bar; validity flags, measured supplied-prior gap, charged/owned economics and potentially unbounded repayment. No development pooling or automatic top-up; return to strategy."

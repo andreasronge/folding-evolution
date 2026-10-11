@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-11, after run 2026-10-11-2044 (signed-chain depth probe; commit `8a621df`; observations only).
+As of 2026-10-11, after run 2026-10-11-2150 (protected signed-chain reuse; commit `83c7c5b`).
 Core question since the 2026-09-25 reframe: *how does the genotype→program map bias what evolution
 finds and keeps ("arrival of the frequent"), and can that bias be adapted to a task family?*
 History, superseded numbers and secondary contrasts are in the questions' `log.md` files.
@@ -64,7 +64,7 @@ L 64). Fairly sure for these layouts; nothing beyond them.
   cannot tell drift from a disadvantage.
   ([07](questions/01-map-bias/07-shared-arrival/question.md), [03](questions/01-map-bias/03-rare-shared-establishment/question.md))
 
-## 10 Compositional map transfer (root open, budget 49, 49 used)
+## 10 Compositional map transfer (root open, budget 50, 50 used)
 
 [10](questions/10-compositional-map-transfer/question.md): can a decoder adapted across related
 tasks help fresh populations solve unseen operation combinations beyond a token-frequency bias?
@@ -74,8 +74,7 @@ marginals without context. Banks with headroom above them: four-reducer and comp
 (branch-else BE `A>B ? C : D+E`, post-addition PA `(A>B ? C : D)+E`; 4 training and 4
 performance-blind holdouts per family;
 [24](questions/10-compositional-map-transfer/24-comparison-gate-bank/question.md)). Sub-questions
-11–49, 51–53, 56–58 closed; 50 and 54 (a probe; observations only) parked; 59 (a probe; observations
-only) open. All completed banks are now development banks; 58's was fresh and frozen before its first
+11–49, 51–53, 56–60 closed; 50 and 54 (a probe; observations only) parked. All completed banks are now development banks; 58's was fresh and frozen before its first
 protected scoring. Unless stated, fits are external and frozen before scoring.
 
 **Hand-set grammars.** **Contextual grammars beat their own token marginals on all three banks**
@@ -233,18 +232,28 @@ the mutation donors; cost in evaluations; development banks unless stated).
   helpers; repays after about 66 searches. One construction's input rebindings, easy targets (R-tree
   97.7% first attempt); helper causality not isolated.
   ([58](questions/10-compositional-map-transfer/58-signed-gate-acquisition/question.md))
+- **On a harder chain of the same helpers, those saved libraries cut capped cost by about a fifth on
+  never-searched cells of that bank, repaying acquisition within about ten searches.**
+  `x4-signed-chain-v1` (`p(a,b)+n(b,c)+p(c,d)`; R-tree 27% first attempt, 6.8% capped; 18 protected
+  cells frozen with the method, first searched in this test). Pre-stated: R-all/R-tree 0.778× [0.696,
+  0.870] (rule upper < 1.00, met; a 20% saving neither shown nor excluded), below 1 in 18/18 cells and
+  20/24 builds; repaid after 5.4 [3.8, 9.7] searches. Supplied helpers 0.338× [0.30, 0.38] of R-all.
+  The saving tracks needed-helper coverage (0.98 with none of a cell's three present, 0.42 with all;
+  descriptive, confounded). Held-out cells of a development bank, one recipe; depth and input sharing
+  changed together; not fresh-bank transfer or helper causality.
+  ([59](questions/10-compositional-map-transfer/59-signed-chain-depth/question.md),
+  [60](questions/10-compositional-map-transfer/60-signed-chain-protected-reuse/question.md))
 
 **Overall.** Solver-fitted context and fragment blocks transfer beyond token frequency to withheld
 compositions and one fresh shape; outer-loop selection learns token biases but no resolved context
 gain. Restarted tree GP needs fewer DG evaluations than A8; acquired donor libraries cut its cost
 2.5–4× (raising it on near-solved TS targets), and fixed sum, order and gate priors cut it more on
 the same cells; the frozen R-all recipe also paid off on a freshly frozen content family, where
-transported order libraries gave no resolved saving; rearranging the order libraries' helper entries removed most of their
+transported order libraries gave no resolved saving, and its saved libraries still saved about a fifth
+on harder linked chains of that family; rearranging the order libraries' helper entries removed most of their
 development-cell saving. Not shown: that evolution reaches fitted context or fragments; what carries
 C's, the gate-sum libraries' or the priors' advantage; why DG components are better; A8 on a fresh
-family bank or against tuned tree GP; acquired order content on a fresh bank; R-all on hard targets
-([59](questions/10-compositional-map-transfer/59-signed-chain-depth/question.md): probe only, saving
-unresolved) or on sources that seldom build the helper
+family bank or against tuned tree GP; acquired order content on a fresh bank; R-all on hard targets of a fresh bank, or on sources that seldom build the helper
 ([54](questions/10-compositional-map-transfer/54-rectified-sum-acquisition/question.md): probe
 only); why acquisition stays 2–7× behind supplied priors; an easy-target policy; families unlike
 these.

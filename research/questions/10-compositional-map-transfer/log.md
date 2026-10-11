@@ -4192,3 +4192,20 @@ harm to libraries built for other targets (corrected in 50's log).
 
 Decision: root stays open and returns to strategy, because the probe's slot is used and a protected confirmation
 needs a separate allocation; no digest belief changes from a probe.
+
+## 2026-10-11: run 2026-10-11-2150, protected signed-chain reuse (slot 50; question 60)
+
+Strategy 2150 raised the budget 49 → 50 for one protected confirmation of the 59 probe. Commit `83c7c5b`, bank
+`x4-signed-chain-v1`, the 18 protected cells searched for the first time; 24 saved 1938 R-all libraries vs R-tree and
+R-gate, 1,728 paired jobs per arm. Validity passed (R-tree 27.0% first attempt, 6.8% capped; R-gate 100% solved).
+Primary R-all/R-tree **0.778× [0.696, 0.870]**: saving; 0.80 bar unresolved. R-gate/R-tree 0.263× [0.233, 0.296],
+R-gate/R-all 0.338× [0.298, 0.383]. Repayment 5.4 [3.8, 9.7] searches. Coverage strata 0.98 → 0.42 (descriptive).
+Details in [60's log](60-signed-chain-protected-reuse/log.md) and [analysis](../../runs/2026-10-11-2150/analysis.md).
+
+Digest-check corrections from [critique 2150](../../runs/2026-10-11-2150/critique.md) notes 6–9, applied in this
+pass: "hard but uncapped" → "hard tier with 5.6% R-tree capping, below the pre-set 25% cap-dominance flag" and the
+"40% saving excluded" clause dropped (this summary; 59's question and a 59 log correction entry); 59's "linking alone
+did not limit search" and "decidable" forecast wording replaced (59 question and log).
+
+Decision: 59 and 60 closed as answered; root stays open, budget 50/50 used, and returns to strategy, because strategy
+2150 committed this slot only and named no automatic follow-up; the digest gains the protected-cell belief.

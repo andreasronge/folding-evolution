@@ -1,0 +1,42 @@
+{
+  "entries": [
+    {
+      "id": "2026-10-11-2150-prepare",
+      "timeout_seconds": 900,
+      "expected_outputs": [
+        "bank.json",
+        "method_freeze.json",
+        "libraries.json",
+        "schedules.json",
+        "smoke_schedule.json",
+        "seed_audit.json",
+        "preparation.json"
+      ]
+    },
+    {
+      "id": "2026-10-11-2150-confirm",
+      "timeout_seconds": 11520,
+      "expected_outputs": [
+        "bank.json",
+        "method_freeze.json",
+        "schedules.json",
+        "score.jsonl",
+        "validity_checks.json",
+        "report.json",
+        "dynamics.png"
+      ]
+    }
+  ],
+  "summed_timeout_seconds": 12420,
+  "summed_timeout_minutes": 207,
+  "approved_ceiling_minutes": 240,
+  "jobs": 5184,
+  "protected_cells": 18,
+  "builds": 24,
+  "repeats": 4,
+  "arms": 3,
+  "source_matches_smoke_freeze": true,
+  "shell_syntax_valid": true,
+  "worktree_cwd": "/Users/andreas/developer/folding-evolution-research/2026-10-11-2150",
+  "full_queue_executed": false
+}

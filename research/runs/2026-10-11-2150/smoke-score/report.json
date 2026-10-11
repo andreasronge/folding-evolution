@@ -1,0 +1,8408 @@
+{
+  "complete": true,
+  "smoke": true,
+  "protected_searches": 0,
+  "decision": "descriptive_no_efficacy_verdict",
+  "arms": {
+    "R-tree": {
+      "jobs": 4,
+      "solves": 4,
+      "capped_jobs": 0,
+      "first_attempt_rate": 0.0,
+      "attempts_distribution": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 1
+      },
+      "evaluations": {
+        "mean": 229248.0,
+        "median": 169856.0,
+        "p95": 439935.9999999999,
+        "max": 481792.0
+      },
+      "worker_seconds": {
+        "mean": 11.960227604198735,
+        "median": 9.36923254193971,
+        "p95": 21.02010504378704,
+        "max": 22.831147624994628
+      },
+      "operator": {
+        "crossover": 452598,
+        "mutation": 452912,
+        "rejected_crossover": 128625,
+        "rejected_mutation": 175817
+      }
+    },
+    "R-all": {
+      "jobs": 4,
+      "solves": 4,
+      "capped_jobs": 0,
+      "first_attempt_rate": 0.5,
+      "attempts_distribution": {
+        "1": 2,
+        "2": 0,
+        "3": 1,
+        "4": 0,
+        "5": 0,
+        "6": 1,
+        "7": 0,
+        "8": 0
+      },
+      "evaluations": {
+        "mean": 130880.0,
+        "median": 80000.0,
+        "p95": 326297.5999999999,
+        "max": 358400.0
+      },
+      "worker_seconds": {
+        "mean": 6.635761291749077,
+        "median": 4.615630958520342,
+        "p95": 15.76269158128998,
+        "max": 17.058977624983527
+      },
+      "operator": {
+        "crossover": 258570,
+        "mutation": 258066,
+        "rejected_crossover": 75660,
+        "rejected_mutation": 127394,
+        "library_draws": 129125,
+        "library_insertions": 52677,
+        "rejected_library": 76448,
+        "ordinary_donors": 128941,
+        "empty_fallbacks": 0
+      }
+    },
+    "R-gate": {
+      "jobs": 4,
+      "solves": 4,
+      "capped_jobs": 0,
+      "first_attempt_rate": 0.5,
+      "attempts_distribution": {
+        "1": 2,
+        "2": 1,
+        "3": 1,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0
+      },
+      "evaluations": {
+        "mean": 67328.0,
+        "median": 47104.0,
+        "p95": 151462.39999999997,
+        "max": 165632.0
+      },
+      "worker_seconds": {
+        "mean": 4.134831083007157,
+        "median": 3.108486437005922,
+        "p95": 9.09760751244612,
+        "max": 9.83701524999924
+      },
+      "operator": {
+        "crossover": 132643,
+        "mutation": 132787,
+        "rejected_crossover": 38563,
+        "rejected_mutation": 66858,
+        "library_draws": 66376,
+        "library_insertions": 26381,
+        "rejected_library": 39995,
+        "ordinary_donors": 66411,
+        "empty_fallbacks": 0
+      }
+    }
+  },
+  "contrasts": {
+    "R-all/R-tree": {
+      "evaluations": {
+        "point": 0.5709101060859855,
+        "interval95": [
+          0.025252525252525252,
+          1.0542056074766355
+        ]
+      },
+      "worker_seconds": {
+        "point": 0.5548189809882497,
+        "interval95": [
+          0.02350034024295263,
+          1.0546472334748085
+        ]
+      }
+    },
+    "R-gate/R-tree": {
+      "evaluations": {
+        "point": 0.2936906756002233,
+        "interval95": [
+          0.0691588785046729,
+          1.7345844504021448
+        ]
+      },
+      "worker_seconds": {
+        "point": 0.3457150833447008,
+        "interval95": [
+          0.060811951014743744,
+          1.5685773037970603
+        ]
+      }
+    },
+    "R-gate/R-all": {
+      "evaluations": {
+        "point": 0.5144254278728606,
+        "interval95": [
+          0.06560283687943262,
+          10.60655737704918
+        ]
+      },
+      "worker_seconds": {
+        "point": 0.6231132949505608,
+        "interval95": [
+          0.057660940155679366,
+          12.081946655443247
+        ]
+      }
+    },
+    "R-all/R-gate": {
+      "evaluations": {
+        "point": 1.943916349809886,
+        "interval95": [
+          0.09428129829984544,
+          15.243243243243244
+        ]
+      },
+      "worker_seconds": {
+        "point": 1.6048445894246923,
+        "interval95": [
+          0.08276811912172057,
+          17.34276266221275
+        ]
+      }
+    }
+  },
+  "per_cell": [
+    {
+      "arm": "R-tree",
+      "cell": "C:p30+n01+p12",
+      "stats": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_jobs": 0,
+        "first_attempt_rate": 0.0,
+        "attempts_distribution": {
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 1
+        },
+        "evaluations": {
+          "mean": 288640.0,
+          "median": 288640.0,
+          "p95": 462476.8,
+          "max": 481792.0
+        },
+        "worker_seconds": {
+          "mean": 14.551222666457761,
+          "median": 14.551222666457761,
+          "p95": 22.00315512914094,
+          "max": 22.831147624994628
+        },
+        "operator": {
+          "crossover": 284747,
+          "mutation": 285483,
+          "rejected_crossover": 82592,
+          "rejected_mutation": 112245
+        }
+      }
+    },
+    {
+      "arm": "R-tree",
+      "cell": "C:p30+n02+p21",
+      "stats": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_jobs": 0,
+        "first_attempt_rate": 0.0,
+        "attempts_distribution": {
+          "1": 0,
+          "2": 0,
+          "3": 1,
+          "4": 1,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0
+        },
+        "evaluations": {
+          "mean": 169856.0,
+          "median": 169856.0,
+          "p95": 199462.4,
+          "max": 202752.0
+        },
+        "worker_seconds": {
+          "mean": 9.36923254193971,
+          "median": 9.36923254193971,
+          "p95": 10.618700629443628,
+          "max": 10.757530416944064
+        },
+        "operator": {
+          "crossover": 167851,
+          "mutation": 167429,
+          "rejected_crossover": 46033,
+          "rejected_mutation": 63572
+        }
+      }
+    },
+    {
+      "arm": "R-all",
+      "cell": "C:p30+n01+p12",
+      "stats": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_jobs": 0,
+        "first_attempt_rate": 0.5,
+        "attempts_distribution": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 1,
+          "7": 0,
+          "8": 0
+        },
+        "evaluations": {
+          "mean": 187008.0,
+          "median": 187008.0,
+          "p95": 341260.8,
+          "max": 358400.0
+        },
+        "worker_seconds": {
+          "mean": 8.936584437498823,
+          "median": 8.936584437498823,
+          "p95": 16.246738306235056,
+          "max": 17.058977624983527
+        },
+        "operator": {
+          "crossover": 185060,
+          "mutation": 184256,
+          "rejected_crossover": 53317,
+          "rejected_mutation": 91405,
+          "library_draws": 92030,
+          "library_insertions": 36791,
+          "rejected_library": 55239,
+          "ordinary_donors": 92226,
+          "empty_fallbacks": 0
+        }
+      }
+    },
+    {
+      "arm": "R-all",
+      "cell": "C:p30+n02+p21",
+      "stats": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_jobs": 0,
+        "first_attempt_rate": 0.5,
+        "attempts_distribution": {
+          "1": 1,
+          "2": 0,
+          "3": 1,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0
+        },
+        "evaluations": {
+          "mean": 74752.0,
+          "median": 74752.0,
+          "p95": 137420.8,
+          "max": 144384.0
+        },
+        "worker_seconds": {
+          "mean": 4.334938145999331,
+          "median": 4.334938145999331,
+          "p95": 8.00885741492384,
+          "max": 8.417070667026564
+        },
+        "operator": {
+          "crossover": 73510,
+          "mutation": 73810,
+          "rejected_crossover": 22343,
+          "rejected_mutation": 35989,
+          "library_draws": 37095,
+          "library_insertions": 15886,
+          "rejected_library": 21209,
+          "ordinary_donors": 36715,
+          "empty_fallbacks": 0
+        }
+      }
+    },
+    {
+      "arm": "R-gate",
+      "cell": "C:p30+n01+p12",
+      "stats": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_jobs": 0,
+        "first_attempt_rate": 0.0,
+        "attempts_distribution": {
+          "1": 0,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0
+        },
+        "evaluations": {
+          "mean": 118400.0,
+          "median": 118400.0,
+          "p95": 160908.8,
+          "max": 165632.0
+        },
+        "worker_seconds": {
+          "mean": 7.372322791488841,
+          "median": 7.372322791488841,
+          "p95": 9.5905460041482,
+          "max": 9.83701524999924
+        },
+        "operator": {
+          "crossover": 116826,
+          "mutation": 116854,
+          "rejected_crossover": 34608,
+          "rejected_mutation": 60066,
+          "library_draws": 58409,
+          "library_insertions": 22406,
+          "rejected_library": 36003,
+          "ordinary_donors": 58445,
+          "empty_fallbacks": 0
+        }
+      }
+    },
+    {
+      "arm": "R-gate",
+      "cell": "C:p30+n02+p21",
+      "stats": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_jobs": 0,
+        "first_attempt_rate": 1.0,
+        "attempts_distribution": {
+          "1": 2,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0
+        },
+        "evaluations": {
+          "mean": 16256.0,
+          "median": 16256.0,
+          "p95": 22361.6,
+          "max": 23040.0
+        },
+        "worker_seconds": {
+          "mean": 0.8973393745254725,
+          "median": 0.8973393745254725,
+          "p95": 1.268142224382609,
+          "max": 1.309342541033402
+        },
+        "operator": {
+          "crossover": 15817,
+          "mutation": 15933,
+          "rejected_crossover": 3955,
+          "rejected_mutation": 6792,
+          "library_draws": 7967,
+          "library_insertions": 3975,
+          "rejected_library": 3992,
+          "ordinary_donors": 7966,
+          "empty_fallbacks": 0
+        }
+      }
+    }
+  ],
+  "per_build": [
+    {
+      "arm": "R-tree",
+      "build": 0,
+      "stats": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_jobs": 0,
+        "first_attempt_rate": 0.0,
+        "attempts_distribution": {
+          "1": 0,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0
+        },
+        "evaluations": {
+          "mean": 116224.0,
+          "median": 116224.0,
+          "p95": 134886.4,
+          "max": 136960.0
+        },
+        "worker_seconds": {
+          "mean": 7.126116187428124,
+          "median": 7.126116187428124,
+          "p95": 7.895452818984632,
+          "max": 7.9809346669353545
+        },
+        "operator": {
+          "crossover": 114525,
+          "mutation": 114837,
+          "rejected_crossover": 32998,
+          "rejected_mutation": 44904
+        }
+      }
+    },
+    {
+      "arm": "R-tree",
+      "build": 1,
+      "stats": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_jobs": 0,
+        "first_attempt_rate": 0.0,
+        "attempts_distribution": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 1,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 1
+        },
+        "evaluations": {
+          "mean": 342272.0,
+          "median": 342272.0,
+          "p95": 467840.0,
+          "max": 481792.0
+        },
+        "worker_seconds": {
+          "mean": 16.794339020969346,
+          "median": 16.794339020969346,
+          "p95": 22.227466764592098,
+          "max": 22.831147624994628
+        },
+        "operator": {
+          "crossover": 338073,
+          "mutation": 338075,
+          "rejected_crossover": 95627,
+          "rejected_mutation": 130913
+        }
+      }
+    },
+    {
+      "arm": "R-all",
+      "build": 0,
+      "stats": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_jobs": 0,
+        "first_attempt_rate": 0.5,
+        "attempts_distribution": {
+          "1": 1,
+          "2": 0,
+          "3": 1,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0
+        },
+        "evaluations": {
+          "mean": 80000.0,
+          "median": 80000.0,
+          "p95": 137945.6,
+          "max": 144384.0
+        },
+        "worker_seconds": {
+          "mean": 4.615630958520342,
+          "median": 4.615630958520342,
+          "p95": 8.036926696175941,
+          "max": 8.417070667026564
+        },
+        "operator": {
+          "crossover": 78805,
+          "mutation": 78929,
+          "rejected_crossover": 24019,
+          "rejected_mutation": 38689,
+          "library_draws": 39650,
+          "library_insertions": 16803,
+          "rejected_library": 22847,
+          "ordinary_donors": 39279,
+          "empty_fallbacks": 0
+        }
+      }
+    },
+    {
+      "arm": "R-all",
+      "build": 1,
+      "stats": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_jobs": 0,
+        "first_attempt_rate": 0.5,
+        "attempts_distribution": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 1,
+          "7": 0,
+          "8": 0
+        },
+        "evaluations": {
+          "mean": 181760.0,
+          "median": 181760.0,
+          "p95": 340736.0,
+          "max": 358400.0
+        },
+        "worker_seconds": {
+          "mean": 8.655891624977812,
+          "median": 8.655891624977812,
+          "p95": 16.218669024982955,
+          "max": 17.058977624983527
+        },
+        "operator": {
+          "crossover": 179765,
+          "mutation": 179137,
+          "rejected_crossover": 51641,
+          "rejected_mutation": 88705,
+          "library_draws": 89475,
+          "library_insertions": 35874,
+          "rejected_library": 53601,
+          "ordinary_donors": 89662,
+          "empty_fallbacks": 0
+        }
+      }
+    },
+    {
+      "arm": "R-gate",
+      "build": 0,
+      "stats": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_jobs": 0,
+        "first_attempt_rate": 0.5,
+        "attempts_distribution": {
+          "1": 1,
+          "2": 0,
+          "3": 1,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0
+        },
+        "evaluations": {
+          "mean": 87552.0,
+          "median": 87552.0,
+          "p95": 157824.0,
+          "max": 165632.0
+        },
+        "worker_seconds": {
+          "mean": 5.1611757290083915,
+          "median": 5.1611757290083915,
+          "p95": 9.369431297900155,
+          "max": 9.83701524999924
+        },
+        "operator": {
+          "crossover": 86122,
+          "mutation": 86598,
+          "rejected_crossover": 25325,
+          "rejected_mutation": 44413,
+          "library_draws": 43254,
+          "library_insertions": 16653,
+          "rejected_library": 26601,
+          "ordinary_donors": 43344,
+          "empty_fallbacks": 0
+        }
+      }
+    },
+    {
+      "arm": "R-gate",
+      "build": 1,
+      "stats": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_jobs": 0,
+        "first_attempt_rate": 0.5,
+        "attempts_distribution": {
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0
+        },
+        "evaluations": {
+          "mean": 47104.0,
+          "median": 47104.0,
+          "p95": 68761.59999999999,
+          "max": 71168.0
+        },
+        "worker_seconds": {
+          "mean": 3.108486437005922,
+          "median": 3.108486437005922,
+          "p95": 4.72771594338119,
+          "max": 4.907630332978442
+        },
+        "operator": {
+          "crossover": 46521,
+          "mutation": 46189,
+          "rejected_crossover": 13238,
+          "rejected_mutation": 22445,
+          "library_draws": 23122,
+          "library_insertions": 9728,
+          "rejected_library": 13394,
+          "ordinary_donors": 23067,
+          "empty_fallbacks": 0
+        }
+      }
+    }
+  ],
+  "coverage": [
+    {
+      "build": 0,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "p30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 0,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [
+        "p30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 0,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [
+        "n30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 0,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 0,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "p31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 0,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [
+        "n30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 0,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [
+        "p32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 0,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [
+        "p31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 0,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [
+        "p30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 0,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [
+        "n20",
+        "p32"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 0,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "n20",
+        "p03"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 0,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "p03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 0,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 0,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [
+        "n10",
+        "p31"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 0,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [
+        "n10",
+        "p03"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 0,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [
+        "n13",
+        "p32"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 0,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 0,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 0,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [
+        "p31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 0,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 0,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [
+        "n13",
+        "p30"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 0,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "p32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 0,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [
+        "p03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 0,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 1,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 1,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [
+        "n02",
+        "p21"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 1,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [
+        "n30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 1,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [
+        "n12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 1,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "n03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 1,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [
+        "n30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 1,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [
+        "n21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 1,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 1,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 1,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 1,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 1,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 1,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [
+        "n02"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 1,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 1,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [
+        "p21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 1,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 1,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [
+        "n21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 1,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 1,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [
+        "n12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 1,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 1,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [
+        "p21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 1,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "n03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 1,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [
+        "p21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 1,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 2,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "n01",
+        "p30"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 2,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [
+        "n02",
+        "p21",
+        "p30"
+      ],
+      "needed_helpers_present": 3
+    },
+    {
+      "build": 2,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 2,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [
+        "n12",
+        "p01",
+        "p23"
+      ],
+      "needed_helpers_present": 3
+    },
+    {
+      "build": 2,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "n03",
+        "p20"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 2,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [
+        "p01",
+        "p23"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 2,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [
+        "p10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 2,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [
+        "n23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 2,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [
+        "n23",
+        "p30"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 2,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [
+        "p01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 2,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "p03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 2,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "n31",
+        "p03"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 2,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [
+        "n02",
+        "p10",
+        "p23"
+      ],
+      "needed_helpers_present": 3
+    },
+    {
+      "build": 2,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 2,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [
+        "p03",
+        "p21"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 2,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [
+        "n13",
+        "p01"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 2,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 2,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [
+        "p20"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 2,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [
+        "n12",
+        "p20"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 2,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [
+        "n01",
+        "p20"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 2,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [
+        "n13",
+        "p21",
+        "p30"
+      ],
+      "needed_helpers_present": 3
+    },
+    {
+      "build": 2,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "n03",
+        "p10"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 2,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [
+        "p03",
+        "p21"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 2,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [
+        "n31",
+        "p10",
+        "p23"
+      ],
+      "needed_helpers_present": 3
+    },
+    {
+      "build": 3,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 3,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [
+        "p21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 3,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [
+        "p13"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 3,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [
+        "n12",
+        "p23"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 3,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "p20"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 3,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [
+        "p23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 3,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [
+        "p10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 3,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [
+        "n23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 3,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [
+        "n23",
+        "p12"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 3,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 3,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 3,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 3,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [
+        "p10",
+        "p23"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 3,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 3,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [
+        "p21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 3,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 3,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [
+        "p13"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 3,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [
+        "n32",
+        "p13",
+        "p20"
+      ],
+      "needed_helpers_present": 3
+    },
+    {
+      "build": 3,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [
+        "n12",
+        "p20"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 3,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [
+        "p13",
+        "p20"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 3,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [
+        "p21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 3,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "p10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 3,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [
+        "n32",
+        "p21"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 3,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [
+        "p10",
+        "p23"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 4,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "n01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 4,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [
+        "n02"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 4,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [
+        "n30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 4,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [
+        "p01",
+        "p23"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 4,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "p31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 4,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [
+        "n30",
+        "p01",
+        "p23"
+      ],
+      "needed_helpers_present": 3
+    },
+    {
+      "build": 4,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [
+        "n21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 4,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [
+        "p31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 4,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 4,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [
+        "p01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 4,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 4,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 4,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [
+        "n02",
+        "p23"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 4,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [
+        "p31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 4,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 4,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [
+        "p01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 4,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [
+        "n21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 4,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [
+        "n32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 4,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [
+        "p31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 4,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [
+        "n01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 4,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 4,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 4,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [
+        "n32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 4,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [
+        "p23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 5,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "p12",
+        "p30"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 5,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [
+        "p30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 5,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [
+        "p02"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 5,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [
+        "p23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 5,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 5,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [
+        "p23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 5,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 5,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [
+        "p02"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 5,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [
+        "p12",
+        "p30"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 5,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 5,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "p03",
+        "p12"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 5,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "p03",
+        "p12"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 5,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [
+        "p23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 5,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [
+        "p02"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 5,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [
+        "p03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 5,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 5,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [
+        "p02"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 5,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 5,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 5,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 5,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [
+        "p30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 5,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 5,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [
+        "p03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 5,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [
+        "p23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 6,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "n01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 6,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 6,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [
+        "p02",
+        "p13"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 6,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [
+        "p23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 6,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "n03",
+        "p31"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 6,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [
+        "p23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 6,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 6,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [
+        "p02",
+        "p31"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 6,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 6,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 6,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "p03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 6,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "n31",
+        "p03"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 6,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [
+        "p23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 6,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [
+        "n10",
+        "p02",
+        "p31"
+      ],
+      "needed_helpers_present": 3
+    },
+    {
+      "build": 6,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [
+        "n10",
+        "p03"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 6,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 6,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [
+        "p02",
+        "p13"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 6,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [
+        "p13"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 6,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [
+        "p31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 6,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [
+        "n01",
+        "p13"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 6,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 6,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "n03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 6,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [
+        "p03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 6,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [
+        "n31",
+        "p23"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 7,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "n01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 7,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [
+        "n02"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 7,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [
+        "n30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 7,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [
+        "n12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 7,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "n03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 7,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [
+        "n30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 7,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [
+        "n21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 7,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 7,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 7,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [
+        "n20"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 7,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "n20",
+        "p03"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 7,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "p03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 7,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [
+        "n02"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 7,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [
+        "n10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 7,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [
+        "n10",
+        "p03"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 7,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 7,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [
+        "n21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 7,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [
+        "n32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 7,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [
+        "n12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 7,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [
+        "n01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 7,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 7,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "n03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 7,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [
+        "n32",
+        "p03"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 7,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 8,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 8,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 8,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 8,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [
+        "n12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 8,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "p20"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 8,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 8,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [
+        "p10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 8,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [
+        "n23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 8,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [
+        "n23",
+        "p12"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 8,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 8,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "p03",
+        "p12"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 8,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "p03",
+        "p12"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 8,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [
+        "p10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 8,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [
+        "n10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 8,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [
+        "n10",
+        "p03"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 8,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 8,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 8,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [
+        "n32",
+        "p20"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 8,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [
+        "n12",
+        "p20"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 8,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [
+        "p20"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 8,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 8,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "p10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 8,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [
+        "n32",
+        "p03"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 8,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [
+        "p10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 9,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "n01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 9,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 9,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 9,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 9,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "n03",
+        "p31"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 9,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 9,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [
+        "p10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 9,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [
+        "n23",
+        "p31"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 9,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [
+        "n23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 9,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [
+        "n20"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 9,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "n20"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 9,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "n31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 9,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [
+        "p10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 9,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [
+        "n10",
+        "p31"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 9,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [
+        "n10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 9,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 9,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 9,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 9,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [
+        "p31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 9,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [
+        "n01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 9,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 9,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "n03",
+        "p10"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 9,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 9,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [
+        "n31",
+        "p10"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 10,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "n01",
+        "p12",
+        "p30"
+      ],
+      "needed_helpers_present": 3
+    },
+    {
+      "build": 10,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [
+        "n02",
+        "p21",
+        "p30"
+      ],
+      "needed_helpers_present": 3
+    },
+    {
+      "build": 10,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 10,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [
+        "p01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 10,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 10,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [
+        "p01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 10,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [
+        "p32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 10,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 10,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [
+        "p12",
+        "p30"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 10,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [
+        "p01",
+        "p32"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 10,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 10,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "n31",
+        "p12"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 10,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [
+        "n02"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 10,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 10,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [
+        "p21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 10,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [
+        "p01",
+        "p32"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 10,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 10,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [
+        "n32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 10,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 10,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [
+        "n01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 10,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [
+        "p21",
+        "p30"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 10,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "p32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 10,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [
+        "n32",
+        "p21"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 10,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [
+        "n31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 11,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "p12",
+        "p30"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 11,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [
+        "n02",
+        "p21",
+        "p30"
+      ],
+      "needed_helpers_present": 3
+    },
+    {
+      "build": 11,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [
+        "n30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 11,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 11,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "n03",
+        "p31"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 11,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [
+        "n30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 11,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [
+        "n21",
+        "p10"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 11,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [
+        "n23",
+        "p31"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 11,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [
+        "n23",
+        "p12",
+        "p30"
+      ],
+      "needed_helpers_present": 3
+    },
+    {
+      "build": 11,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 11,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 11,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "n31",
+        "p12"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 11,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [
+        "n02",
+        "p10"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 11,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [
+        "p31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 11,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [
+        "p21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 11,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 11,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [
+        "n21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 11,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [
+        "n32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 11,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [
+        "p31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 11,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 11,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [
+        "p21",
+        "p30"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 11,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "n03",
+        "p10"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 11,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [
+        "n32",
+        "p21"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 11,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [
+        "n31",
+        "p10"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 12,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "n01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 12,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [
+        "p21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 12,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [
+        "n30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 12,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [
+        "p01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 12,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "p31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 12,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [
+        "n30",
+        "p01"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 12,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [
+        "p10",
+        "p32"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 12,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [
+        "p31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 12,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 12,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [
+        "p01",
+        "p32"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 12,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "p03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 12,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "p03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 12,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [
+        "p10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 12,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [
+        "p31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 12,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [
+        "p03",
+        "p21"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 12,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [
+        "p01",
+        "p32"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 12,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 12,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 12,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [
+        "p31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 12,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [
+        "n01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 12,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [
+        "p21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 12,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "p10",
+        "p32"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 12,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [
+        "p03",
+        "p21"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 12,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [
+        "p10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 13,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "n01",
+        "p12"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 13,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 13,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [
+        "p02"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 13,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [
+        "n12",
+        "p01",
+        "p23"
+      ],
+      "needed_helpers_present": 3
+    },
+    {
+      "build": 13,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "n03",
+        "p20"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 13,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [
+        "p01",
+        "p23"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 13,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 13,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [
+        "n23",
+        "p02"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 13,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [
+        "n23",
+        "p12"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 13,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [
+        "p01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 13,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 13,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 13,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [
+        "p23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 13,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [
+        "p02"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 13,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 13,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [
+        "p01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 13,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [
+        "p02"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 13,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [
+        "p20"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 13,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [
+        "n12",
+        "p20"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 13,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [
+        "n01",
+        "p20"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 13,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 13,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "n03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 13,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 13,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [
+        "p23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 14,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "p12",
+        "p30"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 14,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [
+        "p30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 14,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [
+        "p13"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 14,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [
+        "n12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 14,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "p31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 14,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 14,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 14,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [
+        "p31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 14,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [
+        "p12",
+        "p30"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 14,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 14,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 14,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 14,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 14,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [
+        "p31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 14,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 14,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 14,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [
+        "p13"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 14,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [
+        "p13"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 14,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [
+        "n12",
+        "p31"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 14,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [
+        "p13"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 14,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [
+        "p30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 14,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 14,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 14,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 15,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 15,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [
+        "p21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 15,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [
+        "n30",
+        "p02",
+        "p13"
+      ],
+      "needed_helpers_present": 3
+    },
+    {
+      "build": 15,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 15,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "n03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 15,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [
+        "n30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 15,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [
+        "p32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 15,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [
+        "n23",
+        "p02"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 15,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [
+        "n23",
+        "p12"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 15,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [
+        "n20",
+        "p32"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 15,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "n20",
+        "p12"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 15,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 15,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 15,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [
+        "p02"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 15,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [
+        "p21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 15,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [
+        "p32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 15,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [
+        "p02",
+        "p13"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 15,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [
+        "n32",
+        "p13"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 15,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 15,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [
+        "p13"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 15,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [
+        "p21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 15,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "n03",
+        "p32"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 15,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [
+        "n32",
+        "p21"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 15,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 16,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "n01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 16,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 16,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [
+        "n30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 16,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [
+        "p23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 16,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "n03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 16,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [
+        "n30",
+        "p23"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 16,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [
+        "p10",
+        "p32"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 16,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 16,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 16,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [
+        "p32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 16,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 16,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 16,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [
+        "p10",
+        "p23"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 16,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 16,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 16,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [
+        "p32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 16,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 16,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [
+        "n32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 16,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 16,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [
+        "n01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 16,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 16,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "n03",
+        "p10",
+        "p32"
+      ],
+      "needed_helpers_present": 3
+    },
+    {
+      "build": 16,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [
+        "n32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 16,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [
+        "p10",
+        "p23"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 17,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 17,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [
+        "n02"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 17,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 17,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [
+        "p01",
+        "p23"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 17,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "n03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 17,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [
+        "p01",
+        "p23"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 17,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [
+        "n21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 17,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 17,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 17,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [
+        "n20",
+        "p01"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 17,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "n20",
+        "p03",
+        "p12"
+      ],
+      "needed_helpers_present": 3
+    },
+    {
+      "build": 17,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "n31",
+        "p03",
+        "p12"
+      ],
+      "needed_helpers_present": 3
+    },
+    {
+      "build": 17,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [
+        "n02",
+        "p23"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 17,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 17,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [
+        "p03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 17,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [
+        "n13",
+        "p01"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 17,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [
+        "n21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 17,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 17,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 17,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 17,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [
+        "n13"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 17,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "n03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 17,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [
+        "p03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 17,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [
+        "n31",
+        "p23"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 18,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "n01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 18,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [
+        "p21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 18,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [
+        "n30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 18,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 18,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "n03",
+        "p20"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 18,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [
+        "n30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 18,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [
+        "p10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 18,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [
+        "n23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 18,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [
+        "n23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 18,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [
+        "n20"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 18,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "n20"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 18,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "n31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 18,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [
+        "p10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 18,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 18,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [
+        "p21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 18,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [
+        "n13"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 18,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 18,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [
+        "p20"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 18,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [
+        "p20"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 18,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [
+        "n01",
+        "p20"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 18,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [
+        "n13",
+        "p21"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 18,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "n03",
+        "p10"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 18,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [
+        "p21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 18,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [
+        "n31",
+        "p10"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 19,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 19,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [
+        "n02",
+        "p21"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 19,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [
+        "p02"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 19,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 19,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "n03",
+        "p31"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 19,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 19,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 19,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [
+        "p02",
+        "p31"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 19,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 19,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 19,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 19,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "n31",
+        "p12"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 19,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [
+        "n02"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 19,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [
+        "p02",
+        "p31"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 19,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [
+        "p21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 19,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [
+        "n13"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 19,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [
+        "p02"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 19,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [
+        "n32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 19,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [
+        "p31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 19,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 19,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [
+        "n13",
+        "p21"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 19,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "n03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 19,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [
+        "n32",
+        "p21"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 19,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [
+        "n31"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 20,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "n01"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 20,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 20,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [
+        "n30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 20,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 20,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "p20"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 20,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [
+        "n30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 20,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [
+        "n21",
+        "p10"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 20,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 20,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 20,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [
+        "n20"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 20,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "n20",
+        "p03"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 20,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "p03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 20,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [
+        "p10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 20,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 20,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [
+        "p03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 20,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [
+        "n13"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 20,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [
+        "n21"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 20,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [
+        "n32",
+        "p20"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 20,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [
+        "p20"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 20,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [
+        "n01",
+        "p20"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 20,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [
+        "n13"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 20,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "p10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 20,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [
+        "n32",
+        "p03"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 20,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [
+        "p10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 21,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "n01",
+        "p30"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 21,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [
+        "p30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 21,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [
+        "n30",
+        "p13"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 21,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [
+        "n12",
+        "p23"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 21,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 21,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [
+        "n30",
+        "p23"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 21,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [
+        "p32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 21,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 21,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [
+        "p30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 21,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [
+        "p32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 21,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "p03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 21,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "n31",
+        "p03"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 21,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [
+        "p23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 21,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 21,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [
+        "p03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 21,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [
+        "p32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 21,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [
+        "p13"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 21,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [
+        "p13"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 21,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [
+        "n12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 21,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [
+        "n01",
+        "p13"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 21,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [
+        "p30"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 21,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "p32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 21,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [
+        "p03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 21,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [
+        "n31",
+        "p23"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 22,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 22,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 22,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 22,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 22,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "n03",
+        "p20"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 22,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 22,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [
+        "p32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 22,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 22,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 22,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [
+        "n20",
+        "p32"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 22,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "n20",
+        "p03",
+        "p12"
+      ],
+      "needed_helpers_present": 3
+    },
+    {
+      "build": 22,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "p03",
+        "p12"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 22,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 22,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [
+        "n10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 22,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [
+        "n10",
+        "p03"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 22,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [
+        "p32"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 22,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 22,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [
+        "p20"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 22,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [
+        "p20"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 22,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [
+        "p20"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 22,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 22,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "n03",
+        "p32"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 22,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [
+        "p03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 22,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 23,
+      "cell": "C:p30+n01+p12",
+      "needed": [
+        "p30",
+        "n01",
+        "p12"
+      ],
+      "present": [
+        "n01",
+        "p12"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 23,
+      "cell": "C:p30+n02+p21",
+      "needed": [
+        "p30",
+        "n02",
+        "p21"
+      ],
+      "present": [
+        "n02"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 23,
+      "cell": "C:p13+n30+p02",
+      "needed": [
+        "p13",
+        "n30",
+        "p02"
+      ],
+      "present": [
+        "p13"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 23,
+      "cell": "C:p01+n12+p23",
+      "needed": [
+        "p01",
+        "n12",
+        "p23"
+      ],
+      "present": [
+        "p23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 23,
+      "cell": "C:p20+n03+p31",
+      "needed": [
+        "p20",
+        "n03",
+        "p31"
+      ],
+      "present": [
+        "n03"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 23,
+      "cell": "C:p23+n30+p01",
+      "needed": [
+        "p23",
+        "n30",
+        "p01"
+      ],
+      "present": [
+        "p23"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 23,
+      "cell": "C:p32+n21+p10",
+      "needed": [
+        "p32",
+        "n21",
+        "p10"
+      ],
+      "present": [
+        "p10"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 23,
+      "cell": "C:p02+n23+p31",
+      "needed": [
+        "p02",
+        "n23",
+        "p31"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 23,
+      "cell": "C:p12+n23+p30",
+      "needed": [
+        "p12",
+        "n23",
+        "p30"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 23,
+      "cell": "C:p32+n20+p01",
+      "needed": [
+        "p32",
+        "n20",
+        "p01"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 23,
+      "cell": "C:p12+n20+p03",
+      "needed": [
+        "p12",
+        "n20",
+        "p03"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 23,
+      "cell": "C:p03+n31+p12",
+      "needed": [
+        "p03",
+        "n31",
+        "p12"
+      ],
+      "present": [
+        "p12"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 23,
+      "cell": "C:p10+n02+p23",
+      "needed": [
+        "p10",
+        "n02",
+        "p23"
+      ],
+      "present": [
+        "n02",
+        "p10",
+        "p23"
+      ],
+      "needed_helpers_present": 3
+    },
+    {
+      "build": 23,
+      "cell": "C:p31+n10+p02",
+      "needed": [
+        "p31",
+        "n10",
+        "p02"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 23,
+      "cell": "C:p21+n10+p03",
+      "needed": [
+        "p21",
+        "n10",
+        "p03"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 23,
+      "cell": "C:p01+n13+p32",
+      "needed": [
+        "p01",
+        "n13",
+        "p32"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 23,
+      "cell": "C:p02+n21+p13",
+      "needed": [
+        "p02",
+        "n21",
+        "p13"
+      ],
+      "present": [
+        "p13"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 23,
+      "cell": "C:p13+n32+p20",
+      "needed": [
+        "p13",
+        "n32",
+        "p20"
+      ],
+      "present": [
+        "p13"
+      ],
+      "needed_helpers_present": 1
+    },
+    {
+      "build": 23,
+      "cell": "C:p31+n12+p20",
+      "needed": [
+        "p31",
+        "n12",
+        "p20"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 23,
+      "cell": "C:p20+n01+p13",
+      "needed": [
+        "p20",
+        "n01",
+        "p13"
+      ],
+      "present": [
+        "n01",
+        "p13"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 23,
+      "cell": "C:p21+n13+p30",
+      "needed": [
+        "p21",
+        "n13",
+        "p30"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 23,
+      "cell": "C:p10+n03+p32",
+      "needed": [
+        "p10",
+        "n03",
+        "p32"
+      ],
+      "present": [
+        "n03",
+        "p10"
+      ],
+      "needed_helpers_present": 2
+    },
+    {
+      "build": 23,
+      "cell": "C:p03+n32+p21",
+      "needed": [
+        "p03",
+        "n32",
+        "p21"
+      ],
+      "present": [],
+      "needed_helpers_present": 0
+    },
+    {
+      "build": 23,
+      "cell": "C:p23+n31+p10",
+      "needed": [
+        "p23",
+        "n31",
+        "p10"
+      ],
+      "present": [
+        "p10",
+        "p23"
+      ],
+      "needed_helpers_present": 2
+    }
+  ],
+  "R_all_coverage_strata": [
+    {
+      "needed_helpers_present": 0,
+      "stats": {
+        "jobs": 1,
+        "solves": 1,
+        "capped_jobs": 0,
+        "first_attempt_rate": 0.0,
+        "attempts_distribution": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 1,
+          "7": 0,
+          "8": 0
+        },
+        "evaluations": {
+          "mean": 358400.0,
+          "median": 358400.0,
+          "p95": 358400.0,
+          "max": 358400.0
+        },
+        "worker_seconds": {
+          "mean": 17.058977624983527,
+          "median": 17.058977624983527,
+          "p95": 17.058977624983527,
+          "max": 17.058977624983527
+        },
+        "operator": {
+          "crossover": 177337,
+          "mutation": 176739,
+          "rejected_crossover": 51349,
+          "rejected_mutation": 88250,
+          "library_draws": 88256,
+          "library_insertions": 34845,
+          "rejected_library": 53411,
+          "ordinary_donors": 88483,
+          "empty_fallbacks": 0
+        }
+      }
+    },
+    {
+      "needed_helpers_present": 1,
+      "stats": {
+        "jobs": 2,
+        "solves": 2,
+        "capped_jobs": 0,
+        "first_attempt_rate": 0.5,
+        "attempts_distribution": {
+          "1": 1,
+          "2": 0,
+          "3": 1,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0
+        },
+        "evaluations": {
+          "mean": 80000.0,
+          "median": 80000.0,
+          "p95": 137945.6,
+          "max": 144384.0
+        },
+        "worker_seconds": {
+          "mean": 4.615630958520342,
+          "median": 4.615630958520342,
+          "p95": 8.036926696175941,
+          "max": 8.417070667026564
+        },
+        "operator": {
+          "crossover": 78805,
+          "mutation": 78929,
+          "rejected_crossover": 24019,
+          "rejected_mutation": 38689,
+          "library_draws": 39650,
+          "library_insertions": 16803,
+          "rejected_library": 22847,
+          "ordinary_donors": 39279,
+          "empty_fallbacks": 0
+        }
+      }
+    },
+    {
+      "needed_helpers_present": 2,
+      "stats": {
+        "jobs": 1,
+        "solves": 1,
+        "capped_jobs": 0,
+        "first_attempt_rate": 1.0,
+        "attempts_distribution": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0
+        },
+        "evaluations": {
+          "mean": 5120.0,
+          "median": 5120.0,
+          "p95": 5120.0,
+          "max": 5120.0
+        },
+        "worker_seconds": {
+          "mean": 0.2528056249720976,
+          "median": 0.2528056249720976,
+          "p95": 0.2528056249720976,
+          "max": 0.2528056249720976
+        },
+        "operator": {
+          "crossover": 2428,
+          "mutation": 2398,
+          "rejected_crossover": 292,
+          "rejected_mutation": 455,
+          "library_draws": 1219,
+          "library_insertions": 1029,
+          "rejected_library": 190,
+          "ordinary_donors": 1179,
+          "empty_fallbacks": 0
+        }
+      }
+    },
+    {
+      "needed_helpers_present": 3,
+      "stats": null
+    }
+  ],
+  "throughput": {
+    "wall_seconds": 23.355131125077605,
+    "workers": 8,
+    "worker_seconds": 90.92327991581988,
+    "effective_concurrency": 3.8930751203614897,
+    "jobs_per_second": 0.5138057215664691,
+    "max_worker_seconds": 22.831147624994628
+  },
+  "economics": {
+    "evaluations": {
+      "historical_acquisition": {
+        "point": 200448.0,
+        "interval95": [
+          191744.0,
+          209152.0
+        ]
+      },
+      "saving_per_search": {
+        "point": 98368.0,
+        "interval95": [
+          -7424.0,
+          197632.0
+        ]
+      },
+      "repayment_searches": 2.0377358490566038,
+      "cost_curves": [
+        {
+          "searches": 0,
+          "R_tree": 0.0,
+          "R_all_owned": 0.0,
+          "R_all_newly_deployed": 200448.0,
+          "newly_deployed_difference": {
+            "point": 200448.0,
+            "interval95": [
+              191744.0,
+              209152.0
+            ]
+          },
+          "acquisition_plus_search_label": "higher_total_cost"
+        },
+        {
+          "searches": 1,
+          "R_tree": 229248.0,
+          "R_all_owned": 130880.0,
+          "R_all_newly_deployed": 331328.0,
+          "newly_deployed_difference": {
+            "point": 102080.0,
+            "interval95": [
+              11520.0,
+              199168.0
+            ]
+          },
+          "acquisition_plus_search_label": "higher_total_cost"
+        },
+        {
+          "searches": 10,
+          "R_tree": 2292480.0,
+          "R_all_owned": 1308800.0,
+          "R_all_newly_deployed": 1509248.0,
+          "newly_deployed_difference": {
+            "point": -783232.0,
+            "interval95": [
+              -1767168.0,
+              265984.0
+            ]
+          },
+          "acquisition_plus_search_label": "unresolved"
+        },
+        {
+          "searches": 100,
+          "R_tree": 22924800.0,
+          "R_all_owned": 13088000.0,
+          "R_all_newly_deployed": 13288448.0,
+          "newly_deployed_difference": {
+            "point": -9636352.0,
+            "interval95": [
+              -19554048.0,
+              934144.0
+            ]
+          },
+          "acquisition_plus_search_label": "unresolved"
+        },
+        {
+          "searches": 1000,
+          "R_tree": 229248000.0,
+          "R_all_owned": 130880000.0,
+          "R_all_newly_deployed": 131080448.0,
+          "newly_deployed_difference": {
+            "point": -98167552.0,
+            "interval95": [
+              -197422848.0,
+              7615744.0
+            ]
+          },
+          "acquisition_plus_search_label": "unresolved"
+        }
+      ],
+      "symbols": "A = acquisition; C = capped per-search cost; Delta = C_tree - C_all; total = A + N*C_all; repayment = A/Delta for positive Delta",
+      "repayment_interval95": [
+        1.0582901554404145,
+        null
+      ],
+      "repayment_unbounded": true,
+      "nonpositive_saving_bootstrap_fraction": 0.060791015625,
+      "interval_method": "Paired build/cell bootstrap of saving/acquisition, inverted; null bounds encode infinity/no finite repayment. Upper is unbounded if saving interval includes zero."
+    },
+    "worker_seconds": {
+      "historical_acquisition": {
+        "point": 9.492688664002344,
+        "interval95": [
+          9.050279914634302,
+          9.935097413370386
+        ]
+      },
+      "saving_per_search": {
+        "point": 5.324466312449658,
+        "interval95": [
+          -0.43613600009121,
+          10.504724791971967
+        ]
+      },
+      "repayment_searches": 1.782843219762055,
+      "cost_curves": [
+        {
+          "searches": 0,
+          "R_tree": 0.0,
+          "R_all_owned": 0.0,
+          "R_all_newly_deployed": 9.492688664002344,
+          "newly_deployed_difference": {
+            "point": 9.492688664002344,
+            "interval95": [
+              9.050279914634302,
+              9.935097413370386
+            ]
+          },
+          "acquisition_plus_search_label": "higher_total_cost"
+        },
+        {
+          "searches": 1,
+          "R_tree": 11.960227604198735,
+          "R_all_owned": 6.635761291749077,
+          "R_all_newly_deployed": 16.12844995575142,
+          "newly_deployed_difference": {
+            "point": 4.168222351552686,
+            "interval95": [
+              -0.5696273786015809,
+              9.486415914725512
+            ]
+          },
+          "acquisition_plus_search_label": "unresolved"
+        },
+        {
+          "searches": 10,
+          "R_tree": 119.60227604198735,
+          "R_all_owned": 66.35761291749077,
+          "R_all_newly_deployed": 75.85030158149311,
+          "newly_deployed_difference": {
+            "point": -43.75197446049424,
+            "interval95": [
+              -95.11215050634928,
+              13.411639915546402
+            ]
+          },
+          "acquisition_plus_search_label": "unresolved"
+        },
+        {
+          "searches": 100,
+          "R_tree": 1196.0227604198735,
+          "R_all_owned": 663.5761291749077,
+          "R_all_newly_deployed": 673.06881783891,
+          "newly_deployed_difference": {
+            "point": -522.9539425809635,
+            "interval95": [
+              -1040.5373817838263,
+              52.6638799237553
+            ]
+          },
+          "acquisition_plus_search_label": "unresolved"
+        },
+        {
+          "searches": 1000,
+          "R_tree": 11960.227604198735,
+          "R_all_owned": 6635.761291749077,
+          "R_all_newly_deployed": 6645.253980413079,
+          "newly_deployed_difference": {
+            "point": -5314.973623785656,
+            "interval95": [
+              -10494.789694558596,
+              445.1862800058443
+            ]
+          },
+          "acquisition_plus_search_label": "unresolved"
+        }
+      ],
+      "symbols": "A = acquisition; C = capped per-search cost; Delta = C_tree - C_all; total = A + N*C_all; repayment = A/Delta for positive Delta",
+      "repayment_interval95": [
+        0.9457741740138773,
+        null
+      ],
+      "repayment_unbounded": true,
+      "nonpositive_saving_bootstrap_fraction": 0.060791015625,
+      "interval_method": "Paired build/cell bootstrap of saving/acquisition, inverted; null bounds encode infinity/no finite repayment. Upper is unbounded if saving interval includes zero."
+    }
+  },
+  "economics_scope": "Historical acquisition/extraction/validation worker seconds from 1938; current deployment worker seconds. Hardware/load differences limit comparability. Shared admission/replay overhead separate; supplied family prior has no evolutionary acquisition.",
+  "scope": "Protected-cell reuse within the development chain bank; combined depth/input-sharing change, no fresh-bank transfer, helper causality, inherited learning or uncapped time-to-solution claim.",
+  "task": "2026-10-11-2150",
+  "primary": "R-all/R-tree pooled capped arithmetic mean evaluations",
+  "preparation_hash": "acb386b882d88e3eae3e21991f91b1525249e26b1c23e8d8715f5be066b0bcfc",
+  "score_rows_hash": "40e1e0d837dedd59bb9cdf38b9a087577dc3d2ed978199cd404807132f18f5c0",
+  "replay_validation_seconds": 6.287125124945305,
+  "seconds": 31.17784424999263
+}

@@ -1,0 +1,6 @@
+{
+  "admitted": false,
+  "phase": "prepare",
+  "smoke": false,
+  "error": "chain admission replay mismatch"
+}
