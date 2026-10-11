@@ -1,0 +1,1071 @@
+{
+  "source": "experiments/output/2026-10-11/2026-10-11-1530-prepare/libraries.json",
+  "source_sha256": "7542afa500e398417cf510fda91a159549c9c1f28b84afb25fb768fefdc0049c",
+  "scope": "Static planning audit only; no evolutionary searches. Independent vector interpreter of saved donors on D625.",
+  "semantic_hash_mismatches": 0,
+  "builds": [
+    {
+      "build": 0,
+      "entries": 34,
+      "direct_helpers": [
+        [
+          "lo13",
+          6,
+          10
+        ],
+        [
+          "hi13",
+          6,
+          10
+        ],
+        [
+          "lo03",
+          6,
+          10
+        ],
+        [
+          "lo12",
+          6,
+          10
+        ],
+        [
+          "hi12",
+          9,
+          14
+        ],
+        [
+          "hi23",
+          9,
+          14
+        ],
+        [
+          "lo02",
+          9,
+          15
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 1,
+      "entries": 27,
+      "direct_helpers": [
+        [
+          "hi13",
+          6,
+          10
+        ],
+        [
+          "lo23",
+          8,
+          12
+        ],
+        [
+          "hi01",
+          6,
+          10
+        ],
+        [
+          "lo12",
+          6,
+          10
+        ],
+        [
+          "lo03",
+          6,
+          10
+        ],
+        [
+          "lo02",
+          8,
+          12
+        ],
+        [
+          "lo13",
+          6,
+          10
+        ],
+        [
+          "hi23",
+          6,
+          10
+        ],
+        [
+          "hi03",
+          6,
+          10
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 2,
+      "entries": 26,
+      "direct_helpers": [
+        [
+          "hi02",
+          6,
+          10
+        ],
+        [
+          "hi12",
+          6,
+          10
+        ],
+        [
+          "hi23",
+          6,
+          10
+        ],
+        [
+          "hi13",
+          6,
+          10
+        ],
+        [
+          "lo12",
+          9,
+          15
+        ],
+        [
+          "lo23",
+          9,
+          14
+        ],
+        [
+          "hi01",
+          6,
+          10
+        ],
+        [
+          "lo13",
+          6,
+          10
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 3,
+      "entries": 28,
+      "direct_helpers": [
+        [
+          "lo13",
+          6,
+          10
+        ],
+        [
+          "hi13",
+          9,
+          15
+        ],
+        [
+          "lo23",
+          6,
+          10
+        ],
+        [
+          "hi12",
+          9,
+          15
+        ],
+        [
+          "lo03",
+          6,
+          10
+        ],
+        [
+          "lo12",
+          6,
+          10
+        ],
+        [
+          "hi23",
+          6,
+          10
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 4,
+      "entries": 26,
+      "direct_helpers": [
+        [
+          "hi03",
+          6,
+          10
+        ],
+        [
+          "hi12",
+          6,
+          10
+        ],
+        [
+          "hi23",
+          6,
+          10
+        ],
+        [
+          "hi01",
+          6,
+          10
+        ],
+        [
+          "lo12",
+          6,
+          10
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 5,
+      "entries": 26,
+      "direct_helpers": [
+        [
+          "lo12",
+          6,
+          10
+        ],
+        [
+          "lo23",
+          8,
+          12
+        ],
+        [
+          "hi01",
+          9,
+          14
+        ],
+        [
+          "lo01",
+          6,
+          10
+        ],
+        [
+          "lo13",
+          6,
+          10
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 6,
+      "entries": 37,
+      "direct_helpers": [
+        [
+          "lo01",
+          6,
+          10
+        ],
+        [
+          "hi02",
+          6,
+          10
+        ],
+        [
+          "hi03",
+          6,
+          10
+        ],
+        [
+          "hi01",
+          6,
+          10
+        ],
+        [
+          "lo13",
+          6,
+          10
+        ],
+        [
+          "lo12",
+          6,
+          10
+        ],
+        [
+          "lo23",
+          6,
+          10
+        ],
+        [
+          "lo02",
+          8,
+          12
+        ],
+        [
+          "hi23",
+          6,
+          10
+        ],
+        [
+          "hi13",
+          9,
+          15
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 7,
+      "entries": 28,
+      "direct_helpers": [
+        [
+          "lo13",
+          6,
+          10
+        ],
+        [
+          "hi02",
+          8,
+          12
+        ],
+        [
+          "lo12",
+          6,
+          10
+        ],
+        [
+          "hi23",
+          6,
+          10
+        ],
+        [
+          "lo02",
+          9,
+          13
+        ],
+        [
+          "lo01",
+          6,
+          10
+        ],
+        [
+          "hi13",
+          6,
+          10
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 8,
+      "entries": 27,
+      "direct_helpers": [
+        [
+          "lo12",
+          6,
+          10
+        ],
+        [
+          "hi13",
+          6,
+          10
+        ],
+        [
+          "lo23",
+          6,
+          10
+        ],
+        [
+          "hi02",
+          6,
+          10
+        ],
+        [
+          "lo13",
+          6,
+          10
+        ],
+        [
+          "hi23",
+          6,
+          10
+        ],
+        [
+          "hi12",
+          8,
+          13
+        ],
+        [
+          "hi01",
+          9,
+          14
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 9,
+      "entries": 32,
+      "direct_helpers": [
+        [
+          "hi02",
+          6,
+          10
+        ],
+        [
+          "hi23",
+          8,
+          12
+        ],
+        [
+          "lo01",
+          6,
+          10
+        ],
+        [
+          "lo03",
+          6,
+          10
+        ],
+        [
+          "hi01",
+          6,
+          10
+        ],
+        [
+          "lo23",
+          6,
+          10
+        ],
+        [
+          "hi03",
+          9,
+          15
+        ],
+        [
+          "lo12",
+          8,
+          13
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 10,
+      "entries": 29,
+      "direct_helpers": [
+        [
+          "hi23",
+          6,
+          10
+        ],
+        [
+          "lo03",
+          6,
+          10
+        ],
+        [
+          "lo01",
+          6,
+          10
+        ],
+        [
+          "hi03",
+          8,
+          12
+        ],
+        [
+          "hi12",
+          8,
+          12
+        ],
+        [
+          "lo12",
+          8,
+          12
+        ],
+        [
+          "hi01",
+          6,
+          10
+        ],
+        [
+          "lo23",
+          6,
+          10
+        ],
+        [
+          "hi13",
+          6,
+          10
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 11,
+      "entries": 31,
+      "direct_helpers": [
+        [
+          "lo23",
+          6,
+          10
+        ],
+        [
+          "hi01",
+          8,
+          12
+        ],
+        [
+          "lo01",
+          6,
+          10
+        ],
+        [
+          "lo13",
+          6,
+          10
+        ],
+        [
+          "hi02",
+          6,
+          10
+        ],
+        [
+          "lo02",
+          6,
+          10
+        ],
+        [
+          "hi03",
+          6,
+          10
+        ],
+        [
+          "hi23",
+          6,
+          10
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 12,
+      "entries": 27,
+      "direct_helpers": [
+        [
+          "lo02",
+          6,
+          10
+        ],
+        [
+          "hi02",
+          6,
+          10
+        ],
+        [
+          "hi13",
+          6,
+          10
+        ],
+        [
+          "lo23",
+          6,
+          10
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 13,
+      "entries": 29,
+      "direct_helpers": [
+        [
+          "hi02",
+          6,
+          10
+        ],
+        [
+          "lo13",
+          6,
+          10
+        ],
+        [
+          "hi13",
+          6,
+          10
+        ],
+        [
+          "lo01",
+          6,
+          10
+        ],
+        [
+          "lo23",
+          6,
+          10
+        ],
+        [
+          "lo02",
+          8,
+          12
+        ],
+        [
+          "hi03",
+          6,
+          10
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 14,
+      "entries": 26,
+      "direct_helpers": [
+        [
+          "hi01",
+          6,
+          10
+        ],
+        [
+          "lo12",
+          6,
+          10
+        ],
+        [
+          "hi12",
+          6,
+          10
+        ],
+        [
+          "hi13",
+          6,
+          10
+        ],
+        [
+          "hi03",
+          9,
+          14
+        ],
+        [
+          "lo03",
+          6,
+          10
+        ],
+        [
+          "lo01",
+          6,
+          10
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 15,
+      "entries": 27,
+      "direct_helpers": [
+        [
+          "lo01",
+          6,
+          10
+        ],
+        [
+          "lo12",
+          6,
+          10
+        ],
+        [
+          "hi03",
+          6,
+          10
+        ],
+        [
+          "lo02",
+          6,
+          10
+        ],
+        [
+          "hi12",
+          6,
+          10
+        ],
+        [
+          "hi13",
+          8,
+          13
+        ],
+        [
+          "lo13",
+          6,
+          10
+        ],
+        [
+          "hi23",
+          6,
+          10
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 16,
+      "entries": 27,
+      "direct_helpers": [
+        [
+          "lo01",
+          6,
+          10
+        ],
+        [
+          "lo13",
+          6,
+          10
+        ],
+        [
+          "hi12",
+          8,
+          12
+        ],
+        [
+          "lo23",
+          6,
+          10
+        ],
+        [
+          "lo03",
+          6,
+          10
+        ],
+        [
+          "hi02",
+          9,
+          13
+        ],
+        [
+          "hi13",
+          9,
+          14
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 17,
+      "entries": 30,
+      "direct_helpers": [
+        [
+          "hi01",
+          6,
+          10
+        ],
+        [
+          "hi03",
+          6,
+          10
+        ],
+        [
+          "lo12",
+          6,
+          10
+        ],
+        [
+          "hi12",
+          6,
+          10
+        ],
+        [
+          "hi23",
+          8,
+          13
+        ],
+        [
+          "lo02",
+          8,
+          12
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 18,
+      "entries": 29,
+      "direct_helpers": [
+        [
+          "hi02",
+          6,
+          10
+        ],
+        [
+          "hi12",
+          6,
+          10
+        ],
+        [
+          "hi03",
+          6,
+          10
+        ],
+        [
+          "hi01",
+          6,
+          10
+        ],
+        [
+          "lo02",
+          6,
+          10
+        ],
+        [
+          "lo12",
+          8,
+          12
+        ],
+        [
+          "lo23",
+          8,
+          12
+        ],
+        [
+          "hi13",
+          6,
+          10
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 19,
+      "entries": 25,
+      "direct_helpers": [
+        [
+          "lo03",
+          6,
+          10
+        ],
+        [
+          "lo01",
+          6,
+          10
+        ],
+        [
+          "hi13",
+          6,
+          10
+        ],
+        [
+          "hi12",
+          6,
+          10
+        ],
+        [
+          "hi23",
+          6,
+          10
+        ],
+        [
+          "hi01",
+          9,
+          13
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 20,
+      "entries": 30,
+      "direct_helpers": [
+        [
+          "hi03",
+          6,
+          10
+        ],
+        [
+          "hi13",
+          8,
+          12
+        ],
+        [
+          "lo23",
+          8,
+          12
+        ],
+        [
+          "lo02",
+          6,
+          10
+        ],
+        [
+          "hi12",
+          8,
+          12
+        ],
+        [
+          "lo12",
+          8,
+          12
+        ],
+        [
+          "hi23",
+          8,
+          12
+        ],
+        [
+          "hi01",
+          6,
+          10
+        ],
+        [
+          "lo03",
+          6,
+          10
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 21,
+      "entries": 28,
+      "direct_helpers": [
+        [
+          "lo13",
+          6,
+          10
+        ],
+        [
+          "hi13",
+          6,
+          10
+        ],
+        [
+          "lo12",
+          6,
+          10
+        ],
+        [
+          "hi01",
+          8,
+          13
+        ],
+        [
+          "lo01",
+          9,
+          15
+        ],
+        [
+          "lo02",
+          6,
+          10
+        ],
+        [
+          "lo23",
+          6,
+          10
+        ],
+        [
+          "hi12",
+          9,
+          14
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 22,
+      "entries": 29,
+      "direct_helpers": [
+        [
+          "hi02",
+          6,
+          10
+        ],
+        [
+          "lo03",
+          6,
+          10
+        ],
+        [
+          "lo13",
+          6,
+          10
+        ],
+        [
+          "lo23",
+          6,
+          10
+        ],
+        [
+          "lo02",
+          6,
+          10
+        ],
+        [
+          "hi12",
+          6,
+          10
+        ],
+        [
+          "lo12",
+          8,
+          12
+        ]
+      ],
+      "other_entries_containing_helper": []
+    },
+    {
+      "build": 23,
+      "entries": 30,
+      "direct_helpers": [
+        [
+          "lo01",
+          6,
+          10
+        ],
+        [
+          "hi01",
+          6,
+          10
+        ],
+        [
+          "hi23",
+          6,
+          10
+        ],
+        [
+          "hi13",
+          9,
+          14
+        ],
+        [
+          "lo13",
+          9,
+          15
+        ],
+        [
+          "hi12",
+          6,
+          10
+        ],
+        [
+          "lo02",
+          6,
+          10
+        ],
+        [
+          "lo03",
+          6,
+          10
+        ],
+        [
+          "lo12",
+          9,
+          13
+        ]
+      ],
+      "other_entries_containing_helper": []
+    }
+  ],
+  "per_entry_permutation_support": {
+    "seed": 1628,
+    "maximum_draws_per_entry": 256,
+    "rule": "Shuffle labels only within each entry arity/token-width pool; accept when no subtree equals any of the twelve helpers on D625. Static support audit, no search or efficacy selection.",
+    "helper_entries": 177,
+    "supported": 177,
+    "unsupported_build_entry": [],
+    "max_draws_observed": 16,
+    "total_draws": 465
+  }
+}

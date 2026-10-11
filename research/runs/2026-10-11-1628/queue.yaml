@@ -1,0 +1,65 @@
+runs:
+  - id: 2026-10-11-1628-prepare
+    cmd: >-
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.order_helper_run prepare
+      --saved /Users/andreas/developer/folding-evolution/experiments/output/2026-10-11/2026-10-11-1530-prepare
+      --workers 10 --seconds 570
+    timeout_seconds: 600
+    expect_outputs:
+      - source/saved/acquisition.jsonl
+      - bank.json
+      - libraries.json
+      - method_freeze.json
+      - schedules.json
+      - seed_audit.json
+      - construction_audit.json
+      - coverage.json
+      - smoke.jsonl
+      - smoke_completion.json
+      - smoke_report.json
+      - smoke_dynamics.png
+      - preparation.json
+    track: chem-tape
+    notes: >-
+      Commands run in the reviewed worktree. Copy and hash-check the saved
+      1530 snapshot; reconstruct all 24 original 1228 R-all libraries from
+      their complete acquisition grids. Freeze four first-accepted seeded
+      within-entry helper permutations per build, at most 256 draws per slot;
+      no helper-valued subtree on D625. Preserve every donor slot, duplicate,
+      non-helper entry, primitive count, arity/width skeleton, nodes and
+      compiled length. Independently validate interpreter/VM agreement before
+      any search. Run only 72 development smoke jobs at unchanged caps; no
+      efficacy decision. Construction or smoke failure blocks scoring.
+  - id: 2026-10-11-1628-score
+    cmd: >-
+      RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.order_helper_run score
+      --prepared "$RUN_DIR/../2026-10-11-1628-prepare" --workers 10 --seconds 3570
+    timeout_seconds: 3600
+    expect_outputs:
+      - bank.json
+      - libraries.json
+      - method_freeze.json
+      - schedules.json
+      - seed_audit.json
+      - construction_audit.json
+      - coverage.json
+      - score.jsonl
+      - score_completion.json
+      - report.json
+    track: chem-tape
+    notes: >-
+      Reconstruct and replay all frozen constructions and validate hashes,
+      method, seeds and complete smoke evidence before scoring. Development
+      cells only: 24 builds x six cells x eight repeats x three arms = 3456
+      paired jobs, 1152 per arm. R-hx realization is repeat modulo four;
+      half mutation donors use uniform slots, duplicates retained. All arms
+      use up to eight attempts of 65536 evaluations. Fsync every row. All
+      jobs are required: timeout or partial results emit incomplete without
+      contrasts or an efficacy verdict; no balanced partial fallback or top-up.
+      Primary Q is the ratio of pooled capped arithmetic mean evaluations
+      R-hx/R-all with 8192 whole-build bootstrap draws. Lower Q >1.25 means
+      material loss; upper Q <1.25 plus upper R-hx/R-tree <0.80 means useful
+      retention; otherwise unresolved. Report solve counts, saved coverage
+      strata and helper rediscovery in R-hx solvers; complete runs also write
+      dynamics.png. Interpretation is conditional on this mostly projection-
+      valued replacement law and remaining library; return to strategy.

@@ -38,3 +38,12 @@
   helpers, one acquisition recipe; not fresh-bank transfer, not helper causality, not superiority to R-order
   (6.9× cheaper). Root 10's budget is now 46/46 and both the strategy and proposal route this outcome back to
   strategy; no further experiment is allocated. See the [decision](../../../runs/2026-10-11-1530/decision.md).
+
+- 2026-10-11 (steward, 1628): **wording correction** (critique 1628 notes 5–6; numbers unchanged). In the run entry
+  above, read "with no reliability loss" as "no loss observed; the registered failure-count guard passed"
+  (1,152/1,152 vs 1,146/1,152 is a finite sample, not proof of zero loss). Read explanation (c) as: unsearched
+  destinations exclude fitting to their scored outcomes, but not reusable non-helper content useful on those cells;
+  the saving survived on unseen combinations and its carrier was unidentified there, including in the
+  zero-needed-helper stratum (zero *destination-needed* helpers is not zero helpers). Run 1628
+  ([57](../57-order-helper-arrangement/question.md)) has since shown on the development cells that rearranging only
+  the helper entries removes most of R-all's saving; that intervention was not run on these 24 cells.
