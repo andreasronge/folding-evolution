@@ -1,0 +1,10 @@
+{
+  "arguments": {
+    "prepare": false,
+    "smoke": false,
+    "preparation": "/Users/andreas/developer/folding-evolution/research/runs/2026-10-11-0348/smoke-stage",
+    "workers": 10,
+    "deadline_seconds": 5400
+  },
+  "git_commit": "82e4bd017a34b9115b0e6e4f546f690260d9eda0"
+}

@@ -42,3 +42,10 @@ Decision: close 45 and return to strategy (`next: strategy`) because the primary
 row with wide margin, root 10's 37-slot budget is spent, and both successors (a fresh-bank stage, or a cheap
 ingredient test with hand-set {pair sums} / {skeleton} / input-only donors) are allocation choices the strategy
 reserved for itself.
+
+2026-10-11 (steward, run 2026-10-11-0348): wording correction (critique 0348, note 8). The summary said the gain
+showed "not as copied entries in final solvers"; the literal contiguous matcher undercounts orientation variants
+and interleaved reuse, so it now reads that few final solvers contain larger entries verbatim and that
+transformed reuse and causal pathways are unmeasured. On fresh `x4-gate-sum-v1` the same matcher found the
+library predicate verbatim in 309/576 R-lib solvers on the predicate-matched split
+([46](../46-tree-library-fresh-composition/log.md)). No change to the decision.

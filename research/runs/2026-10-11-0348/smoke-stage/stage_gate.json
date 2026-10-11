@@ -1,0 +1,31 @@
+{
+  "admitted": true,
+  "arms": {
+    "R-tree": {
+      "jobs": 96,
+      "solves": 96,
+      "mean_evaluations": 80920.0,
+      "mean_worker_seconds": 6.971688714781824,
+      "projected_protected_solves": 1728.0
+    },
+    "R-lib": {
+      "jobs": 96,
+      "solves": 96,
+      "mean_evaluations": 16309.333333333334,
+      "mean_worker_seconds": 1.327044129297671,
+      "projected_protected_solves": 1728.0
+    },
+    "R-size": {
+      "jobs": 96,
+      "solves": 94,
+      "mean_evaluations": 75528.0,
+      "mean_worker_seconds": 6.504200479979772,
+      "projected_protected_solves": 1692.0
+    }
+  },
+  "effective_concurrency": 9.239215560145746,
+  "sustained_wall_seconds": 153.8097677079495,
+  "scoring_projected_seconds": 3689.1485643660185,
+  "scoring_limit_seconds": 5400,
+  "projection": "actual restarted jobs at ten workers, all 24 libraries and four development cells; 30% reserve +90s; protected heterogeneity remains unmeasured"
+}
