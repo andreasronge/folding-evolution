@@ -42,3 +42,12 @@
   it here. Root 10's 42-slot allocation is spent and strategy 1019 reserved the next choice (unfamiliar-content
   boundary, a statistical generator, or stopping the library line) for its own review, so return to strategy
   (`next: strategy`). No hand-prior variants or ingredient matrix (strategy 1019 "What to stop").
+
+- 2026-10-11 (steward, 1129): the fresh-bank reopen item ("rebuilt from the alphabet alone and scored against R-tree
+  and a learned library") was exercised by probe [52](../52-order-helper-acquisition/log.md) without reopening 51:
+  on order-helper development cells the unchanged constructor cost 2.12× [1.54, 2.91] of R-tree (93/96 solved), and
+  more than the literal (1.55×) or behaviour-keyed (1.00×) libraries. The B/C saving is family-specific content, as
+  expected for a sum prior on non-sum helpers; a probe observation, not a belief. Status unchanged (closed).
+- 2026-10-11 (steward, 1129): correction to the 1019 entry's and the digest's wording, from
+  [critique 1129](../../../runs/2026-10-11-1129/critique.md) note 5: "all jobs solved" means both donor arms solved
+  1,728/1,728; R-tree solved 1,723/1,728. The numbers in the entry above were already correct.

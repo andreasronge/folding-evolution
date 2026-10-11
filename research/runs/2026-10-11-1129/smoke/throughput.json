@@ -1,0 +1,20 @@
+{
+  "source_jobs": 48,
+  "source_solves": 48,
+  "source_batch_seconds": 4.707791832974181,
+  "source_worker_seconds": 11.045589793706313,
+  "alias_screen_seconds": 105.9716018330073,
+  "score_jobs": 60,
+  "score_batch_seconds": 28.848748041898943,
+  "score_worker_seconds": 262.69513291330077,
+  "measured_worker_utilisation": 0.9105945690668145,
+  "full_prepare_projected_seconds": 149.05450383329298,
+  "full_score_projected_seconds": 230.78998433519155,
+  "conservative_score_seconds": 1576.9945120687287,
+  "conservative_fixed_worker_seconds": 867.7024953216314,
+  "conservative_learned_worker_seconds": 8594.26457709074,
+  "slowest_observed_seconds_per_evaluation": 8.537634787053605e-05,
+  "assumptions": "90% utilization; fixed arms extrapolated; both learned arms fully capped; 50% contingency",
+  "admitted": true,
+  "protected_searches": 0
+}

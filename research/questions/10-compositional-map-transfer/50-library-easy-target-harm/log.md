@@ -9,3 +9,10 @@
 
   Decision: park because no experiment is funded (root 10 is spent) and strategy 0833 asked to stop rate
   sweeps; a gate test is cheap with the saved libraries if deployment becomes the question.
+
+- 2026-10-11 (steward, 1129): related observation from probe [52](../52-order-helper-acquisition/log.md)
+  ([analysis](../../../runs/2026-10-11-1129/analysis.md)): on order-helper destinations where R-tree solves only
+  56% first time, donor libraries whose content the targets do not need still raised cost (1019 sum prior 2.12×
+  [1.54, 2.91], literal library 1.55× [1.09, 2.17] of R-tree; geometric cost, 96 paired jobs each). So donor harm is
+  not confined to near-solved targets; it tracks irrelevant content at mix 0.5. Reopen condition (≥ ~90% first-attempt
+  rate, or funded default deployment) not met; status unchanged.

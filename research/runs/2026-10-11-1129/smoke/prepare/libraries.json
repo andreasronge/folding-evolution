@@ -1,0 +1,2524 @@
+[
+  {
+    "literal": [
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "canonical": [
+          9,
+          1,
+          2
+        ],
+        "source_cells": [
+          "S:hi02+X1",
+          "S:hi13+X2",
+          "S:lo02+X1",
+          "S:lo02+X3",
+          "S:lo13+X2",
+          "S:lo23+X1"
+        ],
+        "solver_count": 6,
+        "literal_solver_count": 5,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          1
+        ],
+        "canonical": [
+          9,
+          1,
+          3
+        ],
+        "source_cells": [
+          "S:hi01+X3",
+          "S:hi03+X1",
+          "S:lo01+X3",
+          "S:lo03+X1",
+          "S:lo12+X3",
+          "S:lo23+X1"
+        ],
+        "solver_count": 6,
+        "literal_solver_count": 5,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "S:hi03+X2",
+          "S:hi13+X2",
+          "S:lo02+X3",
+          "S:lo12+X3",
+          "S:lo13+X2"
+        ],
+        "solver_count": 7,
+        "literal_solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "S:hi03+X1",
+          "S:hi13+X0",
+          "S:lo02+X3",
+          "S:lo03+X1",
+          "S:lo13+X0"
+        ],
+        "solver_count": 5,
+        "literal_solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          3
+        ],
+        "canonical": [
+          9,
+          0,
+          3
+        ],
+        "source_cells": [
+          "S:hi01+X3",
+          "S:hi13+X0",
+          "S:lo01+X3",
+          "S:lo02+X3",
+          "S:lo13+X0"
+        ],
+        "solver_count": 5,
+        "literal_solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          1
+        ],
+        "canonical": [
+          10,
+          0,
+          1
+        ],
+        "source_cells": [
+          "S:hi01+X2",
+          "S:hi01+X3",
+          "S:hi13+X2",
+          "S:lo01+X3"
+        ],
+        "solver_count": 4,
+        "literal_solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          1
+        ],
+        "canonical": [
+          10,
+          2,
+          1
+        ],
+        "source_cells": [
+          "S:hi12+X0",
+          "S:hi12+X3",
+          "S:lo03+X2",
+          "S:lo12+X3"
+        ],
+        "solver_count": 4,
+        "literal_solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          2
+        ],
+        "canonical": [
+          10,
+          0,
+          2
+        ],
+        "source_cells": [
+          "S:hi02+X1",
+          "S:hi02+X3",
+          "S:lo02+X3"
+        ],
+        "solver_count": 4,
+        "literal_solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          3
+        ],
+        "canonical": [
+          10,
+          0,
+          3
+        ],
+        "source_cells": [
+          "S:hi03+X1",
+          "S:hi03+X2",
+          "S:lo03+X1"
+        ],
+        "solver_count": 4,
+        "literal_solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          4,
+          2
+        ],
+        "canonical": [
+          9,
+          2,
+          4
+        ],
+        "source_cells": [
+          "S:lo02+X1",
+          "S:lo12+X0",
+          "S:lo23+X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          3,
+          5
+        ],
+        "canonical": [
+          9,
+          3,
+          5
+        ],
+        "source_cells": [
+          "S:hi03+X1",
+          "S:hi12+X3",
+          "S:lo03+X2"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          3
+        ],
+        "canonical": [
+          10,
+          1,
+          3
+        ],
+        "source_cells": [
+          "S:hi13+X0",
+          "S:hi13+X2",
+          "S:lo13+X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          3
+        ],
+        "canonical": [
+          10,
+          2,
+          3
+        ],
+        "source_cells": [
+          "S:hi23+X0",
+          "S:hi23+X1",
+          "S:lo23+X0"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          1
+        ],
+        "canonical": [
+          10,
+          3,
+          1
+        ],
+        "source_cells": [
+          "S:hi13+X2",
+          "S:lo13+X0",
+          "S:lo13+X2"
+        ],
+        "solver_count": 3,
+        "literal_solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 5
+      },
+      {
+        "prefix": [
+          9,
+          6,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          6
+        ],
+        "source_cells": [
+          "S:hi01+X3",
+          "S:lo01+X3"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 4
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          0
+        ],
+        "canonical": [
+          10,
+          1,
+          0
+        ],
+        "source_cells": [
+          "S:hi01+X2",
+          "S:lo01+X2"
+        ],
+        "solver_count": 2,
+        "literal_solver_count": 2,
+        "nodes": 3,
+        "compiled_length": 5
+      }
+    ],
+    "semantic": [
+      {
+        "prefix": [
+          10,
+          0,
+          8
+        ],
+        "canonical": [
+          10,
+          0,
+          8
+        ],
+        "source_cells": [
+          "S:hi01+X2",
+          "S:hi13+X0",
+          "S:hi13+X2",
+          "S:lo01+X2",
+          "S:lo03+X1",
+          "S:lo03+X2",
+          "S:lo12+X0",
+          "S:lo12+X3",
+          "S:lo23+X0"
+        ],
+        "solver_count": 10,
+        "nodes": 3,
+        "compiled_length": 4,
+        "semantic_hash": "7ca5bd879f393d9dd05b14f38add9c0fc6b67928f7f2d261b2e47a32ee8219e3"
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          2
+        ],
+        "canonical": [
+          9,
+          1,
+          2
+        ],
+        "source_cells": [
+          "S:hi02+X1",
+          "S:hi13+X2",
+          "S:lo02+X1",
+          "S:lo02+X3",
+          "S:lo13+X2",
+          "S:lo23+X1"
+        ],
+        "solver_count": 7,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "a5dfc520d06570f353f8e4469deed3428c0764eade8fff4867025d140f686244"
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          1
+        ],
+        "canonical": [
+          9,
+          0,
+          1
+        ],
+        "source_cells": [
+          "S:hi02+X1",
+          "S:hi03+X1",
+          "S:hi13+X0",
+          "S:lo02+X3",
+          "S:lo03+X1",
+          "S:lo13+X0"
+        ],
+        "solver_count": 6,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "cb6c8b7d2f695c42dc795c3456b1527b9a463631b805987633c2c1e1212899d6"
+      },
+      {
+        "prefix": [
+          9,
+          1,
+          3
+        ],
+        "canonical": [
+          9,
+          1,
+          3
+        ],
+        "source_cells": [
+          "S:hi01+X3",
+          "S:hi03+X1",
+          "S:lo01+X3",
+          "S:lo03+X1",
+          "S:lo12+X3",
+          "S:lo23+X1"
+        ],
+        "solver_count": 6,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "2c189025f7daa25c36a8c7243e7effe645fe6a492c44f6fc4011e73a8eaa0c30"
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          3
+        ],
+        "canonical": [
+          9,
+          2,
+          3
+        ],
+        "source_cells": [
+          "S:hi03+X2",
+          "S:hi13+X2",
+          "S:lo02+X3",
+          "S:lo12+X3",
+          "S:lo13+X2"
+        ],
+        "solver_count": 7,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "e8e9e7740f7242165041dcb1178a7c7ec90f1c18dda600237f44ea3ba546722f"
+      },
+      {
+        "prefix": [
+          9,
+          0,
+          3
+        ],
+        "canonical": [
+          9,
+          0,
+          3
+        ],
+        "source_cells": [
+          "S:hi01+X3",
+          "S:hi13+X0",
+          "S:lo01+X3",
+          "S:lo02+X3",
+          "S:lo13+X0"
+        ],
+        "solver_count": 6,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "0a23d4b620b75d815ad7de1c39f310d4b0e2eee353ca44130a6ff9185291c776"
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          1
+        ],
+        "canonical": [
+          10,
+          2,
+          1
+        ],
+        "source_cells": [
+          "S:hi12+X0",
+          "S:hi12+X3",
+          "S:lo03+X2",
+          "S:lo12+X0",
+          "S:lo12+X3"
+        ],
+        "solver_count": 6,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "2ca7e528f4f29ef1a01b3d44d987dac1bcad516f494ad3dbdc188da003012ce5"
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          3
+        ],
+        "canonical": [
+          10,
+          0,
+          3
+        ],
+        "source_cells": [
+          "S:hi03+X1",
+          "S:hi03+X2",
+          "S:lo03+X1",
+          "S:lo03+X2"
+        ],
+        "solver_count": 5,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "1a01cedcdc7a2b283a478d976b5eaeaee5f089215c09f07ddbd22f62f1ac3665"
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          1
+        ],
+        "canonical": [
+          10,
+          0,
+          1
+        ],
+        "source_cells": [
+          "S:hi01+X2",
+          "S:hi01+X3",
+          "S:hi13+X2",
+          "S:lo01+X3"
+        ],
+        "solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "2ece19a65a62d82a921a81c5fdbf9fe7209503416ee17d0e2fb5fd42e05cd057"
+      },
+      {
+        "prefix": [
+          10,
+          1,
+          3
+        ],
+        "canonical": [
+          10,
+          1,
+          3
+        ],
+        "source_cells": [
+          "S:hi13+X0",
+          "S:hi13+X2",
+          "S:lo13+X0",
+          "S:lo13+X2"
+        ],
+        "solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "112d68cd6ce07dd22ccf109ef7f99a89e2a6c740aa202f344295752876a5e6e1"
+      },
+      {
+        "prefix": [
+          10,
+          3,
+          1
+        ],
+        "canonical": [
+          10,
+          3,
+          1
+        ],
+        "source_cells": [
+          "S:hi13+X0",
+          "S:hi13+X2",
+          "S:lo13+X0",
+          "S:lo13+X2"
+        ],
+        "solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "0e3d8656d33e0b959b8cdb468c80313e43a721f7d90c2f42f2c0de8dc8a50e9f"
+      },
+      {
+        "prefix": [
+          10,
+          0,
+          2
+        ],
+        "canonical": [
+          10,
+          0,
+          2
+        ],
+        "source_cells": [
+          "S:hi02+X1",
+          "S:hi02+X3",
+          "S:lo02+X3"
+        ],
+        "solver_count": 4,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "d29009d4269b44494a697ca8149af266556879b9c813e4674102b9c119570ddb"
+      },
+      {
+        "prefix": [
+          9,
+          6,
+          0
+        ],
+        "canonical": [
+          9,
+          0,
+          6
+        ],
+        "source_cells": [
+          "S:hi01+X3",
+          "S:lo01+X3",
+          "S:lo02+X1"
+        ],
+        "solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 4,
+        "semantic_hash": "d023f9b070aa8e04bf36e0da5a223500ac73a0740081407924fd0b55a1122915"
+      },
+      {
+        "prefix": [
+          9,
+          2,
+          4
+        ],
+        "canonical": [
+          9,
+          2,
+          4
+        ],
+        "source_cells": [
+          "S:lo02+X1",
+          "S:lo12+X0",
+          "S:lo23+X0"
+        ],
+        "solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "2aa8460b76d58c6c9cbc7a9011b23461bef70dd23e0f076d66e5c459b178bde9"
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          0
+        ],
+        "canonical": [
+          10,
+          2,
+          0
+        ],
+        "source_cells": [
+          "S:hi02+X1",
+          "S:lo02+X1",
+          "S:lo02+X3"
+        ],
+        "solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "adcc75087d63fc54928d89a2b29a796bea58dc0d4b2f8c86b6b58c642232fb77"
+      },
+      {
+        "prefix": [
+          10,
+          2,
+          3
+        ],
+        "canonical": [
+          10,
+          2,
+          3
+        ],
+        "source_cells": [
+          "S:hi23+X0",
+          "S:hi23+X1",
+          "S:lo23+X0"
+        ],
+        "solver_count": 3,
+        "nodes": 3,
+        "compiled_length": 5,
+        "semantic_hash": "ae0d3ad107c107209d4b24919a41c4c28a67d7d27aba09b81b10d12d5c332c0e"
+      }
+    ],
+    "helper_diagnostics": {
+      "lo01": {
+        "semantic": {
+          "source_cells": [
+            "S:lo01+X2",
+            "S:lo01+X3"
+          ],
+          "solver_count": 3,
+          "smallest_prefix": [
+            11,
+            0,
+            1,
+            10,
+            0,
+            1
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": true,
+          "uncapped_rank": 22,
+          "included": false
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              0,
+              1,
+              10,
+              0,
+              1
+            ],
+            "source_cells": [
+              "S:lo01+X3"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              0,
+              1,
+              10,
+              0,
+              1
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          },
+          {
+            "canonical": [
+              11,
+              1,
+              0,
+              10,
+              1,
+              0
+            ],
+            "source_cells": [
+              "S:lo01+X2"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              1,
+              0,
+              10,
+              1,
+              0
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "lo02": {
+        "semantic": {
+          "source_cells": [
+            "S:lo02+X1"
+          ],
+          "solver_count": 1,
+          "smallest_prefix": [
+            11,
+            0,
+            2,
+            10,
+            9,
+            5,
+            9,
+            0,
+            11,
+            9,
+            0,
+            8,
+            6,
+            10,
+            7,
+            4,
+            9,
+            4,
+            2
+          ],
+          "nodes": 19,
+          "admissible": false,
+          "recurrent": false,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      },
+      "lo03": {
+        "semantic": {
+          "source_cells": [
+            "S:lo03+X1",
+            "S:lo03+X2"
+          ],
+          "solver_count": 3,
+          "smallest_prefix": [
+            11,
+            3,
+            0,
+            9,
+            10,
+            3,
+            0,
+            10,
+            3,
+            8
+          ],
+          "nodes": 10,
+          "admissible": false,
+          "recurrent": true,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      },
+      "lo12": {
+        "semantic": {
+          "source_cells": [
+            "S:lo12+X0",
+            "S:lo12+X3"
+          ],
+          "solver_count": 3,
+          "smallest_prefix": [
+            11,
+            1,
+            2,
+            10,
+            1,
+            9,
+            2,
+            10,
+            5,
+            11,
+            6,
+            3,
+            9,
+            5,
+            5
+          ],
+          "nodes": 15,
+          "admissible": false,
+          "recurrent": true,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      },
+      "lo13": {
+        "semantic": {
+          "source_cells": [
+            "S:lo13+X0"
+          ],
+          "solver_count": 1,
+          "smallest_prefix": [
+            11,
+            3,
+            1,
+            10,
+            3,
+            1
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": false,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              2,
+              11,
+              3,
+              1,
+              10,
+              3,
+              1,
+              6
+            ],
+            "source_cells": [
+              "S:lo13+X0"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              2,
+              11,
+              3,
+              1,
+              10,
+              3,
+              1,
+              6
+            ],
+            "nodes": 9,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          },
+          {
+            "canonical": [
+              11,
+              3,
+              1,
+              10,
+              3,
+              1
+            ],
+            "source_cells": [
+              "S:lo13+X0"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              3,
+              1,
+              10,
+              3,
+              1
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "lo23": {
+        "semantic": {
+          "source_cells": [
+            "S:lo23+X0",
+            "S:lo23+X1"
+          ],
+          "solver_count": 3,
+          "smallest_prefix": [
+            11,
+            2,
+            3,
+            10,
+            2,
+            3
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": true,
+          "uncapped_rank": 24,
+          "included": false
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              2,
+              3,
+              10,
+              2,
+              3
+            ],
+            "source_cells": [
+              "S:lo23+X0"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              2,
+              3,
+              10,
+              2,
+              3
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "hi01": {
+        "semantic": {
+          "source_cells": [
+            "S:hi01+X2",
+            "S:hi01+X3"
+          ],
+          "solver_count": 3,
+          "smallest_prefix": [
+            11,
+            0,
+            1,
+            10,
+            10,
+            1,
+            0,
+            11,
+            10,
+            4,
+            8,
+            10,
+            5,
+            4,
+            1
+          ],
+          "nodes": 15,
+          "admissible": false,
+          "recurrent": true,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      },
+      "hi02": {
+        "semantic": {
+          "source_cells": [
+            "S:hi02+X1",
+            "S:hi02+X3"
+          ],
+          "solver_count": 3,
+          "smallest_prefix": [
+            11,
+            2,
+            0,
+            10,
+            0,
+            2
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": true,
+          "uncapped_rank": 23,
+          "included": false
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              2,
+              0,
+              10,
+              0,
+              2
+            ],
+            "source_cells": [
+              "S:hi02+X3"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              2,
+              0,
+              10,
+              0,
+              2
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "hi03": {
+        "semantic": {
+          "source_cells": [
+            "S:hi03+X1",
+            "S:hi03+X2"
+          ],
+          "solver_count": 2,
+          "smallest_prefix": [
+            11,
+            3,
+            0,
+            10,
+            0,
+            3
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": true,
+          "uncapped_rank": 30,
+          "included": false
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              3,
+              0,
+              10,
+              0,
+              3
+            ],
+            "source_cells": [
+              "S:hi03+X2"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              3,
+              0,
+              10,
+              0,
+              3
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "hi12": {
+        "semantic": {
+          "source_cells": [
+            "S:hi12+X0",
+            "S:hi12+X3"
+          ],
+          "solver_count": 4,
+          "smallest_prefix": [
+            11,
+            1,
+            2,
+            10,
+            2,
+            1
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": true,
+          "uncapped_rank": 18,
+          "included": false
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              1,
+              2,
+              10,
+              2,
+              1
+            ],
+            "source_cells": [
+              "S:hi12+X3"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              1,
+              2,
+              10,
+              2,
+              1
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          },
+          {
+            "canonical": [
+              11,
+              1,
+              2,
+              10,
+              11,
+              2,
+              2,
+              2,
+              1
+            ],
+            "source_cells": [
+              "S:hi12+X3"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              1,
+              2,
+              10,
+              11,
+              2,
+              2,
+              2,
+              1
+            ],
+            "nodes": 9,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      },
+      "hi13": {
+        "semantic": {
+          "source_cells": [
+            "S:hi13+X0",
+            "S:hi13+X2"
+          ],
+          "solver_count": 2,
+          "smallest_prefix": [
+            11,
+            1,
+            3,
+            9,
+            10,
+            3,
+            1,
+            10,
+            2,
+            9,
+            10,
+            0,
+            1,
+            11,
+            1,
+            2,
+            7
+          ],
+          "nodes": 17,
+          "admissible": false,
+          "recurrent": true,
+          "uncapped_rank": null,
+          "included": false
+        },
+        "literal": []
+      },
+      "hi23": {
+        "semantic": {
+          "source_cells": [
+            "S:hi23+X0",
+            "S:hi23+X1"
+          ],
+          "solver_count": 4,
+          "smallest_prefix": [
+            11,
+            2,
+            3,
+            10,
+            3,
+            2
+          ],
+          "nodes": 6,
+          "admissible": true,
+          "recurrent": true,
+          "uncapped_rank": 19,
+          "included": false
+        },
+        "literal": [
+          {
+            "canonical": [
+              11,
+              2,
+              3,
+              10,
+              3,
+              2
+            ],
+            "source_cells": [
+              "S:hi23+X1"
+            ],
+            "solver_count": 1,
+            "representative": [
+              11,
+              2,
+              3,
+              10,
+              3,
+              2
+            ],
+            "nodes": 6,
+            "admissible": true,
+            "uncapped_rank": null,
+            "included": false
+          }
+        ]
+      }
+    },
+    "census": [
+      {
+        "cell": "S:hi01+X2",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [
+            15
+          ],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "hi01",
+        "own_helper_sizes": [
+          15
+        ]
+      },
+      {
+        "cell": "S:hi01+X2",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [
+            17
+          ],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "hi01",
+        "own_helper_sizes": [
+          17
+        ]
+      },
+      {
+        "cell": "S:hi01+X3",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "hi01",
+        "own_helper_sizes": []
+      },
+      {
+        "cell": "S:hi01+X3",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [
+            16
+          ],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "hi01",
+        "own_helper_sizes": [
+          16
+        ]
+      },
+      {
+        "cell": "S:hi02+X1",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [
+            18
+          ],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "hi02",
+        "own_helper_sizes": [
+          18
+        ]
+      },
+      {
+        "cell": "S:hi02+X1",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "hi02",
+        "own_helper_sizes": []
+      },
+      {
+        "cell": "S:hi02+X3",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [
+            17
+          ],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "hi02",
+        "own_helper_sizes": [
+          17
+        ]
+      },
+      {
+        "cell": "S:hi02+X3",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [
+            6
+          ],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "hi02",
+        "own_helper_sizes": [
+          6
+        ]
+      },
+      {
+        "cell": "S:hi03+X1",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [
+            13
+          ],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "hi03",
+        "own_helper_sizes": [
+          13
+        ]
+      },
+      {
+        "cell": "S:hi03+X1",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "hi03",
+        "own_helper_sizes": []
+      },
+      {
+        "cell": "S:hi03+X2",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [
+            6
+          ],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "hi03",
+        "own_helper_sizes": [
+          6
+        ]
+      },
+      {
+        "cell": "S:hi03+X2",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "hi03",
+        "own_helper_sizes": []
+      },
+      {
+        "cell": "S:hi12+X0",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [
+            10,
+            16
+          ],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "hi12",
+        "own_helper_sizes": [
+          10,
+          16
+        ]
+      },
+      {
+        "cell": "S:hi12+X0",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [
+            12
+          ],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "hi12",
+        "own_helper_sizes": [
+          12
+        ]
+      },
+      {
+        "cell": "S:hi12+X3",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [
+            9
+          ],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "hi12",
+        "own_helper_sizes": [
+          9
+        ]
+      },
+      {
+        "cell": "S:hi12+X3",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [
+            6,
+            11
+          ],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "hi12",
+        "own_helper_sizes": [
+          6,
+          11
+        ]
+      },
+      {
+        "cell": "S:hi13+X0",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [
+            18
+          ],
+          "hi23": []
+        },
+        "own_helper": "hi13",
+        "own_helper_sizes": [
+          18
+        ]
+      },
+      {
+        "cell": "S:hi13+X0",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "hi13",
+        "own_helper_sizes": []
+      },
+      {
+        "cell": "S:hi13+X2",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "hi13",
+        "own_helper_sizes": []
+      },
+      {
+        "cell": "S:hi13+X2",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [
+            17
+          ],
+          "hi23": []
+        },
+        "own_helper": "hi13",
+        "own_helper_sizes": [
+          17
+        ]
+      },
+      {
+        "cell": "S:hi23+X0",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": [
+            10
+          ]
+        },
+        "own_helper": "hi23",
+        "own_helper_sizes": [
+          10
+        ]
+      },
+      {
+        "cell": "S:hi23+X0",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": [
+            10
+          ]
+        },
+        "own_helper": "hi23",
+        "own_helper_sizes": [
+          10
+        ]
+      },
+      {
+        "cell": "S:hi23+X1",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": [
+            15
+          ]
+        },
+        "own_helper": "hi23",
+        "own_helper_sizes": [
+          15
+        ]
+      },
+      {
+        "cell": "S:hi23+X1",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": [
+            6,
+            11
+          ]
+        },
+        "own_helper": "hi23",
+        "own_helper_sizes": [
+          6,
+          11
+        ]
+      },
+      {
+        "cell": "S:lo01+X2",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [
+            15
+          ],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo01",
+        "own_helper_sizes": [
+          15
+        ]
+      },
+      {
+        "cell": "S:lo01+X2",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [
+            6,
+            10
+          ],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo01",
+        "own_helper_sizes": [
+          6,
+          10
+        ]
+      },
+      {
+        "cell": "S:lo01+X3",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [
+            6
+          ],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo01",
+        "own_helper_sizes": [
+          6
+        ]
+      },
+      {
+        "cell": "S:lo01+X3",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo01",
+        "own_helper_sizes": []
+      },
+      {
+        "cell": "S:lo02+X1",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo02",
+        "own_helper_sizes": []
+      },
+      {
+        "cell": "S:lo02+X1",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [
+            19
+          ],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo02",
+        "own_helper_sizes": [
+          19
+        ]
+      },
+      {
+        "cell": "S:lo02+X3",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo02",
+        "own_helper_sizes": []
+      },
+      {
+        "cell": "S:lo02+X3",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo02",
+        "own_helper_sizes": []
+      },
+      {
+        "cell": "S:lo03+X1",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [
+            10
+          ],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo03",
+        "own_helper_sizes": [
+          10
+        ]
+      },
+      {
+        "cell": "S:lo03+X1",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo03",
+        "own_helper_sizes": []
+      },
+      {
+        "cell": "S:lo03+X2",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [
+            12
+          ],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo03",
+        "own_helper_sizes": [
+          12
+        ]
+      },
+      {
+        "cell": "S:lo03+X2",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [
+            18,
+            20
+          ],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo03",
+        "own_helper_sizes": [
+          18,
+          20
+        ]
+      },
+      {
+        "cell": "S:lo12+X0",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [
+            15
+          ],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo12",
+        "own_helper_sizes": [
+          15
+        ]
+      },
+      {
+        "cell": "S:lo12+X0",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [
+            15
+          ],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo12",
+        "own_helper_sizes": [
+          15
+        ]
+      },
+      {
+        "cell": "S:lo12+X3",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [
+            15
+          ],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo12",
+        "own_helper_sizes": [
+          15
+        ]
+      },
+      {
+        "cell": "S:lo12+X3",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo12",
+        "own_helper_sizes": []
+      },
+      {
+        "cell": "S:lo13+X0",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo13",
+        "own_helper_sizes": []
+      },
+      {
+        "cell": "S:lo13+X0",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [
+            6,
+            9
+          ],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo13",
+        "own_helper_sizes": [
+          6,
+          9
+        ]
+      },
+      {
+        "cell": "S:lo13+X2",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo13",
+        "own_helper_sizes": []
+      },
+      {
+        "cell": "S:lo13+X2",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo13",
+        "own_helper_sizes": []
+      },
+      {
+        "cell": "S:lo23+X0",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [
+            6
+          ],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo23",
+        "own_helper_sizes": [
+          6
+        ]
+      },
+      {
+        "cell": "S:lo23+X0",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [
+            10
+          ],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo23",
+        "own_helper_sizes": [
+          10
+        ]
+      },
+      {
+        "cell": "S:lo23+X1",
+        "build": 0,
+        "repeat": 0,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [
+            14
+          ],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo23",
+        "own_helper_sizes": [
+          14
+        ]
+      },
+      {
+        "cell": "S:lo23+X1",
+        "build": 0,
+        "repeat": 1,
+        "solved": true,
+        "helpers": {
+          "lo01": [],
+          "lo02": [],
+          "lo03": [],
+          "lo12": [],
+          "lo13": [],
+          "lo23": [],
+          "hi01": [],
+          "hi02": [],
+          "hi03": [],
+          "hi12": [],
+          "hi13": [],
+          "hi23": []
+        },
+        "own_helper": "lo23",
+        "own_helper_sizes": []
+      }
+    ],
+    "eligible_semantic_classes": 30,
+    "eligible_literal_classes": 19,
+    "literal_seconds": 0.0008476669900119305,
+    "extraction_census_seconds": 0.10390587500296533,
+    "acquisition_evaluations": 221952,
+    "acquisition_worker_seconds": 10.669278668123297,
+    "source_jobs": 48,
+    "source_solves": 48
+  }
+]

@@ -1,0 +1,397 @@
+{
+  "verification": {
+    "passed": true,
+    "cells": 54,
+    "protected_searches": 0
+  },
+  "overlap": [
+    {
+      "id": "S:hi02+X3",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X2>X1?(X2+X3):(X0+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo23+hi02",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X2>X1?(X2+X3):(X0+X2)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:lo13+X2",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X0>X1?(X1+X2):(X2+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo02+hi12",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X3>X2?(X1+X2):(X0+X2)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo23+hi12",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X0>X2?(X1+X2):(X2+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:lo23+X0",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X2>X1?(X0+X3):(X0+X2)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo02+hi23",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X1>X2?(X2+X3):(X0+X2)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo03+hi13",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X3>X2?(X0+X3):(X1+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo13+hi02",
+      "best_old_matches": 375,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X0>X2?(X0+X1):(X2+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:lo01+X3",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X2>X0?(X0+X3):(X1+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:hi13+X0",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X1>X2?(X0+X1):(X0+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:hi12+X3",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X0>X1?(X2+X3):(X1+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:lo01+X2",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X1>X3?(X0+X2):(X1+X2)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo12+hi02",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X3>X2?(X0+X2):(X1+X2)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo02+hi03",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X1>X0?(X0+X3):(X0+X2)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:lo02+X3",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X2>X1?(X0+X3):(X2+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo23+hi03",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X1>X3?(X0+X3):(X2+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:hi01+X3",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X2>X1?(X0+X3):(X1+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo12+hi03",
+      "best_old_matches": 375,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X0>X3?(X0+X2):(X1+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:hi23+X0",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X1>X2?(X0+X3):(X0+X2)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo03+hi23",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X1>X3?(X2+X3):(X0+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo03+hi02",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X0>X1?(X0+X3):(X0+X2)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo03+hi01",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X2>X0?(X0+X1):(X0+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:lo12+X0",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X2>X3?(X0+X1):(X0+X2)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo01+hi23",
+      "best_old_matches": 375,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X3>X2?(X1+X3):(X0+X2)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:hi23+X1",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X0>X3?(X1+X2):(X1+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:hi01+X2",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X3>X0?(X1+X2):(X0+X2)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo01+hi12",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X3>X1?(X1+X2):(X0+X1)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo02+hi13",
+      "best_old_matches": 375,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X3>X1?(X0+X3):(X1+X2)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo13+hi03",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X2>X3?(X0+X3):(X1+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo23+hi13",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X3>X0?(X2+X3):(X1+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo13+hi12",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X1>X0?(X1+X3):(X1+X2)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo12+hi01",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X1>X3?(X1+X2):(X0+X1)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo02+hi01",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X0>X3?(X0+X2):(X0+X1)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo01+hi03",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X2>X0?(X0+X3):(X0+X1)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:lo03+X1",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X3>X2?(X0+X1):(X1+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo13+hi23",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X3>X0?(X1+X3):(X2+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:hi13+X2",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X0>X1?(X2+X3):(X1+X2)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:lo23+X1",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X2>X0?(X1+X3):(X1+X2)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:lo12+X3",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X1>X0?(X2+X3):(X1+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo12+hi23",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X2>X0?(X1+X2):(X2+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:lo02+X1",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X2>X3?(X0+X1):(X1+X2)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo03+hi12",
+      "best_old_matches": 375,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X0>X3?(X2+X3):(X0+X1)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:hi02+X1",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X2>X3?(X1+X2):(X0+X1)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:hi12+X0",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X3>X2?(X0+X1):(X0+X2)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:lo13+X0",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X3>X2?(X0+X1):(X0+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo23+hi01",
+      "best_old_matches": 375,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X3>X2?(X0+X2):(X1+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo13+hi01",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X1>X2?(X1+X3):(X0+X1)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo01+hi02",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X3>X0?(X0+X2):(X0+X1)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:lo03+X2",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X1>X3?(X2+X3):(X0+X2)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo12+hi13",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X1>X0?(X1+X2):(X1+X3)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:hi03+X1",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X2>X0?(X1+X3):(X0+X1)",
+      "old_excluded": false
+    },
+    {
+      "id": "S:hi03+X2",
+      "best_old_matches": 475,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X1>X0?(X2+X3):(X0+X2)",
+      "old_excluded": false
+    },
+    {
+      "id": "O:lo01+hi13",
+      "best_old_matches": 425,
+      "old_bank": "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS",
+      "old_cell": "TS:X2>X1?(X1+X3):(X0+X1)",
+      "old_excluded": false
+    }
+  ],
+  "old_bank_hashes": {
+    "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:DG": "7108203237271a093e0b313d1bbeaacde632e964112253caac1eede3e6672056",
+    "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/component_transfer_2001/banks.json.gz:TS": "c34269fbfc003ea958680bdc4db444dccbfdec086a16d8ba668cd20e8913c9f9",
+    "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/family_preference_1717/ts_bank.json.gz": "4ae27f9a0ccd94cc1a79aef824d148b98b15ecb1757e8b466299e4efb3d6c529",
+    "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/independent_input_0311/bank.json.gz": "7108203237271a093e0b313d1bbeaacde632e964112253caac1eede3e6672056",
+    "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/tree_hand_1019/banks.json.gz:TS": "c34269fbfc003ea958680bdc4db444dccbfdec086a16d8ba668cd20e8913c9f9",
+    "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/tree_hand_1019/banks.json.gz:GS": "fd129ff344594715dca9772e12e6c77a325bfb76f2693e977cc40e883d74b452",
+    "/Users/andreas/developer/folding-evolution-research/2026-10-11-1129/experiments/chem_tape/data/tree_permutation_0524/bank.json.gz": "fd129ff344594715dca9772e12e6c77a325bfb76f2693e977cc40e883d74b452"
+  },
+  "seconds": 0.2837573339929804
+}

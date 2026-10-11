@@ -1,0 +1,19 @@
+2026-10-11 11:35:54 cycle 2026-10-11-1019 done; brief: /Users/andreas/developer/folding-evolution/research/briefs/2026-10-11-2026-10-11-1019.md
+2026-10-11 11:35:54 strategist (codex/gpt-6-astra) → strategy [herdr]
+2026-10-11 11:45:05 phase → propose
+2026-10-11 11:45:05 steward (claude/claude-opus-5-5) → propose [herdr]
+2026-10-11 11:52:14 phase → accept
+2026-10-11 11:52:14 critic (codex/gpt-6-astra) → critique [herdr]
+2026-10-11 11:54:12 phase → awaiting_approval
+2026-10-11 11:54:12 proposal: Order-helper acquisition probe — literal versus behaviour-keyed extraction against a supplied order prior [questions/10-compositional-map-transfer/52-order-helper-acquisition] — budget left: 1. Approve with `research.py approve`.
+2026-10-11 11:54:12 auto-approved (critic: approve_with_notes, revisions: 0)
+2026-10-11 11:54:12 phase → prepare
+2026-10-11 11:54:29 researcher (codex/gpt-6.1-sol) → prepare [herdr]
+2026-10-11 12:08:18 phase → review_code
+2026-10-11 12:08:18 reviewer (claude/claude-fable-5-1) → review_code [herdr]
+2026-10-11 12:14:21 phase → execute
+2026-10-11 12:14:21 running queue (2 entries)
+2026-10-11 12:21:54 phase → analyse
+2026-10-11 12:21:54 reviewer (claude/claude-fable-5-1) → analyse [herdr]
+2026-10-11 12:28:07 phase → decide
+2026-10-11 12:28:07 steward (claude/claude-opus-5-5) → decide [herdr]

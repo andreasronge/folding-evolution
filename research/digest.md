@@ -1,6 +1,7 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-11, after run 2026-10-11-1019 (fixed source-free sum-donor prior; commit `e29219b`).
+As of 2026-10-11, after run 2026-10-11-1129 (order-helper acquisition probe; commit `db30b15`; observations
+only, no belief changed).
 Core question since the 2026-09-25 reframe: *how does the genotype→program map bias what evolution
 finds and keeps ("arrival of the frequent"), and can that bias be adapted to a task family?*
 History, superseded numbers and secondary contrasts are in the questions' `log.md` files.
@@ -67,13 +68,13 @@ L 64). Fairly sure for these layouts; nothing beyond them.
   cannot tell drift from a disadvantage.
   ([07](questions/01-map-bias/07-shared-arrival/question.md), [03](questions/01-map-bias/03-rare-shared-establishment/question.md))
 
-## 10 Compositional map transfer (root open, budget 42, 42 used)
+## 10 Compositional map transfer (root open, budget 43, 43 used)
 
 [10](questions/10-compositional-map-transfer/question.md): can a decoder adapted across related
 tasks help fresh populations solve unseen operation combinations beyond a token-frequency bias?
 Stack tape `v2_rmin(_first)`, D1331 (length-3 lists over −5..5), P 256, lexicase on 64 cases with
 an exact domain check, 524k cap. G / G4: hand-set previous-token grammars (post-addition split;
-four-reducer bank); "-marg": same token marginals without context. Sub-questions 11–49 and 51 closed; 50 parked.
+four-reducer bank); "-marg": same token marginals without context. Sub-questions 11–49 and 51 closed; 50 and 52 parked.
 All banks are development banks; unless stated, fits are external and frozen before scoring.
 
 **Banks.** Sign-gated banks could not support a symmetric two-family test; the four-reducer bank
@@ -234,20 +235,20 @@ per-position marginals; W: blocks sampled from C's own chain.
   whether gating the library removes this is untested ([50](questions/10-compositional-map-transfer/50-library-easy-target-harm/question.md)).
 - **A fixed sum-donor prior with no acquisition was cheaper than the TS libraries on B/C.** All
   `ADD(input,input)` and `ADD(input,const)` forms, built from the alphabet, half the donors:
-  R-hand/R-TS 0.85× [0.76, 0.96], R-hand/R-tree 0.32× [0.29, 0.35], all jobs solved; TS acquisition
-  never repaid against it within 200 searches; 19/24 builds favour the prior. Substitution, not
+  R-hand/R-TS 0.85× [0.76, 0.96], R-hand/R-tree 0.32× [0.29, 0.35]; both donor arms solved all 1,728
+  jobs, R-tree 1,723. TS acquisition never repaid against it within 200 searches; 19/24 builds favour the prior. Substitution, not
   isolation: pair coverage, constants, size and ANY/GT content changed together. Development bank;
   prior written after seeing these results.
   ([51](questions/10-compositional-map-transfer/51-source-free-donor-prior/question.md), [run 1019](runs/2026-10-11-1019/analysis.md))
 
 **Overall.** Solver-fitted context and fragment blocks transfer beyond token frequency to withheld
 compositions and one fresh shape; outer-loop selection learns token biases but no resolved context
-gain. On DG, restarted tree GP needs fewer evaluations than A8; learned subtree libraries or a fixed
-sum-donor prior cut its cost a further 2.6–4× on related shapes, but libraries harmed near-solved
-targets. Not shown: that evolution reaches
+gain. On DG, restarted tree GP needs fewer evaluations than A8; learned subtree libraries cut its cost
+a further 2.6× on DG and 4× on fresh gate-sum, and a fixed sum prior cut it 3.1× on development
+gate-sum B/C; libraries harmed near-solved targets. Not shown: that evolution reaches
 fitted context or fragments; what carries C's, the library's or the prior's advantage; why DG
 components are better; A8 on a fresh family bank or against tuned tree GP; the library on unfamiliar
-content or with an easy-target policy; transfer beyond three fresh shapes.
+content (one probe on order helpers, [52](questions/10-compositional-map-transfer/52-order-helper-acquisition/question.md), observations only) or with an easy-target policy; transfer beyond three fresh shapes.
 
 ## 23 Heritable variation bias (root parked, budget 2, 2 used)
 
