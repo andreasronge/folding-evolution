@@ -25,7 +25,10 @@ def helpers(inputs):
             for kind in ("lo", "hi") for a, b in itertools.combinations(range(4), 2)}
 
 
-def build(rows, source_cells, inputs):
+def build(rows, source_cells, inputs, *, cap=16):
+    """Set cap=None for R-all; helper diagnostics never select entries."""
+    if cap not in (16, None):
+        raise ValueError('only the original cap or approved uncapped recipe is supported')
     start = time.monotonic()
     literal_entries, literal_seconds = extract(rows, source_cells)
     forms, row_forms = set(), []
@@ -80,7 +83,8 @@ def build(rows, source_cells, inputs):
                            key=lambda key: (-len(cells[key]), -solvers[key], len(reps[key]), canonical(Tree(reps[key])), reps[key]))
     ranked = [key for key in pooled_ranked if 3 <= len(reps[key]) <= 9]
     entries = []
-    for key in ranked[:16]:
+    selected = ranked if cap is None else ranked[:16]
+    for key in selected:
         tree = Tree(reps[key])
         entries.append(dict(prefix=list(tree.prefix), canonical=list(canonical(tree)),
                             source_cells=sorted(cells[key]), solver_count=solvers[key],
@@ -101,7 +105,7 @@ def build(rows, source_cells, inputs):
                           recurrent=len(cells.get(vector, set())) >= 2,
                           pooling_rank=pooled_ranked.index(vector) + 1 if vector in pooled_ranked else None,
                           uncapped_rank=ranked.index(vector) + 1 if vector in ranked else None,
-                          included=vector in ranked[:16]),
+                          included=vector in selected),
             literal=[dict(canonical=list(k), source_cells=sorted(literal_cells[k]), solver_count=literal_solvers[k],
                           representative=list(literal_reps[k]), nodes=len(k), admissible=True,
                           uncapped_rank=literal_ranked.index(k) + 1 if k in literal_ranked else None,
