@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "TS_canonical_cells": [
+    "TS:X0>X1?(X0+X2):(X0+X3)",
+    "TS:X0>X3?(X2+X3):(X1+X2)",
+    "TS:X2>X3?(X0+X2):(X1+X3)",
+    "TS:X3>X1?(X0+X1):(X1+X2)",
+    "TS:X0>X1?(X2+X3):(X1+X2)",
+    "TS:X0>X1?(X2+X3):(X1+X3)",
+    "TS:X0>X2?(X1+X3):(X2+X3)",
+    "TS:X2>X1?(X0+X3):(X1+X3)",
+    "TS:X2>X0?(X1+X3):(X0+X1)",
+    "TS:X3>X2?(X0+X2):(X0+X1)",
+    "TS:X3>X2?(X0+X1):(X0+X2)",
+    "TS:X3>X0?(X1+X2):(X0+X2)"
+  ],
+  "GS": {
+    "passed": true,
+    "cells": 144,
+    "seconds": 1.0416923329466954,
+    "protected_searches": 0
+  },
+  "source_target_separation": true,
+  "hand_entries": 192,
+  "hand_distinct": 44,
+  "hand_class_counts": {
+    "P": 96,
+    "K": 96
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "admitted": true,
+  "scoring_projected_seconds": 4059.6115618684653,
+  "scoring_limit_seconds": 7200,
+  "preparation_projected_seconds": 140.88522399996873,
+  "preparation_limit_seconds": 1800,
+  "effective_concurrency": 8.917914578586352,
+  "arms": {
+    "R-tree": {
+      "jobs": 24,
+      "solves": 24,
+      "measured_mean_worker_seconds": 6.728839395883067,
+      "projected_mean_worker_seconds": 6.728839395883067
+    },
+    "R-TS": {
+      "jobs": 24,
+      "solves": 24,
+      "measured_mean_worker_seconds": 1.5589616303380656,
+      "projected_mean_worker_seconds": 2.4
+    },
+    "R-hand": {
+      "jobs": 24,
+      "solves": 24,
+      "measured_mean_worker_seconds": 1.7754649790634478,
+      "projected_mean_worker_seconds": 6.63
+    }
+  },
+  "reserve": 1.3,
+  "overhead_seconds": 90
+}

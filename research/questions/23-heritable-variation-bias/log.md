@@ -400,3 +400,10 @@ once frozen? TAG threshold tasks (sum/max > 1, 5), development bank `tag-thresho
   ([log](questions/23-heritable-variation-bias/log.md))
 
 ```
+
+
+## 2026-10-11 — digest compression (steward task 2026-10-11-1019): wording moved here
+
+The digest was compressed under its word limit; no belief changed. The root-23 first bullet lost its design
+detail, which was: "Pre-registered, 20 acquisitions per family × arm (σ = 0.03), 16 seeds per target." The
+bullet keeps "Pre-registered" and "Fairly sure for this σ, schedule and inheritance rule".

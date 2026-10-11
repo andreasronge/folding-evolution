@@ -1,0 +1,69 @@
+runs:
+  - id: 2026-10-11-1019-prepare
+    cmd: RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.tree_hand_run --prepare --workers 10 --deadline-seconds 1800
+    timeout_seconds: 1800
+    track: chem-tape
+    expect_outputs:
+      - config.json
+      - banks.json
+      - method_freeze.json
+      - schedule_audit.json
+      - schedules.json
+      - verification.json
+      - reconstruction.json
+      - replay.json
+      - replay.jsonl
+      - libraries.json
+      - stage0.jsonl
+      - stage_gate.json
+      - timing.json
+      - preparation.json
+    notes: >-
+      Reconstruct and hash-check all 24 saved 0833 TS libraries from 768 source jobs,
+      preserving failed acquisitions and costs. Construct the alphabet-only frozen
+      192-entry hand prior (12 ordered distinct-input ADDs x8, 32 oriented
+      input-constant ADDs x3); verify all entries against interpreter/Python/VM.
+      Enforce the original engine except the exact optional accounting observer,
+      freeze actual current methods, replay eight historical R-tree jobs, audit
+      score/stage/smoke seeds against prior schedules and the historical seed union.
+      Timing-only admission: 12 B/C cells x2 slots x1 repeat x3 arms =72 full-budget
+      jobs; no fitness or solve-rate gate and no donor selection. Historical/scenario
+      arm-rate floors 6.63/2.40/6.63 worker-s; sustained ten-worker concurrency,
+      30 percent reserve plus90s overhead; score projection <=7200s and preparation
+      elapsed plus90s <=1800s. No fallback. Smoke cannot admit scoring.
+      Everything writes under RUN_DIR.
+  - id: 2026-10-11-1019-score
+    cmd: RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.tree_hand_run --workers 10 --deadline-seconds 7200 --preparation "$RUN_DIR/../2026-10-11-1019-prepare"
+    timeout_seconds: 7200
+    track: chem-tape
+    expect_outputs:
+      - config.json
+      - banks.json
+      - method_freeze.json
+      - schedule_audit.json
+      - schedules.json
+      - verification.json
+      - reconstruction.json
+      - preparation.json
+      - libraries.json
+      - search.jsonl
+      - timing.json
+      - result.json
+      - report.md
+      - dynamics.png
+      - economics.png
+    notes: >-
+      Require unchanged admitted production preparation, recompute archived TS
+      reconstruction, timing admission and all stage/replay/library evidence hashes.
+      Exactly12 B/C cells x24 paired build/seed slots x6 repeats x3 arms
+      R-tree/R-TS/R-hand =5184 jobs; fixed fresh common attempt seeds, eight
+      65536-evaluation attempts, failures charged at524288, mix0.5, cap32 tokens.
+      Primary hand/TS mean capped evaluations with equal cell weights and8192
+      paired bootstrap draws over24 slots: retained if upper<1.25 and hand/tree
+      upper<0.80 and hand-tree solve difference lower>-0.03; learned increment
+      if primary lower>1.25; otherwise unresolved, fixed size and return to strategy.
+      Report worker/solve contrasts, cell/split/build intervals, donor class rates,
+      failure sensitivity, acquisition-inclusive curves against tree/hand over1–200
+      searches with uncertainty, prior-vs-TS audit, conditional resolution prices
+      and plots. Source-free at execution, development-informed substitution only;
+      no ingredient isolation or fresh-bank transfer claim. No automatic extensions.

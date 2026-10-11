@@ -1,0 +1,7 @@
+{
+  "production_admission_passed": true,
+  "libraries": 24,
+  "hand_entries": 192,
+  "smoke_rejected": "requires unchanged admitted production preparation",
+  "altered_donor_rejected": "production preparation evidence changed"
+}

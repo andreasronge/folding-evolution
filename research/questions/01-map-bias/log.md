@@ -699,3 +699,10 @@ L 64). Fairly sure for these layouts; nothing beyond them.
   ([07](questions/01-map-bias/07-shared-arrival/question.md), [03](questions/01-map-bias/03-rare-shared-establishment/question.md))
 
 ```
+
+
+## 2026-10-11 — digest compression (steward task 2026-10-11-1019): wording moved here
+
+The digest was compressed under its word limit; no belief changed. The root-01 intro line "02, 04, 07, 08, 09
+parked (reopen conditions in their question files)" now ends at "parked"; the reopen conditions are unchanged in
+those question files.
