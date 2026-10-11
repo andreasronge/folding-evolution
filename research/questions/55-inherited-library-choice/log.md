@@ -162,3 +162,15 @@
     endpoint costs within 6% of the dose curve at its own q. Hand-set R-all is 1.71× [1.45, 2.01] cheaper and
     needs no exposure. One mutation rate, population size and supplied library; no content learning or transfer.
   ```
+- 2026-10-11 (steward, 1938): wording corrections from [critique 1938](../../runs/2026-10-11-1938/critique.md)
+  notes 7 and 10 (1736 entries above and the summary; the data are unchanged):
+  - "every endpoint costs within 6% of the dose curve at its own q" claims more than was checked. 1736 §4 compared
+    arm averages: the three arm-average costs (L/S/N) were within about 6% (0.95/1.06/0.99) of predictions
+    averaged over their endpoint doses. Endpoint-wise accuracy was not tested.
+  - 0.805 [0.704, 0.913] is the average over separate-population deployments, not a guarantee for one population:
+    94/144 L endpoints were cheaper than their paired start.
+  - "selection is about ten times stronger above f = 0.25" / "missed positive frequency dependence": the observed
+    pre-solve selection differential was about ten times larger in the high-frequency stratum. That suggests
+    frequency-dependent dynamics but is not an intervention on frequency or a tenfold normalized selection
+    coefficient (absolute change also depends on f(1−f), program state and history).
+  Summary in question.md and the digest corrected accordingly.

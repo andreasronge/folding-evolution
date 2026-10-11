@@ -49,3 +49,8 @@
   method could" claims more than a finite probe shows. Read instead: the observed coverage and capped-cost results
   do not justify funding more seeds or protected scoring of this candidate under the current allocation. The park
   decision and its reopen condition are unchanged. Question summary and root 10's summary updated.
+- 2026-10-11 (steward, 1938): reopen check, not met. The same frozen R-all recipe succeeded on the signed-gate bank
+  ([58](../58-signed-gate-acquisition/question.md): 0.577× [0.47, 0.72] of R-tree on protected cells), whose
+  sources built their own helper in 37.1% of solvers (21.8% emittable) against the rectifier sources' 8.9% / 2.3%.
+  This is consistent with the 54 limit lying in source discovery rather than the extractor (cross-bank contrast,
+  not an isolated cause). No rectifier source redesign or changed method is funded; status stays parked.
