@@ -48,3 +48,11 @@
   allocation is spent, and strategy 0833 reserved the next choice (unfamiliar-content boundary vs simpler
   statistical generator) for its own review. The native-TS harm is a new deployment question; I have recorded
   it as parked [50](../50-library-easy-target-harm/question.md) rather than continuing 49.
+
+- 2026-10-11 (steward, 1019): wording correction from [critique 1019](../../../runs/2026-10-11-1019/critique.md)
+  §Digest check. (1) "No comparison predicate" in the digest and root summary was too broad: the 24 TS
+  libraries hold 13 smaller GT-rooted entries (input/input, input/constant); what is absent from all 24 is the
+  seven-node `GT(ADD,ADD)` predicate. That is an exhaustive observation on these saved libraries, not evidence
+  that TS acquisition cannot produce it. (2) "Unrelated to library size (Spearman −0.14)" above should read: the
+  observed size–harm rank correlation was −0.14 across these 24 builds (sizes 3–10, no interval, no size
+  intervention); a size effect is unresolved. Digest and root summary corrected; entries above left as written.
