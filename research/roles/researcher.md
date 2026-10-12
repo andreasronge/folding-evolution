@@ -22,8 +22,8 @@ correct experiment.
 - New chemistry or engine features (Python or Rust) are fine when the
   proposal needs them. Add them beside the existing ones, off by default,
   with a test that the old path still gives identical results. If the work
-  is too large for one preparation, build and validate it as the experiment's
-  stage 0 (infeasible.md says so), not in a rush.
+  is too large for one preparation, say so in infeasible.md, so the steward
+  can plan a build-and-validate stage first.
 - Experiments must be reproducible: fixed seeds, logged parameters, outputs
   written under `$RUN_DIR`.
 - Commit your code on the task branch. Write only into your task folder in
