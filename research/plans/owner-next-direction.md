@@ -6,19 +6,34 @@ written: 2026-10-12
 
 For the strategist and steward. A direction, not an approved experiment.
 
-1. **Fund the abstraction direction first**
-   ([corpus-abstraction-transfer](corpus-abstraction-transfer.md)): learn
-   helpers with argument holes from evolution's solved programs, and test
-   whether they make fresh tasks cheaper than literal libraries with input
-   rebinding, after paying for acquisition.
-2. **Judge it against the right neighbours.** Restarted tree GP with literal
-   libraries is the baseline, but the closest known techniques are
-   Stitch (Bowers et al. 2023), DreamCoder and Run Transferable Libraries
-   (Keijzer et al. 2004). Say what we add beyond them; if the answer is
-   "nothing yet", say so plainly.
-3. **Start cheap.** Begin with a stage that measures the real build and queue
-   cost, so the 12–18 h estimate is replaced by a number before the full
-   block is spent.
-4. **Keep inheritance alive, but not now.** Root 55's discovery-focused
-   exposure test stays deferred until abstraction gives a clear answer, or
-   until someone has an idea that changes why preference faded after solving.
+**Question.** When the goal keeps changing between related tasks, does an
+inherited map learn to make new related goals cheaper to solve, with no
+outside fitting?
+
+**Why.** In 55, the inherited preference faded once the task was solved: with
+one fixed goal, being good at finding solutions stops paying. In nature,
+evolvability and modularity seem to grow under goals that change in related
+ways. Look up Kashtan & Alon (2005), Parter, Kashtan & Alon (2008) on
+facilitated variation, and Draghi & Wagner (2008); cite what you find, and
+name what we add beyond them.
+
+**Shape (the steward designs the details).**
+1. Start with a cheap probe: an inherited, per-individual map (the 55 / 23
+   harness, or the chem-tape decoder) under three regimes: a fixed goal, goals
+   switching between related family members, and goals switching between
+   unrelated tasks. Does the map keep changing, and in which direction?
+2. Then the real test: freeze the maps from each regime and give them to fresh
+   populations on a related goal never seen during evolution. Primary contrast:
+   cost of switching-related maps against fixed-goal maps.
+3. Count the evolution time spent on the maps, and say plainly whether the
+   gain pays for it.
+
+**Keep it ours.** Prefer the project's own map (chemistry, decoder, inherited
+weights) over tree-GP libraries; tree GP stays the outside baseline. Saved
+programs carried between goals are not a map: separate them from what the map
+learned.
+
+**Deferred.** The [abstraction plan](corpus-abstraction-transfer.md) is useful
+but crowded (Stitch, DreamCoder, Run Transferable Libraries); revisit it if
+this direction gives a clear no. PSB2 waits until a method is worth a broader
+test.
