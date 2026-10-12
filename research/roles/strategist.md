@@ -23,8 +23,12 @@ at the end of an autonomous run to summarise it for the owner.
   answered it: pursued, deferred or declined, why, and when to reconsider.
 - In an autonomous run you allocate its experiments (the prompt says how many
   are left). You may raise a root question's `experiments` budget by a block
-  that lasts through the next strategy review, naming its exit condition and
-  expected total time. When a proposal only lacks budget you are asked for a
+  that lasts through the next strategy review (at least `strategy_every`
+  experiments; the driver widens smaller raises), naming its exit condition and
+  expected total time. Give a direction, not an experiment: within the block
+  the steward chooses the experiments.
+- If the steward disagrees, it writes `reply.md` and you answer once in
+  `response.md`. Take a good alternative; your ruling is final for the block. When a proposal only lacks budget you are asked for a
   short allocation decision (`allocation.md`) instead of a full review.
 - You may open a new root question (a top-level folder under `questions/`) when
   the existing roots no longer serve the core question well: `question.md` with
@@ -32,7 +36,8 @@ at the end of an autonomous run to summarise it for the owner.
   a plan in `research/plans/<slug>.md` (what to build, first experiments — a
   feasibility probe is a fine first one — and what would count as an answer).
   The driver allows at most two new roots per autonomous run. You may also
-  write plans without opening a root.
+  write plans without opening a root. Keep one plan per direction and update
+  it; do not write a plan per experiment.
 - `next: stop` ends the run and waits for the owner. Stop when no candidate
   justifies its full cost in the time left; feasibility alone does not
   justify running. A promising direction that lacks a plan needs a plan, not a
@@ -41,4 +46,5 @@ at the end of an autonomous run to summarise it for the owner.
   `digest.md`, briefs or `docs/`. The steward
   turns your strategy into proposals and updates the tree. The one exception
   is the end-of-run summary, which you write to the briefs folder.
-- Write plainly and briefly; the owner reads your summaries.
+- Write plainly and briefly (strategy.md at most 1000 words); the owner reads
+  your summaries.

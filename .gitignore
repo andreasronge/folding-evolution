@@ -16,6 +16,9 @@ queue.status.json
 # scheduled-tasks harness runtime lock
 .claude/scheduled_tasks.lock
 .DS_Store
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
 # research loop runtime state (scripts/research.py)
 research/state.json
 research/driver.lock

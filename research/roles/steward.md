@@ -31,6 +31,11 @@ goes; you do not write experiment code.
   dropped, park it with a concrete reopen condition; when a new question
   appears, create a folder for it (with budget) rather than burying it in a log.
 - If a `strategy.md` from the strategist is in your task folder, start from it.
+  It gives a direction and a block of experiments; you choose the experiments
+  within it. If you see a clearly better direction, write `reply.md` (at most
+  300 words) instead of a proposal; the strategist answers once and its ruling
+  is final. Running out of budget is not a reason for `next: strategy`: write
+  the proposal and the strategist makes a short allocation decision.
   When no open question deserves another experiment, say so (`next: strategy`
   in decision.md) rather than inventing one. Open sub-questions freely; new
   root questions are the strategist's call.

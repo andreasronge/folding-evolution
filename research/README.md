@@ -19,9 +19,9 @@ Agents: read this first, then your role file in `roles/`.
   `execution.md`).
 - `briefs/` — the owner's morning briefs, and `<run>-auto-summary.md` after
   an autonomous run.
-- `plans/` — plans for root questions, written by the strategist, and the
-  owner's notes (`owner-*.md`): directions and constraints to weigh, not
-  approved experiments.
+- `plans/` — one plan per direction, written and updated by the strategist,
+  and the owner's notes (`owner-*.md`): directions and constraints to weigh,
+  not approved experiments.
 - `roles/`, `agents.toml`, `config.toml` — who plays which role, how agents
   are launched, loop settings.
 
@@ -72,7 +72,7 @@ probe) · full cost (agent and queue time) · the primary comparison and its
 decision rule · what you expect and what would surprise you · next action.
 ```
 
-At most 800 words; link harness details instead of repeating them. Only the
+At most 500 words; link harness details instead of repeating them. Only the
 primary comparison needs a formal decision rule. A replication, mechanism or
 boundary test is worth running even when the technique is known; say which.
 
@@ -134,7 +134,13 @@ cycles, when a proposal moves to another root question, and when the steward
 ends `decide` with `next: strategy` in decision.md's frontmatter instead of a
 proposal, and after two critic revisions. When the next proposal only lacks
 budget, the strategist makes a short allocation decision instead
-(`allocation.md`: grant a block of experiments, or ask for a full review). It writes `runs/<task>/strategy.md`, which the next proposal reads, answers
+(`allocation.md`: grant a block of experiments, or ask for a full review).
+A budget raise grants at least `strategy_every` experiments (the driver widens
+smaller raises): the strategist sets the direction, the steward chooses the
+experiments within the block. After a strategy review the steward may write
+`reply.md` (at most 300 words) instead of a proposal when it sees a clearly
+better direction; the strategist answers once in `response.md`, and that
+ruling is final. It writes `runs/<task>/strategy.md`, which the next proposal reads, answers
 each new or changed owner note (pursued, deferred or declined), may raise root
 budgets, write plans in `plans/`, and open up to two new root
 questions per autonomous run. Only the strategist opens root questions
@@ -142,4 +148,5 @@ questions per autonomous run. Only the strategist opens root questions
 `auto_max_experiments` experiments, at its deadline (a finished queue is
 still analysed), on `research/STOP`, or when the strategist writes
 `next: stop`. The driver keeps a one-row-per-cycle table in
-`briefs/<run>-ledger.md`.
+`briefs/<run>-ledger.md`. The end-of-run summary opens with five plain lines
+for the owner.

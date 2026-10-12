@@ -113,13 +113,19 @@ class FakeLauncher:
         self.plan_minutes = None  # plan.md's estimated_minutes
         self.allocate_next = "strategy"
         self.proposal_front = ""  # extra proposal frontmatter, e.g. "kind: probe\n"
+        self.reply = False  # the steward answers the next strategy review with reply.md
+        self.respond_next = "proposal"
 
     def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
         d = self.driver
         td = d.task_dir()
         phase = label.rsplit("-", 1)[0]
         self.calls.append(phase)
-        if phase == "propose":
+        if phase == "propose" and self.reply and (td / "strategy.md").exists() \
+                and not (td / "response.md").exists():
+            assert "reply.md" in argv[1]
+            write(td / "reply.md", "A better direction.\n")
+        elif phase == "propose":
             write(td / "proposal.md", "---\nnode: questions/01-root\ntitle: First\n"
                   f"{self.proposal_front}---\nWhy.\n")
         elif phase == "prepare" and self.infeasible:
@@ -138,6 +144,8 @@ class FakeLauncher:
                 return 1 if self.fail_critique == "exit" else 0
             rec = self.critiques.pop(0) if len(self.critiques) > 1 else self.critiques[0]
             write(td / "critique.md", f"---\nrecommend: {rec}\n---\nFine.\n")
+        elif phase == "respond":
+            write(td / "response.md", f"---\nnext: {self.respond_next}\n---\nRuling.\n")
         elif phase == "allocate":
             write(td / "allocation.md", f"---\nnext: {self.allocate_next}\n---\nWhy.\n")
         elif phase == "condense":
@@ -572,7 +580,7 @@ def test_auto_allocation_grants_a_block_without_a_full_review(repo):
     class Allocator(FakeLauncher):
         def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
             if label.startswith("allocate"):
-                assert "normally 9" in argv[1]
+                assert "normally 1" in argv[1]  # the run has 1 left
                 question(self.driver.research / "questions" / "01-root", experiments=5)
             return super().run(label, argv, cwd, log_dir, timeout_s, env, kill_grace)
 
@@ -849,3 +857,77 @@ def test_digest_check_covers_every_update_since_the_last_check(repo):
     assert "Digest check" not in crits[0] and "git log -p -1 " in crits[1]
     summary = next(p for label, p in prompts if label.startswith("summary"))
     assert "## Claim check" in summary and "..HEAD -- research/digest.md" in summary
+
+
+def test_auto_one_slot_raise_is_widened_to_a_block(repo):
+    class Granter(FakeLauncher):
+        def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
+            if label.startswith("strategy"):
+                assert "block of at least 3" in argv[1]
+                question(self.driver.research / "questions" / "01-root", experiments=2)
+            return super().run(label, argv, cwd, log_dir, timeout_s, env, kill_grace)
+
+    fake = Granter(review_verdicts=("pass",) * 5)
+    d = auto_driver(repo, fake, strategy_every=3, auto_max_experiments=4)
+    question(d.research / "questions" / "01-root", experiments=1)
+    fake.strategy_next = "proposal"
+    d.run_auto(hours=48)
+    # 1 used, raised to 2 (one slot) → widened so 3 are left: 1 + 3 = 4.
+    assert research._budget(d.research / "questions" / "01-root" / "question.md")[
+        "experiments"] == 4
+    assert fake.calls.count("strategy") == 1
+    assert "widened to 4" in "".join(p.read_text() for p in (d.research / "runs").glob("*/driver.log"))
+
+
+def test_auto_steward_reply_gets_one_ruling(repo):
+    fake = FakeLauncher()
+    d = auto_driver(repo, fake, strategy_every=9, auto_max_experiments=1)
+    fake.critiques = ["revise", "revise", "revise", "approve"]
+    fake.strategy_next = "proposal"
+    fake.reply = True
+    d.run_auto(hours=48)
+    i = fake.calls.index("strategy")
+    assert fake.calls[i + 1:i + 5] == ["propose", "respond", "propose", "critique"]
+    ledger = next((d.research / "briefs").glob("*-ledger.md")).read_text()
+    assert "steward replied; strategist: next proposal" in ledger
+
+
+def test_auto_strategist_may_stop_after_a_reply(repo):
+    fake = FakeLauncher()
+    d = auto_driver(repo, fake, strategy_every=9)
+    fake.critiques = ["revise", "revise", "revise", "approve"]
+    fake.strategy_next = "proposal"
+    fake.reply, fake.respond_next = True, "stop"
+    assert d.run_auto(hours=48) == 1
+    assert "response.md" in json.loads(d.run_path.read_text())["reason"]
+
+
+def test_auto_raise_survives_an_interrupted_strategy(repo):
+    class Flaky(FakeLauncher):
+        failed = False
+
+        def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
+            if label.startswith("strategy") and not self.failed:
+                self.failed = True  # raises the budget, then dies before the driver records it
+                question(self.driver.research / "questions" / "01-root", experiments=9)
+                self.calls.append("strategy")
+                return 1
+            return super().run(label, argv, cwd, log_dir, timeout_s, env, kill_grace)
+
+    fake = Flaky(review_verdicts=("pass",) * 5)
+    d = auto_driver(repo, fake, strategy_every=9, auto_max_experiments=2)
+    question(d.research / "questions" / "01-root", experiments=1)
+    fake.strategy_next = "proposal"
+    d.run_auto(hours=48)
+    info = json.loads(d.run_path.read_text())
+    assert "outside strategy" not in info["reason"] and fake.calls.count("strategy") == 2
+    assert "authorizing" not in info
+
+
+def test_respond_is_not_repeated_after_its_ruling(repo):
+    fake = FakeLauncher()
+    d = auto_driver(repo, fake)
+    d.state = {"phase": "respond", "task": "t1", "responded": True}
+    write(d.task_dir() / "response.md", "---\nnext: proposal\n---\nRuling.\n")
+    d.phase_respond()
+    assert "respond" not in fake.calls and d.state["phase"] == "propose"
