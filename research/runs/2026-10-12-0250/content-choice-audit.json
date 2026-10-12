@@ -1,0 +1,335 @@
+{
+  "scope": "static saved-artifact inventory; no search or efficacy measurement",
+  "cohorts": {
+    "order": {
+      "path": "experiments/output/2026-10-11/2026-10-11-1228-prepare",
+      "field": "semantic_all",
+      "file_sha256": "7542afa500e398417cf510fda91a159549c9c1f28b84afb25fb768fefdc0049c",
+      "builds": 24,
+      "development_cells": [
+        "O:lo01+hi23",
+        "O:lo01+hi12",
+        "O:lo02+hi13",
+        "O:lo23+hi02",
+        "O:lo02+hi12",
+        "O:lo23+hi12"
+      ],
+      "rows": [
+        {
+          "build": 0,
+          "entries": 34,
+          "order_helpers": 7,
+          "gate_helpers": 0
+        },
+        {
+          "build": 1,
+          "entries": 27,
+          "order_helpers": 9,
+          "gate_helpers": 0
+        },
+        {
+          "build": 2,
+          "entries": 26,
+          "order_helpers": 8,
+          "gate_helpers": 0
+        },
+        {
+          "build": 3,
+          "entries": 28,
+          "order_helpers": 7,
+          "gate_helpers": 0
+        },
+        {
+          "build": 4,
+          "entries": 26,
+          "order_helpers": 5,
+          "gate_helpers": 0
+        },
+        {
+          "build": 5,
+          "entries": 26,
+          "order_helpers": 5,
+          "gate_helpers": 0
+        },
+        {
+          "build": 6,
+          "entries": 37,
+          "order_helpers": 10,
+          "gate_helpers": 0
+        },
+        {
+          "build": 7,
+          "entries": 28,
+          "order_helpers": 7,
+          "gate_helpers": 0
+        },
+        {
+          "build": 8,
+          "entries": 27,
+          "order_helpers": 8,
+          "gate_helpers": 0
+        },
+        {
+          "build": 9,
+          "entries": 32,
+          "order_helpers": 8,
+          "gate_helpers": 0
+        },
+        {
+          "build": 10,
+          "entries": 29,
+          "order_helpers": 9,
+          "gate_helpers": 0
+        },
+        {
+          "build": 11,
+          "entries": 31,
+          "order_helpers": 8,
+          "gate_helpers": 0
+        },
+        {
+          "build": 12,
+          "entries": 27,
+          "order_helpers": 4,
+          "gate_helpers": 0
+        },
+        {
+          "build": 13,
+          "entries": 29,
+          "order_helpers": 7,
+          "gate_helpers": 0
+        },
+        {
+          "build": 14,
+          "entries": 26,
+          "order_helpers": 7,
+          "gate_helpers": 0
+        },
+        {
+          "build": 15,
+          "entries": 27,
+          "order_helpers": 8,
+          "gate_helpers": 0
+        },
+        {
+          "build": 16,
+          "entries": 27,
+          "order_helpers": 7,
+          "gate_helpers": 0
+        },
+        {
+          "build": 17,
+          "entries": 30,
+          "order_helpers": 6,
+          "gate_helpers": 0
+        },
+        {
+          "build": 18,
+          "entries": 29,
+          "order_helpers": 8,
+          "gate_helpers": 0
+        },
+        {
+          "build": 19,
+          "entries": 25,
+          "order_helpers": 6,
+          "gate_helpers": 0
+        },
+        {
+          "build": 20,
+          "entries": 30,
+          "order_helpers": 9,
+          "gate_helpers": 0
+        },
+        {
+          "build": 21,
+          "entries": 28,
+          "order_helpers": 8,
+          "gate_helpers": 0
+        },
+        {
+          "build": 22,
+          "entries": 29,
+          "order_helpers": 7,
+          "gate_helpers": 0
+        },
+        {
+          "build": 23,
+          "entries": 30,
+          "order_helpers": 9,
+          "gate_helpers": 0
+        }
+      ],
+      "means": {
+        "entries": 28.666666666666668,
+        "order_helpers": 7.375,
+        "gate_helpers": 0.0
+      }
+    },
+    "gate": {
+      "path": "experiments/output/2026-10-11/2026-10-11-1938-prepare",
+      "field": "semantic",
+      "file_sha256": "e1abb743b02f4c7975773869817455b4aeb6fd36ad212f5ebb9e38ac9d2eb6dc",
+      "builds": 24,
+      "development_cells": [
+        "O:p01+n23",
+        "O:p12+n30",
+        "O:p23+n01",
+        "O:p31+n02",
+        "O:p21+n03",
+        "O:p03+n12"
+      ],
+      "rows": [
+        {
+          "build": 0,
+          "entries": 44,
+          "order_helpers": 0,
+          "gate_helpers": 8
+        },
+        {
+          "build": 1,
+          "entries": 36,
+          "order_helpers": 0,
+          "gate_helpers": 6
+        },
+        {
+          "build": 2,
+          "entries": 37,
+          "order_helpers": 0,
+          "gate_helpers": 14
+        },
+        {
+          "build": 3,
+          "entries": 34,
+          "order_helpers": 0,
+          "gate_helpers": 9
+        },
+        {
+          "build": 4,
+          "entries": 37,
+          "order_helpers": 0,
+          "gate_helpers": 8
+        },
+        {
+          "build": 5,
+          "entries": 31,
+          "order_helpers": 0,
+          "gate_helpers": 5
+        },
+        {
+          "build": 6,
+          "entries": 39,
+          "order_helpers": 0,
+          "gate_helpers": 9
+        },
+        {
+          "build": 7,
+          "entries": 35,
+          "order_helpers": 0,
+          "gate_helpers": 10
+        },
+        {
+          "build": 8,
+          "entries": 35,
+          "order_helpers": 0,
+          "gate_helpers": 8
+        },
+        {
+          "build": 9,
+          "entries": 38,
+          "order_helpers": 0,
+          "gate_helpers": 8
+        },
+        {
+          "build": 10,
+          "entries": 38,
+          "order_helpers": 0,
+          "gate_helpers": 9
+        },
+        {
+          "build": 11,
+          "entries": 41,
+          "order_helpers": 0,
+          "gate_helpers": 12
+        },
+        {
+          "build": 12,
+          "entries": 39,
+          "order_helpers": 0,
+          "gate_helpers": 8
+        },
+        {
+          "build": 13,
+          "entries": 40,
+          "order_helpers": 0,
+          "gate_helpers": 9
+        },
+        {
+          "build": 14,
+          "entries": 36,
+          "order_helpers": 0,
+          "gate_helpers": 5
+        },
+        {
+          "build": 15,
+          "entries": 37,
+          "order_helpers": 0,
+          "gate_helpers": 10
+        },
+        {
+          "build": 16,
+          "entries": 29,
+          "order_helpers": 0,
+          "gate_helpers": 7
+        },
+        {
+          "build": 17,
+          "entries": 39,
+          "order_helpers": 0,
+          "gate_helpers": 10
+        },
+        {
+          "build": 18,
+          "entries": 40,
+          "order_helpers": 0,
+          "gate_helpers": 10
+        },
+        {
+          "build": 19,
+          "entries": 39,
+          "order_helpers": 0,
+          "gate_helpers": 9
+        },
+        {
+          "build": 20,
+          "entries": 43,
+          "order_helpers": 0,
+          "gate_helpers": 9
+        },
+        {
+          "build": 21,
+          "entries": 39,
+          "order_helpers": 0,
+          "gate_helpers": 9
+        },
+        {
+          "build": 22,
+          "entries": 39,
+          "order_helpers": 0,
+          "gate_helpers": 7
+        },
+        {
+          "build": 23,
+          "entries": 32,
+          "order_helpers": 0,
+          "gate_helpers": 7
+        }
+      ],
+      "means": {
+        "entries": 37.375,
+        "order_helpers": 0.0,
+        "gate_helpers": 8.583333333333334
+      }
+    }
+  }
+}

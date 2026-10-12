@@ -1,0 +1,9 @@
+{
+  "entries": [
+    "2026-10-12-0250-exposure",
+    "2026-10-12-0250-readout"
+  ],
+  "summed_timeout_seconds": 12600,
+  "minutes": 210,
+  "admitted": true
+}

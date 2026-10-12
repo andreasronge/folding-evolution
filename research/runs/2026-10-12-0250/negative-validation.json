@@ -1,0 +1,7 @@
+{
+  "missing_row": "exposure grid mismatch",
+  "duplicate_row": "exposure grid mismatch",
+  "source_contamination": "content donor accounting mismatch",
+  "bad_redraw": "modifier/redraw/elite accounting mismatch",
+  "wrong_endpoint": "endpoint accounting mismatch"
+}

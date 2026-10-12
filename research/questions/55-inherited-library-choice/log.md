@@ -183,3 +183,86 @@ The digest was 3037 words; it was rewritten to about 2,940. No belief changed. T
 - Linked-selection bullet, after "Bimodal": "the observed pre-solve selection differential was about ten times
   larger above f = 0.25 (suggests frequency-dependent dynamics; not an intervention on frequency)."
 - Frozen-law bullet: "94/144 endpoints beat their paired start".
+
+## 2026-10-12 — reopened for content choice; steward headroom probe (task 2026-10-12-0250)
+
+Reopened by [strategy 0250](../../runs/2026-10-12-0250/strategy.md). Before proposing, the steward ran a
+≤ 10-min fixed-law probe with the unchanged engine (research/main `465f2fa`; [script and rows](../../runs/2026-10-12-0250/headroom-probe/)):
+24 paired builds (1228 `semantic_all` b ↔ 1938 `semantic` b) × 6 development cells × 1 seed per family, all laws at
+library probability 0.5; M = within-library-normalized 50/50 mixture. Capped mean evaluations (worker-s/job):
+
+| family | O (order lib) | G (gate lib) | M (mix) | O/M | G/M |
+|---|---|---|---|---|---|
+| order (6 dev cells) | 27.9k (2.1) | 100.2k (7.4) | 36.0k (2.7) | 0.78 [0.51, 1.18] | 2.78 [1.85, 4.29] |
+| gate (6 dev cells) | 7.9k (0.57) | 3.5k (0.22) | 5.1k (0.35) | 1.56 [1.01, 2.29] | 0.69 [0.47, 1.05] |
+
+Observations only (one seed per unit; bootstrap over builds, cells within builds). Each library is much cheaper
+on its own family; gate donors on order cells cost more than no library at all (1736's q = 0 was 74k on other
+seeds). The mixture leaves roughly 20–30% headroom to the matched pure library in both directions. 142/144
+G-on-order jobs solved. Probe seeds use the domain `steward-probe-2026-10-12-0250`.
+
+## 2026-10-12 — experiment 0250: inherited content choice (order vs signed-gate library)
+
+Experiment ([proposal](../../runs/2026-10-12-0250/proposal.md), [plan](../../runs/2026-10-12-0250/plan.md),
+[analysis](../../runs/2026-10-12-0250/analysis.md); commit `4ed0469`). The bit chose which saved library supplied
+donors (state 0: 1228 R-all order library, state 1: 1938 R-all signed-gate library, paired by build index), each on
+half of mutations; redraw 1/32 toward Bernoulli(1/2), f₀ = 1/2. Exposure on six development cells of
+`x4-order-v1` or `x4-signed-gate-v1`: twelve 64-generation episodes, P 256, lexicase, crossover 0.5. Arms L (linked),
+S (shuffled), N (neutral, both states 50/50). 24 builds × 8 populations × 3 arms × 2 families = 1,152 trajectories;
+36,288 readout jobs, each population's law deployed alone (gate share f/2). Data complete, all audits passed, 19/36,288
+readouts capped (order only), no protected cell scored.
+
+Result:
+- **Primary R (geometric mean over families of L-matched / M) 0.991 [0.926, 1.060]** (capped mean evaluations, nested
+  paired bootstrap). Order L-matched/M 0.982 [0.882, 1.093]; gate 0.999 [0.928, 1.075]. Pre-set rule: upper not
+  < 0.90, lower > 0.80 → **"20% pooled saving excluded"**, which the proposal said ends the candidate. Neither family
+  met its directional conjunction (gate L-matched/L-swapped 0.929 [0.856, 1.005]; order 0.953 [0.846, 1.081]).
+- **Headroom was present:** own pure library / M 0.725 [0.594, 0.876] on order, 0.778 [0.679, 0.887] on gate. So this
+  is a negative for this selector and exposure rule, not saturation.
+- **Bit dynamics.** Mean final f (gate share): order L 0.377 [0.341, 0.413] vs S 0.485, N 0.486 (L − S −0.108
+  [−0.163, −0.056], 22/24 builds); gate L 0.516 [0.472, 0.560] vs S 0.484, N 0.475 (L − S +0.032 [−0.029, +0.095],
+  unresolved). Selection moved the bit toward the matched library, resolved only on order, and by far less than I
+  predicted (0.15–0.3 on order).
+- **Why so little (descriptive decomposition of this run's traces):** selection on the bit acted almost only before
+  each episode's first solve (order −0.0064 per generation, gate +0.0037; about ten times weaker afterwards), while
+  the redraw pulls f toward 0.5 at (0.5 − f)/32 every generation. On order, f fell to about 0.24 at first solve and
+  relaxed to about 0.38–0.43 by episode end; the readout froze the relaxed value.
+- **The endpoint law carries nothing visible beyond its frequency.** On a dose curve built from S, N and L-swapped
+  endpoints, L-matched's endpoints predict 0.90 of M on order (observed 0.98; 0.96 without capped rows) and 1.01 on
+  gate (observed 1.00). L-matched/S 0.94 [0.83, 1.06] and /N 0.97 [0.86, 1.10] on order; 0.97 and 0.98 on gate, all
+  containing 1.
+- Economics (reported): exposure saves ~740 evaluations per fresh order search (~260 searches to repay), ~6 on gate.
+  The pure matched library (no exposure) stays cheapest on each family.
+- Forecast miss (mine, recorded before data): R ≈ 0.85–0.9 and order f 0.15–0.3. I priced the endpoint as if selection
+  acted throughout exposure; with f₀ and the redraw target both at 1/2, the mutation pull opposes selection at full
+  strength, unlike 1736 (redraw toward 1/16, selection pushing up).
+
+Against the explanations (scope: twelve development cells, two supplied libraries, this exposure rule):
+A — not supported for content choice: linked carriers moved the right way on order, but the frozen mixture was no
+cheaper than the start (pooled savings above about 7% excluded; smaller ones not) and not resolved cheaper than S or
+N. B — consistent: the useful library helped carriers only during the short pre-solve phase. C — drift does not
+explain the order shift (L − S resolved); on gate the shift is unresolved. D — partly: the readout froze a
+maintenance-phase balance, not the pre-solve selected frequency. E — headroom present; the exposure rule was too weak
+to hold a useful frequency (the pre-solve minimum 0.24 sits where other populations' endpoints cost 0.73–0.83 of M —
+a projection, not measured for frozen pre-solve laws).
+
+Decision: park 55 because the pre-registered content-choice test answered its question at this scope: program-linked
+inheritance moved the choice toward the suited library on one family but left no frozen saving (R 0.99
+[0.93, 1.06], 20% excluded, headroom 22–28% present). The strategy and proposal both said this outcome ends the
+candidate and returns to strategy; budget 3/3 is spent. Not closed: savings under 10% are not excluded, and a
+different exposure rule (freeze at first solve, or a redraw not aimed at the start) could behave differently — that
+is a new design, not a top-up, and the observation behind it is a projection. No parked question's reopen condition
+is met (23 needs a selectable token-frequency signal; 50 needs default mixed deployment).
+
+- 2026-10-12 (steward, 0250, digest wording): to make room for the content-choice bullet, the digest's 1736 bullet
+  lost "L − N 0.23 [0.16, 0.30]; 24/24 libraries", "0.75× and 0.70× of neutral and shuffled endpoints", "needs no
+  exposure" and "one mutation rate, population size and supplied library". All stand as recorded above; no belief
+  changed.
+
+## 2026-10-12 — digest compression (steward task 2026-10-12-0250): wording moved here
+
+The digest was 3030 words; it was rewritten to about 2,970. No belief changed. The content-choice bullet lost the
+endpoint levels behind the difference, which stand as recorded above ([run 0250](../../runs/2026-10-12-0250/analysis.md)).
+Former text: "Final gate share on order 0.377 vs 0.485 shuffled (L − S −0.11 [−0.16, −0.06]); on gate +0.03 [−0.03,
++0.10], unresolved." Now: "Final gate share, linked minus shuffled: order −0.11 [−0.16, −0.06]; gate +0.03 [−0.03,
++0.10], unresolved."

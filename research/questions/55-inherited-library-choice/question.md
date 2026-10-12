@@ -1,7 +1,7 @@
 ---
 status: parked
 tags: [map-bias, inheritance, self-adaptation, operator-choice, library-learning, linkage, fresh-start]
-budget: {experiments: 2, used: 0}
+budget: {experiments: 3, used: 0}
 ---
 # Can program selection favor an inherited choice of a useful structured variation law?
 
@@ -10,8 +10,27 @@ Opened by [strategy 1427](../../runs/2026-10-11-1427/strategy.md), with the
 
 Reopened by [strategy 1736](../../runs/2026-10-11-1736/strategy.md) (budget 1 → 2) for one redesigned usefulness test: recurrent bit mutation, f₀ = 1/16, per-population readout ([plan](../../plans/recurrent-inherited-library-choice.md), [proposal 1736](../../runs/2026-10-11-1736/proposal.md)).
 
-Summary: **parked after experiment 1736 (commit `3a18ef5`; six order development cells, 24 saved R-all
-libraries, P 256, lexicase, crossover 0.5; content and donor law supplied, never learned).** With the child bit
+Reopened by [strategy 0250](../../runs/2026-10-12-0250/strategy.md) (budget 2 → 3) for one content-choice test: the bit chooses between the saved order and signed-gate libraries at a fixed library rate, exposed on each family ([plan](../../plans/inherited-content-choice.md), [proposal 0250](../../runs/2026-10-12-0250/proposal.md)). Parked again after it.
+
+Summary: **parked after experiment 0250 (commit `4ed0469`): inherited choice between two supplied libraries
+moved toward the suited one on order, but its frozen mixtures gave fresh search no saving over the 50/50 start.**
+The bit chose order-library or gate-library donors (each on half of mutations; redraw 1/32 toward 1/2, f₀ = 1/2),
+exposed for twelve 64-generation episodes on six development cells of `x4-order-v1` or `x4-signed-gate-v1` (24
+paired builds × 8 populations; P 256, lexicase, crossover 0.5). Final gate share: order L 0.377 [0.341, 0.413] vs
+shuffled 0.485 (L − S −0.108 [−0.163, −0.056]); gate L 0.516 vs 0.484 (+0.032 [−0.029, +0.095], unresolved).
+Frozen laws deployed alone: **R (geometric mean of L-matched / 50/50 mix over families) 0.991 [0.926, 1.060]**;
+order 0.982 [0.882, 1.093], gate 0.999 [0.928, 1.075]. Pooled savings above about 7% are excluded (pre-set label: "20% pooled saving
+excluded"); smaller savings, or a cost up to 6% higher, are not. Headroom was present (own pure library 0.73 and 0.78 of the mix, upper bounds 0.88 and 0.89), and the pure
+matched library stays the cheapest law on each family. Endpoint costs follow a dose curve in f; L carried nothing
+visible beyond its frequency, and was not resolved cheaper than shuffled or neutral endpoints. Descriptive
+mechanism from this run's traces: selection on the bit acts mainly before each episode's first solve (order f fell
+to about 0.24), then the redraw toward 1/2 relaxes it for the rest of the episode, and the readout froze the
+relaxed value. One exposure rule, mutation rate, population size and pair of supplied libraries; development cells
+only; no content learning or transfer. [Analysis](../../runs/2026-10-12-0250/analysis.md),
+[decision](../../runs/2026-10-12-0250/decision.md).
+
+Earlier, dose-only selector (1736, commit `3a18ef5`; six order development cells, 24 saved R-all
+libraries; content and donor law supplied, never learned). With the child bit
 redrawn from Bernoulli(1/16) at rate 1/32, the R-all carrier bit stayed polymorphic and rose from 1/16 to a mean
 of 0.29 [0.23, 0.35] in linked populations, against 0.06 neutral-bit and 0.05 shuffled (L − N 0.23 [0.16, 0.30];
 24/24 libraries). The rise is bimodal (46/144 above 0.5, 55/144 at or below the start): the observed pre-solve
@@ -67,6 +86,10 @@ Competing explanations:
 - E: The initial mixture already captures the useful effect, leaving too little
   frozen-readout headroom; or this fixed exposure is too weak to resolve selection.
 
+After 0250 (content choice; details in the [log](log.md)): A not supported; B consistent; C excluded for the
+order shift, unresolved on gate; D partly (the readout froze a maintenance-phase balance); E's headroom half
+excluded, its weak-exposure half supported for this rule.
+
 Related: [root 10](../10-compositional-map-transfer/question.md),
 [order result](../../runs/2026-10-11-1228/analysis.md),
 [rectifier probe](../../runs/2026-10-11-1315/analysis.md),
@@ -74,18 +97,19 @@ Related: [root 10](../10-compositional-map-transfer/question.md),
 [root 01 lineage mixing](../01-map-bias/06-self-mate-establishment/question.md),
 [probe 1427](../../runs/2026-10-11-1427/analysis.md), [decision 1427](../../runs/2026-10-11-1427/decision.md),
 [experiment 1736](../../runs/2026-10-11-1736/analysis.md), [decision 1736](../../runs/2026-10-11-1736/decision.md),
-[recurrent plan](../../plans/recurrent-inherited-library-choice.md), [log](log.md),
+[recurrent plan](../../plans/recurrent-inherited-library-choice.md),
+[experiment 0250](../../runs/2026-10-12-0250/analysis.md), [decision 0250](../../runs/2026-10-12-0250/decision.md),
+[content-choice plan](../../plans/inherited-content-choice.md), [root 10 signed-gate libraries](../10-compositional-map-transfer/58-signed-gate-acquisition/question.md), [log](log.md),
 [owner note](../../plans/owner-heritable-map.md),
 [Stephens et al.](https://pubmed.ncbi.nlm.nih.gov/9847423/),
 [Serpell and Smith](https://uwe-repository.worktribe.com/output/975827).
 
-Allocation: one probe (1427) and one experiment (1736), both used.
+Allocation: one probe (1427) and two experiments (1736, 0250), all used.
 
-Reopen if: a strategist decision needs to know whether this procedure clears a 10% saving (price: a second batch of
-six populations per library, about 432 trajectories + 8,640 readout jobs, ~70 min queue, ~4 h complete; resampling
-the 1736 rows suggests that only just reaches an upper bound of 0.90 if the point holds); an inherited-choice
-design where the chosen law carries more than a dose (e.g. choice between intact R-all and helper-scrambled R-hx at
-equal mix, or among several libraries) is funded, which can reuse the 1736 harness and its controls; or a later
-inherited-content study (root 23 or the owner's heritable-map note) needs this calibration of low-frequency
-selection under crossover. More seeds of the same dose-only selector, a mutation-rate sweep or available compute
-is insufficient.
+Reopen if: a strategist funds an inheritance design whose frozen law is taken where selection acts — e.g. exposure
+that stops or freezes at each episode's first solve, exposure only on unsolved cells, or a redraw not aimed at the
+starting mixture — with a stage-0 check that the frozen order-family gate share reaches ≤ 0.25 on average at
+readout (0250's pre-solve minimum was about 0.24, its endpoint 0.38); or an inherited repertoire with changeable
+content (owner note, root 23) needs this calibration of how a selected modifier relaxes under recurrent mutation.
+More seeds, a redraw-rate sweep, or a top-up of the 0250 contrast is insufficient: its interval already excludes
+savings above about 7%. Reuse the 1736 and 0250 harnesses and rows for descriptive follow-ups.

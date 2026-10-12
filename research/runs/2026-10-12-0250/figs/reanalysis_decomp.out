@@ -1,0 +1,32 @@
+Per-generation decomposition of delta f (mean over generations; "pull" = expected redraw (0.5-f)/32):
+fam/arm    phase     gens  mean f  selection   redraw     pull    elite    total
+gate/L     pre      36254   0.500    +0.0037  -0.0002  -0.0001  +0.0000  +0.0036
+gate/L     post    108898   0.557    +0.0002  -0.0018  -0.0018  +0.0005  -0.0012
+gate/N     pre      34797   0.492    -0.0001  +0.0002  +0.0002  -0.0000  +0.0001
+gate/N     post    110355   0.496    -0.0002  +0.0001  +0.0001  -0.0000  -0.0001
+gate/S     pre      37296   0.473    -0.0002  +0.0009  +0.0009  -0.0000  +0.0007
+gate/S     post    107856   0.505    -0.0002  -0.0001  -0.0002  +0.0000  -0.0003
+order/L    pre      77873   0.398    -0.0064  +0.0034  +0.0034  -0.0004  -0.0033
+order/L    post     67279   0.311    -0.0012  +0.0060  +0.0060  -0.0013  +0.0035
+order/N    pre      82382   0.495    -0.0000  +0.0001  +0.0001  +0.0000  +0.0001
+order/N    post     62770   0.497    -0.0002  +0.0001  +0.0001  -0.0000  -0.0002
+order/S    pre      85038   0.510    -0.0004  -0.0003  -0.0003  +0.0000  -0.0007
+order/S    post     60114   0.469    -0.0001  +0.0010  +0.0010  -0.0000  +0.0009
+
+f at first solve (all solved episodes) and pre-solve generations:
+('gate', 'L'): n=2202 mean f at first solve 0.576; median pre-solve generations 11, mean 14.5; share of 64 gens pre-solve (solved eps) 0.23
+('gate', 'N'): n=2221 mean f at first solve 0.497; median pre-solve generations 11, mean 14.3; share of 64 gens pre-solve (solved eps) 0.22
+('gate', 'S'): n=2190 mean f at first solve 0.516; median pre-solve generations 11, mean 14.8; share of 64 gens pre-solve (solved eps) 0.23
+('order', 'L'): n=1471 mean f at first solve 0.242; median pre-solve generations 14, mean 18.3; share of 64 gens pre-solve (solved eps) 0.29
+('order', 'N'): n=1409 mean f at first solve 0.507; median pre-solve generations 16, mean 19.5; share of 64 gens pre-solve (solved eps) 0.30
+('order', 'S'): n=1361 mean f at first solve 0.452; median pre-solve generations 16, mean 19.8; share of 64 gens pre-solve (solved eps) 0.31
+
+order: dose bins (S, N, L-swapped populations only; cost/M): [0.00,0.15):0.78 [0.15,0.25):0.73 [0.25,0.35):0.83 [0.35,0.45):0.89 [0.45,0.55):1.00 [0.55,0.65):1.06 [0.65,0.75):1.16 [0.75,0.85):1.43 [0.85,1.00):1.82
+  L-matched: mean f 0.377, sd 0.194; actual cost/M 0.982; predicted from own f distribution 0.903; predicted at a single f = mean 0.888
+  projection (not measured): deploying f at first solve (mean 0.242, sd 0.287) would cost about 0.91 of M on this dose curve
+  reference: own pure library cost/M = 0.725
+
+gate: dose bins (S, N, L-swapped populations only; cost/M): [0.00,0.15):1.35 [0.15,0.25):1.21 [0.25,0.35):1.11 [0.35,0.45):1.03 [0.45,0.55):0.99 [0.55,0.65):0.92 [0.65,0.75):0.86 [0.75,0.85):1.00 [0.85,1.00):0.84
+  L-matched: mean f 0.516, sd 0.213; actual cost/M 0.999; predicted from own f distribution 1.010; predicted at a single f = mean 0.992
+  projection (not measured): deploying f at first solve (mean 0.576, sd 0.367) would cost about 1.03 of M on this dose curve
+  reference: own pure library cost/M = 0.778

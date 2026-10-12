@@ -766,3 +766,10 @@ The digest was 3037 words; it was rewritten to about 2,940. No belief changed. O
 root's "fitted `op_weights` vector transfers" bullet (it stands; [run 1558](../../runs/2026-10-05-1558/analysis.md)).
 Former text: "Sampling lift (4.9× / 8.9× more exact solvers; one seed, one fit) does not predict speed." Now: "Sampling
 lift (one seed, one fit) does not predict speed."
+
+## 2026-10-12 — digest compression (steward task 2026-10-12-0250): wording moved here
+
+The digest was 3030 words; it was rewritten to about 2,970. No belief changed. This root's "Why shared endings are
+rare is unresolved" bullet lost two upper bounds, which still stand ([07](07-shared-arrival/question.md),
+[03](03-rare-shared-establishment/question.md)). Former text: "single copies drift out (0/100, ≤ 3.6%); no B-helper
+in 30M children (≤ 1.2e-7)." Now: "single copies drift out (0/100); no B-helper in 30M children."

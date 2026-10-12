@@ -1,0 +1,103 @@
+score rows 36288
+unsolved by family/arm: Counter({('order', 'G'): 8, ('order', 'L-matched'): 6, ('order', 'N'): 2, ('order', 'S'): 1, ('order', 'M'): 1, ('order', 'L-swapped'): 1})
+attempts distribution (restarts used): Counter({1: 32074, 2: 2646, 3: 955, 4: 356, 5: 140, 6: 61, 8: 34, 7: 22})
+
+== capped mean evaluations per law (mean over builds and populations)
+order {'L-matched': 41524, 'L-swapped': 43556, 'S': 44312, 'N': 42861, 'M': 42268, 'O': 30648, 'G': 94003}
+gate {'L-matched': 4955, 'L-swapped': 5336, 'S': 5135, 'N': 5068, 'M': 4961, 'O': 9575, 'G': 3860}
+
+== ratios (my bootstrap, seed 20261012)
+order L-matched/M            0.982 [0.882, 1.093]
+order L-matched/L-swapped    0.953 [0.846, 1.081]
+order L-swapped/M            1.030 [0.940, 1.129]
+order S/M            1.048 [0.942, 1.168]
+order N/M            1.014 [0.898, 1.145]
+order L-matched/S            0.937 [0.830, 1.060]
+order L-matched/N            0.969 [0.855, 1.103]
+order O/M            0.725 [0.594, 0.876]
+order G/M            2.224 [1.857, 2.645]
+gate  L-matched/M            0.999 [0.928, 1.075]
+gate  L-matched/L-swapped    0.929 [0.856, 1.005]
+gate  L-swapped/M            1.076 [0.992, 1.166]
+gate  S/M            1.035 [0.960, 1.110]
+gate  N/M            1.022 [0.942, 1.109]
+gate  L-matched/S            0.965 [0.892, 1.044]
+gate  L-matched/N            0.978 [0.899, 1.060]
+gate  O/M            1.930 [1.691, 2.198]
+gate  G/M            0.778 [0.679, 0.887]
+PRIMARY R (geo mean L-matched/M): 0.991 [0.926, 1.060]
+HEADROOM own-pure/M pooled: 0.751 [0.652, 0.856]
+order worker-s L-matched/M point 0.983
+gate worker-s L-matched/M point 1.002
+
+== per build / per population counts, L-matched vs M (same seeds)
+order: L-matched < M in 13/24 builds, 102/192 populations; L-matched < L-swapped in 16/24 builds, 97/192 populations
+   per-build L-matched/M ratios: min 0.68 median 0.99 max 1.42
+gate: L-matched < M in 13/24 builds, 109/192 populations; L-matched < L-swapped in 16/24 builds, 113/192 populations
+   per-build L-matched/M ratios: min 0.71 median 0.99 max 1.22
+
+== per cell L-matched/M and O/M, G/M (point, all rows)
+order O:lo01+hi12: L-matched/M 1.05  L-swapped/M 0.95  S/M 1.14  N/M 1.11  O/M 1.01  G/M 3.29
+order O:lo01+hi23: L-matched/M 0.97  L-swapped/M 1.18  S/M 1.09  N/M 1.07  O/M 0.36  G/M 1.50
+order O:lo02+hi12: L-matched/M 1.04  L-swapped/M 1.03  S/M 1.16  N/M 1.01  O/M 0.80  G/M 2.30
+order O:lo02+hi13: L-matched/M 0.98  L-swapped/M 1.04  S/M 1.13  N/M 1.08  O/M 1.07  G/M 2.63
+order O:lo23+hi02: L-matched/M 0.97  L-swapped/M 1.00  S/M 0.99  N/M 1.02  O/M 0.54  G/M 1.76
+order O:lo23+hi12: L-matched/M 0.88  L-swapped/M 1.06  S/M 0.86  N/M 0.87  O/M 0.63  G/M 1.87
+gate O:p01+n23: L-matched/M 0.95  L-swapped/M 1.08  S/M 1.07  N/M 1.06  O/M 1.86  G/M 0.73
+gate O:p03+n12: L-matched/M 0.95  L-swapped/M 1.14  S/M 0.99  N/M 0.97  O/M 1.56  G/M 0.59
+gate O:p12+n30: L-matched/M 1.14  L-swapped/M 1.12  S/M 1.04  N/M 1.01  O/M 2.29  G/M 0.80
+gate O:p21+n03: L-matched/M 1.05  L-swapped/M 1.00  S/M 0.98  N/M 0.94  O/M 1.85  G/M 0.73
+gate O:p23+n01: L-matched/M 1.02  L-swapped/M 1.03  S/M 1.13  N/M 1.05  O/M 1.80  G/M 0.95
+gate O:p31+n02: L-matched/M 0.90  L-swapped/M 1.09  S/M 1.01  N/M 1.10  O/M 2.28  G/M 0.89
+
+== robustness: drop capped (unsolved) rows
+order L-matched/M all rows 0.982; solved only 0.957
+gate L-matched/M all rows 0.999; solved only 0.999
+
+== dose curve: readout cost against deployed gate fraction f (population laws pooled; same cells/seeds)
+order: 768 population-laws, Spearman(f, cost) = 0.420; M (f=0.5) = 42268; O (f=0) = 30648; G (f=1) = 94003
+   f in [0.0,0.2): n=103 mean cost    31495  /M = 0.75
+   f in [0.2,0.3): n=106 mean cost    35900  /M = 0.85
+   f in [0.3,0.4): n=113 mean cost    36723  /M = 0.87
+   f in [0.4,0.5): n=111 mean cost    42044  /M = 0.99
+   f in [0.5,0.6): n=104 mean cost    42346  /M = 1.00
+   f in [0.6,0.7): n= 95 mean cost    50014  /M = 1.18
+   f in [0.7,0.8): n= 84 mean cost    53186  /M = 1.26
+   f in [0.8,1.0): n= 52 mean cost    68920  /M = 1.63
+   log-quadratic fit: cost(f)/M at f=0.25 0.72, 0.38 0.80, 0.5 0.90, 0.62 1.04, 0.75 1.25
+gate: 768 population-laws, Spearman(f, cost) = -0.362; M (f=0.5) = 4961; O (f=0) = 9575; G (f=1) = 3860
+   f in [0.0,0.2): n= 96 mean cost     6289  /M = 1.27
+   f in [0.2,0.3): n=105 mean cost     5822  /M = 1.17
+   f in [0.3,0.4): n=117 mean cost     5256  /M = 1.06
+   f in [0.4,0.5): n=121 mean cost     5175  /M = 1.04
+   f in [0.5,0.6): n=111 mean cost     4647  /M = 0.94
+   f in [0.6,0.7): n= 91 mean cost     4435  /M = 0.89
+   f in [0.7,0.8): n= 79 mean cost     4308  /M = 0.87
+   f in [0.8,1.0): n= 48 mean cost     4569  /M = 0.92
+   log-quadratic fit: cost(f)/M at f=0.25 1.14, 0.38 1.00, 0.5 0.92, 0.62 0.86, 0.75 0.82
+
+== exposure (streamed)
+episode keys: ['arm', 'budget_seconds', 'cap', 'cell', 'compile_seconds', 'compile_seconds_scope', 'compiled_length_histogram', 'compiled_tokens_evaluated', 'content_choice_gate_fraction', 'crossover', 'curve', 'episode', 'evaluations', 'exact_check_max_seconds', 'exact_check_seconds', 'exact_checks', 'final_f', 'first_solve_evaluations', 'force_cap', 'generations', 'initial_f', 'initial_tokens_hash', 'initialization', 'library_probability', 'max_compiled_length', 'mean_compiled_length', 'operator', 'phenotype_diversity_curve', 'phenotype_diversity_scope', 'pop_size', 'post_solve_delta', 'pre_solve_delta', 'primitive_case_work', 'seconds', 'seed', 'shortcuts', 'solved', 'solver', 'solver_tree', 'training_indices', 'training_perfect_individuals', 'tree_nodes_evaluated', 'unique_shortcuts', 'variation_seconds']
+trace keys: ['best_score', 'census_f', 'counters', 'distinct_recipients', 'diversity', 'elite_bits', 'generation', 'modifier_redraws', 'modifier_transitions', 'next_f', 'phase', 'post_mutation_f', 'pre_mutation_f', 'recipient_f']
+trajectories 1152 Counter({('order', 'S'): 192, ('order', 'L'): 192, ('order', 'N'): 192, ('gate', 'L'): 192, ('gate', 'S'): 192, ('gate', 'N'): 192})
+order/L: n=192 final f mean 0.377 sd 0.194 min 0.07 max 0.85; <0.25: 65, <0.5: 136, >0.5: 55, >0.75: 10; episodes solved 1471/2304; median pre-solve gens (solved eps) 13; mean pre-solve delta -0.112, maintenance delta +0.160 (n=1471); sel diff per gen pre -0.0064 post -0.0012; last-episode f at first solve mean 0.241 (n=115) vs final 0.377
+order/S: n=192 final f mean 0.485 sd 0.207 min 0.03 max 0.95; <0.25: 24, <0.5: 109, >0.5: 82, >0.75: 25; episodes solved 1361/2304; median pre-solve gens (solved eps) 15; mean pre-solve delta -0.024, maintenance delta +0.039 (n=1361); sel diff per gen pre -0.0004 post -0.0001; last-episode f at first solve mean 0.439 (n=124) vs final 0.485
+order/N: n=192 final f mean 0.486 sd 0.232 min 0.05 max 0.98; <0.25: 36, <0.5: 94, >0.5: 96, >0.75: 28; episodes solved 1409/2304; median pre-solve gens (solved eps) 15; mean pre-solve delta +0.003, maintenance delta -0.007 (n=1409); sel diff per gen pre -0.0000 post -0.0002; last-episode f at first solve mean 0.497 (n=108) vs final 0.486
+gate/L: n=192 final f mean 0.516 sd 0.213 min 0.06 max 0.94; <0.25: 25, <0.5: 94, >0.5: 97, >0.75: 32; episodes solved 2202/2304; median pre-solve gens (solved eps) 10; mean pre-solve delta +0.056, maintenance delta -0.057 (n=2202); sel diff per gen pre +0.0037 post +0.0002; last-episode f at first solve mean 0.583 (n=186) vs final 0.516
+gate/S: n=192 final f mean 0.484 sd 0.192 min 0.04 max 0.95; <0.25: 18, <0.5: 104, >0.5: 88, >0.75: 18; episodes solved 2190/2304; median pre-solve gens (solved eps) 10; mean pre-solve delta +0.011, maintenance delta -0.013 (n=2190); sel diff per gen pre -0.0002 post -0.0002; last-episode f at first solve mean 0.508 (n=181) vs final 0.484
+gate/N: n=192 final f mean 0.475 sd 0.221 min 0.04 max 0.96; <0.25: 39, <0.5: 105, >0.5: 86, >0.75: 29; episodes solved 2221/2304; median pre-solve gens (solved eps) 10; mean pre-solve delta +0.001, maintenance delta -0.003 (n=2221); sel diff per gen pre -0.0001 post -0.0002; last-episode f at first solve mean 0.465 (n=184) vs final 0.475
+
+== per-episode mean f (L arms): start -> at first solve (solved eps) -> end
+order 0.50->0.28->0.43 | 0.43->0.23->0.41 | 0.41->0.21->0.40 | 0.40->0.24->0.44 | 0.44->0.28->0.42 | 0.42->0.23->0.40 | 0.40->0.28->0.40 | 0.40->0.21->0.41 | 0.41->0.24->0.43 | 0.43->0.23->0.41 | 0.41->0.23->0.43 | 0.43->0.24->0.38
+gate 0.50->0.55->0.51 | 0.51->0.58->0.51 | 0.51->0.60->0.54 | 0.54->0.59->0.53 | 0.53->0.59->0.52 | 0.52->0.57->0.52 | 0.52->0.56->0.52 | 0.52->0.54->0.50 | 0.50->0.60->0.52 | 0.52->0.58->0.52 | 0.52->0.58->0.51 | 0.51->0.58->0.52
+
+== frequency contrasts (my bootstrap)
+order L-S: -0.108 [-0.163, -0.056]; L lower than S in 22/24 builds
+order L-N: -0.109 [-0.164, -0.054]; L lower than N in 21/24 builds
+gate L-S: +0.032 [-0.029, +0.095]; L lower than S in 12/24 builds
+gate L-N: +0.040 [-0.020, +0.100]; L lower than N in 7/24 builds
+
+== within L-matched: endpoint f vs own readout cost
+order: Spearman(f, L-matched/M per population) = 0.196; mean per-pop ratio below-median f 1.111, above-median f 1.259 (median f 0.355)
+gate: Spearman(f, L-matched/M per population) = -0.265; mean per-pop ratio below-median f 1.169, above-median f 0.963 (median f 0.508)
+figures written to /Users/andreas/developer/folding-evolution/research/runs/2026-10-12-0250/figs

@@ -1,0 +1,31 @@
+runs:
+  - id: 2026-10-12-0250-exposure
+    cmd: >-
+      PYTHONPATH=. RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.content_choice_run exposure --workers 11
+    timeout_seconds: 3000
+    expect_outputs:
+      - exposure.jsonl
+      - exposure_manifest.json
+      - banks.json
+      - libraries.json
+      - schedules.json
+      - method_freeze.json
+      - seed_audit.json
+    track: chem-tape
+    notes: All 1152 fixed-length trajectories; programs reset, bits persist; unchanged libraries and both development rosters.
+  - id: 2026-10-12-0250-readout
+    cmd: >-
+      PYTHONPATH=. RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.content_choice_run readout --workers 11 --exposure "$RUN_DIR/../2026-10-12-0250-exposure"
+    timeout_seconds: 9600
+    expect_outputs:
+      - score.jsonl
+      - report.json
+      - dynamics.png
+      - exposure_manifest.json
+      - banks.json
+      - libraries.json
+      - schedules.json
+      - method_freeze.json
+      - seed_audit.json
+    track: chem-tape
+    notes: 12096 order plus 24192 gate rows, all endpoint laws and both pure references; fail closed on changed or incomplete exposure.

@@ -35,16 +35,19 @@ R-bind solved more (97.7% vs 95.9%), cost 0.664× [0.545, 0.801] of R-tree (repe
 against R-tree within ten searches. The supplied prior stays 2.5× cheaper (R-gate/R-bind 0.403× [0.317, 0.510]).
 Validity passed (R-tree 27.4% first attempt, 7.3% capped; R-gate 100% solved).
 By R-all's needed-helper coverage (descriptive, confounded), R-bind/R-all ran 0.69 / 0.87 / 1.05 / 1.24 with
-0 / 1 / 2 / 3 helpers present, a gradient that survives build and cell fixed effects. Spreading helper mass over all
-bindings bought reach where the literal library lacked the binding and cost dose where it had it.
+0 / 1 / 2 / 3 helpers present, a gradient that survives build and cell fixed effects. Point estimates reverse at two
+or three helpers (1.050 [0.937, 1.171], 1.240 [0.981, 1.609]), consistent with a reach/concentration trade-off;
+subgroup harm and its cause remain unresolved (every non-helper entry was rebound too).
 Development data only: all 24 cells of `x4-signed-chain-v1` have been searched. Not transfer, not a learned
 abstraction (the symmetry is supplied), not helper causality.
 [Analysis](../../../runs/2026-10-11-2353/analysis.md), [decision](../../../runs/2026-10-11-2353/decision.md),
 [log](log.md).
 
-Against the explanations above: reach where literal coverage was absent and dose where it was present are both
-supported descriptively. Pooled cancellation by rebound non-helpers is not supported. Missing bindings do not
-explain the remaining R-gate gap, so the never-built helper types, entry weights or dilution remain candidates.
+Against the explanations above: a gain where literal coverage was absent is supported descriptively; a loss where it
+was present is suggested by point estimates only. Complete pooled cancellation by rebound non-helpers is excluded
+(the net saving is resolved); a partial offset is not. Rebinding supplies all needed bindings in 23/24 builds yet
+leaves a pooled gap to R-gate, so missing bindings alone are unlikely to account for it, but their contribution was
+not isolated; never-built helper types, entry weights or dilution remain candidates.
 
 Reopen if: a design that keeps literal entry mass and adds rebound reach (e.g. literal library plus rebound copies at
 reduced weight, or rebinding only entries whose binding the literal library lacks) is funded on this bank; or a

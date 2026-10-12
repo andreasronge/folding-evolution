@@ -1,0 +1,47 @@
+{
+  "smoke_exposure_jobs": 24,
+  "exposure_batch_seconds": 43.17598012497183,
+  "exposure_total_seconds": 57.983944749925286,
+  "exposure_worker_seconds": 376.3304199989652,
+  "exposure_episodes": 288,
+  "exposure_episode_solves": 211,
+  "readout_jobs": 336,
+  "readout_batch_seconds": 66.37931458302774,
+  "readout_worker_seconds": 690.4703411211958,
+  "readout_solves": 335,
+  "readout_worker_seconds_per_job": {
+    "order/L-matched": 1.962,
+    "order/L-swapped": 5.416,
+    "order/S": 3.899,
+    "order/N": 5.296,
+    "order/M": 3.685,
+    "order/O": 1.18,
+    "order/G": 5.544,
+    "gate/L-matched": 0.163,
+    "gate/L-swapped": 0.263,
+    "gate/S": 0.231,
+    "gate/N": 0.267,
+    "gate/M": 0.154,
+    "gate/O": 0.556,
+    "gate/G": 0.155
+  },
+  "projected_exposure_worker_seconds": 18063.86015995033,
+  "projected_readout_worker_seconds": 53982.230499596335,
+  "projected_queue_minutes_at_10_workers": 120.07681776591112,
+  "crossed_endpoint_envelope_readout_minutes_at_10_workers": 125.36159999999998,
+  "exposure_manifest_admitted": true,
+  "readout_admitted": true,
+  "smoke_outcome": "smoke_only",
+  "all_five_population_laws_at_slowest_observed_family_mean_readout_minutes_at_10_workers": 131.70528000000002,
+  "full_cap_readouts": [
+    {
+      "family": "order",
+      "arm": "N",
+      "build": 0,
+      "cell": "O:lo23+hi02",
+      "evaluations": 524288,
+      "worker_seconds": 41.07118679198902
+    }
+  ],
+  "estimated_full_queue_minutes_including_overhead": 122
+}

@@ -4242,3 +4242,19 @@ counts left the digest's root-10 section and still stand in the linked question 
 - Input-rebinding bullet (61): "solves 97.7% vs 95.9%" (R-bind vs R-all; now "no solve loss observed") and
   "R-gate still 0.40× [0.32, 0.51] of R-bind".
 - Overall paragraph: punctuation and line wrapping only.
+
+## 2026-10-12 — digest compression (steward task 2026-10-12-0250): wording moved here
+
+The digest was 3030 words; it was rewritten to about 2,970. No belief changed; these secondary numbers and
+repeated clauses left the digest's root-10 section and still stand in the linked question files, logs and analyses.
+
+- Solver-corpus bullet (20–22): the feedback refit's training interval. Former: "C2/C 1.404× [1.347, 1.464]
+  training, 1.289× [1.204, 1.381] withheld". Now: "C2/C 1.289× [1.204, 1.381] withheld (1.40× training)".
+- Source-free donor prior bullet (51): "TS acquisition never repaid within 200 searches."
+- Signed-gate bullet (58): the supplied helper prior "repays after about 66 searches".
+- Signed-chain bullet (59/60): "first searched in this test" (the header still says never-searched cells) and
+  "repaid after 5.4 [3.8, 9.7] searches" (the header keeps "repaying acquisition within about ten searches").
+- Input-rebinding bullet (61): intervals of the reversed strata, "1.05 [0.94, 1.17], 1.24 [0.98, 1.61]" (now
+  "1.05, 1.24; harm there unresolved").
+- Overall paragraph: two clauses that repeated bullets 57 and 58, "(transported order libraries gave no resolved
+  saving)" and "rearranging the order libraries' helper entries removed most of their development-cell saving".

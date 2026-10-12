@@ -1,0 +1,21 @@
+{
+  "admitted": true,
+  "smoke": true,
+  "protected_searches": 0,
+  "exposure_rows_hash": "eda3ca15b7dacb0f910eb842320a6f04238389c9aa540b51c5bc66e0b2451216",
+  "artifacts": {
+    "banks": "d975857a86db16d51c17b0aa32af385a432e78c692dfa161786c32162129ba72",
+    "libraries": "ed9c1e5db9ed34a8bf5ded1838a6708683092d34a57e9dccbcfdda68782ee720",
+    "schedules": "449a48559fe0cc5adce3ccf237fca101c79cec301ca3db51c0a1368600a5ba72",
+    "method_freeze": "85ea00dc8ee4cebdede8b7f3a3d827c7c3c69a109e8591bf1130974435b3db60",
+    "seed_audit": "d3b6d89ef8a451bb6ac6a6e71b8afadb74a86b5aa4d9e42ee610fb0407e6abb1"
+  },
+  "exposure_batch_seconds": 43.17598012497183,
+  "seconds": 57.983944749925286,
+  "workers": 11,
+  "worker_seconds": 376.3304199989652,
+  "episode_solves": 211,
+  "episodes": 288,
+  "git_commit": "5663d9a6f595a0fe8123c66f99ab51825ca61016",
+  "manifest_hash": "e1c37dc7420556b86c193ed6900a75aff97fda855a2fd0ae371e801c9abb6e28"
+}

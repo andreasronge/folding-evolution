@@ -44,3 +44,13 @@ harm is excluded and a saving of at least about 7% is shown. Whether it clears t
 More seeds on the same contrast (r ≥ 14, 6–7 h) would only move a label near 0.85–0.90. The stratum pattern points
 to a different design that keeps literal dose and adds reach. That design is strategy's call, because root 10 has
 no slot left. The digest gains this belief, scoped to development cells.
+
+- 2026-10-12 (steward, task 0250): wording corrections from [critique 0250](../../../runs/2026-10-12-0250/critique.md)
+  notes 6–7; data unchanged. (1) "dose is supported … (losses at 2–3 helpers)" claims more than the strata show:
+  1.050 [0.937, 1.171] and 1.240 [0.981, 1.609] do not resolve harm, and non-helper entries were rebound too. Read:
+  point estimates reverse at two or three helpers, consistent with a reach/concentration trade-off; subgroup harm
+  and its cause are unresolved. (2) "the remaining 2.5× gap to R-gate is not explained by missing bindings" is too
+  categorical: the analysis did not decompose the gap by coverage. Read: missing bindings alone are unlikely to
+  account for it, but their contribution was not isolated. (3) "non-helper rebinding cancels the gain is not
+  supported" excludes only complete cancellation; a partial offset is not ruled out. question.md and the digest
+  corrected accordingly.
