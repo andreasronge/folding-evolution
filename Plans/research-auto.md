@@ -178,3 +178,24 @@ Codex critique of the proposed fixes:
   summary adds a final claim check.
 - Digest over `digest_max_words` is condensed by the steward after decide.
 - Ledger records agent minutes per cycle, bank and probe.
+
+## v5 (after run 2026-10-10-1419)
+
+The strategist ran before 25 of 24 cycles: it raised budgets one experiment
+at a time, so it chose almost every experiment and wrote a plan for each (52
+plans). The critic approved all 24 proposals, and shared a model with the
+strategist. Every text ran to its word cap. Changes:
+
+- Budget raises grant a block of at least `strategy_every` experiments (or what
+  the run has left); the driver widens smaller raises. The strategist gives a
+  direction; the steward chooses the experiments in the block. Running out of
+  budget leads to `allocate`, not `next: strategy`.
+- One round of discussion: after a strategy review the steward may write
+  `reply.md` (≤ 300 words) instead of a proposal; the strategist answers once
+  in `response.md` (`next: proposal|stop`), and the ruling is final.
+- The critic uses a different model from the strategist and steward
+  (`gpt-6.1-sol`), names the strongest alternative before approving, and ends
+  with `Main objection:`.
+- Shorter texts: proposal ≤ 500 words, critique ≤ 400, strategy ≤ 1000; one
+  plan per direction, updated rather than duplicated.
+- The run summary opens with five plain lines for the owner.

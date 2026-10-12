@@ -423,7 +423,7 @@ PROMPTS = {
         "question you work in and the folders it links; open other logs only for a named "
         "uncertainty. {strategy}{feedback}{banks}"
         "You may create a new sub-question folder if the right question does not exist yet. "
-        "Write {task_dir}/proposal.md in the proposal format from the README (at most 800 words), "
+        "Write {task_dir}/proposal.md in the proposal format from the README (at most 500 words), "
         "with its feasibility numbers and the closest known technique; when the mechanism is new "
         "to this tree, search the literature first and cite only papers you found, with links. "
         "Do not write experiment code; short read-only probes with existing code (≤ 10 min) are "
@@ -438,8 +438,10 @@ PROMPTS = {
         "technique named right, and what does this add beyond it (name prior work it missed if you "
         "know it)? Is a cheaper or more decisive design available? Which outcome would leave us no "
         "wiser? A `kind: probe` proposal is descriptive: judge only its cost and correctness. "
-        "Mention a parked question only if its reopen condition is newly met. Number your points "
-        "and mark each `blocking` or `note`. Start the file with frontmatter `recommend:` "
+        "Mention a parked question only if its reopen condition is newly met. Before you approve, name "
+        "the strongest alternative use of the next experiment and say why this one beats it. Number "
+        "your points and mark each `blocking` or `note`; end with `Main objection:` (one sentence, "
+        "or `none`). At most 400 words. Start the file with frontmatter `recommend:` "
         "`approve`, `approve_with_notes` (notes the researcher must address in plan.md), `revise` "
         "(a blocking point: the experiment would give a wrong or uninterpretable answer, a clearly "
         "cheaper or more decisive design exists, or its value is low next to an alternative you "
@@ -511,23 +513,34 @@ PROMPTS = {
         "which root questions matter most for the core question now, and why · the current line "
         "against at least one mechanistically different candidate (from owner notes, the "
         "literature, or results nobody has explained; search the literature for it and cite only "
-        "papers you found, with links) · what the steward should work on next (a question and "
-        "why, not a full design) · what to stop. For every owner note (`owner-*.md`) that is new "
+        "papers you found, with links) · what the steward should work on next (a direction and "
+        "why, not an experiment: the steward chooses the experiments within your block) · what to "
+        "stop. At most 1000 words. For every owner note (`owner-*.md`) that is new "
         "or changed since an earlier strategy.md answered it, say pursued, deferred or declined, "
         "why, and when to reconsider. {run_note} "
         "{roots_note} Start strategy.md with frontmatter `next: proposal`, or `next: stop` (the run "
         "then ends and waits for the owner). Stop when no candidate justifies its full cost in the "
         "time left; feasibility alone does not justify running. A promising direction that lacks a "
-        "plan is a reason to write one in {research}/plans/, not to stop."
+        "plan is a reason to write one in {research}/plans/, not to stop; keep one plan per "
+        "direction and update it rather than writing a plan per experiment."
     ),
     "summary": (
         "The autonomous run that started at {started} has ended: {reason}. Write {summary} for the "
-        "owner, who will review the run and may change how the loop works: each cycle of the run in "
+        "owner, who will review the run and may change how the loop works. Start it with '## In "
+        "plain words': at most five short lines in small everyday words, no intervals or "
+        "jargon: what we learned, what did not work, what to do next. Then: each cycle of the run in "
         "one or two lines (the driver's table {ledger} lists them; see the briefs and research/runs/ "
         "folders since then) · how the question "
         "tree and digest changed (`git log -p --since=\"{started}\" -- research/` helps) · what you "
         "would do next · where the agents were least sure · what the owner should check first, "
         "including decisions you disagree with. Under two pages. {audit}Edit no other file."
+    ),
+    "respond": (
+        "The steward disagrees with your direction in {task_dir}/strategy.md and wrote "
+        "{task_dir}/reply.md. Read both. Write {task_dir}/response.md starting with frontmatter "
+        "`next: proposal` (the steward now proposes) or `next: stop`, then at most 200 words: "
+        "accept the steward's alternative, keep your direction, or combine them, and why. Your "
+        "ruling is final for this block. You may raise a root's budget as in strategy. {run_note}"
     ),
     "allocate": (
         "The steward's next proposal {proposal} is for a question with no experiment budget left "
@@ -551,7 +564,9 @@ NEXT_PROPOSAL = "Write the next proposal to {next_dir}/proposal.md (README forma
 NEXT_PROPOSAL_AUTO = (
     "Write the next proposal to {next_dir}/proposal.md (README format) — or, if no open question "
     "deserves another experiment, write none and start decision.md with frontmatter "
-    "`next: strategy`; the strategist then reviews the program first.")
+    "`next: strategy`; the strategist then reviews the program first. A question that only lacks "
+    "budget is not a reason for `next: strategy`: write the proposal, and the strategist makes a "
+    "short allocation decision.")
 NEXT_STRATEGY = ("Write no next proposal: the strategist reviews the whole program before the "
                  "next one.")
 PREVIOUS = ("This revises the proposal in {prev}: if it is the same experiment, first check that "
@@ -657,7 +672,7 @@ class Driver:
             self.check_deadline()
         calls = self.state.get("agent_calls", 0)
         if calls >= self.cfg.get("max_agent_calls", 8) and phase not in ("decide", "condense",
-                                                                           "summary"):
+                                                                           "summary", "respond"):
             if phase in ("propose", "critique", "strategy") or "node" not in self.state:
                 raise Stop(f"agent call cap ({calls}) reached while proposing; "
                            "`research.py propose` starts over")
@@ -702,15 +717,26 @@ class Driver:
             feedback = (f"The previous proposal ({rejected}) was set aside; read it and the "
                         "rejected.md and critique.md beside it (whichever exist), and propose "
                         "something that answers the objections. ")
-        if (self.task_dir() / "strategy.md").exists():
+        reply = self.task_dir() / "reply.md"
+        if (self.task_dir() / "response.md").exists():
+            strategy = (f"First read {self.task_dir() / 'strategy.md'}, your reply.md and the "
+                        "strategist's ruling response.md beside them; the ruling is final. ")
+        elif (self.task_dir() / "strategy.md").exists():
             strategy = (f"First read {self.task_dir() / 'strategy.md'}, the strategist's direction "
-                        "for the program; follow it or say in the proposal why not. ")
+                        "for the program; follow it or say in the proposal why not. If you think "
+                        f"a clearly better direction exists, you may instead write {reply} (at "
+                        "most 300 words: your alternative and why) and no proposal; the "
+                        "strategist answers once. ")
         if self.auto and self.deadline:
             hours = (self.deadline - self.now()).total_seconds() / 3600
             strategy += (f"This autonomous run has about {max(hours, 0):.1f} h left; size the "
                          "experiment so its preparation and queue finish within it. ")
         self.call_agent("steward", "propose", self.repo, feedback=feedback, strategy=strategy,
                         banks=self.bank_note())
+        if (reply.exists() and not (self.task_dir() / "proposal.md").exists()
+                and not (self.task_dir() / "response.md").exists()):
+            self.set_phase("respond")
+            return
         self.expect("proposal.md")  # missing → retry the steward, not the acceptance
         self.set_phase(ACCEPT)
         self.accept_proposal()
@@ -1097,13 +1123,63 @@ class Driver:
         self.log(f"digest condensed: {words} → {after} words"
                  + (f" (still over {cap})" if after > cap else ""))
 
+    def phase_respond(self) -> None:
+        """One round of discussion: the strategist rules on the steward's reply."""
+        before = self.root_budgets()
+        self.check_roots()
+        self.call_agent("strategist", "respond", self.repo, run_note=self.run_note())
+        meta, _ = read_frontmatter(self.expect("response.md"))
+        nxt = str(meta.get("next", "")).strip().lower()
+        self.widen_raises(before)
+        if self.auto:
+            self.run_info["root_budgets"] = self.root_budgets()
+            self.save_run()
+        self.check_roots()
+        if self.auto:
+            self.ledger([f"{self.state['task']} (reply)", "", "", "", "", "", "",
+                         f"steward replied; strategist: next {nxt or '?'}", ""])
+        if nxt == "stop":
+            raise OwnerNeeded(f"the strategist recommends stopping; see {self.task_dir()}/response.md")
+        self.set_phase("propose")
+
+    def block_size(self) -> int:
+        """Experiments a budget raise must grant: one strategy period, or what the run has left."""
+        block = int(self.cfg.get("strategy_every", 4))
+        if self.auto:
+            block = min(block, self.max_experiments() - len(self.run_info.get("executed", [])))
+        return max(block, 1)
+
+    def widen_raises(self, before: dict[str, int | None]) -> None:
+        """A raise grants a whole block, so the steward chooses the experiments
+        until the next review instead of returning for one slot at a time."""
+        if not self.auto:
+            return
+        block = self.block_size()
+        for name, now in self.root_budgets().items():
+            was = before.get(name)
+            if now is None or was is None or now <= was:
+                continue
+            path = self.research / "questions" / name
+            left = remaining_budget(self.research, path)
+            if left is None or left >= block:
+                continue
+            q = path / "question.md"
+            text, n = re.subn(r"(budget:\s*\{[^}]*experiments:\s*)\d+",
+                              lambda m: f"{m.group(1)}{now + block - left}", q.read_text(), count=1)
+            if n:
+                atomic_write(q, text)
+                self.log(f"root {name}: raise {was} → {now} widened to {now + block - left} "
+                         f"(a block of {block})")
+
     def phase_allocate(self) -> None:
         proposal = self.expect("proposal.md")
+        before = self.root_budgets()
         self.check_roots()
         self.call_agent("strategist", "allocate", self.repo, proposal=str(proposal),
-                        block=str(self.cfg.get("strategy_every", 4)), run_note=self.run_note())
+                        block=str(self.block_size()), run_note=self.run_note())
         meta, _ = read_frontmatter(self.expect("allocation.md"))
         nxt = str(meta.get("next", "")).strip().lower()
+        self.widen_raises(before)
         if self.auto:
             self.run_info["root_budgets"] = self.root_budgets()  # the strategist may raise them
             self.save_run()
@@ -1127,7 +1203,8 @@ class Driver:
         return (f"This autonomous run has used {used} of its {cap} experiments and has about "
                 f"{max(hours, 0):.0f} h left. Question budgets are allocations: you may raise "
                 "`experiments` in a root question's budget (only that frontmatter field) by a "
-                "block that lasts through the next strategy review, naming its exit condition "
+                f"block of at least {self.block_size()} experiments that lasts through the next "
+                "strategy review (the driver widens smaller raises), naming its exit condition "
                 "and expected total time; `research.py status` shows what is left.")
 
     def phase_strategy(self) -> None:
@@ -1143,10 +1220,12 @@ class Driver:
                            "and critique.md beside it.")
         run_note = self.run_note()
         self.check_roots()  # raises made before strategy (e.g. in decide) are not the strategist's
+        before = self.root_budgets()
         self.call_agent("strategist", "strategy", self.repo, roots_note=roots_note,
                         run_note=run_note)
         meta, _ = read_frontmatter(self.expect("strategy.md"))
         nxt = str(meta.get("next", "")).strip().lower()
+        self.widen_raises(before)
         if self.auto:
             self.run_info["cycles_since_strategy"] = 0
             self.run_info["root_budgets"] = self.root_budgets()  # the strategist may raise them
@@ -1260,6 +1339,7 @@ class Driver:
         self.reconcile()
         handlers = {"propose": self.phase_propose, ACCEPT: self.accept_proposal,
                     "strategy": self.phase_strategy, "allocate": self.phase_allocate,
+                    "respond": self.phase_respond,
                     "prepare": self.phase_prepare,
                     "review_code": self.phase_review_code, "execute": self.phase_execute,
                     "analyse": self.phase_analyse, "decide": self.phase_decide}
