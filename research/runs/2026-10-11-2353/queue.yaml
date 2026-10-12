@@ -1,0 +1,36 @@
+- id: 2026-10-11-2353-prepare
+  cmd: >-
+    PYTHONPATH=. RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.input_rebound_run
+    prepare --repeats 6 --workers 8 --seconds 870
+  timeout_seconds: 900
+  expect_outputs:
+    - bank.json
+    - method_freeze.json
+    - libraries.json
+    - rebound_libraries.json
+    - schedules.json
+    - smoke_schedule.json
+    - seed_audit.json
+    - rebinding_validation.json
+    - helper_draws.json
+    - preparation.json
+  track: chem-tape
+  notes: "Replay frozen 83c7c5b engine/admission and 24 archived acquisitions. Construct all 24 input permutations per original entry with duplicate slots retained; production VM/interpreter/column-permutation verification, donor probabilities and audited fresh seeds. No searches. Six repeats selected by the fixed timing-only smoke rule (R-bind/R-all worker-cost ratio 0.479 <=1.3)."
+- id: 2026-10-11-2353-score
+  cmd: >-
+    PYTHONPATH=. RAYON_NUM_THREADS=1 .venv/bin/python -m experiments.chem_tape.input_rebound_run
+    score --workers 8 --seconds 12870
+    --prepared "$(dirname "$RUN_DIR")/2026-10-11-2353-prepare"
+  timeout_seconds: 12900
+  expect_outputs:
+    - bank.json
+    - method_freeze.json
+    - schedules.json
+    - rebinding_validation.json
+    - helper_draws.json
+    - score.jsonl
+    - validity_checks.json
+    - report.json
+    - dynamics.png
+  track: chem-tape
+  notes: "8064 jobs: R-all/R-bind each 24 builds x 24 development cells x six repeats; R-tree/R-gate each 576 independent repeat-zero references. Primary paired crossed build/cell capped-mean R-bind/R-all; material gain upper <.90 takes precedence, otherwise lower >.85 ends uniform rebinding (harm if >1), otherwise unresolved. Validity flags first; labelled reference comparisons, donor diagnostics, descriptive strata and acquisition-plus-search economics at N=10/100. Return to strategy without automatic top-up."

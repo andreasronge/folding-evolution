@@ -1,0 +1,39 @@
+{
+  "source": "/Users/andreas/developer/folding-evolution/experiments/output/2026-10-11/2026-10-11-2150-confirm/score.jsonl",
+  "source_sha256": "3dc4cf07b56d552940688f06995f1d93babbee224ea12a764e1cdaf150a8b0b0",
+  "seed": 202610112353,
+  "draws": 8192,
+  "shape": [
+    24,
+    18,
+    4
+  ],
+  "shifted_builds": {
+    "1": {
+      "point": 1.0,
+      "interval95": [
+        0.8954378404279985,
+        1.1199612462715627
+      ],
+      "log_half_width": 0.11186827815654521
+    },
+    "12": {
+      "point": 1.0,
+      "interval95": [
+        0.893356848672546,
+        1.1192296287880719
+      ],
+      "log_half_width": 0.11270489427704498
+    }
+  },
+  "split_repeats": {
+    "point": 1.03961236564055,
+    "interval95": [
+      0.8949395801051703,
+      1.214563129548916
+    ],
+    "log_half_width": 0.1526917596124982
+  },
+  "scope": "Reconstructed pseudo-contrasts, not the unavailable original planning snippet; no R-bind data. Shifted builds are distinct historical acquisitions but crossed dependence remains. Repeats cannot eliminate R-bind-specific persistent build heterogeneity.",
+  "forecast": "Proposal log half-width .08-.09 on 24 cells with 6 repeats is conditional; these 18-cell/4-repeat checks do not guarantee it."
+}

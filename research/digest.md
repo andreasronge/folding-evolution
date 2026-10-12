@@ -1,6 +1,6 @@
 # Digest: what we currently believe, and why
 
-As of 2026-10-11, after run 2026-10-11-2150 (protected signed-chain reuse; commit `83c7c5b`).
+As of 2026-10-12, after run 2026-10-11-2353 (input-rebound libraries; commit `465f2fa`).
 Core question since the 2026-09-25 reframe: *how does the genotype→program map bias what evolution
 finds and keeps ("arrival of the frequent"), and can that bias be adapted to a task family?*
 History, superseded numbers and secondary contrasts are in the questions' `log.md` files.
@@ -34,8 +34,8 @@ one setup, median speed; [08](questions/01-map-bias/08-evolve-bias/question.md),
   evolution.**
   4.33× (sum>2) / 3.58× (max>2), lower bounds 2.6×, 1.9×; a hand-set INPUT/GT/aggregator scaffold is
   within the registered 0.5–2× margin of it (not equality); family specificity unresolved (1.66× /
-  1.80× over the other family's fit, against 2×). Sampling lift (4.9× / 8.9× more exact solvers; one
-  seed, one fit) does not predict speed. ([run 1558](runs/2026-10-05-1558/analysis.md), [run 1705](runs/2026-10-05-1705/analysis.md))
+  1.80× over the other family's fit, against 2×). Sampling lift (one seed, one fit) does not predict speed.
+  ([run 1558](runs/2026-10-05-1558/analysis.md), [run 1705](runs/2026-10-05-1705/analysis.md))
 - **Most of that gain is generic; on max>2 INPUT/GT alone reproduces it within the tested margin.**
   Pre-registered, 250 pairs: the other family's vector 2.73× (sum>2), 2.02× (max>2) over uniform
   (lower bounds 2.12, 1.45); INPUT/GT versus full vector on max>2 0.90× [0.71, 1.08] (1.5× margin);
@@ -64,7 +64,7 @@ L 64). Fairly sure for these layouts; nothing beyond them.
   cannot tell drift from a disadvantage.
   ([07](questions/01-map-bias/07-shared-arrival/question.md), [03](questions/01-map-bias/03-rare-shared-establishment/question.md))
 
-## 10 Compositional map transfer (root open, budget 50, 50 used)
+## 10 Compositional map transfer (root open, budget 51, 51 used)
 
 [10](questions/10-compositional-map-transfer/question.md): can a decoder adapted across related
 tasks help fresh populations solve unseen operation combinations beyond a token-frequency bias?
@@ -74,8 +74,8 @@ marginals without context. Banks with headroom above them: four-reducer and comp
 (branch-else BE `A>B ? C : D+E`, post-addition PA `(A>B ? C : D)+E`; 4 training and 4
 performance-blind holdouts per family;
 [24](questions/10-compositional-map-transfer/24-comparison-gate-bank/question.md)). Sub-questions
-11–49, 51–53, 56–60 closed; 50 and 54 (a probe; observations only) parked. All completed banks are now development banks; 58's was fresh and frozen before its first
-protected scoring. Unless stated, fits are external and frozen before scoring.
+11–49, 51–53, 56–60 closed; 50, 54 (a probe; observations only) and 61 parked. All completed
+banks are now development banks. Unless stated, fits are external and frozen before scoring.
 
 **Hand-set grammars.** **Contextual grammars beat their own token marginals on all three banks**
 (G/G-marg 1.5–20×; G4/G4-marg 4.4× [3.4, 5.6] BE, 3.3× [2.7, 4.0] PA), but G also emits far more
@@ -89,7 +89,7 @@ only BE resolved a gain over G4): expressivity only.
 **Learned by outer-loop selection** (4+12 loop).
 - **Learned token weights transfer about 2–2.5× to withheld cells, mostly generically, through both
   start and decoder.** G4: 2.0× BE, 2.5–2.6× PA; matched over mismatched 1.02× [0.84, 1.25] BE,
-  0.96× [0.79, 1.15] PA; G on PA 2.06–2.25× on two withheld cells, unresolved on linear; decoder and
+  0.96× [0.79, 1.15] PA; decoder and
   start sub-additive (about 1.3–1.4× each given the other).
   ([16](questions/10-compositional-map-transfer/16-crossed-family-adaptation/question.md),
   [13](questions/10-compositional-map-transfer/13-post-addition-map-learning/question.md),
@@ -165,8 +165,8 @@ suffix kept).
   [40](questions/10-compositional-map-transfer/40-independent-input-protected-transfer/question.md))
 - **On unseen DG cells, DG-acquired builds were about 3× cheaper than branch-sum (TS, `Xa>Xb ? Xc+Xd
   : Xe+Xf`) builds, through both table and library; the reverse is unresolved.** TS÷DG cost 2.98×
-  [2.07, 4.33]; DG table alone 3.26× [2.43, 4.30]; DG library on the TS table 1.95× [1.43, 2.66],
-  still 1.55× [1.15, 2.09] behind the native pair; on TS cells 1.29× [0.94, 1.78] the other way.
+  [2.07, 4.33]; DG table alone 3.26× [2.43, 4.30]; DG library on the TS table 1.95× [1.43, 2.66];
+  on TS cells 1.29× [0.94, 1.78] the other way.
   Join content versus harder sources, and content versus size, not separated; one family pair,
   capped cost.
   ([41](questions/10-compositional-map-transfer/41-same-alphabet-family-preference/question.md),
@@ -185,7 +185,7 @@ the mutation donors; cost in evaluations; development banks unless stated).
   source cells (pair sums; in 20/24 also `GT(ADD,ADD)`). DG: R-lib/R-tree 0.39× [0.33, 0.46], over
   size-matched 0.41× [0.33, 0.53]. `x4-gate-sum-v1` (`(Xa+Xb)>(Xc+Xd) ? Xe+Xf : Xg`, frozen before
   search): 0.25× [0.22, 0.29], 0.29× [0.23, 0.37]; far more where the learned predicate fits (split
-  A 0.055×, B/C 0.36×, 0.34×). No solve loss observed; one extractor and rate; reuse of the
+  A 0.055×). No solve loss observed; one extractor and rate; reuse of the
   libraries' own parts, not unfamiliar content.
   ([45](questions/10-compositional-map-transfer/45-tree-subtree-library/question.md),
   [46](questions/10-compositional-map-transfer/46-tree-library-fresh-composition/question.md))
@@ -226,31 +226,38 @@ the mutation donors; cost in evaluations; development banks unless stated).
   of R-tree on never-searched cells and beat transported order libraries, which gave no resolved saving.**
   `x4-signed-gate-v1` (`p(a,b)+n(c,d)`, `p(a,b) = Xa>0 ? Xb : 0`, `n` its complement; bank, 18
   protected cells and method frozen before search; 24 builds). Pre-registered: 0.577× [0.47, 0.72]
-  (rule upper < 0.80, met), below 1 in 18/18 cells and 22/24 builds, no solve loss observed;
+  (rule upper < 0.80, met), no solve loss observed;
   R-all/R-order 0.516× [0.44, 0.61]; R-order/R-tree 1.12× [0.94, 1.34] (20% saving excluded, harm
-  unresolved). A supplied helper prior is 2.3× [2.0, 2.8] cheaper still; libraries kept 8.6/24
-  helpers; repays after about 66 searches. One construction's input rebindings, easy targets (R-tree
-  97.7% first attempt); helper causality not isolated.
+  unresolved). A supplied helper prior is 2.3× [2.0, 2.8] cheaper still; repays after about
+  66 searches. Easy targets (R-tree 97.7% first attempt); helper
+  causality not isolated.
   ([58](questions/10-compositional-map-transfer/58-signed-gate-acquisition/question.md))
 - **On a harder chain of the same helpers, those saved libraries cut capped cost by about a fifth on
   never-searched cells of that bank, repaying acquisition within about ten searches.**
   `x4-signed-chain-v1` (`p(a,b)+n(b,c)+p(c,d)`; R-tree 27% first attempt, 6.8% capped; 18 protected
   cells frozen with the method, first searched in this test). Pre-stated: R-all/R-tree 0.778× [0.696,
-  0.870] (rule upper < 1.00, met; a 20% saving neither shown nor excluded), below 1 in 18/18 cells and
-  20/24 builds; repaid after 5.4 [3.8, 9.7] searches. Supplied helpers 0.338× [0.30, 0.38] of R-all.
+  0.870] (rule upper < 1.00, met; a 20% saving neither shown nor excluded); repaid after 5.4
+  [3.8, 9.7] searches. Supplied helpers 0.338× [0.30, 0.38] of R-all.
   The saving tracks needed-helper coverage (0.98 with none of a cell's three present, 0.42 with all;
-  descriptive, confounded). Held-out cells of a development bank, one recipe; depth and input sharing
-  changed together; not fresh-bank transfer or helper causality.
+  descriptive, confounded). Held-out cells of a development bank, one recipe; not fresh-bank transfer
+  or helper causality.
   ([59](questions/10-compositional-map-transfer/59-signed-chain-depth/question.md),
   [60](questions/10-compositional-map-transfer/60-signed-chain-protected-reuse/question.md))
+- **Supplying input symmetry made the same libraries somewhat cheaper again; whether by more than 10%
+  is unresolved.** Each entry expanded into its 24 consistent X0–X3 permutations, original weights
+  kept (R-bind), on all 24 chain cells (now development): R-bind/R-all 0.853× [0.785, 0.927]
+  (pre-set 0.90/0.85 rule unresolved; harm excluded), no solve loss observed. The gain sat where R-all
+  lacked the needed helpers (0.69) and reversed where
+  it held two or three (1.05, 1.24): reach versus dose, descriptive, every entry rebound together.
+  ([61](questions/10-compositional-map-transfer/61-input-rebound-library-reuse/question.md))
 
 **Overall.** Solver-fitted context and fragment blocks transfer beyond token frequency to withheld
 compositions and one fresh shape; outer-loop selection learns token biases but no resolved context
 gain. Restarted tree GP needs fewer DG evaluations than A8; acquired donor libraries cut its cost
 2.5–4× (raising it on near-solved TS targets), and fixed sum, order and gate priors cut it more on
-the same cells; the frozen R-all recipe also paid off on a freshly frozen content family, where
-transported order libraries gave no resolved saving, and its saved libraries still saved about a fifth
-on harder linked chains of that family; rearranging the order libraries' helper entries removed most of their
+the same cells; the frozen R-all recipe also paid off on a freshly frozen content family (transported
+order libraries gave no resolved saving) and on harder linked chains of it, somewhat more with
+supplied input rebinding; rearranging the order libraries' helper entries removed most of their
 development-cell saving. Not shown: that evolution reaches fitted context or fragments; what carries
 C's, the gate-sum libraries' or the priors' advantage; why DG components are better; A8 on a fresh
 family bank or against tuned tree GP; acquired order content on a fresh bank; R-all on hard targets of a fresh bank, or on sources that seldom build the helper
@@ -284,13 +291,11 @@ probe is in the log.
 
 - **With recurrent bit mutation, linked selection raised the R-all carrier bit above both controls.**
   f₀ 1/16, mutation rate 1/32 toward 1/16, twelve 64-generation episodes: mean final f 0.29 [0.23,
-  0.35] linked, 0.06 neutral bit, 0.05 shuffled (L − N 0.23 [0.16, 0.30]; 24/24 libraries). Bimodal;
-  the observed pre-solve selection differential was about ten times larger above f = 0.25 (suggests
-  frequency-dependent dynamics; not an intervention on frequency).
+  0.35] linked, 0.06 neutral bit, 0.05 shuffled (L − N 0.23 [0.16, 0.30]; 24/24 libraries). Bimodal.
 - **Frozen laws from separate populations made fresh search cheaper than the starting law on
   average, by an amount the pre-set 10% bar does not resolve, and as far as checked only through
   dose.** Deployed alone at q = f/2 they cost 0.805× [0.704, 0.913] of q₀ (evaluations), and 0.75×
-  and 0.70× of neutral and shuffled endpoints; 94/144 endpoints beat their paired start; the three
+  and 0.70× of neutral and shuffled endpoints; the three
   arm-average costs were within about 6% of predictions averaged over their endpoint doses. Hand-set
   R-all is 1.71× [1.45, 2.01] cheaper and needs no exposure. One mutation rate, population size and
   supplied library; no content learning or transfer.

@@ -1,0 +1,19 @@
+{
+  "admitted": true,
+  "destination_searches": 0,
+  "construction_seconds": 0.0192371669691056,
+  "verification_seconds": 0.8328076660400257,
+  "seconds": 113.30983550008386,
+  "admission_identity_hash": "1a9e9cf665f499834c2f55c59ac3788f5a0445e767dbd81dc33764b51337dc19",
+  "git_commit": "465f2fa3a66929396e2e603820e1ccca60978480",
+  "bank_hash": "e3873e170b71ffcb69bea99b0d2cf4afd7062a5b6ab28ef2a9e59608f6c6d175",
+  "method_freeze_hash": "28039a420b43c6777ee20be9556bc4db8256e8b38b2c9b8794da96fe48230848",
+  "libraries_hash": "27ab91a94fcb6b9ab30795422051231c35d9d3ed470b8ab0deb13f9627e16efe",
+  "rebound_libraries_hash": "a775ee99fe139cd0463037d3be5ab02c0f6bd09265116f29e2732a07c11a456c",
+  "schedules_hash": "5b8093174c57256a8fdeaa45313944af74e3faf49dad5f54dca300a2a3183ed3",
+  "smoke_schedule_hash": "28f8380dda37d623bd3a509679210f1b3adad0ff1ce74202f01346d788c290e3",
+  "seed_audit_hash": "a8c83dd2fe6cc641a59e9b269e36e7d6934e9152ad11a5de9b3c9661b5946698",
+  "rebinding_validation_hash": "36143260c840f78dca9c298e109dc3c3f35e8d11a383cf26bfed8adce0b88da3",
+  "helper_draws_hash": "2e56977ac0f1c513b8266a3c62865df22e74fd3ff76f6348deb426a8d004ddc2",
+  "preparation_hash": "5158b7b34c1cc0840ec159ed64c3d55c7b9ee7f45ae8335f5e7d43d63f7ba526"
+}

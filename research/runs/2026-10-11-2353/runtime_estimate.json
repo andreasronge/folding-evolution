@@ -1,0 +1,19 @@
+{
+  "reference_worker_seconds": {
+    "R-tree": 11.56,
+    "R-gate": 3.18
+  },
+  "library_worker_prices": {
+    "R-all": 9.85748864596826,
+    "R-bind": 9.85748864596826
+  },
+  "effective_workers": 7.98,
+  "conservative_central_score_minutes": 160.0359263177373,
+  "preparation_minutes": 1.888497258334731,
+  "estimated_queue_minutes": 161.92442357607203,
+  "score_timeout_minutes": 215,
+  "queue_timeout_minutes": 230,
+  "scoring_headroom_factor": 1.3434483427998307,
+  "method": "Prior sustained full-grid reference prices; library-arm timing ceiling floored at smoke R-all price, without assuming R-bind smoke speedup. Tiny batch straggler throughput is not a full-grid estimate.",
+  "infeasible": false
+}

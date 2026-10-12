@@ -4209,3 +4209,36 @@ did not limit search" and "decidable" forecast wording replaced (59 question and
 
 Decision: 59 and 60 closed as answered; root stays open, budget 50/50 used, and returns to strategy, because strategy
 2150 committed this slot only and named no automatic follow-up; the digest gains the protected-cell belief.
+
+## 2026-10-12: run 2026-10-11-2353, input-rebound libraries (slot 51; question 61)
+
+Strategy 2353 raised the budget 50 → 51 for one test of consistent input rebinding. Commit `465f2fa`, bank
+`x4-signed-chain-v1` (all 24 cells, development); 24 saved 1938 R-all libraries vs their 24-permutation rebound
+copies (R-bind), plus R-tree and R-gate references; 8,064 jobs. Validity passed. Primary R-bind/R-all **0.853×
+[0.785, 0.927]**: unresolved against the pre-set 0.90/0.85 rule; harm excluded. R-bind/R-tree 0.664× [0.545, 0.801],
+R-gate/R-bind 0.403× [0.317, 0.510]. Gain concentrated where R-all lacked the needed helpers (0.69), reversed where it
+held two or three (1.05, 1.24; descriptive). Details in [61's log](61-input-rebound-library-reuse/log.md) and
+[analysis](../../runs/2026-10-11-2353/analysis.md).
+
+Digest-check correction from [critique 2353](../../runs/2026-10-11-2353/critique.md) note 5 applied to 59's
+question.md ("saved nothing" → near parity, descriptive, not bounded) with a log entry in 59.
+
+Decision: 61 parked; root stays open, budget 51/51 used, and returns to strategy, because strategy 2353 funded one
+slot and asked for review after every outcome; the digest gains the rebinding belief, scoped to development cells.
+
+## 2026-10-12 — digest compression (steward task 2026-10-11-2353): wording moved here
+
+The digest was 3037 words; it was rewritten to about 2,940. No belief changed; these secondary contrasts and
+counts left the digest's root-10 section and still stand in the linked question files, logs and analyses.
+
+- Root header: "58's was fresh and frozen before its first protected scoring" (the 58 bullet still says the bank
+  was frozen before search).
+- Learned-token-weights bullet (13/16/17): "G on PA 2.06–2.25× on two withheld cells, unresolved on linear".
+- DG-versus-TS component bullet (41/42): the DG library on the TS table was "still 1.55× [1.15, 2.09] behind the
+  native pair".
+- Gate-sum library bullet (45/46), `x4-gate-sum-v1` splits: "B/C 0.36×, 0.34×" (split A 0.055× kept).
+- Signed-gate bullet (58): "below 1 in 18/18 cells and 22/24 builds"; "libraries kept 8.6/24 helpers".
+- Signed-chain bullet (59/60): "below 1 in 18/18 cells and 20/24 builds".
+- Input-rebinding bullet (61): "solves 97.7% vs 95.9%" (R-bind vs R-all; now "no solve loss observed") and
+  "R-gate still 0.40× [0.32, 0.51] of R-bind".
+- Overall paragraph: punctuation and line wrapping only.

@@ -759,3 +759,10 @@ Former text of the two changed bullets (links relative to `research/`):
 The digest was 3122 words; it was rewritten to about 2,970. No belief changed. One sentence left this root's
 "Solutions arrive mostly partly shared or duplicated" bullet (a secondary observation; it stands, §31 G, §32 L):
 "About a third of each final population fits training without being exact."
+
+## 2026-10-12 — digest compression (steward task 2026-10-11-2353): wording moved here
+
+The digest was 3037 words; it was rewritten to about 2,940. No belief changed. One secondary number left this
+root's "fitted `op_weights` vector transfers" bullet (it stands; [run 1558](../../runs/2026-10-05-1558/analysis.md)).
+Former text: "Sampling lift (4.9× / 8.9× more exact solvers; one seed, one fit) does not predict speed." Now: "Sampling
+lift (one seed, one fit) does not predict speed."

@@ -36,9 +36,9 @@ it with a narrower interval than forecast.
 Against the explanations above, after 2044 and 2150: the supplied repertoire substantially reduced cost on these
 cells, contradicting the prediction that supplying helpers would help little; residual assembly cost and helper
 causality remain unresolved (R-gate still restarted on 35% of protected jobs). Acquired helpers versus other library
-content are not separated, but on protected cells the no-helper stratum saved nothing (R-all/R-tree 0.98 on 456
-jobs, against 0.77 on 1938's easy cells), so the generic-content reading is weaker here than on the easy family
-(descriptive, confounded with library size).
+content are not separated. On protected cells the no-helper stratum's point estimate was near parity (R-all/R-tree
+0.98 on 456 jobs, against 0.77 on 1938's easy cells; descriptive and confounded with library size; a saving or loss
+was not bounded for this stratum), so the generic-content reading has less support here than on the easy family.
 
 Related: [60](../60-signed-chain-protected-reuse/question.md), [58](../58-signed-gate-acquisition/question.md),
 [57](../57-order-helper-arrangement/question.md), [50](../50-library-easy-target-harm/question.md).
