@@ -174,3 +174,12 @@
     frequency-dependent dynamics but is not an intervention on frequency or a tenfold normalized selection
     coefficient (absolute change also depends on f(1−f), program state and history).
   Summary in question.md and the digest corrected accordingly.
+
+## 2026-10-12 — digest compression (steward task 2026-10-11-2353): wording moved here
+
+The digest was 3037 words; it was rewritten to about 2,940. No belief changed. Two secondary observations from
+[run 1736](../../runs/2026-10-11-1736/analysis.md) left the digest and stand as recorded above:
+
+- Linked-selection bullet, after "Bimodal": "the observed pre-solve selection differential was about ten times
+  larger above f = 0.25 (suggests frequency-dependent dynamics; not an intervention on frequency)."
+- Frozen-law bullet: "94/144 endpoints beat their paired start".

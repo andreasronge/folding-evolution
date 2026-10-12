@@ -1,0 +1,9 @@
+{
+  "successful_preparation_replay": true,
+  "git_commit": "465f2fa3a66929396e2e603820e1ccca60978480",
+  "changed_rebound_slot_rejected": "rebinding preparation provenance mismatch",
+  "missing_scheduled_job_rejected": "rebinding preparation provenance mismatch",
+  "recorded_failure_rejected": "preparation has recorded failure",
+  "smoke_exact_rows_and_primitive_operator_accounting": true,
+  "committed_method_inventory_matches_smoke": true
+}

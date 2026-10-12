@@ -1,0 +1,35 @@
+{
+  "entries": [
+    "2026-10-11-2353-prepare",
+    "2026-10-11-2353-score"
+  ],
+  "cwd": "/Users/andreas/developer/folding-evolution-research/2026-10-11-2353",
+  "shell_syntax": true,
+  "timeout_sum_seconds": 13800,
+  "full_jobs": 8064,
+  "repeats": 6,
+  "smoke_rows_excluded": true,
+  "preparation_expect_outputs": [
+    "bank.json",
+    "method_freeze.json",
+    "libraries.json",
+    "rebound_libraries.json",
+    "schedules.json",
+    "smoke_schedule.json",
+    "seed_audit.json",
+    "rebinding_validation.json",
+    "helper_draws.json",
+    "preparation.json"
+  ],
+  "score_expect_outputs": [
+    "bank.json",
+    "method_freeze.json",
+    "schedules.json",
+    "rebinding_validation.json",
+    "helper_draws.json",
+    "score.jsonl",
+    "validity_checks.json",
+    "report.json",
+    "dynamics.png"
+  ]
+}

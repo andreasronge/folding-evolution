@@ -56,3 +56,9 @@
   Decision: close 59 as answered (frozen signed-gate libraries help modestly on this hard tier of the same bank),
   because its confirmation resolved a saving with all validity checks passed; attribution (helpers versus other
   content) and acquisition coverage are separate questions for strategy, not further probes of this one.
+
+- 2026-10-12 (steward, decide 2353): wording correction from [critique 2353](../../../runs/2026-10-11-2353/critique.md)
+  note 5. question.md said "the no-helper stratum saved nothing"; 2150 reported a descriptive 0.98 on 456 jobs with no
+  stratum interval. Replaced by "point estimate near parity (0.98; descriptive and confounded); a saving or loss was
+  not bounded for this stratum". The entries above stay as written.
+  Decision: no status change, because this corrects wording only.

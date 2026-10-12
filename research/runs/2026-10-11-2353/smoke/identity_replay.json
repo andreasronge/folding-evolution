@@ -1,0 +1,20 @@
+{
+  "complete": true,
+  "deterministic_hash": "97769d82bec23d70e7dfc7c94a210e021b50a3c74a0ed92fbc11a9df4c3ea124",
+  "seeds": [
+    20590000,
+    20590001,
+    20590002,
+    20590003,
+    20590004,
+    20590005,
+    20590006,
+    20590007
+  ],
+  "evaluations": 6144,
+  "worker_seconds": [
+    0.20258504198864102,
+    0.2019247499993071
+  ],
+  "scope": "Identity-only R-all replay, excluded from efficacy and r selection"
+}

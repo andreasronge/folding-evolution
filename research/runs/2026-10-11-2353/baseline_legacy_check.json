@@ -1,0 +1,11 @@
+{
+  "baseline": "997ccdb",
+  "reproduced": true,
+  "error": "presearch method/schedule/seed freeze mismatch",
+  "changed_files": [
+    "experiments/chem_tape/input_rebound_run.py",
+    "experiments/chem_tape/rebound_library.py",
+    "tests/test_input_rebound.py"
+  ],
+  "scope": "Pre-change method inventory restored in memory; all existing tracked sources and compiled backend unchanged. No repository edits. Both failing tests call this same legacy load_bank gate."
+}
