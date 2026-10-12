@@ -20,7 +20,14 @@ fitting works but is known ground (EDA, PIPE, run-transferable libraries).
   variation in biology, e.g. Kashtan & Alon).
 - How the genetic code and developmental bias evolve; neutral networks;
   duplication and divergence.
-- A richer chemistry, if a learning map needs more to work with.
+- Give evolution more freedom over the map itself: make parts of the
+  chemistry inherited and mutable (bond rules and reach, as in the folding
+  track's `dev_genome.py`; token meanings through synonyms or duplication then
+  divergence, see [owner-heritable-map](owner-heritable-map.md)). Use safe
+  routes: a free change of a token's meaning breaks every copy at once.
+  Earlier, extra reach (d2 bonds) made bigger programs but no fitter ones on
+  easy tasks, so pair freedom with pressure that rewards it (changing or harder
+  goals).
 - Something the data or literature suggests that is not on this list.
 
 **Must-haves.**
