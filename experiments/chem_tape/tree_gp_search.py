@@ -145,12 +145,25 @@ def from_postfix(tokens):
 def search(job, *, force_cap=False, donor_library=None, donor_observer=None,
            library_probability=0.5, modifier_bits=None, modifier_seed=None,
            shuffle_modifiers=False, continue_after_solve=False, lineage_observer=None,
-           modifier_mutation_probability=0.0, modifier_redraw_probability=0.0625):
+           modifier_mutation_probability=0.0, modifier_redraw_probability=0.0625,
+           donor_libraries=None, gate_fraction=None):
     cell, seed, cap, pop_size, inputs, crossover = job
     if cap < pop_size or cap % pop_size or pop_size < 3 or crossover not in MIXES:
         raise ValueError("invalid GP search budget/mix")
     if not 0 <= library_probability <= 1:
         raise ValueError("invalid library probability")
+    # Opt-in content choice. The legacy single-library path keeps its RNG calls.
+    if donor_libraries is not None:
+        if donor_library is not None or len(donor_libraries) != 2:
+            raise ValueError("content choice requires exactly two libraries")
+        donor_libraries = tuple(tuple(lib) for lib in donor_libraries)
+        if any(not lib or any(not isinstance(t, Tree) or len(t.program) > MAX_TOKENS
+                              for t in lib) for lib in donor_libraries):
+            raise ValueError("invalid content-choice libraries")
+        if gate_fraction is None and modifier_bits is None:
+            raise ValueError("content choice requires bits or a frozen fraction")
+    if gate_fraction is not None and (donor_libraries is None or not 0 <= gate_fraction <= 1):
+        raise ValueError("invalid frozen gate fraction")
     bits = None if modifier_bits is None else np.asarray(modifier_bits).copy()
     if bits is not None and (bits.shape != (pop_size,) or not np.isin(bits, [0, 1]).all()):
         raise ValueError("invalid modifier bits")
@@ -179,6 +192,9 @@ def search(job, *, force_cap=False, donor_library=None, donor_observer=None,
             raise ValueError("invalid mutation donor library")
         stats.update(library_draws=0, library_insertions=0, rejected_library=0,
                      ordinary_donors=0, empty_fallbacks=0)
+    if donor_libraries is not None:
+        stats.update(library_draws=0, library_insertions=0, rejected_library=0,
+                     ordinary_donors=0, empty_fallbacks=0, order_draws=0, gate_draws=0)
     checked, curve, budget_times = {}, [], {}
     phenotype_curve = []
     shortcuts = unique_shortcuts = perfect_count = 0
@@ -253,6 +269,9 @@ def search(job, *, force_cap=False, donor_library=None, donor_observer=None,
                      'library_insertions', 'rejected_library', 'ordinary_donors',
                      'ordinary_insertions', 'rejected_ordinary', 'rejected_crossover',
                      'rejected_mutation', 'empty_fallbacks')} for _ in range(2)] if bits is not None else None
+        if counters is not None and donor_libraries is not None:
+            for cc in counters:
+                cc.update(order_draws=0, gate_draws=0)
         for j in range(n):
             p1, p2 = pop[parents[0, j]], pop[parents[1, j]]
             state = int(offspring_bits[j]) if bits is not None else 1
@@ -260,6 +279,7 @@ def search(job, *, force_cap=False, donor_library=None, donor_observer=None,
                 counters[state]['recipients'] += 1
                 child_bits.append(state)
             point = int(variation.integers(len(p1.prefix)))
+            donor_source = None
             if crossing[j]:
                 kind = "crossover"
                 donor_point = int(variation.integers(len(p2.prefix)))
@@ -269,17 +289,33 @@ def search(job, *, force_cap=False, donor_library=None, donor_observer=None,
                 library_draw = (state == 1 and library_probability > 0
                                 and donor_library is not None and bool(donor_library)
                                 and variation.random() < library_probability)
-                donor = (donor_library[int(variation.integers(len(donor_library)))]
+                selected_library = donor_library
+                if donor_libraries is not None:
+                    library_draw = library_probability > 0 and variation.random() < library_probability
+                    if library_draw:
+                        if gate_fraction is None:
+                            donor_source = state
+                        elif gate_fraction in (0, 1):
+                            donor_source = int(gate_fraction)
+                        elif donor_libraries[0] == donor_libraries[1]:
+                            # Identical repertoires reduce exactly to the legacy law.
+                            donor_source = 0
+                        else:
+                            donor_source = int(variation.random() < gate_fraction)
+                        selected_library = donor_libraries[donor_source]
+                donor = (selected_library[int(variation.integers(len(selected_library)))]
                          if library_draw else random_tree(variation, 3))
                 child, rejected = p1.insert(point, donor)
-                if donor_library is not None:
+                if donor_library is not None or donor_libraries is not None:
                     stats["library_draws"] += int(library_draw)
                     stats["library_insertions"] += int(library_draw and not rejected)
                     stats["rejected_library"] += int(library_draw and rejected)
                     if library_draw and donor_observer is not None:
                         donor_observer(donor, rejected)
                     stats["ordinary_donors"] += int(not library_draw)
-                    stats["empty_fallbacks"] += int(not donor_library)
+                    stats["empty_fallbacks"] += int(donor_libraries is None and not donor_library)
+                    if donor_source is not None:
+                        stats['gate_draws' if donor_source else 'order_draws'] += 1
                 if counters is not None:
                     cc = counters[state]
                     cc['library_draws'] += int(library_draw)
@@ -289,12 +325,16 @@ def search(job, *, force_cap=False, donor_library=None, donor_observer=None,
                     cc['ordinary_insertions'] += int(not library_draw and not rejected)
                     cc['rejected_ordinary'] += int(not library_draw and rejected)
                     cc['empty_fallbacks'] += int(state == 1 and donor_library is not None and not donor_library)
+                    if donor_source is not None:
+                        cc['gate_draws' if donor_source else 'order_draws'] += 1
             if counters is not None:
                 counters[state][kind] += 1
                 counters[state]['rejected_' + kind] += int(rejected)
             if lineage_observer is not None:
                 mutation_event = (dict(inherited_state=int(recipient_bits[j]), modifier_redrawn=bool(redraw[j]))
                                   if modifier_mutation_probability else {})
+                if donor_libraries is not None:
+                    mutation_event['donor_source'] = donor_source
                 lineage_observer(dict(**mutation_event, recipient=int(parents[0, j]), mate=int(parents[1, j]),
                                       state=state, parent=p1, child=child, rejected=rejected,
                                       kind=kind, generation=generation))
@@ -332,6 +372,8 @@ def search(job, *, force_cap=False, donor_library=None, donor_observer=None,
     extra = {} if bits is None else dict(modifier_bits=bits.tolist(), modifier_trace=modifier_trace,
                                          first_solve_evaluations=solved_at,
                                          library_probability=library_probability)
+    if donor_libraries is not None:
+        extra.update(content_choice_gate_fraction=gate_fraction, library_probability=library_probability)
     return dict(**extra, cell=cell["id"], arm="tree", seed=seed, cap=cap, pop_size=pop_size,
                 crossover=crossover, solved=solved_at is not None, evaluations=evaluations,
                 seconds=seconds, budget_seconds=budget_times, generations=generation + 1,
