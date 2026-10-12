@@ -671,8 +671,8 @@ class Driver:
         if phase not in ("analyse", "decide", "condense", "summary"):  # finish a finished queue
             self.check_deadline()
         calls = self.state.get("agent_calls", 0)
-        if calls >= self.cfg.get("max_agent_calls", 8) and phase not in ("decide", "condense",
-                                                                           "summary", "respond"):
+        if calls >= self.cfg.get("max_agent_calls", 8) and phase not in (
+                "analyse", "decide", "condense", "summary", "respond"):
             if phase in ("propose", "critique", "strategy") or "node" not in self.state:
                 raise Stop(f"agent call cap ({calls}) reached while proposing; "
                            "`research.py propose` starts over")
@@ -1125,22 +1125,49 @@ class Driver:
 
     def phase_respond(self) -> None:
         """One round of discussion: the strategist rules on the steward's reply."""
-        before = self.root_budgets()
-        self.check_roots()
-        self.call_agent("strategist", "respond", self.repo, run_note=self.run_note())
-        meta, _ = read_frontmatter(self.expect("response.md"))
+        response = self.task_dir() / "response.md"
+        if not (response.exists() and self.state.get("responded")):  # one ruling, even on resume
+            response.unlink(missing_ok=True)  # output of an interrupted strategist
+            before = self.begin_authorized("respond")
+            self.call_agent("strategist", "respond", self.repo, run_note=self.run_note())
+            self.expect("response.md")
+            self.state["responded"] = True
+            self.save()
+            self.end_authorized(before)
+        meta, _ = read_frontmatter(response)
         nxt = str(meta.get("next", "")).strip().lower()
-        self.widen_raises(before)
-        if self.auto:
-            self.run_info["root_budgets"] = self.root_budgets()
-            self.save_run()
-        self.check_roots()
         if self.auto:
             self.ledger([f"{self.state['task']} (reply)", "", "", "", "", "", "",
                          f"steward replied; strategist: next {nxt or '?'}", ""])
         if nxt == "stop":
             raise OwnerNeeded(f"the strategist recommends stopping; see {self.task_dir()}/response.md")
         self.set_phase("propose")
+
+    def begin_authorized(self, phase: str) -> dict[str, int | None]:
+        """Budgets before a phase in which the strategist may raise them. If an
+        earlier attempt of this phase was interrupted after raising, its raises
+        are the strategist's, not unauthorized ones."""
+        key = f"{self.state['task']}:{phase}"
+        pending = self.run_info.get("authorizing") if self.auto else None
+        if pending and pending.get("key") == key:
+            self.run_info["root_budgets"] = self.root_budgets()
+            self.save_run()
+            self.check_roots()
+            return pending["before"]
+        self.check_roots()  # raises made before this phase (e.g. in decide) are not the strategist's
+        before = self.root_budgets()
+        if self.auto:
+            self.run_info["authorizing"] = {"key": key, "before": before}
+            self.save_run()
+        return before
+
+    def end_authorized(self, before: dict[str, int | None]) -> None:
+        self.widen_raises(before)
+        if self.auto:
+            self.run_info["root_budgets"] = self.root_budgets()
+            self.run_info.pop("authorizing", None)
+            self.save_run()
+        self.check_roots()
 
     def block_size(self) -> int:
         """Experiments a budget raise must grant: one strategy period, or what the run has left."""
@@ -1173,17 +1200,12 @@ class Driver:
 
     def phase_allocate(self) -> None:
         proposal = self.expect("proposal.md")
-        before = self.root_budgets()
-        self.check_roots()
+        before = self.begin_authorized("allocate")
         self.call_agent("strategist", "allocate", self.repo, proposal=str(proposal),
                         block=str(self.block_size()), run_note=self.run_note())
         meta, _ = read_frontmatter(self.expect("allocation.md"))
         nxt = str(meta.get("next", "")).strip().lower()
-        self.widen_raises(before)
-        if self.auto:
-            self.run_info["root_budgets"] = self.root_budgets()  # the strategist may raise them
-            self.save_run()
-        self.check_roots()
+        self.end_authorized(before)
         granted = nxt == "proposal" and not self.over_budget(proposal)
         if self.auto:
             self.ledger([f"{self.state['task']} (allocation)", "", "", "", "", "", "",
@@ -1219,18 +1241,14 @@ class Driver:
             roots_note += (f" The last proposal, {rejected}, was set aside; read the rejected.md "
                            "and critique.md beside it.")
         run_note = self.run_note()
-        self.check_roots()  # raises made before strategy (e.g. in decide) are not the strategist's
-        before = self.root_budgets()
+        before = self.begin_authorized("strategy")
         self.call_agent("strategist", "strategy", self.repo, roots_note=roots_note,
                         run_note=run_note)
         meta, _ = read_frontmatter(self.expect("strategy.md"))
         nxt = str(meta.get("next", "")).strip().lower()
-        self.widen_raises(before)
         if self.auto:
             self.run_info["cycles_since_strategy"] = 0
-            self.run_info["root_budgets"] = self.root_budgets()  # the strategist may raise them
-            self.save_run()
-        self.check_roots()
+        self.end_authorized(before)
         if self.auto:
             self.ledger([f"{self.state['task']} (strategy)", "", "", "", "", "", "",
                          f"strategy: next {nxt or '?'}", ""])

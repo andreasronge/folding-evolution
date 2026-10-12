@@ -900,3 +900,34 @@ def test_auto_strategist_may_stop_after_a_reply(repo):
     fake.reply, fake.respond_next = True, "stop"
     assert d.run_auto(hours=48) == 1
     assert "response.md" in json.loads(d.run_path.read_text())["reason"]
+
+
+def test_auto_raise_survives_an_interrupted_strategy(repo):
+    class Flaky(FakeLauncher):
+        failed = False
+
+        def run(self, label, argv, cwd, log_dir, timeout_s, env=None, kill_grace=None):
+            if label.startswith("strategy") and not self.failed:
+                self.failed = True  # raises the budget, then dies before the driver records it
+                question(self.driver.research / "questions" / "01-root", experiments=9)
+                self.calls.append("strategy")
+                return 1
+            return super().run(label, argv, cwd, log_dir, timeout_s, env, kill_grace)
+
+    fake = Flaky(review_verdicts=("pass",) * 5)
+    d = auto_driver(repo, fake, strategy_every=9, auto_max_experiments=2)
+    question(d.research / "questions" / "01-root", experiments=1)
+    fake.strategy_next = "proposal"
+    d.run_auto(hours=48)
+    info = json.loads(d.run_path.read_text())
+    assert "outside strategy" not in info["reason"] and fake.calls.count("strategy") == 2
+    assert "authorizing" not in info
+
+
+def test_respond_is_not_repeated_after_its_ruling(repo):
+    fake = FakeLauncher()
+    d = auto_driver(repo, fake)
+    d.state = {"phase": "respond", "task": "t1", "responded": True}
+    write(d.task_dir() / "response.md", "---\nnext: proposal\n---\nRuling.\n")
+    d.phase_respond()
+    assert "respond" not in fake.calls and d.state["phase"] == "propose"
